@@ -1,0 +1,866 @@
+stackbitVersion: ~0.3.0
+ssgName: nextjs
+ssgVersion: 9.4.4
+buildCommand: npm run build
+publishDir: out
+staticDir: public
+uploadDir: images
+dataDir: content/data
+pagesDir: content/pages
+pageLayoutKey: layout
+pageData:
+  - pagePath: /
+    initialExpandedPaths:
+      - '[0]'
+      - '[0].fields.title'
+      - '[0].fields.sections'
+      - '[0].fields.sections.items[0]'
+      - '[0].fields.sections.items[0].fields.title'
+      - '[0].fields.sections.items[0].fields.content'
+      - '[0].fields.sections.items[1]'
+      - '[0].fields.sections.items[1].fields.title'
+      - '[0].fields.sections.items[1].fields.subtitle'
+      - '[0].fields.sections.items[1].fields.features'
+      - '[1]'
+      - '[1].fields.palette'
+models:
+  config:
+    type: data
+    label: Site Configuration
+    fields:
+      - type: string
+        name: title
+        label: Title
+        description: Site title
+        required: true
+      - type: string
+        name: path_prefix
+        label: Base URL
+        description: >-
+          The base URL of this site. Useful for sites hosted under specific
+          path, e.g.: https://www.example.com/my-site/
+        required: true
+        hidden: true
+      - type: string
+        name: domain
+        label: Domain
+        description: >-
+          The domain of your site, including the protocol, e.g.
+          https://mysite.com/
+      - type: image
+        name: favicon
+        label: Favicon
+        description: A square icon that represents your website
+      - type: enum
+        name: palette
+        label: Color Palette
+        description: The color palette of the site
+        options:
+          - blue
+          - cyan
+          - green
+          - orange
+          - purple
+        default: blue
+        required: true
+      - type: enum
+        name: base_font
+        label: Font
+        options:
+          - fira-sans
+          - nunito-sans
+          - system-sans
+        default: nunito-sans
+        required: true
+      - type: model
+        name: header
+        label: Header Configuration
+        models:
+          - header
+      - type: model
+        name: footer
+        label: Footer Configuration
+        models:
+          - footer
+    file: config.json
+  header:
+    type: object
+    label: Header Configuration
+    fields:
+      - type: image
+        name: logo_img
+        label: Logo
+        description: >-
+          The logo image displayed in the header (if no logo added, the site
+          title is displayed instead)
+      - type: string
+        name: logo_img_alt
+        label: Logo Alt Text
+        description: The alt text of the logo image
+      - type: boolean
+        name: has_nav
+        label: Enable Navigation
+        description: Display the navigation menu bar in the header
+        default: true
+      - type: list
+        name: nav_links
+        label: Navigation Links
+        description: List of navigation links
+        items:
+          type: model
+          models:
+            - action
+  footer:
+    type: object
+    label: Footer Configuration
+    labelField: content
+    fields:
+      - type: list
+        name: sections
+        label: Sections
+        description: Footer sections
+        items:
+          type: model
+          labelField: title
+          models:
+            - footer_form
+            - footer_nav
+            - footer_text
+      - type: boolean
+        name: has_nav
+        label: Enable Horizontal Navigation
+        description: Display the horizontal navigation menu bar in the footer
+        default: true
+      - type: list
+        name: nav_links
+        label: Horizontal Navigation Links
+        description: List of horizontal navigation links
+        items:
+          type: model
+          models:
+            - action
+      - type: string
+        name: content
+        label: Footer Content
+        description: The copyright text displayed in the footer
+      - type: list
+        name: links
+        label: Links
+        description: A list of links displayed in the footer
+        items:
+          type: model
+          models:
+            - action
+  footer_form:
+    type: object
+    label: Form
+    labelField: title
+    fields:
+      - type: string
+        name: title
+        label: Title
+        description: The title of the section
+      - type: markdown
+        name: content
+        label: Content
+        description: 'The content of the section, appears above the form'
+      - type: string
+        name: form_id
+        label: Form ID
+        description: 'A unique identifier of the form, must not contain whitespace'
+        required: true
+      - type: string
+        name: form_action
+        label: Form Action
+        description: >-
+          The path of your custom "success" page, if you want to replace the
+          default success message.
+      - type: boolean
+        name: hide_labels
+        label: Hide labels of the form fields?
+        default: false
+      - type: list
+        name: form_fields
+        label: Form Fields
+        items:
+          type: model
+          models:
+            - form_field
+      - type: string
+        name: submit_label
+        label: Submit Button Label
+        required: true
+  footer_nav:
+    type: object
+    label: Vertical Navigation
+    labelField: title
+    fields:
+      - type: string
+        name: title
+        label: Title
+        description: The title of the section
+      - type: list
+        name: nav_links
+        label: Vertical Navigation Links
+        description: List of vertical navigation links
+        items:
+          type: model
+          models:
+            - action
+  footer_text:
+    type: object
+    label: Text
+    labelField: title
+    fields:
+      - type: image
+        name: image
+        label: Image
+        description: The image displayed in the section
+      - type: string
+        name: image_alt
+        label: Image Alt Text
+        description: The alt text of the image
+      - type: string
+        name: image_url
+        label: Image URL
+        description: The url of the image
+      - type: string
+        name: title
+        label: Title
+        description: The title of the section
+      - type: markdown
+        name: content
+        label: Content
+        description: The text content of the section
+  person:
+    type: data
+    label: Person
+    folder: authors
+    fields:
+      - type: string
+        name: first_name
+      - type: string
+        name: last_name
+      - type: markdown
+        name: bio
+      - type: image
+        name: photo
+  landing:
+    type: page
+    label: Landing Page
+    layout: landing
+    hideContent: true
+    fields:
+      - type: string
+        name: title
+        label: Title
+        description: The title of the page
+        required: true
+      - type: string
+        name: meta_title
+        label: Meta Title
+        description: The meta title of the page (recommended length is 50–60 characters)
+      - type: string
+        name: meta_description
+        label: Meta Description
+        description: >-
+          The meta description of the page (recommended length is 50–160
+          characters)
+      - type: string
+        name: canonical_url
+        label: Canonical URL
+        description: The canonical url of the page
+      - type: boolean
+        name: no_index
+        label: No Index
+        default: false
+        description: Tell search engines not to index this page
+      - type: list
+        name: sections
+        label: Sections
+        description: Page sections
+        items:
+          type: model
+          labelField: title
+          models:
+            - section_content
+            - section_cta
+            - section_faq
+            - section_features
+            - section_hero
+            - section_posts
+            - section_pricing
+            - section_reviews
+            - section_contact
+  blog:
+    type: page
+    urlPath: /blog
+    label: Blog
+    layout: blog
+    file: blog/index.md
+    hideContent: true
+    singleInstance: true
+    fields:
+      - type: string
+        name: title
+        label: Title
+        description: The title of the page
+        required: true
+      - type: string
+        name: meta_title
+        label: Meta Title
+        description: The meta title of the page (recommended length is 50–60 characters)
+      - type: string
+        name: meta_description
+        label: Meta Description
+        description: >-
+          The meta description of the page (recommended length is 50–160
+          characters)
+      - type: string
+        name: canonical_url
+        label: Canonical URL
+        description: The canonical url of the page
+      - type: boolean
+        name: no_index
+        label: No Index
+        default: false
+        description: Tell search engines not to index this page
+  page:
+    type: page
+    label: Page
+    layout: page
+    exclude: blog/**
+    fields:
+      - type: string
+        name: title
+        label: Title
+        description: The title of the page
+        required: true
+      - type: string
+        name: subtitle
+        label: Subtitle
+        description: The text shown below the page title
+      - type: image
+        name: image
+        label: Image
+        description: The image shown below the page title
+      - type: string
+        name: image_alt
+        label: Image Alt Text
+        description: The alt text of the image
+      - type: string
+        name: meta_title
+        label: Meta title
+        description: The meta title of the page (recommended length is 50–60 characters)
+      - type: string
+        name: meta_description
+        label: Meta description
+        description: >-
+          The meta description of the page (recommended length is 50–160
+          characters)
+      - type: string
+        name: canonical_url
+        label: Canonical URL
+        description: The canonical url of the page
+      - type: boolean
+        name: no_index
+        label: No Index
+        default: false
+        description: Tell search engines not to index this page
+  post:
+    type: page
+    urlPath: '/blog/{slug}'
+    label: Post
+    layout: post
+    folder: blog
+    fields:
+      - type: string
+        name: title
+        label: Title
+        description: The title of the post
+        required: true
+      - type: string
+        name: subtitle
+        label: Subtitle
+        description: The text shown just below the title or the featured image
+      - type: date
+        name: date
+        label: Date
+        required: true
+      - type: reference
+        name: author
+        description: Post author
+        models:
+          - person
+      - type: string
+        name: excerpt
+        label: Excerpt
+        description: The excerpt of the post displayed in the blog feed
+      - type: image
+        name: image
+        label: Image (single post)
+        description: The image shown below the title
+      - type: string
+        name: image_alt
+        label: Image alt text (single post)
+        description: The alt text of the featured image
+      - type: image
+        name: thumb_image
+        label: Image (blog feed)
+        description: The image shown in the blog feed
+      - type: string
+        name: thumb_image_alt
+        label: Image alt text (blog feed)
+        description: The alt text of the blog feed image
+      - type: string
+        name: meta_title
+        label: Meta title
+        description: The meta title of the post (recommended length is 50–60 characters)
+      - type: string
+        name: meta_description
+        label: Meta description
+        description: >-
+          The meta description of the post (recommended length is 50–160
+          characters)
+      - type: string
+        name: canonical_url
+        label: Canonical URL
+        description: The canonical url of the post
+      - type: boolean
+        name: no_index
+        label: No Index
+        default: false
+        description: Tell search engines not to index this post
+  section:
+    type: object
+    label: Section
+    labelField: title
+    fields:
+      - type: string
+        name: section_id
+        label: Section ID
+        description: 'A unique identifier of the section, must not contain whitespace'
+      - type: string
+        name: title
+        label: Title
+        description: The title of the section
+  section_content:
+    type: object
+    label: Content Section
+    extends:
+      - section
+    fields:
+      - type: markdown
+        name: content
+        label: Content
+        description: The text content of the section
+      - type: image
+        name: image
+        label: Image
+        description: The image of the section
+      - type: string
+        name: image_alt
+        label: Image Alt Text
+        description: The alt text of the section image
+      - type: enum
+        name: background
+        label: Background
+        description: The background of the section
+        options:
+          - gray
+          - white
+        default: gray
+      - type: list
+        name: actions
+        label: Action Buttons
+        items:
+          type: model
+          models:
+            - action
+  section_cta:
+    type: object
+    label: Call to Action Section
+    extends:
+      - section
+    fields:
+      - type: string
+        name: subtitle
+        label: Subtitle
+        description: The subtitle of the section
+      - type: list
+        name: actions
+        label: Action Buttons
+        items:
+          type: model
+          models:
+            - action
+  section_faq:
+    type: object
+    label: FAQ Section
+    extends:
+      - section
+    fields:
+      - type: string
+        name: subtitle
+        label: Subtitle
+        description: The subtitle of the section
+      - type: enum
+        name: background
+        label: Background
+        description: The background of the section
+        options:
+          - gray
+          - white
+        default: gray
+      - type: list
+        name: faq_items
+        label: FAQ Items
+        items:
+          type: model
+          models:
+            - faq_item
+  faq_item:
+    type: object
+    label: FAQ Item
+    fields:
+      - type: text
+        name: question
+        label: Question
+      - type: markdown
+        name: answer
+        label: Answer
+  section_features:
+    type: object
+    label: Features Section
+    extends:
+      - section
+    fields:
+      - type: string
+        name: subtitle
+        label: Subtitle
+        description: The subtitle of the section
+      - type: enum
+        name: background
+        label: Background
+        description: The background of the section
+        options:
+          - gray
+          - white
+        default: gray
+      - type: list
+        name: features
+        label: Features
+        items:
+          type: model
+          models:
+            - feature_item
+  feature_item:
+    type: object
+    label: Feature Item
+    labelField: title
+    fields:
+      - type: string
+        name: title
+        label: Title
+      - type: markdown
+        name: content
+        label: Content
+        description: Feature description
+      - type: image
+        name: image
+        label: Image
+        description: Feature image
+      - type: string
+        name: image_alt
+        label: Image Alt Text
+        description: The alt text of the feature image
+      - type: list
+        name: actions
+        label: Action Buttons
+        items:
+          type: model
+          models:
+            - action
+  section_hero:
+    type: object
+    label: Hero Section
+    extends:
+      - section
+    fields:
+      - type: markdown
+        name: content
+        label: Content
+        description: The text content of the section
+      - type: image
+        name: image
+        label: Image
+        description: The image of the section
+      - type: string
+        name: image_alt
+        label: Image Alt Text
+        description: The alt text of the section image
+      - type: list
+        name: actions
+        label: Action Buttons
+        items:
+          type: model
+          models:
+            - action
+  section_posts:
+    type: object
+    label: Posts List
+    extends:
+      - section
+    fields:
+      - type: string
+        name: subtitle
+        label: Subtitle
+        description: The subtitle of the section
+      - type: enum
+        name: background
+        label: Background
+        description: The background of the section
+        options:
+          - gray
+          - white
+        default: gray
+  section_pricing:
+    type: object
+    label: Pricing Section
+    extends:
+      - section
+    fields:
+      - type: string
+        name: subtitle
+        label: Subtitle
+        description: The subtitle of the section
+      - type: enum
+        name: background
+        label: Background
+        description: The background of the section
+        options:
+          - gray
+          - white
+        default: gray
+      - type: list
+        name: pricing_plans
+        label: Pricing Plans
+        items:
+          type: model
+          models:
+            - pricing_plan
+  pricing_plan:
+    type: object
+    label: Pricing Plan
+    labelField: title
+    fields:
+      - type: string
+        name: title
+        label: Title
+      - type: string
+        name: subtitle
+        label: Subtitle
+      - type: string
+        name: price
+        label: Price
+      - type: markdown
+        name: details
+        label: Details
+      - type: boolean
+        name: highlight
+        label: Highlight
+        description: Make the plan stand out by adding a distinctive style
+        default: false
+      - type: list
+        name: actions
+        label: Action Buttons
+        items:
+          type: model
+          models:
+            - action
+  section_reviews:
+    type: object
+    label: Reviews Section
+    extends:
+      - section
+    fields:
+      - type: string
+        name: subtitle
+        label: Subtitle
+        description: The subtitle of the section
+      - type: enum
+        name: background
+        label: Background
+        description: The background of the section
+        options:
+          - gray
+          - white
+        default: gray
+      - type: list
+        name: reviews
+        label: Reviews
+        items:
+          type: model
+          models:
+            - review_item
+  review_item:
+    type: object
+    label: Review Item
+    labelField: author
+    fields:
+      - type: string
+        name: author
+        label: Author
+      - type: image
+        name: avatar
+        label: Avatar
+      - type: text
+        name: content
+        label: Content
+  section_contact:
+    type: object
+    label: Contact Section
+    extends:
+      - section
+    fields:
+      - type: string
+        name: subtitle
+        label: Subtitle
+        description: The text shown below the title
+      - type: markdown
+        name: content
+        label: Content
+        description: 'the content of the section, appears above the form'
+      - type: enum
+        name: background
+        label: Background
+        description: The background of the section
+        options:
+          - gray
+          - white
+        default: gray
+      - type: string
+        name: form_id
+        label: Form ID
+        description: 'A unique identifier of the form, must not contain whitespace'
+        required: true
+      - type: string
+        name: form_action
+        label: Form Action
+        description: >-
+          The path of your custom "success" page, if you want to replace the
+          default success message.
+      - type: boolean
+        name: hide_labels
+        label: Hide labels of the form fields?
+        default: false
+      - type: list
+        name: form_fields
+        label: Form Fields
+        items:
+          type: model
+          models:
+            - form_field
+      - type: string
+        name: submit_label
+        label: Submit Button Label
+        required: true
+  action:
+    type: object
+    label: Action
+    labelField: label
+    fields:
+      - type: string
+        name: label
+        label: Label
+        required: true
+      - type: string
+        name: url
+        label: URL
+        required: true
+        widget: url
+      - type: enum
+        name: style
+        label: Style
+        options:
+          - link
+          - primary
+          - secondary
+        default: link
+      - type: boolean
+        name: has_icon
+        label: Show icon
+        default: false
+      - type: enum
+        name: icon
+        label: Icon
+        options:
+          - arrow-left
+          - arrow-right
+          - envelope
+          - facebook
+          - github
+          - instagram
+          - linkedin
+          - twitter
+          - vimeo
+          - youtube
+      - type: enum
+        name: icon_position
+        label: Icon position
+        options:
+          - left
+          - right
+        default: left
+        description: The position of the icon relative to text
+      - type: boolean
+        name: new_window
+        label: Open in new window
+        default: false
+        description: Should the link open a new tab
+      - type: boolean
+        name: no_follow
+        label: No follow
+        default: false
+        description: Add rel="nofollow" attribute to the link
+  form_field:
+    type: object
+    label: Form Field
+    labelField: name
+    fields:
+      - type: enum
+        name: input_type
+        label: Type
+        options:
+          - text
+          - textarea
+          - email
+          - tel
+          - number
+          - checkbox
+          - select
+        description: Type of the form field
+        required: true
+      - type: string
+        name: name
+        label: Name
+        description: 'The name of the field, submitted with the form'
+        required: true
+      - type: string
+        name: label
+        label: Label
+        description: 'The caption of the field, shown above the field input'
+      - type: string
+        name: default_value
+        label: Placeholder text or default value
+        description: >-
+          The placeholder for textual field types or default option for select
+          field
+      - type: list
+        name: options
+        label: Options
+        description: The list of options for select field
+      - type: boolean
+        name: is_required
+        label: Is the field required?
+        default: false

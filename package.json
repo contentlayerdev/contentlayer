@@ -1,0 +1,6 @@
+{
+  "name": "sourcebit-future",
+  "devDependencies": {
+    "typescript": "^4.1.3"
+  }
+}
