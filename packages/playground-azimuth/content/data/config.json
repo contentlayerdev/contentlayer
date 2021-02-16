@@ -1,0 +1,136 @@
+{
+    "title": "Azimuth",
+    "path_prefix": "/",
+    "base_font": "nunito-sans",
+    "palette": "blue",
+    "header": {
+        "logo_img": "images/logo.svg",
+        "logo_img_alt": "Logo",
+        "has_nav": true,
+        "nav_links": [
+            {
+                "label": "Home",
+                "url": "/",
+                "style": "link"
+            },
+            {
+                "label": "Features (New)",
+                "url": "/features",
+                "style": "link"
+            },
+            {
+                "label": "Pricing",
+                "url": "/pricing",
+                "style": "link"
+            },
+            {
+                "label": "Style Guide",
+                "url": "/style-guide",
+                "style": "link"
+            },
+            {
+                "label": "Sign Up",
+                "url": "/signup",
+                "style": "primary"
+            }
+        ]
+    },
+    "footer": {
+        "sections": [
+            {
+                "type": "footer_text",
+                "image": "images/logo-alt.svg",
+                "image_url": "/",
+                "image_alt": "Footer logo",
+                "content": "Stackbit theme demo"
+            },
+            {
+                "type": "footer_nav",
+                "title": "Company",
+                "nav_links": [
+                    {
+                        "label": "About Us",
+                        "url": "/about",
+                        "style": "link"
+                    },
+                    {
+                        "label": "Blog",
+                        "url": "/blog",
+                        "style": "link"
+                    },
+                    {
+                        "label": "Sign Up",
+                        "url": "/signup",
+                        "style": "link"
+                    },
+                    {
+                        "label": "Contact",
+                        "url": "/contact",
+                        "style": "link"
+                    }
+                ]
+            },
+            {
+                "type": "footer_nav",
+                "title": "Community",
+                "nav_links": [
+                    {
+                        "label": "Twitter",
+                        "url": "https://twitter.com/",
+                        "style": "link",
+                        "has_icon": true,
+                        "icon": "twitter",
+                        "icon_position": "left"
+                    },
+                    {
+                        "label": "LinkedIn",
+                        "url": "https://www.linkedin.com/",
+                        "style": "link",
+                        "has_icon": true,
+                        "icon": "linkedin",
+                        "icon_position": "left"
+                    },
+                    {
+                        "label": "GitHub",
+                        "url": "https://github.com/",
+                        "style": "link",
+                        "has_icon": true,
+                        "icon": "github",
+                        "icon_position": "left"
+                    }
+                ]
+            },
+            {
+                "type": "footer_form",
+                "title": "Subscribe",
+                "content": "Stay up to date with our latest developments.",
+                "form_id": "contactForm",
+                "hide_labels": true,
+                "form_fields": [
+                    {
+                        "input_type": "email",
+                        "name": "email",
+                        "label": "Email",
+                        "default_value": "Enter email address",
+                        "is_required": true
+                    }
+                ],
+                "submit_label": "Subscribe"
+            }
+        ],
+        "has_nav": true,
+        "nav_links": [
+            {
+                "label": "Terms of Service",
+                "url": "/terms-of-service",
+                "style": "link"
+            },
+            {
+                "label": "Privacy Policy",
+                "url": "/privacy-policy",
+                "style": "link"
+            }
+        ],
+        "content": "&copy; Stackbit. All rights reserved. This Jamstack site was created on <a href=\"https://www.stackbit.com\" target=\"_blank\" rel=\"noopener\">Stackbit</a>. Get yours <a href=\"https://app.stackbit.com/create?theme=azimuth\" target=\"_blank\" rel=\"noopener\">here</a>."
+    }
+}

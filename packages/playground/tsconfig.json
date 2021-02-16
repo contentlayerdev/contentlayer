@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "rootDir": "./src"
+  },
+  "include": ["./src"],
+  "references": [{ "path": "../sourcebit-sdk" }]
+}

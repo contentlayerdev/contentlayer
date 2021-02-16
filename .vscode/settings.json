@@ -3,9 +3,7 @@
     "**/.yarn": true,
     "**/.pnp.*": true
   },
-  "typescript.tsdk": ".yarn/sdks/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
-
   "prettier.singleQuote": true,
   "prettier.trailingComma": "all",
   "prettier.semi": false
