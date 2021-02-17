@@ -82,6 +82,12 @@ const sectionBaseFields = [
     label: 'Title',
     description: 'The title of the section',
   },
+  {
+    type: 'string',
+    name: 'type',
+    label: 'Section type',
+    description: 'Needed for sourcebit for polymorphic list types',
+  },
 ] as const
 
 const section_content = defineObject({

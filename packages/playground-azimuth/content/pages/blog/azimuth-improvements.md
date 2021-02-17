@@ -1,8 +1,8 @@
 ---
-title: Release Notes - Azimuth Improvements and New Integrations
+title: Release Notes 2 - Azimuth Improvements and New Integrations
 subtitle: >-
   Amet nibh adipiscing adipiscing. Commodo ante vis placerat interdum massa
-  massa primis. 
+  massa primis.
 author: content/data/authors/john-doe.yaml
 excerpt: >-
   Vis accumsan feugiat adipiscing nisl amet adipiscing accumsan blandit accumsan

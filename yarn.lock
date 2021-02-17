@@ -217,6 +217,7 @@ __metadata:
     "@types/minimatch": ^3
     "@types/node": ^14.14.22
     arg: ^5.0.0
+    chokidar: ^3.5.1
     clipanion: ^3.0.0-rc.10
     esbuild: ^0.8.46
     eval: ^0.1.4
@@ -839,7 +840,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chokidar@npm:3.5.1":
+"chokidar@npm:3.5.1, chokidar@npm:>=2.0.0 <4.0.0, chokidar@npm:^3.5.1":
   version: 3.5.1
   resolution: "chokidar@npm:3.5.1"
   dependencies:
@@ -2771,6 +2772,7 @@ fsevents@~2.3.1:
     next: ^10.0.5
     react: ^17.0.1
     react-dom: ^17.0.1
+    sass: ^1.32.7
     typescript: ^4.1.5
   languageName: unknown
   linkType: soft
@@ -3228,6 +3230,17 @@ fsevents@~2.3.1:
   version: 2.1.2
   resolution: "safer-buffer@npm:2.1.2"
   checksum: 549ba83f5b314b59898efe3422120ce1ca7987a6eae5925a5fa5db930dc414d4a9dde0a5594f89638cd6ea60b6840ea961872908933ac2428d1726489db46fa5
+  languageName: node
+  linkType: hard
+
+"sass@npm:^1.32.7":
+  version: 1.32.7
+  resolution: "sass@npm:1.32.7"
+  dependencies:
+    chokidar: ">=2.0.0 <4.0.0"
+  bin:
+    sass: sass.js
+  checksum: 92c785120b1e9c4a6e7591ca323876bb40dbade8ebfafac0c353ea665bb3c421585788bc6233e9efe649a20c3a607b84ee95f81f7cadfadf3a8cc005ec9c9653
   languageName: node
   linkType: hard
 

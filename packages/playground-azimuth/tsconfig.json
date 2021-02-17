@@ -10,7 +10,7 @@
     "esModuleInterop": true,
     "resolveJsonModule": true
   },
-  "include": ["./src"],
+  "include": ["./src/**/*.{ts,tsx,json}"],
   "references": [{ "path": "../sourcebit-sdk" }],
   "exclude": ["node_modules"]
 }

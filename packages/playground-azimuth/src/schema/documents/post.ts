@@ -11,6 +11,13 @@ export const post = defineDocument({
   fields: [
     {
       type: 'string',
+      name: '__content',
+      label: 'Markdown content',
+      description: 'The main markdown content',
+      required: false,
+    },
+    {
+      type: 'string',
       name: 'title',
       label: 'Title',
       description: 'The title of the post',

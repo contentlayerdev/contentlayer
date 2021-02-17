@@ -35,7 +35,10 @@
             "url": "/signup",
             "style": "primary"
           }
-        ]
+        ],
+        "__meta": {
+          "typeName": "header"
+        }
       },
       "footer": {
         "sections": [
@@ -133,7 +136,10 @@
             "style": "link"
           }
         ],
-        "content": "&copy; Stackbit. All rights reserved. This Jamstack site was created on <a href=\"https://www.stackbit.com\" target=\"_blank\" rel=\"noopener\">Stackbit</a>. Get yours <a href=\"https://app.stackbit.com/create?theme=azimuth\" target=\"_blank\" rel=\"noopener\">here</a>."
+        "content": "&copy; Stackbit. All rights reserved. This Jamstack site was created on <a href=\"https://www.stackbit.com\" target=\"_blank\" rel=\"noopener\">Stackbit</a>. Get yours <a href=\"https://app.stackbit.com/create?theme=azimuth\" target=\"_blank\" rel=\"noopener\">here</a>.",
+        "__meta": {
+          "typeName": "footer"
+        }
       },
       "__meta": {
         "sourceFilePath": "content/data/config.json",
@@ -153,8 +159,8 @@
       }
     },
     {
-      "title": "Release Notes - Azimuth Improvements and New Integrations",
-      "subtitle": "Amet nibh adipiscing adipiscing. Commodo ante vis placerat interdum massa massa primis. ",
+      "title": "Release Notes 2 - Azimuth Improvements and New Integrations",
+      "subtitle": "Amet nibh adipiscing adipiscing. Commodo ante vis placerat interdum massa massa primis.",
       "author": "content/data/authors/john-doe.yaml",
       "excerpt": "Vis accumsan feugiat adipiscing nisl amet adipiscing accumsan blandit accumsan sapien blandit ac amet faucibus aliquet placerat commodo.",
       "date": "2017-03-26",
@@ -407,7 +413,7 @@
           "image": "images/hero.png",
           "image_alt": "App preview",
           "title": "This Is A Big Hero Headline",
-          "content": "Azimuth is the perfect theme for developers, designers and entrepreneurs who need a sleek, modern SaaS site. ",
+          "content": "Azimuth is the perfect theme for developers, designers and entrepreneurs who need a sleek, modern SaaS site.",
           "actions": [
             {
               "label": "Learn More",
@@ -478,7 +484,7 @@
           "type": "section_reviews",
           "background": "white",
           "title": "Testimonials",
-          "subtitle": "Aliquam malesuada ligula eget est fringilla blandit. Integer finibus semper libero id sodales. ",
+          "subtitle": "Aliquam malesuada ligula eget est fringilla blandit. Integer finibus semper libero id sodales.",
           "reviews": [
             {
               "author": "John Doe",

@@ -7,9 +7,18 @@ import { promise as glob } from 'glob-promise'
 import { promises as fs } from 'fs'
 import matter from 'gray-matter'
 import minimatch from 'minimatch'
-import { Cache, SchemaDef, Document } from '@sourcebit/sdk'
+import {
+  Cache,
+  SchemaDef,
+  Document,
+  isObjectField,
+  ObjectDef,
+  isListField,
+  isListFieldItemsObject,
+} from '@sourcebit/sdk'
 import { match } from 'ts-pattern'
 import { unwrapThunk } from '../lib/utils'
+import { watch } from 'chokidar'
 
 export class FetchCommand extends BaseCommand {
   static paths = [['fetch']]
@@ -24,23 +33,43 @@ export class FetchCommand extends BaseCommand {
     validator: t.isString(),
   })
 
+  watch = Option.Boolean('--watch,-w', {})
+
   async execute() {
     const schemaDef = await getSchemaDef({ schemaPath: this.schemaPath })
     const filePaths = await glob(this.content)
 
     console.log(`Found ${filePaths.length} content files.`)
 
-    const documents = await Promise.all(
-      filePaths.map((filePath) => parseContent({ filePath, schemaDef })),
-    )
-
-    const cache: Cache = { documents }
-
-    const cacheFilePath = path.join(process.cwd(), this.cachePath)
-    await fs.writeFile(cacheFilePath, JSON.stringify(cache, null, 2))
-
-    console.log(`Data cache file successfully written to ${cacheFilePath}`)
+    if (this.watch) {
+      watch(filePaths).on('change', async () => {
+        await fetch({ filePaths, schemaDef, cachePath: this.cachePath })
+      })
+    } else {
+      await fetch({ filePaths, schemaDef, cachePath: this.cachePath })
+    }
   }
+}
+
+async function fetch({
+  filePaths,
+  schemaDef,
+  cachePath,
+}: {
+  filePaths: string[]
+  schemaDef: SchemaDef
+  cachePath: string
+}) {
+  const documents = await Promise.all(
+    filePaths.map((filePath) => parseContent({ filePath, schemaDef })),
+  )
+
+  const cache: Cache = { documents }
+
+  const cacheFilePath = path.join(process.cwd(), cachePath)
+  await fs.writeFile(cacheFilePath, JSON.stringify(cache, null, 2))
+
+  console.log(`Data cache file successfully written to ${cacheFilePath}`)
 }
 
 function checkSchema({
@@ -122,10 +151,63 @@ async function parseContent({
 
   const documentDef = schemaDef.documents.find((_) =>
     minimatch(filePath, _.filePathPattern),
-  )
+  )!
+
+  // add __meta.TypeName to embedded objects
+  unwrapThunk(documentDef.fields)
+    .filter(isObjectField)
+    .forEach((_) => {
+      addMetaToData({
+        dataRef: content.data,
+        fieldName: _.name,
+        objectDef: unwrapThunk(_.object),
+        isArray: false,
+      })
+    })
+
+  // TODO clean up polymorphic union tags
+  // unwrapThunk(documentDef.fields)
+  //   .filter(isListField)
+  //   .forEach((_) => {
+  //     // const items = _.items
+  //     if (isListFieldItemsObject(_.items)) {
+
+  //     }
+  //   })
 
   return {
     ...content.data,
-    __meta: { sourceFilePath: filePath, typeName: documentDef!.name },
+    __meta: { sourceFilePath: filePath, typeName: documentDef.name },
   }
+}
+
+function addMetaToData({
+  dataRef,
+  objectDef,
+  fieldName,
+  isArray,
+}: {
+  dataRef: any
+  objectDef: ObjectDef
+  fieldName: string
+  isArray: boolean
+}): void {
+  if (isArray) {
+    dataRef[fieldName].forEach(
+      (item: any) => (item.__meta = { typeName: objectDef.name }),
+    )
+  } else {
+    dataRef[fieldName].__meta = { typeName: objectDef.name }
+  }
+
+  unwrapThunk(objectDef.fields)
+    .filter(isObjectField)
+    .forEach((_) =>
+      addMetaToData({
+        dataRef: dataRef[fieldName],
+        fieldName: _.name,
+        objectDef: unwrapThunk(_.object),
+        isArray: false,
+      }),
+    )
 }

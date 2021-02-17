@@ -1,0 +1,110 @@
+// SVG icons
+.icon {
+  color: inherit;
+  fill: currentColor;
+  flex-shrink: 0;
+  height: 1em;
+  line-height: 1;
+  width: 1em;
+}
+
+.has-icon {
+  -ms-flex-align: center;
+  align-items: center;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+
+  .icon {
+    & + .order-first {
+      margin-right: 0.5em;
+    }
+
+    & + :not(.order-first) {
+      margin-left: 0.5em;
+    }
+  }
+}
+
+// CSS icons
+.icon-menu,
+.icon-close {
+  background: currentColor;
+  border-radius: 1px;
+  color: inherit;
+  height: 2px;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  width: 28px;
+
+  &:before,
+  &:after {
+    background: currentColor;
+    border-radius: 1px;
+    content: "";
+    height: 100%;
+    left: 0;
+    position: absolute;
+    width: 100%;
+  }
+}
+
+.icon-menu {
+  &:before {
+    top: -8px;
+  }
+
+  &:after {
+    bottom: -8px;
+  }
+}
+
+.icon-close {
+  background: 0;
+  width: 30px;
+
+  &:before {
+    top: 0;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+  &:after {
+    top: 0;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+  }
+}
+
+.icon-plus {
+  background: $color-primary;
+  border-radius: 50%;
+  color: #fff;
+  height: 24px;
+  position: relative;
+  width: 24px;
+
+  &:before,
+  &:after {
+    background: currentColor;
+    border-radius: 1px;
+    content: "";
+    height: 2px;
+    left: 50%;
+    margin-top: -1px;
+    margin-left: -8px;
+    position: absolute;
+    top: 50%;
+    width: 16px;
+  }
+
+  &:after {
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+  }
+}

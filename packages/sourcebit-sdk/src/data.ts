@@ -4,9 +4,10 @@ export type Cache = {
   documents: Document[]
 }
 
-export type Document<Data = GetTypes> = Data & {
-  __meta: DocumentMeta
-}
+export type Document<Data = GetTypes> = Data
+//  & {
+//   __meta: DocumentMeta
+// }
 
 export type DocumentMeta = {
   /**
@@ -31,8 +32,13 @@ export type Image = {
   alt?: string
 }
 
-type GetTypeNames = SourcebitGen extends { typeNames: infer T } ? T : unknown
-type GetTypes = SourcebitGen extends { types: infer T } ? T : unknown
+type GetTypeNames = SourcebitGen extends { typeNames: infer T } ? T : string
+type GetTypeMap = SourcebitGen extends { typeMap: infer T }
+  ? T
+  : Record<string, any>
+type GetTypes = SourcebitGen extends { types: infer T }
+  ? T
+  : { __meta: DocumentMeta } & Record<string, any>
 
 export function getDocumentsForPath({}: {
   cache: Cache
@@ -40,6 +46,16 @@ export function getDocumentsForPath({}: {
 }): Document[] {
   return []
 }
+
+type Guards = { [K in keyof GetTypeMap]: (_: any) => _ is GetTypeMap[K] }
+export const guards: Guards = new Proxy(
+  {},
+  {
+    get: (target, prop) => {
+      return (_: any) => _?.__meta?.typeName === prop
+    },
+  },
+)
 
 export function getDocumentsOfType<TypeNames extends GetTypeNames>({}: {
   cache: Cache

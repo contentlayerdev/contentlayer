@@ -10,6 +10,7 @@
   "dependencies": {
     "@sourcebit/sdk": "workspace:*",
     "arg": "^5.0.0",
+    "chokidar": "^3.5.1",
     "clipanion": "^3.0.0-rc.10",
     "esbuild": "^0.8.46",
     "eval": "^0.1.4",

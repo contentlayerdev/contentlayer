@@ -89,7 +89,9 @@ export interface ListField extends FieldBase {
   items: ListFieldItems
 }
 
-type ListFieldItems =
+export const isListField = (_: Field): _ is ListField => _.type === 'list'
+
+export type ListFieldItems =
   | ListFieldItemsString
   | ListFieldItemsBoolean
   | ListFieldItemsObject
@@ -98,16 +100,19 @@ type BaseListFieldItems = { labelField?: string }
 
 type ListFieldItemsString = BaseListFieldItems & { type: 'string' }
 type ListFieldItemsBoolean = BaseListFieldItems & { type: 'boolean' }
-type ListFieldItemsObject = BaseListFieldItems & {
+export type ListFieldItemsObject = BaseListFieldItems & {
   type: 'object'
-  object:
-    | string
-    | ObjectDef
+  object: // | string
+  | ObjectDef
     | Thunk<ObjectDef>
-    | string[]
+    // | string[]
     | ObjectDef[]
     | Thunk<ObjectDef[]>
 }
+
+export const isListFieldItemsObject = (
+  _: ListFieldItems,
+): _ is ListFieldItemsObject => _.type === 'object'
 
 export type StringField = FieldBase & {
   type: 'string'

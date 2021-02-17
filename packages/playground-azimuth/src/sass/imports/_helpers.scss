@@ -1,0 +1,77 @@
+// Text for screen readers
+.screen-reader-text {
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: polygon(0px 0px, 0px 0px, 0px 0px, 0px 0px);
+  height: 1px;
+  overflow: hidden;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+}
+
+// Flex order
+.order-first {
+  order: -1;
+}
+
+// Heading decorations
+.underline {
+  position: relative;
+
+  &:after {
+    border-left: 1.5em solid $color-primary;
+    display: block;
+    content: "";
+    height: 2px;
+    margin-top: 0.5em;
+  }
+}
+
+// Responsive videos wrapper
+.js-reframe {
+  margin: 0 0 1.66667em;
+}
+
+// Grid
+.grid {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-left: -$grid-gap / 2;
+  margin-right: -$grid-gap / 2;
+}
+
+.cell {
+  box-sizing: border-box;
+  padding-left: $grid-gap / 2;
+  padding-right: $grid-gap / 2;
+  position: relative;
+  width: 100%;
+}
+
+@media only screen and (max-width: 750px) {
+  .grid {
+    margin-left: -$container-padding / 2;
+    margin-right: -$container-padding / 2;
+  }
+  
+  .cell {
+    padding-left: $container-padding / 2;
+    padding-right: $container-padding / 2;
+  }
+}
+
+// Card
+.card {
+  background: #fff;
+  border: 1px solid $gray-200;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  box-sizing: border-box;
+
+  &.highlight {
+    border-color: $color-primary;
+    border-width: 2px;
+  }
+}
