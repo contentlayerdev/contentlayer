@@ -1,8 +1,8 @@
-import { footer_form, form_field } from '@sourcebit/sdk/types'
+import { footer_form, form_field, section_contact } from '@sourcebit/sdk/types'
 import React, { FC } from 'react'
 import { classNames } from '../utils'
 
-const FormField: FC<{ section: footer_form; field: form_field }> = ({ field, section }) => {
+const FormField: FC<{ section: footer_form | section_contact; field: form_field }> = ({ field, section }) => {
   return (
     <>
       {field.input_type !== 'checkbox' && field.label && (
@@ -40,7 +40,7 @@ const FormField: FC<{ section: footer_form; field: form_field }> = ({ field, sec
             required={field.is_required}
           >
             {field.default_value && <option value="">{field.default_value}</option>}
-            {field.options.map((option, option_idx) => (
+            {field.options?.map((option, option_idx) => (
               <option key={option_idx} value={option}>
                 {option}
               </option>

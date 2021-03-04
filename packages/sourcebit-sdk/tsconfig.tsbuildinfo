@@ -486,6 +486,11 @@
         "signature": "7241fade4b50d1975ef822d3c5262a3777bfb687b35c3f0e8cc2c1abb51c1d31",
         "affectsGlobalScope": false
       },
+      "../../node_modules/@types/js-yaml/index.d.ts": {
+        "version": "914dc265139513b2a984498b0c969c177493cc7ae436375dbc102307a7f8ab07",
+        "signature": "914dc265139513b2a984498b0c969c177493cc7ae436375dbc102307a7f8ab07",
+        "affectsGlobalScope": false
+      },
       "../../node_modules/@types/lodash/common/common.d.ts": {
         "version": "3594c022901a1c8993b0f78a3f534cfb81e7b619ed215348f7f6882f3db02abc",
         "signature": "3594c022901a1c8993b0f78a3f534cfb81e7b619ed215348f7f6882f3db02abc",
@@ -1575,6 +1580,7 @@
           }
         ]
       ],
+      "../../node_modules/@types/js-yaml/index.d.ts",
       "../../node_modules/@types/lodash/common/array.d.ts",
       "../../node_modules/@types/lodash/common/collection.d.ts",
       "../../node_modules/@types/lodash/common/common.d.ts",

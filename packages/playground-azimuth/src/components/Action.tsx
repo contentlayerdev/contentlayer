@@ -14,7 +14,7 @@ const Action: FC<{ action: action }> = ({ action }) => (
       'has-icon': action.has_icon,
     })}
   >
-    {action.has_icon && <Icon icon={action.icon} />}
+    {action.icon && <Icon icon={action.icon} />}
     <span
       className={classNames({
         'order-first': action.icon_position === 'right',

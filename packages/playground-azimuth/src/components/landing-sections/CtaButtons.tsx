@@ -1,6 +1,6 @@
 import { action } from '@sourcebit/sdk/types'
 import React, { FC } from 'react'
-import Action from './Action'
+import Action from '../Action'
 
 const CtaButtons: FC<{ actions: action[] }> = ({ actions }) => (
   <>

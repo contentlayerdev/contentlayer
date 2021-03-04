@@ -1,25 +1,17 @@
-import { Option } from 'clipanion'
-import * as path from 'path'
-import { getSchemaDef } from '../lib/schema'
-import { BaseCommand } from './_BaseCommand'
-import * as t from 'typanion'
-import { promise as glob } from 'glob-promise'
-import { promises as fs } from 'fs'
-import matter from 'gray-matter'
-import minimatch from 'minimatch'
-import {
-  Cache,
-  SchemaDef,
-  Document,
-  isObjectField,
-  ObjectDef,
-  isListField,
-  isListFieldItemsObject,
-  DocumentDef,
-} from '@sourcebit/sdk'
-import { match } from 'ts-pattern'
-import { fileExists, unwrapThunk } from '../lib/utils'
+import { Cache, Document, DocumentDef, isObjectField, ObjectDef, SchemaDef } from '@sourcebit/sdk'
 import { watch } from 'chokidar'
+import { Option } from 'clipanion'
+import { promises as fs } from 'fs'
+import { promise as glob } from 'glob-promise'
+import matter from 'gray-matter'
+import * as yaml from 'js-yaml'
+import minimatch from 'minimatch'
+import * as path from 'path'
+import { match } from 'ts-pattern'
+import * as t from 'typanion'
+import { getSchemaDef } from '../lib/schema'
+import { fileExists, unwrapThunk } from '../lib/utils'
+import { BaseCommand } from './_BaseCommand'
 
 export class FetchCommand extends BaseCommand {
   static paths = [['fetch']]
@@ -61,9 +53,7 @@ async function fetch({
   schemaDef: SchemaDef
   cachePath: string
 }) {
-  const documents = await Promise.all(
-    filePaths.map((filePath) => parseContent({ filePath, schemaDef })),
-  )
+  const documents = await Promise.all(filePaths.map((filePath) => parseContent({ filePath, schemaDef })))
 
   const cache: Cache = { documents }
 
@@ -86,9 +76,7 @@ function checkSchema({
   content: Content
   filePath: string
 }): void {
-  const documentDef = schemaDef.documents.find((_) =>
-    minimatch(filePath, _.filePathPattern),
-  )
+  const documentDef = schemaDef.documents.find((_) => minimatch(filePath, _.filePathPattern))
 
   if (documentDef === undefined) {
     throw new Error(`No matching document definition found for "${filePath}"`)
@@ -100,14 +88,10 @@ function checkSchema({
 
   // make sure all required fields are present
   const requiredFields = fieldDefs.filter((_) => _.required)
-  const misingRequiredFields = requiredFields.filter(
-    (fieldDef) => !existingFieldKeys.includes(fieldDef.name),
-  )
+  const misingRequiredFields = requiredFields.filter((fieldDef) => !existingFieldKeys.includes(fieldDef.name))
   if (misingRequiredFields.length > 0) {
     throw new Error(
-      `Missing required fields (type: "${
-        documentDef.name
-      }") for "${filePath}":\n${misingRequiredFields
+      `Missing required fields (type: "${documentDef.name}") for "${filePath}":\n${misingRequiredFields
         .map((_, i) => `${i + 1}: ` + JSON.stringify(_))
         .join('\n')}`,
     )
@@ -128,13 +112,7 @@ type ContentJSON = {
   data: Record<string, any>
 }
 
-async function parseContent({
-  filePath,
-  schemaDef,
-}: {
-  filePath: string
-  schemaDef: SchemaDef
-}): Promise<Document> {
+async function parseContent({ filePath, schemaDef }: { filePath: string; schemaDef: SchemaDef }): Promise<Document> {
   const fileContent = await fs.readFile(filePath, 'utf-8')
   const filePathExtension = filePath.toLowerCase().split('.').pop()
   const content = match<string | undefined, Content>(filePathExtension)
@@ -146,17 +124,17 @@ async function parseContent({
       }
     })
     .with('json', () => ({ kind: 'json', data: JSON.parse(fileContent) }))
+    .when(
+      (_) => ['yaml', 'yml'].includes(_ ?? ''),
+      () => ({ kind: 'json', data: yaml.load(fileContent) as object }),
+    )
     .otherwise(() => {
-      throw new Error(
-        `Unsupported file extension "${filePathExtension}" for ${filePath}`,
-      )
+      throw new Error(`Unsupported file extension "${filePathExtension}" for ${filePath}`)
     })
 
   checkSchema({ content, schemaDef, filePath })
 
-  const documentDef = schemaDef.documents.find((_) =>
-    minimatch(filePath, _.filePathPattern),
-  )!
+  const documentDef = schemaDef.documents.find((_) => minimatch(filePath, _.filePathPattern))!
 
   // add __meta.TypeName to embedded objects
   unwrapThunk(documentDef.fields)
@@ -207,9 +185,7 @@ function addMetaToData({
   isArray: boolean
 }): void {
   if (isArray) {
-    dataRef[fieldName].forEach(
-      (item: any) => (item.__meta = { typeName: objectDef.name }),
-    )
+    dataRef[fieldName].forEach((item: any) => (item.__meta = { typeName: objectDef.name }))
   } else {
     dataRef[fieldName].__meta = { typeName: objectDef.name }
   }

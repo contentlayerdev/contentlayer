@@ -214,6 +214,7 @@ __metadata:
   resolution: "@sourcebit/cli@workspace:packages/sourcebit-cli"
   dependencies:
     "@sourcebit/sdk": "workspace:*"
+    "@types/js-yaml": ^4
     "@types/minimatch": ^3
     "@types/node": ^14.14.22
     arg: ^5.0.0
@@ -224,6 +225,7 @@ __metadata:
     glob: ^7.1.6
     glob-promise: ^4.0.1
     gray-matter: ^4.0.2
+    js-yaml: ^4.0.0
     minimatch: ^3.0.4
     ts-pattern: ^2.1.2
     typanion: ^3.3.0
@@ -278,6 +280,13 @@ __metadata:
     "@types/node": "*"
     domhandler: ^2.4.0
   checksum: bb083c953e2172d9e1645c4705ea612bd1bc77611b8d57d873da911586be6be0792043f859ed80992e3a50448ca11db29199d5507e2b24b8b3af99533e23c02d
+  languageName: node
+  linkType: hard
+
+"@types/js-yaml@npm:^4":
+  version: 4.0.0
+  resolution: "@types/js-yaml@npm:4.0.0"
+  checksum: 7a4431db3069988c5fa7fd00be45f18f6e355ab227b3ba23c993eeb949ee6ee39bf7180663b94f5a2378bece277ec4c49f26a27189edc263da7eeb6cd4a09d27
   languageName: node
   linkType: hard
 
@@ -477,6 +486,13 @@ __metadata:
   dependencies:
     sprintf-js: ~1.0.2
   checksum: 435adaef5f6671c3ef1478a22be6fd54bdb99fdbbce8f5561b9cbbb05068ccce87b7df3b9f3322ff52a6ebb9cab2b427cbedac47a07611690a9beaa5184093e2
+  languageName: node
+  linkType: hard
+
+"argparse@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "argparse@npm:2.0.1"
+  checksum: 160b7a25d2a7097fd5fdf25eb8a99e037340078f70e6c7cfdef305837ed14d54570b2b13261bcae26c8cd44ad6e9a7136a0110d815ac65a7891c69c7bf2f4afd
   languageName: node
   linkType: hard
 
@@ -1173,6 +1189,13 @@ __metadata:
   version: 3.0.1
   resolution: "data-uri-to-buffer@npm:3.0.1"
   checksum: 9f28217ba76eaca400a75f4b1a1d0f55058082c8152a3d88ad5feeec5e54b8c7b6d8a7bb210206bfa552a927c1b942b6102ddbb2feaa557321ea94762c4f14e2
+  languageName: node
+  linkType: hard
+
+"date-fns@npm:^2.18.0":
+  version: 2.18.0
+  resolution: "date-fns@npm:2.18.0"
+  checksum: 58320ad5122bb2ae2f5aa23e2c432529d3390222bbec49339f8c360c2c07e5db8c26b40fe2cb2c947b4507732b9e1f9c195ec39572e14014291788ca07a5de6f
   languageName: node
   linkType: hard
 
@@ -2086,6 +2109,17 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"js-yaml@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "js-yaml@npm:4.0.0"
+  dependencies:
+    argparse: ^2.0.1
+  bin:
+    js-yaml: bin/js-yaml.js
+  checksum: ee9b16cdbba690ec70f46d61737b28b35e26e6d51606c466de7fa876d3517de0cfdffd2e1ef21263d5ca3b32659d2e4c65255f50d6e236f022305bce72242d46
+  languageName: node
+  linkType: hard
+
 "jsbn@npm:~0.1.0":
   version: 0.1.1
   resolution: "jsbn@npm:0.1.1"
@@ -2769,6 +2803,7 @@ fsevents@~2.3.1:
     "@sourcebit/sdk": "workspace:*"
     "@types/react": ^17
     "@types/react-dom": ^17
+    date-fns: ^2.18.0
     next: ^10.0.5
     react: ^17.0.1
     react-dom: ^17.0.1

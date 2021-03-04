@@ -1,6 +1,7 @@
 import { defineDocument, defineObject } from '@sourcebit/sdk'
 import { urlFromFilePath } from '../../utils/url'
 import { action } from '../objects/action'
+import { form_field } from '../objects/form_field'
 
 export const landing = defineDocument({
   name: 'landing',
@@ -50,18 +51,17 @@ export const landing = defineDocument({
       items: {
         type: 'object',
         labelField: 'title',
-        object: () => [section_content, section_cta, section_hero, section_features],
-        // models: [
-        //   section_content,
-        //   'section_cta',
-        //   'section_faq',
-        //   'section_features',
-        //   'section_hero',
-        //   'section_posts',
-        //   'section_pricing',
-        //   'section_reviews',
-        //   'section_contact',
-        // ],
+        object: () => [
+          section_content,
+          section_cta,
+          section_hero,
+          section_features,
+          section_contact,
+          section_faq,
+          section_posts,
+          section_pricing,
+          section_reviews,
+        ],
       },
     },
   ],
@@ -255,6 +255,254 @@ const section_feature = defineObject({
       name: 'actions',
       label: 'Action Buttons',
       items: { type: 'object', object: action },
+    },
+  ],
+})
+
+const section_contact = defineObject({
+  name: 'section_contact',
+  label: 'Contact Section',
+  labelField: 'title',
+  fields: [
+    ...sectionBaseFields,
+    {
+      type: 'string',
+      name: 'subtitle',
+      label: 'Subtitle',
+      description: 'The text shown below the title',
+    },
+    {
+      type: 'markdown',
+      name: 'content',
+      label: 'Content',
+      description: 'the content of the section, appears above the form',
+    },
+    {
+      type: 'enum',
+      name: 'background',
+      label: 'Background',
+      description: 'The background of the section',
+      options: ['gray', 'white'],
+      default: 'gray',
+    },
+    {
+      type: 'string',
+      name: 'form_id',
+      label: 'Form ID',
+      description: 'A unique identifier of the form, must not contain whitespace',
+      required: true,
+    },
+    {
+      type: 'string',
+      name: 'form_action',
+      label: 'Form Action',
+      description: 'The path of your custom "success" page, if you want to replace the default success message.',
+    },
+    {
+      type: 'boolean',
+      name: 'hide_labels',
+      label: 'Hide labels of the form fields?',
+      default: false,
+    },
+    {
+      type: 'list',
+      name: 'form_fields',
+      label: 'Form Fields',
+      items: { type: 'object', object: form_field },
+    },
+    {
+      type: 'string',
+      name: 'submit_label',
+      label: 'Submit Button Label',
+      required: true,
+    },
+  ],
+})
+
+const section_faq = defineObject({
+  name: 'section_faq',
+  label: 'Contact Section',
+  labelField: 'title',
+  fields: [
+    ...sectionBaseFields,
+    {
+      type: 'string',
+      name: 'subtitle',
+      label: 'Subtitle',
+      description: 'The subtitle of the section',
+    },
+    {
+      type: 'enum',
+      name: 'background',
+      label: 'Background',
+      description: 'The background of the section',
+      options: ['gray', 'white'],
+      default: 'gray',
+    },
+    {
+      type: 'list',
+      name: 'faq_items',
+      label: 'FAQ Items',
+      items: { type: 'object', object: () => faq_item },
+    },
+  ],
+})
+
+const faq_item = defineObject({
+  name: 'faq_item',
+  label: 'FAQ Item',
+  fields: [
+    {
+      type: 'text',
+      name: 'question',
+      label: 'Question',
+    },
+    {
+      type: 'markdown',
+      name: 'answer',
+      label: 'Answer',
+    },
+  ],
+})
+
+const section_posts = defineObject({
+  name: 'section_posts',
+  label: 'Posts List',
+  fields: [
+    ...sectionBaseFields,
+    {
+      type: 'string',
+      name: 'subtitle',
+      label: 'Subtitle',
+      description: 'The subtitle of the section',
+    },
+    {
+      type: 'enum',
+      name: 'background',
+      label: 'Background',
+      description: 'The background of the section',
+      options: ['gray', 'white'],
+      default: 'gray',
+    },
+  ],
+})
+
+const section_pricing = defineObject({
+  name: 'section_pricing',
+  label: 'Pricing Section',
+  fields: [
+    ...sectionBaseFields,
+    {
+      type: 'string',
+      name: 'subtitle',
+      label: 'Subtitle',
+      description: 'The subtitle of the section',
+    },
+    {
+      type: 'enum',
+      name: 'background',
+      label: 'Background',
+      description: 'The background of the section',
+      options: ['gray', 'white'],
+      default: 'gray',
+    },
+    {
+      type: 'list',
+      name: 'pricing_plans',
+      label: 'Pricing Plans',
+      items: { type: 'object', object: () => pricing_plan },
+    },
+  ],
+})
+
+const pricing_plan = defineObject({
+  name: 'pricing_plan',
+  label: 'Pricing Plan',
+  labelField: 'title',
+  fields: [
+    {
+      type: 'string',
+      name: 'title',
+      label: 'Title',
+    },
+    {
+      type: 'string',
+      name: 'subtitle',
+      label: 'Subtitle',
+    },
+    {
+      type: 'string',
+      name: 'price',
+      label: 'Price',
+    },
+    {
+      type: 'markdown',
+      name: 'details',
+      label: 'Details',
+    },
+    {
+      type: 'boolean',
+      name: 'highlight',
+      label: 'Highlight',
+      description: 'Make the plan stand out by adding a distinctive style',
+      default: false,
+    },
+    {
+      type: 'list',
+      name: 'actions',
+      label: 'Action Buttons',
+      items: { type: 'object', object: action },
+    },
+  ],
+})
+
+const section_reviews = defineObject({
+  name: 'section_reviews',
+  label: 'Reviews Section',
+  fields: [
+    ...sectionBaseFields,
+    {
+      type: 'string',
+      name: 'subtitle',
+      label: 'Subtitle',
+      description: 'The subtitle of the section',
+    },
+    {
+      type: 'enum',
+      name: 'background',
+      label: 'Background',
+      description: 'The background of the section',
+      options: ['gray', 'white'],
+      default: 'gray',
+    },
+    {
+      type: 'list',
+      name: 'reviews',
+      label: 'Reviews',
+      items: { type: 'object', object: () => review_item },
+    },
+  ],
+})
+
+const review_item = defineObject({
+  name: 'review_item',
+  label: 'Review Item',
+  labelField: 'title',
+  fields: [
+    {
+      type: 'string',
+      name: 'author',
+      label: 'Author',
+    },
+    {
+      type: 'image',
+      name: 'avatar',
+      label: 'Avatar',
+    },
+    {
+      type: 'text',
+      name: 'content',
+      label: 'Content',
     },
   ],
 })

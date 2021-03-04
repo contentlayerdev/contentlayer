@@ -1,9 +1,9 @@
+import { SourcebitClient } from '@sourcebit/sdk'
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next'
+import React from 'react'
 
 /** Needed in combination with `InferGetServerSidePropsType` */
-export function defineServerSideProps<Fn extends GetServerSideProps>(
-  fn: Fn,
-): Fn {
+export function defineServerSideProps<Fn extends GetServerSideProps>(fn: Fn): Fn {
   return fn
 }
 
@@ -23,3 +23,6 @@ export function toParams(path: string): { params: { slug: string[] } } {
 export function notUndefined<T>(_: T | undefined): _ is T {
   return _ !== undefined
 }
+
+export const SourcebitContext = React.createContext<SourcebitClient>(null as any)
+export const useSourcebit = () => React.useContext(SourcebitContext)

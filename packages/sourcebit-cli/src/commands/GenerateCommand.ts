@@ -134,17 +134,17 @@ export type TypeNames = Types['__meta']['typeName']
 
 /** Document types */
 
-export namespace Documents {
+${/*export namespace Documents {
   export { ${documentTypes.map((_) => _.typeName).join(', ')} }
-}
+}*/ ``}
 
 ${documentTypes.map((_) => _.typeDef).join('\n\n')}
 
 /** Object types */
 
-export namespace Objects {
+${/*export namespace Objects {
   export { ${objectTypes.map((_) => _.typeName).join(', ')} }
-}
+}*/ ``}
 
 ${objectTypes.map((_) => _.typeDef).join('\n\n')}
 `

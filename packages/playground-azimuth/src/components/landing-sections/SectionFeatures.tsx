@@ -1,6 +1,6 @@
 import { section_features } from '@sourcebit/sdk/types'
 import React, { FC } from 'react'
-import { htmlToReact, markdownify, withPrefix } from '../utils'
+import { htmlToReact, markdownify, withPrefix } from '../../utils'
 import CtaButtons from './CtaButtons'
 
 const SectionFeatures: FC<{ section: section_features }> = ({ section, ...props }) => {

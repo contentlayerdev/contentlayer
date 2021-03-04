@@ -1,10 +1,10 @@
 import { guards } from '@sourcebit/sdk'
-import { Objects } from '@sourcebit/sdk/types'
+import { section_hero } from '@sourcebit/sdk/types'
 import React, { FC } from 'react'
-import { markdownify, withPrefix } from '../utils'
+import { markdownify, withPrefix } from '../../utils'
 import CtaButtons from './CtaButtons'
 
-const SectionHero: FC<{ section: Objects.section_hero }> = ({ section }) => {
+const SectionHero: FC<{ section: section_hero }> = ({ section }) => {
   return (
     <section id={section.section_id} className="block hero-block bg-accent outer">
       <div className="inner">

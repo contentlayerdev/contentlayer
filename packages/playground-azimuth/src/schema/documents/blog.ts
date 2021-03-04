@@ -1,4 +1,5 @@
 import { defineDocument } from '@sourcebit/sdk'
+import { urlFromFilePath } from '../../utils/url'
 // import { sluggify } from '../../../../lib/utils'
 
 export const blog = defineDocument({
@@ -23,15 +24,13 @@ export const blog = defineDocument({
       type: 'string',
       name: 'meta_title',
       label: 'Meta Title',
-      description:
-        'The meta title of the page (recommended length is 50–60 characters)',
+      description: 'The meta title of the page (recommended length is 50–60 characters)',
     },
     {
       type: 'string',
       name: 'meta_description',
       label: 'Meta Description',
-      description:
-        'The meta description of the page (recommended length is 50–160 characters)',
+      description: 'The meta description of the page (recommended length is 50–160 characters)',
     },
     {
       type: 'string',
@@ -46,5 +45,12 @@ export const blog = defineDocument({
       default: false,
       description: 'Tell search engines not to index this page',
     },
+  ],
+  computedFields: (defineField) => [
+    defineField({
+      name: 'urlPath',
+      type: 'string',
+      resolve: urlFromFilePath,
+    }),
   ],
 })
