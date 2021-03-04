@@ -15,9 +15,10 @@ import {
   ObjectDef,
   isListField,
   isListFieldItemsObject,
+  DocumentDef,
 } from '@sourcebit/sdk'
 import { match } from 'ts-pattern'
-import { unwrapThunk } from '../lib/utils'
+import { fileExists, unwrapThunk } from '../lib/utils'
 import { watch } from 'chokidar'
 
 export class FetchCommand extends BaseCommand {
@@ -67,6 +68,10 @@ async function fetch({
   const cache: Cache = { documents }
 
   const cacheFilePath = path.join(process.cwd(), cachePath)
+
+  if (await fileExists(cacheFilePath)) {
+    await fs.unlink(cacheFilePath)
+  }
   await fs.writeFile(cacheFilePath, JSON.stringify(cache, null, 2))
 
   console.log(`Data cache file successfully written to ${cacheFilePath}`)
@@ -175,10 +180,19 @@ async function parseContent({
   //     }
   //   })
 
-  return {
+  // TOOD add meta data to objects in array as well
+
+  const doc: Document = {
     ...content.data,
     __meta: { sourceFilePath: filePath, typeName: documentDef.name },
   }
+
+  const computedValues = getComputedValues({ documentDef, doc })
+  if (computedValues) {
+    doc.__computed = computedValues
+  }
+
+  return doc
 }
 
 function addMetaToData({
@@ -210,4 +224,24 @@ function addMetaToData({
         isArray: false,
       }),
     )
+}
+
+function getComputedValues({
+  doc,
+  documentDef,
+}: {
+  documentDef: DocumentDef
+  doc: Document
+}): undefined | Record<string, any> {
+  if (documentDef.computedFields === undefined) {
+    return undefined
+  }
+
+  const computedFields = documentDef.computedFields((_) => _)
+  const computedValues = computedFields.reduce((acc, field) => {
+    acc[field.name] = field.resolve(doc)
+    return acc
+  }, {} as any)
+
+  return computedValues
 }

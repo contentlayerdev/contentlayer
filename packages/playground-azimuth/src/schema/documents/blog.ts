@@ -1,5 +1,5 @@
 import { defineDocument } from '@sourcebit/sdk'
-import { sluggify } from '../../../../lib/utils'
+// import { sluggify } from '../../../../lib/utils'
 
 export const blog = defineDocument({
   name: 'blog',

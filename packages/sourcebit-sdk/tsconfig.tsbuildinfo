@@ -191,14 +191,24 @@
         "signature": "89bf2b7a601b73ea4311eda9c41f86a58994fec1bee3b87c4a14d68d9adcdcbd",
         "affectsGlobalScope": true
       },
+      "./src/guards.ts": {
+        "version": "2b78edc382575b24f7cf3d08e7709fbabc63ee1b8e10d1271f6ecd72f6eb5100",
+        "signature": "cbe002fc1204f3734f53de6c057a30cb2ab29ad28914e407b043fa80cdb99f67",
+        "affectsGlobalScope": false
+      },
       "./src/data.ts": {
-        "version": "0f396587c21679413deee2454adfaa41e6e33eea221c9f06ee39bd75d76f1d59",
-        "signature": "1d471fb98fec6f1efe18fc609eb0ce8a6a4cfc700256c08303fefdd00d91b053",
+        "version": "e8760492897c991c136dc382c720c8740d177284f6986ce1754694866541012c",
+        "signature": "034a826c180fa46b6a7b9f778f263279bc97696caa6d8ef1dda29e626d85404c",
         "affectsGlobalScope": true
       },
+      "./src/computed-field.ts": {
+        "version": "ec85704ea5942fc4ac558db23561cb0b3dc85ee398874dcf3f24c81fed5129a1",
+        "signature": "c19910a0d766f86549a268c5affa1153bb841740aef843c0582a62930f23f92d",
+        "affectsGlobalScope": false
+      },
       "./src/schema.ts": {
-        "version": "af94e563076521d8a0a17aa428888510466ccbd829c72a9aa5c0ce3d62ef2bff",
-        "signature": "d8f123233361935920394438ab8dbdbbd2913615b517ca23489e495410b64a4e",
+        "version": "fa71013f9b6a6c0cfceed3231202c8b0fa63b72656cc464ca49aac8760ed2b6d",
+        "signature": "b14396e6ee94fe6472d82e1ca11ac97ad886d1a2d0c6d8445d603b73ff4ec1d6",
         "affectsGlobalScope": false
       },
       "./src/index.ts": {
@@ -1052,11 +1062,21 @@
       "../../node_modules/domhandler/lib/node.d.ts": [
         "../../node_modules/domelementtype/lib/index.d.ts"
       ],
+      "./src/computed-field.ts": [
+        "./src/data.ts"
+      ],
+      "./src/data.ts": [
+        "./src/guards.ts"
+      ],
+      "./src/guards.ts": [
+        "./src/data.ts"
+      ],
       "./src/index.ts": [
         "./src/data.ts",
         "./src/schema.ts"
       ],
       "./src/schema.ts": [
+        "./src/computed-field.ts",
         "./src/data.ts"
       ]
     },
@@ -1509,11 +1529,21 @@
       "../../node_modules/domhandler/lib/node.d.ts": [
         "../../node_modules/domelementtype/lib/index.d.ts"
       ],
+      "./src/computed-field.ts": [
+        "./src/data.ts"
+      ],
+      "./src/data.ts": [
+        "./src/guards.ts"
+      ],
+      "./src/guards.ts": [
+        "./src/data.ts"
+      ],
       "./src/index.ts": [
         "./src/data.ts",
         "./src/schema.ts"
       ],
       "./src/schema.ts": [
+        "./src/computed-field.ts",
         "./src/data.ts"
       ]
     },
@@ -1730,7 +1760,9 @@
       "../../node_modules/typescript/lib/lib.es2020.symbol.wellknown.d.ts",
       "../../node_modules/typescript/lib/lib.es5.d.ts",
       "../../node_modules/typescript/lib/lib.esnext.intl.d.ts",
+      "./src/computed-field.ts",
       "./src/data.ts",
+      "./src/guards.ts",
       "./src/index.ts",
       "./src/schema.ts"
     ]

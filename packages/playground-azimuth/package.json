@@ -2,6 +2,7 @@
   "name": "playground-azimuth",
   "scripts": {
     "dev": "next",
+    "build": "yarn generate && yarn fetch && next build",
     "generate": "ESBUILD_BINARY_PATH=$(which esbuild) sourcebit generate --schema ./src/schema/index.ts",
     "fetch": "ESBUILD_BINARY_PATH=$(which esbuild) sourcebit fetch --schema ./src/schema/index.ts --content 'content/**/*.{md,json}' --cache ./src/sourcebit.json"
   },

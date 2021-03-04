@@ -27,8 +27,7 @@ export const config = defineDocument({
       type: 'string',
       name: 'domain',
       label: 'Domain',
-      description:
-        'The domain of your site, including the protocol, e.g. https://mysite.com/',
+      description: 'The domain of your site, including the protocol, e.g. https://mysite.com/',
     },
     {
       type: 'image',
@@ -57,12 +56,14 @@ export const config = defineDocument({
       type: 'object',
       name: 'header',
       label: 'Header Configuration',
+      required: true,
       object: () => header,
     },
     {
       type: 'object',
       name: 'footer',
       label: 'Footer Configuration',
+      required: true,
       object: () => footer,
     },
   ],
@@ -77,8 +78,7 @@ const header = defineObject({
       type: 'image',
       name: 'logo_img',
       label: 'Logo',
-      description:
-        'The logo image displayed in the header (if no logo added, the site title is displayed instead)',
+      description: 'The logo image displayed in the header (if no logo added, the site title is displayed instead)',
     },
     {
       type: 'string',
@@ -129,11 +129,14 @@ const footer = defineObject({
       default: true,
     },
     {
-      type: 'object',
+      type: 'list',
       name: 'nav_links',
       label: 'Horizontal Navigation Links',
       description: 'List of horizontal navigation links',
-      object: action,
+      items: {
+        type: 'object',
+        object: action,
+      },
     },
     {
       type: 'string',
@@ -151,17 +154,29 @@ const footer = defineObject({
   ],
 })
 
+const footerSectionBaseFields = [
+  {
+    type: 'string',
+    name: 'title',
+    label: 'Title',
+    description: 'The title of the section',
+  },
+  // TODO move into SDK
+  {
+    type: 'string',
+    name: 'type',
+    label: 'Section type',
+    required: true,
+    description: 'Needed for sourcebit for polymorphic list types',
+  },
+] as const
+
 const footer_form = defineObject({
   name: 'footer_form',
   label: 'Form',
   labelField: 'title',
   fields: [
-    {
-      type: 'string',
-      name: 'title',
-      label: 'Title',
-      description: 'The title of the section',
-    },
+    ...footerSectionBaseFields,
     {
       type: 'markdown',
       name: 'content',
@@ -172,16 +187,14 @@ const footer_form = defineObject({
       type: 'string',
       name: 'form_id',
       label: 'Form ID',
-      description:
-        'A unique identifier of the form, must not contain whitespace',
+      description: 'A unique identifier of the form, must not contain whitespace',
       required: true,
     },
     {
       type: 'string',
       name: 'form_action',
       label: 'Form Action',
-      description:
-        'The path of your custom "success" page, if you want to replace the default success message.',
+      description: 'The path of your custom "success" page, if you want to replace the default success message.',
     },
     {
       type: 'boolean',
@@ -209,18 +222,16 @@ const footer_nav = defineObject({
   label: 'Vertical Navigation',
   labelField: 'title',
   fields: [
+    ...footerSectionBaseFields,
     {
-      type: 'string',
-      name: 'title',
-      label: 'Title',
-      description: 'The title of the section',
-    },
-    {
-      type: 'object',
+      type: 'list',
       name: 'nav_links',
       label: 'Vertical Navigation Links',
       description: 'List of vertical navigation links',
-      object: action,
+      items: {
+        type: 'object',
+        object: action,
+      },
     },
   ],
 })
@@ -230,6 +241,7 @@ const footer_text = defineObject({
   label: 'Text',
   labelField: 'title',
   fields: [
+    ...footerSectionBaseFields,
     {
       type: 'image',
       name: 'image',
@@ -247,12 +259,6 @@ const footer_text = defineObject({
       name: 'image_url',
       label: 'Image URL',
       description: 'The url of the image',
-    },
-    {
-      type: 'string',
-      name: 'title',
-      label: 'Title',
-      description: 'The title of the section',
     },
     {
       type: 'markdown',

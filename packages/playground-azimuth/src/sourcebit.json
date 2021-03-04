@@ -156,6 +156,9 @@
       "__meta": {
         "sourceFilePath": "content/pages/about.md",
         "typeName": "page"
+      },
+      "__computed": {
+        "urlPath": "about"
       }
     },
     {
@@ -170,6 +173,9 @@
       "__meta": {
         "sourceFilePath": "content/pages/blog/azimuth-improvements.md",
         "typeName": "post"
+      },
+      "__computed": {
+        "urlPath": "blog/azimuth-improvements"
       }
     },
     {
@@ -187,6 +193,9 @@
       "__meta": {
         "sourceFilePath": "content/pages/blog/customer-loyalty.md",
         "typeName": "post"
+      },
+      "__computed": {
+        "urlPath": "blog/customer-loyalty"
       }
     },
     {
@@ -202,6 +211,9 @@
       "__meta": {
         "sourceFilePath": "content/pages/blog/customer-service-skills-that-every-employee-needs.md",
         "typeName": "post"
+      },
+      "__computed": {
+        "urlPath": "blog/customer-service-skills-that-every-employee-needs"
       }
     },
     {
@@ -216,6 +228,9 @@
       "__meta": {
         "sourceFilePath": "content/pages/blog/design-azimuth.md",
         "typeName": "post"
+      },
+      "__computed": {
+        "urlPath": "blog/design-azimuth"
       }
     },
     {
@@ -230,6 +245,9 @@
       "__meta": {
         "sourceFilePath": "content/pages/blog/design-team-collaborates.md",
         "typeName": "post"
+      },
+      "__computed": {
+        "urlPath": "blog/design-team-collaborates"
       }
     },
     {
@@ -254,6 +272,9 @@
       "__meta": {
         "sourceFilePath": "content/pages/blog/sales-as-service.md",
         "typeName": "post"
+      },
+      "__computed": {
+        "urlPath": "blog/sales-as-service"
       }
     },
     {
@@ -268,6 +289,9 @@
       "__meta": {
         "sourceFilePath": "content/pages/blog/set-big-goals.md",
         "typeName": "post"
+      },
+      "__computed": {
+        "urlPath": "blog/set-big-goals"
       }
     },
     {
@@ -285,6 +309,9 @@
       "__meta": {
         "sourceFilePath": "content/pages/blog/user-journey-mapping.md",
         "typeName": "post"
+      },
+      "__computed": {
+        "urlPath": "blog/user-journey-mapping"
       }
     },
     {
@@ -301,6 +328,9 @@
       "__meta": {
         "sourceFilePath": "content/pages/blog/working-from-home.md",
         "typeName": "post"
+      },
+      "__computed": {
+        "urlPath": "blog/working-from-home"
       }
     },
     {
@@ -357,6 +387,9 @@
       "__meta": {
         "sourceFilePath": "content/pages/contact.md",
         "typeName": "landing"
+      },
+      "__computed": {
+        "urlPath": "contact"
       }
     },
     {
@@ -402,6 +435,9 @@
       "__meta": {
         "sourceFilePath": "content/pages/features.md",
         "typeName": "landing"
+      },
+      "__computed": {
+        "urlPath": "features"
       }
     },
     {
@@ -412,7 +448,7 @@
           "type": "section_hero",
           "image": "images/hero.png",
           "image_alt": "App preview",
-          "title": "This Is A Big Hero Headline",
+          "title": "This Is another Headline 2",
           "content": "Azimuth is the perfect theme for developers, designers and entrepreneurs who need a sleek, modern SaaS site.",
           "actions": [
             {
@@ -530,6 +566,9 @@
       "__meta": {
         "sourceFilePath": "content/pages/index.md",
         "typeName": "landing"
+      },
+      "__computed": {
+        "urlPath": "/"
       }
     },
     {
@@ -611,6 +650,9 @@
       "__meta": {
         "sourceFilePath": "content/pages/pricing.md",
         "typeName": "landing"
+      },
+      "__computed": {
+        "urlPath": "pricing"
       }
     },
     {
@@ -620,6 +662,9 @@
       "__meta": {
         "sourceFilePath": "content/pages/privacy-policy.md",
         "typeName": "page"
+      },
+      "__computed": {
+        "urlPath": "privacy-policy"
       }
     },
     {
@@ -632,6 +677,9 @@
       "__meta": {
         "sourceFilePath": "content/pages/signup.md",
         "typeName": "page"
+      },
+      "__computed": {
+        "urlPath": "signup"
       }
     },
     {
@@ -642,6 +690,9 @@
       "__meta": {
         "sourceFilePath": "content/pages/style-guide.md",
         "typeName": "page"
+      },
+      "__computed": {
+        "urlPath": "style-guide"
       }
     },
     {
@@ -651,6 +702,9 @@
       "__meta": {
         "sourceFilePath": "content/pages/terms-of-service.md",
         "typeName": "page"
+      },
+      "__computed": {
+        "urlPath": "terms-of-service"
       }
     }
   ]

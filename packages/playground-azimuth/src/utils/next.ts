@@ -15,3 +15,11 @@ export function defineStaticProps<Fn extends GetStaticProps>(fn: Fn): Fn {
 export function defineStaticPaths<Fn extends GetStaticPaths>(fn: Fn): Fn {
   return fn
 }
+
+export function toParams(path: string): { params: { slug: string[] } } {
+  return { params: { slug: path.split('/') } }
+}
+
+export function notUndefined<T>(_: T | undefined): _ is T {
+  return _ !== undefined
+}

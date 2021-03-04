@@ -9,7 +9,8 @@ export default class BlogPostFooter extends React.Component {
   render() {
     // let post = _.get(this.props, 'page', null);
     const doc = this.props.doc
-    let date_type = _.get(this.props, 'date_type', null)
+    console.log({ doc2: doc })
+    let date_type = _.get(doc, 'date_type', null)
     return (
       <footer className="post-meta">
         <time

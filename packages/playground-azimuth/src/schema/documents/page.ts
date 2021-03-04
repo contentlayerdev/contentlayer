@@ -1,4 +1,5 @@
 import { defineDocument } from '@sourcebit/sdk'
+import { urlFromFilePath } from '../../utils/url'
 
 export const page = defineDocument({
   name: 'page',
@@ -60,5 +61,12 @@ export const page = defineDocument({
       default: false,
       description: 'Tell search engines not to index this page',
     },
+  ],
+  computedFields: (defineField) => [
+    defineField({
+      name: 'urlPath',
+      type: 'string',
+      resolve: urlFromFilePath,
+    }),
   ],
 })

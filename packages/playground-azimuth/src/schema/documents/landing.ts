@@ -1,4 +1,5 @@
 import { defineDocument, defineObject } from '@sourcebit/sdk'
+import { urlFromFilePath } from '../../utils/url'
 import { action } from '../objects/action'
 
 export const landing = defineDocument({
@@ -20,15 +21,13 @@ export const landing = defineDocument({
       type: 'string',
       name: 'meta_title',
       label: 'Meta Title',
-      description:
-        'The meta title of the page (recommended length is 50–60 characters)',
+      description: 'The meta title of the page (recommended length is 50–60 characters)',
     },
     {
       type: 'string',
       name: 'meta_description',
       label: 'Meta Description',
-      description:
-        'The meta description of the page (recommended length is 50–160 characters)',
+      description: 'The meta description of the page (recommended length is 50–160 characters)',
     },
     {
       type: 'string',
@@ -51,7 +50,7 @@ export const landing = defineDocument({
       items: {
         type: 'object',
         labelField: 'title',
-        object: () => [section_content, section_cta],
+        object: () => [section_content, section_cta, section_hero, section_features],
         // models: [
         //   section_content,
         //   'section_cta',
@@ -66,6 +65,13 @@ export const landing = defineDocument({
       },
     },
   ],
+  computedFields: (defineField) => [
+    defineField({
+      name: 'urlPath',
+      type: 'string',
+      resolve: urlFromFilePath,
+    }),
+  ],
 })
 
 const sectionBaseFields = [
@@ -73,8 +79,7 @@ const sectionBaseFields = [
     type: 'string',
     name: 'section_id',
     label: 'Section ID',
-    description:
-      'A unique identifier of the section, must not contain whitespace',
+    description: 'A unique identifier of the section, must not contain whitespace',
   },
   {
     type: 'string',
@@ -82,10 +87,12 @@ const sectionBaseFields = [
     label: 'Title',
     description: 'The title of the section',
   },
+  // TODO move into SDK
   {
     type: 'string',
     name: 'type',
     label: 'Section type',
+    required: true,
     description: 'Needed for sourcebit for polymorphic list types',
   },
 ] as const
@@ -143,6 +150,105 @@ const section_cta = defineObject({
       name: 'subtitle',
       label: 'Subtitle',
       description: 'The subtitle of the section',
+    },
+    {
+      type: 'list',
+      name: 'actions',
+      label: 'Action Buttons',
+      items: { type: 'object', object: action },
+    },
+  ],
+})
+
+const section_hero = defineObject({
+  name: 'section_hero',
+  label: 'Hero Section',
+  labelField: 'title',
+  fields: [
+    ...sectionBaseFields,
+    {
+      type: 'markdown',
+      name: 'content',
+      label: 'Content',
+      description: 'The text content of the section',
+    },
+    {
+      type: 'image',
+      name: 'image',
+      label: 'Image',
+      description: 'The image of the section',
+    },
+    {
+      type: 'string',
+      name: 'image_alt',
+      label: 'Image Alt Text',
+      description: 'The alt text of the section image',
+    },
+    {
+      type: 'list',
+      name: 'actions',
+      label: 'Action Buttons',
+      items: { type: 'object', object: action },
+    },
+  ],
+})
+
+const section_features = defineObject({
+  name: 'section_features',
+  label: 'Features Section',
+  labelField: 'title',
+  fields: [
+    ...sectionBaseFields,
+    {
+      type: 'string',
+      name: 'subtitle',
+      label: 'Subtitle',
+      description: 'The subtitle of the section',
+    },
+    {
+      type: 'enum',
+      name: 'background',
+      label: 'Background',
+      description: 'The background of the section',
+      options: ['gray', 'white'],
+      default: 'gray',
+    },
+    {
+      type: 'list',
+      name: 'features',
+      label: 'Features',
+      items: { type: 'object', object: () => section_feature },
+    },
+  ],
+})
+
+const section_feature = defineObject({
+  name: 'section_feature',
+  label: 'Hero Section',
+  labelField: 'title',
+  fields: [
+    {
+      type: 'string',
+      name: 'title',
+      label: 'Title',
+    },
+    {
+      type: 'markdown',
+      name: 'content',
+      label: 'Content',
+      description: 'Feature description',
+    },
+    {
+      type: 'image',
+      name: 'image',
+      label: 'Image',
+      description: 'Feature image',
+    },
+    {
+      type: 'string',
+      name: 'image_alt',
+      label: 'Image Alt Text',
+      description: 'The alt text of the feature image',
     },
     {
       type: 'list',

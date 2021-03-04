@@ -1,26 +1,24 @@
-import React, { FC } from 'react'
+import { config, landing, section_content, section_cta, section_features, section_hero } from '@sourcebit/sdk/types'
 import _ from 'lodash'
-
+import React, { FC } from 'react'
 import components, { Layout } from '../components/index'
 
 const Landing: FC<{
-  doc: SourcebitGen['typeMap']['landing']
-  config: SourcebitGen['typeMap']['config']
-}> = ({ ...props }) => (
-  <Layout {...props}>
-    {props.doc.sections.map((section, section_idx) => {
-      const componentName = _.upperFirst(_.camelCase(section.type))
-      const Component = components[componentName]
-      return (
-        <Component
-          key={section_idx}
-          {...props}
-          section={section}
-          site={props}
-        />
-      )
+  doc: landing
+  config: config
+}> = ({ doc, config }) => (
+  <Layout doc={doc} config={config}>
+    {doc.sections?.map((section, section_idx) => {
+      const Component = getComponentBySection(section)
+      return <Component key={section_idx} section={section} />
     })}
   </Layout>
 )
 
 export default Landing
+
+type Section = section_hero | section_cta | section_content | section_features
+function getComponentBySection(section: Section): FC<{ section: Section }> {
+  const componentName = _.upperFirst(_.camelCase(section.type))
+  return (components as any)[componentName]
+}

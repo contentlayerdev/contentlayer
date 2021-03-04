@@ -1,4 +1,5 @@
 import { defineDocument } from '@sourcebit/sdk'
+import { urlFromFilePath } from '../../utils/url'
 import { person } from './person'
 
 export const post = defineDocument({
@@ -98,5 +99,12 @@ export const post = defineDocument({
       default: false,
       description: 'Tell search engines not to index this post',
     },
+  ],
+  computedFields: (defineField) => [
+    defineField({
+      name: 'urlPath',
+      type: 'string',
+      resolve: urlFromFilePath,
+    }),
   ],
 })

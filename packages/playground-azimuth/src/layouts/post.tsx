@@ -20,11 +20,11 @@ const Post: FC<{
           </header>
           {doc.image && (
             <div className="post-image">
-              <img src={withPrefix(doc.image)} alt={doc.image_alt} />
+              <img src={withPrefix(doc.image)} alt={doc.image_alt ?? ''} />
             </div>
           )}
           <div className="post-content">{markdownify(doc.__content)}</div>
-          <BlogPostFooter {...props} page={doc} date_type={'long'} />
+          <BlogPostFooter {...props} doc={doc} date_type={'long'} />
         </article>
       </div>
     </div>

@@ -1,14 +1,13 @@
-import React, { FC } from 'react'
-import _ from 'lodash'
 import { Document, guards } from '@sourcebit/sdk'
-
-import { Link, withPrefix, classNames } from '../utils'
+import { config } from '@sourcebit/sdk/types'
+import React, { FC } from 'react'
+import { classNames, Link, withPrefix } from '../utils'
 import Action from './Action'
 
 export const Header: FC<{
-  config: SourcebitGen['typeMap']['config']
+  config: config
   page: Document
-}> = ({ config, page, ...props }) => (
+}> = ({ config, page }) => (
   <header id="masthead" className="site-header outer">
     <div className="inner">
       <div className="site-header-inside">
@@ -16,14 +15,11 @@ export const Header: FC<{
           {config.header.logo_img && (
             <p className="site-logo">
               <Link href={withPrefix('/')}>
-                <img
-                  src={withPrefix(config.header.logo_img)}
-                  alt={config.header.logo_img_alt}
-                />
+                <img src={withPrefix(config.header.logo_img)} alt={config.header.logo_img_alt} />
               </Link>
             </p>
           )}
-          {guards.landing(page) || guards.post(page) ? (
+          {guards.is(['page', 'post'], page) ? (
             <h1
               className={classNames('site-title', {
                 'screen-reader-text': config.header.logo_img,
@@ -34,11 +30,7 @@ export const Header: FC<{
           ) : (
             <p
               className={classNames('site-title', {
-                'screen-reader-text': _.get(
-                  props,
-                  'data.config.header.logo_img',
-                  null,
-                ),
+                'screen-reader-text': config.header.logo_img,
               })}
             >
               <Link href={withPrefix('/')}>{config.title}</Link>
@@ -46,12 +38,8 @@ export const Header: FC<{
           )}
         </div>
         {config.header.nav_links && config.header.has_nav && (
-          <React.Fragment>
-            <nav
-              id="main-navigation"
-              className="site-navigation"
-              aria-label="Main Navigation"
-            >
+          <>
+            <nav id="main-navigation" className="site-navigation" aria-label="Main Navigation">
               <div className="site-nav-inside">
                 <button id="menu-close" className="menu-toggle">
                   <span className="screen-reader-text">Open Menu</span>
@@ -59,8 +47,8 @@ export const Header: FC<{
                 </button>
                 <ul className="menu">
                   {config.header.nav_links.map((action, action_idx) => {
-                    let page_url = _.trim('TODO URL path')
-                    let action_url = _.trim(action.url ?? '/')
+                    let page_url = 'TODO URL path'
+                    let action_url = action.url.trim() ?? '/'
                     let action_style = action.style ?? 'link'
                     return (
                       <li
@@ -70,7 +58,7 @@ export const Header: FC<{
                           'menu-button': action_style !== 'link',
                         })}
                       >
-                        <Action {...props} action={action} />
+                        <Action action={action} />
                       </li>
                     )
                   })}
@@ -81,7 +69,7 @@ export const Header: FC<{
               <span className="screen-reader-text">Close Menu</span>
               <span className="icon-menu" aria-hidden="true" />
             </button>
-          </React.Fragment>
+          </>
         )}
       </div>
     </div>

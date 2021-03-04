@@ -3,8 +3,13 @@
     "**/.yarn": true,
     "**/.pnp.*": true
   },
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+  },
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "prettier.singleQuote": true,
   "prettier.trailingComma": "all",
+  "prettier.printWidth": 120,
   "prettier.semi": false
 }

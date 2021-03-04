@@ -1,3 +1,4 @@
+import { ComputedField, ComputedFieldType } from './computed-field'
 import { Document } from './data'
 
 export type SchemaDef = {
@@ -7,8 +8,8 @@ export type SchemaDef = {
 }
 
 /** Top level model type */
-export type DocumentDef = {
-  name: string
+export type DocumentDef<Name extends string = string> = {
+  name: Name
   // type: ModelType
   /**  */
   label: string
@@ -17,6 +18,13 @@ export type DocumentDef = {
   labelField?: string
   fields: Field[] | Thunk<Field[]>
   // TODO file + URL matching
+  // computedFields?: ComputedField<any, Name>
+  // computedFields?:  <T extends ComputedFieldType>(_: ComputedField<T, Name>) => ComputedField<any, Name>
+  computedFields?: (
+    defineField: <T extends ComputedFieldType>(
+      cf: ComputedField<T, Name>,
+    ) => ComputedField<T, Name>,
+  ) => ComputedField<ComputedFieldType, Name>[]
   filePathPattern: string // | ((doc: Document) => string)
   /** Conditional extensions */
   extentions?:
@@ -186,6 +194,8 @@ type Thunk<T> = () => T
 
 export const defineObject = (_: ObjectDef): ObjectDef => _
 
-export const defineDocument = (_: DocumentDef): DocumentDef => _
+export const defineDocument = <N extends string>(
+  _: DocumentDef<N>,
+): DocumentDef => _
 
 export const defineSchema = (_: SchemaDef): SchemaDef => _
