@@ -6,8 +6,6 @@ import { form_field } from '../objects/form_field'
 export const landing = defineDocument({
   name: 'landing',
   label: 'Landing Page',
-  // layout: 'landing',
-  // hideContent: true,
   filePathPattern: 'content/pages/{contact,features,index,pricing}.md',
   urlPath: '/',
   fields: [

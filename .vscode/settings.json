@@ -1,6 +1,8 @@
 {
   "search.exclude": {
     "**/.yarn": true,
+    "**/.next": true,
+    "**/dist": true,
     "**/.pnp.*": true
   },
   "editor.formatOnSave": true,

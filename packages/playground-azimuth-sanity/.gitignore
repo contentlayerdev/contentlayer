@@ -1,0 +1,7 @@
+web/src/components
+web/src/layouts
+web/src/sass
+web/src/utils
+web/src/pages
+web/public
+web/next-env.d.ts

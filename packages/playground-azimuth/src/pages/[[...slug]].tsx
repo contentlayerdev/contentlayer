@@ -1,7 +1,3 @@
-// import _ from 'lodash'
-// import { sourcebitDataClient } from 'sourcebit-target-next'
-// import { withRemoteDataUpdates } from 'sourcebit-target-next/with-remote-data-updates'
-// import pageLayouts from '../layouts'
 import { guards, SourcebitClient } from '@sourcebit/sdk'
 import { InferGetStaticPropsType } from 'next'
 import React, { FC } from 'react'
@@ -16,12 +12,12 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = (props) => {
   const PageLayout = (pageLayouts as any)[componentName] as FC
   return (
     <SourcebitContext.Provider value={sourcebit}>
-      {' '}
       <PageLayout {...props} />
     </SourcebitContext.Provider>
   )
 }
 
+// export default withRemoteDataUpdates(Page)
 export default Page
 
 export const getStaticPaths = defineStaticPaths(async () => {
@@ -41,7 +37,8 @@ export const getStaticProps = defineStaticProps(async (context) => {
 
   const doc = docs
     .filter(guards.is(['post', 'landing', 'page', 'blog']))
-    .find((_) => _.__computed?.urlPath === pagePath)!
+    .find((_) => _.__computed.urlPath === pagePath)!
+
   const config = docs.find(guards.isType.config)!
 
   if (pagePath.startsWith('blog')) {
@@ -52,5 +49,3 @@ export const getStaticProps = defineStaticProps(async (context) => {
     return { props: { doc, config } }
   }
 })
-
-// export default withRemoteDataUpdates(Page)

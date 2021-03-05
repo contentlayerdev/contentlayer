@@ -1,4 +1,4 @@
-import { config, landing, section_content, section_cta, section_features, section_hero } from '@sourcebit/sdk/types'
+import { config, landing } from '@sourcebit/sdk/types'
 import _ from 'lodash'
 import React, { FC } from 'react'
 import components, { Layout } from '../components/index'
@@ -17,7 +17,8 @@ const Landing: FC<{
 
 export default Landing
 
-type Section = section_hero | section_cta | section_content | section_features
+// type Section = section_hero | section_cta | section_content | section_features
+type Section = any
 function getComponentBySection(section: Section): FC<{ section: Section }> {
   const componentName = _.upperFirst(_.camelCase(section.type))
   return (components as any)[componentName]

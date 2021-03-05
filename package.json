@@ -1,7 +1,8 @@
 {
   "private": true,
   "workspaces": [
-    "./packages/*"
+    "./packages/*",
+    "./packages/playground-azimuth-sanity/*"
   ],
   "devDependencies": {
     "typescript": "^4.1.5"

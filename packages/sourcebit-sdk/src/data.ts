@@ -34,10 +34,11 @@ declare global {
   interface SourcebitGen {}
 }
 
-export type Image = {
-  url: string
-  alt?: string
-}
+export type Image = string
+// export type Image = {
+//   url: string
+//   alt?: string
+// }
 
 export type DocumentType<Name extends keyof GetTypeMap> = GetType<Name>
 
