@@ -1,5 +1,4 @@
-import { config } from '@sourcebit/sdk/types'
-import _ from 'lodash'
+import { site_config } from '@sourcebit/sdk/types'
 import React, { FC } from 'react'
 import { htmlToReact } from '../utils'
 import ActionLink from './ActionLink'
@@ -13,10 +12,12 @@ const footerComponents = {
   footer_text: FooterText,
 }
 
-const Footer: FC<{ config: config }> = ({ config }) => {
+const Footer: FC<{ config: site_config }> = ({ config }) => {
+  console.log({ config })
+
   return (
     <footer id="colophon" className="site-footer">
-      {config.footer.sections && _.size(config.footer.sections) > 0 && (
+      {config.footer.sections && config.footer.sections.length > 0 && (
         <div className="footer-top outer">
           <div className="inner">
             <div className="grid footer-widgets">

@@ -1,7 +1,7 @@
 import NextLink from 'next/link'
-import React, { FC } from 'react'
+import React, { FC, HTMLProps } from 'react'
 
-const Link: FC<{ href: string | undefined }> = ({ children, href, ...props }) => {
+const Link: FC<HTMLProps<HTMLAnchorElement>> = ({ children, href, ...props }) => {
   // Pass Any internal link to Next.js Link, for anything else, use <a> tag
   const internal = /^\/(?!\/)/.test(href ?? '')
 

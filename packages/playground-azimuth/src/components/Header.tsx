@@ -1,11 +1,11 @@
 import { Document, guards } from '@sourcebit/sdk'
-import { config } from '@sourcebit/sdk/types'
+import { site_config } from '@sourcebit/sdk/types'
 import React, { FC } from 'react'
 import { classNames, Link, withPrefix } from '../utils'
 import Action from './Action'
 
 export const Header: FC<{
-  config: config
+  config: site_config
   page: Document
 }> = ({ config, page }) => (
   <header id="masthead" className="site-header outer">

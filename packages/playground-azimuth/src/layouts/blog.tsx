@@ -1,10 +1,10 @@
-import { blog, config, post } from '@sourcebit/sdk/types'
+import { blog, post, site_config } from '@sourcebit/sdk/types'
 import React, { FC } from 'react'
 import BlogPostFooter from '../components/BlogPostFooter'
 import { Layout } from '../components/index'
 import { Link, withPrefix } from '../utils'
 
-const Blog: FC<{ doc: blog; config: config; posts: post[] }> = ({ doc, config, posts }) => (
+const Blog: FC<{ doc: blog; config: site_config; posts: post[] }> = ({ doc, config, posts }) => (
   <Layout doc={doc} config={config}>
     <div className="outer">
       <div className="inner">

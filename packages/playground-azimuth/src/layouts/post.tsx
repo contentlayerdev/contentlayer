@@ -1,4 +1,4 @@
-import { config, post } from '@sourcebit/sdk/types'
+import { post, site_config } from '@sourcebit/sdk/types'
 import React, { FC } from 'react'
 import { Layout } from '../components'
 import BlogPostFooter from '../components/BlogPostFooter'
@@ -6,7 +6,7 @@ import { htmlToReact, markdownify, withPrefix } from '../utils'
 
 const Post: FC<{
   doc: post
-  config: config
+  config: site_config
 }> = ({ config, doc }) => (
   <Layout config={config} doc={doc}>
     <div className="outer">

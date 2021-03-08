@@ -162,8 +162,8 @@
         }
       },
       "__meta": {
-        "sourceFilePath": "content/data/site_config.json",
-        "typeName": "site_config"
+        "sourceFilePath": "content/data/config.json",
+        "typeName": "config"
       }
     },
     {

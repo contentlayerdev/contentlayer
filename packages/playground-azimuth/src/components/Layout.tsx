@@ -1,5 +1,5 @@
 import { Document, guards } from '@sourcebit/sdk'
-import { config } from '@sourcebit/sdk/types'
+import { site_config } from '@sourcebit/sdk/types'
 import _ from 'lodash'
 import React, { FC } from 'react'
 import { Helmet } from 'react-helmet'
@@ -9,7 +9,7 @@ import { Header } from './Header'
 
 const Layout: FC<{
   doc: Document
-  config: config
+  config: site_config
 }> = ({ doc, config, children, ...props }) => {
   const title = guards.hasField(doc, 'meta_title')
     ? doc.meta_title
@@ -52,7 +52,7 @@ const Layout: FC<{
           )
         )}
         {config.favicon && <link rel="icon" href={withPrefix(config.favicon)} />}
-        <body className={'palette-' + config.palette + ' font-' + config.base_font} />
+        <body className={`palette-${config.palette} font-${font}`} />
       </Helmet>
       <div id="page" className="site">
         <Header config={config} page={doc} {...props} />

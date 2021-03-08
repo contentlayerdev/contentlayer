@@ -2,10 +2,10 @@ import { defineDocument, defineObject } from '@sourcebit/sdk'
 import { action } from '../objects/action'
 import { form_field } from '../objects/form_field'
 
-export const config = defineDocument({
-  name: 'config',
+export const site_config = defineDocument({
+  name: 'site_config',
   label: 'Site Configuration',
-  filePathPattern: 'content/data/config.json',
+  filePathPattern: 'content/data/site_config.json',
   fields: [
     {
       type: 'string',

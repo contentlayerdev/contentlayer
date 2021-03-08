@@ -39,7 +39,7 @@ export const getStaticProps = defineStaticProps(async (context) => {
     .filter(guards.is(['post', 'landing', 'page', 'blog']))
     .find((_) => _.__computed.urlPath === pagePath)!
 
-  const config = docs.find(guards.isType.config)!
+  const config = docs.find(guards.is('site_config'))!
 
   if (pagePath.startsWith('blog')) {
     const posts = docs.filter(guards.is('post'))

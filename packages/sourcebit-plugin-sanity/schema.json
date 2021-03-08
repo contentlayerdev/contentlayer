@@ -1,0 +1,1685 @@
+[
+  {
+    "name": "color",
+    "type": "object",
+    "title": "Color",
+    "fields": [
+      {
+        "title": "Hex",
+        "name": "hex",
+        "type": "string"
+      },
+      {
+        "title": "Alpha",
+        "name": "alpha",
+        "type": "number"
+      },
+      {
+        "title": "Hue Saturation Lightness",
+        "name": "hsl",
+        "type": "hslaColor"
+      },
+      {
+        "title": "Hue Saturation Value",
+        "name": "hsv",
+        "type": "hsvaColor"
+      },
+      {
+        "title": "Red Green Blue (rgb)",
+        "name": "rgb",
+        "type": "rgbaColor"
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "hex",
+        "alpha": "alpha",
+        "hex": "hex",
+        "hsl": "hsl"
+      }
+    }
+  },
+  {
+    "title": "Red Green Blue (rgb)",
+    "name": "rgbaColor",
+    "type": "object",
+    "fields": [
+      {
+        "name": "r",
+        "type": "number",
+        "title": "Red"
+      },
+      {
+        "name": "g",
+        "type": "number",
+        "title": "Green"
+      },
+      {
+        "name": "b",
+        "type": "number",
+        "title": "Blue"
+      },
+      {
+        "name": "a",
+        "type": "number",
+        "title": "Alpha"
+      }
+    ]
+  },
+  {
+    "title": "Hue Saturation Value",
+    "name": "hsvaColor",
+    "type": "object",
+    "fields": [
+      {
+        "name": "h",
+        "type": "number",
+        "title": "Hue"
+      },
+      {
+        "name": "s",
+        "type": "number",
+        "title": "Saturation"
+      },
+      {
+        "name": "v",
+        "type": "number",
+        "title": "Value"
+      },
+      {
+        "name": "a",
+        "type": "number",
+        "title": "Alpha"
+      }
+    ]
+  },
+  {
+    "title": "Hue Saturation Lightness",
+    "name": "hslaColor",
+    "type": "object",
+    "fields": [
+      {
+        "name": "h",
+        "type": "number",
+        "title": "Hue"
+      },
+      {
+        "name": "s",
+        "type": "number",
+        "title": "Saturation"
+      },
+      {
+        "name": "l",
+        "type": "number",
+        "title": "Lightness"
+      },
+      {
+        "name": "a",
+        "type": "number",
+        "title": "Alpha"
+      }
+    ]
+  },
+  {
+    "name": "markdown",
+    "title": "Markdown",
+    "type": "string"
+  },
+  {
+    "title": "Landing Page",
+    "name": "landing",
+    "type": "document",
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    },
+    "fields": [
+      {
+        "type": "string",
+        "title": "Title",
+        "name": "title",
+        "description": "The title of the page"
+      },
+      {
+        "type": "slug",
+        "title": "Slug",
+        "name": "slug",
+        "description": "The URL path of this page relative to the site domain",
+        "options": {
+          "source": "title"
+        }
+      },
+      {
+        "type": "array",
+        "title": "Sections",
+        "name": "sections",
+        "description": "Page sections",
+        "of": [
+          {
+            "type": "section_cta"
+          },
+          {
+            "type": "section_contact"
+          },
+          {
+            "type": "section_content"
+          },
+          {
+            "type": "section_faq"
+          },
+          {
+            "type": "section_features"
+          },
+          {
+            "type": "section_hero"
+          },
+          {
+            "type": "section_posts"
+          },
+          {
+            "type": "section_pricing"
+          },
+          {
+            "type": "section_reviews"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Page",
+    "name": "page",
+    "type": "document",
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    },
+    "fields": [
+      {
+        "type": "string",
+        "title": "Title",
+        "name": "title",
+        "description": "The title of the page"
+      },
+      {
+        "type": "slug",
+        "title": "Slug",
+        "name": "slug",
+        "description": "The URL path of this page relative to the site domain",
+        "options": {
+          "source": "title"
+        }
+      },
+      {
+        "type": "text",
+        "title": "Subtitle",
+        "name": "subtitle",
+        "description": "The text shown below the page title"
+      },
+      {
+        "type": "image",
+        "title": "Image",
+        "name": "image",
+        "description": "The image shown below the page title"
+      },
+      {
+        "type": "markdown",
+        "title": "Content",
+        "name": "content",
+        "description": "Page content"
+      }
+    ]
+  },
+  {
+    "title": "Blog",
+    "name": "blog",
+    "type": "document",
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    },
+    "fields": [
+      {
+        "type": "string",
+        "title": "Title",
+        "name": "title",
+        "description": "The title of the page"
+      },
+      {
+        "type": "slug",
+        "title": "Slug",
+        "name": "slug",
+        "description": "The URL path of this page relative to the site domain",
+        "options": {
+          "source": "title"
+        }
+      }
+    ]
+  },
+  {
+    "title": "Post",
+    "name": "post",
+    "type": "document",
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    },
+    "fields": [
+      {
+        "type": "string",
+        "title": "Title",
+        "name": "title",
+        "description": "The title of the post"
+      },
+      {
+        "type": "slug",
+        "title": "Slug",
+        "name": "slug",
+        "description": "The URL path of this page relative to the site domain",
+        "options": {
+          "source": "title"
+        }
+      },
+      {
+        "type": "datetime",
+        "title": "Date",
+        "name": "date"
+      },
+      {
+        "type": "reference",
+        "title": "Author",
+        "name": "author",
+        "description": "The author of the post",
+        "to": [
+          {
+            "type": "person"
+          }
+        ]
+      },
+      {
+        "type": "array",
+        "title": "Categories",
+        "name": "categories",
+        "description": "Categories this blog relate to",
+        "of": [
+          {
+            "type": "reference",
+            "to": [
+              {
+                "type": "blog_category"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "title": "Subtitle",
+        "name": "subtitle",
+        "description": "The text shown just below the title or the featured image"
+      },
+      {
+        "type": "image",
+        "title": "Featured Image",
+        "name": "image",
+        "description": "The image shown below the title"
+      },
+      {
+        "type": "image",
+        "title": "Blog Feed Image",
+        "name": "thumb_image",
+        "description": "The image shown in the blog feed"
+      },
+      {
+        "type": "markdown",
+        "title": "Excerpt",
+        "name": "excerpt",
+        "description": "The excerpt of the post displayed in the blog feed"
+      },
+      {
+        "type": "markdown",
+        "title": "Content",
+        "name": "content",
+        "description": "Post content"
+      }
+    ]
+  },
+  {
+    "title": "Action",
+    "name": "action",
+    "type": "object",
+    "preview": {
+      "select": {
+        "title": "label"
+      }
+    },
+    "fields": [
+      {
+        "type": "string",
+        "title": "Label",
+        "name": "label"
+      },
+      {
+        "type": "url",
+        "title": "URL",
+        "name": "url"
+      },
+      {
+        "type": "boolean",
+        "title": "Primary",
+        "name": "primary",
+        "description": "Use primary color for this action"
+      },
+      {
+        "type": "boolean",
+        "title": "Open in new window",
+        "name": "new_window",
+        "description": "Should the link open a new tab"
+      }
+    ]
+  },
+  {
+    "title": "Person",
+    "name": "person",
+    "type": "document",
+    "preview": {
+      "select": {
+        "title": "first_name"
+      }
+    },
+    "fields": [
+      {
+        "type": "string",
+        "title": "First Name",
+        "name": "first_name"
+      },
+      {
+        "type": "string",
+        "title": "Last Name",
+        "name": "last_name"
+      },
+      {
+        "type": "image",
+        "title": "Photo",
+        "name": "photo",
+        "description": "The photo of the person"
+      },
+      {
+        "type": "markdown",
+        "title": "Bio",
+        "name": "bio"
+      }
+    ]
+  },
+  {
+    "title": "Blog Category",
+    "name": "blog_category",
+    "type": "document",
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    },
+    "fields": [
+      {
+        "type": "string",
+        "title": "Title",
+        "name": "title",
+        "description": "The title of the category"
+      },
+      {
+        "type": "slug",
+        "title": "Slug",
+        "name": "slug",
+        "description": "The slug of the category",
+        "options": {
+          "source": "title"
+        }
+      }
+    ]
+  },
+  {
+    "title": "Contact Section",
+    "name": "section_contact",
+    "type": "object",
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    },
+    "fields": [
+      {
+        "type": "string",
+        "title": "Element ID",
+        "name": "section_id",
+        "description": "Element ID can be used in links to scroll the page to this section when link clicked"
+      },
+      {
+        "type": "string",
+        "title": "Title",
+        "name": "title",
+        "description": "The title of this section"
+      },
+      {
+        "type": "text",
+        "title": "Subtitle",
+        "name": "subtitle",
+        "description": "The text shown below the title"
+      },
+      {
+        "type": "markdown",
+        "title": "Content",
+        "name": "content",
+        "description": "Section content, appears before contact form"
+      },
+      {
+        "type": "string",
+        "title": "Background",
+        "name": "background",
+        "description": "The background of the section",
+        "options": {
+          "list": [
+            "gray",
+            "white"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "title": "Content Section",
+    "name": "section_content",
+    "type": "object",
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    },
+    "fields": [
+      {
+        "type": "string",
+        "title": "Element ID",
+        "name": "section_id",
+        "description": "Element ID can be used in links to scroll the page to this section when link clicked"
+      },
+      {
+        "type": "string",
+        "title": "Title",
+        "name": "title",
+        "description": "The title of this section"
+      },
+      {
+        "type": "markdown",
+        "title": "Content",
+        "name": "content",
+        "description": "The text content of the section"
+      },
+      {
+        "type": "image",
+        "title": "Image",
+        "name": "image",
+        "description": "The image of the section"
+      },
+      {
+        "type": "string",
+        "title": "Background",
+        "name": "background",
+        "description": "The background of the section",
+        "options": {
+          "list": [
+            "gray",
+            "white"
+          ]
+        }
+      },
+      {
+        "type": "array",
+        "title": "Action Buttons",
+        "name": "actions",
+        "of": [
+          {
+            "type": "action"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Call to Action Section",
+    "name": "section_cta",
+    "type": "object",
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    },
+    "fields": [
+      {
+        "type": "string",
+        "title": "Element ID",
+        "name": "section_id",
+        "description": "Element ID can be used in links to scroll the page to this section when link clicked"
+      },
+      {
+        "type": "string",
+        "title": "Title",
+        "name": "title",
+        "description": "The title of this section"
+      },
+      {
+        "type": "text",
+        "title": "Subtitle",
+        "name": "subtitle",
+        "description": "The subtitle of this section"
+      },
+      {
+        "type": "array",
+        "title": "Action Buttons",
+        "name": "actions",
+        "of": [
+          {
+            "type": "action"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "FAQ Section",
+    "name": "section_faq",
+    "type": "object",
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    },
+    "fields": [
+      {
+        "type": "string",
+        "title": "Element ID",
+        "name": "section_id",
+        "description": "Element ID can be used in links to scroll the page to this section when link clicked"
+      },
+      {
+        "type": "string",
+        "title": "Title",
+        "name": "title",
+        "description": "The title of this section"
+      },
+      {
+        "type": "text",
+        "title": "Subtitle",
+        "name": "subtitle",
+        "description": "The subtitle of this section"
+      },
+      {
+        "type": "string",
+        "title": "Background",
+        "name": "background",
+        "description": "The background of the section",
+        "options": {
+          "list": [
+            "gray",
+            "white"
+          ]
+        }
+      },
+      {
+        "type": "array",
+        "title": "FAQ Items",
+        "name": "faq_items",
+        "of": [
+          {
+            "type": "faq_item"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "FAQ Item",
+    "name": "faq_item",
+    "type": "object",
+    "preview": {
+      "select": {
+        "title": "question"
+      }
+    },
+    "fields": [
+      {
+        "type": "text",
+        "title": "Question",
+        "name": "question"
+      },
+      {
+        "type": "markdown",
+        "title": "Answer",
+        "name": "answer"
+      }
+    ]
+  },
+  {
+    "title": "Features Section",
+    "name": "section_features",
+    "type": "object",
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    },
+    "fields": [
+      {
+        "type": "string",
+        "title": "Element ID",
+        "name": "section_id",
+        "description": "Element ID can be used in links to scroll the page to this section when link clicked"
+      },
+      {
+        "type": "string",
+        "title": "Title",
+        "name": "title",
+        "description": "The title of this section"
+      },
+      {
+        "type": "text",
+        "title": "Subtitle",
+        "name": "subtitle",
+        "description": "The subtitle of this section"
+      },
+      {
+        "type": "string",
+        "title": "Background",
+        "name": "background",
+        "description": "The background of the section",
+        "options": {
+          "list": [
+            "gray",
+            "white"
+          ]
+        }
+      },
+      {
+        "type": "array",
+        "title": "Features",
+        "name": "features",
+        "of": [
+          {
+            "type": "feature_item"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Feature Item",
+    "name": "feature_item",
+    "type": "object",
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    },
+    "fields": [
+      {
+        "type": "string",
+        "title": "Title",
+        "name": "title"
+      },
+      {
+        "type": "markdown",
+        "title": "Content",
+        "name": "content",
+        "description": "Feature description"
+      },
+      {
+        "type": "image",
+        "title": "Image",
+        "name": "image",
+        "description": "Feature image"
+      },
+      {
+        "type": "array",
+        "title": "Action Buttons",
+        "name": "actions",
+        "of": [
+          {
+            "type": "action"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Hero Section",
+    "name": "section_hero",
+    "type": "object",
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    },
+    "fields": [
+      {
+        "type": "string",
+        "title": "Element ID",
+        "name": "section_id",
+        "description": "Element ID can be used in links to scroll the page to this section when link clicked"
+      },
+      {
+        "type": "string",
+        "title": "Title",
+        "name": "title",
+        "description": "The title of this section"
+      },
+      {
+        "type": "markdown",
+        "title": "Content",
+        "name": "content",
+        "description": "The text content of the section"
+      },
+      {
+        "type": "image",
+        "title": "Image",
+        "name": "image",
+        "description": "The image of the section"
+      },
+      {
+        "type": "array",
+        "title": "Action Buttons",
+        "name": "actions",
+        "of": [
+          {
+            "type": "action"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Posts Section",
+    "name": "section_posts",
+    "type": "object",
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    },
+    "fields": [
+      {
+        "type": "string",
+        "title": "Element ID",
+        "name": "section_id",
+        "description": "Element ID can be used in links to scroll the page to this section when link clicked"
+      },
+      {
+        "type": "string",
+        "title": "Title",
+        "name": "title",
+        "description": "The title of this section"
+      },
+      {
+        "type": "text",
+        "title": "Subtitle",
+        "name": "subtitle",
+        "description": "The subtitle of this section"
+      },
+      {
+        "type": "string",
+        "title": "Background",
+        "name": "background",
+        "description": "The background of the section",
+        "options": {
+          "list": [
+            "gray",
+            "white"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "title": "Pricing Section",
+    "name": "section_pricing",
+    "type": "object",
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    },
+    "fields": [
+      {
+        "type": "string",
+        "title": "Element ID",
+        "name": "section_id",
+        "description": "Element ID can be used in links to scroll the page to this section when link clicked"
+      },
+      {
+        "type": "string",
+        "title": "Title",
+        "name": "title",
+        "description": "The title of this section"
+      },
+      {
+        "type": "text",
+        "title": "Subtitle",
+        "name": "subtitle",
+        "description": "The subtitle of this section"
+      },
+      {
+        "type": "string",
+        "title": "Background",
+        "name": "background",
+        "description": "The background of the section",
+        "options": {
+          "list": [
+            "gray",
+            "white"
+          ]
+        }
+      },
+      {
+        "type": "array",
+        "title": "Pricing Plans",
+        "name": "pricing_plans",
+        "of": [
+          {
+            "type": "pricing_plan"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Pricing Plan",
+    "name": "pricing_plan",
+    "type": "object",
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    },
+    "fields": [
+      {
+        "type": "string",
+        "title": "Title",
+        "name": "title"
+      },
+      {
+        "type": "string",
+        "title": "Price",
+        "name": "price"
+      },
+      {
+        "type": "markdown",
+        "title": "Details",
+        "name": "details"
+      },
+      {
+        "type": "boolean",
+        "title": "Highlight",
+        "name": "highlight",
+        "description": "Make the plan stand out by adding a distinctive style"
+      },
+      {
+        "type": "array",
+        "title": "Action Buttons",
+        "name": "actions",
+        "of": [
+          {
+            "type": "action"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Reviews Section",
+    "name": "section_reviews",
+    "type": "object",
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    },
+    "fields": [
+      {
+        "type": "string",
+        "title": "Element ID",
+        "name": "section_id",
+        "description": "Element ID can be used in links to scroll the page to this section when link clicked"
+      },
+      {
+        "type": "string",
+        "title": "Title",
+        "name": "title",
+        "description": "The title of this section"
+      },
+      {
+        "type": "text",
+        "title": "Subtitle",
+        "name": "subtitle",
+        "description": "The subtitle of this section"
+      },
+      {
+        "type": "string",
+        "title": "Background",
+        "name": "background",
+        "description": "The background of the section",
+        "options": {
+          "list": [
+            "gray",
+            "white"
+          ]
+        }
+      },
+      {
+        "type": "array",
+        "title": "Reviews",
+        "name": "reviews",
+        "of": [
+          {
+            "type": "review_item"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Review Item",
+    "name": "review_item",
+    "type": "object",
+    "preview": {
+      "select": {
+        "title": "author"
+      }
+    },
+    "fields": [
+      {
+        "type": "string",
+        "title": "Author",
+        "name": "author"
+      },
+      {
+        "type": "image",
+        "title": "Avatar",
+        "name": "avatar"
+      },
+      {
+        "type": "text",
+        "title": "Content",
+        "name": "content"
+      }
+    ]
+  },
+  {
+    "title": "Site Configuration",
+    "name": "site_config",
+    "type": "document",
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    },
+    "fields": [
+      {
+        "type": "string",
+        "title": "Title",
+        "name": "title",
+        "description": "Site title"
+      },
+      {
+        "type": "string",
+        "title": "Color Palette",
+        "name": "palette",
+        "description": "The color palette of the site",
+        "options": {
+          "list": [
+            "blue",
+            "purple",
+            "green",
+            "orange"
+          ]
+        }
+      },
+      {
+        "type": "header",
+        "title": "Header Configuration",
+        "name": "header"
+      },
+      {
+        "type": "footer",
+        "title": "Footer Configuration",
+        "name": "footer"
+      }
+    ]
+  },
+  {
+    "title": "Header Configuration",
+    "name": "header",
+    "type": "object",
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    },
+    "fields": [
+      {
+        "type": "string",
+        "title": "Header Title",
+        "name": "title",
+        "description": "The title displayed in the header if logo image not specified"
+      },
+      {
+        "type": "image",
+        "title": "Logo",
+        "name": "logo_img",
+        "description": "The logo image displayed in the header"
+      },
+      {
+        "type": "boolean",
+        "title": "Enable Navigation Menu",
+        "name": "has_nav",
+        "description": "Display the navigation menu bar in the header"
+      },
+      {
+        "type": "array",
+        "title": "Navigation Menu Links",
+        "name": "nav_links",
+        "description": "List of navigation links in header",
+        "of": [
+          {
+            "type": "action"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Footer Configuration",
+    "name": "footer",
+    "type": "object",
+    "preview": {
+      "select": {
+        "title": "tagline"
+      }
+    },
+    "fields": [
+      {
+        "type": "image",
+        "title": "Logo",
+        "name": "logo_img",
+        "description": "The logo image displayed in the footer"
+      },
+      {
+        "type": "string",
+        "title": "Footer Tagline",
+        "name": "tagline",
+        "description": "The tagline displayed in the footer"
+      },
+      {
+        "type": "boolean",
+        "title": "Enable Navigation Menu",
+        "name": "has_nav",
+        "description": "Display the secondary navigation menu in the footer"
+      },
+      {
+        "type": "string",
+        "title": "Menu Title",
+        "name": "nav_title",
+        "description": "The title of the secondary menu displayed in the footer"
+      },
+      {
+        "type": "array",
+        "title": "Navigation Menu Links",
+        "name": "nav_links",
+        "description": "List of navigation links in footer",
+        "of": [
+          {
+            "type": "action"
+          }
+        ]
+      },
+      {
+        "type": "boolean",
+        "title": "Enable Social Links",
+        "name": "has_social",
+        "description": "Display social links in the footer"
+      },
+      {
+        "type": "string",
+        "title": "Social Links Title",
+        "name": "social_title",
+        "description": "The title of the social links list displayed in the footer"
+      },
+      {
+        "type": "array",
+        "title": "Social Links",
+        "name": "social_links",
+        "description": "List of social links displayed in the footer",
+        "of": [
+          {
+            "type": "action"
+          }
+        ]
+      },
+      {
+        "type": "boolean",
+        "title": "Enable Subscribe",
+        "name": "has_subscribe",
+        "description": "Display the newsletter subscription form in the footer"
+      },
+      {
+        "type": "string",
+        "title": "Subscribe Title",
+        "name": "subscribe_title",
+        "description": "The title of the subscribe block displayed in the footer"
+      },
+      {
+        "type": "string",
+        "title": "Subscribe Content",
+        "name": "subscribe_content",
+        "description": "The text content in the subscribe block displayed in the footer"
+      },
+      {
+        "type": "string",
+        "title": "Footer Content",
+        "name": "content",
+        "description": "The copyright text displayed in the footer"
+      },
+      {
+        "type": "array",
+        "title": "Links",
+        "name": "links",
+        "of": [
+          {
+            "type": "action"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "sanity.assetSourceData",
+    "title": "Asset Source Data",
+    "type": "object",
+    "fields": [
+      {
+        "name": "name",
+        "title": "Source name",
+        "description": "A canonical name for the source this asset is originating from",
+        "type": "string"
+      },
+      {
+        "name": "id",
+        "title": "Asset Source ID",
+        "description": "The unique ID for the asset within the originating source so you can programatically find back to it",
+        "type": "string"
+      },
+      {
+        "name": "url",
+        "title": "Asset information URL",
+        "description": "A URL to find more information about this asset in the originating source",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "title": "Slug",
+    "name": "slug",
+    "type": "object",
+    "fields": [
+      {
+        "name": "current",
+        "title": "Current slug",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "title": "Geographical Point",
+    "name": "geopoint",
+    "type": "object",
+    "fields": [
+      {
+        "name": "lat",
+        "type": "number",
+        "title": "Latitude"
+      },
+      {
+        "name": "lng",
+        "type": "number",
+        "title": "Longitude"
+      },
+      {
+        "name": "alt",
+        "type": "number",
+        "title": "Altitude"
+      }
+    ]
+  },
+  {
+    "name": "sanity.imageAsset",
+    "title": "Image",
+    "type": "document",
+    "fieldsets": [
+      {
+        "name": "system",
+        "title": "System fields",
+        "description": "These fields are managed by the system and not editable"
+      }
+    ],
+    "fields": [
+      {
+        "name": "originalFilename",
+        "type": "string",
+        "title": "Original file name",
+        "readOnly": true
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "title": "Label"
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "title": "Title"
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "title": "Description"
+      },
+      {
+        "name": "sha1hash",
+        "type": "string",
+        "title": "SHA1 hash",
+        "readOnly": true,
+        "fieldset": "system"
+      },
+      {
+        "name": "extension",
+        "type": "string",
+        "readOnly": true,
+        "title": "File extension",
+        "fieldset": "system"
+      },
+      {
+        "name": "mimeType",
+        "type": "string",
+        "readOnly": true,
+        "title": "Mime type",
+        "fieldset": "system"
+      },
+      {
+        "name": "size",
+        "type": "number",
+        "title": "File size in bytes",
+        "readOnly": true,
+        "fieldset": "system"
+      },
+      {
+        "name": "assetId",
+        "type": "string",
+        "title": "Asset ID",
+        "readOnly": true,
+        "fieldset": "system"
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "title": "Path",
+        "readOnly": true,
+        "fieldset": "system"
+      },
+      {
+        "name": "url",
+        "type": "string",
+        "title": "Url",
+        "readOnly": true,
+        "fieldset": "system"
+      },
+      {
+        "name": "metadata",
+        "type": "sanity.imageMetadata",
+        "title": "Metadata"
+      },
+      {
+        "name": "source",
+        "type": "sanity.assetSourceData",
+        "title": "Source",
+        "readOnly": true,
+        "fieldset": "system"
+      }
+    ],
+    "preview": {
+      "select": {
+        "id": "_id",
+        "title": "originalFilename",
+        "mimeType": "mimeType",
+        "size": "size"
+      }
+    },
+    "orderings": [
+      {
+        "title": "File size",
+        "name": "fileSizeDesc",
+        "by": [
+          {
+            "field": "size",
+            "direction": "desc"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "sanity.fileAsset",
+    "title": "File",
+    "type": "document",
+    "fieldsets": [
+      {
+        "name": "system",
+        "title": "System fields",
+        "description": "These fields are managed by the system and not editable"
+      }
+    ],
+    "fields": [
+      {
+        "name": "originalFilename",
+        "type": "string",
+        "title": "Original file name",
+        "readOnly": true
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "title": "Label"
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "title": "Title"
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "title": "Description"
+      },
+      {
+        "name": "sha1hash",
+        "type": "string",
+        "title": "SHA1 hash",
+        "readOnly": true,
+        "fieldset": "system"
+      },
+      {
+        "name": "extension",
+        "type": "string",
+        "title": "File extension",
+        "readOnly": true,
+        "fieldset": "system"
+      },
+      {
+        "name": "mimeType",
+        "type": "string",
+        "title": "Mime type",
+        "readOnly": true,
+        "fieldset": "system"
+      },
+      {
+        "name": "size",
+        "type": "number",
+        "title": "File size in bytes",
+        "readOnly": true,
+        "fieldset": "system"
+      },
+      {
+        "name": "assetId",
+        "type": "string",
+        "title": "Asset ID",
+        "readOnly": true,
+        "fieldset": "system"
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "title": "Path",
+        "readOnly": true,
+        "fieldset": "system"
+      },
+      {
+        "name": "url",
+        "type": "string",
+        "title": "Url",
+        "readOnly": true,
+        "fieldset": "system"
+      },
+      {
+        "name": "source",
+        "type": "sanity.assetSourceData",
+        "title": "Source",
+        "readOnly": true,
+        "fieldset": "system"
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "originalFilename",
+        "path": "path",
+        "mimeType": "mimeType",
+        "size": "size"
+      }
+    },
+    "orderings": [
+      {
+        "title": "File size",
+        "name": "fileSizeDesc",
+        "by": [
+          {
+            "field": "size",
+            "direction": "desc"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "sanity.imageCrop",
+    "title": "Image crop",
+    "type": "object",
+    "fields": [
+      {
+        "name": "top",
+        "type": "number"
+      },
+      {
+        "name": "bottom",
+        "type": "number"
+      },
+      {
+        "name": "left",
+        "type": "number"
+      },
+      {
+        "name": "right",
+        "type": "number"
+      }
+    ]
+  },
+  {
+    "name": "sanity.imageHotspot",
+    "title": "Image hotspot",
+    "type": "object",
+    "fields": [
+      {
+        "name": "x",
+        "type": "number"
+      },
+      {
+        "name": "y",
+        "type": "number"
+      },
+      {
+        "name": "height",
+        "type": "number"
+      },
+      {
+        "name": "width",
+        "type": "number"
+      }
+    ]
+  },
+  {
+    "name": "sanity.imageMetadata",
+    "title": "Image metadata",
+    "type": "object",
+    "fieldsets": [
+      {
+        "name": "extra",
+        "title": "Extra metadata…",
+        "options": {
+          "collapsable": true
+        }
+      }
+    ],
+    "fields": [
+      {
+        "name": "location",
+        "type": "geopoint"
+      },
+      {
+        "name": "dimensions",
+        "title": "Dimensions",
+        "type": "sanity.imageDimensions",
+        "fieldset": "extra"
+      },
+      {
+        "name": "palette",
+        "type": "sanity.imagePalette",
+        "title": "Palette",
+        "fieldset": "extra"
+      },
+      {
+        "name": "lqip",
+        "title": "LQIP (Low-Quality Image Placeholder)",
+        "type": "string",
+        "readOnly": true
+      },
+      {
+        "name": "hasAlpha",
+        "title": "Has alpha channel",
+        "type": "boolean",
+        "readOnly": true
+      },
+      {
+        "name": "isOpaque",
+        "title": "Is opaque",
+        "type": "boolean",
+        "readOnly": true
+      }
+    ]
+  },
+  {
+    "name": "sanity.imageDimensions",
+    "type": "object",
+    "title": "Image dimensions",
+    "fields": [
+      {
+        "name": "height",
+        "type": "number",
+        "title": "Height",
+        "readOnly": true
+      },
+      {
+        "name": "width",
+        "type": "number",
+        "title": "Width",
+        "readOnly": true
+      },
+      {
+        "name": "aspectRatio",
+        "type": "number",
+        "title": "Aspect ratio",
+        "readOnly": true
+      }
+    ]
+  },
+  {
+    "name": "sanity.imagePalette",
+    "title": "Image palette",
+    "type": "object",
+    "fields": [
+      {
+        "name": "darkMuted",
+        "type": "sanity.imagePaletteSwatch",
+        "title": "Dark Muted"
+      },
+      {
+        "name": "lightVibrant",
+        "type": "sanity.imagePaletteSwatch",
+        "title": "Light Vibrant"
+      },
+      {
+        "name": "darkVibrant",
+        "type": "sanity.imagePaletteSwatch",
+        "title": "Dark Vibrant"
+      },
+      {
+        "name": "vibrant",
+        "type": "sanity.imagePaletteSwatch",
+        "title": "Vibrant"
+      },
+      {
+        "name": "dominant",
+        "type": "sanity.imagePaletteSwatch",
+        "title": "Dominant"
+      },
+      {
+        "name": "lightMuted",
+        "type": "sanity.imagePaletteSwatch",
+        "title": "Light Muted"
+      },
+      {
+        "name": "muted",
+        "type": "sanity.imagePaletteSwatch",
+        "title": "Muted"
+      }
+    ]
+  },
+  {
+    "name": "sanity.imagePaletteSwatch",
+    "title": "Image palette swatch",
+    "type": "object",
+    "fields": [
+      {
+        "name": "background",
+        "type": "string",
+        "title": "Background",
+        "readOnly": true
+      },
+      {
+        "name": "foreground",
+        "type": "string",
+        "title": "Foreground",
+        "readOnly": true
+      },
+      {
+        "name": "population",
+        "type": "number",
+        "title": "Population",
+        "readOnly": true
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "title": "String",
+        "readOnly": true
+      }
+    ]
+  }
+]

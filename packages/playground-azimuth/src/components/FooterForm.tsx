@@ -35,7 +35,7 @@ const FooterForm: FC<{ section: footer_form }> = ({ section }) => (
         name="form-name"
         value={section.form_id}
       />
-      {section.form_fields.map((field, field_idx) => (
+      {section.form_fields?.map((field, field_idx) => (
         <div key={field_idx} className="form-row">
           <FormField field={field} section={section} />
         </div>

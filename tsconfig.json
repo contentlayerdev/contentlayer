@@ -13,7 +13,8 @@
     "strict": true,
     "target": "ES2020",
     "paths": {
-      "@sourcebit/sdk": ["./packages/sourcebot-sdk/src"]
+      "@sourcebit/sdk": ["./packages/sourcebot-sdk/src"],
+      "@sourcebit/plugin-sanity": ["./packages/sourcebot-plugin-sanity/src"]
     }
   }
 }

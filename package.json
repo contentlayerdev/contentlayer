@@ -5,6 +5,7 @@
     "./packages/playground-azimuth-sanity/*"
   ],
   "devDependencies": {
+    "ts-node": "^9.1.1",
     "typescript": "^4.1.5"
   }
 }
