@@ -1,4 +1,4 @@
-import { defineDocument, defineObject } from '@sourcebit/sdk'
+import { defineDocument, defineObject } from '@sourcebit/source-local'
 import { urlFromFilePath } from '../../utils/url'
 import { action } from '../objects/action'
 import { form_field } from '../objects/form_field'
@@ -7,7 +7,6 @@ export const landing = defineDocument({
   name: 'landing',
   label: 'Landing Page',
   filePathPattern: 'content/pages/{contact,features,index,pricing}.md',
-  urlPath: '/',
   fields: [
     {
       type: 'string',

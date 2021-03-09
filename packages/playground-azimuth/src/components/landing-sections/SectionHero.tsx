@@ -1,5 +1,5 @@
-import { guards } from '@sourcebit/sdk'
-import { section_hero } from '@sourcebit/sdk/types'
+import { guards } from '@sourcebit/client'
+import { section_hero } from '@sourcebit/types'
 import React, { FC } from 'react'
 import { markdownify, withPrefix } from '../../utils'
 import CtaButtons from './CtaButtons'

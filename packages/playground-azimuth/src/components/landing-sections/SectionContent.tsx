@@ -1,4 +1,4 @@
-import { section_content } from '@sourcebit/sdk/types'
+import { section_content } from '@sourcebit/types'
 import React, { FC } from 'react'
 import { markdownify, withPrefix } from '../../utils'
 import CtaButtons from './CtaButtons'

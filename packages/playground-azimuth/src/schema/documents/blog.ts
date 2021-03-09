@@ -1,4 +1,4 @@
-import { defineDocument } from '@sourcebit/sdk'
+import { defineDocument } from '@sourcebit/source-local'
 import { urlFromFilePath } from '../../utils/url'
 // import { sluggify } from '../../../../lib/utils'
 

@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@sourcebit/cli": "workspace:*",
-    "@sourcebit/sdk": "workspace:*",
+    "@sourcebit/client": "workspace:*",
     "date-fns": "^2.18.0",
     "marked": "^2.0.1",
     "next": "^10.0.5",

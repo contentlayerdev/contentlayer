@@ -1,4 +1,4 @@
-import { footer_text } from '@sourcebit/sdk/types'
+import { footer_text } from '@sourcebit/types'
 import React, { FC } from 'react'
 import { Link, markdownify, withPrefix } from '../utils'
 

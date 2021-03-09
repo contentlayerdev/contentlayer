@@ -1,4 +1,4 @@
-import { footer_form } from '@sourcebit/sdk/types'
+import { footer_form } from '@sourcebit/types'
 import React, { FC } from 'react'
 import { markdownify } from '../utils'
 import FormField from './FormField'

@@ -1,4 +1,4 @@
-import { section_faq } from '@sourcebit/sdk/types'
+import { section_faq } from '@sourcebit/types'
 import React, { FC } from 'react'
 import { htmlToReact, markdownify } from '../../utils'
 

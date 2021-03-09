@@ -1,4 +1,4 @@
-import { defineDocument, defineObject } from '@sourcebit/sdk'
+import { defineDocument, defineObject } from '@sourcebit/source-local'
 import { action } from '../objects/action'
 import { form_field } from '../objects/form_field'
 

@@ -1,8 +1,8 @@
-import { guards, SourcebitClient } from '@sourcebit/sdk'
+import { guards, SourcebitClient } from '@sourcebit/client'
 import { InferGetStaticPropsType } from 'next'
 import React, { FC } from 'react'
 import pageLayouts from '../layouts'
-import { defineStaticPaths, defineStaticProps, SourcebitContext, toParams } from '../utils/next'
+import { defineStaticPaths, defineStaticProps, SourcebitContext, toParams, useContentLiveReload } from '../utils/next'
 
 const cache = require('../sourcebit.json')
 const sourcebit = new SourcebitClient({ cache })
@@ -10,6 +10,9 @@ const sourcebit = new SourcebitClient({ cache })
 const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = (props) => {
   const componentName = props.doc!.__meta.typeName
   const PageLayout = (pageLayouts as any)[componentName] as FC
+  if (process.env.NODE_ENV === 'development') {
+    useContentLiveReload()
+  }
   return (
     <SourcebitContext.Provider value={sourcebit}>
       <PageLayout {...props} />

@@ -1,4 +1,4 @@
-import { section_pricing } from '@sourcebit/sdk/types'
+import { section_pricing } from '@sourcebit/types'
 import React, { FC } from 'react'
 import { classNames, htmlToReact, markdownify } from '../../utils'
 import CtaButtons from './CtaButtons'

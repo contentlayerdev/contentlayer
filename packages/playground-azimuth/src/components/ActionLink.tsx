@@ -1,4 +1,4 @@
-import { action } from '@sourcebit/sdk/types'
+import { action } from '@sourcebit/types'
 import React, { FC } from 'react'
 import { Link, withPrefix } from '../utils'
 

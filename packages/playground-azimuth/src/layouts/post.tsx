@@ -1,4 +1,4 @@
-import { post, site_config } from '@sourcebit/sdk/types'
+import { post, site_config } from '@sourcebit/types'
 import React, { FC } from 'react'
 import { Layout } from '../components'
 import BlogPostFooter from '../components/BlogPostFooter'

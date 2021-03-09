@@ -1,4 +1,4 @@
-import { section_cta } from '@sourcebit/sdk/types'
+import { section_cta } from '@sourcebit/types'
 import React, { FC } from 'react'
 import { htmlToReact } from '../../utils'
 import CtaButtons from './CtaButtons'

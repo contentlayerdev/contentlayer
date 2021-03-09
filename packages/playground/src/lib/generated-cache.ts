@@ -1,6 +1,6 @@
 // generated via `$ sourcebit fetch`
 
-import { Cache } from '@sourcebit/sdk'
+import { Cache } from '@sourcebit/core'
 
 // NOTE either in-memory or as a file for Next.js
 export const cache: Cache = {

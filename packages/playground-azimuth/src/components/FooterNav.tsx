@@ -1,4 +1,4 @@
-import { footer_nav } from '@sourcebit/sdk/types'
+import { footer_nav } from '@sourcebit/types'
 import React, { FC } from 'react'
 import Action from './Action'
 

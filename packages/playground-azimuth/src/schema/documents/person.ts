@@ -1,4 +1,4 @@
-import { defineDocument } from '@sourcebit/sdk'
+import { defineDocument } from '@sourcebit/source-local'
 
 export const person = defineDocument({
   name: 'person',

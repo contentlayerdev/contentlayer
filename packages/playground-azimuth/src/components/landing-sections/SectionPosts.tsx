@@ -1,4 +1,4 @@
-import { section_posts } from '@sourcebit/sdk/types'
+import { section_posts } from '@sourcebit/types'
 import React, { FC } from 'react'
 import { htmlToReact, Link, withPrefix } from '../../utils'
 import { useSourcebit } from '../../utils/next'

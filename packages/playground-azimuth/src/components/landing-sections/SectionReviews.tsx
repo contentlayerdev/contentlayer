@@ -1,4 +1,4 @@
-import { section_reviews } from '@sourcebit/sdk/types'
+import { section_reviews } from '@sourcebit/types'
 import React, { FC } from 'react'
 import { htmlToReact, withPrefix } from '../../utils'
 

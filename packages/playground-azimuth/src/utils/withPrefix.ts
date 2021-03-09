@@ -1,4 +1,4 @@
-import { Image } from '@sourcebit/sdk'
+import { Image } from '@sourcebit/core'
 import _ from 'lodash'
 
 export default function withPrefix(url: Image | undefined, pathPrefix: string = '/'): string | undefined {

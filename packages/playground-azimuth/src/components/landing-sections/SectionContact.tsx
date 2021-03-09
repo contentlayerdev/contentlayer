@@ -1,4 +1,4 @@
-import { section_contact } from '@sourcebit/sdk/types'
+import { section_contact } from '@sourcebit/types'
 import _ from 'lodash'
 import React, { FC } from 'react'
 import { htmlToReact, markdownify } from '../../utils'

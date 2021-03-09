@@ -1,4 +1,5 @@
 {
+  "hash": "yqffdOFJEUQKw1gVV/eVrg4Vvqg=",
   "documents": [
     {
       "first_name": "Jane",
@@ -471,7 +472,7 @@
           "type": "section_hero",
           "image": "images/hero.png",
           "image_alt": "App preview",
-          "title": "This Is another Headline 5",
+          "title": "This is another Headline",
           "content": "Azimuth is the perfect theme for developers, designers and entrepreneurs who need a sleek, modern SaaS site.",
           "actions": [
             {

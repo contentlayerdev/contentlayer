@@ -1,4 +1,4 @@
-import { defineObject } from '@sourcebit/sdk'
+import { defineObject } from '@sourcebit/source-local'
 
 export const form_field = defineObject({
   name: 'form_field',
@@ -9,15 +9,7 @@ export const form_field = defineObject({
       type: 'enum',
       name: 'input_type',
       label: 'Type',
-      options: [
-        'text',
-        'textarea',
-        'email',
-        'tel',
-        'number',
-        'checkbox',
-        'select',
-      ],
+      options: ['text', 'textarea', 'email', 'tel', 'number', 'checkbox', 'select'],
       description: 'Type of the form field',
       required: true,
     },
@@ -38,8 +30,7 @@ export const form_field = defineObject({
       type: 'string',
       name: 'default_value',
       label: 'Placeholder text or default value',
-      description:
-        'The placeholder for textual field types or default option for select field',
+      description: 'The placeholder for textual field types or default option for select field',
     },
     {
       type: 'list',

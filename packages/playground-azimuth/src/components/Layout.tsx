@@ -1,5 +1,5 @@
-import { Document, guards } from '@sourcebit/sdk'
-import { site_config } from '@sourcebit/sdk/types'
+import { guards } from '@sourcebit/client'
+import { blog, landing, page, post, site_config } from '@sourcebit/types'
 import _ from 'lodash'
 import React, { FC } from 'react'
 import { Helmet } from 'react-helmet'
@@ -8,19 +8,15 @@ import Footer from './Footer'
 import { Header } from './Header'
 
 const Layout: FC<{
-  doc: Document
+  doc: blog | page | landing | post
   config: site_config
 }> = ({ doc, config, children, ...props }) => {
-  const title = guards.hasField(doc, 'meta_title')
-    ? doc.meta_title
-    : `${guards.hasField(doc, 'title') ? doc.title : 'blank title'} | ${config.title}`
-
   const font = config.base_font ?? 'nunito-sans'
 
   return (
     <React.Fragment>
       <Helmet>
-        <title>{title}</title>
+        <title>{doc.meta_title}</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initialScale=1.0" />
         <meta name="google" content="notranslate" />

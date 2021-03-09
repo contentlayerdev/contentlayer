@@ -1,4 +1,4 @@
-import { page, site_config } from '@sourcebit/sdk/types'
+import { page, site_config } from '@sourcebit/types'
 import React, { FC } from 'react'
 import { Layout } from '../components/index'
 import { htmlToReact, markdownify, withPrefix } from '../utils'

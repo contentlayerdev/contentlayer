@@ -11,6 +11,6 @@
     "resolveJsonModule": true
   },
   "include": ["./src", "./src/**/*.json", "./node_modules/@types"],
-  "references": [{ "path": "../sourcebit-sdk" }],
+  "references": [{ "path": "../@sourcebit/client" }, { "path": "../@sourcebit/source-local" }],
   "exclude": ["node_modules"]
 }

@@ -1,4 +1,4 @@
-import { defineObject } from '@sourcebit/sdk'
+import { defineObject } from '@sourcebit/source-local'
 
 export const action = defineObject({
   name: 'action',

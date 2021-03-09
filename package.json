@@ -1,6 +1,7 @@
 {
   "private": true,
   "workspaces": [
+    "./packages/@sourcebit/*",
     "./packages/*",
     "./packages/playground-azimuth-sanity/*"
   ],

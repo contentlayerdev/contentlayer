@@ -1,0 +1,13 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    // Needed for @sanity/image-url
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2015",
+    "rootDir": "./src",
+    "outDir": "./dist"
+  },
+  "include": ["./src"],
+  "references": [{ "path": "../core" }]
+}

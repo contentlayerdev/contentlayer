@@ -1,0 +1,30 @@
+{
+  "name": "@sourcebit/cli",
+  "bin": {
+    "sourcebit": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "esbuild --bundle src/cli.ts --outfile=dist/cli.js --platform=node --sourcemap && echo CLI build complete",
+    "dev": "esbuild --bundle src/cli.ts --outfile=dist/cli.js --platform=node --sourcemap --watch"
+  },
+  "dependencies": {
+    "@sourcebit/core": "workspace:*",
+    "arg": "^5.0.0",
+    "chokidar": "^3.5.1",
+    "clipanion": "^3.0.0-rc.10",
+    "esbuild": "^0.8.57",
+    "eval": "^0.1.4",
+    "glob": "^7.1.6",
+    "glob-promise": "^4.0.1",
+    "gray-matter": "^4.0.2",
+    "js-yaml": "^4.0.0",
+    "minimatch": "^3.0.4",
+    "ts-pattern": "^2.1.2",
+    "typanion": "^3.3.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4",
+    "@types/minimatch": "^3",
+    "@types/node": "^14.14.22"
+  }
+}

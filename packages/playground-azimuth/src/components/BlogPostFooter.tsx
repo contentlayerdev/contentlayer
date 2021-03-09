@@ -1,5 +1,5 @@
 // @ts-check
-import { post } from '@sourcebit/sdk/types'
+import { post } from '@sourcebit/types'
 // import moment from 'moment-strftime'
 // import { format} from 'date-fns'
 import React, { FC } from 'react'

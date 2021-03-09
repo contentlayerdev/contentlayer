@@ -3,12 +3,14 @@
   "scripts": {
     "dev": "next",
     "build": "yarn generate && yarn fetch && next build",
-    "generate": "ESBUILD_BINARY_PATH=$(which esbuild) sourcebit generate --schema ./src/schema/index.ts",
-    "fetch": "ESBUILD_BINARY_PATH=$(which esbuild) sourcebit fetch --schema ./src/schema/index.ts --content 'content/**/*.{md,json,yaml}' --cache ./src/sourcebit.json"
+    "generate": "ESBUILD_BINARY_PATH=$(which esbuild) sourcebit generate --config ./src/schema/sourcebit.ts",
+    "fetch": "ESBUILD_BINARY_PATH=$(which esbuild) sourcebit fetch --config ./src/schema/sourcebit.ts"
   },
   "dependencies": {
     "@sourcebit/cli": "workspace:*",
-    "@sourcebit/sdk": "workspace:*",
+    "@sourcebit/client": "workspace:*",
+    "@sourcebit/source-local": "workspace:*",
+    "@sourcebit/types": "workspace:*",
     "date-fns": "^2.18.0",
     "marked": "^2.0.1",
     "next": "^10.0.5",

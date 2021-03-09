@@ -1,4 +1,4 @@
-import { landing, site_config } from '@sourcebit/sdk/types'
+import { landing, site_config } from '@sourcebit/types'
 import _ from 'lodash'
 import React, { FC } from 'react'
 import components, { Layout } from '../components/index'

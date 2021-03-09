@@ -1,13 +1,10 @@
-import { defineDocument } from '@sourcebit/sdk'
+import { defineDocument } from '@sourcebit/source-local'
 import { urlFromFilePath } from '../../utils/url'
 
 export const page = defineDocument({
   name: 'page',
   label: 'Page',
-  // layout: 'page',
-  // exclude: 'blog/**',
-  filePathPattern:
-    'content/pages/{about,privacy-policy,signup,style-guide,terms-of-service}.md',
+  filePathPattern: 'content/pages/{about,privacy-policy,signup,style-guide,terms-of-service}.md',
   fields: [
     {
       type: 'string',
@@ -38,15 +35,13 @@ export const page = defineDocument({
       type: 'string',
       name: 'meta_title',
       label: 'Meta title',
-      description:
-        'The meta title of the page (recommended length is 50–60 characters)',
+      description: 'The meta title of the page (recommended length is 50–60 characters)',
     },
     {
       type: 'string',
       name: 'meta_description',
       label: 'Meta description',
-      description:
-        'The meta description of the page (recommended length is 50–160 characters)',
+      description: 'The meta description of the page (recommended length is 50–160 characters)',
     },
     {
       type: 'string',

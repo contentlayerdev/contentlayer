@@ -1,9 +1,0 @@
-{
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "rootDir": "./src",
-    "esModuleInterop": true
-  },
-  "include": ["./src"],
-  "references": [{ "path": "../sourcebit-sdk" }]
-}

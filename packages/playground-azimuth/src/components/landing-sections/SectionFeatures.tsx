@@ -1,4 +1,4 @@
-import { section_features } from '@sourcebit/sdk/types'
+import { section_features } from '@sourcebit/types'
 import React, { FC } from 'react'
 import { htmlToReact, markdownify, withPrefix } from '../../utils'
 import CtaButtons from './CtaButtons'
