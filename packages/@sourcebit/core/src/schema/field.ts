@@ -1,13 +1,18 @@
+export type FieldDefType = FieldDef['type']
+
 export type FieldDef =
   | ListFieldDef
   | StringFieldDef
+  | NumberFieldDef
   | BooleanFieldDef
   | SlugFieldDef
   | DateFieldDef
   | MarkdownFieldDef
   | TextFieldDef
   | ImageFieldDef
+  | UrlFieldDef
   | ObjectFieldDef
+  | InlineObjectFieldDef
   | ReferenceFieldDef
   | EnumFieldDef
 
@@ -32,27 +37,48 @@ export interface ListFieldDef extends FieldBase {
   type: 'list'
   default?: any[]
   // TODO support polymorphic definitions
-  items: ListFieldDefItems
+  items: ListFieldDefItem[]
 }
 
 export const isListFieldDef = (_: FieldDef): _ is ListFieldDef => _.type === 'list'
 
-export type ListFieldDefItems = ListFieldItemsString | ListFieldItemsBoolean | ListFieldItemsObject
+export type ListFieldDefItem =
+  | ListFieldItemString
+  | ListFieldItemEnum
+  | ListFieldItemBoolean
+  | ListFieldItemObject
+  | ListFieldItemInlineObject
+  | ListFieldItemReference
 
-type BaseListFieldItems = { labelField?: string }
+type BaseListFieldItem = { labelField?: string }
 
-type ListFieldItemsString = BaseListFieldItems & { type: 'string' }
-type ListFieldItemsBoolean = BaseListFieldItems & { type: 'boolean' }
-export type ListFieldItemsObject = BaseListFieldItems & {
+export type ListFieldItemString = BaseListFieldItem & { type: 'string' }
+export type ListFieldItemEnum = BaseListFieldItem & { type: 'enum'; options: string[] }
+export type ListFieldItemBoolean = BaseListFieldItem & { type: 'boolean' }
+export type ListFieldItemObject = BaseListFieldItem & {
   type: 'object'
-  objectNames: string[]
+  objectName: string
+}
+export type ListFieldItemInlineObject = BaseListFieldItem & {
+  type: 'inline_object'
+  fieldDefs: FieldDef[]
 }
 
-export const isListFieldDefItemsObject = (_: ListFieldDefItems): _ is ListFieldItemsObject => _.type === 'object'
+export type ListFieldItemReference = BaseListFieldItem & {
+  type: 'reference'
+  documentName: string
+}
+
+export const isListFieldDefItemObject = (_: ListFieldDefItem): _ is ListFieldItemObject => _.type === 'object'
 
 export type StringFieldDef = FieldBase & {
   type: 'string'
   default?: string
+}
+
+export type NumberFieldDef = FieldBase & {
+  type: 'number'
+  default?: number
 }
 
 export type BooleanFieldDef = FieldBase & {
@@ -87,6 +113,11 @@ export type ImageFieldDef = FieldBase & {
   default?: string
 }
 
+export type UrlFieldDef = FieldBase & {
+  type: 'url'
+  default?: string
+}
+
 export type EnumFieldDef = FieldBase & {
   type: 'enum'
   default?: string
@@ -102,18 +133,16 @@ export type ObjectFieldDef = FieldBase & {
 
 export const isObjectFieldDef = (_: FieldDef): _ is ObjectFieldDef => _.type === 'object'
 
+export type InlineObjectFieldDef = FieldBase & {
+  type: 'inline_object'
+  default?: any
+  fieldDefs: FieldDef[]
+}
+
+export const isInlineObjectFieldDef = (_: FieldDef): _ is InlineObjectFieldDef => _.type === 'inline_object'
+
 export type ReferenceFieldDef = FieldBase & {
   type: 'reference'
   default?: string
   documentName: string
-}
-
-export type ObjectDef = {
-  name: string
-  // type: ModelType
-  /**  */
-  label: string
-  description?: string
-  labelField?: string
-  fieldDefs: FieldDef[]
 }

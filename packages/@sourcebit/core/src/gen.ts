@@ -1,8 +1,8 @@
-import { Cache, DocumentBase } from './data'
+import { Cache, Document } from './data'
 
-export type GetDocumentTypeMapGen = SourcebitGen extends { typeMap: infer T } ? T : Record<string, DocumentBase>
+export type GetDocumentTypeMapGen = SourcebitGen extends { typeMap: infer T } ? T : Record<string, Document>
 export type GetDocumentTypeGen<Name extends keyof GetDocumentTypeMapGen> = GetDocumentTypeMapGen[Name]
-export type GetDocumentTypesGen = SourcebitGen extends { types: infer T } ? T : DocumentBase
+export type GetDocumentTypesGen = SourcebitGen extends { types: infer T } ? T : Document
 export type GetDocumentTypeNamesGen = SourcebitGen extends { typeNames: infer T } ? T : string
 
 declare global {

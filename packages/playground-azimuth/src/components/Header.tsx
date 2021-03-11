@@ -1,11 +1,11 @@
 import { guards } from '@sourcebit/client'
-import { blog, landing, page, post, site_config } from '@sourcebit/types'
+import { blog, config, landing, page, post } from '@sourcebit/types'
 import React, { FC } from 'react'
 import { classNames, Link, withPrefix } from '../utils'
 import Action from './Action'
 
 export const Header: FC<{
-  config: site_config
+  config: config
   page: blog | page | landing | post
 }> = ({ config, page }) => (
   <header id="masthead" className="site-header outer">

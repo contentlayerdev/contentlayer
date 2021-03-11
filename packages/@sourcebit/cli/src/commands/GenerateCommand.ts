@@ -1,5 +1,5 @@
 // import arg from 'arg'
-import { FieldDef, ListFieldDefItems, SchemaDef } from '@sourcebit/core'
+import { FieldDef, ListFieldDefItem, SchemaDef } from '@sourcebit/core'
 import { promises as fs } from 'fs'
 import * as path from 'path'
 import { getConfig } from '../lib/getConfig'
@@ -14,9 +14,11 @@ export class GenerateCommand extends BaseCommand {
     const schemaDef = await config.source.provideSchema()
     const source = buildSource(schemaDef)
 
-    const sourcebitTypesPath = findSourcebitTypesPath()
-    const typegenTargetDir = path.join(sourcebitTypesPath)
-    // const typegenTargetDir = path.join('node_modules', '@types', 'sourcebit__types')
+    ;(await import('fs')).writeFileSync('schema.json', JSON.stringify(schemaDef, null, 2))
+
+    // const sourcebitTypesPath = findSourcebitTypesPath()
+    // const typegenTargetDir = path.join(sourcebitTypesPath)
+    const typegenTargetDir = path.join('node_modules', '@types', 'sourcebit__types')
     await fs.mkdir(typegenTargetDir, { recursive: true })
 
     const typegenTargetFilePath = path.join(typegenTargetDir, 'index.d.ts')
@@ -36,26 +38,21 @@ function findSourcebitTypesPath(): string {
 
 function buildSource(schemaDef: SchemaDef): string {
   const documentTypes = Object.values(schemaDef.documentDefMap)
+    .sort((a, b) => a.name.localeCompare(b.name))
     .map((docDef) => ({
-      typeName: capitalize(docDef.name),
-      fieldDefs: docDef.fieldDefs
-        .map(
-          (fieldDef) =>
-            `${fieldDef.description ? `  /** ${fieldDef.description} */\n` : ''}  ${fieldDef.name}: ${renderFieldType(
-              fieldDef,
-            )}${fieldDef.required ? '' : ' | undefined'}`,
-        )
-        .join('\n'),
+      typeName: docDef.name,
+      fieldDefs: docDef.fieldDefs.map(renderFieldDef).join('\n'),
+      description: docDef.description ?? docDef.label,
       computedFieldDefs: docDef.computedFields
         .map(
           (field) => `${field.description ? `    /** ${field.description} */\n` : ''}    ${field.name}: ${field.type}`,
         )
         .join('\n'),
     }))
-    .map(({ typeName, fieldDefs, computedFieldDefs }) => ({
+    .map(({ typeName, fieldDefs, description, computedFieldDefs }) => ({
       typeName,
       typeDef: `\
-export type ${typeName} = {
+${description ? `/** ${description} */\n` : ''}export type ${typeName} = {
   __meta: {
     typeName: '${typeName}'
     sourceFilePath: string
@@ -76,21 +73,16 @@ ${fieldDefs}
   // ...(docDef.computedFields ? docDef.computedFields(_ => _) : []),
 
   const objectTypes = Object.values(schemaDef.objectDefMap)
+    .sort((a, b) => a.name.localeCompare(b.name))
     .map((objectDef) => ({
-      typeName: capitalize(objectDef.name),
-      fieldDefs: objectDef.fieldDefs
-        .map(
-          (field) =>
-            `${field.description ? `  /** ${field.description} */\n` : ''}  ${field.name}: ${renderFieldType(field)}${
-              field.required ? '' : ' | undefined'
-            }`,
-        )
-        .join('\n'),
+      typeName: objectDef.name,
+      description: objectDef.description ?? objectDef.label,
+      fieldDefs: objectDef.fieldDefs.map(renderFieldDef).join('\n'),
     }))
-    .map(({ typeName, fieldDefs }) => ({
+    .map(({ typeName, description, fieldDefs }) => ({
       typeName,
       typeDef: `\
-export type ${typeName} = {
+${description ? `/** ${description} */\n` : ''}export type ${typeName} = {
   __meta: {
     typeName: '${typeName}'
   }
@@ -143,6 +135,12 @@ ${objectTypes.map((_) => _.typeDef).join('\n\n')}
 `
 }
 
+function renderFieldDef(field: FieldDef): string {
+  return `${field.description ? `  /** ${field.description} */\n` : ''}  ${field.name}: ${renderFieldType(field)}${
+    field.required ? '' : ' | undefined'
+  }`
+}
+
 function renderFieldType(field: FieldDef): string {
   switch (field.type) {
     case 'boolean':
@@ -152,14 +150,16 @@ function renderFieldType(field: FieldDef): string {
       return 'Date'
     case 'image':
       return 'Image'
+    case 'inline_object':
+      return '{\n' + field.fieldDefs.map(renderFieldDef).join('\n') + '\n}'
     case 'object': {
-      return capitalize(field.objectName)
+      return field.objectName
     }
     case 'reference':
-      return capitalize(field.documentName)
+      return field.documentName
     case 'list':
-      // TODO handle this case properly
-      return `(${renderListItemFieldType(field.items)})[]`
+      const wrapInParenthesis = (_: string) => (field.items.length > 1 ? `(${_})` : _)
+      return wrapInParenthesis(field.items.map(renderListItemFieldType).join(' | ')) + '[]'
     case 'enum':
       return field.options.map((_) => `'${_}'`).join(' | ')
     default:
@@ -167,17 +167,22 @@ function renderFieldType(field: FieldDef): string {
   }
 }
 
-function renderListItemFieldType(items: ListFieldDefItems): string {
-  switch (items.type) {
+function renderListItemFieldType(item: ListFieldDefItem): string {
+  switch (item.type) {
     case 'boolean':
     case 'string':
-      return items.type
-    case 'object': {
-      return items.objectNames.map(capitalize).join(' | ')
-    }
+      return item.type
+    case 'object':
+      return item.objectName
+    case 'enum':
+      return '(' + item.options.map((_) => `'${_}'`).join(' | ') + ')'
+    case 'inline_object':
+      return '{\n' + item.fieldDefs.map(renderFieldDef).join('\n') + '\n}'
+    case 'reference':
+      return item.documentName
   }
 }
 
 // TODO re-enable functionality
-const capitalize = (s: string) => s
+// const capitalize = (s: string) => s
 // const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)

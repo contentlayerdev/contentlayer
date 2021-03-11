@@ -2,10 +2,10 @@ import { defineDocument, defineObject } from '@sourcebit/source-local'
 import { action } from '../objects/action'
 import { form_field } from '../objects/form_field'
 
-export const site_config = defineDocument({
-  name: 'site_config',
+export const config = defineDocument({
+  name: 'config',
   label: 'Site Configuration',
-  filePathPattern: 'content/data/site_config.json',
+  filePathPattern: 'content/data/config.json',
   fields: [
     {
       type: 'string',
@@ -98,10 +98,7 @@ const header = defineObject({
       name: 'nav_links',
       label: 'Navigation Links',
       description: 'List of navigation links',
-      items: {
-        type: 'object',
-        object: action,
-      },
+      items: [{ type: 'object', object: action }],
     },
   ],
 })
@@ -116,10 +113,7 @@ const footer = defineObject({
       name: 'sections',
       label: 'Sections',
       description: 'Footer sections',
-      items: {
-        type: 'object',
-        object: () => [footer_form, footer_nav, footer_text],
-      },
+      items: () => [footer_form, footer_nav, footer_text].map((object) => ({ type: 'object', object })),
     },
     {
       type: 'boolean',
@@ -133,10 +127,12 @@ const footer = defineObject({
       name: 'nav_links',
       label: 'Horizontal Navigation Links',
       description: 'List of horizontal navigation links',
-      items: {
-        type: 'object',
-        object: action,
-      },
+      items: [
+        {
+          type: 'object',
+          object: action,
+        },
+      ],
     },
     {
       type: 'string',
@@ -149,7 +145,7 @@ const footer = defineObject({
       name: 'links',
       label: 'Links',
       description: 'A list of links displayed in the footer',
-      items: { type: 'object', object: action },
+      items: [{ type: 'object', object: action }],
     },
   ],
 })
@@ -206,7 +202,7 @@ const footer_form = defineObject({
       type: 'list',
       name: 'form_fields',
       label: 'Form Fields',
-      items: { type: 'object', object: form_field },
+      items: [{ type: 'object', object: form_field }],
     },
     {
       type: 'string',
@@ -228,10 +224,7 @@ const footer_nav = defineObject({
       name: 'nav_links',
       label: 'Vertical Navigation Links',
       description: 'List of vertical navigation links',
-      items: {
-        type: 'object',
-        object: action,
-      },
+      items: [{ type: 'object', object: action }],
     },
   ],
 })

@@ -1,88 +1,69 @@
 export default {
-    title: 'Footer Configuration',
-    name: 'footer',
-    type: 'object',
-    preview: { select: { title: 'tagline' } },
-    fields: [
+  type: 'object',
+  name: 'footer',
+  title: 'Footer Configuration',
+  fields: [
+    {
+      type: 'array',
+      name: 'sections',
+      title: 'Sections',
+      description: 'Footer sections',
+      validation: null,
+      of: [
         {
-            type: 'image',
-            title: 'Logo',
-            name: 'logo_img',
-            description: 'The logo image displayed in the footer'
+          type: 'footer_form',
         },
         {
-            type: 'string',
-            title: 'Footer Tagline',
-            name: 'tagline',
-            description: 'The tagline displayed in the footer'
+          type: 'footer_nav',
         },
         {
-            type: 'boolean',
-            title: 'Enable Navigation Menu',
-            name: 'has_nav',
-            description: 'Display the secondary navigation menu in the footer'
+          type: 'footer_text',
         },
+      ],
+    },
+    {
+      type: 'boolean',
+      name: 'has_nav',
+      title: 'Enable Horizontal Navigation',
+      description: 'Display the horizontal navigation menu bar in the footer',
+      initialValue: true,
+      validation: null,
+    },
+    {
+      type: 'array',
+      name: 'nav_links',
+      title: 'Horizontal Navigation Links',
+      description: 'List of horizontal navigation links',
+      validation: null,
+      of: [
         {
-            type: 'string',
-            title: 'Menu Title',
-            name: 'nav_title',
-            description: 'The title of the secondary menu displayed in the footer'
+          type: 'action',
         },
+      ],
+    },
+    {
+      type: 'string',
+      name: 'content',
+      title: 'Footer Content',
+      description: 'The copyright text displayed in the footer',
+      validation: null,
+    },
+    {
+      type: 'array',
+      name: 'links',
+      title: 'Links',
+      description: 'A list of links displayed in the footer',
+      validation: null,
+      of: [
         {
-            type: 'array',
-            title: 'Navigation Menu Links',
-            name: 'nav_links',
-            description: 'List of navigation links in footer',
-            of: [{type: 'action'}]
+          type: 'action',
         },
-        {
-            type: 'boolean',
-            title: 'Enable Social Links',
-            name: 'has_social',
-            description: 'Display social links in the footer'
-        },
-        {
-            type: 'string',
-            title: 'Social Links Title',
-            name: 'social_title',
-            description: 'The title of the social links list displayed in the footer'
-        },
-        {
-            type: 'array',
-            title: 'Social Links',
-            name: 'social_links',
-            description: 'List of social links displayed in the footer',
-            of: [{type: 'action'}]
-        },
-        {
-            type: 'boolean',
-            title: 'Enable Subscribe',
-            name: 'has_subscribe',
-            description: 'Display the newsletter subscription form in the footer'
-        },
-        {
-            type: 'string',
-            title: 'Subscribe Title',
-            name: 'subscribe_title',
-            description: 'The title of the subscribe block displayed in the footer'
-        },
-        {
-            type: 'string',
-            title: 'Subscribe Content',
-            name: 'subscribe_content',
-            description: 'The text content in the subscribe block displayed in the footer'
-        },
-        {
-            type: 'string',
-            title: 'Footer Content',
-            name: 'content',
-            description: 'The copyright text displayed in the footer'
-        },
-        {
-            type: 'array',
-            title: 'Links',
-            name: 'links',
-            of: [{type: 'action'}]
-        }
-    ]
+      ],
+    },
+  ],
+  preview: {
+    select: {
+      title: 'content',
+    },
+  },
 }

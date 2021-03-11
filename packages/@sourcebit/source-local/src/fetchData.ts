@@ -1,5 +1,4 @@
-import type { Cache, DocumentBase } from '@sourcebit/core'
-import { createHash } from 'crypto'
+import type { Document } from '@sourcebit/core'
 import { promises as fs } from 'fs'
 import matter from 'gray-matter'
 import * as yaml from 'js-yaml'
@@ -11,18 +10,13 @@ import { unwrapThunk } from './utils'
 export async function fetch({
   filePaths,
   schemaDef,
-}: // cachePath,
-{
+}: {
   filePaths: string[]
   schemaDef: SchemaDef
-  // cachePath: string
-}): Promise<Cache> {
+}): Promise<{ documents: Document[] }> {
   const documents = await Promise.all(filePaths.map((filePath) => parseContent({ filePath, schemaDef })))
-  const hash = createHash('sha1').update(JSON.stringify(documents)).digest('base64')
 
-  const cache: Cache = { hash, documents }
-
-  return cache
+  return { documents }
 }
 
 function checkSchema({
@@ -70,13 +64,7 @@ type ContentJSON = {
   data: Record<string, any>
 }
 
-async function parseContent({
-  filePath,
-  schemaDef,
-}: {
-  filePath: string
-  schemaDef: SchemaDef
-}): Promise<DocumentBase> {
+async function parseContent({ filePath, schemaDef }: { filePath: string; schemaDef: SchemaDef }): Promise<Document> {
   const fileContent = await fs.readFile(filePath, 'utf-8')
   const filePathExtension = filePath.toLowerCase().split('.').pop()
   const content = match<string | undefined, Content>(filePathExtension)
@@ -124,7 +112,7 @@ async function parseContent({
 
   // TOOD add meta data to objects in array as well
 
-  const doc: DocumentBase = {
+  const doc: Document = {
     ...content.data,
     __meta: { sourceFilePath: filePath, typeName: documentDef.name },
   }

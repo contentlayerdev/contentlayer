@@ -1,36 +1,44 @@
 export default {
-    title: 'Posts Section',
-    name: 'section_posts',
-    type: 'object',
-    preview: { select: { title: 'title' } },
-    fields: [
-        {
-            type: 'string',
-            title: 'Element ID',
-            name: 'section_id',
-            description: 'Element ID can be used in links to scroll the page to this section when link clicked'
-        },
-        {
-            type: 'string',
-            title: 'Title',
-            name: 'title',
-            description: 'The title of this section'
-        },
-        {
-            type: 'text',
-            title: 'Subtitle',
-            name: 'subtitle',
-            description: 'The subtitle of this section'
-        },
-        {
-            type: 'string',
-            title: 'Background',
-            name: 'background',
-            description: 'The background of the section',
-            validation: Rule => Rule.required(),
-            options: {
-                list: ['gray', 'white']
-            }
-        }
-    ]
+  type: 'object',
+  name: 'section_posts',
+  title: 'Posts List',
+  fields: [
+    {
+      type: 'string',
+      name: 'section_id',
+      title: 'Section ID',
+      description: 'A unique identifier of the section, must not contain whitespace',
+      validation: null,
+    },
+    {
+      type: 'string',
+      name: 'title',
+      title: 'Title',
+      description: 'The title of the section',
+      validation: null,
+    },
+    {
+      type: 'string',
+      name: 'subtitle',
+      title: 'Subtitle',
+      description: 'The subtitle of the section',
+      validation: null,
+    },
+    {
+      type: 'string',
+      name: 'background',
+      title: 'Background',
+      description: 'The background of the section',
+      initialValue: 'gray',
+      validation: null,
+      options: {
+        list: ['gray', 'white'],
+      },
+    },
+  ],
+  preview: {
+    select: {
+      title: 'title',
+    },
+  },
 }

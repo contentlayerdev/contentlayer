@@ -10,7 +10,7 @@ export async function getSanityClient(studioDirPath: string): Promise<SanityClie
 }
 
 async function getSanityJsonData(studioDirPath: string): Promise<SanityJsonData> {
-  const jsonPath = path.join(studioDirPath, 'studio.json')
+  const jsonPath = path.join(studioDirPath, 'sanity.json')
   const content = await fs.readFile(jsonPath, 'utf-8')
   return JSON.parse(content)
 }

@@ -1,0 +1,2880 @@
+[
+  {
+    "name": "color",
+    "type": "object",
+    "title": "Color",
+    "fields": [
+      {
+        "title": "Hex",
+        "name": "hex",
+        "type": "string"
+      },
+      {
+        "title": "Alpha",
+        "name": "alpha",
+        "type": "number"
+      },
+      {
+        "title": "Hue Saturation Lightness",
+        "name": "hsl",
+        "type": "hslaColor"
+      },
+      {
+        "title": "Hue Saturation Value",
+        "name": "hsv",
+        "type": "hsvaColor"
+      },
+      {
+        "title": "Red Green Blue (rgb)",
+        "name": "rgb",
+        "type": "rgbaColor"
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "hex",
+        "alpha": "alpha",
+        "hex": "hex",
+        "hsl": "hsl"
+      }
+    }
+  },
+  {
+    "title": "Red Green Blue (rgb)",
+    "name": "rgbaColor",
+    "type": "object",
+    "fields": [
+      {
+        "name": "r",
+        "type": "number",
+        "title": "Red"
+      },
+      {
+        "name": "g",
+        "type": "number",
+        "title": "Green"
+      },
+      {
+        "name": "b",
+        "type": "number",
+        "title": "Blue"
+      },
+      {
+        "name": "a",
+        "type": "number",
+        "title": "Alpha"
+      }
+    ]
+  },
+  {
+    "title": "Hue Saturation Value",
+    "name": "hsvaColor",
+    "type": "object",
+    "fields": [
+      {
+        "name": "h",
+        "type": "number",
+        "title": "Hue"
+      },
+      {
+        "name": "s",
+        "type": "number",
+        "title": "Saturation"
+      },
+      {
+        "name": "v",
+        "type": "number",
+        "title": "Value"
+      },
+      {
+        "name": "a",
+        "type": "number",
+        "title": "Alpha"
+      }
+    ]
+  },
+  {
+    "title": "Hue Saturation Lightness",
+    "name": "hslaColor",
+    "type": "object",
+    "fields": [
+      {
+        "name": "h",
+        "type": "number",
+        "title": "Hue"
+      },
+      {
+        "name": "s",
+        "type": "number",
+        "title": "Saturation"
+      },
+      {
+        "name": "l",
+        "type": "number",
+        "title": "Lightness"
+      },
+      {
+        "name": "a",
+        "type": "number",
+        "title": "Alpha"
+      }
+    ]
+  },
+  {
+    "name": "markdown",
+    "title": "Markdown",
+    "type": "string"
+  },
+  {
+    "type": "document",
+    "name": "config",
+    "title": "Site Configuration",
+    "fields": [
+      {
+        "type": "string",
+        "name": "title",
+        "title": "Title",
+        "description": "Site title"
+      },
+      {
+        "type": "string",
+        "name": "path_prefix",
+        "title": "Base URL",
+        "description": "The base URL of this site. Useful for sites hosted under specific path, e.g.: https://www.example.com/my-site/",
+        "hidden": true
+      },
+      {
+        "type": "string",
+        "name": "domain",
+        "title": "Domain",
+        "description": "The domain of your site, including the protocol, e.g. https://mysite.com/",
+        "validation": null
+      },
+      {
+        "type": "image",
+        "name": "favicon",
+        "title": "Favicon",
+        "description": "A square icon that represents your website",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "palette",
+        "title": "Color Palette",
+        "description": "The color palette of the site",
+        "initialValue": "blue",
+        "options": {
+          "list": [
+            "blue",
+            "cyan",
+            "green",
+            "orange",
+            "purple"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "base_font",
+        "title": "Font",
+        "initialValue": "nunito-sans",
+        "options": {
+          "list": [
+            "fira-sans",
+            "nunito-sans",
+            "system-sans"
+          ]
+        }
+      },
+      {
+        "type": "header",
+        "name": "header",
+        "title": "Header Configuration",
+        "validation": null
+      },
+      {
+        "type": "footer",
+        "name": "footer",
+        "title": "Footer Configuration",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "stackbit_file_path",
+        "title": "Site Configuration File Path",
+        "description": "The file path of the file that stores this data",
+        "hidden": false,
+        "options": {
+          "list": [
+            "content/data/config.json"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "data"
+          ]
+        }
+      }
+    ],
+    "singleInstance": true,
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    }
+  },
+  {
+    "type": "object",
+    "name": "header",
+    "title": "Header Configuration",
+    "fields": [
+      {
+        "type": "image",
+        "name": "logo_img",
+        "title": "Logo",
+        "description": "The logo image displayed in the header (if no logo added, the site title is displayed instead)",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "logo_img_alt",
+        "title": "Logo Alt Text",
+        "description": "The alt text of the logo image",
+        "validation": null
+      },
+      {
+        "type": "boolean",
+        "name": "has_nav",
+        "title": "Enable Navigation",
+        "description": "Display the navigation menu bar in the header",
+        "initialValue": true,
+        "validation": null
+      },
+      {
+        "type": "array",
+        "name": "nav_links",
+        "title": "Navigation Links",
+        "description": "List of navigation links",
+        "validation": null,
+        "of": [
+          {
+            "type": "action"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "name": "type",
+        "title": "Object Type",
+        "description": "The type of the object",
+        "hidden": false,
+        "options": {
+          "list": [
+            "header"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "object"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "logo_img_alt"
+      }
+    }
+  },
+  {
+    "type": "object",
+    "name": "footer",
+    "title": "Footer Configuration",
+    "fields": [
+      {
+        "type": "array",
+        "name": "sections",
+        "title": "Sections",
+        "description": "Footer sections",
+        "validation": null,
+        "of": [
+          {
+            "type": "footer_form"
+          },
+          {
+            "type": "footer_nav"
+          },
+          {
+            "type": "footer_text"
+          }
+        ]
+      },
+      {
+        "type": "boolean",
+        "name": "has_nav",
+        "title": "Enable Horizontal Navigation",
+        "description": "Display the horizontal navigation menu bar in the footer",
+        "initialValue": true,
+        "validation": null
+      },
+      {
+        "type": "array",
+        "name": "nav_links",
+        "title": "Horizontal Navigation Links",
+        "description": "List of horizontal navigation links",
+        "validation": null,
+        "of": [
+          {
+            "type": "action"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "name": "content",
+        "title": "Footer Content",
+        "description": "The copyright text displayed in the footer",
+        "validation": null
+      },
+      {
+        "type": "array",
+        "name": "links",
+        "title": "Links",
+        "description": "A list of links displayed in the footer",
+        "validation": null,
+        "of": [
+          {
+            "type": "action"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "name": "type",
+        "title": "Object Type",
+        "description": "The type of the object",
+        "hidden": false,
+        "options": {
+          "list": [
+            "footer"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "object"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "content"
+      }
+    }
+  },
+  {
+    "type": "object",
+    "name": "footer_form",
+    "title": "Form",
+    "fields": [
+      {
+        "type": "string",
+        "name": "title",
+        "title": "Title",
+        "description": "The title of the section",
+        "validation": null
+      },
+      {
+        "type": "markdown",
+        "name": "content",
+        "title": "Content",
+        "description": "The content of the section, appears above the form",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "form_id",
+        "title": "Form ID",
+        "description": "A unique identifier of the form, must not contain whitespace"
+      },
+      {
+        "type": "string",
+        "name": "form_action",
+        "title": "Form Action",
+        "description": "The path of your custom \"success\" page, if you want to replace the default success message.",
+        "validation": null
+      },
+      {
+        "type": "boolean",
+        "name": "hide_labels",
+        "title": "Hide labels of the form fields?",
+        "validation": null
+      },
+      {
+        "type": "array",
+        "name": "form_fields",
+        "title": "Form Fields",
+        "validation": null,
+        "of": [
+          {
+            "type": "form_field"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "name": "submit_label",
+        "title": "Submit Button Label"
+      },
+      {
+        "type": "string",
+        "name": "type",
+        "title": "Object Type",
+        "description": "The type of the object",
+        "hidden": false,
+        "options": {
+          "list": [
+            "footer_form"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "object"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    }
+  },
+  {
+    "type": "object",
+    "name": "footer_nav",
+    "title": "Vertical Navigation",
+    "fields": [
+      {
+        "type": "string",
+        "name": "title",
+        "title": "Title",
+        "description": "The title of the section",
+        "validation": null
+      },
+      {
+        "type": "array",
+        "name": "nav_links",
+        "title": "Vertical Navigation Links",
+        "description": "List of vertical navigation links",
+        "validation": null,
+        "of": [
+          {
+            "type": "action"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "name": "type",
+        "title": "Object Type",
+        "description": "The type of the object",
+        "hidden": false,
+        "options": {
+          "list": [
+            "footer_nav"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "object"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    }
+  },
+  {
+    "type": "object",
+    "name": "footer_text",
+    "title": "Text",
+    "fields": [
+      {
+        "type": "image",
+        "name": "image",
+        "title": "Image",
+        "description": "The image displayed in the section",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "image_alt",
+        "title": "Image Alt Text",
+        "description": "The alt text of the image",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "image_url",
+        "title": "Image URL",
+        "description": "The url of the image",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "title",
+        "title": "Title",
+        "description": "The title of the section",
+        "validation": null
+      },
+      {
+        "type": "markdown",
+        "name": "content",
+        "title": "Content",
+        "description": "The text content of the section",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "type",
+        "title": "Object Type",
+        "description": "The type of the object",
+        "hidden": false,
+        "options": {
+          "list": [
+            "footer_text"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "object"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    }
+  },
+  {
+    "type": "document",
+    "name": "person",
+    "title": "Person",
+    "fields": [
+      {
+        "type": "string",
+        "name": "first_name",
+        "title": "First Name",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "last_name",
+        "title": "Last Name",
+        "validation": null
+      },
+      {
+        "type": "markdown",
+        "name": "bio",
+        "title": "Bio",
+        "validation": null
+      },
+      {
+        "type": "image",
+        "name": "photo",
+        "title": "Photo",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "type",
+        "title": "Object Type",
+        "description": "The type of the object",
+        "hidden": false,
+        "options": {
+          "list": [
+            "person"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "data"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "first_name"
+      }
+    }
+  },
+  {
+    "type": "document",
+    "name": "landing",
+    "title": "Landing Page",
+    "fields": [
+      {
+        "type": "string",
+        "name": "title",
+        "title": "Title",
+        "description": "The title of the page"
+      },
+      {
+        "type": "array",
+        "name": "sections",
+        "title": "Sections",
+        "description": "Page sections",
+        "validation": null,
+        "of": [
+          {
+            "type": "section_content"
+          },
+          {
+            "type": "section_cta"
+          },
+          {
+            "type": "section_faq"
+          },
+          {
+            "type": "section_features"
+          },
+          {
+            "type": "section_hero"
+          },
+          {
+            "type": "section_posts"
+          },
+          {
+            "type": "section_pricing"
+          },
+          {
+            "type": "section_reviews"
+          },
+          {
+            "type": "section_contact"
+          }
+        ]
+      },
+      {
+        "type": "stackbit_page_meta",
+        "name": "seo",
+        "title": "Seo",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "layout",
+        "title": "Layout",
+        "hidden": false,
+        "options": {
+          "list": [
+            "landing"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_url_path",
+        "title": "URL Path",
+        "description": "The URL path of this page relative to site root. For example, the site root page would be \"/\", and post page would be \"posts/new-post/\""
+      },
+      {
+        "type": "string",
+        "name": "stackbit_dir",
+        "title": "Directory",
+        "description": "The directory path where this file is stored",
+        "hidden": false,
+        "options": {
+          "list": [
+            "content/pages"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "page"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    }
+  },
+  {
+    "type": "document",
+    "name": "blog",
+    "title": "Blog",
+    "fields": [
+      {
+        "type": "string",
+        "name": "title",
+        "title": "Title",
+        "description": "The title of the page"
+      },
+      {
+        "type": "stackbit_page_meta",
+        "name": "seo",
+        "title": "Seo",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "layout",
+        "title": "Layout",
+        "hidden": false,
+        "options": {
+          "list": [
+            "blog"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_url_path",
+        "title": "URL Path",
+        "description": "The URL path of this page relative to site root. For example, the site root page would be \"/\", and post page would be \"posts/new-post/\""
+      },
+      {
+        "type": "string",
+        "name": "stackbit_dir",
+        "title": "Directory",
+        "description": "The directory path where this file is stored",
+        "hidden": false,
+        "options": {
+          "list": [
+            "content/pages"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "page"
+          ]
+        }
+      }
+    ],
+    "singleInstance": true,
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    }
+  },
+  {
+    "type": "document",
+    "name": "page",
+    "title": "Page",
+    "fields": [
+      {
+        "type": "string",
+        "name": "title",
+        "title": "Title",
+        "description": "The title of the page"
+      },
+      {
+        "type": "string",
+        "name": "subtitle",
+        "title": "Subtitle",
+        "description": "The text shown below the page title",
+        "validation": null
+      },
+      {
+        "type": "image",
+        "name": "image",
+        "title": "Image",
+        "description": "The image shown below the page title",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "image_alt",
+        "title": "Image Alt Text",
+        "description": "The alt text of the image",
+        "validation": null
+      },
+      {
+        "type": "stackbit_page_meta",
+        "name": "seo",
+        "title": "Seo",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "layout",
+        "title": "Layout",
+        "hidden": false,
+        "options": {
+          "list": [
+            "page"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_url_path",
+        "title": "URL Path",
+        "description": "The URL path of this page relative to site root. For example, the site root page would be \"/\", and post page would be \"posts/new-post/\""
+      },
+      {
+        "type": "string",
+        "name": "stackbit_dir",
+        "title": "Directory",
+        "description": "The directory path where this file is stored",
+        "hidden": false,
+        "options": {
+          "list": [
+            "content/pages"
+          ]
+        }
+      },
+      {
+        "type": "markdown",
+        "name": "content",
+        "title": "Content",
+        "description": "Page content",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "page"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    }
+  },
+  {
+    "type": "document",
+    "name": "post",
+    "title": "Post",
+    "fields": [
+      {
+        "type": "string",
+        "name": "title",
+        "title": "Title",
+        "description": "The title of the post"
+      },
+      {
+        "type": "string",
+        "name": "subtitle",
+        "title": "Subtitle",
+        "description": "The text shown just below the title or the featured image",
+        "validation": null
+      },
+      {
+        "type": "date",
+        "name": "date",
+        "title": "Date"
+      },
+      {
+        "type": "reference",
+        "name": "author",
+        "title": "Author",
+        "description": "Post author",
+        "validation": null,
+        "to": [
+          {
+            "type": "person"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "name": "excerpt",
+        "title": "Excerpt",
+        "description": "The excerpt of the post displayed in the blog feed",
+        "validation": null
+      },
+      {
+        "type": "image",
+        "name": "image",
+        "title": "Image (single post)",
+        "description": "The image shown below the title",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "image_alt",
+        "title": "Image alt text (single post)",
+        "description": "The alt text of the featured image",
+        "validation": null
+      },
+      {
+        "type": "image",
+        "name": "thumb_image",
+        "title": "Image (blog feed)",
+        "description": "The image shown in the blog feed",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "thumb_image_alt",
+        "title": "Image alt text (blog feed)",
+        "description": "The alt text of the blog feed image",
+        "validation": null
+      },
+      {
+        "type": "stackbit_page_meta",
+        "name": "seo",
+        "title": "Seo",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "layout",
+        "title": "Layout",
+        "hidden": false,
+        "options": {
+          "list": [
+            "post"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_url_path",
+        "title": "URL Path",
+        "description": "The URL path of this page relative to site root. For example, the site root page would be \"/\", and post page would be \"posts/new-post/\""
+      },
+      {
+        "type": "string",
+        "name": "stackbit_dir",
+        "title": "Directory",
+        "description": "The directory path where this file is stored",
+        "hidden": false,
+        "options": {
+          "list": [
+            "content/pages"
+          ]
+        }
+      },
+      {
+        "type": "markdown",
+        "name": "content",
+        "title": "Content",
+        "description": "Page content",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "page"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    }
+  },
+  {
+    "type": "object",
+    "name": "section_content",
+    "title": "Content Section",
+    "fields": [
+      {
+        "type": "string",
+        "name": "section_id",
+        "title": "Section ID",
+        "description": "A unique identifier of the section, must not contain whitespace",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "title",
+        "title": "Title",
+        "description": "The title of the section",
+        "validation": null
+      },
+      {
+        "type": "markdown",
+        "name": "content",
+        "title": "Content",
+        "description": "The text content of the section",
+        "validation": null
+      },
+      {
+        "type": "image",
+        "name": "image",
+        "title": "Image",
+        "description": "The image of the section",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "image_alt",
+        "title": "Image Alt Text",
+        "description": "The alt text of the section image",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "background",
+        "title": "Background",
+        "description": "The background of the section",
+        "initialValue": "gray",
+        "validation": null,
+        "options": {
+          "list": [
+            "gray",
+            "white"
+          ]
+        }
+      },
+      {
+        "type": "array",
+        "name": "actions",
+        "title": "Action Buttons",
+        "validation": null,
+        "of": [
+          {
+            "type": "action"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "name": "type",
+        "title": "Object Type",
+        "description": "The type of the object",
+        "hidden": false,
+        "options": {
+          "list": [
+            "section_content"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "object"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    }
+  },
+  {
+    "type": "object",
+    "name": "section_cta",
+    "title": "Call to Action Section",
+    "fields": [
+      {
+        "type": "string",
+        "name": "section_id",
+        "title": "Section ID",
+        "description": "A unique identifier of the section, must not contain whitespace",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "title",
+        "title": "Title",
+        "description": "The title of the section",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "subtitle",
+        "title": "Subtitle",
+        "description": "The subtitle of the section",
+        "validation": null
+      },
+      {
+        "type": "array",
+        "name": "actions",
+        "title": "Action Buttons",
+        "validation": null,
+        "of": [
+          {
+            "type": "action"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "name": "type",
+        "title": "Object Type",
+        "description": "The type of the object",
+        "hidden": false,
+        "options": {
+          "list": [
+            "section_cta"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "object"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    }
+  },
+  {
+    "type": "object",
+    "name": "section_faq",
+    "title": "FAQ Section",
+    "fields": [
+      {
+        "type": "string",
+        "name": "section_id",
+        "title": "Section ID",
+        "description": "A unique identifier of the section, must not contain whitespace",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "title",
+        "title": "Title",
+        "description": "The title of the section",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "subtitle",
+        "title": "Subtitle",
+        "description": "The subtitle of the section",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "background",
+        "title": "Background",
+        "description": "The background of the section",
+        "initialValue": "gray",
+        "validation": null,
+        "options": {
+          "list": [
+            "gray",
+            "white"
+          ]
+        }
+      },
+      {
+        "type": "array",
+        "name": "faq_items",
+        "title": "FAQ Items",
+        "validation": null,
+        "of": [
+          {
+            "type": "faq_item"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "name": "type",
+        "title": "Object Type",
+        "description": "The type of the object",
+        "hidden": false,
+        "options": {
+          "list": [
+            "section_faq"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "object"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    }
+  },
+  {
+    "type": "object",
+    "name": "faq_item",
+    "title": "FAQ Item",
+    "fields": [
+      {
+        "type": "text",
+        "name": "question",
+        "title": "Question",
+        "validation": null
+      },
+      {
+        "type": "markdown",
+        "name": "answer",
+        "title": "Answer",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "type",
+        "title": "Object Type",
+        "description": "The type of the object",
+        "hidden": false,
+        "options": {
+          "list": [
+            "faq_item"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "object"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "type"
+      }
+    }
+  },
+  {
+    "type": "object",
+    "name": "section_features",
+    "title": "Features Section",
+    "fields": [
+      {
+        "type": "string",
+        "name": "section_id",
+        "title": "Section ID",
+        "description": "A unique identifier of the section, must not contain whitespace",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "title",
+        "title": "Title",
+        "description": "The title of the section",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "subtitle",
+        "title": "Subtitle",
+        "description": "The subtitle of the section",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "background",
+        "title": "Background",
+        "description": "The background of the section",
+        "initialValue": "gray",
+        "validation": null,
+        "options": {
+          "list": [
+            "gray",
+            "white"
+          ]
+        }
+      },
+      {
+        "type": "array",
+        "name": "features",
+        "title": "Features",
+        "validation": null,
+        "of": [
+          {
+            "type": "feature_item"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "name": "type",
+        "title": "Object Type",
+        "description": "The type of the object",
+        "hidden": false,
+        "options": {
+          "list": [
+            "section_features"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "object"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    }
+  },
+  {
+    "type": "object",
+    "name": "feature_item",
+    "title": "Feature Item",
+    "fields": [
+      {
+        "type": "string",
+        "name": "title",
+        "title": "Title",
+        "validation": null
+      },
+      {
+        "type": "markdown",
+        "name": "content",
+        "title": "Content",
+        "description": "Feature description",
+        "validation": null
+      },
+      {
+        "type": "image",
+        "name": "image",
+        "title": "Image",
+        "description": "Feature image",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "image_alt",
+        "title": "Image Alt Text",
+        "description": "The alt text of the feature image",
+        "validation": null
+      },
+      {
+        "type": "array",
+        "name": "actions",
+        "title": "Action Buttons",
+        "validation": null,
+        "of": [
+          {
+            "type": "action"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "name": "type",
+        "title": "Object Type",
+        "description": "The type of the object",
+        "hidden": false,
+        "options": {
+          "list": [
+            "feature_item"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "object"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    }
+  },
+  {
+    "type": "object",
+    "name": "section_hero",
+    "title": "Hero Section",
+    "fields": [
+      {
+        "type": "string",
+        "name": "section_id",
+        "title": "Section ID",
+        "description": "A unique identifier of the section, must not contain whitespace",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "title",
+        "title": "Title",
+        "description": "The title of the section",
+        "validation": null
+      },
+      {
+        "type": "markdown",
+        "name": "content",
+        "title": "Content",
+        "description": "The text content of the section",
+        "validation": null
+      },
+      {
+        "type": "image",
+        "name": "image",
+        "title": "Image",
+        "description": "The image of the section",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "image_alt",
+        "title": "Image Alt Text",
+        "description": "The alt text of the section image",
+        "validation": null
+      },
+      {
+        "type": "array",
+        "name": "actions",
+        "title": "Action Buttons",
+        "validation": null,
+        "of": [
+          {
+            "type": "action"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "name": "type",
+        "title": "Object Type",
+        "description": "The type of the object",
+        "hidden": false,
+        "options": {
+          "list": [
+            "section_hero"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "object"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    }
+  },
+  {
+    "type": "object",
+    "name": "section_posts",
+    "title": "Posts List",
+    "fields": [
+      {
+        "type": "string",
+        "name": "section_id",
+        "title": "Section ID",
+        "description": "A unique identifier of the section, must not contain whitespace",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "title",
+        "title": "Title",
+        "description": "The title of the section",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "subtitle",
+        "title": "Subtitle",
+        "description": "The subtitle of the section",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "background",
+        "title": "Background",
+        "description": "The background of the section",
+        "initialValue": "gray",
+        "validation": null,
+        "options": {
+          "list": [
+            "gray",
+            "white"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "type",
+        "title": "Object Type",
+        "description": "The type of the object",
+        "hidden": false,
+        "options": {
+          "list": [
+            "section_posts"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "object"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    }
+  },
+  {
+    "type": "object",
+    "name": "section_pricing",
+    "title": "Pricing Section",
+    "fields": [
+      {
+        "type": "string",
+        "name": "section_id",
+        "title": "Section ID",
+        "description": "A unique identifier of the section, must not contain whitespace",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "title",
+        "title": "Title",
+        "description": "The title of the section",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "subtitle",
+        "title": "Subtitle",
+        "description": "The subtitle of the section",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "background",
+        "title": "Background",
+        "description": "The background of the section",
+        "initialValue": "gray",
+        "validation": null,
+        "options": {
+          "list": [
+            "gray",
+            "white"
+          ]
+        }
+      },
+      {
+        "type": "array",
+        "name": "pricing_plans",
+        "title": "Pricing Plans",
+        "validation": null,
+        "of": [
+          {
+            "type": "pricing_plan"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "name": "type",
+        "title": "Object Type",
+        "description": "The type of the object",
+        "hidden": false,
+        "options": {
+          "list": [
+            "section_pricing"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "object"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    }
+  },
+  {
+    "type": "object",
+    "name": "pricing_plan",
+    "title": "Pricing Plan",
+    "fields": [
+      {
+        "type": "string",
+        "name": "title",
+        "title": "Title",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "subtitle",
+        "title": "Subtitle",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "price",
+        "title": "Price",
+        "validation": null
+      },
+      {
+        "type": "markdown",
+        "name": "details",
+        "title": "Details",
+        "validation": null
+      },
+      {
+        "type": "boolean",
+        "name": "highlight",
+        "title": "Highlight",
+        "description": "Make the plan stand out by adding a distinctive style",
+        "validation": null
+      },
+      {
+        "type": "array",
+        "name": "actions",
+        "title": "Action Buttons",
+        "validation": null,
+        "of": [
+          {
+            "type": "action"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "name": "type",
+        "title": "Object Type",
+        "description": "The type of the object",
+        "hidden": false,
+        "options": {
+          "list": [
+            "pricing_plan"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "object"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    }
+  },
+  {
+    "type": "object",
+    "name": "section_reviews",
+    "title": "Reviews Section",
+    "fields": [
+      {
+        "type": "string",
+        "name": "section_id",
+        "title": "Section ID",
+        "description": "A unique identifier of the section, must not contain whitespace",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "title",
+        "title": "Title",
+        "description": "The title of the section",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "subtitle",
+        "title": "Subtitle",
+        "description": "The subtitle of the section",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "background",
+        "title": "Background",
+        "description": "The background of the section",
+        "initialValue": "gray",
+        "validation": null,
+        "options": {
+          "list": [
+            "gray",
+            "white"
+          ]
+        }
+      },
+      {
+        "type": "array",
+        "name": "reviews",
+        "title": "Reviews",
+        "validation": null,
+        "of": [
+          {
+            "type": "review_item"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "name": "type",
+        "title": "Object Type",
+        "description": "The type of the object",
+        "hidden": false,
+        "options": {
+          "list": [
+            "section_reviews"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "object"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    }
+  },
+  {
+    "type": "object",
+    "name": "review_item",
+    "title": "Review Item",
+    "fields": [
+      {
+        "type": "string",
+        "name": "author",
+        "title": "Author",
+        "validation": null
+      },
+      {
+        "type": "image",
+        "name": "avatar",
+        "title": "Author Image",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "avatar_alt",
+        "title": "Author Image Alt Text",
+        "validation": null
+      },
+      {
+        "type": "text",
+        "name": "content",
+        "title": "Content",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "type",
+        "title": "Object Type",
+        "description": "The type of the object",
+        "hidden": false,
+        "options": {
+          "list": [
+            "review_item"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "object"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "author"
+      }
+    }
+  },
+  {
+    "type": "object",
+    "name": "section_contact",
+    "title": "Contact Section",
+    "fields": [
+      {
+        "type": "string",
+        "name": "section_id",
+        "title": "Section ID",
+        "description": "A unique identifier of the section, must not contain whitespace",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "title",
+        "title": "Title",
+        "description": "The title of the section",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "subtitle",
+        "title": "Subtitle",
+        "description": "The text shown below the title",
+        "validation": null
+      },
+      {
+        "type": "markdown",
+        "name": "content",
+        "title": "Content",
+        "description": "the content of the section, appears above the form",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "background",
+        "title": "Background",
+        "description": "The background of the section",
+        "initialValue": "gray",
+        "validation": null,
+        "options": {
+          "list": [
+            "gray",
+            "white"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "form_id",
+        "title": "Form ID",
+        "description": "A unique identifier of the form, must not contain whitespace"
+      },
+      {
+        "type": "string",
+        "name": "form_action",
+        "title": "Form Action",
+        "description": "The path of your custom \"success\" page, if you want to replace the default success message.",
+        "validation": null
+      },
+      {
+        "type": "boolean",
+        "name": "hide_labels",
+        "title": "Hide labels of the form fields?",
+        "validation": null
+      },
+      {
+        "type": "array",
+        "name": "form_fields",
+        "title": "Form Fields",
+        "validation": null,
+        "of": [
+          {
+            "type": "form_field"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "name": "submit_label",
+        "title": "Submit Button Label"
+      },
+      {
+        "type": "string",
+        "name": "type",
+        "title": "Object Type",
+        "description": "The type of the object",
+        "hidden": false,
+        "options": {
+          "list": [
+            "section_contact"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "object"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    }
+  },
+  {
+    "type": "object",
+    "name": "action",
+    "title": "Action",
+    "fields": [
+      {
+        "type": "string",
+        "name": "label",
+        "title": "Label"
+      },
+      {
+        "type": "string",
+        "name": "url",
+        "title": "URL",
+        "initialValue": "#"
+      },
+      {
+        "type": "string",
+        "name": "style",
+        "title": "Style",
+        "initialValue": "link",
+        "validation": null,
+        "options": {
+          "list": [
+            "link",
+            "primary",
+            "secondary"
+          ]
+        }
+      },
+      {
+        "type": "boolean",
+        "name": "has_icon",
+        "title": "Show icon",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "icon",
+        "title": "Icon",
+        "validation": null,
+        "options": {
+          "list": [
+            "arrow-left",
+            "arrow-right",
+            "envelope",
+            "facebook",
+            "github",
+            "instagram",
+            "linkedin",
+            "twitter",
+            "vimeo",
+            "youtube"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "icon_position",
+        "title": "Icon position",
+        "description": "The position of the icon relative to text",
+        "initialValue": "left",
+        "validation": null,
+        "options": {
+          "list": [
+            "left",
+            "right"
+          ]
+        }
+      },
+      {
+        "type": "boolean",
+        "name": "new_window",
+        "title": "Open in new window",
+        "description": "Should the link open a new tab",
+        "validation": null
+      },
+      {
+        "type": "boolean",
+        "name": "no_follow",
+        "title": "No follow",
+        "description": "Add rel=\"nofollow\" attribute to the link",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "type",
+        "title": "Object Type",
+        "description": "The type of the object",
+        "hidden": false,
+        "options": {
+          "list": [
+            "action"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "object"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "label"
+      }
+    }
+  },
+  {
+    "type": "object",
+    "name": "form_field",
+    "title": "Form Field",
+    "fields": [
+      {
+        "type": "string",
+        "name": "input_type",
+        "title": "Type",
+        "description": "Type of the form field",
+        "options": {
+          "list": [
+            "text",
+            "textarea",
+            "email",
+            "tel",
+            "number",
+            "checkbox",
+            "select"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "name",
+        "title": "Name",
+        "description": "The name of the field, submitted with the form"
+      },
+      {
+        "type": "string",
+        "name": "label",
+        "title": "Label",
+        "description": "The caption of the field, shown above the field input",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "default_value",
+        "title": "Placeholder text or default value",
+        "description": "The placeholder for textual field types or default option for select field",
+        "validation": null
+      },
+      {
+        "type": "array",
+        "name": "options",
+        "title": "Options",
+        "description": "The list of options for select field",
+        "validation": null,
+        "of": [
+          {
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "type": "boolean",
+        "name": "is_required",
+        "title": "Is the field required?",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "type",
+        "title": "Object Type",
+        "description": "The type of the object",
+        "hidden": false,
+        "options": {
+          "list": [
+            "form_field"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "object"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "name"
+      }
+    }
+  },
+  {
+    "type": "object",
+    "name": "stackbit_page_meta",
+    "title": "Page meta data",
+    "fields": [
+      {
+        "type": "string",
+        "name": "title",
+        "title": "Title",
+        "description": "The page title that goes into the <title> tag",
+        "validation": null
+      },
+      {
+        "type": "string",
+        "name": "description",
+        "title": "Description",
+        "description": "The page description that goes into the <meta name=\"description\"> tag",
+        "validation": null
+      },
+      {
+        "type": "array",
+        "name": "robots",
+        "title": "Robots",
+        "description": "The items that go into the <meta name=\"robots\"> tag",
+        "validation": null,
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "options": {
+          "list": [
+            "all",
+            "index",
+            "follow",
+            "noindex",
+            "nofollow",
+            "noimageindex",
+            "notranslate",
+            "none"
+          ]
+        }
+      },
+      {
+        "type": "array",
+        "name": "extra",
+        "title": "Extra",
+        "description": "Additional definition for specific meta tags such as open-graph, twitter, etc.",
+        "validation": null,
+        "of": [
+          {
+            "type": "object",
+            "fields": [
+              {
+                "type": "string",
+                "name": "name",
+                "title": "Name",
+                "validation": null
+              },
+              {
+                "type": "string",
+                "name": "value",
+                "title": "Value",
+                "validation": null
+              },
+              {
+                "type": "string",
+                "name": "keyName",
+                "title": "Key Name",
+                "initialValue": "name",
+                "validation": null
+              },
+              {
+                "type": "boolean",
+                "name": "relativeUrl",
+                "title": "Relative Url",
+                "validation": null
+              }
+            ],
+            "preview": {
+              "select": {
+                "title": "name"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "name": "type",
+        "title": "Object Type",
+        "description": "The type of the object",
+        "hidden": false,
+        "options": {
+          "list": [
+            "stackbit_page_meta"
+          ]
+        }
+      },
+      {
+        "type": "string",
+        "name": "stackbit_model_type",
+        "title": "Stackbit Model Type",
+        "description": "Stackbit model type",
+        "hidden": false,
+        "options": {
+          "list": [
+            "object"
+          ]
+        }
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "title"
+      }
+    }
+  },
+  {
+    "name": "sanity.assetSourceData",
+    "title": "Asset Source Data",
+    "type": "object",
+    "fields": [
+      {
+        "name": "name",
+        "title": "Source name",
+        "description": "A canonical name for the source this asset is originating from",
+        "type": "string"
+      },
+      {
+        "name": "id",
+        "title": "Asset Source ID",
+        "description": "The unique ID for the asset within the originating source so you can programatically find back to it",
+        "type": "string"
+      },
+      {
+        "name": "url",
+        "title": "Asset information URL",
+        "description": "A URL to find more information about this asset in the originating source",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "title": "Slug",
+    "name": "slug",
+    "type": "object",
+    "fields": [
+      {
+        "name": "current",
+        "title": "Current slug",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "title": "Geographical Point",
+    "name": "geopoint",
+    "type": "object",
+    "fields": [
+      {
+        "name": "lat",
+        "type": "number",
+        "title": "Latitude"
+      },
+      {
+        "name": "lng",
+        "type": "number",
+        "title": "Longitude"
+      },
+      {
+        "name": "alt",
+        "type": "number",
+        "title": "Altitude"
+      }
+    ]
+  },
+  {
+    "name": "sanity.imageAsset",
+    "title": "Image",
+    "type": "document",
+    "fieldsets": [
+      {
+        "name": "system",
+        "title": "System fields",
+        "description": "These fields are managed by the system and not editable"
+      }
+    ],
+    "fields": [
+      {
+        "name": "originalFilename",
+        "type": "string",
+        "title": "Original file name",
+        "readOnly": true
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "title": "Label"
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "title": "Title"
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "title": "Description"
+      },
+      {
+        "name": "sha1hash",
+        "type": "string",
+        "title": "SHA1 hash",
+        "readOnly": true,
+        "fieldset": "system"
+      },
+      {
+        "name": "extension",
+        "type": "string",
+        "readOnly": true,
+        "title": "File extension",
+        "fieldset": "system"
+      },
+      {
+        "name": "mimeType",
+        "type": "string",
+        "readOnly": true,
+        "title": "Mime type",
+        "fieldset": "system"
+      },
+      {
+        "name": "size",
+        "type": "number",
+        "title": "File size in bytes",
+        "readOnly": true,
+        "fieldset": "system"
+      },
+      {
+        "name": "assetId",
+        "type": "string",
+        "title": "Asset ID",
+        "readOnly": true,
+        "fieldset": "system"
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "title": "Path",
+        "readOnly": true,
+        "fieldset": "system"
+      },
+      {
+        "name": "url",
+        "type": "string",
+        "title": "Url",
+        "readOnly": true,
+        "fieldset": "system"
+      },
+      {
+        "name": "metadata",
+        "type": "sanity.imageMetadata",
+        "title": "Metadata"
+      },
+      {
+        "name": "source",
+        "type": "sanity.assetSourceData",
+        "title": "Source",
+        "readOnly": true,
+        "fieldset": "system"
+      }
+    ],
+    "preview": {
+      "select": {
+        "id": "_id",
+        "title": "originalFilename",
+        "mimeType": "mimeType",
+        "size": "size"
+      }
+    },
+    "orderings": [
+      {
+        "title": "File size",
+        "name": "fileSizeDesc",
+        "by": [
+          {
+            "field": "size",
+            "direction": "desc"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "sanity.fileAsset",
+    "title": "File",
+    "type": "document",
+    "fieldsets": [
+      {
+        "name": "system",
+        "title": "System fields",
+        "description": "These fields are managed by the system and not editable"
+      }
+    ],
+    "fields": [
+      {
+        "name": "originalFilename",
+        "type": "string",
+        "title": "Original file name",
+        "readOnly": true
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "title": "Label"
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "title": "Title"
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "title": "Description"
+      },
+      {
+        "name": "sha1hash",
+        "type": "string",
+        "title": "SHA1 hash",
+        "readOnly": true,
+        "fieldset": "system"
+      },
+      {
+        "name": "extension",
+        "type": "string",
+        "title": "File extension",
+        "readOnly": true,
+        "fieldset": "system"
+      },
+      {
+        "name": "mimeType",
+        "type": "string",
+        "title": "Mime type",
+        "readOnly": true,
+        "fieldset": "system"
+      },
+      {
+        "name": "size",
+        "type": "number",
+        "title": "File size in bytes",
+        "readOnly": true,
+        "fieldset": "system"
+      },
+      {
+        "name": "assetId",
+        "type": "string",
+        "title": "Asset ID",
+        "readOnly": true,
+        "fieldset": "system"
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "title": "Path",
+        "readOnly": true,
+        "fieldset": "system"
+      },
+      {
+        "name": "url",
+        "type": "string",
+        "title": "Url",
+        "readOnly": true,
+        "fieldset": "system"
+      },
+      {
+        "name": "source",
+        "type": "sanity.assetSourceData",
+        "title": "Source",
+        "readOnly": true,
+        "fieldset": "system"
+      }
+    ],
+    "preview": {
+      "select": {
+        "title": "originalFilename",
+        "path": "path",
+        "mimeType": "mimeType",
+        "size": "size"
+      }
+    },
+    "orderings": [
+      {
+        "title": "File size",
+        "name": "fileSizeDesc",
+        "by": [
+          {
+            "field": "size",
+            "direction": "desc"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "sanity.imageCrop",
+    "title": "Image crop",
+    "type": "object",
+    "fields": [
+      {
+        "name": "top",
+        "type": "number"
+      },
+      {
+        "name": "bottom",
+        "type": "number"
+      },
+      {
+        "name": "left",
+        "type": "number"
+      },
+      {
+        "name": "right",
+        "type": "number"
+      }
+    ]
+  },
+  {
+    "name": "sanity.imageHotspot",
+    "title": "Image hotspot",
+    "type": "object",
+    "fields": [
+      {
+        "name": "x",
+        "type": "number"
+      },
+      {
+        "name": "y",
+        "type": "number"
+      },
+      {
+        "name": "height",
+        "type": "number"
+      },
+      {
+        "name": "width",
+        "type": "number"
+      }
+    ]
+  },
+  {
+    "name": "sanity.imageMetadata",
+    "title": "Image metadata",
+    "type": "object",
+    "fieldsets": [
+      {
+        "name": "extra",
+        "title": "Extra metadata…",
+        "options": {
+          "collapsable": true
+        }
+      }
+    ],
+    "fields": [
+      {
+        "name": "location",
+        "type": "geopoint"
+      },
+      {
+        "name": "dimensions",
+        "title": "Dimensions",
+        "type": "sanity.imageDimensions",
+        "fieldset": "extra"
+      },
+      {
+        "name": "palette",
+        "type": "sanity.imagePalette",
+        "title": "Palette",
+        "fieldset": "extra"
+      },
+      {
+        "name": "lqip",
+        "title": "LQIP (Low-Quality Image Placeholder)",
+        "type": "string",
+        "readOnly": true
+      },
+      {
+        "name": "hasAlpha",
+        "title": "Has alpha channel",
+        "type": "boolean",
+        "readOnly": true
+      },
+      {
+        "name": "isOpaque",
+        "title": "Is opaque",
+        "type": "boolean",
+        "readOnly": true
+      }
+    ]
+  },
+  {
+    "name": "sanity.imageDimensions",
+    "type": "object",
+    "title": "Image dimensions",
+    "fields": [
+      {
+        "name": "height",
+        "type": "number",
+        "title": "Height",
+        "readOnly": true
+      },
+      {
+        "name": "width",
+        "type": "number",
+        "title": "Width",
+        "readOnly": true
+      },
+      {
+        "name": "aspectRatio",
+        "type": "number",
+        "title": "Aspect ratio",
+        "readOnly": true
+      }
+    ]
+  },
+  {
+    "name": "sanity.imagePalette",
+    "title": "Image palette",
+    "type": "object",
+    "fields": [
+      {
+        "name": "darkMuted",
+        "type": "sanity.imagePaletteSwatch",
+        "title": "Dark Muted"
+      },
+      {
+        "name": "lightVibrant",
+        "type": "sanity.imagePaletteSwatch",
+        "title": "Light Vibrant"
+      },
+      {
+        "name": "darkVibrant",
+        "type": "sanity.imagePaletteSwatch",
+        "title": "Dark Vibrant"
+      },
+      {
+        "name": "vibrant",
+        "type": "sanity.imagePaletteSwatch",
+        "title": "Vibrant"
+      },
+      {
+        "name": "dominant",
+        "type": "sanity.imagePaletteSwatch",
+        "title": "Dominant"
+      },
+      {
+        "name": "lightMuted",
+        "type": "sanity.imagePaletteSwatch",
+        "title": "Light Muted"
+      },
+      {
+        "name": "muted",
+        "type": "sanity.imagePaletteSwatch",
+        "title": "Muted"
+      }
+    ]
+  },
+  {
+    "name": "sanity.imagePaletteSwatch",
+    "title": "Image palette swatch",
+    "type": "object",
+    "fields": [
+      {
+        "name": "background",
+        "type": "string",
+        "title": "Background",
+        "readOnly": true
+      },
+      {
+        "name": "foreground",
+        "type": "string",
+        "title": "Foreground",
+        "readOnly": true
+      },
+      {
+        "name": "population",
+        "type": "number",
+        "title": "Population",
+        "readOnly": true
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "title": "String",
+        "readOnly": true
+      }
+    ]
+  }
+]

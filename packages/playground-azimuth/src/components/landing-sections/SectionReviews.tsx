@@ -17,7 +17,7 @@ const SectionReviews: FC<{ section: section_reviews }> = ({ section }) => (
                 <p className="review-text">{htmlToReact(review.content)}</p>
                 <footer className="review-footer">
                   {review.avatar && (
-                    <img className="review-avatar" src={withPrefix(review.avatar)} alt={review.author} />
+                    <img className="review-avatar" src={withPrefix(review.avatar)} alt={review.avatar_alt} />
                   )}
                   <cite className="review-author">{review.author}</cite>
                 </footer>

@@ -1,4 +1,4 @@
-import { DocumentBase } from '../data'
+import { Document } from '../data'
 import { FieldDef } from './field'
 export * from './field'
 
@@ -36,4 +36,4 @@ export type ComputedField = {
   resolve: ComputedFieldResolver
 }
 
-type ComputedFieldResolver = (_: Omit<DocumentBase, '__computed'>) => ComputedFieldType
+type ComputedFieldResolver = (_: Omit<Document, '__computed'>) => ComputedFieldType

@@ -1,5 +1,6 @@
 import { defineDocument } from '@sourcebit/source-local'
-import { urlFromFilePath } from '../../utils/url'
+import { stackbit_page_meta } from '../objects/stackbit_page_meta'
+import { urlFromFilePath } from '../utils'
 
 export const page = defineDocument({
   name: 'page',
@@ -32,29 +33,16 @@ export const page = defineDocument({
       description: 'The alt text of the image',
     },
     {
-      type: 'string',
-      name: 'meta_title',
-      label: 'Meta title',
-      description: 'The meta title of the page (recommended length is 50–60 characters)',
+      type: 'object',
+      name: 'seo',
+      object: stackbit_page_meta,
     },
     {
-      type: 'string',
-      name: 'meta_description',
-      label: 'Meta description',
-      description: 'The meta description of the page (recommended length is 50–160 characters)',
-    },
-    {
-      type: 'string',
-      name: 'canonical_url',
-      label: 'Canonical URL',
-      description: 'The canonical url of the page',
-    },
-    {
-      type: 'boolean',
-      name: 'no_index',
-      label: 'No Index',
-      default: false,
-      description: 'Tell search engines not to index this page',
+      type: 'markdown',
+      name: 'content',
+      label: 'Page content',
+      description: 'Page content',
+      required: false,
     },
   ],
   computedFields: (defineField) => [

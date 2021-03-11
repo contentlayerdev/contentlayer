@@ -37,7 +37,7 @@ export const form_field = defineObject({
       name: 'options',
       label: 'Options',
       description: 'The list of options for select field',
-      items: { type: 'string' },
+      items: [{ type: 'string' }],
     },
     {
       type: 'boolean',

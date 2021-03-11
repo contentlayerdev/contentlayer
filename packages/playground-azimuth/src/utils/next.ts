@@ -31,11 +31,11 @@ export const useSourcebit = () => React.useContext(SourcebitContext)
 
 export const useContentLiveReload = () => {
   const router = useRouter()
-  const [cacheHash, setCacheHash] = useState(hash)
+  const [cachedHash, setCachedHash] = useState(hash)
   useEffect(() => {
-    if (cacheHash !== hash) {
+    if (cachedHash !== hash) {
       router.replace(router.asPath)
-      setCacheHash(hash)
+      setCachedHash(hash)
     }
-  }, [cacheHash, hash])
+  }, [cachedHash, hash])
 }

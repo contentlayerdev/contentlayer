@@ -1,43 +1,53 @@
 export default {
-  title: 'Page',
-  name: 'page',
   type: 'document',
-  preview: { select: { title: 'title' } },
+  name: 'page',
+  title: 'Page',
   fields: [
     {
       type: 'string',
-      title: 'Title',
       name: 'title',
+      title: 'Title',
       description: 'The title of the page',
-      validation: Rule => Rule.required()
+      validation: (Rule) => Rule.required(),
     },
     {
-      type: 'slug',
-      title: 'Slug',
-      name: 'slug',
-      description: 'The URL path of this page relative to the site domain',
-      validation: Rule => Rule.required(),
-      options: {
-        source: 'title'
-      }
-    },
-    {
-      type: 'text',
-      title: 'Subtitle',
+      type: 'string',
       name: 'subtitle',
-      description: 'The text shown below the page title'
+      title: 'Subtitle',
+      description: 'The text shown below the page title',
+      validation: null,
     },
     {
       type: 'image',
-      title: 'Image',
       name: 'image',
-      description: 'The image shown below the page title'
+      title: 'Image',
+      description: 'The image shown below the page title',
+      validation: null,
+    },
+    {
+      type: 'string',
+      name: 'image_alt',
+      title: 'Image Alt Text',
+      description: 'The alt text of the image',
+      validation: null,
+    },
+    {
+      type: 'stackbit_page_meta',
+      name: 'seo',
+      title: 'Seo',
+      validation: null,
     },
     {
       type: 'markdown',
-      title: 'Content',
       name: 'content',
-      description: 'Page content'
-    }
-  ]
+      title: 'Content',
+      description: 'Page content',
+      validation: null,
+    },
+  ],
+  preview: {
+    select: {
+      title: 'title',
+    },
+  },
 }

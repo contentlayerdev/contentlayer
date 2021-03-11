@@ -2,7 +2,7 @@ import { defineObject } from '@sourcebit/source-local'
 
 export const action = defineObject({
   name: 'action',
-  label: 'Section',
+  label: 'Action',
   labelField: 'title',
   fields: [
     {

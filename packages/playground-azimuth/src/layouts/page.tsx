@@ -1,11 +1,11 @@
-import { page, site_config } from '@sourcebit/types'
+import { config, page } from '@sourcebit/types'
 import React, { FC } from 'react'
 import { Layout } from '../components/index'
 import { htmlToReact, markdownify, withPrefix } from '../utils'
 
 const Page: FC<{
   doc: page
-  config: site_config
+  config: config
 }> = ({ config, doc }) => {
   return (
     <Layout doc={doc} config={config}>

@@ -1,8 +1,8 @@
 import { Config } from '@sourcebit/core'
-import { build } from 'esbuild'
+import { build as esbuild, Plugin } from 'esbuild'
 import * as fs from 'fs/promises'
-import * as os from 'os'
 import * as path from 'path'
+import pkgUp from 'pkg-up'
 
 export async function getConfig({
   configPath,
@@ -12,21 +12,28 @@ export async function getConfig({
   cwd?: string
 }): Promise<Config> {
   try {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'sourcebit-'))
+    const packageJsonPath = await pkgUp({ cwd: process.cwd() })
+    const tmpDir = path.join(packageJsonPath!, '..', 'node_modules', 'sourcebit', 'config')
+    await fs.mkdir(tmpDir, { recursive: true })
+    // const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'sourcebit-'))
     const outfilePath = path.join(tmpDir, 'sourcebit.js')
     const resolvedPath = path.join(cwd, configPath)
-    const result = await build({
+    const result = await esbuild({
       entryPoints: [resolvedPath],
       outfile: outfilePath,
       sourcemap: true,
       platform: 'node',
+      plugins: [dirnameOverridePlugin()],
+      // TODO make dynamic
+      external: ['@sanity/core/lib/actions/graphql/getSanitySchema'],
       format: 'cjs',
       bundle: true,
     })
     if (result.warnings.length > 0) {
       console.error(result.warnings)
     }
-    const exports = await import(outfilePath)
+    // const exports = await import(outfilePath)
+    const exports = require(outfilePath)
     if (!('default' in exports)) {
       throw new Error(`Provided config path (${configPath}) doesn't have a default export.`)
     }
@@ -37,3 +44,20 @@ export async function getConfig({
     throw e
   }
 }
+
+/** Needed to override the `__dirname` variable so relative linking still works */
+const dirnameOverridePlugin = (): Plugin => ({
+  name: 'dirname_override',
+  setup(build) {
+    // TODO need to come up with a better `filter`
+    build.onLoad({ filter: /\/sourcebit\/.*/, namespace: 'file' }, async (args) => {
+      // NOTE needed to deal with TypeScript sources as esbuild plugins don't seem to be composable right now
+      const result = await esbuild({
+        entryPoints: [args.path],
+        write: false,
+      })
+      const contents = `var __dirname = "${path.dirname(args.path)}";\n${result.outputFiles![0].text}`
+      return { contents }
+    })
+  },
+})

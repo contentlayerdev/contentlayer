@@ -2,6 +2,7 @@
   "search.exclude": {
     "**/.yarn": true,
     "**/.next": true,
+    "**/*.tsbuildinfo": true,
     "**/dist": true,
     "**/.pnp.*": true
   },

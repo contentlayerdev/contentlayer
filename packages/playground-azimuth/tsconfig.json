@@ -3,14 +3,14 @@
   "compilerOptions": {
     "jsx": "preserve",
     "allowSyntheticDefaultImports": true,
-    "rootDir": "./src",
+    "rootDir": ".",
     "allowJs": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "resolveJsonModule": true
   },
-  "include": ["./src", "./src/**/*.json", "./node_modules/@types"],
+  "include": ["./src", "./src/**/*.json", "./node_modules/@types", "./sourcebit"],
   "references": [{ "path": "../@sourcebit/client" }, { "path": "../@sourcebit/source-local" }],
   "exclude": ["node_modules"]
 }

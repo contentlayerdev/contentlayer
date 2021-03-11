@@ -1,18 +1,24 @@
 export default {
-    title: 'FAQ Item',
-    name: 'faq_item',
-    type: 'object',
-    preview: { select: { title: 'question' } },
-    fields: [
-        {
-            type: 'text',
-            title: 'Question',
-            name: 'question'
-        },
-        {
-            type: 'markdown',
-            title: 'Answer',
-            name: 'answer'
-        }
-    ]
+  type: 'object',
+  name: 'faq_item',
+  title: 'FAQ Item',
+  fields: [
+    {
+      type: 'text',
+      name: 'question',
+      title: 'Question',
+      validation: null,
+    },
+    {
+      type: 'markdown',
+      name: 'answer',
+      title: 'Answer',
+      validation: null,
+    },
+  ],
+  preview: {
+    select: {
+      title: 'type',
+    },
+  },
 }

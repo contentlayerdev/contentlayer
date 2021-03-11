@@ -163,8 +163,8 @@
         }
       },
       "__meta": {
-        "sourceFilePath": "content/data/site_config.json",
-        "typeName": "site_config"
+        "sourceFilePath": "content/data/config.json",
+        "typeName": "config"
       }
     },
     {
@@ -385,11 +385,7 @@
               "name": "subject",
               "label": "Subject",
               "default_value": "Please select",
-              "options": [
-                "Error on the site",
-                "Sponsorship",
-                "Other"
-              ]
+              "options": ["Error on the site", "Sponsorship", "Other"]
             },
             {
               "input_type": "textarea",

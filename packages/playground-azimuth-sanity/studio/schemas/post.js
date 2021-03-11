@@ -1,80 +1,92 @@
 export default {
-  title: 'Post',
-  name: 'post',
   type: 'document',
-  preview: { select: { title: 'title' } },
+  name: 'post',
+  title: 'Post',
   fields: [
     {
       type: 'string',
-      title: 'Title',
       name: 'title',
+      title: 'Title',
       description: 'The title of the post',
-      validation: Rule => Rule.required()
+      validation: (Rule) => Rule.required(),
     },
     {
-      type: 'slug',
-      title: 'Slug',
-      name: 'slug',
-      description: 'The URL path of this page relative to the site domain',
-      validation: Rule => Rule.required(),
-      options: {
-        source: 'title'
-      }
+      type: 'string',
+      name: 'subtitle',
+      title: 'Subtitle',
+      description: 'The text shown just below the title or the featured image',
+      validation: null,
     },
     {
-      type: 'datetime',
-      title: 'Date',
+      type: 'date',
       name: 'date',
-      validation: Rule => Rule.required()
+      title: 'Date',
+      validation: (Rule) => Rule.required(),
     },
     {
       type: 'reference',
-      title: 'Author',
       name: 'author',
-      description: 'The author of the post',
-      to: [{type: 'person'}]
-    },
-    {
-      type: 'array',
-      title: 'Categories',
-      name: 'categories',
-      description: 'Categories this blog relate to',
-      of: [
+      title: 'Author',
+      description: 'Post author',
+      validation: null,
+      to: [
         {
-          type: 'reference',
-          to: [{type: 'blog_category'}]
-        }
-      ]
+          type: 'person',
+        },
+      ],
     },
     {
-      type: 'text',
-      title: 'Subtitle',
-      name: 'subtitle',
-      description: 'The text shown just below the title or the featured image'
-    },
-    {
-      type: 'image',
-      title: 'Featured Image',
-      name: 'image',
-      description: 'The image shown below the title'
-    },
-    {
-      type: 'image',
-      title: 'Blog Feed Image',
-      name: 'thumb_image',
-      description: 'The image shown in the blog feed'
-    },
-    {
-      type: 'markdown',
-      title: 'Excerpt',
+      type: 'string',
       name: 'excerpt',
-      description: 'The excerpt of the post displayed in the blog feed'
+      title: 'Excerpt',
+      description: 'The excerpt of the post displayed in the blog feed',
+      validation: null,
+    },
+    {
+      type: 'image',
+      name: 'image',
+      title: 'Image (single post)',
+      description: 'The image shown below the title',
+      validation: null,
+    },
+    {
+      type: 'string',
+      name: 'image_alt',
+      title: 'Image alt text (single post)',
+      description: 'The alt text of the featured image',
+      validation: null,
+    },
+    {
+      type: 'image',
+      name: 'thumb_image',
+      title: 'Image (blog feed)',
+      description: 'The image shown in the blog feed',
+      validation: null,
+    },
+    {
+      type: 'string',
+      name: 'thumb_image_alt',
+      title: 'Image alt text (blog feed)',
+      description: 'The alt text of the blog feed image',
+      validation: null,
+    },
+    {
+      type: 'stackbit_page_meta',
+      name: 'seo',
+      title: 'Seo',
+      validation: null,
     },
     {
       type: 'markdown',
-      title: 'Content',
       name: 'content',
-      description: 'Post content'
-    }
-  ]
+      title: 'Content',
+      description: 'Page content',
+      validation: null,
+    },
+  ],
+  preview: {
+    select: {
+      title: 'title',
+    },
+  },
 }

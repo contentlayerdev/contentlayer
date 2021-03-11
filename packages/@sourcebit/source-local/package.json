@@ -9,6 +9,11 @@
   },
   "dependencies": {
     "@sourcebit/core": "workspace:*",
+    "chokidar": "^3.5.1",
+    "glob-promise": "^4.0.1",
+    "gray-matter": "^4.0.2",
+    "js-yaml": "^4.0.0",
+    "minimatch": "^3.0.4",
     "ts-pattern": "^2.1.2"
   },
   "devDependencies": {

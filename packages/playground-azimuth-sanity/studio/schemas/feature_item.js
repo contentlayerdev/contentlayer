@@ -1,31 +1,50 @@
 export default {
-    title: 'Feature Item',
-    name: 'feature_item',
-    type: 'object',
-    preview: { select: { title: 'title' } },
-    fields: [
+  type: 'object',
+  name: 'feature_item',
+  title: 'Feature Item',
+  fields: [
+    {
+      type: 'string',
+      name: 'title',
+      title: 'Title',
+      validation: null,
+    },
+    {
+      type: 'markdown',
+      name: 'content',
+      title: 'Content',
+      description: 'Feature description',
+      validation: null,
+    },
+    {
+      type: 'image',
+      name: 'image',
+      title: 'Image',
+      description: 'Feature image',
+      validation: null,
+    },
+    {
+      type: 'string',
+      name: 'image_alt',
+      title: 'Image Alt Text',
+      description: 'The alt text of the feature image',
+      validation: null,
+    },
+    {
+      type: 'array',
+      name: 'actions',
+      title: 'Action Buttons',
+      validation: null,
+      of: [
         {
-            type: 'string',
-            title: 'Title',
-            name: 'title'
+          type: 'action',
         },
-        {
-            type: 'markdown',
-            title: 'Content',
-            name: 'content',
-            description: 'Feature description'
-        },
-        {
-            type: 'image',
-            title: 'Image',
-            name: 'image',
-            description: 'Feature image'
-        },
-        {
-            type: 'array',
-            title: 'Action Buttons',
-            name: 'actions',
-            of: [{type: 'action'}]
-        }
-    ]
+      ],
+    },
+  ],
+  preview: {
+    select: {
+      title: 'title',
+    },
+  },
 }

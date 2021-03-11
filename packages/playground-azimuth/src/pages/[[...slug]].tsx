@@ -8,11 +8,12 @@ const cache = require('../sourcebit.json')
 const sourcebit = new SourcebitClient({ cache })
 
 const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = (props) => {
-  const componentName = props.doc!.__meta.typeName
-  const PageLayout = (pageLayouts as any)[componentName] as FC
   if (process.env.NODE_ENV === 'development') {
     useContentLiveReload()
   }
+
+  const componentName = props.doc!.__meta.typeName
+  const PageLayout = (pageLayouts as any)[componentName] as FC
   return (
     <SourcebitContext.Provider value={sourcebit}>
       <PageLayout {...props} />
@@ -42,7 +43,7 @@ export const getStaticProps = defineStaticProps(async (context) => {
     .filter(guards.is(['post', 'landing', 'page', 'blog']))
     .find((_) => _.__computed.urlPath === pagePath)!
 
-  const config = docs.find(guards.is('site_config'))!
+  const config = docs.find(guards.is('config'))!
 
   if (pagePath.startsWith('blog')) {
     const posts = docs.filter(guards.is('post'))

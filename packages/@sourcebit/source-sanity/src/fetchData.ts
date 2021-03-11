@@ -1,9 +1,9 @@
 import SantityImageUrlBuilder from '@sanity/image-url'
 import { ImageUrlBuilder } from '@sanity/image-url/lib/types/builder'
-import type { FetchDataFn } from '@sourcebit/core'
+import { Document } from '@sourcebit/core'
 import { getSanityClient } from './sanity-client'
 
-export const fetchData: FetchDataFn = async (studioDirPath: string) => {
+export const fetchData = async (studioDirPath: string): Promise<{ documents: Document[] }> => {
   const client = await getSanityClient(studioDirPath)
 
   const imageUrlBuilder = SantityImageUrlBuilder(client)
@@ -13,11 +13,9 @@ export const fetchData: FetchDataFn = async (studioDirPath: string) => {
     .filter((_) => !_._id.startsWith('image'))
     .filter((_) => _._id)
     .map((_) => transformDataRec(_, imageUrlBuilder))
-  // .reduce((result, entry) => ({ ...result, [entry._id]: transformDataRec(entry) }), {})
-  const { promises: fs } = await import('fs')
-  fs.writeFile(`result.json`, JSON.stringify({ documents: entriesById }, null, 2))
-  console.log(entriesById)
-  return '' as any
+  // .reduce((result, entry) => ({ ...result, [entry._id]: transformDataRec(entry, imageUrlBuilder) }), {})
+
+  return { documents: entriesById }
 }
 
 /** Recursively transforms Sanity response data into the data shape Sourcebit expects */

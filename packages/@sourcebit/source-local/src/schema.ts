@@ -61,13 +61,16 @@ export type FieldType =
 export type FieldDef =
   | ListField
   | StringField
+  | NumberField
   | BooleanField
   | SlugField
   | DateField
   | MarkdownField
   | TextField
+  | UrlField
   | ImageField
   | ObjectField
+  | InlineObjectField
   | ReferenceField
   | EnumField
 
@@ -91,32 +94,42 @@ interface FieldBase {
 export interface ListField extends FieldBase {
   type: 'list'
   default?: any[]
-  items: ListFieldItems
+  items: ListFieldItem[] | Thunk<ListFieldItem[]>
 }
 
 export const isListField = (_: FieldDef): _ is ListField => _.type === 'list'
 
-export type ListFieldItems = ListFieldItemsString | ListFieldItemsBoolean | ListFieldItemsObject
+export type ListFieldItem =
+  | ListFieldItemString
+  | ListFieldItemEnum
+  | ListFieldItemBoolean
+  | ListFieldItemObject
+  | ListFieldItemInlineObject
 
-type BaseListFieldItems = { labelField?: string }
+type BaseListFieldItem = { labelField?: string }
 
-type ListFieldItemsString = BaseListFieldItems & { type: 'string' }
-type ListFieldItemsBoolean = BaseListFieldItems & { type: 'boolean' }
-export type ListFieldItemsObject = BaseListFieldItems & {
+export type ListFieldItemString = BaseListFieldItem & { type: 'string' }
+export type ListFieldItemEnum = BaseListFieldItem & { type: 'enum'; options: string[] }
+export type ListFieldItemBoolean = BaseListFieldItem & { type: 'boolean' }
+export type ListFieldItemObject = BaseListFieldItem & {
   type: 'object'
-  object: // | string
-  | ObjectDef
-    | Thunk<ObjectDef>
-    // | string[]
-    | ObjectDef[]
-    | Thunk<ObjectDef[]>
+  object: ObjectDef | Thunk<ObjectDef>
+}
+export type ListFieldItemInlineObject = BaseListFieldItem & {
+  type: 'inline_object'
+  fields: FieldDef[] | Thunk<FieldDef[]>
 }
 
-export const isListFieldItemsObject = (_: ListFieldItems): _ is ListFieldItemsObject => _.type === 'object'
+export const isListFieldItemObject = (_: ListFieldItem): _ is ListFieldItemObject => _.type === 'object'
 
 export type StringField = FieldBase & {
   type: 'string'
   default?: string
+}
+
+export type NumberField = FieldBase & {
+  type: 'number'
+  default?: number
 }
 
 export type BooleanField = FieldBase & {
@@ -146,6 +159,11 @@ export type TextField = FieldBase & {
   default?: string
 }
 
+export type UrlField = FieldBase & {
+  type: 'url'
+  default?: string
+}
+
 export type ImageField = FieldBase & {
   type: 'image'
   default?: string
@@ -159,12 +177,19 @@ export type EnumField = FieldBase & {
 
 export type ObjectField = FieldBase & {
   type: 'object'
-  // default?: DataForFields<Object['fields']>
   default?: any
   object: ObjectDef | Thunk<ObjectDef>
 }
 
 export const isObjectField = (_: FieldDef): _ is ObjectField => _.type === 'object'
+
+export type InlineObjectField = FieldBase & {
+  type: 'inline_object'
+  default?: any
+  fields: FieldDef[] | Thunk<FieldDef[]>
+}
+
+export const isInlineObjectField = (_: FieldDef): _ is InlineObjectField => _.type === 'inline_object'
 
 export type ReferenceField = FieldBase & {
   type: 'reference'

@@ -1,4 +1,4 @@
-import { site_config } from '@sourcebit/types'
+import { config } from '@sourcebit/types'
 import React, { FC } from 'react'
 import { htmlToReact } from '../utils'
 import ActionLink from './ActionLink'
@@ -12,7 +12,7 @@ const footerComponents = {
   footer_text: FooterText,
 }
 
-const Footer: FC<{ config: site_config }> = ({ config }) => (
+const Footer: FC<{ config: config }> = ({ config }) => (
   <footer id="colophon" className="site-footer">
     {config.footer.sections && config.footer.sections.length > 0 && (
       <div className="footer-top outer">

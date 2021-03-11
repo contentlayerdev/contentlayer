@@ -40,7 +40,8 @@ type CommonFieldProps = {
 export type StringField = CommonFieldProps & {
   type: 'string'
   options?: {
-    list: { title: string; value: string }[]
+    // list: { title: string; value: string }[]
+    list: string[]
     layout?: string
   }
 }
@@ -53,23 +54,42 @@ export type BooleanField = CommonFieldProps & {
   type: 'boolean'
 }
 
-export type GeopointField = CommonFieldProps & {
-  type: 'geopoint'
+export type DateTimeField = CommonFieldProps & {
+  type: 'datetime'
 }
 
-type TextField = CommonFieldProps & {
+export type DateField = CommonFieldProps & {
+  type: 'date'
+}
+
+export type UrlField = CommonFieldProps & {
+  type: 'url'
+}
+
+export type SlugField = CommonFieldProps & {
+  type: 'slug'
+  options?: {
+    source: string
+  }
+}
+
+export type MarkdownField = CommonFieldProps & {
+  type: 'markdown'
+}
+
+export type TextField = CommonFieldProps & {
   type: 'text'
   rows: number
 }
 
 export type Span = {
-  _type: 'span'
+  type: 'span'
   text: string
 }
 
-export type BlockField = {
+export type BlockField = CommonFieldProps & {
   // type: '???'
-  _type: 'block'
+  type: 'block'
   styles: {
     title: string
     value: string
@@ -81,13 +101,20 @@ export type BlockField = {
   children: (Field | Span)[]
 }
 
-type ArrayOf = ObjectType | ReferenceField | ImageField | { type: string } | BlockField
+export type ArrayOf = InlineObjectField | ReferenceField | ImageField | BlockField | StringField
 
-export type ArrayField = CommonFieldProps & {
-  type: 'array'
-  name: string
-  of: ArrayOf[]
-}
+export type ArrayField = CommonFieldProps & { type: 'array'; name: string } & (
+    | // enum array
+    {
+        of: [StringField]
+        options?: {
+          list: string[]
+        }
+      }
+    | { of: ArrayOf[] }
+  )
+
+export const isArrayField = (_: Field): _ is ArrayField => _.type === 'array'
 
 type FilterFunctionResult = { filter: string; filterParams?: string }
 type FilterFunction = (args: {
@@ -96,6 +123,7 @@ type FilterFunction = (args: {
   parent: {}[]
 }) => FilterFunctionResult
 type ReferenceField = CommonFieldProps & {
+  type: 'reference'
   to: { type: string }[]
   options: {
     filter: string | FilterFunction
@@ -103,7 +131,7 @@ type ReferenceField = CommonFieldProps & {
   }
 }
 
-type ImageField = CommonFieldProps & {
+export type ImageField = CommonFieldProps & {
   type: 'image'
   options?: {
     hotspot?: boolean
@@ -118,17 +146,30 @@ MISSING FIELD TYPES
 */
 
 export type Field =
-  | CommonFieldProps
   | StringField
   | NumberField
-  | NumberField
-  | GeopointField
+  | BooleanField
+  | DateTimeField
+  | DateField
+  | UrlField
+  | SlugField
   | TextField
+  | MarkdownField
   | ArrayField
   | ReferenceField
   | ImageField
-  | ObjectType
+  | InlineObjectField
   | BlockField
+// | ObjectField
+
+// NOTE `ObjectField` is commented out since it otherwise breaks the string literal union tags for `type`
+type ObjectField = CommonFieldProps & {
+  type: string
+}
+
+export type InlineObjectField = ObjectType
+
+export type FieldType = Field['type']
 
 type Preview = {
   select?: { [key: string]: string }
@@ -154,7 +195,7 @@ export type ObjectType = {
   options?: { collapsible?: boolean; collapsed?: boolean }
 }
 
-export type Document = {
+export type DocumentType = {
   type: 'document'
   name: string
   fields: Field[]

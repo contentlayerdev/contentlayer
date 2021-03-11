@@ -1,7 +1,8 @@
 import { defineDocument, defineObject } from '@sourcebit/source-local'
-import { urlFromFilePath } from '../../utils/url'
 import { action } from '../objects/action'
 import { form_field } from '../objects/form_field'
+import { stackbit_page_meta } from '../objects/stackbit_page_meta'
+import { urlFromFilePath } from '../utils'
 
 export const landing = defineDocument({
   name: 'landing',
@@ -16,50 +17,27 @@ export const landing = defineDocument({
       required: true,
     },
     {
-      type: 'string',
-      name: 'meta_title',
-      label: 'Meta Title',
-      description: 'The meta title of the page (recommended length is 50–60 characters)',
-    },
-    {
-      type: 'string',
-      name: 'meta_description',
-      label: 'Meta Description',
-      description: 'The meta description of the page (recommended length is 50–160 characters)',
-    },
-    {
-      type: 'string',
-      name: 'canonical_url',
-      label: 'Canonical URL',
-      description: 'The canonical url of the page',
-    },
-    {
-      type: 'boolean',
-      name: 'no_index',
-      label: 'No Index',
-      default: false,
-      description: 'Tell search engines not to index this page',
-    },
-    {
       type: 'list',
       name: 'sections',
       label: 'Sections',
       description: 'Page sections',
-      items: {
-        type: 'object',
-        labelField: 'title',
-        object: () => [
+      items: () =>
+        [
           section_content,
           section_cta,
-          section_hero,
-          section_features,
-          section_contact,
           section_faq,
+          section_features,
+          section_hero,
           section_posts,
           section_pricing,
           section_reviews,
-        ],
-      },
+          section_contact,
+        ].map((object) => ({ type: 'object', labelField: 'title', object })),
+    },
+    {
+      type: 'object',
+      name: 'seo',
+      object: stackbit_page_meta,
     },
   ],
   computedFields: (defineField) => [
@@ -131,7 +109,7 @@ const section_content = defineObject({
       type: 'list',
       name: 'actions',
       label: 'Action Buttons',
-      items: { type: 'object', object: action },
+      items: [{ type: 'object', object: action }],
     },
   ],
 })
@@ -152,7 +130,7 @@ const section_cta = defineObject({
       type: 'list',
       name: 'actions',
       label: 'Action Buttons',
-      items: { type: 'object', object: action },
+      items: [{ type: 'object', object: action }],
     },
   ],
 })
@@ -185,7 +163,7 @@ const section_hero = defineObject({
       type: 'list',
       name: 'actions',
       label: 'Action Buttons',
-      items: { type: 'object', object: action },
+      items: [{ type: 'object', object: action }],
     },
   ],
 })
@@ -214,14 +192,14 @@ const section_features = defineObject({
       type: 'list',
       name: 'features',
       label: 'Features',
-      items: { type: 'object', object: () => section_feature },
+      items: [{ type: 'object', object: () => feature_item }],
     },
   ],
 })
 
-const section_feature = defineObject({
-  name: 'section_feature',
-  label: 'Hero Section',
+const feature_item = defineObject({
+  name: 'feature_item',
+  label: 'Feature Item',
   labelField: 'title',
   fields: [
     {
@@ -251,7 +229,7 @@ const section_feature = defineObject({
       type: 'list',
       name: 'actions',
       label: 'Action Buttons',
-      items: { type: 'object', object: action },
+      items: [{ type: 'object', object: action }],
     },
   ],
 })
@@ -305,7 +283,7 @@ const section_contact = defineObject({
       type: 'list',
       name: 'form_fields',
       label: 'Form Fields',
-      items: { type: 'object', object: form_field },
+      items: [{ type: 'object', object: form_field }],
     },
     {
       type: 'string',
@@ -318,7 +296,7 @@ const section_contact = defineObject({
 
 const section_faq = defineObject({
   name: 'section_faq',
-  label: 'Contact Section',
+  label: 'FAQ Section',
   labelField: 'title',
   fields: [
     ...sectionBaseFields,
@@ -340,7 +318,7 @@ const section_faq = defineObject({
       type: 'list',
       name: 'faq_items',
       label: 'FAQ Items',
-      items: { type: 'object', object: () => faq_item },
+      items: [{ type: 'object', object: () => faq_item }],
     },
   ],
 })
@@ -407,7 +385,7 @@ const section_pricing = defineObject({
       type: 'list',
       name: 'pricing_plans',
       label: 'Pricing Plans',
-      items: { type: 'object', object: () => pricing_plan },
+      items: [{ type: 'object', object: () => pricing_plan }],
     },
   ],
 })
@@ -448,7 +426,7 @@ const pricing_plan = defineObject({
       type: 'list',
       name: 'actions',
       label: 'Action Buttons',
-      items: { type: 'object', object: action },
+      items: [{ type: 'object', object: action }],
     },
   ],
 })
@@ -476,7 +454,7 @@ const section_reviews = defineObject({
       type: 'list',
       name: 'reviews',
       label: 'Reviews',
-      items: { type: 'object', object: () => review_item },
+      items: [{ type: 'object', object: () => review_item }],
     },
   ],
 })
@@ -494,7 +472,12 @@ const review_item = defineObject({
     {
       type: 'image',
       name: 'avatar',
-      label: 'Avatar',
+      label: 'Author Image',
+    },
+    {
+      type: 'string',
+      name: 'avatar_alt',
+      label: 'Author Image Alt Text',
     },
     {
       type: 'text',

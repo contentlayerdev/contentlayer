@@ -1,32 +1,44 @@
 export default {
-    title: 'Call to Action Section',
-    name: 'section_cta',
-    type: 'object',
-    preview: { select: { title: 'title' } },
-    fields: [
+  type: 'object',
+  name: 'section_cta',
+  title: 'Call to Action Section',
+  fields: [
+    {
+      type: 'string',
+      name: 'section_id',
+      title: 'Section ID',
+      description: 'A unique identifier of the section, must not contain whitespace',
+      validation: null,
+    },
+    {
+      type: 'string',
+      name: 'title',
+      title: 'Title',
+      description: 'The title of the section',
+      validation: null,
+    },
+    {
+      type: 'string',
+      name: 'subtitle',
+      title: 'Subtitle',
+      description: 'The subtitle of the section',
+      validation: null,
+    },
+    {
+      type: 'array',
+      name: 'actions',
+      title: 'Action Buttons',
+      validation: null,
+      of: [
         {
-            type: 'string',
-            title: 'Element ID',
-            name: 'section_id',
-            description: 'Element ID can be used in links to scroll the page to this section when link clicked'
+          type: 'action',
         },
-        {
-            type: 'string',
-            title: 'Title',
-            name: 'title',
-            description: 'The title of this section'
-        },
-        {
-            type: 'text',
-            title: 'Subtitle',
-            name: 'subtitle',
-            description: 'The subtitle of this section'
-        },
-        {
-            type: 'array',
-            title: 'Action Buttons',
-            name: 'actions',
-            of: [{type: 'action'}]
-        }
-    ]
+      ],
+    },
+  ],
+  preview: {
+    select: {
+      title: 'title',
+    },
+  },
 }

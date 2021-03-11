@@ -3,8 +3,8 @@
   "scripts": {
     "dev": "next",
     "build": "yarn generate && yarn fetch && next build",
-    "generate": "ESBUILD_BINARY_PATH=$(which esbuild) sourcebit generate --config ./src/schema/sourcebit.ts",
-    "fetch": "ESBUILD_BINARY_PATH=$(which esbuild) sourcebit fetch --config ./src/schema/sourcebit.ts"
+    "generate": "ESBUILD_BINARY_PATH=$(which esbuild) sourcebit generate --config ./sourcebit/sourcebit.ts",
+    "fetch": "ESBUILD_BINARY_PATH=$(which esbuild) sourcebit fetch --config ./sourcebit/sourcebit.ts"
   },
   "dependencies": {
     "@sourcebit/cli": "workspace:*",

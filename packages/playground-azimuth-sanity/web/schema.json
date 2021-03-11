@@ -1,0 +1,1253 @@
+{
+  "documentDefMap": {
+    "config": {
+      "name": "config",
+      "label": "Site Configuration",
+      "labelField": "title",
+      "fieldDefs": [
+        {
+          "description": "Site title",
+          "name": "title",
+          "required": true,
+          "type": "string",
+          "label": "Title"
+        },
+        {
+          "description": "The base URL of this site. Useful for sites hosted under specific path, e.g.: https://www.example.com/my-site/",
+          "name": "path_prefix",
+          "required": true,
+          "type": "string",
+          "label": "Base URL",
+          "hidden": true
+        },
+        {
+          "description": "The domain of your site, including the protocol, e.g. https://mysite.com/",
+          "name": "domain",
+          "type": "string",
+          "label": "Domain"
+        },
+        {
+          "description": "A square icon that represents your website",
+          "name": "favicon",
+          "type": "image",
+          "label": "Favicon"
+        },
+        {
+          "description": "The color palette of the site",
+          "name": "palette",
+          "required": true,
+          "type": "enum",
+          "options": [
+            "blue",
+            "cyan",
+            "green",
+            "orange",
+            "purple"
+          ],
+          "label": "Color Palette"
+        },
+        {
+          "name": "base_font",
+          "required": true,
+          "type": "enum",
+          "options": [
+            "fira-sans",
+            "nunito-sans",
+            "system-sans"
+          ],
+          "label": "Font"
+        },
+        {
+          "name": "header",
+          "required": true,
+          "type": "object",
+          "objectName": "header"
+        },
+        {
+          "name": "footer",
+          "required": true,
+          "type": "object",
+          "objectName": "footer"
+        }
+      ],
+      "computedFields": []
+    },
+    "person": {
+      "name": "person",
+      "label": "Person",
+      "labelField": "first_name",
+      "fieldDefs": [
+        {
+          "name": "first_name",
+          "type": "string",
+          "label": "First Name"
+        },
+        {
+          "name": "last_name",
+          "type": "string",
+          "label": "Last Name"
+        },
+        {
+          "name": "bio",
+          "type": "markdown",
+          "label": "Bio"
+        },
+        {
+          "name": "photo",
+          "type": "image",
+          "label": "Photo"
+        }
+      ],
+      "computedFields": []
+    },
+    "landing": {
+      "name": "landing",
+      "label": "Landing Page",
+      "labelField": "title",
+      "fieldDefs": [
+        {
+          "description": "The title of the page",
+          "name": "title",
+          "required": true,
+          "type": "string",
+          "label": "Title"
+        },
+        {
+          "description": "Page sections",
+          "name": "sections",
+          "type": "list",
+          "items": [
+            {
+              "type": "object",
+              "objectName": "section_content"
+            },
+            {
+              "type": "object",
+              "objectName": "section_cta"
+            },
+            {
+              "type": "object",
+              "objectName": "section_faq"
+            },
+            {
+              "type": "object",
+              "objectName": "section_features"
+            },
+            {
+              "type": "object",
+              "objectName": "section_hero"
+            },
+            {
+              "type": "object",
+              "objectName": "section_posts"
+            },
+            {
+              "type": "object",
+              "objectName": "section_pricing"
+            },
+            {
+              "type": "object",
+              "objectName": "section_reviews"
+            },
+            {
+              "type": "object",
+              "objectName": "section_contact"
+            }
+          ]
+        },
+        {
+          "name": "seo",
+          "type": "object",
+          "objectName": "stackbit_page_meta"
+        }
+      ],
+      "computedFields": []
+    },
+    "blog": {
+      "name": "blog",
+      "label": "Blog",
+      "labelField": "title",
+      "fieldDefs": [
+        {
+          "description": "The title of the page",
+          "name": "title",
+          "required": true,
+          "type": "string",
+          "label": "Title"
+        },
+        {
+          "name": "seo",
+          "type": "object",
+          "objectName": "stackbit_page_meta"
+        }
+      ],
+      "computedFields": []
+    },
+    "page": {
+      "name": "page",
+      "label": "Page",
+      "labelField": "title",
+      "fieldDefs": [
+        {
+          "description": "The title of the page",
+          "name": "title",
+          "required": true,
+          "type": "string",
+          "label": "Title"
+        },
+        {
+          "description": "The text shown below the page title",
+          "name": "subtitle",
+          "type": "string",
+          "label": "Subtitle"
+        },
+        {
+          "description": "The image shown below the page title",
+          "name": "image",
+          "type": "image",
+          "label": "Image"
+        },
+        {
+          "description": "The alt text of the image",
+          "name": "image_alt",
+          "type": "string",
+          "label": "Image Alt Text"
+        },
+        {
+          "name": "seo",
+          "type": "object",
+          "objectName": "stackbit_page_meta"
+        },
+        {
+          "description": "Page content",
+          "name": "content",
+          "type": "markdown",
+          "label": "Content"
+        }
+      ],
+      "computedFields": []
+    },
+    "post": {
+      "name": "post",
+      "label": "Post",
+      "labelField": "title",
+      "fieldDefs": [
+        {
+          "description": "The title of the post",
+          "name": "title",
+          "required": true,
+          "type": "string",
+          "label": "Title"
+        },
+        {
+          "description": "The text shown just below the title or the featured image",
+          "name": "subtitle",
+          "type": "string",
+          "label": "Subtitle"
+        },
+        {
+          "name": "date",
+          "required": true,
+          "type": "date",
+          "label": "Date"
+        },
+        {
+          "description": "Post author",
+          "name": "author",
+          "type": "reference",
+          "documentName": "person"
+        },
+        {
+          "description": "The excerpt of the post displayed in the blog feed",
+          "name": "excerpt",
+          "type": "string",
+          "label": "Excerpt"
+        },
+        {
+          "description": "The image shown below the title",
+          "name": "image",
+          "type": "image",
+          "label": "Image (single post)"
+        },
+        {
+          "description": "The alt text of the featured image",
+          "name": "image_alt",
+          "type": "string",
+          "label": "Image alt text (single post)"
+        },
+        {
+          "description": "The image shown in the blog feed",
+          "name": "thumb_image",
+          "type": "image",
+          "label": "Image (blog feed)"
+        },
+        {
+          "description": "The alt text of the blog feed image",
+          "name": "thumb_image_alt",
+          "type": "string",
+          "label": "Image alt text (blog feed)"
+        },
+        {
+          "name": "seo",
+          "type": "object",
+          "objectName": "stackbit_page_meta"
+        },
+        {
+          "description": "Page content",
+          "name": "content",
+          "type": "markdown",
+          "label": "Content"
+        }
+      ],
+      "computedFields": []
+    }
+  },
+  "objectDefMap": {
+    "header": {
+      "name": "header",
+      "label": "Header Configuration",
+      "fieldDefs": [
+        {
+          "description": "The logo image displayed in the header (if no logo added, the site title is displayed instead)",
+          "name": "logo_img",
+          "type": "image",
+          "label": "Logo"
+        },
+        {
+          "description": "The alt text of the logo image",
+          "name": "logo_img_alt",
+          "type": "string",
+          "label": "Logo Alt Text"
+        },
+        {
+          "description": "Display the navigation menu bar in the header",
+          "name": "has_nav",
+          "type": "boolean",
+          "label": "Enable Navigation"
+        },
+        {
+          "description": "List of navigation links",
+          "name": "nav_links",
+          "type": "list",
+          "items": [
+            {
+              "type": "object",
+              "objectName": "action"
+            }
+          ]
+        }
+      ]
+    },
+    "action": {
+      "name": "action",
+      "label": "Action",
+      "fieldDefs": [
+        {
+          "name": "label",
+          "required": true,
+          "type": "string",
+          "label": "Label"
+        },
+        {
+          "name": "url",
+          "required": true,
+          "type": "string",
+          "label": "URL"
+        },
+        {
+          "name": "style",
+          "type": "enum",
+          "options": [
+            "link",
+            "primary",
+            "secondary"
+          ],
+          "label": "Style"
+        },
+        {
+          "name": "has_icon",
+          "type": "boolean",
+          "label": "Show icon"
+        },
+        {
+          "name": "icon",
+          "type": "enum",
+          "options": [
+            "arrow-left",
+            "arrow-right",
+            "envelope",
+            "facebook",
+            "github",
+            "instagram",
+            "linkedin",
+            "twitter",
+            "vimeo",
+            "youtube"
+          ],
+          "label": "Icon"
+        },
+        {
+          "description": "The position of the icon relative to text",
+          "name": "icon_position",
+          "type": "enum",
+          "options": [
+            "left",
+            "right"
+          ],
+          "label": "Icon position"
+        },
+        {
+          "description": "Should the link open a new tab",
+          "name": "new_window",
+          "type": "boolean",
+          "label": "Open in new window"
+        },
+        {
+          "description": "Add rel=\"nofollow\" attribute to the link",
+          "name": "no_follow",
+          "type": "boolean",
+          "label": "No follow"
+        }
+      ]
+    },
+    "footer": {
+      "name": "footer",
+      "label": "Footer Configuration",
+      "fieldDefs": [
+        {
+          "description": "Footer sections",
+          "name": "sections",
+          "type": "list",
+          "items": [
+            {
+              "type": "object",
+              "objectName": "footer_form"
+            },
+            {
+              "type": "object",
+              "objectName": "footer_nav"
+            },
+            {
+              "type": "object",
+              "objectName": "footer_text"
+            }
+          ]
+        },
+        {
+          "description": "Display the horizontal navigation menu bar in the footer",
+          "name": "has_nav",
+          "type": "boolean",
+          "label": "Enable Horizontal Navigation"
+        },
+        {
+          "description": "List of horizontal navigation links",
+          "name": "nav_links",
+          "type": "list",
+          "items": [
+            {
+              "type": "object",
+              "objectName": "action"
+            }
+          ]
+        },
+        {
+          "description": "The copyright text displayed in the footer",
+          "name": "content",
+          "type": "string",
+          "label": "Footer Content"
+        },
+        {
+          "description": "A list of links displayed in the footer",
+          "name": "links",
+          "type": "list",
+          "items": [
+            {
+              "type": "object",
+              "objectName": "action"
+            }
+          ]
+        }
+      ]
+    },
+    "footer_form": {
+      "name": "footer_form",
+      "label": "Form",
+      "fieldDefs": [
+        {
+          "description": "The title of the section",
+          "name": "title",
+          "type": "string",
+          "label": "Title"
+        },
+        {
+          "description": "The content of the section, appears above the form",
+          "name": "content",
+          "type": "markdown",
+          "label": "Content"
+        },
+        {
+          "description": "A unique identifier of the form, must not contain whitespace",
+          "name": "form_id",
+          "required": true,
+          "type": "string",
+          "label": "Form ID"
+        },
+        {
+          "description": "The path of your custom \"success\" page, if you want to replace the default success message.",
+          "name": "form_action",
+          "type": "string",
+          "label": "Form Action"
+        },
+        {
+          "name": "hide_labels",
+          "type": "boolean",
+          "label": "Hide labels of the form fields?"
+        },
+        {
+          "name": "form_fields",
+          "type": "list",
+          "items": [
+            {
+              "type": "object",
+              "objectName": "form_field"
+            }
+          ]
+        },
+        {
+          "name": "submit_label",
+          "required": true,
+          "type": "string",
+          "label": "Submit Button Label"
+        }
+      ]
+    },
+    "form_field": {
+      "name": "form_field",
+      "label": "Form Field",
+      "fieldDefs": [
+        {
+          "description": "Type of the form field",
+          "name": "input_type",
+          "required": true,
+          "type": "enum",
+          "options": [
+            "text",
+            "textarea",
+            "email",
+            "tel",
+            "number",
+            "checkbox",
+            "select"
+          ],
+          "label": "Type"
+        },
+        {
+          "description": "The name of the field, submitted with the form",
+          "name": "name",
+          "required": true,
+          "type": "string",
+          "label": "Name"
+        },
+        {
+          "description": "The caption of the field, shown above the field input",
+          "name": "label",
+          "type": "string",
+          "label": "Label"
+        },
+        {
+          "description": "The placeholder for textual field types or default option for select field",
+          "name": "default_value",
+          "type": "string",
+          "label": "Placeholder text or default value"
+        },
+        {
+          "description": "The list of options for select field",
+          "name": "options",
+          "type": "list",
+          "items": [
+            {
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "is_required",
+          "type": "boolean",
+          "label": "Is the field required?"
+        }
+      ]
+    },
+    "footer_nav": {
+      "name": "footer_nav",
+      "label": "Vertical Navigation",
+      "fieldDefs": [
+        {
+          "description": "The title of the section",
+          "name": "title",
+          "type": "string",
+          "label": "Title"
+        },
+        {
+          "description": "List of vertical navigation links",
+          "name": "nav_links",
+          "type": "list",
+          "items": [
+            {
+              "type": "object",
+              "objectName": "action"
+            }
+          ]
+        }
+      ]
+    },
+    "footer_text": {
+      "name": "footer_text",
+      "label": "Text",
+      "fieldDefs": [
+        {
+          "description": "The title of the section",
+          "name": "title",
+          "type": "string",
+          "label": "Title"
+        },
+        {
+          "description": "The image displayed in the section",
+          "name": "image",
+          "type": "image",
+          "label": "Image"
+        },
+        {
+          "description": "The alt text of the image",
+          "name": "image_alt",
+          "type": "string",
+          "label": "Image Alt Text"
+        },
+        {
+          "description": "The url of the image",
+          "name": "image_url",
+          "type": "string",
+          "label": "Image URL"
+        },
+        {
+          "description": "The text content of the section",
+          "name": "content",
+          "type": "markdown",
+          "label": "Content"
+        }
+      ]
+    },
+    "section_content": {
+      "name": "section_content",
+      "label": "Content Section",
+      "fieldDefs": [
+        {
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "name": "section_id",
+          "type": "string",
+          "label": "Section ID"
+        },
+        {
+          "description": "The title of the section",
+          "name": "title",
+          "type": "string",
+          "label": "Title"
+        },
+        {
+          "description": "The text content of the section",
+          "name": "content",
+          "type": "markdown",
+          "label": "Content"
+        },
+        {
+          "description": "The image of the section",
+          "name": "image",
+          "type": "image",
+          "label": "Image"
+        },
+        {
+          "description": "The alt text of the section image",
+          "name": "image_alt",
+          "type": "string",
+          "label": "Image Alt Text"
+        },
+        {
+          "description": "The background of the section",
+          "name": "background",
+          "type": "enum",
+          "options": [
+            "gray",
+            "white"
+          ],
+          "label": "Background"
+        },
+        {
+          "name": "actions",
+          "type": "list",
+          "items": [
+            {
+              "type": "object",
+              "objectName": "action"
+            }
+          ]
+        }
+      ]
+    },
+    "section_cta": {
+      "name": "section_cta",
+      "label": "Call to Action Section",
+      "fieldDefs": [
+        {
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "name": "section_id",
+          "type": "string",
+          "label": "Section ID"
+        },
+        {
+          "description": "The title of the section",
+          "name": "title",
+          "type": "string",
+          "label": "Title"
+        },
+        {
+          "description": "The subtitle of the section",
+          "name": "subtitle",
+          "type": "string",
+          "label": "Subtitle"
+        },
+        {
+          "name": "actions",
+          "type": "list",
+          "items": [
+            {
+              "type": "object",
+              "objectName": "action"
+            }
+          ]
+        }
+      ]
+    },
+    "section_faq": {
+      "name": "section_faq",
+      "label": "FAQ Section",
+      "fieldDefs": [
+        {
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "name": "section_id",
+          "type": "string",
+          "label": "Section ID"
+        },
+        {
+          "description": "The title of the section",
+          "name": "title",
+          "type": "string",
+          "label": "Title"
+        },
+        {
+          "description": "The subtitle of the section",
+          "name": "subtitle",
+          "type": "string",
+          "label": "Subtitle"
+        },
+        {
+          "description": "The background of the section",
+          "name": "background",
+          "type": "enum",
+          "options": [
+            "gray",
+            "white"
+          ],
+          "label": "Background"
+        },
+        {
+          "name": "faq_items",
+          "type": "list",
+          "items": [
+            {
+              "type": "object",
+              "objectName": "faq_item"
+            }
+          ]
+        }
+      ]
+    },
+    "faq_item": {
+      "name": "faq_item",
+      "label": "FAQ Item",
+      "fieldDefs": [
+        {
+          "name": "question",
+          "type": "text",
+          "label": "Question"
+        },
+        {
+          "name": "answer",
+          "type": "markdown",
+          "label": "Answer"
+        }
+      ]
+    },
+    "section_features": {
+      "name": "section_features",
+      "label": "Features Section",
+      "fieldDefs": [
+        {
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "name": "section_id",
+          "type": "string",
+          "label": "Section ID"
+        },
+        {
+          "description": "The title of the section",
+          "name": "title",
+          "type": "string",
+          "label": "Title"
+        },
+        {
+          "description": "The subtitle of the section",
+          "name": "subtitle",
+          "type": "string",
+          "label": "Subtitle"
+        },
+        {
+          "description": "The background of the section",
+          "name": "background",
+          "type": "enum",
+          "options": [
+            "gray",
+            "white"
+          ],
+          "label": "Background"
+        },
+        {
+          "name": "features",
+          "type": "list",
+          "items": [
+            {
+              "type": "object",
+              "objectName": "feature_item"
+            }
+          ]
+        }
+      ]
+    },
+    "feature_item": {
+      "name": "feature_item",
+      "label": "Feature Item",
+      "fieldDefs": [
+        {
+          "name": "title",
+          "type": "string",
+          "label": "Title"
+        },
+        {
+          "description": "Feature description",
+          "name": "content",
+          "type": "markdown",
+          "label": "Content"
+        },
+        {
+          "description": "Feature image",
+          "name": "image",
+          "type": "image",
+          "label": "Image"
+        },
+        {
+          "description": "The alt text of the feature image",
+          "name": "image_alt",
+          "type": "string",
+          "label": "Image Alt Text"
+        },
+        {
+          "name": "actions",
+          "type": "list",
+          "items": [
+            {
+              "type": "object",
+              "objectName": "action"
+            }
+          ]
+        }
+      ]
+    },
+    "section_hero": {
+      "name": "section_hero",
+      "label": "Hero Section",
+      "fieldDefs": [
+        {
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "name": "section_id",
+          "type": "string",
+          "label": "Section ID"
+        },
+        {
+          "description": "The title of the section",
+          "name": "title",
+          "type": "string",
+          "label": "Title"
+        },
+        {
+          "description": "The text content of the section",
+          "name": "content",
+          "type": "markdown",
+          "label": "Content"
+        },
+        {
+          "description": "The image of the section",
+          "name": "image",
+          "type": "image",
+          "label": "Image"
+        },
+        {
+          "description": "The alt text of the section image",
+          "name": "image_alt",
+          "type": "string",
+          "label": "Image Alt Text"
+        },
+        {
+          "name": "actions",
+          "type": "list",
+          "items": [
+            {
+              "type": "object",
+              "objectName": "action"
+            }
+          ]
+        }
+      ]
+    },
+    "section_posts": {
+      "name": "section_posts",
+      "label": "Posts List",
+      "fieldDefs": [
+        {
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "name": "section_id",
+          "type": "string",
+          "label": "Section ID"
+        },
+        {
+          "description": "The title of the section",
+          "name": "title",
+          "type": "string",
+          "label": "Title"
+        },
+        {
+          "description": "The subtitle of the section",
+          "name": "subtitle",
+          "type": "string",
+          "label": "Subtitle"
+        },
+        {
+          "description": "The background of the section",
+          "name": "background",
+          "type": "enum",
+          "options": [
+            "gray",
+            "white"
+          ],
+          "label": "Background"
+        }
+      ]
+    },
+    "section_pricing": {
+      "name": "section_pricing",
+      "label": "Pricing Section",
+      "fieldDefs": [
+        {
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "name": "section_id",
+          "type": "string",
+          "label": "Section ID"
+        },
+        {
+          "description": "The title of the section",
+          "name": "title",
+          "type": "string",
+          "label": "Title"
+        },
+        {
+          "description": "The subtitle of the section",
+          "name": "subtitle",
+          "type": "string",
+          "label": "Subtitle"
+        },
+        {
+          "description": "The background of the section",
+          "name": "background",
+          "type": "enum",
+          "options": [
+            "gray",
+            "white"
+          ],
+          "label": "Background"
+        },
+        {
+          "name": "pricing_plans",
+          "type": "list",
+          "items": [
+            {
+              "type": "object",
+              "objectName": "pricing_plan"
+            }
+          ]
+        }
+      ]
+    },
+    "pricing_plan": {
+      "name": "pricing_plan",
+      "label": "Pricing Plan",
+      "fieldDefs": [
+        {
+          "name": "title",
+          "type": "string",
+          "label": "Title"
+        },
+        {
+          "name": "subtitle",
+          "type": "string",
+          "label": "Subtitle"
+        },
+        {
+          "name": "price",
+          "type": "string",
+          "label": "Price"
+        },
+        {
+          "name": "details",
+          "type": "markdown",
+          "label": "Details"
+        },
+        {
+          "description": "Make the plan stand out by adding a distinctive style",
+          "name": "highlight",
+          "type": "boolean",
+          "label": "Highlight"
+        },
+        {
+          "name": "actions",
+          "type": "list",
+          "items": [
+            {
+              "type": "object",
+              "objectName": "action"
+            }
+          ]
+        }
+      ]
+    },
+    "section_reviews": {
+      "name": "section_reviews",
+      "label": "Reviews Section",
+      "fieldDefs": [
+        {
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "name": "section_id",
+          "type": "string",
+          "label": "Section ID"
+        },
+        {
+          "description": "The title of the section",
+          "name": "title",
+          "type": "string",
+          "label": "Title"
+        },
+        {
+          "description": "The subtitle of the section",
+          "name": "subtitle",
+          "type": "string",
+          "label": "Subtitle"
+        },
+        {
+          "description": "The background of the section",
+          "name": "background",
+          "type": "enum",
+          "options": [
+            "gray",
+            "white"
+          ],
+          "label": "Background"
+        },
+        {
+          "name": "reviews",
+          "type": "list",
+          "items": [
+            {
+              "type": "object",
+              "objectName": "review_item"
+            }
+          ]
+        }
+      ]
+    },
+    "review_item": {
+      "name": "review_item",
+      "label": "Review Item",
+      "fieldDefs": [
+        {
+          "name": "author",
+          "type": "string",
+          "label": "Author"
+        },
+        {
+          "name": "avatar",
+          "type": "image",
+          "label": "Author Image"
+        },
+        {
+          "name": "avatar_alt",
+          "type": "string",
+          "label": "Author Image Alt Text"
+        },
+        {
+          "name": "content",
+          "type": "text",
+          "label": "Content"
+        }
+      ]
+    },
+    "section_contact": {
+      "name": "section_contact",
+      "label": "Contact Section",
+      "fieldDefs": [
+        {
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "name": "section_id",
+          "type": "string",
+          "label": "Section ID"
+        },
+        {
+          "description": "The title of the section",
+          "name": "title",
+          "type": "string",
+          "label": "Title"
+        },
+        {
+          "description": "The text shown below the title",
+          "name": "subtitle",
+          "type": "string",
+          "label": "Subtitle"
+        },
+        {
+          "description": "the content of the section, appears above the form",
+          "name": "content",
+          "type": "markdown",
+          "label": "Content"
+        },
+        {
+          "description": "The background of the section",
+          "name": "background",
+          "type": "enum",
+          "options": [
+            "gray",
+            "white"
+          ],
+          "label": "Background"
+        },
+        {
+          "description": "A unique identifier of the form, must not contain whitespace",
+          "name": "form_id",
+          "required": true,
+          "type": "string",
+          "label": "Form ID"
+        },
+        {
+          "description": "The path of your custom \"success\" page, if you want to replace the default success message.",
+          "name": "form_action",
+          "type": "string",
+          "label": "Form Action"
+        },
+        {
+          "name": "hide_labels",
+          "type": "boolean",
+          "label": "Hide labels of the form fields?"
+        },
+        {
+          "name": "form_fields",
+          "type": "list",
+          "items": [
+            {
+              "type": "object",
+              "objectName": "form_field"
+            }
+          ]
+        },
+        {
+          "name": "submit_label",
+          "required": true,
+          "type": "string",
+          "label": "Submit Button Label"
+        }
+      ]
+    },
+    "stackbit_page_meta": {
+      "name": "stackbit_page_meta",
+      "label": "Page meta data",
+      "fieldDefs": [
+        {
+          "description": "The page title that goes into the <title> tag",
+          "name": "title",
+          "type": "string",
+          "label": "Title"
+        },
+        {
+          "description": "The page description that goes into the <meta name=\"description\"> tag",
+          "name": "description",
+          "type": "string",
+          "label": "Description"
+        },
+        {
+          "description": "The items that go into the <meta name=\"robots\"> tag",
+          "name": "robots",
+          "type": "list",
+          "items": [
+            {
+              "type": "enum",
+              "options": [
+                "all",
+                "index",
+                "follow",
+                "noindex",
+                "nofollow",
+                "noimageindex",
+                "notranslate",
+                "none"
+              ]
+            }
+          ]
+        },
+        {
+          "description": "Additional definition for specific meta tags such as open-graph, twitter, etc.",
+          "name": "extra",
+          "type": "list",
+          "items": [
+            {
+              "type": "inline_object",
+              "fieldDefs": [
+                {
+                  "name": "name",
+                  "type": "string",
+                  "label": "Name"
+                },
+                {
+                  "name": "value",
+                  "type": "string",
+                  "label": "Value"
+                },
+                {
+                  "name": "keyName",
+                  "type": "string",
+                  "label": "Key Name"
+                },
+                {
+                  "name": "relativeUrl",
+                  "type": "boolean",
+                  "label": "Relative Url"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

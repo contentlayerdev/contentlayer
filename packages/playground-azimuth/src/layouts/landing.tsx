@@ -1,11 +1,11 @@
-import { landing, site_config } from '@sourcebit/types'
+import { config, landing } from '@sourcebit/types'
 import _ from 'lodash'
 import React, { FC } from 'react'
 import components, { Layout } from '../components/index'
 
 const Landing: FC<{
   doc: landing
-  config: site_config
+  config: config
 }> = ({ doc, config }) => (
   <Layout doc={doc} config={config}>
     {doc.sections?.map((section, section_idx) => {

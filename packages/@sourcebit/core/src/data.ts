@@ -1,10 +1,10 @@
 export type Cache = {
   /** SHA1 hash of the `documents` data (e.g. for caching) */
   hash: string
-  documents: DocumentBase[]
+  documents: Document[]
 }
 
-export type DocumentBase = {
+export type Document = {
   __meta: DocumentMeta
   __computed?: Record<string, any>
 } & Record<string, any>

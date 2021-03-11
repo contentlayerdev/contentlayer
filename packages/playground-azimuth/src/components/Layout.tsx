@@ -1,5 +1,5 @@
 import { guards } from '@sourcebit/client'
-import { blog, landing, page, post, site_config } from '@sourcebit/types'
+import { blog, config, landing, page, post } from '@sourcebit/types'
 import _ from 'lodash'
 import React, { FC } from 'react'
 import { Helmet } from 'react-helmet'
@@ -9,7 +9,7 @@ import { Header } from './Header'
 
 const Layout: FC<{
   doc: blog | page | landing | post
-  config: site_config
+  config: config
 }> = ({ doc, config, children, ...props }) => {
   const font = config.base_font ?? 'nunito-sans'
 

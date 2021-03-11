@@ -1,38 +1,58 @@
 export default {
-    title: 'Hero Section',
-    name: 'section_hero',
-    type: 'object',
-    preview: { select: { title: 'title' } },
-    fields: [
+  type: 'object',
+  name: 'section_hero',
+  title: 'Hero Section',
+  fields: [
+    {
+      type: 'string',
+      name: 'section_id',
+      title: 'Section ID',
+      description: 'A unique identifier of the section, must not contain whitespace',
+      validation: null,
+    },
+    {
+      type: 'string',
+      name: 'title',
+      title: 'Title',
+      description: 'The title of the section',
+      validation: null,
+    },
+    {
+      type: 'markdown',
+      name: 'content',
+      title: 'Content',
+      description: 'The text content of the section',
+      validation: null,
+    },
+    {
+      type: 'image',
+      name: 'image',
+      title: 'Image',
+      description: 'The image of the section',
+      validation: null,
+    },
+    {
+      type: 'string',
+      name: 'image_alt',
+      title: 'Image Alt Text',
+      description: 'The alt text of the section image',
+      validation: null,
+    },
+    {
+      type: 'array',
+      name: 'actions',
+      title: 'Action Buttons',
+      validation: null,
+      of: [
         {
-            type: 'string',
-            title: 'Element ID',
-            name: 'section_id',
-            description: 'Element ID can be used in links to scroll the page to this section when link clicked'
+          type: 'action',
         },
-        {
-            type: 'string',
-            title: 'Title',
-            name: 'title',
-            description: 'The title of this section'
-        },
-        {
-            type: 'markdown',
-            title: 'Content',
-            name: 'content',
-            description: 'The text content of the section'
-        },
-        {
-            type: 'image',
-            title: 'Image',
-            name: 'image',
-            description: 'The image of the section'
-        },
-        {
-            type: 'array',
-            title: 'Action Buttons',
-            name: 'actions',
-            of: [{type: 'action'}]
-        }
-    ]
+      ],
+    },
+  ],
+  preview: {
+    select: {
+      title: 'title',
+    },
+  },
 }
