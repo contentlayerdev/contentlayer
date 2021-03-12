@@ -1,55 +1,51 @@
 import { defineDocument } from '@sourcebit/source-local'
-import { stackbit_page_meta } from '../objects/stackbit_page_meta'
+import { seo } from '../objects/seo'
 import { urlFromFilePath } from '../utils'
 
-export const page = defineDocument({
+export const page = defineDocument(() => ({
   name: 'page',
   label: 'Page',
-  filePathPattern: 'content/pages/{about,privacy-policy,signup,style-guide,terms-of-service}.md',
-  fields: [
-    {
+  filePathPattern: 'pages/{about,privacy-policy,signup,style-guide,terms-of-service}.md',
+  fields: {
+    title: {
       type: 'string',
-      name: 'title',
       label: 'Title',
       description: 'The title of the page',
       required: true,
     },
-    {
+    subtitle: {
       type: 'string',
-      name: 'subtitle',
       label: 'Subtitle',
       description: 'The text shown below the page title',
     },
-    {
+    image: {
       type: 'image',
-      name: 'image',
       label: 'Image',
       description: 'The image shown below the page title',
     },
-    {
+    image_alt: {
       type: 'string',
-      name: 'image_alt',
       label: 'Image Alt Text',
       description: 'The alt text of the image',
     },
-    {
+    seo: {
       type: 'object',
-      name: 'seo',
-      object: stackbit_page_meta,
+      object: seo,
     },
-    {
+    content: {
       type: 'markdown',
-      name: 'content',
       label: 'Page content',
       description: 'Page content',
       required: false,
     },
-  ],
+  },
   computedFields: (defineField) => [
     defineField({
-      name: 'urlPath',
+      name: 'url_path',
+      description:
+        'The URL path of this page relative to site root. For example, the site root page would be "/", and post page would be "posts/new-post/"',
       type: 'string',
       resolve: urlFromFilePath,
     }),
   ],
-})
+}))

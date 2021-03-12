@@ -1,13 +1,11 @@
 import { ComputedField, ComputedFieldType } from './computed-field'
 
 export type SchemaDef = {
-  // ssg: string
-  // cms: string
   documentDefs: DocumentDef[]
 }
 
 /** Top level model type */
-export type DocumentDef<Name extends string = string> = {
+export type DocumentDef<Name extends string = any> = {
   name: Name
   // type: ModelType
   /**  */
@@ -15,13 +13,14 @@ export type DocumentDef<Name extends string = string> = {
   description?: string
   // the name of the field that will be used as a title of an object
   labelField?: string
-  fields: FieldDef[] | Thunk<FieldDef[]>
+  fields: Record<string, FieldDef>
   // TODO file + URL matching
   // computedFields?: ComputedField<any, Name>
   // computedFields?:  <T extends ComputedFieldType>(_: ComputedField<T, Name>) => ComputedField<any, Name>
   computedFields?: (
     defineField: <T extends ComputedFieldType>(cf: ComputedField<T, Name>) => ComputedField<T, Name>,
   ) => ComputedField<ComputedFieldType, Name>[]
+  /** Path is relative to the `sourcebit.ts` config file */
   filePathPattern: string // | ((doc: Document) => string)
   /** Conditional extensions */
   // extentions?:
@@ -47,16 +46,16 @@ export type DocumentDef<Name extends string = string> = {
   // 2) file path
 }
 
-export type FieldType =
-  | 'string'
-  | 'text'
-  | 'slug'
-  /** Reference to owned object, (= "inline model") */
-  | 'object'
-  // /** Reference to owned model */
-  // | 'model'
-  /** Reference to document */
-  | 'reference'
+// export type FieldType =
+//   | 'string'
+//   | 'text'
+//   | 'slug'
+//   /** Reference to owned object, (= "inline model") */
+//   | 'object'
+//   // /** Reference to owned model */
+//   // | 'model'
+//   /** Reference to document */
+//   | 'reference'
 
 export type FieldDef =
   | ListField
@@ -76,7 +75,7 @@ export type FieldDef =
 
 interface FieldBase {
   /** Field name should contain only alphanumeric characters, underscore and a hyphen [A-Za-z0-9_]. Must start with a letter. Must not end with an underscore or a hyphen. */
-  name: string
+  // name: string
   /** Should be short enough as some CMS's have restrictions on its length. Some CMS require label to be unique. */
   label?: string
   /** Short description to editors how the field is to be used */
@@ -94,7 +93,7 @@ interface FieldBase {
 export interface ListField extends FieldBase {
   type: 'list'
   default?: any[]
-  items: ListFieldItem[] | Thunk<ListFieldItem[]>
+  items: ListFieldItem[]
 }
 
 export const isListField = (_: FieldDef): _ is ListField => _.type === 'list'
@@ -113,11 +112,11 @@ export type ListFieldItemEnum = BaseListFieldItem & { type: 'enum'; options: str
 export type ListFieldItemBoolean = BaseListFieldItem & { type: 'boolean' }
 export type ListFieldItemObject = BaseListFieldItem & {
   type: 'object'
-  object: ObjectDef | Thunk<ObjectDef>
+  object: Thunk<ObjectDef>
 }
 export type ListFieldItemInlineObject = BaseListFieldItem & {
   type: 'inline_object'
-  fields: FieldDef[] | Thunk<FieldDef[]>
+  fields: Record<string, FieldDef>
 }
 
 export const isListFieldItemObject = (_: ListFieldItem): _ is ListFieldItemObject => _.type === 'object'
@@ -178,7 +177,7 @@ export type EnumField = FieldBase & {
 export type ObjectField = FieldBase & {
   type: 'object'
   default?: any
-  object: ObjectDef | Thunk<ObjectDef>
+  object: Thunk<ObjectDef>
 }
 
 export const isObjectField = (_: FieldDef): _ is ObjectField => _.type === 'object'
@@ -186,7 +185,7 @@ export const isObjectField = (_: FieldDef): _ is ObjectField => _.type === 'obje
 export type InlineObjectField = FieldBase & {
   type: 'inline_object'
   default?: any
-  fields: FieldDef[] | Thunk<FieldDef[]>
+  fields: Record<string, FieldDef>
 }
 
 export const isInlineObjectField = (_: FieldDef): _ is InlineObjectField => _.type === 'inline_object'
@@ -194,7 +193,7 @@ export const isInlineObjectField = (_: FieldDef): _ is InlineObjectField => _.ty
 export type ReferenceField = FieldBase & {
   type: 'reference'
   default?: string
-  document: DocumentDef
+  document: Thunk<DocumentDef>
 }
 
 export type ObjectDef = {
@@ -204,13 +203,13 @@ export type ObjectDef = {
   label: string
   description?: string
   labelField?: string
-  fields: FieldDef[] | Thunk<FieldDef[]>
+  fields: Record<string, FieldDef>
 }
 
-type Thunk<T> = () => T
+export type Thunk<T> = () => T
 
-export const defineObject = (_: ObjectDef): ObjectDef => _
+export const defineObject = (_: () => ObjectDef) => _
 
-export const defineDocument = <N extends string>(_: DocumentDef<N>): DocumentDef => _
+export const defineDocument = <N extends string>(_: () => DocumentDef<N>) => _
 
 export const defineSchema = (_: SchemaDef): SchemaDef => _

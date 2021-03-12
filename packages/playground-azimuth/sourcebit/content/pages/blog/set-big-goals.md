@@ -3,11 +3,36 @@ title: Why You Should Set Big Goals
 excerpt: >-
   Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
   turpis egestas.
-author: content/data/authors/jane-doe.yaml
+author: data/authors/jane-doe.yaml
 date: '2019-03-10'
 thumb_image: images/12_thumb.jpg
 image: images/12.jpg
-layout: post
+seo:
+  title: Why You Should Set Big Goals
+  description: A interesting tale about Big Goals
+  extra:
+    - name: 'og:type'
+      value: article
+      keyName: property
+    - name: 'og:title'
+      value: Why You Should Set Big Goals
+      keyName: property
+    - name: 'og:description'
+      value: A interesting tale about Big Goals
+      keyName: property
+    - name: 'og:image'
+      value: images/12.jpg
+      keyName: property
+      relativeUrl: true
+    - name: 'twitter:card'
+      value: summary_large_image
+    - name: 'twitter:title'
+      value: Why You Should Set Big Goals
+    - name: 'twitter:description'
+      value: A interesting tale about Big Goals
+    - name: 'twitter:image'
+      value: images/12.jpg
+      relativeUrl: true
 ---
 
 Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam maximus mauris sagittis, iaculis diam ac, ultrices risus. Aliquam finibus, ipsum eget ultricies imperdiet, arcu diam suscipit urna, eu bibendum tortor tellus vel risus. Praesent quis scelerisque velit. Curabitur varius erat non dignissim porta. Duis viverra sapien a metus semper, et porttitor dolor convallis. Nulla eu dolor volutpat, mollis arcu ut, semper ex. Morbi ultricies, quam et ullamcorper mattis, elit dolor facilisis dui, non consectetur erat elit eu sapien. Duis scelerisque ante iaculis, accumsan mi vel, tempus libero. Fusce quis ipsum in sapien consequat tempor. Duis varius blandit neque quis tempor. Sed sollicitudin ante vitae lectus feugiat tempus. Ut mauris ex, venenatis a vestibulum nec, ullamcorper a erat. Vivamus leo ipsum, porta in iaculis sit amet, euismod non mi.

@@ -1,70 +1,64 @@
-import type { Document } from '@sourcebit/core'
+import type * as Core from '@sourcebit/core'
+import { isObjectFieldDef } from '@sourcebit/core'
 import { promises as fs } from 'fs'
+import { promise as glob } from 'glob-promise'
 import matter from 'gray-matter'
 import * as yaml from 'js-yaml'
-import minimatch from 'minimatch'
+import * as path from 'path'
 import { match } from 'ts-pattern'
-import { DocumentDef, isObjectField, ObjectDef, SchemaDef } from './schema'
-import { unwrapThunk } from './utils'
+// import { DocumentDef, isObjectField, ObjectDef, SchemaDef } from './schema'
+// import { unwrapThunk } from './utils'
+
+type DocumentDefName = string
+type FilePathPattern = string
+export type FilePathPatternMap = Record<DocumentDefName, FilePathPattern>
 
 export async function fetch({
-  filePaths,
   schemaDef,
+  filePathPatternMap,
+  contentDirPath,
 }: {
-  filePaths: string[]
-  schemaDef: SchemaDef
-}): Promise<{ documents: Document[] }> {
-  const documents = await Promise.all(filePaths.map((filePath) => parseContent({ filePath, schemaDef })))
+  schemaDef: Core.SchemaDef
+  filePathPatternMap: FilePathPatternMap
+  contentDirPath: string
+}): Promise<{ documents: Core.Document[] }> {
+  const documentDefNameWithFilePathsTuples = await Promise.all(
+    Object.entries(filePathPatternMap).map<Promise<[string, string[]]>>(async ([documentDefName, filePathPattern]) => [
+      documentDefName,
+      await glob(path.join(contentDirPath, filePathPattern)),
+    ]),
+  )
+
+  const documents = await Promise.all(
+    documentDefNameWithFilePathsTuples.flatMap(([documentDefName, filePaths]) =>
+      filePaths.map((filePath) => parseContent({ filePath, schemaDef, documentDefName, contentDirPath })),
+    ),
+  )
 
   return { documents }
-}
-
-function checkSchema({
-  schemaDef,
-  content,
-  filePath,
-}: {
-  schemaDef: SchemaDef
-  content: Content
-  filePath: string
-}): void {
-  const documentDef = schemaDef.documentDefs.find((_) => minimatch(filePath, _.filePathPattern))
-
-  if (documentDef === undefined) {
-    throw new Error(`No matching document definition found for "${filePath}"`)
-  }
-
-  const fieldDefs = unwrapThunk(documentDef.fields)
-
-  const existingFieldKeys = Object.keys(content.data)
-
-  // make sure all required fields are present
-  const requiredFields = fieldDefs.filter((_) => _.required)
-  const misingRequiredFields = requiredFields.filter((fieldDef) => !existingFieldKeys.includes(fieldDef.name))
-  if (misingRequiredFields.length > 0) {
-    throw new Error(
-      `Missing required fields (type: "${documentDef.name}") for "${filePath}":\n${misingRequiredFields
-        .map((_, i) => `${i + 1}: ` + JSON.stringify(_))
-        .join('\n')}`,
-    )
-  }
-
-  // TODO make sure all properties match field defs
-
-  // TODO validate objects
 }
 
 type Content = ContentMarkdown | ContentJSON
 type ContentMarkdown = {
   readonly kind: 'markdown'
-  data: Record<string, any> & { __content: string }
+  data: Record<string, any> & { content: string }
 }
 type ContentJSON = {
   readonly kind: 'json'
   data: Record<string, any>
 }
 
-async function parseContent({ filePath, schemaDef }: { filePath: string; schemaDef: SchemaDef }): Promise<Document> {
+async function parseContent({
+  filePath,
+  schemaDef,
+  documentDefName,
+  contentDirPath,
+}: {
+  filePath: string
+  schemaDef: Core.SchemaDef
+  documentDefName: string
+  contentDirPath: string
+}): Promise<Core.Document> {
   const fileContent = await fs.readFile(filePath, 'utf-8')
   const filePathExtension = filePath.toLowerCase().split('.').pop()
   const content = match<string | undefined, Content>(filePathExtension)
@@ -72,7 +66,7 @@ async function parseContent({ filePath, schemaDef }: { filePath: string; schemaD
       const markdown = matter(fileContent)
       return {
         kind: 'markdown',
-        data: { ...markdown.data, __content: markdown.content },
+        data: { ...markdown.data, content: markdown.content },
       }
     })
     .with('json', () => ({ kind: 'json', data: JSON.parse(fileContent) }))
@@ -84,89 +78,120 @@ async function parseContent({ filePath, schemaDef }: { filePath: string; schemaD
       throw new Error(`Unsupported file extension "${filePathExtension}" for ${filePath}`)
     })
 
-  checkSchema({ content, schemaDef, filePath })
+  checkSchema({ content, filePath, documentDefName, schemaDef })
 
-  const documentDef = schemaDef.documentDefs.find((_) => minimatch(filePath, _.filePathPattern))!
+  const documentDef = schemaDef.documentDefMap[documentDefName]
 
   // add __meta.TypeName to embedded objects
-  unwrapThunk(documentDef.fields)
-    .filter(isObjectField)
-    .forEach((_) => {
-      addMetaToData({
-        dataRef: content.data,
-        fieldName: _.name,
-        objectDef: unwrapThunk(_.object),
-        isArray: false,
-      })
+  documentDef.fieldDefs.filter(isObjectFieldDef).forEach((fieldDef) => {
+    addMetaToDataRec({
+      dataRef: content.data,
+      fieldDef,
+      isArray: false,
+      schemaDef,
     })
-
-  // TODO clean up polymorphic union tags
-  // unwrapThunk(documentDef.fields)
-  //   .filter(isListField)
-  //   .forEach((_) => {
-  //     // const items = _.items
-  //     if (isListFieldItemsObject(_.items)) {
-
-  //     }
-  //   })
+  })
 
   // TOOD add meta data to objects in array as well
 
-  const doc: Document = {
+  const re = new RegExp(`^${contentDirPath}(\/)?`)
+  const sourceFilePath = filePath.replace(re, '')
+
+  console.log({ sourceFilePath, contentDirPath })
+
+  const doc: Core.Document = {
     ...content.data,
-    __meta: { sourceFilePath: filePath, typeName: documentDef.name },
+    __meta: { sourceFilePath, typeName: documentDef.name },
   }
 
   const computedValues = getComputedValues({ documentDef, doc })
   if (computedValues) {
-    doc.__computed = computedValues
+    Object.entries(computedValues).forEach(([fieldName, value]) => {
+      doc[fieldName] = value
+    })
   }
 
   return doc
 }
 
-function addMetaToData({
-  dataRef,
-  objectDef,
-  fieldName,
-  isArray,
+function checkSchema({
+  schemaDef,
+  content,
+  filePath,
+  documentDefName,
 }: {
-  dataRef: any
-  objectDef: ObjectDef
-  fieldName: string
-  isArray: boolean
-}): void {
-  if (isArray) {
-    dataRef[fieldName].forEach((item: any) => (item.__meta = { typeName: objectDef.name }))
-  } else {
-    dataRef[fieldName].__meta = { typeName: objectDef.name }
+  schemaDef: Core.SchemaDef
+  content: Content
+  filePath: string
+  documentDefName: string
+}): Core.DocumentDef {
+  const documentDef = schemaDef.documentDefMap[documentDefName]
+
+  if (documentDef === undefined) {
+    throw new Error(`No matching document definition found for "${filePath}"`)
   }
 
-  unwrapThunk(objectDef.fields)
-    .filter(isObjectField)
-    .forEach((_) =>
-      addMetaToData({
-        dataRef: dataRef[fieldName],
-        fieldName: _.name,
-        objectDef: unwrapThunk(_.object),
-        isArray: false,
-      }),
+  const existingDataFieldKeys = Object.keys(content.data)
+
+  // make sure all required fields are present
+  const requiredFields = documentDef.fieldDefs.filter((_) => _.required)
+  const misingRequiredFields = requiredFields.filter((fieldDef) => !existingDataFieldKeys.includes(fieldDef.name))
+  if (misingRequiredFields.length > 0) {
+    throw new Error(
+      `Missing required fields (type: "${documentDef.name}") for "${filePath}":\n${misingRequiredFields
+        .map((_, i) => `${i + 1}: ` + JSON.stringify(_))
+        .join('\n')}`,
     )
+  }
+
+  // TODO make sure all properties match field defs
+
+  // TODO validate objects
+
+  return documentDef
+}
+
+function addMetaToDataRec({
+  dataRef,
+  fieldDef,
+  isArray,
+  schemaDef,
+}: {
+  dataRef: any
+  fieldDef: Core.ObjectFieldDef
+  isArray: boolean
+  schemaDef: Core.SchemaDef
+}): void {
+  const objectDef = schemaDef.objectDefMap[fieldDef.objectName]
+
+  if (isArray) {
+    dataRef[fieldDef.name].forEach((item: any) => (item.__meta = { typeName: objectDef.name }))
+  } else {
+    dataRef[fieldDef.name].__meta = { typeName: objectDef.name }
+  }
+
+  objectDef.fieldDefs.filter(isObjectFieldDef).forEach((fieldDef) =>
+    addMetaToDataRec({
+      dataRef: dataRef[fieldDef.name],
+      fieldDef,
+      isArray: false,
+      schemaDef,
+    }),
+  )
 }
 
 function getComputedValues({
   doc,
   documentDef,
 }: {
-  documentDef: DocumentDef
+  documentDef: Core.DocumentDef
   doc: Document
 }): undefined | Record<string, any> {
   if (documentDef.computedFields === undefined) {
     return undefined
   }
 
-  const computedFields = documentDef.computedFields((_) => _)
-  const computedValues = computedFields.reduce((acc, field) => {
+  const computedValues = documentDef.computedFields.reduce((acc, field) => {
     acc[field.name] = field.resolve(doc)
     return acc
   }, {} as any)

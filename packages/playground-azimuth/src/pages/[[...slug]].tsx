@@ -28,7 +28,7 @@ export const getStaticPaths = defineStaticPaths(async () => {
   const paths = sourcebit
     .getAllDocuments()
     .filter(guards.is(['post', 'landing', 'page', 'blog']))
-    .map((_) => _.__computed.urlPath)
+    .map((_) => _.url_path.replace(/^\//, ''))
     .map(toParams)
 
   return { paths, fallback: false }
@@ -36,16 +36,14 @@ export const getStaticPaths = defineStaticPaths(async () => {
 
 export const getStaticProps = defineStaticProps(async (context) => {
   const params = context.params as any
-  const pagePath = params.slug?.join('/') ?? '/'
+  const pagePath = `/${params.slug?.join('/') ?? ''}`
   const docs = sourcebit.getAllDocuments()
 
-  const doc = docs
-    .filter(guards.is(['post', 'landing', 'page', 'blog']))
-    .find((_) => _.__computed.urlPath === pagePath)!
+  const doc = docs.filter(guards.is(['post', 'landing', 'page', 'blog'])).find((_) => _.url_path === pagePath)!
 
   const config = docs.find(guards.is('config'))!
 
-  if (pagePath.startsWith('blog')) {
+  if (pagePath.startsWith('/blog')) {
     const posts = docs.filter(guards.is('post'))
 
     return { props: { doc, config, posts } }

@@ -15,7 +15,6 @@ export async function getConfig({
     const packageJsonPath = await pkgUp({ cwd: process.cwd() })
     const tmpDir = path.join(packageJsonPath!, '..', 'node_modules', 'sourcebit', 'config')
     await fs.mkdir(tmpDir, { recursive: true })
-    // const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'sourcebit-'))
     const outfilePath = path.join(tmpDir, 'sourcebit.js')
     const resolvedPath = path.join(cwd, configPath)
     const result = await esbuild({

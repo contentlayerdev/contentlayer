@@ -5,7 +5,7 @@ sections:
     type: section_hero
     image: images/hero.png
     image_alt: App preview
-    title: This is another Headline 2
+    title: This Is A Big Hero Headline
     content: >-
       Azimuth is the perfect theme for developers, designers and entrepreneurs
       who need a sleek, modern SaaS site.
@@ -71,19 +71,22 @@ sections:
       Aliquam malesuada ligula eget est fringilla blandit. Integer finibus
       semper libero id sodales.
     reviews:
-      - author: John Doe
+      - author: Eric Widget
         avatar: images/review1.jpg
+        avatar_alt: Eric Widget's photo
         content: >-
           Vestibulum a nunc ut eros condimentum posuere. Nullam dapibus quis
           nunc non interdum. Pellentesque tortor ligula, gravida ac commodo eu.
-      - author: Jane Roe
+      - author: Parsley Montana
         avatar: images/review2.jpg
+        avatar_alt: Parsley Montana's photo
         content: >-
           Sed laoreet magna commodo libero euismod sodales. Nunc ac libero
           convallis, interdum ligula vel, pretium diam. Integer commodo sem at
           dui sollicitudin, vel posuere justo laoreet.
-      - author: Richard Roe
+      - author: Jonquil Von Haggerston
         avatar: images/review3.jpg
+        avatar_alt: Jonquil Von Haggerston's photo
         content: >-
           Integer consectetur purus neque, ac porttitor enim convallis vitae.
           Interdum et malesuada fames ac ante ipsum primis in faucibus.
@@ -99,7 +102,30 @@ sections:
     type: section_posts
     background: gray
     title: Latest Posts
-meta_title: Stackbit Azimuth Theme
-meta_description: The preview of the Azimuth theme
-layout: landing
+seo:
+  title: Stackbit Azimuth Theme
+  description: The preview of the Azimuth theme
+  extra:
+    - name: 'og:type'
+      value: website
+      keyName: property
+    - name: 'og:title'
+      value: Stackbit Azimuth Theme
+      keyName: property
+    - name: 'og:description'
+      value: The preview of the Azimuth theme
+      keyName: property
+    - name: 'og:image'
+      value: images/hero.png
+      keyName: property
+      relativeUrl: true
+    - name: 'twitter:card'
+      value: summary_large_image
+    - name: 'twitter:title'
+      value: Stackbit Azimuth Theme
+    - name: 'twitter:description'
+      value: The preview of the Azimuth theme
+    - name: 'twitter:image'
+      value: images/hero.png
+      relativeUrl: true
 ---

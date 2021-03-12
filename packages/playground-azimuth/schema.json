@@ -6,20 +6,21 @@
       "fieldDefs": [
         {
           "type": "string",
-          "name": "title",
           "label": "Title",
           "description": "The title of the page",
-          "required": true
+          "required": true,
+          "name": "title"
         },
         {
-          "name": "seo",
           "type": "object",
-          "objectName": "stackbit_page_meta"
+          "name": "seo",
+          "objectName": "seo"
         }
       ],
       "computedFields": [
         {
-          "name": "urlPath",
+          "name": "url_path",
+          "description": "The URL path of this page relative to site root. For example, the site root page would be \"/\", and post page would be \"posts/new-post/\"",
           "type": "string"
         }
       ]
@@ -30,34 +31,33 @@
       "fieldDefs": [
         {
           "type": "string",
-          "name": "title",
           "label": "Title",
           "description": "Site title",
-          "required": true
+          "required": true,
+          "name": "title"
         },
         {
           "type": "string",
-          "name": "path_prefix",
           "label": "Base URL",
           "description": "The base URL of this site. Useful for sites hosted under specific path, e.g.: https://www.example.com/my-site/",
           "required": true,
-          "hidden": true
+          "hidden": true,
+          "name": "path_prefix"
         },
         {
           "type": "string",
-          "name": "domain",
           "label": "Domain",
-          "description": "The domain of your site, including the protocol, e.g. https://mysite.com/"
+          "description": "The domain of your site, including the protocol, e.g. https://mysite.com/",
+          "name": "domain"
         },
         {
           "type": "image",
-          "name": "favicon",
           "label": "Favicon",
-          "description": "A square icon that represents your website"
+          "description": "A square icon that represents your website",
+          "name": "favicon"
         },
         {
           "type": "enum",
-          "name": "palette",
           "label": "Color Palette",
           "description": "The color palette of the site",
           "options": [
@@ -68,11 +68,11 @@
             "purple"
           ],
           "default": "blue",
-          "required": true
+          "required": true,
+          "name": "palette"
         },
         {
           "type": "enum",
-          "name": "base_font",
           "label": "Font",
           "options": [
             "fira-sans",
@@ -80,20 +80,21 @@
             "system-sans"
           ],
           "default": "nunito-sans",
-          "required": true
+          "required": true,
+          "name": "base_font"
         },
         {
-          "name": "header",
           "type": "object",
           "label": "Header Configuration",
           "required": true,
+          "name": "header",
           "objectName": "header"
         },
         {
-          "name": "footer",
           "type": "object",
           "label": "Footer Configuration",
           "required": true,
+          "name": "footer",
           "objectName": "footer"
         }
       ],
@@ -105,16 +106,16 @@
       "fieldDefs": [
         {
           "type": "string",
-          "name": "title",
           "label": "Title",
           "description": "The title of the page",
-          "required": true
+          "required": true,
+          "name": "title"
         },
         {
-          "name": "sections",
           "type": "list",
           "label": "Sections",
           "description": "Page sections",
+          "name": "sections",
           "items": [
             {
               "type": "object",
@@ -154,24 +155,25 @@
             {
               "type": "object",
               "labelField": "title",
-              "objectName": "section_contact"
+              "objectName": "section_reviews"
             },
             {
               "type": "object",
               "labelField": "title",
-              "objectName": "section_reviews"
+              "objectName": "section_contact"
             }
           ]
         },
         {
-          "name": "seo",
           "type": "object",
-          "objectName": "stackbit_page_meta"
+          "name": "seo",
+          "objectName": "seo"
         }
       ],
       "computedFields": [
         {
-          "name": "urlPath",
+          "name": "url_path",
+          "description": "The URL path of this page relative to site root. For example, the site root page would be \"/\", and post page would be \"posts/new-post/\"",
           "type": "string"
         }
       ]
@@ -182,45 +184,46 @@
       "fieldDefs": [
         {
           "type": "string",
-          "name": "title",
           "label": "Title",
           "description": "The title of the page",
-          "required": true
+          "required": true,
+          "name": "title"
         },
         {
           "type": "string",
-          "name": "subtitle",
           "label": "Subtitle",
-          "description": "The text shown below the page title"
+          "description": "The text shown below the page title",
+          "name": "subtitle"
         },
         {
           "type": "image",
-          "name": "image",
           "label": "Image",
-          "description": "The image shown below the page title"
+          "description": "The image shown below the page title",
+          "name": "image"
         },
         {
           "type": "string",
-          "name": "image_alt",
           "label": "Image Alt Text",
-          "description": "The alt text of the image"
+          "description": "The alt text of the image",
+          "name": "image_alt"
         },
         {
-          "name": "seo",
           "type": "object",
-          "objectName": "stackbit_page_meta"
+          "name": "seo",
+          "objectName": "seo"
         },
         {
           "type": "markdown",
-          "name": "content",
           "label": "Page content",
           "description": "Page content",
-          "required": false
+          "required": false,
+          "name": "content"
         }
       ],
       "computedFields": [
         {
-          "name": "urlPath",
+          "name": "url_path",
+          "description": "The URL path of this page relative to site root. For example, the site root page would be \"/\", and post page would be \"posts/new-post/\"",
           "type": "string"
         }
       ]
@@ -254,102 +257,103 @@
       "fieldDefs": [
         {
           "type": "string",
-          "name": "title",
           "label": "Title",
           "description": "The title of the post",
-          "required": true
+          "required": true,
+          "name": "title"
         },
         {
           "type": "string",
-          "name": "subtitle",
           "label": "Subtitle",
-          "description": "The text shown just below the title or the featured image"
+          "description": "The text shown just below the title or the featured image",
+          "name": "subtitle"
         },
         {
           "type": "date",
-          "name": "date",
           "label": "Date",
-          "required": true
+          "required": true,
+          "name": "date"
         },
         {
-          "name": "author",
           "type": "reference",
           "description": "Post author",
+          "name": "author",
           "documentName": "person"
         },
         {
           "type": "string",
-          "name": "excerpt",
           "label": "Excerpt",
-          "description": "The excerpt of the post displayed in the blog feed"
+          "description": "The excerpt of the post displayed in the blog feed",
+          "name": "excerpt"
         },
         {
           "type": "image",
-          "name": "image",
           "label": "Image (single post)",
-          "description": "The image shown below the title"
+          "description": "The image shown below the title",
+          "name": "image"
         },
         {
           "type": "string",
-          "name": "image_alt",
           "label": "Image alt text (single post)",
-          "description": "The alt text of the featured image"
+          "description": "The alt text of the featured image",
+          "name": "image_alt"
         },
         {
           "type": "image",
-          "name": "thumb_image",
           "label": "Image (blog feed)",
-          "description": "The image shown in the blog feed"
+          "description": "The image shown in the blog feed",
+          "name": "thumb_image"
         },
         {
           "type": "string",
-          "name": "thumb_image_alt",
           "label": "Image alt text (blog feed)",
-          "description": "The alt text of the blog feed image"
+          "description": "The alt text of the blog feed image",
+          "name": "thumb_image_alt"
         },
         {
-          "name": "seo",
           "type": "object",
-          "objectName": "stackbit_page_meta"
+          "name": "seo",
+          "objectName": "seo"
         },
         {
           "type": "markdown",
-          "name": "content",
           "label": "Page content",
           "description": "Page content",
-          "required": false
+          "required": false,
+          "name": "content"
         }
       ],
       "computedFields": [
         {
-          "name": "urlPath",
+          "name": "url_path",
+          "description": "The URL path of this page relative to site root. For example, the site root page would be \"/\", and post page would be \"posts/new-post/\"",
           "type": "string"
         }
       ]
     }
   },
   "objectDefMap": {
-    "stackbit_page_meta": {
-      "name": "stackbit_page_meta",
+    "seo": {
+      "name": "seo",
       "label": "Page meta data",
       "fieldDefs": [
         {
           "type": "string",
-          "name": "title",
           "label": "Title",
-          "description": "The page title that goes into the <title> tag"
+          "description": "The page title that goes into the <title> tag",
+          "name": "title"
         },
         {
           "type": "string",
-          "name": "description",
           "label": "Description",
-          "description": "The page description that goes into the <meta name=\"description\"> tag"
+          "description": "The page description that goes into the <meta name=\"description\"> tag",
+          "name": "description"
         },
         {
-          "name": "robots",
           "type": "list",
           "label": "Robots",
           "description": "The items that go into the <meta name=\"robots\"> tag",
+          "name": "robots",
           "items": [
             {
               "type": "enum",
@@ -367,33 +371,33 @@
           ]
         },
         {
-          "name": "extra",
           "type": "list",
           "label": "Extra",
           "description": "Additional definition for specific meta tags such as open-graph, twitter, etc.",
+          "name": "extra",
           "items": [
             {
               "type": "inline_object",
+              "labelField": "name",
               "fieldDefs": [
                 {
                   "type": "string",
-                  "name": "name",
-                  "label": "Name"
+                  "label": "Name",
+                  "name": "name"
                 },
                 {
                   "type": "string",
-                  "name": "value",
-                  "label": "Value"
+                  "label": "Value",
+                  "name": "value"
                 },
                 {
                   "type": "string",
-                  "name": "keyName",
-                  "label": "Key Name"
-                },
-                {
-                  "type": "boolean",
-                  "name": "relativeUrl",
-                  "label": "Relative Url"
+                  "label": "Key Name",
+                  "relativeUrl": {
+                    "type": "boolean",
+                    "label": "Relative Url"
+                  },
+                  "name": "keyName"
                 }
               ]
             }
@@ -407,28 +411,28 @@
       "fieldDefs": [
         {
           "type": "image",
-          "name": "logo_img",
           "label": "Logo",
-          "description": "The logo image displayed in the header (if no logo added, the site title is displayed instead)"
+          "description": "The logo image displayed in the header (if no logo added, the site title is displayed instead)",
+          "name": "logo_img"
         },
         {
           "type": "string",
-          "name": "logo_img_alt",
           "label": "Logo Alt Text",
-          "description": "The alt text of the logo image"
+          "description": "The alt text of the logo image",
+          "name": "logo_img_alt"
         },
         {
           "type": "boolean",
-          "name": "has_nav",
           "label": "Enable Navigation",
           "description": "Display the navigation menu bar in the header",
-          "default": true
+          "default": true,
+          "name": "has_nav"
         },
         {
-          "name": "nav_links",
           "type": "list",
           "label": "Navigation Links",
           "description": "List of navigation links",
+          "name": "nav_links",
           "items": [
             {
               "type": "object",
@@ -445,36 +449,35 @@
       "fieldDefs": [
         {
           "type": "string",
-          "name": "label",
           "label": "Label",
-          "required": true
+          "required": true,
+          "name": "label"
         },
         {
           "type": "string",
-          "name": "url",
           "label": "URL",
-          "required": true
+          "required": true,
+          "name": "url"
         },
         {
           "type": "enum",
-          "name": "style",
           "label": "Style",
           "options": [
             "link",
             "primary",
             "secondary"
           ],
-          "default": "link"
+          "default": "link",
+          "name": "style"
         },
         {
           "type": "boolean",
-          "name": "has_icon",
           "label": "Show icon",
-          "default": false
+          "default": false,
+          "name": "has_icon"
         },
         {
           "type": "enum",
-          "name": "icon",
           "label": "Icon",
           "options": [
             "arrow-left",
@@ -487,32 +490,33 @@
             "twitter",
             "vimeo",
             "youtube"
-          ]
+          ],
+          "name": "icon"
         },
         {
           "type": "enum",
-          "name": "icon_position",
           "label": "Icon position",
           "options": [
             "left",
             "right"
           ],
           "default": "left",
-          "description": "The position of the icon relative to text"
+          "description": "The position of the icon relative to text",
+          "name": "icon_position"
         },
         {
           "type": "boolean",
-          "name": "new_window",
           "label": "Open in new window",
           "default": false,
-          "description": "Should the link open a new tab"
+          "description": "Should the link open a new tab",
+          "name": "new_window"
         },
         {
           "type": "boolean",
-          "name": "no_follow",
           "label": "No follow",
           "default": false,
-          "description": "Add rel=\"nofollow\" attribute to the link"
+          "description": "Add rel=\"nofollow\" attribute to the link",
+          "name": "no_follow"
         }
       ]
     },
@@ -522,10 +526,10 @@
       "labelField": "content",
       "fieldDefs": [
         {
-          "name": "sections",
           "type": "list",
           "label": "Sections",
           "description": "Footer sections",
+          "name": "sections",
           "items": [
             {
               "type": "object",
@@ -543,16 +547,16 @@
         },
         {
           "type": "boolean",
-          "name": "has_nav",
           "label": "Enable Horizontal Navigation",
           "description": "Display the horizontal navigation menu bar in the footer",
-          "default": true
+          "default": true,
+          "name": "has_nav"
         },
         {
-          "name": "nav_links",
           "type": "list",
           "label": "Horizontal Navigation Links",
           "description": "List of horizontal navigation links",
+          "name": "nav_links",
           "items": [
             {
               "type": "object",
@@ -562,15 +566,15 @@
         },
         {
           "type": "string",
-          "name": "content",
           "label": "Footer Content",
-          "description": "The copyright text displayed in the footer"
+          "description": "The copyright text displayed in the footer",
+          "name": "content"
         },
         {
-          "name": "links",
           "type": "list",
           "label": "Links",
           "description": "A list of links displayed in the footer",
+          "name": "links",
           "items": [
             {
               "type": "object",
@@ -587,46 +591,46 @@
       "fieldDefs": [
         {
           "type": "string",
-          "name": "title",
           "label": "Title",
-          "description": "The title of the section"
+          "description": "The title of the section",
+          "name": "title"
         },
         {
           "type": "string",
-          "name": "type",
           "label": "Section type",
           "required": true,
-          "description": "Needed for sourcebit for polymorphic list types"
+          "description": "Needed for sourcebit for polymorphic list types",
+          "name": "type"
         },
         {
           "type": "markdown",
-          "name": "content",
           "label": "Content",
-          "description": "The content of the section, appears above the form"
+          "description": "The content of the section, appears above the form",
+          "name": "content"
         },
         {
           "type": "string",
-          "name": "form_id",
           "label": "Form ID",
           "description": "A unique identifier of the form, must not contain whitespace",
-          "required": true
+          "required": true,
+          "name": "form_id"
         },
         {
           "type": "string",
-          "name": "form_action",
           "label": "Form Action",
-          "description": "The path of your custom \"success\" page, if you want to replace the default success message."
+          "description": "The path of your custom \"success\" page, if you want to replace the default success message.",
+          "name": "form_action"
         },
         {
           "type": "boolean",
-          "name": "hide_labels",
           "label": "Hide labels of the form fields?",
-          "default": false
+          "default": false,
+          "name": "hide_labels"
         },
         {
-          "name": "form_fields",
           "type": "list",
           "label": "Form Fields",
+          "name": "form_fields",
           "items": [
             {
               "type": "object",
@@ -636,9 +640,9 @@
         },
         {
           "type": "string",
-          "name": "submit_label",
           "label": "Submit Button Label",
-          "required": true
+          "required": true,
+          "name": "submit_label"
         }
       ]
     },
@@ -649,7 +653,6 @@
       "fieldDefs": [
         {
           "type": "enum",
-          "name": "input_type",
           "label": "Type",
           "options": [
             "text",
@@ -661,32 +664,33 @@
             "select"
           ],
           "description": "Type of the form field",
-          "required": true
+          "required": true,
+          "name": "input_type"
         },
         {
           "type": "string",
-          "name": "name",
           "label": "Name",
           "description": "The name of the field, submitted with the form",
-          "required": true
+          "required": true,
+          "name": "name"
         },
         {
           "type": "string",
-          "name": "label",
           "label": "Label",
-          "description": "The caption of the field, shown above the field input"
+          "description": "The caption of the field, shown above the field input",
+          "name": "label"
         },
         {
           "type": "string",
-          "name": "default_value",
           "label": "Placeholder text or default value",
-          "description": "The placeholder for textual field types or default option for select field"
+          "description": "The placeholder for textual field types or default option for select field",
+          "name": "default_value"
         },
         {
-          "name": "options",
           "type": "list",
           "label": "Options",
           "description": "The list of options for select field",
+          "name": "options",
           "items": [
             {
               "type": "string"
@@ -695,9 +699,9 @@
         },
         {
           "type": "boolean",
-          "name": "is_required",
           "label": "Is the field required?",
-          "default": false
+          "default": false,
+          "name": "is_required"
         }
       ]
     },
@@ -708,22 +712,22 @@
       "fieldDefs": [
         {
           "type": "string",
-          "name": "title",
           "label": "Title",
-          "description": "The title of the section"
+          "description": "The title of the section",
+          "name": "title"
         },
         {
           "type": "string",
-          "name": "type",
           "label": "Section type",
           "required": true,
-          "description": "Needed for sourcebit for polymorphic list types"
+          "description": "Needed for sourcebit for polymorphic list types",
+          "name": "type"
         },
         {
-          "name": "nav_links",
           "type": "list",
           "label": "Vertical Navigation Links",
           "description": "List of vertical navigation links",
+          "name": "nav_links",
           "items": [
             {
               "type": "object",
@@ -740,40 +744,40 @@
       "fieldDefs": [
         {
           "type": "string",
-          "name": "title",
           "label": "Title",
-          "description": "The title of the section"
+          "description": "The title of the section",
+          "name": "title"
         },
         {
           "type": "string",
-          "name": "type",
           "label": "Section type",
           "required": true,
-          "description": "Needed for sourcebit for polymorphic list types"
+          "description": "Needed for sourcebit for polymorphic list types",
+          "name": "type"
         },
         {
           "type": "image",
-          "name": "image",
           "label": "Image",
-          "description": "The image displayed in the section"
+          "description": "The image displayed in the section",
+          "name": "image"
         },
         {
           "type": "string",
-          "name": "image_alt",
           "label": "Image Alt Text",
-          "description": "The alt text of the image"
+          "description": "The alt text of the image",
+          "name": "image_alt"
         },
         {
           "type": "string",
-          "name": "image_url",
           "label": "Image URL",
-          "description": "The url of the image"
+          "description": "The url of the image",
+          "name": "image_url"
         },
         {
           "type": "markdown",
-          "name": "content",
           "label": "Content",
-          "description": "The text content of the section"
+          "description": "The text content of the section",
+          "name": "content"
         }
       ]
     },
@@ -784,56 +788,56 @@
       "fieldDefs": [
         {
           "type": "string",
-          "name": "section_id",
           "label": "Section ID",
-          "description": "A unique identifier of the section, must not contain whitespace"
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "name": "section_id"
         },
         {
           "type": "string",
-          "name": "title",
           "label": "Title",
-          "description": "The title of the section"
+          "description": "The title of the section",
+          "name": "title"
         },
         {
           "type": "string",
-          "name": "type",
           "label": "Section type",
           "required": true,
-          "description": "Needed for sourcebit for polymorphic list types"
+          "description": "Needed for sourcebit for polymorphic list types",
+          "name": "type"
         },
         {
           "type": "markdown",
-          "name": "content",
           "label": "Content",
-          "description": "The text content of the section"
+          "description": "The text content of the section",
+          "name": "content"
         },
         {
           "type": "image",
-          "name": "image",
           "label": "Image",
-          "description": "The image of the section"
+          "description": "The image of the section",
+          "name": "image"
         },
         {
           "type": "string",
-          "name": "image_alt",
           "label": "Image Alt Text",
-          "description": "The alt text of the section image"
+          "description": "The alt text of the section image",
+          "name": "image_alt"
         },
         {
           "type": "enum",
-          "name": "background",
           "label": "Background",
           "description": "The background of the section",
           "options": [
             "gray",
             "white"
           ],
-          "default": "gray"
+          "default": "gray",
+          "name": "background"
         },
         {
-          "name": "actions",
           "type": "list",
           "label": "Action Buttons",
+          "name": "actions",
           "items": [
             {
               "type": "object",
@@ -850,33 +854,33 @@
       "fieldDefs": [
         {
           "type": "string",
-          "name": "section_id",
           "label": "Section ID",
-          "description": "A unique identifier of the section, must not contain whitespace"
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "name": "section_id"
         },
         {
           "type": "string",
-          "name": "title",
           "label": "Title",
-          "description": "The title of the section"
+          "description": "The title of the section",
+          "name": "title"
         },
         {
           "type": "string",
-          "name": "type",
           "label": "Section type",
           "required": true,
-          "description": "Needed for sourcebit for polymorphic list types"
+          "description": "Needed for sourcebit for polymorphic list types",
+          "name": "type"
         },
         {
           "type": "string",
-          "name": "subtitle",
           "label": "Subtitle",
-          "description": "The subtitle of the section"
+          "description": "The subtitle of the section",
+          "name": "subtitle"
         },
         {
-          "name": "actions",
           "type": "list",
           "label": "Action Buttons",
+          "name": "actions",
           "items": [
             {
               "type": "object",
@@ -893,44 +897,44 @@
       "fieldDefs": [
         {
           "type": "string",
-          "name": "section_id",
           "label": "Section ID",
-          "description": "A unique identifier of the section, must not contain whitespace"
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "name": "section_id"
         },
         {
           "type": "string",
-          "name": "title",
           "label": "Title",
-          "description": "The title of the section"
+          "description": "The title of the section",
+          "name": "title"
         },
         {
           "type": "string",
-          "name": "type",
           "label": "Section type",
           "required": true,
-          "description": "Needed for sourcebit for polymorphic list types"
+          "description": "Needed for sourcebit for polymorphic list types",
+          "name": "type"
         },
         {
           "type": "string",
-          "name": "subtitle",
           "label": "Subtitle",
-          "description": "The subtitle of the section"
+          "description": "The subtitle of the section",
+          "name": "subtitle"
         },
         {
           "type": "enum",
-          "name": "background",
           "label": "Background",
           "description": "The background of the section",
           "options": [
             "gray",
             "white"
           ],
-          "default": "gray"
+          "default": "gray",
+          "name": "background"
         },
         {
-          "name": "faq_items",
           "type": "list",
           "label": "FAQ Items",
+          "name": "faq_items",
           "items": [
             {
               "type": "object",
@@ -946,13 +950,13 @@
       "fieldDefs": [
         {
           "type": "text",
-          "name": "question",
-          "label": "Question"
+          "label": "Question",
+          "name": "question"
         },
         {
           "type": "markdown",
-          "name": "answer",
-          "label": "Answer"
+          "label": "Answer",
+          "name": "answer"
         }
       ]
     },
@@ -963,44 +967,44 @@
       "fieldDefs": [
         {
           "type": "string",
-          "name": "section_id",
           "label": "Section ID",
-          "description": "A unique identifier of the section, must not contain whitespace"
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "name": "section_id"
         },
         {
           "type": "string",
-          "name": "title",
           "label": "Title",
-          "description": "The title of the section"
+          "description": "The title of the section",
+          "name": "title"
         },
         {
           "type": "string",
-          "name": "type",
           "label": "Section type",
           "required": true,
-          "description": "Needed for sourcebit for polymorphic list types"
+          "description": "Needed for sourcebit for polymorphic list types",
+          "name": "type"
         },
         {
           "type": "string",
-          "name": "subtitle",
           "label": "Subtitle",
-          "description": "The subtitle of the section"
+          "description": "The subtitle of the section",
+          "name": "subtitle"
         },
         {
           "type": "enum",
-          "name": "background",
           "label": "Background",
           "description": "The background of the section",
           "options": [
             "gray",
             "white"
           ],
-          "default": "gray"
+          "default": "gray",
+          "name": "background"
         },
         {
-          "name": "features",
           "type": "list",
           "label": "Features",
+          "name": "features",
           "items": [
             {
               "type": "object",
@@ -1017,31 +1021,31 @@
       "fieldDefs": [
         {
           "type": "string",
-          "name": "title",
-          "label": "Title"
+          "label": "Title",
+          "name": "title"
         },
         {
           "type": "markdown",
-          "name": "content",
           "label": "Content",
-          "description": "Feature description"
+          "description": "Feature description",
+          "name": "content"
         },
         {
           "type": "image",
-          "name": "image",
           "label": "Image",
-          "description": "Feature image"
+          "description": "Feature image",
+          "name": "image"
         },
         {
           "type": "string",
-          "name": "image_alt",
           "label": "Image Alt Text",
-          "description": "The alt text of the feature image"
+          "description": "The alt text of the feature image",
+          "name": "image_alt"
         },
         {
-          "name": "actions",
           "type": "list",
           "label": "Action Buttons",
+          "name": "actions",
           "items": [
             {
               "type": "object",
@@ -1058,45 +1062,45 @@
       "fieldDefs": [
         {
           "type": "string",
-          "name": "section_id",
           "label": "Section ID",
-          "description": "A unique identifier of the section, must not contain whitespace"
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "name": "section_id"
         },
         {
           "type": "string",
-          "name": "title",
           "label": "Title",
-          "description": "The title of the section"
+          "description": "The title of the section",
+          "name": "title"
         },
         {
           "type": "string",
-          "name": "type",
           "label": "Section type",
           "required": true,
-          "description": "Needed for sourcebit for polymorphic list types"
+          "description": "Needed for sourcebit for polymorphic list types",
+          "name": "type"
         },
         {
           "type": "markdown",
-          "name": "content",
           "label": "Content",
-          "description": "The text content of the section"
+          "description": "The text content of the section",
+          "name": "content"
         },
         {
           "type": "image",
-          "name": "image",
           "label": "Image",
-          "description": "The image of the section"
+          "description": "The image of the section",
+          "name": "image"
         },
         {
           "type": "string",
-          "name": "image_alt",
           "label": "Image Alt Text",
-          "description": "The alt text of the section image"
+          "description": "The alt text of the section image",
+          "name": "image_alt"
         },
         {
-          "name": "actions",
           "type": "list",
           "label": "Action Buttons",
+          "name": "actions",
           "items": [
             {
               "type": "object",
@@ -1112,39 +1116,39 @@
       "fieldDefs": [
         {
           "type": "string",
-          "name": "section_id",
           "label": "Section ID",
-          "description": "A unique identifier of the section, must not contain whitespace"
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "name": "section_id"
         },
         {
           "type": "string",
-          "name": "title",
           "label": "Title",
-          "description": "The title of the section"
+          "description": "The title of the section",
+          "name": "title"
         },
         {
           "type": "string",
-          "name": "type",
           "label": "Section type",
           "required": true,
-          "description": "Needed for sourcebit for polymorphic list types"
+          "description": "Needed for sourcebit for polymorphic list types",
+          "name": "type"
         },
         {
           "type": "string",
-          "name": "subtitle",
           "label": "Subtitle",
-          "description": "The subtitle of the section"
+          "description": "The subtitle of the section",
+          "name": "subtitle"
         },
         {
           "type": "enum",
-          "name": "background",
           "label": "Background",
           "description": "The background of the section",
           "options": [
             "gray",
             "white"
           ],
-          "default": "gray"
+          "default": "gray",
+          "name": "background"
         }
       ]
     },
@@ -1154,44 +1158,44 @@
       "fieldDefs": [
         {
           "type": "string",
-          "name": "section_id",
           "label": "Section ID",
-          "description": "A unique identifier of the section, must not contain whitespace"
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "name": "section_id"
         },
         {
           "type": "string",
-          "name": "title",
           "label": "Title",
-          "description": "The title of the section"
+          "description": "The title of the section",
+          "name": "title"
         },
         {
           "type": "string",
-          "name": "type",
           "label": "Section type",
           "required": true,
-          "description": "Needed for sourcebit for polymorphic list types"
+          "description": "Needed for sourcebit for polymorphic list types",
+          "name": "type"
         },
         {
           "type": "string",
-          "name": "subtitle",
           "label": "Subtitle",
-          "description": "The subtitle of the section"
+          "description": "The subtitle of the section",
+          "name": "subtitle"
         },
         {
           "type": "enum",
-          "name": "background",
           "label": "Background",
           "description": "The background of the section",
           "options": [
             "gray",
             "white"
           ],
-          "default": "gray"
+          "default": "gray",
+          "name": "background"
         },
         {
-          "name": "pricing_plans",
           "type": "list",
           "label": "Pricing Plans",
+          "name": "pricing_plans",
           "items": [
             {
               "type": "object",
@@ -1208,35 +1212,35 @@
       "fieldDefs": [
         {
           "type": "string",
-          "name": "title",
-          "label": "Title"
+          "label": "Title",
+          "name": "title"
         },
         {
           "type": "string",
-          "name": "subtitle",
-          "label": "Subtitle"
+          "label": "Subtitle",
+          "name": "subtitle"
         },
         {
           "type": "string",
-          "name": "price",
-          "label": "Price"
+          "label": "Price",
+          "name": "price"
         },
         {
           "type": "markdown",
-          "name": "details",
-          "label": "Details"
+          "label": "Details",
+          "name": "details"
         },
         {
           "type": "boolean",
-          "name": "highlight",
           "label": "Highlight",
           "description": "Make the plan stand out by adding a distinctive style",
-          "default": false
+          "default": false,
+          "name": "highlight"
         },
         {
-          "name": "actions",
           "type": "list",
           "label": "Action Buttons",
+          "name": "actions",
           "items": [
             {
               "type": "object",
@@ -1246,135 +1250,50 @@
         }
       ]
     },
-    "section_contact": {
-      "name": "section_contact",
-      "label": "Contact Section",
-      "labelField": "title",
-      "fieldDefs": [
-        {
-          "type": "string",
-          "name": "section_id",
-          "label": "Section ID",
-          "description": "A unique identifier of the section, must not contain whitespace"
-        },
-        {
-          "type": "string",
-          "name": "title",
-          "label": "Title",
-          "description": "The title of the section"
-        },
-        {
-          "type": "string",
-          "name": "type",
-          "label": "Section type",
-          "required": true,
-          "description": "Needed for sourcebit for polymorphic list types"
-        },
-        {
-          "type": "string",
-          "name": "subtitle",
-          "label": "Subtitle",
-          "description": "The text shown below the title"
-        },
-        {
-          "type": "markdown",
-          "name": "content",
-          "label": "Content",
-          "description": "the content of the section, appears above the form"
-        },
-        {
-          "type": "enum",
-          "name": "background",
-          "label": "Background",
-          "description": "The background of the section",
-          "options": [
-            "gray",
-            "white"
-          ],
-          "default": "gray"
-        },
-        {
-          "type": "string",
-          "name": "form_id",
-          "label": "Form ID",
-          "description": "A unique identifier of the form, must not contain whitespace",
-          "required": true
-        },
-        {
-          "type": "string",
-          "name": "form_action",
-          "label": "Form Action",
-          "description": "The path of your custom \"success\" page, if you want to replace the default success message."
-        },
-        {
-          "type": "boolean",
-          "name": "hide_labels",
-          "label": "Hide labels of the form fields?",
-          "default": false
-        },
-        {
-          "name": "form_fields",
-          "type": "list",
-          "label": "Form Fields",
-          "items": [
-            {
-              "type": "object",
-              "objectName": "form_field"
-            }
-          ]
-        },
-        {
-          "type": "string",
-          "name": "submit_label",
-          "label": "Submit Button Label",
-          "required": true
-        }
-      ]
-    },
     "section_reviews": {
       "name": "section_reviews",
       "label": "Reviews Section",
       "fieldDefs": [
         {
           "type": "string",
-          "name": "section_id",
           "label": "Section ID",
-          "description": "A unique identifier of the section, must not contain whitespace"
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "name": "section_id"
         },
         {
           "type": "string",
-          "name": "title",
           "label": "Title",
-          "description": "The title of the section"
+          "description": "The title of the section",
+          "name": "title"
         },
         {
           "type": "string",
-          "name": "type",
           "label": "Section type",
           "required": true,
-          "description": "Needed for sourcebit for polymorphic list types"
+          "description": "Needed for sourcebit for polymorphic list types",
+          "name": "type"
         },
         {
           "type": "string",
-          "name": "subtitle",
           "label": "Subtitle",
-          "description": "The subtitle of the section"
+          "description": "The subtitle of the section",
+          "name": "subtitle"
         },
         {
           "type": "enum",
-          "name": "background",
           "label": "Background",
           "description": "The background of the section",
           "options": [
             "gray",
             "white"
           ],
-          "default": "gray"
+          "default": "gray",
+          "name": "background"
         },
         {
-          "name": "reviews",
           "type": "list",
           "label": "Reviews",
+          "name": "reviews",
           "items": [
             {
               "type": "object",
@@ -1391,23 +1310,108 @@
       "fieldDefs": [
         {
           "type": "string",
-          "name": "author",
-          "label": "Author"
+          "label": "Author",
+          "name": "author"
         },
         {
           "type": "image",
-          "name": "avatar",
-          "label": "Author Image"
+          "label": "Author Image",
+          "name": "avatar"
         },
         {
           "type": "string",
-          "name": "avatar_alt",
-          "label": "Author Image Alt Text"
+          "label": "Author Image Alt Text",
+          "name": "avatar_alt"
         },
         {
           "type": "text",
-          "name": "content",
-          "label": "Content"
+          "label": "Content",
+          "name": "content"
+        }
+      ]
+    },
+    "section_contact": {
+      "name": "section_contact",
+      "label": "Contact Section",
+      "labelField": "title",
+      "fieldDefs": [
+        {
+          "type": "string",
+          "label": "Section ID",
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "name": "section_id"
+        },
+        {
+          "type": "string",
+          "label": "Title",
+          "description": "The title of the section",
+          "name": "title"
+        },
+        {
+          "type": "string",
+          "label": "Section type",
+          "required": true,
+          "description": "Needed for sourcebit for polymorphic list types",
+          "name": "type"
+        },
+        {
+          "type": "string",
+          "label": "Subtitle",
+          "description": "The text shown below the title",
+          "name": "subtitle"
+        },
+        {
+          "type": "markdown",
+          "label": "Content",
+          "description": "the content of the section, appears above the form",
+          "name": "content"
+        },
+        {
+          "type": "enum",
+          "label": "Background",
+          "description": "The background of the section",
+          "options": [
+            "gray",
+            "white"
+          ],
+          "default": "gray",
+          "name": "background"
+        },
+        {
+          "type": "string",
+          "label": "Form ID",
+          "description": "A unique identifier of the form, must not contain whitespace",
+          "required": true,
+          "name": "form_id"
+        },
+        {
+          "type": "string",
+          "label": "Form Action",
+          "description": "The path of your custom \"success\" page, if you want to replace the default success message.",
+          "name": "form_action"
+        },
+        {
+          "type": "boolean",
+          "label": "Hide labels of the form fields?",
+          "default": false,
+          "name": "hide_labels"
+        },
+        {
+          "type": "list",
+          "label": "Form Fields",
+          "name": "form_fields",
+          "items": [
+            {
+              "type": "object",
+              "objectName": "form_field"
+            }
+          ]
+        },
+        {
+          "type": "string",
+          "label": "Submit Button Label",
+          "required": true,
+          "name": "submit_label"
         }
       ]
     }

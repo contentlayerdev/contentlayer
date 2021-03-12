@@ -14,8 +14,6 @@ export class GenerateCommand extends BaseCommand {
     const schemaDef = await config.source.provideSchema()
     const source = buildSource(schemaDef)
 
-    ;(await import('fs')).writeFileSync('schema.json', JSON.stringify(schemaDef, null, 2))
-
     // const sourcebitTypesPath = findSourcebitTypesPath()
     // const typegenTargetDir = path.join(sourcebitTypesPath)
     const typegenTargetDir = path.join('node_modules', '@types', 'sourcebit__types')
@@ -31,25 +29,28 @@ export class GenerateCommand extends BaseCommand {
   }
 }
 
-function findSourcebitTypesPath(): string {
-  const sourcebitIndexJs = require.resolve('@sourcebit/types')
-  return path.join(sourcebitIndexJs, '..')
-}
+// function findSourcebitTypesPath(): string {
+//   const sourcebitIndexJs = require.resolve('@sourcebit/types')
+//   return path.join(sourcebitIndexJs, '..')
+// }
 
 function buildSource(schemaDef: SchemaDef): string {
   const documentTypes = Object.values(schemaDef.documentDefMap)
     .sort((a, b) => a.name.localeCompare(b.name))
     .map((docDef) => ({
       typeName: docDef.name,
-      fieldDefs: docDef.fieldDefs.map(renderFieldDef).join('\n'),
+      fieldDefs:
+        docDef.fieldDefs.map(renderFieldDef).join('\n') +
+        '\n' +
+        docDef.computedFields
+          .map(
+            (field) =>
+              `${field.description ? `    /** ${field.description} */\n` : ''}    ${field.name}: ${field.type}`,
+          )
+          .join('\n'),
       description: docDef.description ?? docDef.label,
-      computedFieldDefs: docDef.computedFields
-        .map(
-          (field) => `${field.description ? `    /** ${field.description} */\n` : ''}    ${field.name}: ${field.type}`,
-        )
-        .join('\n'),
     }))
-    .map(({ typeName, fieldDefs, description, computedFieldDefs }) => ({
+    .map(({ typeName, fieldDefs, description }) => ({
       typeName,
       typeDef: `\
 ${description ? `/** ${description} */\n` : ''}export type ${typeName} = {
@@ -57,15 +58,6 @@ ${description ? `/** ${description} */\n` : ''}export type ${typeName} = {
     typeName: '${typeName}'
     sourceFilePath: string
   }
-${
-  computedFieldDefs !== ''
-    ? `\
-  __computed: {
-${computedFieldDefs}
-  }
-`
-    : ''
-}
 ${fieldDefs}
 }`,
     }))
@@ -147,9 +139,13 @@ function renderFieldType(field: FieldDef): string {
     case 'string':
       return field.type
     case 'date':
-      return 'Date'
+      return 'string'
+    // TODO
+    // return 'Date'
     case 'image':
       return 'Image'
+    case 'markdown':
+      return 'string'
     case 'inline_object':
       return '{\n' + field.fieldDefs.map(renderFieldDef).join('\n') + '\n}'
     case 'object': {

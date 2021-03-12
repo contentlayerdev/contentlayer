@@ -1,16 +1,15 @@
 import type * as Core from '@sourcebit/core'
 import { pick } from '@sourcebit/core'
 import { DocumentDef, FieldDef, ListFieldItem, ObjectDef, SchemaDef } from './schema'
-import { unwrapThunk } from './utils'
 
-export function makeStaticSchema(schemaDef: SchemaDef): Core.SchemaDef {
+export function makeCoreSchema(schemaDef: SchemaDef): Core.SchemaDef {
   const coreDocumentDefMap: Core.DocumentDefMap = {}
   const coreObjectDefMap: Core.ObjectDefMap = {}
 
   for (const documentDef of schemaDef.documentDefs) {
     const coreDocumentDef: Core.DocumentDef = {
       ...pick(documentDef, ['name', 'label', 'description', 'labelField']),
-      fieldDefs: unwrapThunk(documentDef.fields).map(fieldDefToCoreFieldDef),
+      fieldDefs: Object.entries(documentDef.fields).map(fieldDefToCoreFieldDef),
       computedFields: (documentDef.computedFields?.((_) => _) as Core.ComputedField[]) ?? [],
     }
     coreDocumentDefMap[documentDef.name] = coreDocumentDef
@@ -20,7 +19,7 @@ export function makeStaticSchema(schemaDef: SchemaDef): Core.SchemaDef {
   for (const objectDef of objectDefs) {
     const coreObjectDef: Core.ObjectDef = {
       ...pick(objectDef, ['name', 'label', 'description', 'labelField']),
-      fieldDefs: unwrapThunk(objectDef.fields).map(fieldDefToCoreFieldDef),
+      fieldDefs: Object.entries(objectDef.fields).map(fieldDefToCoreFieldDef),
     }
     coreObjectDefMap[coreObjectDef.name] = coreObjectDef
   }
@@ -28,21 +27,24 @@ export function makeStaticSchema(schemaDef: SchemaDef): Core.SchemaDef {
   return { documentDefMap: coreDocumentDefMap, objectDefMap: coreObjectDefMap }
 }
 
-function fieldDefToCoreFieldDef(fieldDef: FieldDef): Core.FieldDef {
-  const baseFields = pick(fieldDef, ['name', 'type', 'default', 'label', 'description', 'required', 'const', 'hidden'])
+function fieldDefToCoreFieldDef([name, fieldDef]: [name: string, fieldDef: FieldDef]): Core.FieldDef {
+  const baseFields = {
+    ...pick(fieldDef, ['type', 'default', 'label', 'description', 'required', 'const', 'hidden']),
+    name,
+  }
   switch (fieldDef.type) {
     case 'list':
-      const items = unwrapThunk(fieldDef.items).map(fieldListItemsToCoreFieldListDefItems)
+      const items = fieldDef.items.map(fieldListItemsToCoreFieldListDefItems)
       return <Core.ListFieldDef>{ ...baseFields, items }
     case 'object':
-      return <Core.ObjectFieldDef>{ ...baseFields, objectName: unwrapThunk(fieldDef.object).name }
+      return <Core.ObjectFieldDef>{ ...baseFields, objectName: fieldDef.object().name }
     case 'inline_object':
-      const fieldDefs = unwrapThunk(fieldDef.fields).map(fieldDefToCoreFieldDef)
+      const fieldDefs = Object.entries(fieldDef.fields).map(fieldDefToCoreFieldDef)
       return <Core.InlineObjectFieldDef>{ ...baseFields, fieldDefs }
     case 'reference':
-      return <Core.ReferenceFieldDef>{ ...baseFields, documentName: fieldDef.document.name }
+      return <Core.ReferenceFieldDef>{ ...baseFields, documentName: fieldDef.document().name }
     default:
-      return { ...fieldDef }
+      return { ...fieldDef, name }
   }
 }
 
@@ -55,7 +57,7 @@ function fieldListItemsToCoreFieldListDefItems(listFieldItem: ListFieldItem): Co
       return {
         type: 'object',
         labelField: listFieldItem.labelField,
-        objectName: unwrapThunk(listFieldItem.object).name,
+        objectName: listFieldItem.object().name,
       }
     case 'enum':
       return {
@@ -67,7 +69,7 @@ function fieldListItemsToCoreFieldListDefItems(listFieldItem: ListFieldItem): Co
       return {
         type: 'inline_object',
         labelField: listFieldItem.labelField,
-        fieldDefs: unwrapThunk(listFieldItem.fields).map(fieldDefToCoreFieldDef),
+        fieldDefs: Object.entries(listFieldItem.fields).map(fieldDefToCoreFieldDef),
       }
   }
 }
@@ -82,28 +84,28 @@ function collectObjectDefs(documentDefs: DocumentDef[]): ObjectDef[] {
 
     objectDefMap[objectDef.name] = objectDef
 
-    unwrapThunk(objectDef.fields).forEach(traverseField)
+    Object.values(objectDef.fields).forEach(traverseField)
   }
 
   const traverseField = (field: FieldDef) => {
     switch (field.type) {
       case 'object':
-        return traverseObjectDef(unwrapThunk(field.object))
+        return traverseObjectDef(field.object())
       case 'inline_object':
-        return unwrapThunk(field.fields).forEach(traverseField)
+        return Object.values(field.fields).forEach(traverseField)
       case 'list':
-        return unwrapThunk(field.items).forEach(traverseListFieldItem)
+        return Object.values(field.items).forEach(traverseListFieldItem)
     }
   }
 
   const traverseListFieldItem = (listFieldItem: ListFieldItem) => {
     switch (listFieldItem.type) {
       case 'object':
-        return traverseObjectDef(unwrapThunk(listFieldItem.object))
+        return traverseObjectDef(listFieldItem.object())
     }
   }
 
-  documentDefs.flatMap((_) => unwrapThunk(_.fields)).forEach(traverseField)
+  documentDefs.flatMap((_) => Object.values(_.fields)).forEach(traverseField)
 
   return Object.values(objectDefMap)
 }

@@ -11,6 +11,6 @@ import { post } from './schema/documents/post'
 export default defineConfig({
   source: makeSourcePlugin({
     documentDefs: [blog, config, landing, page, person, post],
-    contentGlob: path.join(__dirname, 'content/**/*.{md,json,yaml}'),
+    contentDirPath: path.join(__dirname, 'content'),
   }),
 })

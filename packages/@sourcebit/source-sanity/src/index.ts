@@ -8,17 +8,19 @@ export const makeSourcePlugin: MakeSourcePlugin = ({ studioDirPath }) => ({
   provideSchema: () => provideSchema(studioDirPath),
   fetchData: async ({ watch }) => {
     return new Observable((observer) => {
-      fetchData(studioDirPath).then((_) => {
-        observer.next(_)
+      provideSchema(studioDirPath).then((schemaDef) => {
+        fetchData({ studioDirPath, schemaDef }).then((_) => {
+          observer.next(_)
 
-        if (!watch) {
-          observer.complete()
+          if (!watch) {
+            observer.complete()
+          }
+        })
+
+        if (watch) {
+          throw new Error(`Watch mode not yet implemented for Sanity source`)
         }
       })
-
-      if (watch) {
-        throw new Error(`Watch mode not yet implemented for Sanity source`)
-      }
     })
   },
 })

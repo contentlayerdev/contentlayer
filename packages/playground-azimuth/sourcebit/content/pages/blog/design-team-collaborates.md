@@ -3,11 +3,36 @@ title: How Our Design Team Collaborates
 excerpt: >-
   Vis accumsan feugiat adipiscing nisl amet adipiscing accumsan blandit accumsan
   sapien blandit ac amet faucibus aliquet placerat commodo.
-author: content/data/authors/jane-doe.yaml
+author: data/authors/jane-doe.yaml
 date: '2019-03-24'
 thumb_image: images/11_thumb.jpg
 image: images/11.jpg
-layout: post
+seo:
+  title: How Our Design Team Collaborates
+  description: Vis accumsan feugiat adipiscing nisl amet adipiscing accumsan.
+  extra:
+    - name: 'og:type'
+      value: article
+      keyName: property
+    - name: 'og:title'
+      value: How Our Design Team Collaborates
+      keyName: property
+    - name: 'og:description'
+      value: Vis accumsan feugiat adipiscing nisl amet adipiscing accumsan.
+      keyName: property
+    - name: 'og:image'
+      value: images/11.jpg
+      keyName: property
+      relativeUrl: true
+    - name: 'twitter:card'
+      value: summary_large_image
+    - name: 'twitter:title'
+      value: How Our Design Team Collaborates
+    - name: 'twitter:description'
+      value: Vis accumsan feugiat adipiscing nisl amet adipiscing accumsan.
+    - name: 'twitter:image'
+      value: images/11.jpg
+      relativeUrl: true
 ---
 
 Vis accumsan feugiat adipiscing nisl amet adipiscing accumsan blandit accumsan sapien blandit ac amet faucibus aliquet placerat commodo. Interdum ante aliquet commodo accumsan vis phasellus adipiscing. Ornare a in lacinia. Vestibulum accumsan ac metus massa tempor. Accumsan in lacinia ornare massa amet. Ac interdum ac non praesent. Cubilia lacinia interdum massa faucibus blandit nullam. Accumsan phasellus nunc integer. Accumsan euismod nunc adipiscing lacinia erat ut sit. Arcu amet. Id massa aliquet arcu accumsan lorem amet accumsan.

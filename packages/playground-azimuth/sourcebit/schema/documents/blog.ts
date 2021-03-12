@@ -1,37 +1,36 @@
 import { defineDocument } from '@sourcebit/source-local'
-import { stackbit_page_meta } from '../objects/stackbit_page_meta'
+import { seo } from '../objects/seo'
 import { urlFromFilePath } from '../utils'
 // import { sluggify } from '../../../../lib/utils'
 
-export const blog = defineDocument({
+export const blog = defineDocument(() => ({
   name: 'blog',
   // urlPath: '/blog',
   label: 'Blog',
-  // layout: 'blog',
   // file: 'blog/index.md',
   // hideContent: true,
   // singleInstance: true,
   // urlPath: (doc) => `/blog/${sluggify(doc.title)}`,
-  filePathPattern: `content/pages/blog/index.md`,
-  fields: [
-    {
+  filePathPattern: `pages/blog.md`,
+  fields: {
+    title: {
       type: 'string',
-      name: 'title',
       label: 'Title',
       description: 'The title of the page',
       required: true,
     },
-    {
+    seo: {
       type: 'object',
-      name: 'seo',
-      object: stackbit_page_meta,
+      object: seo,
     },
-  ],
+  },
   computedFields: (defineField) => [
     defineField({
-      name: 'urlPath',
+      name: 'url_path',
+      description:
+        'The URL path of this page relative to site root. For example, the site root page would be "/", and post page would be "posts/new-post/"',
       type: 'string',
       resolve: urlFromFilePath,
     }),
   ],
-})
+}))

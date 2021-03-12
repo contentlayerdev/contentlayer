@@ -1,71 +1,85 @@
-import { defineObject } from '@sourcebit/source-local'
-
-export const stackbit_page_meta = defineObject({
-  name: 'stackbit_page_meta',
-  label: 'Page meta data',
+export default {
+  type: 'object',
+  name: 'seo',
+  title: 'Page meta data',
   fields: [
     {
       type: 'string',
       name: 'title',
-      label: 'Title',
+      title: 'Title',
       description: 'The page title that goes into the <title> tag',
+      validation: null,
     },
     {
       type: 'string',
       name: 'description',
-      label: 'Description',
+      title: 'Description',
       description: 'The page description that goes into the <meta name="description"> tag',
+      validation: null,
     },
     {
-      type: 'list',
+      type: 'array',
       name: 'robots',
-      label: 'Robots',
+      title: 'Robots',
       description: 'The items that go into the <meta name="robots"> tag',
-      items: [
+      validation: null,
+      of: [
         {
-          type: 'enum',
-          options: ['all', 'index', 'follow', 'noindex', 'nofollow', 'noimageindex', 'notranslate', 'none'],
+          type: 'string',
         },
       ],
+      options: {
+        list: ['all', 'index', 'follow', 'noindex', 'nofollow', 'noimageindex', 'notranslate', 'none'],
+      },
     },
     {
-      type: 'list',
+      type: 'array',
       name: 'extra',
-      label: 'Extra',
+      title: 'Extra',
       description: 'Additional definition for specific meta tags such as open-graph, twitter, etc.',
-      items: [
+      validation: null,
+      of: [
         {
-          type: 'inline_object',
+          type: 'object',
           fields: [
             {
               type: 'string',
               name: 'name',
-              label: 'Name',
+              title: 'Name',
+              validation: null,
             },
             {
               type: 'string',
               name: 'value',
-              label: 'Value',
+              title: 'Value',
+              validation: null,
             },
             {
               type: 'string',
               name: 'keyName',
-              label: 'Key Name',
-              // initialValue: 'name',
+              title: 'Key Name',
+              initialValue: 'name',
+              validation: null,
             },
             {
               type: 'boolean',
               name: 'relativeUrl',
-              label: 'Relative Url',
+              title: 'Relative Url',
+              validation: null,
             },
           ],
-          // preview: {
-          //   select: {
-          //     label: 'name',
-          //   },
-          // },
+          preview: {
+            select: {
+              title: 'name',
+            },
+          },
         },
       ],
     },
   ],
-})
+  preview: {
+    select: {
+      title: 'title',
+    },
+  },
+}

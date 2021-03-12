@@ -21,7 +21,7 @@ const Post: FC<{
               <img src={withPrefix(doc.image)} alt={doc.image_alt ?? ''} />
             </div>
           )}
-          <div className="post-content">{markdownify(doc.__content)}</div>
+          <div className="post-content">{markdownify(doc.content)}</div>
           <BlogPostFooter post={doc} dateType="long" />
         </article>
       </div>

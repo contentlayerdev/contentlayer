@@ -24,14 +24,14 @@ const SectionPosts: FC<{ section: section_posts }> = ({ section }) => {
             <article key={post_idx} className="cell post">
               <div className="card">
                 {post.thumb_image && (
-                  <Link className="post-thumbnail" href={withPrefix(post.__computed.urlPath)}>
+                  <Link className="post-thumbnail" href={withPrefix(post.url_path)}>
                     <img src={withPrefix(post.thumb_image)} alt={post.thumb_image_alt} />
                   </Link>
                 )}
                 <div className="post-body">
                   <header className="post-header">
                     <h3 className="post-title">
-                      <Link href={withPrefix(post.__computed.urlPath)}>{post.title}</Link>
+                      <Link href={withPrefix(post.url_path)}>{post.title}</Link>
                     </h3>
                   </header>
                   <div className="post-excerpt">

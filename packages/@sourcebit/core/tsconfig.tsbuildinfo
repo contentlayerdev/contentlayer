@@ -517,8 +517,8 @@
         "affectsGlobalScope": false
       },
       "./src/schema/field.ts": {
-        "version": "c4210f922ae6a617f68afecfae4a08e204eb887db72791416615b95932f88af6",
-        "signature": "18e5a718908f8505dcd27b96a8d6ff88fcef832908d774a9297f74f6da8b5072",
+        "version": "0d7a79ddba292f3ab6571e9a220df1f9ab3e7a774d830f8a8c9acbc76568be30",
+        "signature": "21f4bc2ce5e7c4329bca4597624c76ff31712b602a980d6fc3ad62ce98f8a6a8",
         "affectsGlobalScope": false
       },
       "./src/schema/index.ts": {
@@ -527,8 +527,8 @@
         "affectsGlobalScope": false
       },
       "./src/plugin.ts": {
-        "version": "8229535e0983398c7e87666b98163d35668c9b3052a866b8cab408df3490dbbc",
-        "signature": "aa8949ecfbd2526b83ac0e113aaeb493380414f473104d84a3192cfb39b086af",
+        "version": "b73e9dab9af5c5a2e9e38bf01abf260db1b9500ffad0df7351ad85db8b5022d9",
+        "signature": "15409c4f4a266d5134321e2dde60feba75b7861f81df732e297270958a982b45",
         "affectsGlobalScope": false
       },
       "./src/config.ts": {
@@ -541,9 +541,14 @@
         "signature": "07ef88d7824e789bf14831737f5ac4dff122a3f404696676fe7496bc6c5bccee",
         "affectsGlobalScope": true
       },
+      "./src/utils.ts": {
+        "version": "aea7ff525c2df8b0b0e8d34af2060c7c956287049f5cec3e1b23febd138d293d",
+        "signature": "d163a94b0d39f390e76c775343022da02bbd62e60fd8e3a88e565090574c832c",
+        "affectsGlobalScope": false
+      },
       "./src/index.ts": {
-        "version": "5dc92f2e28b1e4724b045b9afc47aa2154858b842549e91e98fe479d477c4678",
-        "signature": "6a0d65d511f7ca648614dff33a6ebff55a84076f90f6d8a4ab7582c2fe8d26f6",
+        "version": "db8149ed10de254c50bd5bf8f025f18c548ff03011fcd773e737cde5ab294509",
+        "signature": "3734fa747b85bf73bfe0c62280dfb4fae9f38d594685c74ed6ce7d90533be44c",
         "affectsGlobalScope": false
       },
       "../../../node_modules/@types/diff-match-patch/index.d.ts": {
@@ -1663,7 +1668,8 @@
         "./src/data.ts",
         "./src/gen.ts",
         "./src/plugin.ts",
-        "./src/schema/index.ts"
+        "./src/schema/index.ts",
+        "./src/utils.ts"
       ],
       "./src/plugin.ts": [
         "../../../node_modules/rxjs/index.d.ts",
@@ -2355,7 +2361,8 @@
         "./src/data.ts",
         "./src/gen.ts",
         "./src/plugin.ts",
-        "./src/schema/index.ts"
+        "./src/schema/index.ts",
+        "./src/utils.ts"
       ],
       "./src/plugin.ts": [
         "../../../node_modules/rxjs/index.d.ts",
@@ -2558,7 +2565,8 @@
       "./src/index.ts",
       "./src/plugin.ts",
       "./src/schema/field.ts",
-      "./src/schema/index.ts"
+      "./src/schema/index.ts",
+      "./src/utils.ts"
     ]
   },
   "version": "4.1.5"

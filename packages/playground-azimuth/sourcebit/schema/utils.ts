@@ -1,14 +1,10 @@
-import { Document } from '@sourcebit/core'
+import { DocumentGen } from '@sourcebit/core'
 
-export function urlFromFilePath(doc: Omit<Document, '__computed'>): string {
+export function urlFromFilePath(doc: DocumentGen): string {
   const url = doc.__meta.sourceFilePath
-    .replace('content/pages/', '')
+    .replace('pages', '')
     .replace(/\.md$/, '')
-    .replace(/\/?index$/, '')
-
-  if (url === '') {
-    return '/'
-  }
+    .replace(/\index$/, '')
 
   return url
 }

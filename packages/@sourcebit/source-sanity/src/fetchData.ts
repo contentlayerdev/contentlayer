@@ -1,25 +1,33 @@
 import SantityImageUrlBuilder from '@sanity/image-url'
 import { ImageUrlBuilder } from '@sanity/image-url/lib/types/builder'
-import { Document } from '@sourcebit/core'
+import type * as Core from '@sourcebit/core'
 import { getSanityClient } from './sanity-client'
 
-export const fetchData = async (studioDirPath: string): Promise<{ documents: Document[] }> => {
+export const fetchData = async ({
+  studioDirPath,
+  schemaDef,
+}: {
+  studioDirPath: string
+  schemaDef: Core.SchemaDef
+}): Promise<{ documents: Core.Document[] }> => {
   const client = await getSanityClient(studioDirPath)
 
   const imageUrlBuilder = SantityImageUrlBuilder(client)
 
   const entries: any[] = await client.fetch('*[]')
-  const entriesById = entries
+
+  ;(await import('fs')).writeFileSync('entries.json', JSON.stringify(entries, null, 2))
+
+  const documents = entries
     .filter((_) => !_._id.startsWith('image'))
     .filter((_) => _._id)
-    .map((_) => transformDataRec(_, imageUrlBuilder))
-  // .reduce((result, entry) => ({ ...result, [entry._id]: transformDataRec(entry, imageUrlBuilder) }), {})
+    .map(transformDataRec(imageUrlBuilder))
 
-  return { documents: entriesById }
+  return { documents }
 }
 
 /** Recursively transforms Sanity response data into the data shape Sourcebit expects */
-function transformDataRec(item: any, imageUrlBuilder: ImageUrlBuilder): any {
+const transformDataRec = (imageUrlBuilder: ImageUrlBuilder) => (item: any): any => {
   const newItem = {
     // TODO remove
     type: item._type,
@@ -30,19 +38,17 @@ function transformDataRec(item: any, imageUrlBuilder: ImageUrlBuilder): any {
   } as any
 
   for (const key in item) {
-    if (key === 'slug') {
-      newItem.__computed = { urlPath: item.slug.current }
-    } else if (key.startsWith('_')) {
+    if (key.startsWith('_')) {
       newItem.__meta.sanity[key] = item[key]
     } else {
       newItem[key] = item[key]
       if (Array.isArray(newItem[key])) {
-        newItem[key] = newItem[key].map((_: any) => transformDataRec(_, imageUrlBuilder))
+        newItem[key] = newItem[key].map(transformDataRec(imageUrlBuilder))
       } else if (typeof newItem[key] === 'object') {
         if (newItem[key]._type === 'image') {
           newItem[key] = imageUrlBuilder.image(newItem[key]).url()
         } else {
-          newItem[key] = transformDataRec(newItem[key], imageUrlBuilder)
+          newItem[key] = transformDataRec(imageUrlBuilder)(newItem[key])
         }
       }
     }

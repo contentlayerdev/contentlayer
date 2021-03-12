@@ -1,39 +1,34 @@
 import { defineObject } from '@sourcebit/source-local'
 
-export const action = defineObject({
+export const action = defineObject(() => ({
   name: 'action',
   label: 'Action',
   labelField: 'title',
-  fields: [
-    {
+  fields: {
+    label: {
       type: 'string',
-      name: 'label',
       label: 'Label',
       required: true,
     },
-    {
+    url: {
       type: 'string',
-      name: 'url',
       label: 'URL',
       required: true,
       // "widget": "url"
     },
-    {
+    style: {
       type: 'enum',
-      name: 'style',
       label: 'Style',
       options: ['link', 'primary', 'secondary'],
       default: 'link',
     },
-    {
+    has_icon: {
       type: 'boolean',
-      name: 'has_icon',
       label: 'Show icon',
       default: false,
     },
-    {
+    icon: {
       type: 'enum',
-      name: 'icon',
       label: 'Icon',
       options: [
         'arrow-left',
@@ -48,27 +43,24 @@ export const action = defineObject({
         'youtube',
       ],
     },
-    {
+    icon_position: {
       type: 'enum',
-      name: 'icon_position',
       label: 'Icon position',
       options: ['left', 'right'],
       default: 'left',
       description: 'The position of the icon relative to text',
     },
-    {
+    new_window: {
       type: 'boolean',
-      name: 'new_window',
       label: 'Open in new window',
       default: false,
       description: 'Should the link open a new tab',
     },
-    {
+    no_follow: {
       type: 'boolean',
-      name: 'no_follow',
       label: 'No follow',
       default: false,
       description: 'Add rel="nofollow" attribute to the link',
     },
-  ],
-})
+  },
+}))

@@ -6,7 +6,7 @@ export type Cache = {
 
 export type Document = {
   __meta: DocumentMeta
-  __computed?: Record<string, any>
+  // __computed?: Record<string, any>
 } & Record<string, any>
 
 export type DocumentMeta = {

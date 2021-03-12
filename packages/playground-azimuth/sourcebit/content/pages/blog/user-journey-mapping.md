@@ -6,13 +6,38 @@ subtitle: >-
 excerpt: >-
   Praesent ut cursus enim, sit amet dictum turpis. Etiam justo orci, consectetur
   aliquet rhoncus sed, hendrerit vel odio.
-author: content/data/authors/jane-doe.yaml
+author: data/authors/jane-doe.yaml
 date: '2019-03-27'
 thumb_image: images/10_thumb.jpg
 thumb_image_alt: Business people in a meeting
 image: images/10.jpg
 image_alt: Business people in a meeting
-layout: post
+seo:
+  title: A Guide To User Journey Mapping
+  description: A tale about Journey Mapping
+  extra:
+    - name: 'og:type'
+      value: article
+      keyName: property
+    - name: 'og:title'
+      value: A Guide To User Journey Mapping
+      keyName: property
+    - name: 'og:description'
+      value: A tale about Journey Mapping
+      keyName: property
+    - name: 'og:image'
+      value: images/10.jpg
+      keyName: property
+      relativeUrl: true
+    - name: 'twitter:card'
+      value: summary_large_image
+    - name: 'twitter:title'
+      value: A Guide To User Journey Mapping
+    - name: 'twitter:description'
+      value: A tale about Journey Mapping
+    - name: 'twitter:image'
+      value: images/10.jpg
+      relativeUrl: true
 ---
 
 Curabitur sed consectetur nisi. Integer sit amet commodo massa. Cras posuere justo magna, id placerat ligula vulputate malesuada. Aenean a ipsum quis neque ornare placerat eu eu orci. Nullam feugiat sed ante in euismod. Pellentesque a nibh dolor. Donec ultrices lacus eget orci commodo ultricies. Morbi placerat purus non varius egestas. Ut tempus ligula quis lorem suscipit, sed vulputate dolor placerat. Aliquam ut massa placerat, vehicula erat non, mattis leo. Pellentesque egestas velit sit amet lectus lobortis, sit amet pharetra ipsum porta. Nullam massa nulla, tincidunt vel volutpat vel, commodo id leo. Curabitur id volutpat lacus, sed commodo velit. Quisque facilisis consectetur nisl vitae vulputate. Proin porttitor ipsum ut diam faucibus, scelerisque posuere ex euismod. Aenean posuere bibendum egestas.

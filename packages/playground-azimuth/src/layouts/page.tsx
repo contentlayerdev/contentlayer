@@ -22,7 +22,7 @@ const Page: FC<{
               </div>
             )}
             {/* TODO type properly */}
-            <div className="post-content">{markdownify((doc as any).__content)}</div>
+            <div className="post-content">{markdownify(doc.content)}</div>
           </article>
         </div>
       </div>
