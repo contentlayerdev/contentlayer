@@ -9,7 +9,6 @@
     "module": "ES2020",
     "moduleResolution": "node",
     "sourceMap": true,
-    "noEmit": true,
     "strict": true,
     "target": "ES2020",
     "paths": {

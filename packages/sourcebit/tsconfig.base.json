@@ -1,8 +1,6 @@
 {
   "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "noEmit": false
-  },
+  "compilerOptions": {},
   "include": ["./src"],
   "references": [
     { "path": "../@sourcebit/client" },

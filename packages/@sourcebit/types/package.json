@@ -1,6 +1,0 @@
-{
-  "name": "@sourcebit/types",
-  "main": "./index.js",
-  "types": "./index.d.ts",
-  "type": "module"
-}

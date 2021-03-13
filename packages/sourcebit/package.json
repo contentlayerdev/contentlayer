@@ -1,5 +1,6 @@
 {
   "name": "sourcebit",
+  "bin": "./dist-cli/index.js",
   "exports": {
     "./source-local": {
       "import": "./dist-esm/source-local/index.js",
@@ -30,7 +31,7 @@
   },
   "scripts": {
     "build": "yarn build:cli && yarn build:lib",
-    "build:cli": "rm -rf dist-cli && esbuild --bundle src/cli.ts --outfile=dist/cli.js --platform=node --sourcemap",
+    "build:cli": "rm -rf dist-cli && esbuild --bundle src/cli/index.ts --outfile=dist-cli/index.js --platform=node --sourcemap",
     "build:lib": "yarn build:lib:esm && yarn build:lib:cjs",
     "build:lib:cjs": "rm -rf dist-cjs tsconfig.cjs.tsbuildinfo && tsc --project tsconfig.cjs.json",
     "build:lib:esm": "rm -rf dist-esm tsconfig.esm.tsbuildinfo && tsc --project tsconfig.esm.json"
@@ -38,8 +39,8 @@
   "dependencies": {
     "@sourcebit/cli": "workspace:*",
     "@sourcebit/client": "workspace:*",
-    "@sourcebit/source-local": "workspace:*",
-    "@sourcebit/types": "workspace:*"
+    "@sourcebit/core": "workspace:*",
+    "@sourcebit/source-local": "workspace:*"
   },
   "devDependencies": {
     "esbuild": "^0.9.2",
