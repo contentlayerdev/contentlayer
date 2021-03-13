@@ -1,9 +1,9 @@
-import { section_content } from '@sourcebit/types'
 import React, { FC } from 'react'
+import { section_content } from 'sourcebit/types'
 import { markdownify, withPrefix } from '../../utils'
-import CtaButtons from './CtaButtons'
+import { CtaButtons } from './CtaButtons'
 
-const SectionContent: FC<{ section: section_content }> = ({ section }) => (
+export const SectionContent: FC<{ section: section_content }> = ({ section }) => (
   <section id={section.section_id} className={'block text-block bg-' + section.background + ' outer'}>
     <div className="inner">
       <div className="grid">
@@ -25,5 +25,3 @@ const SectionContent: FC<{ section: section_content }> = ({ section }) => (
     </div>
   </section>
 )
-
-export default SectionContent

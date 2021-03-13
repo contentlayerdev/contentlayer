@@ -1,16 +1,12 @@
-// @ts-check
-import { post } from '@sourcebit/types'
 // import moment from 'moment-strftime'
 // import { format} from 'date-fns'
 import React, { FC } from 'react'
+import { post } from 'sourcebit/types'
 import { useSourcebit } from '../utils/next'
 
-const BlogPostFooter: FC<{ post: post; dateType: 'long' | 'short' }> = ({ post, dateType }) => {
+export const BlogPostFooter: FC<{ post: post; dateType: 'long' | 'short' }> = ({ post, dateType }) => {
   const sourcebit = useSourcebit()
-
-  const author = sourcebit
-    .getDocumentsOfType({ type: 'person' })
-    .find((_) => ((post.author as unknown) as string) === _.__meta.sourceFilePath)
+  const author = sourcebit.getDocumentsOfType({ type: 'person' }).find((_) => post.author === _._id)
 
   return (
     <footer className="post-meta">
@@ -19,9 +15,7 @@ const BlogPostFooter: FC<{ post: post; dateType: 'long' | 'short' }> = ({ post, 
         {dateType === 'short' ? moment(post.date).strftime('%B %d, %Y') : moment(post.date).strftime('%A, %B %e, %Y')}
       </time> */}
 
-      {author && `, by ' ${author.first_name} ${author.last_name}`}
+      {author && `by '${author.first_name} ${author.last_name}`}
     </footer>
   )
 }
-
-export default BlogPostFooter

@@ -1,7 +1,7 @@
-import { SourcebitClient } from '@sourcebit/client'
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
+import { SourcebitClient } from 'sourcebit/client'
 const { hash } = require('../sourcebit.json')
 
 /** Needed in combination with `InferGetServerSidePropsType` */
@@ -19,7 +19,7 @@ export function defineStaticPaths<Fn extends GetStaticPaths>(fn: Fn): Fn {
 }
 
 export function toParams(path: string): { params: { slug: string[] } } {
-  return { params: { slug: path.split('/') } }
+  return { params: { slug: path.replace(/^\//, '').split('/') } }
 }
 
 export function notUndefined<T>(_: T | undefined): _ is T {

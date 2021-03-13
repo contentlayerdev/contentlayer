@@ -2,6 +2,7 @@ import SantityImageUrlBuilder from '@sanity/image-url'
 import { ImageUrlBuilder } from '@sanity/image-url/lib/types/builder'
 import type * as Core from '@sourcebit/core'
 import { getSanityClient } from './sanity-client'
+import type * as Sanity from './sanity-types'
 
 export const fetchData = async ({
   studioDirPath,
@@ -14,59 +15,166 @@ export const fetchData = async ({
 
   const imageUrlBuilder = SantityImageUrlBuilder(client)
 
-  const entries: any[] = await client.fetch('*[]')
+  const entries: Sanity.DataDocument[] = await client.fetch('*[]')
 
   ;(await import('fs')).writeFileSync('entries.json', JSON.stringify(entries, null, 2))
 
   const documents = entries
-    .filter((_) => !_._id.startsWith('image'))
-    .filter((_) => _._id)
-    .map(transformDataRec(imageUrlBuilder))
+    // Ignores documents that are not explicitly defined in the schema (e.g. assets which are accessed via URLs instead)
+    .filter((_) => _._type in schemaDef.documentDefMap)
+    .map((rawDocumentData) =>
+      makeDocument({
+        rawDocumentData,
+        documentDef: schemaDef.documentDefMap[rawDocumentData._type],
+        schemaDef,
+        imageUrlBuilder,
+      }),
+    )
 
   return { documents }
 }
 
-/** Recursively transforms Sanity response data into the data shape Sourcebit expects */
-const transformDataRec = (imageUrlBuilder: ImageUrlBuilder) => (item: any): any => {
-  const newItem = {
-    // TODO remove
-    type: item._type,
-    __meta: {
-      typeName: item._type,
-      sanity: {} as any,
-    },
-  } as any
+const makeDocument = ({
+  rawDocumentData,
+  documentDef,
+  schemaDef,
+  imageUrlBuilder,
+}: {
+  rawDocumentData: Sanity.DataDocument
+  documentDef: Core.DocumentDef
+  schemaDef: Core.SchemaDef
+  imageUrlBuilder: ImageUrlBuilder
+}): Core.Document => {
+  const raw = Object.fromEntries(Object.entries(rawDocumentData).filter(([key]) => key.startsWith('_')))
+  const doc: Core.Document = { _typeName: documentDef.name, _id: rawDocumentData._id, _raw: raw }
 
-  for (const key in item) {
-    if (key.startsWith('_')) {
-      newItem.__meta.sanity[key] = item[key]
-    } else {
-      newItem[key] = item[key]
-      if (Array.isArray(newItem[key])) {
-        newItem[key] = newItem[key].map(transformDataRec(imageUrlBuilder))
-      } else if (typeof newItem[key] === 'object') {
-        if (newItem[key]._type === 'image') {
-          newItem[key] = imageUrlBuilder.image(newItem[key]).url()
-        } else {
-          newItem[key] = transformDataRec(imageUrlBuilder)(newItem[key])
-        }
-      }
-    }
-  }
+  documentDef.fieldDefs.forEach((fieldDef) => {
+    doc[fieldDef.name] = getDataForFieldDef({
+      fieldDef,
+      rawFieldData: rawDocumentData[fieldDef.name],
+      schemaDef,
+      imageUrlBuilder,
+    })
+  })
 
-  return newItem
+  return doc
 }
 
-// TODO handle refs
-/*
-    "author": {
-      "__meta": {
-        "typeName": "reference",
-        "sanity": {
-          "_ref": "5e67beac-bd76-4103-a6ee-04bb7120aec1",
-          "_type": "reference"
-        }
-      }
-    },
+const makeObject = ({
+  rawObjectData,
+  fieldDefs,
+  typeName,
+  schemaDef,
+  imageUrlBuilder,
+}: {
+  rawObjectData: Sanity.DataObject
+  /** Passing `FieldDef[]` here instead of `ObjectDef` in order to also support `inline_object` */
+  fieldDefs: Core.FieldDef[]
+  typeName: string
+  schemaDef: Core.SchemaDef
+  imageUrlBuilder: ImageUrlBuilder
+}): Core.Object => {
+  const raw = Object.fromEntries(Object.entries(rawObjectData).filter(([key]) => key.startsWith('_')))
+  const obj: Core.Object = { _typeName: typeName, _raw: raw }
 
-*/
+  fieldDefs.forEach((fieldDef) => {
+    obj[fieldDef.name] = getDataForFieldDef({
+      fieldDef,
+      rawFieldData: rawObjectData[fieldDef.name],
+      schemaDef,
+      imageUrlBuilder,
+    })
+  })
+
+  return obj
+}
+
+const getDataForFieldDef = ({
+  fieldDef,
+  rawFieldData,
+  schemaDef,
+  imageUrlBuilder,
+}: {
+  fieldDef: Core.FieldDef
+  rawFieldData: any
+  schemaDef: Core.SchemaDef
+  imageUrlBuilder: ImageUrlBuilder
+}): any => {
+  if (rawFieldData === undefined) {
+    if (fieldDef.required) {
+      console.error(`Inconsistent data found: ${fieldDef}`)
+    }
+
+    return undefined
+  }
+
+  switch (fieldDef.type) {
+    case 'object':
+      const objectDef = schemaDef.objectDefMap[fieldDef.objectName]
+      return makeObject({
+        rawObjectData: rawFieldData,
+        fieldDefs: objectDef.fieldDefs,
+        typeName: objectDef.name,
+        schemaDef,
+        imageUrlBuilder,
+      })
+    case 'inline_object':
+      return makeObject({
+        rawObjectData: rawFieldData,
+        fieldDefs: fieldDef.fieldDefs,
+        typeName: 'inline_object',
+        schemaDef,
+        imageUrlBuilder,
+      })
+    case 'reference':
+      return rawFieldData._ref
+    case 'image':
+      return imageUrlBuilder.image(rawFieldData).url()
+    case 'polymorphic_list':
+    case 'list':
+      return (rawFieldData as any[]).map((rawItemData) =>
+        getDataForListItem({ rawItemData, fieldDef, schemaDef, imageUrlBuilder }),
+      )
+    default:
+      return rawFieldData
+  }
+}
+
+const getDataForListItem = ({
+  rawItemData,
+  fieldDef,
+  schemaDef,
+  imageUrlBuilder,
+}: {
+  rawItemData: any
+  fieldDef: Core.ListFieldDef | Core.PolymorphicListFieldDef
+  schemaDef: Core.SchemaDef
+  imageUrlBuilder: ImageUrlBuilder
+}): any => {
+  if (typeof rawItemData === 'string') {
+    return rawItemData
+  }
+
+  if (rawItemData._type in schemaDef.objectDefMap) {
+    const objectDef = schemaDef.objectDefMap[rawItemData._type]
+    return makeObject({
+      rawObjectData: rawItemData,
+      fieldDefs: objectDef.fieldDefs,
+      typeName: objectDef.name,
+      schemaDef,
+      imageUrlBuilder,
+    })
+  }
+
+  if (fieldDef.type === 'list' && fieldDef.of.type === 'inline_object') {
+    return makeObject({
+      rawObjectData: rawItemData,
+      fieldDefs: fieldDef.of.fieldDefs,
+      typeName: 'inline_object',
+      schemaDef,
+      imageUrlBuilder,
+    })
+  }
+
+  throw new Error(`Case unhandled. Raw data: ${JSON.stringify(rawItemData, null, 2)}`)
+}

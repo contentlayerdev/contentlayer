@@ -1,10 +1,10 @@
-import { config, post } from '@sourcebit/types'
 import React, { FC } from 'react'
-import { Layout } from '../components'
-import BlogPostFooter from '../components/BlogPostFooter'
+import { config, post } from 'sourcebit/types'
+import { BlogPostFooter } from '../components/BlogPostFooter'
+import { Layout } from '../components/Layout'
 import { htmlToReact, markdownify, withPrefix } from '../utils'
 
-const Post: FC<{
+export const PostLayout: FC<{
   doc: post
   config: config
 }> = ({ config, doc }) => (
@@ -28,5 +28,3 @@ const Post: FC<{
     </div>
   </Layout>
 )
-
-export default Post

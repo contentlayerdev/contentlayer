@@ -133,14 +133,23 @@ const sanityFieldToCoreFieldDef = (objectTypeNames: string[]) => (field: Sanity.
         return <Core.ListFieldDef>{
           ...baseFields,
           type: 'list',
-          items: [<Core.ListFieldItemEnum>{ type: 'enum', options: (field.options as any).list }],
+          of: <Core.ListFieldItemEnum>{ type: 'enum', options: (field.options as any).list },
         }
       }
 
-      return <Core.ListFieldDef>{
+      if (field.of.length === 1) {
+        return <Core.ListFieldDef>{
+          ...baseFields,
+          type: 'list',
+          of: sanityArrayOfToCoreFieldListDefItem(objectTypeNames)(field.of[0]),
+        }
+      }
+
+      return <Core.PolymorphicListFieldDef>{
         ...baseFields,
-        type: 'list',
-        items: field.of.map(sanityArrayOfToCoreFieldListDefItem(objectTypeNames)),
+        type: 'polymorphic_list',
+        of: field.of.map(sanityArrayOfToCoreFieldListDefItem(objectTypeNames)),
+        typeField: '_type',
       }
     case 'object':
       return <Core.InlineObjectFieldDef>{
@@ -158,6 +167,7 @@ const sanityFieldToCoreFieldDef = (objectTypeNames: string[]) => (field: Sanity.
       }
     }
     case 'string': {
+      // special handling for enum
       if (field.options?.list) {
         return <Core.EnumFieldDef>{
           ...baseFields,
@@ -246,19 +256,25 @@ const sanitizeDef = <Def extends Core.ObjectDef | Core.DocumentDef>(def: Def): D
       case 'reference':
         fieldDef.documentName = sanitizeString(fieldDef.documentName)
         break
+      case 'polymorphic_list':
+        fieldDef.of.forEach(sanitizeListItemDef)
+        break
       case 'list':
-        fieldDef.items.forEach((item) => {
-          switch (item.type) {
-            case 'object':
-              item.objectName = sanitizeString(item.objectName)
-              break
-            case 'reference':
-              item.documentName = sanitizeString(item.documentName)
-              break
-          }
-        })
+        sanitizeListItemDef(fieldDef.of)
         break
     }
   })
+
   return def
+}
+
+const sanitizeListItemDef = (item: Core.ListFieldDefItem): void => {
+  switch (item.type) {
+    case 'object':
+      item.objectName = sanitizeString(item.objectName)
+      break
+    case 'reference':
+      item.documentName = sanitizeString(item.documentName)
+      break
+  }
 }

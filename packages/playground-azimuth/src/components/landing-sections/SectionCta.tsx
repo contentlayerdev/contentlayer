@@ -1,9 +1,9 @@
-import { section_cta } from '@sourcebit/types'
 import React, { FC } from 'react'
+import { section_cta } from 'sourcebit/types'
 import { htmlToReact } from '../../utils'
-import CtaButtons from './CtaButtons'
+import { CtaButtons } from './CtaButtons'
 
-const SectionCta: FC<{ section: section_cta }> = ({ section }) => (
+export const SectionCta: FC<{ section: section_cta }> = ({ section }) => (
   <section id={section.section_id} className="block cta-block bg-accent outer">
     <div className="inner-large">
       <div className="grid">
@@ -20,5 +20,3 @@ const SectionCta: FC<{ section: section_cta }> = ({ section }) => (
     </div>
   </section>
 )
-
-export default SectionCta

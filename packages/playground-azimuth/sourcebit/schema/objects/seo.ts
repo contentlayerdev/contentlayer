@@ -1,4 +1,4 @@
-import { defineObject } from '@sourcebit/source-local'
+import { defineObject } from 'sourcebit/source-local'
 
 export const seo = defineObject(() => ({
   name: 'seo',
@@ -18,32 +18,29 @@ export const seo = defineObject(() => ({
       type: 'list',
       label: 'Robots',
       description: 'The items that go into the <meta name="robots"> tag',
-      items: [
-        {
-          type: 'enum',
-          options: ['all', 'index', 'follow', 'noindex', 'nofollow', 'noimageindex', 'notranslate', 'none'],
-        },
-      ],
+      of: {
+        type: 'enum',
+        options: ['all', 'index', 'follow', 'noindex', 'nofollow', 'noimageindex', 'notranslate', 'none'],
+      },
     },
     extra: {
       type: 'list',
       label: 'Extra',
       description: 'Additional definition for specific meta tags such as open-graph, twitter, etc.',
-      items: [
-        {
-          type: 'inline_object',
-          labelField: 'name',
-          fields: {
-            name: { type: 'string', label: 'Name' },
-            value: { type: 'string', label: 'Value' },
-            keyName: {
-              type: 'string',
-              label: 'Key Name', // initialValue: 'name', },
-              relativeUrl: { type: 'boolean', label: 'Relative Url' },
-            },
+      of: {
+        type: 'inline_object',
+        labelField: 'name',
+        fields: {
+          name: { type: 'string', label: 'Name' },
+          value: { type: 'string', label: 'Value' },
+          keyName: {
+            type: 'string',
+            label: 'Key Name',
+            default: 'name',
           },
+          relativeUrl: { type: 'boolean', label: 'Relative Url' },
         },
-      ],
+      },
     },
   },
 }))

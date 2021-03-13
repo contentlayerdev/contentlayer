@@ -29,9 +29,9 @@ function is<N extends TypeNameOneOrMany>(typeName: N): (_: any) => _ is TypeForT
 function is<N extends TypeNameOneOrMany>(typeName: N, _?: any): any {
   if (_) {
     if (Array.isArray(typeName)) {
-      return typeName.some((typeName_) => _?.__meta?.typeName === typeName_)
+      return typeName.some((typeName_) => _?._typeName === typeName_)
     } else {
-      return typeName === _?.__meta?.typeName
+      return typeName === _?._typeName
     }
   } else {
     return (_: any) => is(typeName, _)

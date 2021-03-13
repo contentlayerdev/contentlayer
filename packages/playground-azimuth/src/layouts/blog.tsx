@@ -1,11 +1,11 @@
-// import { blog, post, config } from '@sourcebit/types'
-import { blog, config, post } from '@sourcebit/types'
+// import { blog, post, config } from 'sourcebit/types'
 import React, { FC } from 'react'
-import BlogPostFooter from '../components/BlogPostFooter'
-import { Layout } from '../components/index'
+import { blog, config, post } from 'sourcebit/types'
+import { BlogPostFooter } from '../components/BlogPostFooter'
+import { Layout } from '../components/Layout'
 import { Link, withPrefix } from '../utils'
 
-const Blog: FC<{ doc: blog; config: config; posts: post[] }> = ({ doc, config, posts }) => (
+export const BlogLayout: FC<{ doc: blog; config: config; posts: post[] }> = ({ doc, config, posts }) => (
   <Layout doc={doc} config={config}>
     <div className="outer">
       <div className="inner">
@@ -39,5 +39,3 @@ const Blog: FC<{ doc: blog; config: config; posts: post[] }> = ({ doc, config, p
     </div>
   </Layout>
 )
-
-export default Blog

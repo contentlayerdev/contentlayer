@@ -8,17 +8,15 @@
   },
   "dependencies": {
     "@sourcebit/cli": "workspace:*",
-    "@sourcebit/client": "workspace:*",
-    "@sourcebit/source-local": "workspace:*",
-    "@sourcebit/types": "workspace:*",
     "date-fns": "^2.18.0",
     "marked": "^2.0.1",
-    "next": "^10.0.5",
+    "next": "^10.0.8",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
     "react-script-tag": "^1.1.2",
-    "sass": "^1.32.7"
+    "sass": "^1.32.7",
+    "sourcebit": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^17",

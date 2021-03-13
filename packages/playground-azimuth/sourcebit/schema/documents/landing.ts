@@ -1,4 +1,4 @@
-import { defineDocument, defineObject } from '@sourcebit/source-local'
+import { defineDocument, defineObject } from 'sourcebit/source-local'
 import { action } from '../objects/action'
 import { form_field } from '../objects/form_field'
 import { seo } from '../objects/seo'
@@ -16,10 +16,10 @@ export const landing = defineDocument(() => ({
       required: true,
     },
     sections: {
-      type: 'list',
+      type: 'polymorphic_list',
       label: 'Sections',
       description: 'Page sections',
-      items: [
+      of: [
         section_content,
         section_cta,
         section_faq,
@@ -30,6 +30,7 @@ export const landing = defineDocument(() => ({
         section_reviews,
         section_contact,
       ].map((object) => ({ type: 'object', labelField: 'title', object })),
+      typeField: 'type',
     },
     seo: {
       type: 'object',
@@ -58,7 +59,6 @@ const sectionBaseFields = {
     label: 'Title',
     description: 'The title of the section',
   },
-  // TODO move into SDK
   type: {
     type: 'string',
     label: 'Section type',
@@ -70,7 +70,6 @@ const sectionBaseFields = {
 const section_content = defineObject(() => ({
   name: 'section_content',
   label: 'Content Section',
-  // extends: ['section'],
   labelField: 'title',
   fields: {
     ...sectionBaseFields,
@@ -99,7 +98,7 @@ const section_content = defineObject(() => ({
     actions: {
       type: 'list',
       label: 'Action Buttons',
-      items: [{ type: 'object', object: action }],
+      of: { type: 'object', object: action },
     },
   },
 }))
@@ -118,7 +117,7 @@ const section_cta = defineObject(() => ({
     actions: {
       type: 'list',
       label: 'Action Buttons',
-      items: [{ type: 'object', object: action }],
+      of: { type: 'object', object: action },
     },
   },
 }))
@@ -147,7 +146,7 @@ const section_hero = defineObject(() => ({
     actions: {
       type: 'list',
       label: 'Action Buttons',
-      items: [{ type: 'object', object: action }],
+      of: { type: 'object', object: action },
     },
   },
 }))
@@ -173,7 +172,7 @@ const section_features = defineObject(() => ({
     features: {
       type: 'list',
       label: 'Features',
-      items: [{ type: 'object', object: feature_item }],
+      of: { type: 'object', object: feature_item },
     },
   },
 }))
@@ -205,7 +204,7 @@ const feature_item = defineObject(() => ({
     actions: {
       type: 'list',
       label: 'Action Buttons',
-      items: [{ type: 'object', object: action }],
+      of: { type: 'object', object: action },
     },
   },
 }))
@@ -252,7 +251,7 @@ const section_contact = defineObject(() => ({
     form_fields: {
       type: 'list',
       label: 'Form Fields',
-      items: [{ type: 'object', object: form_field }],
+      of: { type: 'object', object: form_field },
     },
     submit_label: {
       type: 'string',
@@ -283,7 +282,7 @@ const section_faq = defineObject(() => ({
     faq_items: {
       type: 'list',
       label: 'FAQ Items',
-      items: [{ type: 'object', object: faq_item }],
+      of: { type: 'object', object: faq_item },
     },
   },
 }))
@@ -343,7 +342,7 @@ const section_pricing = defineObject(() => ({
     pricing_plans: {
       type: 'list',
       label: 'Pricing Plans',
-      items: [{ type: 'object', object: pricing_plan }],
+      of: { type: 'object', object: pricing_plan },
     },
   },
 }))
@@ -378,7 +377,7 @@ const pricing_plan = defineObject(() => ({
     actions: {
       type: 'list',
       label: 'Action Buttons',
-      items: [{ type: 'object', object: action }],
+      of: { type: 'object', object: action },
     },
   },
 }))
@@ -403,7 +402,7 @@ const section_reviews = defineObject(() => ({
     reviews: {
       type: 'list',
       label: 'Reviews',
-      items: [{ type: 'object', object: review_item }],
+      of: { type: 'object', object: review_item },
     },
   },
 }))

@@ -59,6 +59,7 @@ export type DocumentDef<Name extends string = any> = {
 
 export type FieldDef =
   | ListField
+  | PolymorphicListField
   | StringField
   | NumberField
   | BooleanField
@@ -93,7 +94,15 @@ interface FieldBase {
 export interface ListField extends FieldBase {
   type: 'list'
   default?: any[]
-  items: ListFieldItem[]
+  of: ListFieldItem
+}
+
+export interface PolymorphicListField extends FieldBase {
+  type: 'polymorphic_list'
+  default?: any[]
+  of: ListFieldItem[]
+  /** Field needed to distiguish list data items at run time */
+  typeField: string
 }
 
 export const isListField = (_: FieldDef): _ is ListField => _.type === 'list'

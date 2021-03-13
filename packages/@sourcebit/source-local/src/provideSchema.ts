@@ -34,8 +34,13 @@ function fieldDefToCoreFieldDef([name, fieldDef]: [name: string, fieldDef: Field
   }
   switch (fieldDef.type) {
     case 'list':
-      const items = fieldDef.items.map(fieldListItemsToCoreFieldListDefItems)
-      return <Core.ListFieldDef>{ ...baseFields, items }
+      return <Core.ListFieldDef>{ ...baseFields, of: fieldListItemsToCoreFieldListDefItems(fieldDef.of) }
+    case 'polymorphic_list':
+      return <Core.PolymorphicListFieldDef>{
+        ...baseFields,
+        typeField: fieldDef.typeField,
+        of: fieldDef.of.map(fieldListItemsToCoreFieldListDefItems),
+      }
     case 'object':
       return <Core.ObjectFieldDef>{ ...baseFields, objectName: fieldDef.object().name }
     case 'inline_object':
@@ -93,8 +98,10 @@ function collectObjectDefs(documentDefs: DocumentDef[]): ObjectDef[] {
         return traverseObjectDef(field.object())
       case 'inline_object':
         return Object.values(field.fields).forEach(traverseField)
+      case 'polymorphic_list':
+        return field.of.forEach(traverseListFieldItem)
       case 'list':
-        return Object.values(field.items).forEach(traverseListFieldItem)
+        return traverseListFieldItem(field.of)
     }
   }
 

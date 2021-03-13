@@ -1,6 +1,6 @@
-import { defineConfig } from '@sourcebit/core'
-import { makeSourcePlugin } from '@sourcebit/source-local'
 import * as path from 'path'
+import { defineConfig } from 'sourcebit/core'
+import { makeSourcePlugin } from 'sourcebit/source-local'
 import { blog } from './schema/documents/blog'
 import { config } from './schema/documents/config'
 import { landing } from './schema/documents/landing'

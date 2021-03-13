@@ -1,25 +1,42 @@
-import { config, landing } from '@sourcebit/types'
-import _ from 'lodash'
 import React, { FC } from 'react'
-import components, { Layout } from '../components/index'
+import { config, landing } from 'sourcebit/types'
+import { SectionContact } from '../components/landing-sections/SectionContact'
+import { SectionContent } from '../components/landing-sections/SectionContent'
+import { SectionCta } from '../components/landing-sections/SectionCta'
+import { SectionFaq } from '../components/landing-sections/SectionFaq'
+import { SectionFeatures } from '../components/landing-sections/SectionFeatures'
+import { SectionHero } from '../components/landing-sections/SectionHero'
+import { SectionPosts } from '../components/landing-sections/SectionPosts'
+import { SectionPricing } from '../components/landing-sections/SectionPricing'
+import { SectionReviews } from '../components/landing-sections/SectionReviews'
+import { Layout } from '../components/Layout'
 
-const Landing: FC<{
+export const LandingLayout: FC<{
   doc: landing
   config: config
 }> = ({ doc, config }) => (
   <Layout doc={doc} config={config}>
-    {doc.sections?.map((section, section_idx) => {
-      const Component = getComponentBySection(section)
-      return <Component key={section_idx} section={section} />
+    {doc.sections?.map((section, index) => {
+      switch (section._typeName) {
+        case 'section_contact':
+          return <SectionContact key={index} section={section} />
+        case 'section_content':
+          return <SectionContent key={index} section={section} />
+        case 'section_cta':
+          return <SectionCta key={index} section={section} />
+        case 'section_faq':
+          return <SectionFaq key={index} section={section} />
+        case 'section_features':
+          return <SectionFeatures key={index} section={section} />
+        case 'section_hero':
+          return <SectionHero key={index} section={section} />
+        case 'section_posts':
+          return <SectionPosts key={index} section={section} />
+        case 'section_pricing':
+          return <SectionPricing key={index} section={section} />
+        case 'section_reviews':
+          return <SectionReviews key={index} section={section} />
+      }
     })}
   </Layout>
 )
-
-export default Landing
-
-// type Section = section_hero | section_cta | section_content | section_features
-type Section = any
-function getComponentBySection(section: Section): FC<{ section: Section }> {
-  const componentName = _.upperFirst(_.camelCase(section.type))
-  return (components as any)[componentName]
-}

@@ -1,8 +1,8 @@
-import { action } from '@sourcebit/types'
 import React, { FC } from 'react'
+import { action } from 'sourcebit/types'
 import { Link, withPrefix } from '../utils'
 
-const ActionLink: FC<{ action: action }> = ({ action }) => (
+export const ActionLink: FC<{ action: action }> = ({ action }) => (
   <Link
     href={withPrefix(action.url)}
     target={action.new_window ? '_blank' : undefined}
@@ -11,5 +11,3 @@ const ActionLink: FC<{ action: action }> = ({ action }) => (
     {action.label}
   </Link>
 )
-
-export default ActionLink

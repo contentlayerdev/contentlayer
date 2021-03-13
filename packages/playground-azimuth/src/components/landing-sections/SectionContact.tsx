@@ -1,10 +1,10 @@
-import { section_contact } from '@sourcebit/types'
 import _ from 'lodash'
 import React, { FC } from 'react'
+import { section_contact } from 'sourcebit/types'
 import { htmlToReact, markdownify } from '../../utils'
-import FormField from '../FormField'
+import { FormField } from '../FormField'
 
-const SectionContact: FC<{ section: section_contact }> = ({ section }) => (
+export const SectionContact: FC<{ section: section_contact }> = ({ section }) => (
   <section id={section.section_id} className={'block contact-block bg-' + section.background + ' outer'}>
     <div className="block-header inner-small">
       {section.title && <h2 className="block-title">{section.title}</h2>}
@@ -54,5 +54,3 @@ const SectionContact: FC<{ section: section_contact }> = ({ section }) => (
     </div>
   </section>
 )
-
-export default SectionContact

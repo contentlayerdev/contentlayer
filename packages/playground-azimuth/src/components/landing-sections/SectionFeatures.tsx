@@ -1,9 +1,9 @@
-import { section_features } from '@sourcebit/types'
 import React, { FC } from 'react'
+import { section_features } from 'sourcebit/types'
 import { htmlToReact, markdownify, withPrefix } from '../../utils'
-import CtaButtons from './CtaButtons'
+import { CtaButtons } from './CtaButtons'
 
-const SectionFeatures: FC<{ section: section_features }> = ({ section, ...props }) => {
+export const SectionFeatures: FC<{ section: section_features }> = ({ section, ...props }) => {
   return (
     <section id={section.section_id} className={'block features-block bg-' + section.background + ' outer'}>
       <div className="block-header inner-small">
@@ -37,5 +37,3 @@ const SectionFeatures: FC<{ section: section_features }> = ({ section, ...props 
     </section>
   )
 }
-
-export default SectionFeatures

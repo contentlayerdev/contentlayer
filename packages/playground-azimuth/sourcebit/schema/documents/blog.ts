@@ -1,16 +1,10 @@
-import { defineDocument } from '@sourcebit/source-local'
+import { defineDocument } from 'sourcebit/source-local'
 import { seo } from '../objects/seo'
 import { urlFromFilePath } from '../utils'
-// import { sluggify } from '../../../../lib/utils'
 
 export const blog = defineDocument(() => ({
   name: 'blog',
-  // urlPath: '/blog',
   label: 'Blog',
-  // file: 'blog/index.md',
-  // hideContent: true,
-  // singleInstance: true,
-  // urlPath: (doc) => `/blog/${sluggify(doc.title)}`,
   filePathPattern: `pages/blog.md`,
   fields: {
     title: {

@@ -3,6 +3,20 @@
 import { ReactComponentLike } from 'prop-types'
 import { ReactElement } from 'react'
 
+type IsoDateTimeString = string
+
+export type DataDocument = {
+  _createdAt: IsoDateTimeString
+  _id: string
+  _rev: string
+  _type: string
+  _updatedAt: IsoDateTimeString
+} & Record<string, any>
+
+export type DataObject = {
+  _type: string
+} & Record<string, any>
+
 type Meta = {
   parent: { [key: string]: any }
   path: string[]

@@ -1,8 +1,8 @@
-import { section_faq } from '@sourcebit/types'
 import React, { FC } from 'react'
+import { section_faq } from 'sourcebit/types'
 import { htmlToReact, markdownify } from '../../utils'
 
-const SectionFaq: FC<{ section: section_faq }> = ({ section }) => (
+export const SectionFaq: FC<{ section: section_faq }> = ({ section }) => (
   <section id={section.section_id} className={'block faq-block bg-' + section.background + ' outer'}>
     <div className="inner-small">
       <div className="block-header">
@@ -29,5 +29,3 @@ const SectionFaq: FC<{ section: section_faq }> = ({ section }) => (
     </div>
   </section>
 )
-
-export default SectionFaq

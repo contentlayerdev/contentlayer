@@ -1,8 +1,8 @@
-import { footer_form, form_field, section_contact } from '@sourcebit/types'
 import React, { FC } from 'react'
+import { footer_form, form_field, section_contact } from 'sourcebit/types'
 import { classNames } from '../utils'
 
-const FormField: FC<{ section: footer_form | section_contact; field: form_field }> = ({ field, section }) => {
+export const FormField: FC<{ section: footer_form | section_contact; field: form_field }> = ({ field, section }) => {
   return (
     <>
       {field.input_type !== 'checkbox' && field.label && (
@@ -69,5 +69,3 @@ const FormField: FC<{ section: footer_form | section_contact; field: form_field 
     </>
   )
 }
-
-export default FormField

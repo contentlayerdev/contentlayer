@@ -1,4 +1,4 @@
-import { defineObject } from '@sourcebit/source-local'
+import { defineObject } from 'sourcebit/source-local'
 
 export const form_field = defineObject(() => ({
   name: 'form_field',
@@ -32,7 +32,7 @@ export const form_field = defineObject(() => ({
       type: 'list',
       label: 'Options',
       description: 'The list of options for select field',
-      items: [{ type: 'string' }],
+      of: { type: 'string' },
     },
     is_required: {
       type: 'boolean',

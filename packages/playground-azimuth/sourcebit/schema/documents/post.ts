@@ -1,4 +1,4 @@
-import { defineDocument } from '@sourcebit/source-local'
+import { defineDocument } from 'sourcebit/source-local'
 import { seo } from '../objects/seo'
 import { urlFromFilePath } from '../utils'
 import { person } from './person'

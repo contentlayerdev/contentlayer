@@ -1,34 +1,43 @@
-import { guards, SourcebitClient } from '@sourcebit/client'
 import { InferGetStaticPropsType } from 'next'
 import React, { FC } from 'react'
-import pageLayouts from '../layouts'
+import { guards, SourcebitClient } from 'sourcebit/client'
+import { BlogLayout } from '../layouts/blog'
+import { LandingLayout } from '../layouts/landing'
+import { PageLayout } from '../layouts/page'
+import { PostLayout } from '../layouts/post'
 import { defineStaticPaths, defineStaticProps, SourcebitContext, toParams, useContentLiveReload } from '../utils/next'
 
 const cache = require('../sourcebit.json')
 const sourcebit = new SourcebitClient({ cache })
 
-const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = (props) => {
+const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ config, doc, posts }) => {
   if (process.env.NODE_ENV === 'development') {
     useContentLiveReload()
   }
 
-  const componentName = props.doc!.__meta.typeName
-  const PageLayout = (pageLayouts as any)[componentName] as FC
-  return (
-    <SourcebitContext.Provider value={sourcebit}>
-      <PageLayout {...props} />
-    </SourcebitContext.Provider>
-  )
+  const pageContent = () => {
+    switch (doc._typeName) {
+      case 'blog':
+        return <BlogLayout doc={doc} config={config} posts={posts!} />
+      case 'landing':
+        return <LandingLayout doc={doc} config={config} />
+      case 'page':
+        return <PageLayout doc={doc} config={config} />
+      case 'post':
+        return <PostLayout doc={doc} config={config} />
+    }
+  }
+
+  return <SourcebitContext.Provider value={sourcebit}>{pageContent()}</SourcebitContext.Provider>
 }
 
-// export default withRemoteDataUpdates(Page)
 export default Page
 
 export const getStaticPaths = defineStaticPaths(async () => {
   const paths = sourcebit
     .getAllDocuments()
     .filter(guards.is(['post', 'landing', 'page', 'blog']))
-    .map((_) => _.url_path.replace(/^\//, ''))
+    .map((_) => _.url_path)
     .map(toParams)
 
   return { paths, fallback: false }

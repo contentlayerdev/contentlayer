@@ -1,5 +1,4 @@
 import type * as Core from '@sourcebit/core'
-import { isObjectFieldDef } from '@sourcebit/core'
 import { promises as fs } from 'fs'
 import { promise as glob } from 'glob-promise'
 import matter from 'gray-matter'
@@ -31,7 +30,7 @@ export async function fetch({
 
   const documents = await Promise.all(
     documentDefNameWithFilePathsTuples.flatMap(([documentDefName, filePaths]) =>
-      filePaths.map((filePath) => parseContent({ filePath, schemaDef, documentDefName, contentDirPath })),
+      filePaths.map((filePath) => makeDocumentFromFilePath({ filePath, schemaDef, documentDefName, contentDirPath })),
     ),
   )
 
@@ -48,7 +47,7 @@ type ContentJSON = {
   data: Record<string, any>
 }
 
-async function parseContent({
+async function makeDocumentFromFilePath({
   filePath,
   schemaDef,
   documentDefName,
@@ -83,26 +82,21 @@ async function parseContent({
   const documentDef = schemaDef.documentDefMap[documentDefName]
 
   // add __meta.TypeName to embedded objects
-  documentDef.fieldDefs.filter(isObjectFieldDef).forEach((fieldDef) => {
-    addMetaToDataRec({
-      dataRef: content.data,
-      fieldDef,
-      isArray: false,
-      schemaDef,
-    })
-  })
+  // documentDef.fieldDefs.filter(isObjectFieldDef).forEach((fieldDef) => {
+  //   addMetaToDataRec({
+  //     dataRef: content.data,
+  //     fieldDef,
+  //     isArray: false,
+  //     schemaDef,
+  //   })
+  // })
 
   // TOOD add meta data to objects in array as well
 
   const re = new RegExp(`^${contentDirPath}(\/)?`)
   const sourceFilePath = filePath.replace(re, '')
 
-  console.log({ sourceFilePath, contentDirPath })
-
-  const doc: Core.Document = {
-    ...content.data,
-    __meta: { sourceFilePath, typeName: documentDef.name },
-  }
+  const doc = makeDocument({ documentDef, rawContent: content, schemaDef, sourceFilePath })
 
   const computedValues = getComputedValues({ documentDef, doc })
   if (computedValues) {
@@ -144,40 +138,151 @@ function checkSchema({
     )
   }
 
-  // TODO make sure all properties match field defs
-
   // TODO validate objects
 
   return documentDef
 }
 
-function addMetaToDataRec({
-  dataRef,
-  fieldDef,
-  isArray,
+const makeDocument = ({
+  rawContent,
+  documentDef,
   schemaDef,
+  sourceFilePath,
 }: {
-  dataRef: any
-  fieldDef: Core.ObjectFieldDef
-  isArray: boolean
+  rawContent: Content
+  documentDef: Core.DocumentDef
   schemaDef: Core.SchemaDef
-}): void {
-  const objectDef = schemaDef.objectDefMap[fieldDef.objectName]
-
-  if (isArray) {
-    dataRef[fieldDef.name].forEach((item: any) => (item.__meta = { typeName: objectDef.name }))
-  } else {
-    dataRef[fieldDef.name].__meta = { typeName: objectDef.name }
+  sourceFilePath: string
+}): Core.Document => {
+  const doc: Core.Document = {
+    _typeName: documentDef.name,
+    _id: sourceFilePath,
+    _raw: { sourceFilePath, kind: rawContent.kind },
   }
 
-  objectDef.fieldDefs.filter(isObjectFieldDef).forEach((fieldDef) =>
-    addMetaToDataRec({
-      dataRef: dataRef[fieldDef.name],
+  documentDef.fieldDefs.forEach((fieldDef) => {
+    doc[fieldDef.name] = getDataForFieldDef({
       fieldDef,
-      isArray: false,
+      rawFieldData: rawContent.data[fieldDef.name],
       schemaDef,
-    }),
-  )
+    })
+  })
+
+  return doc
+}
+
+const makeObject = ({
+  rawObjectData,
+  fieldDefs,
+  typeName,
+  schemaDef,
+}: {
+  rawObjectData: Record<string, any>
+  /** Passing `FieldDef[]` here instead of `ObjectDef` in order to also support `inline_object` */
+  fieldDefs: Core.FieldDef[]
+  typeName: string
+  schemaDef: Core.SchemaDef
+}): Core.Object => {
+  const raw = Object.fromEntries(Object.entries(rawObjectData).filter(([key]) => key.startsWith('_')))
+  const obj: Core.Object = { _typeName: typeName, _raw: raw }
+
+  fieldDefs.forEach((fieldDef) => {
+    obj[fieldDef.name] = getDataForFieldDef({
+      fieldDef,
+      rawFieldData: rawObjectData[fieldDef.name],
+      schemaDef,
+    })
+  })
+
+  return obj
+}
+
+const getDataForFieldDef = ({
+  fieldDef,
+  rawFieldData,
+  schemaDef,
+}: {
+  fieldDef: Core.FieldDef
+  rawFieldData: any
+  schemaDef: Core.SchemaDef
+}): any => {
+  if (rawFieldData === undefined) {
+    if (fieldDef.required) {
+      console.error(`Inconsistent data found: ${fieldDef}`)
+    }
+
+    return undefined
+  }
+
+  switch (fieldDef.type) {
+    case 'object':
+      const objectDef = schemaDef.objectDefMap[fieldDef.objectName]
+      return makeObject({
+        rawObjectData: rawFieldData,
+        fieldDefs: objectDef.fieldDefs,
+        typeName: objectDef.name,
+        schemaDef,
+      })
+    case 'inline_object':
+      return makeObject({
+        rawObjectData: rawFieldData,
+        fieldDefs: fieldDef.fieldDefs,
+        typeName: 'inline_object',
+        schemaDef,
+      })
+    case 'reference':
+      return rawFieldData
+    case 'polymorphic_list':
+    case 'list':
+      return (rawFieldData as any[]).map((rawItemData) => getDataForListItem({ rawItemData, fieldDef, schemaDef }))
+    default:
+      return rawFieldData
+  }
+}
+
+const getDataForListItem = ({
+  rawItemData,
+  fieldDef,
+  schemaDef,
+}: {
+  rawItemData: any
+  fieldDef: Core.ListFieldDef | Core.PolymorphicListFieldDef
+  schemaDef: Core.SchemaDef
+}): any => {
+  if (typeof rawItemData === 'string') {
+    return rawItemData
+  }
+
+  if (fieldDef.type === 'polymorphic_list') {
+    const objectTypeName = rawItemData[fieldDef.typeField]
+    const objectDef = schemaDef.objectDefMap[objectTypeName]
+    return makeObject({
+      rawObjectData: rawItemData,
+      fieldDefs: objectDef.fieldDefs,
+      typeName: objectDef.name,
+      schemaDef,
+    })
+  }
+
+  switch (fieldDef.of.type) {
+    case 'object':
+      const objectDef = schemaDef.objectDefMap[fieldDef.of.objectName]
+      return makeObject({
+        rawObjectData: rawItemData,
+        fieldDefs: objectDef.fieldDefs,
+        typeName: objectDef.name,
+        schemaDef,
+      })
+    case 'inline_object':
+      return makeObject({
+        rawObjectData: rawItemData,
+        fieldDefs: fieldDef.of.fieldDefs,
+        typeName: 'inline_object',
+        schemaDef,
+      })
+    default:
+      return rawItemData
+  }
 }
 
 function getComputedValues({

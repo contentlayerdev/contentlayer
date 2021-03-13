@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false
+  },
+  "include": ["./src"],
+  "references": [
+    { "path": "../@sourcebit/client" },
+    { "path": "../@sourcebit/core" },
+    { "path": "../@sourcebit/cli" },
+    { "path": "../@sourcebit/source-local" }
+  ]
+}

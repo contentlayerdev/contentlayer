@@ -1,8 +1,8 @@
-import { guards } from '@sourcebit/client'
-import { blog, config, landing, page, post } from '@sourcebit/types'
 import React, { FC } from 'react'
+import { guards } from 'sourcebit/client'
+import { blog, config, landing, page, post } from 'sourcebit/types'
 import { classNames, Link, withPrefix } from '../utils'
-import Action from './Action'
+import { Action } from './Action'
 
 export const Header: FC<{
   config: config

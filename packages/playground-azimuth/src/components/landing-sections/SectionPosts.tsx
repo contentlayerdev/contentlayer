@@ -1,10 +1,10 @@
-import { section_posts } from '@sourcebit/types'
 import React, { FC } from 'react'
+import { section_posts } from 'sourcebit/types'
 import { htmlToReact, Link, withPrefix } from '../../utils'
 import { useSourcebit } from '../../utils/next'
-import BlogPostFooter from '../BlogPostFooter'
+import { BlogPostFooter } from '../BlogPostFooter'
 
-const SectionPosts: FC<{ section: section_posts }> = ({ section }) => {
+export const SectionPosts: FC<{ section: section_posts }> = ({ section }) => {
   const sourcebit = useSourcebit()
   const recentPosts = sourcebit
     .getDocumentsOfType({ type: 'post' })
@@ -47,5 +47,3 @@ const SectionPosts: FC<{ section: section_posts }> = ({ section }) => {
     </section>
   )
 }
-
-export default SectionPosts

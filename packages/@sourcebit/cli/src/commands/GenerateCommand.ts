@@ -16,7 +16,8 @@ export class GenerateCommand extends BaseCommand {
 
     // const sourcebitTypesPath = findSourcebitTypesPath()
     // const typegenTargetDir = path.join(sourcebitTypesPath)
-    const typegenTargetDir = path.join('node_modules', '@types', 'sourcebit__types')
+    // const typegenTargetDir = path.join('node_modules', '@types', 'sourcebit__types')
+    const typegenTargetDir = path.join('node_modules', '@types', 'sourcebit', 'types')
     await fs.mkdir(typegenTargetDir, { recursive: true })
 
     const typegenTargetFilePath = path.join(typegenTargetDir, 'index.d.ts')
@@ -54,10 +55,9 @@ function buildSource(schemaDef: SchemaDef): string {
       typeName,
       typeDef: `\
 ${description ? `/** ${description} */\n` : ''}export type ${typeName} = {
-  __meta: {
-    typeName: '${typeName}'
-    sourceFilePath: string
-  }
+  _id: string
+  _typeName: '${typeName}'
+  _raw?: Record<string, any>
 ${fieldDefs}
 }`,
     }))
@@ -75,9 +75,8 @@ ${fieldDefs}
       typeName,
       typeDef: `\
 ${description ? `/** ${description} */\n` : ''}export type ${typeName} = {
-  __meta: {
-    typeName: '${typeName}'
-  }
+  _typeName: '${typeName}'
+  _raw?: Record<string, any>
 ${fieldDefs}
 }`,
     }))
@@ -107,7 +106,7 @@ ${typeMap}
 }
 
 export type Types = ${documentTypes.map((_) => _.typeName).join(' | ')}
-export type TypeNames = Types['__meta']['typeName']
+export type TypeNames = Types['_typeName']
 
 /** Document types */
 
@@ -152,10 +151,12 @@ function renderFieldType(field: FieldDef): string {
       return field.objectName
     }
     case 'reference':
-      return field.documentName
+      return 'string'
+    case 'polymorphic_list':
+      const wrapInParenthesis = (_: string) => `(${_})`
+      return wrapInParenthesis(field.of.map(renderListItemFieldType).join(' | ')) + '[]'
     case 'list':
-      const wrapInParenthesis = (_: string) => (field.items.length > 1 ? `(${_})` : _)
-      return wrapInParenthesis(field.items.map(renderListItemFieldType).join(' | ')) + '[]'
+      return renderListItemFieldType(field.of) + '[]'
     case 'enum':
       return field.options.map((_) => `'${_}'`).join(' | ')
     default:

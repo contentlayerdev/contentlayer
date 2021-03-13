@@ -1,38 +1,39 @@
-import { guards } from '@sourcebit/client'
-import { blog, config, landing, page, post } from '@sourcebit/types'
 import _ from 'lodash'
 import React, { FC } from 'react'
 import { Helmet } from 'react-helmet'
+import { blog, config, landing, page, post } from 'sourcebit/types'
 import { withPrefix } from '../utils'
-import Footer from './Footer'
+import { Footer } from './footer/Footer'
 import { Header } from './Header'
 
-const Layout: FC<{
+export const Layout: FC<{
   doc: blog | page | landing | post
   config: config
 }> = ({ doc, config, children, ...props }) => {
   const font = config.base_font ?? 'nunito-sans'
 
   return (
-    <React.Fragment>
+    <>
       <Helmet>
-        <title>{doc.meta_title}</title>
+        <title>{doc.seo?.title ?? config.title}</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initialScale=1.0" />
         <meta name="google" content="notranslate" />
-        {guards.hasField(doc, 'meta_description') && <meta name="description" content={doc.meta_description} />}
-        {guards.hasField(doc, 'canonical_url') ? (
-          <link rel="canonical" href={doc.canonical_url} />
-        ) : (
-          config.domain &&
-          (() => {
-            const domain = _.trim(config.domain, '/')
-            const page_url = 'TODO'
-            // let page_url = withPrefix(doc.__metadata.urlPath)
-            return <link rel="canonical" href={domain + page_url} />
-          })()
-        )}
-        {guards.hasField(doc, 'no_index') && doc.no_index && <meta name="robots" content="noindex,follow" />}
+        {doc.seo?.description && <meta name="description" content={doc.seo.description} />}
+        {doc.seo?.extra?.map((meta, meta_idx) => {
+          const keyName = meta.keyName ?? 'name'
+          return meta.relativeUrl ? (
+            config.domain &&
+              (() => {
+                const domain = _.trim(config.domain, '/')
+                const rel_url = withPrefix(meta.value)
+                const full_url = domain + rel_url
+                return <meta key={meta_idx} {...{ [keyName]: meta.name }} content={full_url} />
+              })()
+          ) : (
+            <meta key={meta_idx + '.1'} {...{ [keyName]: meta.name }} content={meta.value} />
+          )
+        })}
         {font !== 'system-sans' && <link rel="preconnect" href="https://fonts.gstatic.com" />}
         {font === 'nunito-sans' ? (
           <link
@@ -57,8 +58,6 @@ const Layout: FC<{
         </main>
         <Footer config={config} />
       </div>
-    </React.Fragment>
+    </>
   )
 }
-
-export default Layout

@@ -1,9 +1,9 @@
-import { action } from '@sourcebit/types'
 import React, { FC } from 'react'
+import { action } from 'sourcebit/types'
 import { classNames, Link, withPrefix } from '../utils'
-import Icon from './Icon'
+import { Icon } from './Icon'
 
-const Action: FC<{ action: action }> = ({ action }) => (
+export const Action: FC<{ action: action }> = ({ action }) => (
   <Link
     href={withPrefix(action.url)}
     target={action.new_window ? '_blank' : undefined}
@@ -24,5 +24,3 @@ const Action: FC<{ action: action }> = ({ action }) => (
     </span>
   </Link>
 )
-
-export default Action

@@ -2,6 +2,7 @@ export type FieldDefType = FieldDef['type']
 
 export type FieldDef =
   | ListFieldDef
+  | PolymorphicListFieldDef
   | StringFieldDef
   | NumberFieldDef
   | BooleanFieldDef
@@ -37,10 +38,18 @@ export interface ListFieldDef extends FieldBase {
   type: 'list'
   default?: any[]
   // TODO support polymorphic definitions
-  items: ListFieldDefItem[]
+  of: ListFieldDefItem
 }
 
 export const isListFieldDef = (_: FieldDef): _ is ListFieldDef => _.type === 'list'
+
+export interface PolymorphicListFieldDef extends FieldBase {
+  type: 'polymorphic_list'
+  default?: any[]
+  of: ListFieldDefItem[]
+  /** Field needed to distiguish list data items at run time */
+  typeField: string
+}
 
 export type ListFieldDefItem =
   | ListFieldItemString

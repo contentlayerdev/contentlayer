@@ -1,9 +1,9 @@
-import { section_pricing } from '@sourcebit/types'
 import React, { FC } from 'react'
+import { section_pricing } from 'sourcebit/types'
 import { classNames, htmlToReact, markdownify } from '../../utils'
-import CtaButtons from './CtaButtons'
+import { CtaButtons } from './CtaButtons'
 
-const SectionPricing: FC<{ section: section_pricing }> = ({ section }) => (
+export const SectionPricing: FC<{ section: section_pricing }> = ({ section }) => (
   <section id={section.section_id} className={'block pricing-block bg-' + section.background + ' outer'}>
     <div className="block-header inner-small">
       {section.title && <h2 className="block-title">{section.title}</h2>}
@@ -38,5 +38,3 @@ const SectionPricing: FC<{ section: section_pricing }> = ({ section }) => (
     )}
   </section>
 )
-
-export default SectionPricing

@@ -1,8 +1,8 @@
-import { section_reviews } from '@sourcebit/types'
 import React, { FC } from 'react'
+import { section_reviews } from 'sourcebit/types'
 import { htmlToReact, withPrefix } from '../../utils'
 
-const SectionReviews: FC<{ section: section_reviews }> = ({ section }) => (
+export const SectionReviews: FC<{ section: section_reviews }> = ({ section }) => (
   <section id={section.section_id} className={'block reviews-block bg-' + section.background + ' outer'}>
     <div className="block-header inner-small">
       {section.title && <h2 className="block-title">{section.title}</h2>}
@@ -29,5 +29,3 @@ const SectionReviews: FC<{ section: section_reviews }> = ({ section }) => (
     )}
   </section>
 )
-
-export default SectionReviews

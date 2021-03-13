@@ -1,5 +1,5 @@
-import { Image } from '@sourcebit/core'
 import _ from 'lodash'
+import { Image } from 'sourcebit/core'
 
 export default function withPrefix(url: Image | undefined, pathPrefix: string = '/'): string | undefined {
   if (!url) {

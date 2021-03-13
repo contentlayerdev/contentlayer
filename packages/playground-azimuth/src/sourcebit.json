@@ -1,130 +1,175 @@
 {
   "documents": [
     {
+      "_typeName": "blog",
+      "_id": "pages/blog.md",
+      "_raw": {
+        "sourceFilePath": "pages/blog.md",
+        "kind": "markdown"
+      },
       "title": "Blog",
       "seo": {
+        "_typeName": "seo",
+        "_raw": {},
         "title": "Blog",
         "description": "This is the blog page",
         "extra": [
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:type",
             "value": "website",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:title",
             "value": "Blog",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:description",
             "value": "This is the blog page",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:image",
             "value": "images/1.jpg",
             "keyName": "property",
             "relativeUrl": true
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:card",
             "value": "summary_large_image"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:title",
             "value": "Blog"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:description",
             "value": "This is the blog page"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:image",
             "value": "images/1.jpg",
             "relativeUrl": true
           }
-        ],
-        "__meta": {
-          "typeName": "seo"
-        }
-      },
-      "content": "",
-      "__meta": {
-        "sourceFilePath": "pages/blog.md",
-        "typeName": "blog"
+        ]
       },
       "url_path": "/blog"
     },
     {
+      "_typeName": "config",
+      "_id": "data/config.json",
+      "_raw": {
+        "sourceFilePath": "data/config.json",
+        "kind": "json"
+      },
       "title": "Azimuth",
       "path_prefix": "/",
-      "base_font": "nunito-sans",
       "palette": "blue",
+      "base_font": "nunito-sans",
       "header": {
+        "_typeName": "header",
+        "_raw": {},
         "logo_img": "images/logo.svg",
         "logo_img_alt": "Logo",
         "has_nav": true,
         "nav_links": [
           {
+            "_typeName": "action",
+            "_raw": {},
             "label": "Home",
             "url": "/",
             "style": "link"
           },
           {
+            "_typeName": "action",
+            "_raw": {},
             "label": "Features",
             "url": "/features",
             "style": "link"
           },
           {
+            "_typeName": "action",
+            "_raw": {},
             "label": "Pricing",
             "url": "/pricing",
             "style": "link"
           },
           {
+            "_typeName": "action",
+            "_raw": {},
             "label": "Style Guide",
             "url": "/style-guide",
             "style": "link"
           },
           {
+            "_typeName": "action",
+            "_raw": {},
             "label": "Sign Up",
             "url": "/signup",
             "style": "primary"
           }
-        ],
-        "__meta": {
-          "typeName": "header"
-        }
+        ]
       },
       "footer": {
+        "_typeName": "footer",
+        "_raw": {},
         "sections": [
           {
+            "_typeName": "footer_text",
+            "_raw": {},
             "type": "footer_text",
             "image": "images/logo-alt.svg",
-            "image_url": "/",
             "image_alt": "Footer logo",
+            "image_url": "/",
             "content": "Stackbit theme demo"
           },
           {
-            "type": "footer_nav",
+            "_typeName": "footer_nav",
+            "_raw": {},
             "title": "Company",
+            "type": "footer_nav",
             "nav_links": [
               {
+                "_typeName": "action",
+                "_raw": {},
                 "label": "About Us",
                 "url": "/about",
                 "style": "link"
               },
               {
+                "_typeName": "action",
+                "_raw": {},
                 "label": "Blog",
                 "url": "/blog",
                 "style": "link"
               },
               {
+                "_typeName": "action",
+                "_raw": {},
                 "label": "Sign Up",
                 "url": "/signup",
                 "style": "link"
               },
               {
+                "_typeName": "action",
+                "_raw": {},
                 "label": "Contact",
                 "url": "/contact",
                 "style": "link"
@@ -132,10 +177,14 @@
             ]
           },
           {
-            "type": "footer_nav",
+            "_typeName": "footer_nav",
+            "_raw": {},
             "title": "Community",
+            "type": "footer_nav",
             "nav_links": [
               {
+                "_typeName": "action",
+                "_raw": {},
                 "label": "Twitter",
                 "url": "https://twitter.com/",
                 "style": "link",
@@ -144,6 +193,8 @@
                 "icon_position": "left"
               },
               {
+                "_typeName": "action",
+                "_raw": {},
                 "label": "LinkedIn",
                 "url": "https://www.linkedin.com/",
                 "style": "link",
@@ -152,6 +203,8 @@
                 "icon_position": "left"
               },
               {
+                "_typeName": "action",
+                "_raw": {},
                 "label": "GitHub",
                 "url": "https://github.com/",
                 "style": "link",
@@ -162,13 +215,17 @@
             ]
           },
           {
-            "type": "footer_form",
+            "_typeName": "footer_form",
+            "_raw": {},
             "title": "Subscribe",
+            "type": "footer_form",
             "content": "Stay up to date with our latest developments.",
             "form_id": "contactForm",
             "hide_labels": true,
             "form_fields": [
               {
+                "_typeName": "form_field",
+                "_raw": {},
                 "input_type": "email",
                 "name": "email",
                 "label": "Email",
@@ -182,50 +239,61 @@
         "has_nav": true,
         "nav_links": [
           {
+            "_typeName": "action",
+            "_raw": {},
             "label": "Terms of Service",
             "url": "/terms-of-service",
             "style": "link"
           },
           {
+            "_typeName": "action",
+            "_raw": {},
             "label": "Privacy Policy",
             "url": "/privacy-policy",
             "style": "link"
           }
         ],
-        "content": "&copy; Stackbit. All rights reserved. This Jamstack site was created with <a href=\"https://www.stackbit.com/?utm_source=deployed-footer\" target=\"_blank\" rel=\"noopener\">Stackbit</a>. Create yours <a href=\"https://app.stackbit.com/create?theme=azimuth&utm_source=deployed-footer\" target=\"_blank\" rel=\"noopener\">now</a>.",
-        "__meta": {
-          "typeName": "footer"
-        }
-      },
-      "__meta": {
-        "sourceFilePath": "data/config.json",
-        "typeName": "config"
+        "content": "&copy; Stackbit. All rights reserved. This Jamstack site was created with <a href=\"https://www.stackbit.com/?utm_source=deployed-footer\" target=\"_blank\" rel=\"noopener\">Stackbit</a>. Create yours <a href=\"https://app.stackbit.com/create?theme=azimuth&utm_source=deployed-footer\" target=\"_blank\" rel=\"noopener\">now</a>."
       }
     },
     {
+      "_typeName": "landing",
+      "_id": "pages/contact.md",
+      "_raw": {
+        "sourceFilePath": "pages/contact.md",
+        "kind": "markdown"
+      },
       "title": "Contact",
       "sections": [
         {
+          "_typeName": "section_contact",
+          "_raw": {},
           "section_id": "contact",
-          "type": "section_contact",
-          "background": "gray",
           "title": "Contact",
+          "type": "section_contact",
           "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a metus quis lorem malesuada luctus. Cras lacinia, eros at dapibus molestie, risus tortor pretium ligula.",
+          "background": "gray",
           "form_id": "contactForm",
           "form_fields": [
             {
+              "_typeName": "form_field",
+              "_raw": {},
               "input_type": "text",
               "name": "name",
               "label": "Name",
               "is_required": true
             },
             {
+              "_typeName": "form_field",
+              "_raw": {},
               "input_type": "email",
               "name": "email",
               "label": "Email",
               "is_required": true
             },
             {
+              "_typeName": "form_field",
+              "_raw": {},
               "input_type": "select",
               "name": "subject",
               "label": "Subject",
@@ -237,11 +305,15 @@
               ]
             },
             {
+              "_typeName": "form_field",
+              "_raw": {},
               "input_type": "textarea",
               "name": "message",
               "label": "Message"
             },
             {
+              "_typeName": "form_field",
+              "_raw": {},
               "input_type": "checkbox",
               "name": "consent",
               "label": "I understand that this form is storing my submitted information so I can be contacted.",
@@ -252,66 +324,84 @@
         }
       ],
       "seo": {
+        "_typeName": "seo",
+        "_raw": {},
         "title": "Contact",
         "description": "This is the contact page",
         "extra": [
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:type",
             "value": "website",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:title",
             "value": "Contact",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:description",
             "value": "This is the contact page",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:card",
             "value": "summary_large_image"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:title",
             "value": "Contact"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:description",
             "value": "This is the contact page"
           }
-        ],
-        "__meta": {
-          "typeName": "seo"
-        }
-      },
-      "content": "",
-      "__meta": {
-        "sourceFilePath": "pages/contact.md",
-        "typeName": "landing"
+        ]
       },
       "url_path": "/contact"
     },
     {
+      "_typeName": "landing",
+      "_id": "pages/features.md",
+      "_raw": {
+        "sourceFilePath": "pages/features.md",
+        "kind": "markdown"
+      },
       "title": "Features",
       "sections": [
         {
+          "_typeName": "section_content",
+          "_raw": {},
           "section_id": "features",
+          "title": "The Best Features of Your Services",
           "type": "section_content",
-          "background": "gray",
+          "content": "Nam pulvinar ante eu ultricies volutpat. Sed nulla nibh, dapibus sit amet cursus quis, fringilla nec sapien. Vestibulum imperdiet nunc bibendum consectetur lobortis.\n\n* Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n* Ut eu nunc at diam fringilla fringilla eu ut massa.\n* Phasellus ut enim non lorem venenatis rutrum.\n\nMollis eget congue quis, venenatis sit amet metus. Etiam sit amet tortor sed justo tempor condimentum.",
           "image": "images/feature1.png",
           "image_alt": "App preview on a phone and tablet",
-          "title": "The Best Features of Your Services",
-          "content": "Nam pulvinar ante eu ultricies volutpat. Sed nulla nibh, dapibus sit amet cursus quis, fringilla nec sapien. Vestibulum imperdiet nunc bibendum consectetur lobortis.\n\n* Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n* Ut eu nunc at diam fringilla fringilla eu ut massa.\n* Phasellus ut enim non lorem venenatis rutrum.\n\nMollis eget congue quis, venenatis sit amet metus. Etiam sit amet tortor sed justo tempor condimentum.",
+          "background": "gray",
           "actions": [
             {
+              "_typeName": "action",
+              "_raw": {},
               "label": "Free Trial",
               "url": "/signup",
               "style": "primary"
             },
             {
+              "_typeName": "action",
+              "_raw": {},
               "label": "View Demo",
               "url": "#",
               "style": "secondary"
@@ -319,12 +409,16 @@
           ]
         },
         {
+          "_typeName": "section_cta",
+          "_raw": {},
           "section_id": "call-to-action",
-          "type": "section_cta",
           "title": "This Is Call to Action Block!",
+          "type": "section_cta",
           "subtitle": "This is an optional description for the call to action block.",
           "actions": [
             {
+              "_typeName": "action",
+              "_raw": {},
               "label": "Get Started",
               "url": "#",
               "style": "secondary"
@@ -333,71 +427,91 @@
         }
       ],
       "seo": {
+        "_typeName": "seo",
+        "_raw": {},
         "title": "Features",
         "description": "This is the features page",
         "extra": [
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:type",
             "value": "website",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:title",
             "value": "Features",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:description",
             "value": "This is the features page",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:image",
             "value": "images/feature1.png",
             "keyName": "property",
             "relativeUrl": true
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:card",
             "value": "summary_large_image"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:title",
             "value": "Features"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:description",
             "value": "This is the features page"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:image",
             "value": "images/feature1.png",
             "relativeUrl": true
           }
-        ],
-        "__meta": {
-          "typeName": "seo"
-        }
-      },
-      "content": "",
-      "__meta": {
-        "sourceFilePath": "pages/features.md",
-        "typeName": "landing"
+        ]
       },
       "url_path": "/features"
     },
     {
+      "_typeName": "landing",
+      "_id": "pages/index.md",
+      "_raw": {
+        "sourceFilePath": "pages/index.md",
+        "kind": "markdown"
+      },
       "title": "Home",
       "sections": [
         {
+          "_typeName": "section_hero",
+          "_raw": {},
           "section_id": "hero",
+          "title": "This Is A Big Hero Headline",
           "type": "section_hero",
+          "content": "Azimuth is the perfect theme for developers, designers and entrepreneurs who need a sleek, modern SaaS site.",
           "image": "images/hero.png",
           "image_alt": "App preview",
-          "title": "This Is A Big Hero Headline",
-          "content": "Azimuth is the perfect theme for developers, designers and entrepreneurs who need a sleek, modern SaaS site.",
           "actions": [
             {
+              "_typeName": "action",
+              "_raw": {},
               "label": "Learn More",
               "url": "/features",
               "style": "primary"
@@ -405,19 +519,25 @@
           ]
         },
         {
+          "_typeName": "section_features",
+          "_raw": {},
           "section_id": "features",
-          "type": "section_features",
-          "background": "gray",
           "title": "Features",
+          "type": "section_features",
           "subtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a metus quis lorem malesuada luctus.",
+          "background": "gray",
           "features": [
             {
+              "_typeName": "feature_item",
+              "_raw": {},
               "title": "The Best Feature of Your Services",
+              "content": "Nam pulvinar ante eu ultricies volutpat. Aenean hendrerit, eros sed aliquet luctus, lorem risus volutpat dolor, nec dignissim diam neque consequat ex.",
               "image": "images/feature1.png",
               "image_alt": "App preview on a phone and tablet",
-              "content": "Nam pulvinar ante eu ultricies volutpat. Aenean hendrerit, eros sed aliquet luctus, lorem risus volutpat dolor, nec dignissim diam neque consequat ex.",
               "actions": [
                 {
+                  "_typeName": "action",
+                  "_raw": {},
                   "label": "Learn More",
                   "url": "/features",
                   "style": "secondary",
@@ -428,12 +548,16 @@
               ]
             },
             {
+              "_typeName": "feature_item",
+              "_raw": {},
               "title": "Awesome Feature of Your Services",
+              "content": "Etiam vel urna sed massa egestas vulputate eu a velit. Sed ut nisl nec sapien interdum luctus. Cras rhoncus condimentum metus sit amet auctor.",
               "image": "images/feature2.png",
               "image_alt": "App users welcoming a new member",
-              "content": "Etiam vel urna sed massa egestas vulputate eu a velit. Sed ut nisl nec sapien interdum luctus. Cras rhoncus condimentum metus sit amet auctor.",
               "actions": [
                 {
+                  "_typeName": "action",
+                  "_raw": {},
                   "label": "Learn More",
                   "url": "/features",
                   "style": "secondary",
@@ -444,12 +568,16 @@
               ]
             },
             {
+              "_typeName": "feature_item",
+              "_raw": {},
               "title": "Cool Feature of Your Services",
+              "content": "In ante enim, lobortis quis congue vel, finibus sit amet mi. Aenean quis venenatis sem. Proin eget massa id metus eleifend maximus sit amet nec urna.",
               "image": "images/feature3.png",
               "image_alt": "App user profile preview",
-              "content": "In ante enim, lobortis quis congue vel, finibus sit amet mi. Aenean quis venenatis sem. Proin eget massa id metus eleifend maximus sit amet nec urna.",
               "actions": [
                 {
+                  "_typeName": "action",
+                  "_raw": {},
                   "label": "Learn More",
                   "url": "/features",
                   "style": "secondary",
@@ -462,25 +590,33 @@
           ]
         },
         {
+          "_typeName": "section_reviews",
+          "_raw": {},
           "section_id": "reviews",
-          "type": "section_reviews",
-          "background": "white",
           "title": "Testimonials",
+          "type": "section_reviews",
           "subtitle": "Aliquam malesuada ligula eget est fringilla blandit. Integer finibus semper libero id sodales.",
+          "background": "white",
           "reviews": [
             {
+              "_typeName": "review_item",
+              "_raw": {},
               "author": "Eric Widget",
               "avatar": "images/review1.jpg",
               "avatar_alt": "Eric Widget's photo",
               "content": "Vestibulum a nunc ut eros condimentum posuere. Nullam dapibus quis nunc non interdum. Pellentesque tortor ligula, gravida ac commodo eu."
             },
             {
+              "_typeName": "review_item",
+              "_raw": {},
               "author": "Parsley Montana",
               "avatar": "images/review2.jpg",
               "avatar_alt": "Parsley Montana's photo",
               "content": "Sed laoreet magna commodo libero euismod sodales. Nunc ac libero convallis, interdum ligula vel, pretium diam. Integer commodo sem at dui sollicitudin, vel posuere justo laoreet."
             },
             {
+              "_typeName": "review_item",
+              "_raw": {},
               "author": "Jonquil Von Haggerston",
               "avatar": "images/review3.jpg",
               "avatar_alt": "Jonquil Von Haggerston's photo",
@@ -489,12 +625,16 @@
           ]
         },
         {
+          "_typeName": "section_cta",
+          "_raw": {},
           "section_id": "call-to-action",
-          "type": "section_cta",
           "title": "This Is Call To Action Block!",
+          "type": "section_cta",
           "subtitle": "This is an optional description for the call to action block.",
           "actions": [
             {
+              "_typeName": "action",
+              "_raw": {},
               "label": "Get Started",
               "url": "/signup",
               "style": "primary"
@@ -502,83 +642,107 @@
           ]
         },
         {
+          "_typeName": "section_posts",
+          "_raw": {},
           "section_id": "recent-posts",
+          "title": "Latest Posts",
           "type": "section_posts",
-          "background": "gray",
-          "title": "Latest Posts"
+          "background": "gray"
         }
       ],
       "seo": {
+        "_typeName": "seo",
+        "_raw": {},
         "title": "Stackbit Azimuth Theme",
         "description": "The preview of the Azimuth theme",
         "extra": [
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:type",
             "value": "website",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:title",
             "value": "Stackbit Azimuth Theme",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:description",
             "value": "The preview of the Azimuth theme",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:image",
             "value": "images/hero.png",
             "keyName": "property",
             "relativeUrl": true
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:card",
             "value": "summary_large_image"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:title",
             "value": "Stackbit Azimuth Theme"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:description",
             "value": "The preview of the Azimuth theme"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:image",
             "value": "images/hero.png",
             "relativeUrl": true
           }
-        ],
-        "__meta": {
-          "typeName": "seo"
-        }
-      },
-      "content": "",
-      "__meta": {
-        "sourceFilePath": "pages/index.md",
-        "typeName": "landing"
+        ]
       },
       "url_path": "/"
     },
     {
+      "_typeName": "landing",
+      "_id": "pages/pricing.md",
+      "_raw": {
+        "sourceFilePath": "pages/pricing.md",
+        "kind": "markdown"
+      },
       "title": "Pricing",
       "sections": [
         {
+          "_typeName": "section_pricing",
+          "_raw": {},
           "section_id": "pricing",
-          "type": "section_pricing",
-          "background": "gray",
           "title": "Pricing Plans",
+          "type": "section_pricing",
           "subtitle": "You can have a separate pricing page or list everything on the home page.",
+          "background": "gray",
           "pricing_plans": [
             {
+              "_typeName": "pricing_plan",
+              "_raw": {},
               "title": "Basic",
               "subtitle": "For small businesses",
               "price": "$5/m",
               "details": "* Lorem ipsum dolor sit amet\n* Mauris a mi tincidunt\n* Suspendisse ut lacus\n* Etiam eget dui a augue",
               "actions": [
                 {
+                  "_typeName": "action",
+                  "_raw": {},
                   "label": "Order Now",
                   "url": "/signup",
                   "style": "secondary"
@@ -586,6 +750,8 @@
               ]
             },
             {
+              "_typeName": "pricing_plan",
+              "_raw": {},
               "title": "Professional",
               "subtitle": "For medium-sized businesses",
               "price": "$49/m",
@@ -593,6 +759,8 @@
               "highlight": true,
               "actions": [
                 {
+                  "_typeName": "action",
+                  "_raw": {},
                   "label": "Order Now",
                   "url": "/signup",
                   "style": "primary"
@@ -600,12 +768,16 @@
               ]
             },
             {
+              "_typeName": "pricing_plan",
+              "_raw": {},
               "title": "Enterprise",
               "subtitle": "For very large businesses",
               "price": "$149/m",
               "details": "* Vestibulum non eros quis\n* Aenean iaculis lorem\n* Mauris eleifend sapien\n* Phasellus lobortis risus laoreet quam",
               "actions": [
                 {
+                  "_typeName": "action",
+                  "_raw": {},
                   "label": "Order Now",
                   "url": "/signup",
                   "style": "secondary"
@@ -615,21 +787,29 @@
           ]
         },
         {
+          "_typeName": "section_faq",
+          "_raw": {},
           "section_id": "faq",
-          "type": "section_faq",
-          "background": "gray",
           "title": "Frequently Asked Questions",
+          "type": "section_faq",
           "subtitle": "Phasellus luctus laoreet arcu, vel porta metus imperdiet sit amet.",
+          "background": "gray",
           "faq_items": [
             {
+              "_typeName": "faq_item",
+              "_raw": {},
               "question": "Mauris ut tellus id arcu sagittis lacinia quis vel justo?",
               "answer": "Ut cursus, nunc vitae hendrerit viverra, massa ipsum congue quam, sed tempus mauris lacus sit amet nibh. Curabitur laoreet est maximus mollis feugiat. Praesent nibh libero, placerat et justo at, luctus tristique enim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas."
             },
             {
+              "_typeName": "faq_item",
+              "_raw": {},
               "question": "Aliquam eget purus ante?",
               "answer": "Nunc sollicitudin libero tincidunt felis pretium, consectetur aliquam eros placerat. Sed neque neque, bibendum a pulvinar id, pellentesque eget velit."
             },
             {
+              "_typeName": "faq_item",
+              "_raw": {},
               "question": "Sed scelerisque in ipsum eu sollicitudin?",
               "answer": "Nullam quis ultrices ipsum. Integer eleifend laoreet quam, ac dignissim nisi mollis eget. Ut vitae nisi sit amet nisi suscipit dictum faucibus eget magna. Vivamus in hendrerit magna, non pellentesque metus. Morbi orci odio, dictum at efficitur sit amet, luctus in ipsum. Nunc pellentesque mi vel dui vulputate, a lobortis lacus venenatis. Phasellus pellentesque dolor id feugiat faucibus. Etiam vehicula nunc velit, in consequat nisl feugiat nec."
             }
@@ -637,870 +817,1102 @@
         }
       ],
       "seo": {
+        "_typeName": "seo",
+        "_raw": {},
         "title": "Pricing",
         "description": "This is the pricing page",
         "extra": [
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:type",
             "value": "website",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:title",
             "value": "Pricing",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:description",
             "value": "This is the pricing page",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:card",
             "value": "summary_large_image"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:title",
             "value": "Pricing"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:description",
             "value": "This is the pricing page"
           }
-        ],
-        "__meta": {
-          "typeName": "seo"
-        }
-      },
-      "content": "",
-      "__meta": {
-        "sourceFilePath": "pages/pricing.md",
-        "typeName": "landing"
+        ]
       },
       "url_path": "/pricing"
     },
     {
+      "_typeName": "page",
+      "_id": "pages/about.md",
+      "_raw": {
+        "sourceFilePath": "pages/about.md",
+        "kind": "markdown"
+      },
       "title": "About Us",
       "subtitle": "This is an optional subtitle. It can be used to describe what this page is about.",
       "image": "images/about.jpg",
       "image_alt": "Team members in a conference room",
       "seo": {
+        "_typeName": "seo",
+        "_raw": {},
         "title": "About Us",
         "description": "This is the about page",
         "extra": [
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:type",
             "value": "website",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:title",
             "value": "About Us",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:description",
             "value": "This is the about page",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:image",
             "value": "images/about.jpg",
             "keyName": "property",
             "relativeUrl": true
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:card",
             "value": "summary_large_image"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:title",
             "value": "About Us"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:description",
             "value": "This is the about page"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:image",
             "value": "images/about.jpg",
             "relativeUrl": true
           }
-        ],
-        "__meta": {
-          "typeName": "seo"
-        }
+        ]
       },
       "content": "\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a metus quis lorem malesuada luctus. Cras lacinia, eros at dapibus molestie, risus tortor pretium ligula, eu malesuada tortor eros dapibus mi. Proin laoreet efficitur suscipit. Donec molestie volutpat euismod. Nulla gravida ligula in eros facilisis, sed dignissim tellus aliquam. Etiam convallis enim nisi, at suscipit tortor pulvinar at. Nulla a interdum lacus. Sed a porttitor mi. Sed at risus eu orci ultricies mattis sed in tellus. Cras nec neque sed dui vehicula iaculis id vel ex. Phasellus non consectetur augue. Pellentesque condimentum sapien arcu, nec tempus nunc maximus eu. Duis blandit risus nulla. In dolor dui, placerat non finibus sit amet, venenatis pretium tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n\nNunc a lorem tellus. Aenean eu auctor purus. Cras pulvinar, nunc at sagittis dignissim, orci elit auctor leo, et consectetur est turpis a nunc. Vivamus in faucibus felis. Aenean rutrum magna at ex auctor, congue efficitur ligula feugiat. Proin a egestas arcu. Etiam feugiat turpis quis mollis pellentesque. Sed posuere luctus tortor, a eleifend augue varius sit amet. Integer ultrices neque sed quam dictum, quis vestibulum justo volutpat. Nam vitae tempus leo, ut mattis mi.\n",
-      "__meta": {
-        "sourceFilePath": "pages/about.md",
-        "typeName": "page"
-      },
       "url_path": "/about"
     },
     {
+      "_typeName": "page",
+      "_id": "pages/privacy-policy.md",
+      "_raw": {
+        "sourceFilePath": "pages/privacy-policy.md",
+        "kind": "markdown"
+      },
       "title": "Privacy Policy",
       "seo": {
+        "_typeName": "seo",
+        "_raw": {},
         "title": "Privacy Policy",
         "description": "This is the privacy policy page",
         "extra": [
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:type",
             "value": "website",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:title",
             "value": "Privacy Policy",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:description",
             "value": "This is the privacy policy page",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:card",
             "value": "summary_large_image"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:title",
             "value": "Privacy Policy"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:description",
             "value": "This is the privacy policy page"
           }
-        ],
-        "__meta": {
-          "typeName": "seo"
-        }
+        ]
       },
       "content": "\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a metus quis lorem malesuada luctus. Cras lacinia, eros at dapibus molestie, risus tortor pretium ligula, eu malesuada tortor eros dapibus mi. Proin laoreet efficitur suscipit. Donec molestie volutpat euismod. Nulla gravida ligula in eros facilisis, sed dignissim tellus aliquam. Etiam convallis enim nisi, at suscipit tortor pulvinar at. Nulla a interdum lacus. Sed a porttitor mi. Sed at risus eu orci ultricies mattis sed in tellus. Cras nec neque sed dui vehicula iaculis id vel ex. Phasellus non consectetur augue. Pellentesque condimentum sapien arcu, nec tempus nunc maximus eu. Duis blandit risus nulla. In dolor dui, placerat non finibus sit amet, venenatis pretium tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n\nNunc a lorem tellus. Aenean eu auctor purus. Cras pulvinar, nunc at sagittis dignissim, orci elit auctor leo, et consectetur est turpis a nunc. Vivamus in faucibus felis. Aenean rutrum magna at ex auctor, congue efficitur ligula feugiat. Proin a egestas arcu. Etiam feugiat turpis quis mollis pellentesque. Sed posuere luctus tortor, a eleifend augue varius sit amet. Integer ultrices neque sed quam dictum, quis vestibulum justo volutpat. Nam vitae tempus leo, ut mattis mi.\n",
-      "__meta": {
-        "sourceFilePath": "pages/privacy-policy.md",
-        "typeName": "page"
-      },
       "url_path": "/privacy-policy"
     },
     {
+      "_typeName": "page",
+      "_id": "pages/signup.md",
+      "_raw": {
+        "sourceFilePath": "pages/signup.md",
+        "kind": "markdown"
+      },
       "title": "Sign Up",
       "subtitle": "This is an optional subtitle. It can be used to describe what this page is about.",
       "image": "images/11.jpg",
       "image_alt": "Office desk top view",
       "seo": {
+        "_typeName": "seo",
+        "_raw": {},
         "title": "Sign Up",
         "description": "This is the sign up page",
         "extra": [
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:type",
             "value": "website",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:title",
             "value": "Sign Up",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:description",
             "value": "This is the sign up page",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:card",
             "value": "summary_large_image"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:title",
             "value": "Sign Up"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:description",
             "value": "This is the sign up page"
           }
-        ],
-        "__meta": {
-          "typeName": "seo"
-        }
+        ]
       },
       "content": "\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a metus quis lorem malesuada luctus. Cras lacinia, eros at dapibus molestie, risus tortor pretium ligula, eu malesuada tortor eros dapibus mi. Proin laoreet efficitur suscipit. Donec molestie volutpat euismod. Nulla gravida ligula in eros facilisis, sed dignissim tellus aliquam. Etiam convallis enim nisi, at suscipit tortor pulvinar at. Nulla a interdum lacus. Sed a porttitor mi. Sed at risus eu orci ultricies mattis sed in tellus. Cras nec neque sed dui vehicula iaculis id vel ex. Phasellus non consectetur augue. Pellentesque condimentum sapien arcu, nec tempus nunc maximus eu. Duis blandit risus nulla. In dolor dui, placerat non finibus sit amet, venenatis pretium tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n\nNunc a lorem tellus. Aenean eu auctor purus. Cras pulvinar, nunc at sagittis dignissim, orci elit auctor leo, et consectetur est turpis a nunc. Vivamus in faucibus felis. Aenean rutrum magna at ex auctor, congue efficitur ligula feugiat. Proin a egestas arcu. Etiam feugiat turpis quis mollis pellentesque. Sed posuere luctus tortor, a eleifend augue varius sit amet. Integer ultrices neque sed quam dictum, quis vestibulum justo volutpat. Nam vitae tempus leo, ut mattis mi.\n",
-      "__meta": {
-        "sourceFilePath": "pages/signup.md",
-        "typeName": "page"
-      },
       "url_path": "/signup"
     },
     {
+      "_typeName": "page",
+      "_id": "pages/style-guide.md",
+      "_raw": {
+        "sourceFilePath": "pages/style-guide.md",
+        "kind": "markdown"
+      },
       "title": "Style Guide",
       "subtitle": "The style guide provides you with a blueprint of default post and page styles. The style guide is also a great reference for suggested typographic treatment and styles for your content.",
       "seo": {
+        "_typeName": "seo",
+        "_raw": {},
         "title": "Style Guide",
         "description": "This is the style guide page",
         "extra": [
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:type",
             "value": "website",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:title",
             "value": "Style Guide",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:description",
             "value": "This is the style guide page",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:card",
             "value": "summary_large_image"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:title",
             "value": "Style Guide"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:description",
             "value": "This is the style guide page"
           }
-        ],
-        "__meta": {
-          "typeName": "seo"
-        }
+        ]
       },
       "content": "\n**This is a paragraph**. Pellentesque habitant morbi _tristique senectus et netus et malesuada_ fames ac turpis egestas. Vestibulum [tortor quam](https://www.google.com), feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit <mark>amet est et sapien ullamcorper</mark> pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi.\n\n# This is an H1\n\nQuisque facilisis erat a dui. Nam malesuada ornare dolor. Cras gravida, this is marked text ornare, erat elit consectetuer erat, id egestas pede nibh eget odio. Proin tincidunt, velit vel porta elementum, magna diam molestie sapien, non aliquet massa pede eu diam. Aliquam iaculis. Fusce et ipsum et nulla tristique facilisis.\n\n## This is an H2\n\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Sed quis velit. Nulla facilisi. Nulla libero.\n\n### This is an H3\n\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Sed quis velit. Nulla facilisi. Nulla libero.\n\n#### This is an H4\n\nQuisque facilisis erat a dui. Nam malesuada ornare dolor. Cras gravida, diam sit amet rhoncus ornare, erat elit consectetuer erat, id egestas pede nibh eget odio. Proin tincidunt, velit vel porta elementum, magna diam molestie sapien, non aliquet massa pede eu diam. Aliquam iaculis.\n\n## Quoting\n\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Sed quis velit. Nulla facilisi. Nulla libero.\n\n> &ldquo;Creativity is allowing yourself to make mistakes. Design is knowing which ones to keep.&rdquo;\n\nNunc a lorem tellus. Aenean eu auctor purus. Cras pulvinar, nunc at sagittis dignissim, orci elit auctor leo, et consectetur est turpis a nunc. Vivamus in faucibus felis. Aenean rutrum magna at ex auctor, congue efficitur ligula feugiat. Proin a egestas arcu.\n\n<hr />\n\n## Unordered Lists\n\n- Donec non tortor in arcu mollis feugiat\n- Lorem ipsum dolor sit amet, consectetuer adipiscing elit\n- Donec id eros eget quam aliquam gravida\n- Vivamus convallis urna id felis\n- Nulla porta tempus sapien\n\n## Ordered Lists\n\n1. Donec non tortor in arcu mollis feugiat\n2. Lorem ipsum dolor sit amet, consectetuer adipiscing elit\n3. Donec id eros eget quam aliquam gravida\n4. Vivamus convallis urna id felis\n5. Nulla porta tempus sapien\n\n## Code Blocks\n\nBlocks of code are either fenced by lines with three back-ticks, or are indented with four spaces.\n\n```\n<!-- Some example CSS code -->\nbody {\n  color:red;\n}\n```\n\n## Tables\n\n<table>\n    <caption>Table with thead, tfoot, and tbody</caption>\n  <thead>\n    <tr>\n      <th>Header content 1</th>\n      <th>Header content 2</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>Body content 1</td>\n      <td>Body content 2</td>\n    </tr>\n  </tbody>\n  <tfoot>\n    <tr>\n      <td>Footer content 1</td>\n      <td>Footer content 2</td>\n    </tr>\n  </tfoot>\n</table>\n",
-      "__meta": {
-        "sourceFilePath": "pages/style-guide.md",
-        "typeName": "page"
-      },
       "url_path": "/style-guide"
     },
     {
+      "_typeName": "page",
+      "_id": "pages/terms-of-service.md",
+      "_raw": {
+        "sourceFilePath": "pages/terms-of-service.md",
+        "kind": "markdown"
+      },
       "title": "Terms of Service",
       "seo": {
+        "_typeName": "seo",
+        "_raw": {},
         "title": "Terms of Service",
         "description": "Terms of service page",
         "extra": [
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:type",
             "value": "website",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:title",
             "value": "Terms of service",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:description",
             "value": "Terms of service page",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:card",
             "value": "summary_large_image"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:title",
             "value": "Terms of service"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:description",
             "value": "Terms of service page"
           }
-        ],
-        "__meta": {
-          "typeName": "seo"
-        }
+        ]
       },
       "content": "\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a metus quis lorem malesuada luctus. Cras lacinia, eros at dapibus molestie, risus tortor pretium ligula, eu malesuada tortor eros dapibus mi. Proin laoreet efficitur suscipit. Donec molestie volutpat euismod. Nulla gravida ligula in eros facilisis, sed dignissim tellus aliquam. Etiam convallis enim nisi, at suscipit tortor pulvinar at. Nulla a interdum lacus. Sed a porttitor mi. Sed at risus eu orci ultricies mattis sed in tellus. Cras nec neque sed dui vehicula iaculis id vel ex. Phasellus non consectetur augue. Pellentesque condimentum sapien arcu, nec tempus nunc maximus eu. Duis blandit risus nulla. In dolor dui, placerat non finibus sit amet, venenatis pretium tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n\nNunc a lorem tellus. Aenean eu auctor purus. Cras pulvinar, nunc at sagittis dignissim, orci elit auctor leo, et consectetur est turpis a nunc. Vivamus in faucibus felis. Aenean rutrum magna at ex auctor, congue efficitur ligula feugiat. Proin a egestas arcu. Etiam feugiat turpis quis mollis pellentesque. Sed posuere luctus tortor, a eleifend augue varius sit amet. Integer ultrices neque sed quam dictum, quis vestibulum justo volutpat. Nam vitae tempus leo, ut mattis mi.\n",
-      "__meta": {
-        "sourceFilePath": "pages/terms-of-service.md",
-        "typeName": "page"
-      },
       "url_path": "/terms-of-service"
     },
     {
+      "_typeName": "person",
+      "_id": "data/authors/jane-doe.yaml",
+      "_raw": {
+        "sourceFilePath": "data/authors/jane-doe.yaml",
+        "kind": "json"
+      },
       "first_name": "Jane",
       "last_name": "Doe",
       "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Risus nullam eget felis eget nunc lobortis. Sodales ut etiam sit amet nisl purus in mollis nunc. Enim ut tellus elementum sagittis vitae.",
-      "photo": "images/review2.jpg",
-      "__meta": {
-        "sourceFilePath": "data/authors/jane-doe.yaml",
-        "typeName": "person"
-      }
+      "photo": "images/review2.jpg"
     },
     {
+      "_typeName": "person",
+      "_id": "data/authors/john-doe.yaml",
+      "_raw": {
+        "sourceFilePath": "data/authors/john-doe.yaml",
+        "kind": "json"
+      },
       "first_name": "John",
       "last_name": "Doe",
       "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "photo": "images/review1.jpg",
-      "__meta": {
-        "sourceFilePath": "data/authors/john-doe.yaml",
-        "typeName": "person"
-      }
+      "photo": "images/review1.jpg"
     },
     {
+      "_typeName": "post",
+      "_id": "pages/blog/azimuth-improvements.md",
+      "_raw": {
+        "sourceFilePath": "pages/blog/azimuth-improvements.md",
+        "kind": "markdown"
+      },
       "title": "Release Notes - Azimuth Improvements and New Integrations",
       "subtitle": "Amet nibh adipiscing adipiscing. Commodo ante vis placerat interdum massa massa primis.",
+      "date": "2017-03-26",
       "author": "data/authors/john-doe.yaml",
       "excerpt": "Vis accumsan feugiat adipiscing nisl amet adipiscing accumsan blandit accumsan sapien blandit ac amet faucibus aliquet placerat commodo.",
-      "date": "2017-03-26",
       "thumb_image": "images/1_thumb.jpg",
       "seo": {
+        "_typeName": "seo",
+        "_raw": {},
         "title": "Release Notes - Azimuth Improvements and New Integrations",
         "description": "Amet nibh adipiscing adipiscing. Commodo ante vis placerat interdum massa massa primis.",
         "extra": [
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:type",
             "value": "article",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:title",
             "value": "Release Notes - Azimuth Improvements and New Integrations",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:description",
             "value": "Amet nibh adipiscing adipiscing. Commodo ante vis placerat interdum massa massa primis.",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:image",
             "value": "images/1.jpg",
             "keyName": "property",
             "relativeUrl": true
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:card",
             "value": "summary_large_image"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:title",
             "value": "Release Notes - Azimuth Improvements and New Integrations"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:description",
             "value": "Amet nibh adipiscing adipiscing. Commodo ante vis placerat interdum massa massa primis."
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:image",
             "value": "images/1.jpg",
             "relativeUrl": true
           }
-        ],
-        "__meta": {
-          "typeName": "seo"
-        }
+        ]
       },
       "content": "\nVis accumsan feugiat adipiscing nisl amet adipiscing accumsan blandit accumsan sapien blandit ac amet faucibus aliquet placerat commodo. Interdum ante aliquet commodo accumsan vis phasellus adipiscing. Ornare a in lacinia. Vestibulum accumsan ac metus massa tempor. Accumsan in lacinia ornare massa amet. Ac interdum ac non praesent. Cubilia lacinia interdum massa faucibus blandit nullam. Accumsan phasellus nunc integer. Accumsan euismod nunc adipiscing lacinia erat ut sit. Arcu amet. Id massa aliquet arcu accumsan lorem amet accumsan.\n\nAmet nibh adipiscing adipiscing. Commodo ante vis placerat interdum massa massa primis. Tempus condimentum tempus non ac varius cubilia adipiscing placerat lorem turpis at. Aliquet lorem porttitor interdum. Amet lacus. Aliquam lobortis faucibus blandit ac phasellus. In amet magna non interdum volutpat porttitor metus a ante ac neque. Nisi turpis. Commodo col. Interdum adipiscing mollis ut aliquam id ante adipiscing commodo integer arcu amet Ac interdum ac non praesent. Cubilia lacinia interdum massa faucibus blandit nullam. Accumsan phasellus nunc integer. Accumsan euismod nunc adipiscing lacinia erat ut sit. Arcu amet. Id massa aliquet arcu accumsan lorem amet accumsan commodo odio cubilia ac eu interdum placerat placerat arcu commodo lobortis adipiscing semper ornare pellentesque.\n\nAmet nibh adipiscing adipiscing. Commodo ante vis placerat interdum massa massa primis. Tempus condimentum tempus non ac varius cubilia adipiscing placerat lorem turpis at. Aliquet lorem porttitor interdum. Amet lacus. Aliquam lobortis faucibus blandit ac phasellus. In amet magna non interdum volutpat porttitor metus a ante ac neque. Nisi turpis. Commodo col. Interdum adipiscing mollis ut aliquam id ante adipiscing commodo integer arcu amet blandit adipiscing arcu ante.\n",
-      "__meta": {
-        "sourceFilePath": "pages/blog/azimuth-improvements.md",
-        "typeName": "post"
-      },
       "url_path": "/blog/azimuth-improvements"
     },
     {
+      "_typeName": "post",
+      "_id": "pages/blog/customer-loyalty.md",
+      "_raw": {
+        "sourceFilePath": "pages/blog/customer-loyalty.md",
+        "kind": "markdown"
+      },
       "title": "Customer Loyalty Programs That Stick",
       "subtitle": "A story about customer loyalty",
+      "date": "2021-01-03",
       "author": "data/authors/jane-doe.yaml",
       "excerpt": "A story about customer loyalty curabitur sed consectetur nisi. Integer sit amet commodo massa.",
-      "date": "2021-01-03",
-      "thumb_image": "images/3_thumb.jpg",
-      "thumb_image_alt": "A group of people working in a cafe",
       "image": "images/3.jpg",
       "image_alt": "A group of people working in a cafe",
+      "thumb_image": "images/3_thumb.jpg",
+      "thumb_image_alt": "A group of people working in a cafe",
       "seo": {
+        "_typeName": "seo",
+        "_raw": {},
         "title": "Customer Loyalty Programs That Stick",
         "description": "A story about customer loyalty curabitur sed consectetur nisi. Integer sit amet commodo massa.",
         "extra": [
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:type",
             "value": "article",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:title",
             "value": "Customer Loyalty Programs That Stick",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:description",
             "value": "A story about customer loyalty curabitur sed consectetur nisi. Integer sit amet commodo massa.",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:image",
             "value": "images/3.jpg",
             "keyName": "property",
             "relativeUrl": true
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:card",
             "value": "summary_large_image"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:title",
             "value": "Customer Loyalty Programs That Stick"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:description",
             "value": "A story about customer loyalty curabitur sed consectetur nisi. Integer sit amet commodo massa."
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:image",
             "value": "images/3.jpg",
             "relativeUrl": true
           }
-        ],
-        "__meta": {
-          "typeName": "seo"
-        }
+        ]
       },
       "content": "\n**Loyalty** curabitur sed consectetur nisi. Integer sit amet commodo massa. Cras posuere justo magna, id placerat ligula vulputate malesuada. Aenean a ipsum quis neque ornare placerat eu eu orci. Nullam feugiat sed ante in euismod. Pellentesque a nibh dolor. Donec ultrices lacus eget orci commodo ultricies. Morbi placerat purus non varius egestas. Ut tempus ligula quis lorem suscipit, sed vulputate dolor placerat. Aliquam ut massa placerat, vehicula erat non, mattis leo. Pellentesque egestas velit sit amet lectus lobortis, sit amet pharetra ipsum porta. Nullam massa nulla, tincidunt vel volutpat vel, commodo id leo. Curabitur id volutpat lacus, sed commodo velit. Quisque facilisis consectetur nisl vitae vulputate. Proin porttitor ipsum ut diam faucibus, scelerisque posuere ex euismod. Aenean posuere bibendum egestas.\n\n## Customer\n\nPraesent ut cursus enim, sit amet dictum turpis. Etiam justo orci, consectetur aliquet rhoncus sed, hendrerit vel odio. Etiam pharetra neque vel gravida tincidunt. Etiam consequat commodo elit id eleifend. Nullam eu justo eu odio pretium feugiat. Sed non neque dui. Fusce leo erat, imperdiet quis pulvinar vitae, consequat quis dolor. Curabitur eu quam et odio vehicula auctor convallis nec ipsum. Nam vitae dui sapien. Pellentesque vitae lorem id ipsum lacinia consectetur id a erat. Nulla semper ut erat vel vulputate. Nulla sagittis dui ut dapibus euismod. Phasellus et dui posuere, lobortis erat a, pretium nunc. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas molestie ut tellus in convallis. Cras luctus urna quis velit volutpat, semper venenatis mauris auctor.\n\n## Loyalty Programs\n\nAenean dui sem, sollicitudin non venenatis eget, gravida rutrum risus. Proin massa leo, convallis id orci at, convallis dignissim mi. Integer et arcu arcu. Sed tristique diam id elit iaculis accumsan. Donec vehicula libero nunc, quis dictum orci pharetra nec. Proin blandit pellentesque sapien et sodales. Phasellus convallis sapien venenatis semper iaculis. Curabitur commodo iaculis mi, nec gravida nunc pellentesque ac. Nullam ac felis est. Donec gravida arcu ipsum, ut pulvinar est scelerisque id. Duis lobortis ante eu ante volutpat, quis pharetra sapien mattis. Sed ex enim, accumsan ut volutpat a, consectetur iaculis urna. Donec tempus enim sed porta euismod.\n\n> The strength of brand loyalty begins with how your product makes people feel. - Jay Samit\n\nNam mauris leo, mattis in finibus sit amet, mattis vitae libero. In sed leo purus. Fusce ac suscipit nisl. Vestibulum tristique neque nec lacus finibus porta. In erat libero, pellentesque non sodales quis, mollis a elit. Vestibulum viverra dui ut ornare maximus. Aliquam at odio quis magna convallis euismod.\n\nInteger nisi nisi, hendrerit a ultrices ut, facilisis at odio. Suspendisse aliquet sed magna in bibendum. Praesent sit amet tincidunt purus. Cras sollicitudin at ante semper feugiat. Sed sem sem, dignissim id aliquet ac, interdum fringilla ipsum. Proin laoreet metus leo, et tempor felis aliquam at. Cras eget urna vehicula, elementum tellus a, tempor odio. Morbi pretium augue erat, et suscipit metus varius non. Quisque vitae lectus id mi consequat laoreet. Nam non molestie elit. Proin iaculis vel ex non rhoncus. Donec metus velit, blandit quis arcu quis, venenatis sodales velit.\n",
-      "__meta": {
-        "sourceFilePath": "pages/blog/customer-loyalty.md",
-        "typeName": "post"
-      },
       "url_path": "/blog/customer-loyalty"
     },
     {
+      "_typeName": "post",
+      "_id": "pages/blog/customer-service-skills-that-every-employee-needs.md",
+      "_raw": {
+        "sourceFilePath": "pages/blog/customer-service-skills-that-every-employee-needs.md",
+        "kind": "markdown"
+      },
       "title": "5 Customer Service Skills that Every Employee Needs",
       "subtitle": "Apparently, there are 5 Service Skills that Every Employee Needs",
+      "date": "2018-01-11",
       "author": "data/authors/john-doe.yaml",
       "excerpt": "Sed nec metus dignissim quam finibus aliquet. Cras luctus, nibh id consequat interdum, massa massa tempor ante.",
-      "date": "2018-01-11",
-      "thumb_image": "images/5_thumb.jpg",
       "image": "images/5.jpg",
+      "thumb_image": "images/5_thumb.jpg",
       "seo": {
+        "_typeName": "seo",
+        "_raw": {},
         "title": "5 Customer Service Skills that Every Employee Needs",
         "description": "Apparently, there are 5 Service Skills that Every Employee Needs",
         "extra": [
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:type",
             "value": "article",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:title",
             "value": "5 Customer Service Skills that Every Employee Needs",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:description",
             "value": "Apparently, there are 5 Service Skills that Every Employee Needs",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:image",
             "value": "images/5.jpg",
             "keyName": "property",
             "relativeUrl": true
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:card",
             "value": "summary_large_image"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:title",
             "value": "5 Customer Service Skills that Every Employee Needs"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:description",
             "value": "Apparently, there are 5 Service Skills that Every Employee Needs"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:image",
             "value": "images/5.jpg",
             "relativeUrl": true
           }
-        ],
-        "__meta": {
-          "typeName": "seo"
-        }
+        ]
       },
       "content": "\nLorem ipsum dolor sit amet, consectetur adipiscing elit. In dapibus est a dolor iaculis vulputate. Mauris libero nulla, commodo sit amet tempus quis, finibus cursus tellus. Duis non velit vel velit euismod elementum. Aliquam porta et nisl id mattis. Fusce vitae massa orci. Ut euismod ornare orci ac interdum. Morbi vulputate ullamcorper purus eu dictum. Vestibulum ac neque faucibus lectus egestas volutpat in vitae velit. Morbi elementum nibh libero, ac ultricies metus laoreet ac. Nam tempus ligula a nulla tincidunt, sit amet semper sapien condimentum.\n\nInterdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque aliquet ante sed odio pellentesque malesuada at id turpis. Nulla porta ipsum ac augue vulputate varius. Aenean tempor risus rhoncus congue egestas. Donec laoreet tempus tempus. Sed erat erat, elementum ut feugiat at, facilisis ut massa. Duis ultricies ex a mauris sodales euismod. Donec placerat bibendum arcu non rutrum. Praesent quis risus enim. Morbi efficitur lectus at diam cursus ultrices. Integer ut erat eget erat posuere interdum. Ut risus nunc, hendrerit a sagittis id, scelerisque sed ipsum.\n\nSed nec metus dignissim quam finibus aliquet. Cras luctus, nibh id consequat interdum, massa massa tempor ante, in gravida dui quam at nibh. Nullam egestas purus nulla, vitae posuere turpis egestas nec. Nam at porttitor massa, sed luctus nibh. Vestibulum varius accumsan orci sed finibus. Quisque suscipit est nisl, et feugiat nunc dictum in. Maecenas pellentesque nulla vel sodales cursus. Nulla venenatis sem a dui sagittis vehicula.\n\nEtiam interdum finibus neque, vel bibendum diam volutpat et. Nunc volutpat ante at nibh tempus malesuada. Proin pretium sed tellus eget porttitor. Praesent convallis varius magna in pharetra. Nunc quis venenatis massa. In euismod dictum porta. Donec aliquam mauris dignissim odio auctor dictum.\n\nSuspendisse a dui auctor purus accumsan ullamcorper. In maximus nunc nec fermentum posuere. Cras id ipsum in elit consectetur elementum. Mauris mollis mollis orci non rutrum. Phasellus facilisis convallis hendrerit. Curabitur at erat id odio tincidunt placerat. Sed efficitur, lacus nec viverra dapibus, ligula libero commodo eros, eu aliquam nunc risus in nisi. Curabitur sed malesuada metus. Ut fringilla, arcu non bibendum ornare, justo erat condimentum neque, ut pulvinar leo leo interdum mauris. Integer nulla augue, rutrum vitae nulla quis, cursus mollis justo.\n",
-      "__meta": {
-        "sourceFilePath": "pages/blog/customer-service-skills-that-every-employee-needs.md",
-        "typeName": "post"
-      },
       "url_path": "/blog/customer-service-skills-that-every-employee-needs"
     },
     {
+      "_typeName": "post",
+      "_id": "pages/blog/design-azimuth.md",
+      "_raw": {
+        "sourceFilePath": "pages/blog/design-azimuth.md",
+        "kind": "markdown"
+      },
       "title": "Behind the Scenes - The Design of Azimuth",
-      "excerpt": "Quisque ultrices metus sed libero ultricies condimentum. Suspendisse ut faucibus purus. Mauris at pharetra risus.",
-      "author": "data/authors/jane-doe.yaml",
       "date": "2018-01-09",
-      "thumb_image": "images/6_thumb.jpg",
+      "author": "data/authors/jane-doe.yaml",
+      "excerpt": "Quisque ultrices metus sed libero ultricies condimentum. Suspendisse ut faucibus purus. Mauris at pharetra risus.",
       "image": "images/6.jpg",
+      "thumb_image": "images/6_thumb.jpg",
       "seo": {
+        "_typeName": "seo",
+        "_raw": {},
         "title": "Behind the Scenes - The Design of Azimuth",
         "description": "Quisque ultrices metus sed libero ultricies condimentum.",
         "extra": [
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:type",
             "value": "article",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:title",
             "value": "Behind the Scenes - The Design of Azimuth",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:description",
             "value": "Quisque ultrices metus sed libero ultricies condimentum.",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:image",
             "value": "images/6.jpg",
             "keyName": "property",
             "relativeUrl": true
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:card",
             "value": "summary_large_image"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:title",
             "value": "Behind the Scenes - The Design of Azimuth"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:description",
             "value": "Quisque ultrices metus sed libero ultricies condimentum."
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:image",
             "value": "images/6.jpg",
             "relativeUrl": true
           }
-        ],
-        "__meta": {
-          "typeName": "seo"
-        }
+        ]
       },
       "content": "\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sagittis convallis bibendum. Aenean ac massa vitae lectus semper iaculis. Pellentesque urna nibh, volutpat ac accumsan a, malesuada non arcu. Ut mi eros, facilisis eget dictum quis, semper ut velit. Phasellus vulputate, odio eu consequat sollicitudin, arcu nulla auctor elit, vitae placerat elit elit sit amet ipsum. Curabitur pulvinar leo ac laoreet semper. Integer ut libero dui. Ut id nunc ornare, ornare tellus eu, rutrum ipsum. Donec molestie iaculis tristique. Quisque euismod commodo leo ac ultrices.\n\nMorbi ut odio interdum, vestibulum neque eu, dictum massa. Maecenas fermentum, metus ut maximus pellentesque, nibh sem venenatis purus, eget ultricies elit lorem finibus justo. Nullam a faucibus diam. Mauris nisi ligula, fringilla a arcu eu, commodo euismod tellus. Sed blandit massa vel ligula ullamcorper fermentum. Praesent ex justo, ultrices ac imperdiet id, auctor quis nulla. Nunc eu blandit nulla. In faucibus pellentesque libero. Sed facilisis lectus id tellus tempus vestibulum eget eget felis. Nulla facilisi. Sed sed sem tristique, pellentesque diam eu, sollicitudin massa.\n\nUt lacus ante, venenatis placerat pulvinar eu, molestie in ipsum. Phasellus suscipit ipsum in pulvinar ultricies. Pellentesque tempus lorem massa, non venenatis nisl facilisis a. Curabitur nec elit sapien. In eu commodo sem. Mauris in magna aliquet, vestibulum libero et, mollis velit. Curabitur ut nisi id est accumsan consectetur. Aliquam sit amet magna quis nisi cursus egestas. Maecenas quis vulputate nisi, sit amet tincidunt lectus. Duis sit amet ipsum ac eros congue sodales. Mauris est purus, tempus eget odio sed, auctor eleifend ante. Curabitur vitae ipsum varius, ultricies ipsum at, fermentum orci. Fusce suscipit fermentum tellus ut euismod. Nullam vestibulum auctor sagittis. Aenean et nisl vulputate justo porta aliquet.\n",
-      "__meta": {
-        "sourceFilePath": "pages/blog/design-azimuth.md",
-        "typeName": "post"
-      },
       "url_path": "/blog/design-azimuth"
     },
     {
+      "_typeName": "post",
+      "_id": "pages/blog/design-team-collaborates.md",
+      "_raw": {
+        "sourceFilePath": "pages/blog/design-team-collaborates.md",
+        "kind": "markdown"
+      },
       "title": "How Our Design Team Collaborates",
-      "excerpt": "Vis accumsan feugiat adipiscing nisl amet adipiscing accumsan blandit accumsan sapien blandit ac amet faucibus aliquet placerat commodo.",
-      "author": "data/authors/jane-doe.yaml",
       "date": "2019-03-24",
-      "thumb_image": "images/11_thumb.jpg",
+      "author": "data/authors/jane-doe.yaml",
+      "excerpt": "Vis accumsan feugiat adipiscing nisl amet adipiscing accumsan blandit accumsan sapien blandit ac amet faucibus aliquet placerat commodo.",
       "image": "images/11.jpg",
+      "thumb_image": "images/11_thumb.jpg",
       "seo": {
+        "_typeName": "seo",
+        "_raw": {},
         "title": "How Our Design Team Collaborates",
         "description": "Vis accumsan feugiat adipiscing nisl amet adipiscing accumsan.",
         "extra": [
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:type",
             "value": "article",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:title",
             "value": "How Our Design Team Collaborates",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:description",
             "value": "Vis accumsan feugiat adipiscing nisl amet adipiscing accumsan.",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:image",
             "value": "images/11.jpg",
             "keyName": "property",
             "relativeUrl": true
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:card",
             "value": "summary_large_image"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:title",
             "value": "How Our Design Team Collaborates"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:description",
             "value": "Vis accumsan feugiat adipiscing nisl amet adipiscing accumsan."
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:image",
             "value": "images/11.jpg",
             "relativeUrl": true
           }
-        ],
-        "__meta": {
-          "typeName": "seo"
-        }
+        ]
       },
       "content": "\nVis accumsan feugiat adipiscing nisl amet adipiscing accumsan blandit accumsan sapien blandit ac amet faucibus aliquet placerat commodo. Interdum ante aliquet commodo accumsan vis phasellus adipiscing. Ornare a in lacinia. Vestibulum accumsan ac metus massa tempor. Accumsan in lacinia ornare massa amet. Ac interdum ac non praesent. Cubilia lacinia interdum massa faucibus blandit nullam. Accumsan phasellus nunc integer. Accumsan euismod nunc adipiscing lacinia erat ut sit. Arcu amet. Id massa aliquet arcu accumsan lorem amet accumsan.\n\nAmet nibh adipiscing adipiscing. Commodo ante vis placerat interdum massa massa primis. Tempus condimentum tempus non ac varius cubilia adipiscing placerat lorem turpis at. Aliquet lorem porttitor interdum. Amet lacus. Aliquam lobortis faucibus blandit ac phasellus. In amet magna non interdum volutpat porttitor metus a ante ac neque. Nisi turpis. Commodo col. Interdum adipiscing mollis ut aliquam id ante adipiscing commodo integer arcu amet Ac interdum ac non praesent. Cubilia lacinia interdum massa faucibus blandit nullam. Accumsan phasellus nunc integer. Accumsan euismod nunc adipiscing lacinia erat ut sit. Arcu amet. Id massa aliquet arcu accumsan lorem amet accumsan commodo odio cubilia ac eu interdum placerat placerat arcu commodo lobortis adipiscing semper ornare pellentesque.\n\nAmet nibh adipiscing adipiscing. Commodo ante vis placerat interdum massa massa primis. Tempus condimentum tempus non ac varius cubilia adipiscing placerat lorem turpis at. Aliquet lorem porttitor interdum. Amet lacus. Aliquam lobortis faucibus blandit ac phasellus. In amet magna non interdum volutpat porttitor metus a ante ac neque. Nisi turpis. Commodo col. Interdum adipiscing mollis ut aliquam id ante adipiscing commodo integer arcu amet blandit adipiscing arcu ante.\n",
-      "__meta": {
-        "sourceFilePath": "pages/blog/design-team-collaborates.md",
-        "typeName": "post"
-      },
       "url_path": "/blog/design-team-collaborates"
     },
     {
+      "_typeName": "post",
+      "_id": "pages/blog/sales-as-service.md",
+      "_raw": {
+        "sourceFilePath": "pages/blog/sales-as-service.md",
+        "kind": "markdown"
+      },
       "title": "Sales as a Service",
       "subtitle": "A interesting tale about Sales",
-      "excerpt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut elementum purus.",
-      "author": "data/authors/jane-doe.yaml",
       "date": "2018-01-15",
-      "thumb_image": "images/4_thumb.jpg",
+      "author": "data/authors/jane-doe.yaml",
+      "excerpt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut elementum purus.",
       "image": "images/4.jpg",
+      "thumb_image": "images/4_thumb.jpg",
       "seo": {
+        "_typeName": "seo",
+        "_raw": {},
         "title": "Sales as a Service",
         "description": "A interesting tale about Sales",
         "extra": [
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:type",
             "value": "article",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:title",
             "value": "Sales as a Service",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:description",
             "value": "A interesting tale about Sales",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:image",
             "value": "images/4.jpg",
             "keyName": "property",
             "relativeUrl": true
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:card",
             "value": "summary_large_image"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:title",
             "value": "Sales as a Service"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:description",
             "value": "A interesting tale about Sales"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:image",
             "value": "images/4.jpg",
             "relativeUrl": true
           }
-        ],
-        "__meta": {
-          "typeName": "seo"
-        }
+        ]
       },
       "content": "\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut elementum purus. Aliquam mauris est, posuere vitae ornare quis, volutpat eget felis. Sed rhoncus hendrerit dapibus. Vestibulum sed turpis a turpis ultrices vehicula. Morbi vulputate eros eu vulputate maximus. Donec aliquam, nulla eget vestibulum luctus, nisi mi porttitor sem, ut varius ipsum nunc vel augue. Nam ante magna, tempor non sapien id, rhoncus vestibulum ipsum. Sed placerat quam sed rutrum efficitur. Duis diam purus, molestie viverra lectus eu, facilisis fringilla quam. Vivamus ut lectus id neque ullamcorper sollicitudin non sagittis massa. Quisque bibendum tincidunt dolor at interdum. Suspendisse vehicula quis sem et tincidunt.\n\nDonec tempor quis sapien sit amet tempor. Phasellus at erat erat. Vestibulum elementum venenatis porta. Proin non leo in ante dictum dictum. Integer suscipit euismod elit. Phasellus vel libero ante. Nunc varius felis in ex convallis, id luctus nulla feugiat. Proin imperdiet dictum erat, sed egestas augue elementum at. Nunc vel feugiat dolor. Cras et laoreet lorem. Aenean elementum tempor malesuada. Morbi quis commodo augue. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce ac pellentesque velit.\n\nMauris a rhoncus purus, ac tincidunt dui. Phasellus lobortis rhoncus dolor, egestas hendrerit lorem lobortis nec. Duis eu condimentum felis. In eros mi, accumsan vitae nisl non, ultricies luctus risus. Proin vitae libero lacus. Nullam ut efficitur magna. Praesent quis eros ac augue blandit ultrices eu et leo. Sed molestie enim ipsum, et auctor diam suscipit vitae. Curabitur sed nisi sit amet lorem feugiat sodales. Etiam elementum ornare nisl eget porta. Donec nec facilisis lorem. Duis luctus elit eu purus fermentum, id pharetra nibh porttitor. Phasellus vel libero non erat mattis viverra.\n\nDonec et eros euismod tellus congue bibendum vitae sit amet lacus. Nam tempus at nunc eget elementum. Quisque tincidunt diam nulla, eget finibus risus dignissim ut. Fusce eget tincidunt mi, sit amet sollicitudin neque. Cras facilisis ex at massa pretium, ut sollicitudin neque rutrum. Quisque tincidunt purus congue, auctor augue quis, aliquet dui. Nullam orci risus, congue non faucibus in, blandit et leo. Suspendisse eu purus blandit, ultricies orci non, accumsan velit. Suspendisse convallis nisi et vehicula congue. Etiam iaculis nisi mauris, vel ultricies erat egestas quis. Vivamus eros urna, lacinia nec elit euismod, auctor cursus elit. Nunc lobortis hendrerit efficitur. Vivamus ultricies, metus et semper aliquet, ligula elit pulvinar nisi, non ultricies eros velit id felis. Phasellus blandit felis quam, id accumsan arcu luctus non.\n\nAliquam blandit facilisis ultricies. Ut hendrerit tellus id nunc interdum vehicula. Proin feugiat arcu a mi mattis, in semper lectus sagittis. Mauris rhoncus vestibulum magna, nec vestibulum orci porta quis. Vivamus at ante ullamcorper, commodo risus vel, facilisis diam. Vivamus nec dui bibendum mauris consectetur hendrerit. Morbi a lacus in risus convallis cursus et ut leo. Aliquam vitae aliquam justo. Curabitur efficitur sapien vel dolor mollis interdum dignissim eget lorem. Maecenas aliquam molestie felis vel sollicitudin. Nulla auctor nisl mattis sapien pulvinar, vel sollicitudin eros pellentesque. Nullam bibendum at metus ac mollis.\n",
-      "__meta": {
-        "sourceFilePath": "pages/blog/sales-as-service.md",
-        "typeName": "post"
-      },
       "url_path": "/blog/sales-as-service"
     },
     {
+      "_typeName": "post",
+      "_id": "pages/blog/set-big-goals.md",
+      "_raw": {
+        "sourceFilePath": "pages/blog/set-big-goals.md",
+        "kind": "markdown"
+      },
       "title": "Why You Should Set Big Goals",
-      "excerpt": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
-      "author": "data/authors/jane-doe.yaml",
       "date": "2019-03-10",
-      "thumb_image": "images/12_thumb.jpg",
+      "author": "data/authors/jane-doe.yaml",
+      "excerpt": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
       "image": "images/12.jpg",
+      "thumb_image": "images/12_thumb.jpg",
       "seo": {
+        "_typeName": "seo",
+        "_raw": {},
         "title": "Why You Should Set Big Goals",
         "description": "A interesting tale about Big Goals",
         "extra": [
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:type",
             "value": "article",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:title",
             "value": "Why You Should Set Big Goals",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:description",
             "value": "A interesting tale about Big Goals",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:image",
             "value": "images/12.jpg",
             "keyName": "property",
             "relativeUrl": true
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:card",
             "value": "summary_large_image"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:title",
             "value": "Why You Should Set Big Goals"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:description",
             "value": "A interesting tale about Big Goals"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:image",
             "value": "images/12.jpg",
             "relativeUrl": true
           }
-        ],
-        "__meta": {
-          "typeName": "seo"
-        }
+        ]
       },
       "content": "\nPellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam maximus mauris sagittis, iaculis diam ac, ultrices risus. Aliquam finibus, ipsum eget ultricies imperdiet, arcu diam suscipit urna, eu bibendum tortor tellus vel risus. Praesent quis scelerisque velit. Curabitur varius erat non dignissim porta. Duis viverra sapien a metus semper, et porttitor dolor convallis. Nulla eu dolor volutpat, mollis arcu ut, semper ex. Morbi ultricies, quam et ullamcorper mattis, elit dolor facilisis dui, non consectetur erat elit eu sapien. Duis scelerisque ante iaculis, accumsan mi vel, tempus libero. Fusce quis ipsum in sapien consequat tempor. Duis varius blandit neque quis tempor. Sed sollicitudin ante vitae lectus feugiat tempus. Ut mauris ex, venenatis a vestibulum nec, ullamcorper a erat. Vivamus leo ipsum, porta in iaculis sit amet, euismod non mi.\n\nCurabitur sed tellus eu felis convallis cursus at vitae neque. Phasellus sem nulla, ornare sit amet augue quis, consectetur lobortis diam. Etiam in egestas orci. Curabitur scelerisque id ligula id rutrum. Maecenas pharetra sapien et hendrerit facilisis. Vestibulum finibus mauris et ultricies porta. Praesent laoreet mauris elit, a semper risus euismod at. Pellentesque ullamcorper augue augue, eget porta nisl volutpat nec. Mauris porttitor commodo tortor eu tincidunt. Ut ut enim iaculis, aliquam augue ut, cursus tortor.\n\nCras interdum commodo commodo. Nunc condimentum, eros id consectetur tincidunt, metus ligula venenatis urna, sit amet pharetra dui purus sed tellus. Suspendisse finibus gravida risus, vel sodales nisl fringilla consequat. Aliquam sit amet mollis lorem. Suspendisse dignissim mi tortor, quis iaculis nulla fermentum ut. Nunc laoreet augue vitae aliquet aliquet. Praesent dapibus at dui sit amet interdum. Fusce finibus risus in nibh ultricies, a bibendum lacus pulvinar.\n\nProin viverra, ex ut ullamcorper finibus, purus odio porttitor neque, in blandit lectus massa vel massa. Etiam vel mauris ligula. Sed dignissim tellus vel ex tincidunt, eget tempus metus lobortis. In ex felis, fermentum ut ultrices in, consequat ut justo. Etiam ullamcorper, risus nec facilisis porta, ex quam mattis nisi, id consequat turpis massa non dolor. Vestibulum lectus ante, scelerisque quis tempor et, mattis eu justo. Sed ante orci, feugiat aliquet malesuada sed, efficitur ac ex. Morbi ex nisi, tempor eu congue quis, ultrices id justo. Etiam urna libero, porttitor at imperdiet at, ultricies ac erat. Pellentesque est nibh, volutpat nec tempus et, luctus vel urna. Cras faucibus dolor feugiat velit convallis, sit amet consectetur eros tempor. Integer mi elit, semper sed facilisis vel, convallis ut turpis.\n\nCurabitur sed consectetur nisi. Integer sit amet commodo massa. Cras posuere justo magna, id placerat ligula vulputate malesuada. Aenean a ipsum quis neque ornare placerat eu eu orci. Nullam feugiat sed ante in euismod. Pellentesque a nibh dolor. Donec ultrices lacus eget orci commodo ultricies. Morbi placerat purus non varius egestas. Ut tempus ligula quis lorem suscipit, sed vulputate dolor placerat. Aliquam ut massa placerat, vehicula erat non, mattis leo. Pellentesque egestas velit sit amet lectus lobortis, sit amet pharetra ipsum porta. Nullam massa nulla, tincidunt vel volutpat vel, commodo id leo. Curabitur id volutpat lacus, sed commodo velit. Quisque facilisis consectetur nisl vitae vulputate. Proin porttitor ipsum ut diam faucibus, scelerisque posuere ex euismod. Aenean posuere bibendum egestas.\n",
-      "__meta": {
-        "sourceFilePath": "pages/blog/set-big-goals.md",
-        "typeName": "post"
-      },
       "url_path": "/blog/set-big-goals"
     },
     {
+      "_typeName": "post",
+      "_id": "pages/blog/user-journey-mapping.md",
+      "_raw": {
+        "sourceFilePath": "pages/blog/user-journey-mapping.md",
+        "kind": "markdown"
+      },
       "title": "A Guide To User Journey Mapping",
       "subtitle": "Praesent ut cursus enim, sit amet dictum turpis. Etiam justo orci, consectetur aliquet rhoncus sed, hendrerit vel odio.",
-      "excerpt": "Praesent ut cursus enim, sit amet dictum turpis. Etiam justo orci, consectetur aliquet rhoncus sed, hendrerit vel odio.",
-      "author": "data/authors/jane-doe.yaml",
       "date": "2019-03-27",
-      "thumb_image": "images/10_thumb.jpg",
-      "thumb_image_alt": "Business people in a meeting",
+      "author": "data/authors/jane-doe.yaml",
+      "excerpt": "Praesent ut cursus enim, sit amet dictum turpis. Etiam justo orci, consectetur aliquet rhoncus sed, hendrerit vel odio.",
       "image": "images/10.jpg",
       "image_alt": "Business people in a meeting",
+      "thumb_image": "images/10_thumb.jpg",
+      "thumb_image_alt": "Business people in a meeting",
       "seo": {
+        "_typeName": "seo",
+        "_raw": {},
         "title": "A Guide To User Journey Mapping",
         "description": "A tale about Journey Mapping",
         "extra": [
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:type",
             "value": "article",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:title",
             "value": "A Guide To User Journey Mapping",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:description",
             "value": "A tale about Journey Mapping",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:image",
             "value": "images/10.jpg",
             "keyName": "property",
             "relativeUrl": true
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:card",
             "value": "summary_large_image"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:title",
             "value": "A Guide To User Journey Mapping"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:description",
             "value": "A tale about Journey Mapping"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:image",
             "value": "images/10.jpg",
             "relativeUrl": true
           }
-        ],
-        "__meta": {
-          "typeName": "seo"
-        }
+        ]
       },
       "content": "\nCurabitur sed consectetur nisi. Integer sit amet commodo massa. Cras posuere justo magna, id placerat ligula vulputate malesuada. Aenean a ipsum quis neque ornare placerat eu eu orci. Nullam feugiat sed ante in euismod. Pellentesque a nibh dolor. Donec ultrices lacus eget orci commodo ultricies. Morbi placerat purus non varius egestas. Ut tempus ligula quis lorem suscipit, sed vulputate dolor placerat. Aliquam ut massa placerat, vehicula erat non, mattis leo. Pellentesque egestas velit sit amet lectus lobortis, sit amet pharetra ipsum porta. Nullam massa nulla, tincidunt vel volutpat vel, commodo id leo. Curabitur id volutpat lacus, sed commodo velit. Quisque facilisis consectetur nisl vitae vulputate. Proin porttitor ipsum ut diam faucibus, scelerisque posuere ex euismod. Aenean posuere bibendum egestas.\n\nPraesent ut cursus enim, sit amet dictum turpis. Etiam justo orci, consectetur aliquet rhoncus sed, hendrerit vel odio. Etiam pharetra neque vel gravida tincidunt. Etiam consequat commodo elit id eleifend. Nullam eu justo eu odio pretium feugiat. Sed non neque dui. Fusce leo erat, imperdiet quis pulvinar vitae, consequat quis dolor. Curabitur eu quam et odio vehicula auctor convallis nec ipsum. Nam vitae dui sapien. Pellentesque vitae lorem id ipsum lacinia consectetur id a erat. Nulla semper ut erat vel vulputate. Nulla sagittis dui ut dapibus euismod. Phasellus et dui posuere, lobortis erat a, pretium nunc. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas molestie ut tellus in convallis. Cras luctus urna quis velit volutpat, semper venenatis mauris auctor.\n\nAenean dui sem, sollicitudin non venenatis eget, gravida rutrum risus. Proin massa leo, convallis id orci at, convallis dignissim mi. Integer et arcu arcu. Sed tristique diam id elit iaculis accumsan. Donec vehicula libero nunc, quis dictum orci pharetra nec. Proin blandit pellentesque sapien et sodales. Phasellus convallis sapien venenatis semper iaculis. Curabitur commodo iaculis mi, nec gravida nunc pellentesque ac. Nullam ac felis est. Donec gravida arcu ipsum, ut pulvinar est scelerisque id. Duis lobortis ante eu ante volutpat, quis pharetra sapien mattis. Sed ex enim, accumsan ut volutpat a, consectetur iaculis urna. Donec tempus enim sed porta euismod.\n\nNam mauris leo, mattis in finibus sit amet, mattis vitae libero. In sed leo purus. Fusce ac suscipit nisl. Vestibulum tristique neque nec lacus finibus porta. In erat libero, pellentesque non sodales quis, mollis a elit. Vestibulum viverra dui ut ornare maximus. Aliquam at odio quis magna convallis euismod.\n\nInteger nisi nisi, hendrerit a ultrices ut, facilisis at odio. Suspendisse aliquet sed magna in bibendum. Praesent sit amet tincidunt purus. Cras sollicitudin at ante semper feugiat. Sed sem sem, dignissim id aliquet ac, interdum fringilla ipsum. Proin laoreet metus leo, et tempor felis aliquam at. Cras eget urna vehicula, elementum tellus a, tempor odio. Morbi pretium augue erat, et suscipit metus varius non. Quisque vitae lectus id mi consequat laoreet. Nam non molestie elit. Proin iaculis vel ex non rhoncus. Donec metus velit, blandit quis arcu quis, venenatis sodales velit.\n",
-      "__meta": {
-        "sourceFilePath": "pages/blog/user-journey-mapping.md",
-        "typeName": "post"
-      },
       "url_path": "/blog/user-journey-mapping"
     },
     {
+      "_typeName": "post",
+      "_id": "pages/blog/working-from-home.md",
+      "_raw": {
+        "sourceFilePath": "pages/blog/working-from-home.md",
+        "kind": "markdown"
+      },
       "title": "The Advantages and Disadvantages of Working from Home",
-      "excerpt": "Work at home parent is an entrepreneur who works from home and integrates parenting into his or her business activities.",
-      "author": "data/authors/jane-doe.yaml",
       "date": "2020-04-22",
-      "thumb_image": "images/9_thumb.jpg",
-      "thumb_image_alt": "People in a conference room",
+      "author": "data/authors/jane-doe.yaml",
+      "excerpt": "Work at home parent is an entrepreneur who works from home and integrates parenting into his or her business activities.",
       "image": "images/9.jpg",
       "image_alt": "People in a conference room",
+      "thumb_image": "images/9_thumb.jpg",
+      "thumb_image_alt": "People in a conference room",
       "seo": {
+        "_typeName": "seo",
+        "_raw": {},
         "title": "The Advantages and Disadvantages of Working from Home",
         "description": "A tale about advantages and disadvantages of working from home",
         "extra": [
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:type",
             "value": "article",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:title",
             "value": "The Advantages and Disadvantages of Working from Home",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:description",
             "value": "A tale about advantages and disadvantages of working from home",
             "keyName": "property"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "og:image",
             "value": "images/9.jpg",
             "keyName": "property",
             "relativeUrl": true
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:card",
             "value": "summary_large_image"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:title",
             "value": "The Advantages and Disadvantages of Working from Home"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:description",
             "value": "A tale about advantages and disadvantages of working from home"
           },
           {
+            "_typeName": "inline_object",
+            "_raw": {},
             "name": "twitter:image",
             "value": "images/9.jpg",
             "relativeUrl": true
           }
-        ],
-        "__meta": {
-          "typeName": "seo"
-        }
+        ]
       },
       "content": "\n**Working from home** convallis aenean et tortor at risus viverra adipiscing at in. Maecenas accumsan lacus vel facilisis volutpat est. Nisl suscipit adipiscing bibendum est ultricies. Nulla facilisi cras fermentum odio eu feugiat pretium. Donec ac odio tempor orci dapibus. Eget velit aliquet sagittis id. Morbi non arcu risus quis varius quam quisque id diam. Facilisis gravida neque convallis a cras semper auctor neque vitae. Diam phasellus vestibulum lorem sed risus ultricies tristique nulla aliquet. Aliquam vestibulum morbi blandit cursus risus. Eget mauris pharetra et ultrices neque ornare.\n\n## Advantages and Disadvantages\n\nDignissim diam quis enim lobortis scelerisque. Vitae elementum curabitur vitae nunc. Ultrices neque ornare aenean euismod elementum nisi quis eleifend quam. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Quam lacus suspendisse faucibus interdum posuere. Bibendum arcu vitae elementum curabitur vitae nunc. Ullamcorper malesuada proin libero nunc. Sit amet risus nullam eget felis eget nunc lobortis. Elementum curabitur vitae nunc sed velit dignissim sodales. Turpis in eu mi bibendum neque egestas congue quisque egestas.\n\n> Success is no accident. It is hard work, perseverance, learning, studying, sacrifice and most of all, love of what you are doing or learning to do. - Pele\n\nFermentum iaculis eu non diam. Lorem sed risus ultricies tristique nulla aliquet enim tortor. Viverra nam libero justo laoreet sit amet cursus. Interdum consectetur libero id faucibus nisl tincidunt eget nullam. Aliquet sagittis id consectetur purus ut. Iaculis eu non diam phasellus. Ipsum dolor sit amet consectetur adipiscing elit duis. Fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate sapien nec. Dictum sit amet justo donec enim diam. Ultrices eros in cursus turpis massa tincidunt dui. Adipiscing elit ut aliquam purus sit.\n\n## Types Of Work\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Felis donec et odio pellentesque diam volutpat. A diam maecenas sed enim ut sem viverra aliquet. Felis eget nunc lobortis mattis aliquam faucibus. Urna cursus eget nunc scelerisque viverra mauris. Pellentesque elit ullamcorper dignissim cras tincidunt lobortis. Ac tincidunt vitae semper quis lectus nulla at volutpat diam. Sapien faucibus et molestie ac feugiat sed lectus vestibulum. Ac turpis egestas sed tempus urna et pharetra pharetra massa. Vitae semper quis lectus nulla. Velit sed ullamcorper morbi tincidunt ornare. A arcu cursus vitae congue mauris. Amet nulla facilisi morbi tempus iaculis urna.\n\nFermentum iaculis eu non diam. Lorem sed risus ultricies tristique nulla aliquet enim tortor. Viverra nam libero justo laoreet sit amet cursus. Interdum consectetur libero id faucibus nisl tincidunt eget nullam. Aliquet sagittis id consectetur purus ut. Iaculis eu non diam phasellus. Ipsum dolor sit amet consectetur adipiscing elit duis. Fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate sapien nec. Dictum sit amet justo donec enim diam. Ultrices eros in cursus turpis massa tincidunt dui. Adipiscing elit ut aliquam purus sit.\n",
-      "__meta": {
-        "sourceFilePath": "pages/blog/working-from-home.md",
-        "typeName": "post"
-      },
       "url_path": "/blog/working-from-home"
     }
   ],
-  "hash": "/SmGhYYqXLgfGe0oy+wrm4q8lzE="
+  "hash": "ohz1y08gJcA/4Gcr7s/h9IOINuU="
 }
