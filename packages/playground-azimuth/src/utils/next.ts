@@ -2,7 +2,7 @@ import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { SourcebitClient } from 'sourcebit/client'
-const { hash } = require('../sourcebit.json')
+const { hash } = require('.sourcebit/cache.json')
 
 /** Needed in combination with `InferGetServerSidePropsType` */
 export function defineServerSideProps<Fn extends GetServerSideProps>(fn: Fn): Fn {

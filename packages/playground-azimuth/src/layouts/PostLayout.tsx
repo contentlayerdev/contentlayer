@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { config, post } from 'sourcebit/types'
+import { config, person, post } from 'sourcebit/types'
 import { BlogPostFooter } from '../components/BlogPostFooter'
 import { Layout } from '../components/Layout'
 import { htmlToReact, markdownify, withPrefix } from '../utils'
@@ -7,7 +7,8 @@ import { htmlToReact, markdownify, withPrefix } from '../utils'
 export const PostLayout: FC<{
   doc: post
   config: config
-}> = ({ config, doc }) => (
+  persons: person[]
+}> = ({ config, doc, persons }) => (
   <Layout config={config} doc={doc}>
     <div className="outer">
       <div className="inner-medium">
@@ -22,7 +23,7 @@ export const PostLayout: FC<{
             </div>
           )}
           <div className="post-content">{markdownify(doc.content)}</div>
-          <BlogPostFooter post={doc} dateType="long" />
+          <BlogPostFooter post={doc} dateType="long" persons={persons} />
         </article>
       </div>
     </div>

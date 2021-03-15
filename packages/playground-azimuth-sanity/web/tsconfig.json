@@ -8,13 +8,27 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "noEmit": true
   },
-  "include": ["./src", "./src/**/*.json", "./sourcebit", "./node_modules/@types"],
-  "references": [
-    { "path": "../../@sourcebit/core" },
-    { "path": "../../@sourcebit/client" },
-    { "path": "../../@sourcebit/source-sanity" }
+  "include": [
+    "./src",
+    "./src/**/*.json",
+    "./sourcebit",
+    "./node_modules/@types"
   ],
-  "exclude": ["node_modules"]
+  "references": [
+    {
+      "path": "../../@sourcebit/core"
+    },
+    {
+      "path": "../../@sourcebit/client"
+    },
+    {
+      "path": "../../@sourcebit/source-sanity"
+    }
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

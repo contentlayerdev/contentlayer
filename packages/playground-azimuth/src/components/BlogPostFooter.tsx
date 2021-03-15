@@ -1,12 +1,14 @@
 // import moment from 'moment-strftime'
 // import { format} from 'date-fns'
-import React, { FC } from 'react'
-import { post } from 'sourcebit/types'
-import { useSourcebit } from '../utils/next'
+import React, { FC, useMemo } from 'react'
+import { person, post } from 'sourcebit/types'
 
-export const BlogPostFooter: FC<{ post: post; dateType: 'long' | 'short' }> = ({ post, dateType }) => {
-  const sourcebit = useSourcebit()
-  const author = sourcebit.getDocumentsOfType({ type: 'person' }).find((_) => post.author === _._id)
+export const BlogPostFooter: FC<{ post: post; dateType: 'long' | 'short'; persons: person[] }> = ({
+  post,
+  dateType,
+  persons,
+}) => {
+  const author = useMemo(() => persons.find((_) => post.author === _._id), [post._id, persons])
 
   return (
     <footer className="post-meta">

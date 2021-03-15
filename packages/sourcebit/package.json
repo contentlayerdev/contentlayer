@@ -15,7 +15,7 @@
       "require": "./dist-cjs/core/index.js"
     }
   },
-  "_typesVersions": "https://github.com/microsoft/TypeScript/issues/33079",
+  "_typesVersions": "Not needed anymore once this issue is closed https://github.com/microsoft/TypeScript/issues/33079",
   "typesVersions": {
     "*": {
       "source-local": [
@@ -31,10 +31,10 @@
   },
   "scripts": {
     "build": "yarn build:cli && yarn build:lib",
-    "build:cli": "rm -rf dist-cli && esbuild --bundle src/cli/index.ts --outfile=dist-cli/index.js --platform=node --sourcemap",
+    "build:cli": "rm -rf dist-cli && esbuild --bundle src/cli/index.ts --outfile=dist-cli/index.js --platform=node --sourcemap --external:esbuild",
     "build:lib": "yarn build:lib:esm && yarn build:lib:cjs",
-    "build:lib:cjs": "rm -rf dist-cjs tsconfig.cjs.tsbuildinfo && tsc --project tsconfig.cjs.json",
-    "build:lib:esm": "rm -rf dist-esm tsconfig.esm.tsbuildinfo && tsc --project tsconfig.esm.json"
+    "build:lib:cjs": "rm -rf dist-cjs tsconfig.cjs.tsbuildinfo && tsc --build tsconfig.cjs.json",
+    "build:lib:esm": "rm -rf dist-esm tsconfig.esm.tsbuildinfo && tsc --build tsconfig.esm.json"
   },
   "dependencies": {
     "@sourcebit/cli": "workspace:*",

@@ -1,13 +1,13 @@
 {
   "name": "playground-azimuth",
   "scripts": {
+    "postinstall": "yarn generate && yarn fetch",
     "dev": "next",
     "build": "yarn generate && yarn fetch && next build",
-    "generate": "ESBUILD_BINARY_PATH=$(which esbuild) sourcebit generate --config ./sourcebit/sourcebit.ts",
-    "fetch": "ESBUILD_BINARY_PATH=$(which esbuild) sourcebit fetch --config ./sourcebit/sourcebit.ts"
+    "generate": "sourcebit generate --config ./sourcebit/sourcebit.ts",
+    "fetch": "sourcebit fetch --config ./sourcebit/sourcebit.ts"
   },
   "dependencies": {
-    "@sourcebit/cli": "workspace:*",
     "date-fns": "^2.18.0",
     "marked": "^2.0.1",
     "next": "^10.0.8",

@@ -14,7 +14,6 @@ export const action = defineObject(() => ({
       type: 'string',
       label: 'URL',
       required: true,
-      // "widget": "url"
     },
     style: {
       type: 'enum',

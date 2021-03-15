@@ -2578,12 +2578,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sourcebit/types@workspace:*, @sourcebit/types@workspace:packages/@sourcebit/types":
-  version: 0.0.0-use.local
-  resolution: "@sourcebit/types@workspace:packages/@sourcebit/types"
-  languageName: unknown
-  linkType: soft
-
 "@types/diff-match-patch@npm:^1.0.32":
   version: 1.0.32
   resolution: "@types/diff-match-patch@npm:1.0.32"
@@ -10188,11 +10182,7 @@ fsevents@~2.3.1:
   version: 0.0.0-use.local
   resolution: "playground-azimuth-sanity-web@workspace:packages/playground-azimuth-sanity/web"
   dependencies:
-    "@sourcebit/cli": "workspace:*"
-    "@sourcebit/client": "workspace:*"
-    "@sourcebit/core": "workspace:*"
     "@sourcebit/source-sanity": "workspace:*"
-    "@sourcebit/types": "workspace:*"
     "@types/react": ^17
     "@types/react-dom": ^17
     "@types/react-helmet": ^6
@@ -10205,6 +10195,7 @@ fsevents@~2.3.1:
     react-html-parser: ^2.0.2
     react-script-tag: ^1.1.2
     sass: ^1.32.7
+    sourcebit: "workspace:*"
     typescript: ^4.1.5
   languageName: unknown
   linkType: soft
@@ -10213,7 +10204,6 @@ fsevents@~2.3.1:
   version: 0.0.0-use.local
   resolution: "playground-azimuth@workspace:packages/playground-azimuth"
   dependencies:
-    "@sourcebit/cli": "workspace:*"
     "@types/react": ^17
     "@types/react-dom": ^17
     "@types/react-helmet": ^6
@@ -12999,10 +12989,12 @@ fsevents@~2.3.1:
   dependencies:
     "@sourcebit/cli": "workspace:*"
     "@sourcebit/client": "workspace:*"
+    "@sourcebit/core": "workspace:*"
     "@sourcebit/source-local": "workspace:*"
-    "@sourcebit/types": "workspace:*"
     esbuild: ^0.9.2
     typescript: ^4.1.5
+  bin:
+    sourcebit: ./dist-cli/index.js
   languageName: unknown
   linkType: soft
 

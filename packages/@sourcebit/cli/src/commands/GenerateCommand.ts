@@ -1,9 +1,8 @@
-// import arg from 'arg'
 import { FieldDef, ListFieldDefItem, SchemaDef } from '@sourcebit/core'
 import { promises as fs } from 'fs'
 import * as path from 'path'
 import { getConfig } from '../lib/getConfig'
-import { fileExists } from '../lib/utils'
+import { fileExists, makeArtifactsDir } from '../lib/utils'
 import { BaseCommand } from './_BaseCommand'
 
 export class GenerateCommand extends BaseCommand {
@@ -12,11 +11,12 @@ export class GenerateCommand extends BaseCommand {
   async executeSafe() {
     const config = await getConfig({ configPath: this.configPath })
     const schemaDef = await config.source.provideSchema()
+
+    const artifactsDirPath = await makeArtifactsDir()
+    await fs.writeFile(path.join(artifactsDirPath, 'schema.json'), JSON.stringify(schemaDef, null, 2))
+
     const source = buildSource(schemaDef)
 
-    // const sourcebitTypesPath = findSourcebitTypesPath()
-    // const typegenTargetDir = path.join(sourcebitTypesPath)
-    // const typegenTargetDir = path.join('node_modules', '@types', 'sourcebit__types')
     const typegenTargetDir = path.join('node_modules', '@types', 'sourcebit', 'types')
     await fs.mkdir(typegenTargetDir, { recursive: true })
 
@@ -29,11 +29,6 @@ export class GenerateCommand extends BaseCommand {
     console.log(`Type file successfully written to ${typegenTargetFilePath}`)
   }
 }
-
-// function findSourcebitTypesPath(): string {
-//   const sourcebitIndexJs = require.resolve('@sourcebit/types')
-//   return path.join(sourcebitIndexJs, '..')
-// }
 
 function buildSource(schemaDef: SchemaDef): string {
   const documentTypes = Object.values(schemaDef.documentDefMap)
@@ -179,7 +174,3 @@ function renderListItemFieldType(item: ListFieldDefItem): string {
       return item.documentName
   }
 }
-
-// TODO re-enable functionality
-// const capitalize = (s: string) => s
-// const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)

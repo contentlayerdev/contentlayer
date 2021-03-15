@@ -5,6 +5,7 @@ import { promises as fs } from 'fs'
 import * as path from 'path'
 import * as t from 'typanion'
 import { getConfig } from '../lib/getConfig'
+import { makeArtifactsDir } from '../lib/utils'
 import { BaseCommand } from './_BaseCommand'
 
 export class FetchCommand extends BaseCommand {
@@ -19,7 +20,14 @@ export class FetchCommand extends BaseCommand {
 
   async executeSafe() {
     const config = await getConfig({ configPath: this.configPath })
-    const cacheFilePath = path.join(process.cwd(), this.cachePath ?? 'src/sourcebit.json')
+
+    let cacheFilePath: string
+    if (this.cachePath) {
+      cacheFilePath = path.join(this.cachePath, 'cache.json')
+    } else {
+      const artifactsDirPath = await makeArtifactsDir()
+      cacheFilePath = path.join(artifactsDirPath, 'cache.json')
+    }
 
     if (this.watch) {
       console.log(`Listening for content changes ...`)

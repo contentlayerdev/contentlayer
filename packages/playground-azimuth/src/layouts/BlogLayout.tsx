@@ -1,11 +1,16 @@
 // import { blog, post, config } from 'sourcebit/types'
 import React, { FC } from 'react'
-import { blog, config, post } from 'sourcebit/types'
+import { blog, config, person, post } from 'sourcebit/types'
 import { BlogPostFooter } from '../components/BlogPostFooter'
 import { Layout } from '../components/Layout'
 import { Link, withPrefix } from '../utils'
 
-export const BlogLayout: FC<{ doc: blog; config: config; posts: post[] }> = ({ doc, config, posts }) => (
+export const BlogLayout: FC<{ doc: blog; config: config; posts: post[]; persons: person[] }> = ({
+  doc,
+  config,
+  posts,
+  persons,
+}) => (
   <Layout doc={doc} config={config}>
     <div className="outer">
       <div className="inner">
@@ -29,7 +34,7 @@ export const BlogLayout: FC<{ doc: blog; config: config; posts: post[] }> = ({ d
                     <div className="post-excerpt">
                       <p>{post.excerpt}</p>
                     </div>
-                    <BlogPostFooter post={post} dateType="short" />
+                    <BlogPostFooter post={post} persons={persons} dateType="short" />
                   </div>
                 </div>
               </article>

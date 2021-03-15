@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { config, landing } from 'sourcebit/types'
+import { config, landing, person, post } from 'sourcebit/types'
 import { SectionContact } from '../components/landing-sections/SectionContact'
 import { SectionContent } from '../components/landing-sections/SectionContent'
 import { SectionCta } from '../components/landing-sections/SectionCta'
@@ -14,7 +14,9 @@ import { Layout } from '../components/Layout'
 export const LandingLayout: FC<{
   doc: landing
   config: config
-}> = ({ doc, config }) => (
+  posts: post[]
+  persons: person[]
+}> = ({ doc, config, posts, persons }) => (
   <Layout doc={doc} config={config}>
     {doc.sections?.map((section, index) => {
       switch (section._typeName) {
@@ -31,7 +33,7 @@ export const LandingLayout: FC<{
         case 'section_hero':
           return <SectionHero key={index} section={section} />
         case 'section_posts':
-          return <SectionPosts key={index} section={section} />
+          return <SectionPosts key={index} section={section} posts={posts} persons={persons} />
         case 'section_pricing':
           return <SectionPricing key={index} section={section} />
         case 'section_reviews':

@@ -11,6 +11,20 @@ export async function getConfig({
   configPath: string
   cwd?: string
 }): Promise<Config> {
+  // Fix esbuild binary path if not found (e.g. in local development setup)
+  const esbuildBinPath = path.join(__dirname, '..', 'bin', 'esbuild')
+  const esbuildBinExists = await fs
+    .stat(esbuildBinPath)
+    .then(() => true)
+    .catch(() => false)
+  if (!esbuildBinExists) {
+    const esbuildPackageJsonPath = await pkgUp({ cwd: path.dirname(require.resolve('esbuild')) })
+    const esbuildPackagePath = path.dirname(esbuildPackageJsonPath!)
+    const esbuildPackageJson = require(esbuildPackageJsonPath!)
+    const binPath = path.join(esbuildPackagePath, esbuildPackageJson['bin']['esbuild'])
+    process.env['ESBUILD_BINARY_PATH'] = binPath
+  }
+
   try {
     const packageJsonPath = await pkgUp({ cwd: process.cwd() })
     const tmpDir = path.join(packageJsonPath!, '..', 'node_modules', 'sourcebit', 'config')

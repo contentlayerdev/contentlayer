@@ -3,15 +3,11 @@
   "scripts": {
     "dev": "next",
     "build": "yarn generate && yarn fetch && next build",
-    "generate": "ESBUILD_BINARY_PATH=$(which esbuild) sourcebit generate --config ./sourcebit/sourcebit.ts",
-    "fetch": "ESBUILD_BINARY_PATH=$(which esbuild) sourcebit fetch --config ./sourcebit/sourcebit.ts"
+    "generate": "sourcebit generate --config ./sourcebit/sourcebit.ts",
+    "fetch": "sourcebit fetch --config ./sourcebit/sourcebit.ts"
   },
   "dependencies": {
-    "@sourcebit/cli": "workspace:*",
-    "@sourcebit/client": "workspace:*",
-    "@sourcebit/core": "workspace:*",
     "@sourcebit/source-sanity": "workspace:*",
-    "@sourcebit/types": "workspace:*",
     "date-fns": "^2.18.0",
     "marked": "^2.0.1",
     "next": "^10.0.8",
@@ -20,7 +16,8 @@
     "react-helmet": "^6.1.0",
     "react-html-parser": "^2.0.2",
     "react-script-tag": "^1.1.2",
-    "sass": "^1.32.7"
+    "sass": "^1.32.7",
+    "sourcebit": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^17",

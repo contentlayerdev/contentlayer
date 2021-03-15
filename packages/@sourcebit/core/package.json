@@ -4,8 +4,8 @@
   "types": "./dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "dev": "rm -rf dist *.tsbuildinfo && tsc --watch",
-    "build": "rm -rf dist *.tsbuildinfo && tsc"
+    "dev": "rm -rf dist tsconfig.tsbuildinfo && tsc --watch",
+    "build": "rm -rf dist tsconfig.tsbuildinfo && tsc"
   },
   "devDependencies": {
     "typescript": "^4.1.5"

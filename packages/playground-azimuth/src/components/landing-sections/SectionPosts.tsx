@@ -1,15 +1,16 @@
 import React, { FC } from 'react'
-import { section_posts } from 'sourcebit/types'
+import { person, post, section_posts } from 'sourcebit/types'
 import { htmlToReact, Link, withPrefix } from '../../utils'
-import { useSourcebit } from '../../utils/next'
 import { BlogPostFooter } from '../BlogPostFooter'
 
-export const SectionPosts: FC<{ section: section_posts }> = ({ section }) => {
-  const sourcebit = useSourcebit()
-  const recentPosts = sourcebit
-    .getDocumentsOfType({ type: 'post' })
+export const SectionPosts: FC<{ section: section_posts; posts: post[]; persons: person[] }> = ({
+  section,
+  posts,
+  persons,
+}) => {
+  const recentPosts = posts
     // TODO do proper date constructing
-    // .sort((a, b) => b.date.getTime() - a.date.getTime())
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 3)
 
   return (
@@ -37,7 +38,7 @@ export const SectionPosts: FC<{ section: section_posts }> = ({ section }) => {
                   <div className="post-excerpt">
                     <p>{post.excerpt}</p>
                   </div>
-                  <BlogPostFooter post={post} dateType={'short'} />
+                  <BlogPostFooter post={post} dateType={'short'} persons={persons} />
                 </div>
               </div>
             </article>
