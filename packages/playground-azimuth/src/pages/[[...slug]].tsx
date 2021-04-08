@@ -1,19 +1,16 @@
 import { InferGetStaticPropsType } from 'next'
 import React, { FC } from 'react'
-import { createSourcebitClient, guards } from 'sourcebit/client'
+import { guards, SourcebitClient } from 'sourcebit/client'
+import sourcebitConfig from '../../sourcebit/sourcebit'
 import { BlogLayout } from '../layouts/BlogLayout'
 import { LandingLayout } from '../layouts/LandingLayout'
 import { PageLayout } from '../layouts/PageLayout'
 import { PostLayout } from '../layouts/PostLayout'
-import { defineStaticProps, toParams, useContentLiveReload } from '../utils/next'
+import { defineStaticProps, toParams } from '../utils/next'
 
-const sourcebit = createSourcebitClient({ cache: require('.sourcebit/cache.json') })
+const sourcebit = new SourcebitClient({ config: sourcebitConfig })
 
 const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ config, doc, posts, persons }) => {
-  if (process.env.NODE_ENV === 'development') {
-    useContentLiveReload()
-  }
-
   switch (doc._typeName) {
     case 'landing':
       return <LandingLayout doc={doc} config={config} posts={posts} persons={persons} />
@@ -29,6 +26,7 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ config, doc,
 export default Page
 
 export const getStaticPaths = async () => {
+  await sourcebit.fetchData()
   const paths = sourcebit
     .getAllDocuments()
     .filter(guards.is(['post', 'landing', 'page', 'blog']))
@@ -39,6 +37,8 @@ export const getStaticPaths = async () => {
 }
 
 export const getStaticProps = defineStaticProps(async (context) => {
+  await sourcebit.fetchData()
+
   const params = context.params as any
   const pagePath = `/${params.slug?.join('/') ?? ''}`
   const docs = sourcebit.getAllDocuments()

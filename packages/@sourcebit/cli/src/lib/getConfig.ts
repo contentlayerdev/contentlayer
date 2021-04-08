@@ -20,9 +20,12 @@ export async function getConfig({
   if (!esbuildBinExists) {
     const esbuildPackageJsonPath = await pkgUp({ cwd: path.dirname(require.resolve('esbuild')) })
     const esbuildPackagePath = path.dirname(esbuildPackageJsonPath!)
-    const esbuildPackageJson = require(esbuildPackageJsonPath!)
-    const binPath = path.join(esbuildPackagePath, esbuildPackageJson['bin']['esbuild'])
-    process.env['ESBUILD_BINARY_PATH'] = binPath
+    // wrapping in try/catch is needed to surpress esbuild warning
+    try {
+      const esbuildPackageJson = require(esbuildPackageJsonPath!)
+      const binPath = path.join(esbuildPackagePath, esbuildPackageJson['bin']['esbuild'])
+      process.env['ESBUILD_BINARY_PATH'] = binPath
+    } catch (_) {}
   }
 
   try {

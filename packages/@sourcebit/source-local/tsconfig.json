@@ -4,8 +4,8 @@
     "target": "ES2015",
     "esModuleInterop": true,
     "rootDir": "./src",
-    "outDir": "./dist"
+    "outDir": "./dist/esm"
   },
   "include": ["./src"],
-  "references": [{ "path": "../core" }]
+  "references": [{ "path": "../core/tsconfig.json" }]
 }

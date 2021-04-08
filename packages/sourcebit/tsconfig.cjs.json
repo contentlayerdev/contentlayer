@@ -1,16 +1,14 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "target": "ES5",
     "module": "CommonJS",
-    "outDir": "./dist-cjs",
-    "rootDir": "./src"
+    "target": "ES5",
+    "outDir": "./dist/cjs"
   },
-  "include": ["./src"],
   "references": [
-    { "path": "../@sourcebit/client" },
-    { "path": "../@sourcebit/core" },
-    { "path": "../@sourcebit/cli" },
-    { "path": "../@sourcebit/source-local" }
+    { "path": "../@sourcebit/client/tsconfig.cjs.json" },
+    { "path": "../@sourcebit/core/tsconfig.cjs.json" },
+    { "path": "../@sourcebit/cli/tsconfig.cjs.json" },
+    { "path": "../@sourcebit/source-local/tsconfig.cjs.json" }
   ]
 }

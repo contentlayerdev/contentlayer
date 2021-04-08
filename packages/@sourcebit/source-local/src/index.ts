@@ -22,8 +22,8 @@ export const makeSourcePlugin: MakeSourcePlugin = ({ documentDefs: documentDefs_
       )
 
       return new Observable((observer) => {
-        fetch({ schemaDef, filePathPatternMap, contentDirPath }).then((_) => {
-          observer.next(_)
+        fetch({ schemaDef, filePathPatternMap, contentDirPath }).then((cache) => {
+          observer.next(cache)
 
           if (!watch) {
             observer.complete()
@@ -34,8 +34,8 @@ export const makeSourcePlugin: MakeSourcePlugin = ({ documentDefs: documentDefs_
           const filePaths = filePaths_.flat()
           if (watch) {
             chokidar.watch(filePaths).on('change', () => {
-              fetch({ schemaDef, filePathPatternMap, contentDirPath }).then((_) => {
-                observer.next(_)
+              fetch({ schemaDef, filePathPatternMap, contentDirPath }).then((cache) => {
+                observer.next(cache)
               })
             })
           }

@@ -17,9 +17,9 @@
     "@sanity/default-login": "^2.2.6",
     "@sanity/desk-tool": "^2.3.6",
     "@sanity/vision": "^2.2.6",
-    "prop-types": "^15.7",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "sanity-plugin-markdown": "^1.0.1"
   }
 }

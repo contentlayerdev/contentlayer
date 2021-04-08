@@ -1,11 +1,7 @@
-import { Cache } from '@sourcebit/core'
+import { fetchDataAndCache } from '@sourcebit/core'
 import { Option } from 'clipanion'
-import { createHash } from 'crypto'
-import { promises as fs } from 'fs'
-import * as path from 'path'
 import * as t from 'typanion'
 import { getConfig } from '../lib/getConfig'
-import { makeArtifactsDir } from '../lib/utils'
 import { BaseCommand } from './_BaseCommand'
 
 export class FetchCommand extends BaseCommand {
@@ -20,32 +16,6 @@ export class FetchCommand extends BaseCommand {
 
   async executeSafe() {
     const config = await getConfig({ configPath: this.configPath })
-
-    let cacheFilePath: string
-    if (this.cachePath) {
-      cacheFilePath = path.join(this.cachePath, 'cache.json')
-    } else {
-      const artifactsDirPath = await makeArtifactsDir()
-      cacheFilePath = path.join(artifactsDirPath, 'cache.json')
-    }
-
-    if (this.watch) {
-      console.log(`Listening for content changes ...`)
-    }
-
-    const observable = await config.source.fetchData({ watch: this.watch })
-
-    let lastHash: string | undefined
-    observable.subscribe({
-      next: async ({ documents }) => {
-        const hash = createHash('sha1').update(JSON.stringify(documents)).digest('base64')
-        if (hash !== lastHash) {
-          const cache: Cache = { documents, hash }
-          await fs.writeFile(cacheFilePath, JSON.stringify(cache, null, 2))
-          console.log(`Data cache file successfully written to ${cacheFilePath}`)
-          lastHash = hash
-        }
-      },
-    })
+    await fetchDataAndCache({ config, cachePath: this.cachePath, watch: this.watch })
   }
 }

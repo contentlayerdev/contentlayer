@@ -1,16 +1,18 @@
 {
   "name": "@sourcebit/core",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "type": "module",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
   "scripts": {
-    "dev": "rm -rf dist tsconfig.tsbuildinfo && tsc --watch",
-    "build": "rm -rf dist tsconfig.tsbuildinfo && tsc"
+    "dev": "rm -rf dist && tsc --watch",
+    "build": "rm -rf dist && yarn build:esm && yarn build:cjs",
+    "build:esm": "tsc --build tsconfig.json",
+    "build:cjs": "tsc --build tsconfig.cjs.json"
   },
   "devDependencies": {
-    "typescript": "^4.1.5"
+    "typescript": "^4.2.3"
   },
   "dependencies": {
-    "rxjs": "^6.6.6"
+    "rxjs": "^6.6.7"
   }
 }

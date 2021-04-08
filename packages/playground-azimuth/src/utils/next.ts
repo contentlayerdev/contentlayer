@@ -1,8 +1,6 @@
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next'
-import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { SourcebitClient } from 'sourcebit/client'
-const { hash } = require('.sourcebit/cache.json')
 
 /** Needed in combination with `InferGetServerSidePropsType` */
 export function defineServerSideProps<Fn extends GetServerSideProps>(fn: Fn): Fn {
@@ -28,14 +26,3 @@ export function notUndefined<T>(_: T | undefined): _ is T {
 
 export const SourcebitContext = React.createContext<SourcebitClient>(null as any)
 export const useSourcebit = () => React.useContext(SourcebitContext)
-
-export const useContentLiveReload = () => {
-  const router = useRouter()
-  const [cachedHash, setCachedHash] = useState(hash)
-  useEffect(() => {
-    if (cachedHash !== hash) {
-      router.replace(router.asPath)
-      setCachedHash(hash)
-    }
-  }, [cachedHash, hash])
-}

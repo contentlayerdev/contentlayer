@@ -1,1 +1,1 @@
-module.exports = require('./dist-cjs/client')
+module.exports = require('./dist/cjs/client/index.js')

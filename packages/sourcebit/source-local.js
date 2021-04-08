@@ -1,1 +1,1 @@
-module.exports = require('./dist-cjs/source-local')
+module.exports = require('./dist/cjs/source-local/index.js')
