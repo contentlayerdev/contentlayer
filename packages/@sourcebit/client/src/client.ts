@@ -28,7 +28,11 @@ export class SourcebitClient {
         `When running \`fetchData\`, you need to provide the \`config\` property when initializing the SourcebitClient`,
       )
     }
-    const observable = await this.config.source.fetchData({})
+    const observable = await this.config.source.fetchData({
+      watch: false,
+      force: false,
+      previousCache: this.cache as any,
+    })
     this.cache = (await observable.toPromise()) as any
     recRemoveUndefinedValues(this.cache)
   }

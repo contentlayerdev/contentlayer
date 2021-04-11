@@ -12,6 +12,6 @@
     "noEmit": true
   },
   "include": ["next-env.d.ts", "./src", "./src/**/*.json", "./node_modules/@types", "./sourcebit"],
-  "references": [{ "path": "../@sourcebit/client" }, { "path": "../@sourcebit/source-local" }],
+  "references": [{ "path": "../sourcebit/tsconfig.json" }],
   "exclude": ["node_modules"]
 }

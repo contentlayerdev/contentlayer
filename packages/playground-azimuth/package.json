@@ -2,7 +2,7 @@
   "name": "playground-azimuth",
   "scripts": {
     "_postinstall": "yarn generate && yarn fetch",
-    "dev": "node -r esbuild-register dev.js ./sourcebit",
+    "dev": "node dev.js ./sourcebit/sourcebit.ts",
     "build": "yarn generate && yarn fetch && next build",
     "generate": "sourcebit generate --config ./sourcebit/sourcebit.ts",
     "fetch": "sourcebit fetch --config ./sourcebit/sourcebit.ts"
@@ -22,8 +22,6 @@
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
     "@types/react-helmet": "^6.1.0",
-    "esbuild-register": "^2.3.0",
-    "next-remote-watch": "^1.0.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.3"
   }

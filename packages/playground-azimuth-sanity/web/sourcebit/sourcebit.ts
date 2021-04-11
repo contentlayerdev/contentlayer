@@ -4,6 +4,6 @@ import * as path from 'path'
 
 export default defineConfig({
   source: makeSourcePlugin({
-    studioDirPath: path.join(__dirname, '..', '..', 'studio'),
+    studioDirPath: path.join(process.cwd(), '..', 'studio'),
   }),
 })

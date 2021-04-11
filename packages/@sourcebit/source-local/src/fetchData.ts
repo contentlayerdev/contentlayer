@@ -1,12 +1,11 @@
 import type * as Core from '@sourcebit/core'
+import { Cache } from '@sourcebit/core'
 import { promises as fs } from 'fs'
 import { promise as glob } from 'glob-promise'
 import matter from 'gray-matter'
 import * as yaml from 'js-yaml'
 import * as path from 'path'
 import { match } from 'ts-pattern'
-// import { DocumentDef, isObjectField, ObjectDef, SchemaDef } from './schema'
-// import { unwrapThunk } from './utils'
 
 type DocumentDefName = string
 type FilePathPattern = string
@@ -16,11 +15,17 @@ export async function fetch({
   schemaDef,
   filePathPatternMap,
   contentDirPath,
+  force,
+  previousCache,
 }: {
   schemaDef: Core.SchemaDef
   filePathPatternMap: FilePathPatternMap
   contentDirPath: string
-}): Promise<{ documents: Core.Document[] }> {
+  force: boolean
+  previousCache: Cache | undefined
+}): Promise<Omit<Cache, 'hash'>> {
+  // TODO implement "lazy" fetching by using `force` / `previousCache`
+
   const documentDefNameWithFilePathsTuples = await Promise.all(
     Object.entries(filePathPatternMap).map<Promise<[string, string[]]>>(async ([documentDefName, filePathPattern]) => [
       documentDefName,
@@ -34,7 +39,7 @@ export async function fetch({
     ),
   )
 
-  return { documents }
+  return { documents, lastUpdateInMs: new Date().getTime() }
 }
 
 type Content = ContentMarkdown | ContentJSON

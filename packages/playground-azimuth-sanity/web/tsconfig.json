@@ -11,24 +11,10 @@
     "resolveJsonModule": true,
     "noEmit": true
   },
-  "include": [
-    "./src",
-    "./src/**/*.json",
-    "./sourcebit",
-    "./node_modules/@types"
-  ],
+  "include": ["./src", "./src/**/*.json", "./sourcebit", "./node_modules/@types"],
   "references": [
-    {
-      "path": "../../@sourcebit/core"
-    },
-    {
-      "path": "../../@sourcebit/client"
-    },
-    {
-      "path": "../../@sourcebit/source-sanity"
-    }
+    { "path": "../../sourcebit/tsconfig.json" },
+    { "path": "../../@sourcebit/source-sanity/tsconfig.json" }
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

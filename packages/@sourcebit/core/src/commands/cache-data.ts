@@ -26,14 +26,14 @@ export const fetchDataAndCache = async ({
     console.log(`Listening for content changes ...`)
   }
 
-  const observable = await config.source.fetchData({ watch: watch })
+  const observable = config.source.fetchData({ watch, force: false, previousCache: undefined })
 
   let lastHash: string | undefined
   observable.subscribe({
-    next: async ({ documents }) => {
+    next: async ({ documents, lastUpdateInMs }) => {
       const hash = createHash('sha1').update(JSON.stringify(documents)).digest('base64')
       if (hash !== lastHash) {
-        const cache: Cache = { documents, hash }
+        const cache: Cache = { documents, hash, lastUpdateInMs }
         await fs.writeFile(cacheFilePath, JSON.stringify(cache, null, 2))
         console.log(`Data cache file successfully written to ${cacheFilePath}`)
         lastHash = hash
