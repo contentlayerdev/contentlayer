@@ -19,13 +19,13 @@
   "typesVersions": {
     "*": {
       "source-local": [
-        "dist/esm/source-local"
+        "./.dist/esm/source-local"
       ],
       "client": [
-        "dist/esm/client"
+        "./dist/esm/client"
       ],
       "core": [
-        "dist/esm/core"
+        "./dist/esm/core"
       ]
     }
   },
@@ -44,10 +44,6 @@
   },
   "devDependencies": {
     "esbuild": "^0.11.5",
-    "estrella": "^1.4.0",
-    "rollup": "^2.44.0",
-    "rollup-plugin-dts": "^3.0.1",
-    "tsup": "^4.8.21",
     "typescript": "^4.2.3"
   }
 }

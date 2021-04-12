@@ -7,7 +7,7 @@ import Link from './link'
 const convertChildren = (children: any[], index: any) =>
   children.map((childNode) => convertNodeToElement(childNode, index, () => null))
 
-export default function htmlToReact(html: string) {
+export default function htmlToReact(html: string | undefined) {
   if (!html) {
     return null
   }

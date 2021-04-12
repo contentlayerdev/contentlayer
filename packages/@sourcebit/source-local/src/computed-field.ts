@@ -9,8 +9,9 @@ export type ComputedField<FieldType extends ComputedFieldType, DocumentTypeName 
   resolve: ComputedFieldResolver<FieldType, DocumentTypeName>
 }
 
+// TODO come up with a way to hide computed fields from passed in document
 type ComputedFieldResolver<FieldType extends ComputedFieldType, DocumentTypeName extends string> = (
-  _: Omit<GetDocumentTypeGen<DocumentTypeName>, '__computed'>,
+  _: GetDocumentTypeGen<DocumentTypeName>,
 ) => GetReturnType<FieldType> | Promise<GetReturnType<FieldType>>
 
 type GetReturnType<T extends ComputedFieldType> = T extends 'string'

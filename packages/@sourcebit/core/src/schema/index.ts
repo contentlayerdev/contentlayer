@@ -36,4 +36,4 @@ export type ComputedField = {
   resolve: ComputedFieldResolver
 }
 
-type ComputedFieldResolver = (_: Omit<Document, '__computed'>) => ComputedFieldType
+type ComputedFieldResolver = (_: Document) => ComputedFieldType

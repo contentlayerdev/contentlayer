@@ -22,7 +22,9 @@ import { GetDocumentTypeMapGen, GetDocumentTypeNamesGen } from '@sourcebit/core'
 type TypeNameOneOrMany = GetDocumentTypeNamesGen | GetDocumentTypeNamesGen[]
 type TypeForTypeNameOneOrMany<N extends TypeNameOneOrMany> = N extends GetDocumentTypeNamesGen
   ? GetDocumentTypeMapGen[N]
-  : GetDocumentTypeMapGen[N[number]]
+  : N extends GetDocumentTypeNamesGen[]
+  ? GetDocumentTypeMapGen[N[number]]
+  : never
 
 function is<N extends TypeNameOneOrMany>(typeName: N, _: any): _ is TypeForTypeNameOneOrMany<N>
 function is<N extends TypeNameOneOrMany>(typeName: N): (_: any) => _ is TypeForTypeNameOneOrMany<N>

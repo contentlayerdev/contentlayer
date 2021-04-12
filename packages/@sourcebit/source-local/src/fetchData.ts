@@ -1,5 +1,5 @@
 import type * as Core from '@sourcebit/core'
-import { Cache } from '@sourcebit/core'
+import { Cache, Document } from '@sourcebit/core'
 import { promises as fs } from 'fs'
 import { promise as glob } from 'glob-promise'
 import matter from 'gray-matter'
