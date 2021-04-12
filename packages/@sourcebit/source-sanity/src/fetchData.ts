@@ -17,7 +17,7 @@ export const fetchData = async ({
   schemaDef: Core.SchemaDef
   force: boolean
   previousCache: Cache | undefined
-}): Promise<Omit<Cache, 'hash'>> => {
+}): Promise<Cache> => {
   const client = await getSanityClient(studioDirPath)
 
   const imageUrlBuilder = SantityImageUrlBuilder(client)

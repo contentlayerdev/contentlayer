@@ -1,4 +1,5 @@
 import { switchMap, tap } from 'rxjs/operators'
+import { fetchDataAndCache } from '../commands/cache-data'
 import { generateTypes } from '../commands/generate-types'
 import { getConfigWatch } from '../getConfig'
 
@@ -10,7 +11,7 @@ export const watch = ({ configPath, onContentChange }: { configPath: string; onC
     .pipe(
       tap((config) => generateTypes({ config })),
       tap(() => console.log('new config')),
-      switchMap((config) => config.source.watchDataChange()),
+      switchMap((config) => fetchDataAndCache({ config, watch: true })),
       tap(onContentChange),
       tap(() => console.log('content change')),
     )

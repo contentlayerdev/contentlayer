@@ -1,5 +1,4 @@
 import React, { FC } from 'react'
-import { guards } from 'sourcebit/client'
 import { section_hero } from 'sourcebit/types'
 import { markdownify, withPrefix } from '../../utils'
 import { CtaButtons } from './CtaButtons'
@@ -9,7 +8,7 @@ export const SectionHero: FC<{ section: section_hero }> = ({ section }) => {
     <section id={section.section_id} className="block hero-block bg-accent outer">
       <div className="inner">
         <div className="grid">
-          {guards.hasField(section, 'image') && section.image && (
+          {section.image && (
             <div className="cell block-preview">
               <img src={withPrefix(section.image)} alt={section.image_alt} />
             </div>

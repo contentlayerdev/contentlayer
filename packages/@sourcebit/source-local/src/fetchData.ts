@@ -23,7 +23,7 @@ export async function fetch({
   contentDirPath: string
   force: boolean
   previousCache: Cache | undefined
-}): Promise<Omit<Cache, 'hash'>> {
+}): Promise<Cache> {
   // TODO implement "lazy" fetching by using `force` / `previousCache`
 
   const documentDefNameWithFilePathsTuples = await Promise.all(

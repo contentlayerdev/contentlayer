@@ -15,6 +15,6 @@ export class FetchCommand extends BaseCommand {
 
   async executeSafe() {
     const config = await getConfig({ configPath: this.configPath, cwd: process.cwd() })
-    await fetchDataAndCache({ config, cachePath: this.cachePath, watch: this.watch })
+    fetchDataAndCache({ config, cachePath: this.cachePath, watch: this.watch }).subscribe()
   }
 }

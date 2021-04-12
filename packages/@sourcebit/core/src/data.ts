@@ -1,6 +1,4 @@
 export type Cache = {
-  /** SHA1 hash of the `documents` data (e.g. for caching) */
-  hash: string
   /** Unix timestamp in milliseconds of the last content change */
   lastUpdateInMs: number
   documents: Document[]

@@ -38,6 +38,8 @@ function is<N extends TypeNameOneOrMany>(typeName: N, _?: any): any {
   }
 }
 
+export const isType = is
+
 export const guards = {
   is,
   // isType,

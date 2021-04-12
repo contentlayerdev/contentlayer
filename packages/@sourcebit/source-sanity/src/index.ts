@@ -1,3 +1,4 @@
+import type { MutationEvent } from '@sanity/client'
 import { SourcePlugin } from '@sourcebit/core'
 import { defer, Observable, of } from 'rxjs'
 import { mergeMap, startWith } from 'rxjs/operators'
@@ -23,5 +24,8 @@ export const makeSourcePlugin: MakeSourcePlugin = ({ studioDirPath }) => ({
 
 const getUpdateEvents = (studioDirPath: string): Observable<any> =>
   defer(() => getSanityClient(studioDirPath)).pipe(
-    mergeMap((sanityClient) => sanityClient.listen('*[] | order(_updatedAt desc) [0]{_updatedAt}')),
+    mergeMap((sanityClient) =>
+      // `visibility: 'query'` needed otherwise event will trigger too early
+      sanityClient.listen<MutationEvent>('*', {}, { events: ['mutation'], visibility: 'query' }),
+    ),
   )

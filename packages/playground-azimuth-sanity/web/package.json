@@ -1,7 +1,7 @@
 {
   "name": "playground-azimuth-sanity-web",
   "scripts": {
-    "dev": "node dev.js ./sourcebit/sourcebit.ts",
+    "dev": "PORT=3001 node dev.js ./sourcebit/sourcebit.ts",
     "build": "yarn generate && yarn fetch && next build",
     "generate": "sourcebit generate --config ./sourcebit/sourcebit.ts",
     "fetch": "sourcebit fetch --config ./sourcebit/sourcebit.ts"

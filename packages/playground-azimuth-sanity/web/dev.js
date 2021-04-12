@@ -1,13 +1,9 @@
-#! /usr/local/bin/node
-
 // @ts-check
 
+const { spawn } = require('child_process')
 const { createServer } = require('http')
 const next = require('next')
-const { watch } = require('sourcebit/core')
 const { parse } = require('url')
-
-console.log({ URL })
 
 const app = next({ dev: true, dir: process.cwd() })
 const port = parseInt(process.env.PORT, 10) || 3000
@@ -18,19 +14,24 @@ if (!configPath) {
   throw new Error(`Please provide a directory path to watch as CLI argument.`)
 }
 
+const sanityScript = /* js */ `\
+const { watch } = require('sourcebit/core')
+
+watch({
+  configPath: '${configPath}',
+  onContentChange: () => process.send('change'),
+})
+`
+
 app.prepare().then(async () => {
-  watch({
-    configPath,
-    onContentChange: () => {
-      console.log('change detected')
+  runAsChildProcess(sanityScript, (msg) => {
+    if (msg === 'change') {
       app.server.hotReloader.send({
         event: 'serverOnlyChanges',
         pages: app.server.sortedRoutes,
       })
-    },
+    }
   })
-
-  console.log(`Watching ${configPath} for changes...`)
 
   createServer((req, res) => {
     handle(req, res, parse(req.url, true))
@@ -39,3 +40,9 @@ app.prepare().then(async () => {
     console.log(`> Ready on http://localhost:${port}`)
   })
 })
+
+function runAsChildProcess(childProcessCode, onMessage) {
+  spawn('node', ['-e', childProcessCode], { stdio: ['inherit', 'inherit', 'inherit', 'ipc'] }).on('message', (msg) => {
+    onMessage(msg.toString())
+  })
+}

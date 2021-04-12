@@ -15,4 +15,4 @@ export type FetchDataFn = (_: {
   watch?: boolean
   force: boolean
   previousCache: Cache | undefined
-}) => Observable<Omit<Cache, 'hash'>>
+}) => Observable<Cache>

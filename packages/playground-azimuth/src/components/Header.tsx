@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { guards } from 'sourcebit/client'
+import { isType } from 'sourcebit/client'
 import { blog, config, landing, page, post } from 'sourcebit/types'
 import { classNames, Link, withPrefix } from '../utils'
 import { Action } from './Action'
@@ -19,7 +19,7 @@ export const Header: FC<{
               </Link>
             </p>
           )}
-          {guards.is(['page', 'post'], page) ? (
+          {isType(['page', 'post'], page) ? (
             <h1
               className={classNames('site-title', {
                 'screen-reader-text': config.header.logo_img,

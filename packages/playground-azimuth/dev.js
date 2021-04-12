@@ -1,5 +1,3 @@
-#! /usr/local/bin/node
-
 // @ts-check
 
 const { createServer } = require('http')
@@ -20,15 +18,12 @@ app.prepare().then(async () => {
   watch({
     configPath,
     onContentChange: () => {
-      console.log('change detected')
       app.server.hotReloader.send({
         event: 'serverOnlyChanges',
         pages: app.server.sortedRoutes,
       })
     },
   })
-
-  console.log(`Watching ${configPath} for changes...`)
 
   createServer((req, res) => {
     handle(req, res, parse(req.url, true))

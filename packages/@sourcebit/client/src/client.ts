@@ -6,16 +6,30 @@ import {
   GetDocumentTypeNamesGen,
   GetDocumentTypesGen,
 } from '@sourcebit/core'
-import { guards } from './guards'
+import { isType } from './guards'
 
 export class SourcebitClient {
   constructor(props?: { cache?: Cache; config?: Config }) {
-    if (props?.cache) {
-      this.cache = props.cache as any
-      recRemoveUndefinedValues(this.cache)
-    }
     if (props?.config) {
       this.config = props.config
+    } else {
+      if (props?.cache) {
+        this.cache = props.cache as any
+        recRemoveUndefinedValues(this.cache)
+      } else {
+        // this.cache = require(`${process.cwd()}/node_modules/.sourcebit/cache.json`)
+        eval(`delete require.cache[require.resolve(".sourcebit/cache.json")]`)
+        this.cache = eval(`require(".sourcebit/cache.json")`)
+
+        // if (process.env.NODE_ENV === 'development') {
+        //   import('fs').then((fs) => {
+        //     fs.watchFile(`${process.cwd()}/node_modules/.sourcebit/cache.json`, () => {
+        //       eval(`delete require.cache[require.resolve(".sourcebit/cache.json")]`)
+        //       this.cache = eval(`require(".sourcebit/cache.json")`)
+        //     })
+        //   })
+        // }
+      }
     }
   }
 
@@ -37,6 +51,10 @@ export class SourcebitClient {
     recRemoveUndefinedValues(this.cache)
   }
 
+  // reloadCache() {
+  //   this.cache = require(`${process.cwd()}/.sourcebit/cache.json`)
+  // }
+
   getAllDocuments(): GetDocumentTypesGen[] {
     assertCacheExists(this.cache)
     return this.cache.documents
@@ -48,7 +66,7 @@ export class SourcebitClient {
     type: TypeNames
   }): GetDocumentTypeGen<TypeNames>[] {
     assertCacheExists(this.cache)
-    return this.cache.documents.filter(guards.is(type)) as any
+    return this.cache.documents.filter(isType(type)) as any
   }
 }
 
