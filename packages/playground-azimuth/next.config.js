@@ -6,5 +6,10 @@ module.exports = {
     // your project has type errors.
     // !! WARN !!
     ignoreBuildErrors: true,
+    // currently needed because of this error
+    /*
+    ./sourcebit/schema/documents/blog.ts:1:32
+Type error: Cannot find module 'sourcebit/source-local' or its corresponding type declarations.
+    */
   },
 }
