@@ -1,6 +1,8 @@
 {
   "name": "sourcebit",
-  "bin": "./dist/cli/index.js",
+  "bin": {
+    "sourcebit": "./dist/cli/index.js"
+  },
   "exports": {
     "./source-local": {
       "import": "./dist/esm/source-local/index.js",
@@ -19,7 +21,7 @@
   "typesVersions": {
     "*": {
       "source-local": [
-        "./.dist/esm/source-local"
+        "./dist/esm/source-local"
       ],
       "client": [
         "./dist/esm/client"
