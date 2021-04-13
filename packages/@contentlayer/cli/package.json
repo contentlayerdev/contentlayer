@@ -1,0 +1,24 @@
+{
+  "name": "@contentlayer/cli",
+  "version": "0.0.1",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "scripts": {
+    "prepack": "yarn build",
+    "build": "rm -rf dist && yarn build:esm && yarn build:cjs && echo Build complete",
+    "build:esm": "tsc --build tsconfig.json",
+    "build:cjs": "tsc --build tsconfig.cjs.json"
+  },
+  "dependencies": {
+    "@contentlayer/core": "workspace:*",
+    "clipanion": "^3.0.0-rc.11",
+    "typanion": "^3.3.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.0",
+    "@types/minimatch": "^3.0.4",
+    "@types/node": "^14.14.37",
+    "typescript": "^4.2.3"
+  }
+}

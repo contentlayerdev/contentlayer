@@ -1,7 +1,7 @@
 {
   "private": true,
   "workspaces": [
-    "./packages/@sourcebit/*",
+    "./packages/@contentlayer/*",
     "./packages/*",
     "./packages/playground-azimuth-sanity/*"
   ],

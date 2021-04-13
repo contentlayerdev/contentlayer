@@ -1,5 +1,5 @@
-import { makeSourcePlugin } from '@sourcebit/source-contentful'
-import { defineConfig } from 'sourcebit/core'
+import { makeSourcePlugin } from '@contentlayer/source-contentful'
+import { defineConfig } from 'contentlayer/core'
 
 export default defineConfig({
   source: makeSourcePlugin({

@@ -1,6 +1,6 @@
+import { isType } from 'contentlayer/client'
+import { blog, config, landing, page, post } from 'contentlayer/types'
 import React, { FC } from 'react'
-import { isType } from 'sourcebit/client'
-import { blog, config, landing, page, post } from 'sourcebit/types'
 import { classNames, Link, withPrefix } from '../utils'
 import { Action } from './Action'
 

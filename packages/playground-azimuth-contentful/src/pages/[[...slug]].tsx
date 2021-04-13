@@ -1,6 +1,6 @@
+import { ContentlayerClient, isType } from 'contentlayer/client'
 import { InferGetStaticPropsType } from 'next'
 import React, { FC } from 'react'
-import { isType, SourcebitClient } from 'sourcebit/client'
 import { BlogLayout } from '../layouts/BlogLayout'
 import { LandingLayout } from '../layouts/LandingLayout'
 import { PageLayout } from '../layouts/PageLayout'
@@ -23,8 +23,8 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ config, doc,
 export default Page
 
 export const getStaticPaths = async () => {
-  const sourcebit = new SourcebitClient()
-  const paths = sourcebit
+  const contentlayer = new ContentlayerClient()
+  const paths = contentlayer
     .getAllDocuments()
     .filter(isType(['post', 'landing', 'page', 'blog']))
     .map((_) => _.url_path)
@@ -37,8 +37,8 @@ export const getStaticProps = defineStaticProps(async (context) => {
   const params = context.params as any
   const pagePath = `/${params.slug?.join('/') ?? ''}`
 
-  const sourcebit = new SourcebitClient()
-  const docs = sourcebit.getAllDocuments()
+  const contentlayer = new ContentlayerClient()
+  const docs = contentlayer.getAllDocuments()
   const doc = docs.filter(isType(['post', 'landing', 'page', 'blog'])).find((_) => _.url_path === pagePath)!
   const posts = docs.filter(isType('post'))
   const persons = docs.filter(isType('person'))

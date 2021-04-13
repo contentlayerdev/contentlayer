@@ -1,5 +1,5 @@
+import { section_reviews } from 'contentlayer/types'
 import React, { FC } from 'react'
-import { section_reviews } from 'sourcebit/types'
 import { htmlToReact, withPrefix } from '../../utils'
 
 export const SectionReviews: FC<{ section: section_reviews }> = ({ section }) => (

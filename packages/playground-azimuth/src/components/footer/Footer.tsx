@@ -1,5 +1,5 @@
+import { config } from 'contentlayer/types'
 import React, { FC } from 'react'
-import { config } from 'sourcebit/types'
 import { htmlToReact } from '../../utils'
 import { ActionLink } from '../ActionLink'
 import { FooterForm } from './FooterForm'

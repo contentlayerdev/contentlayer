@@ -1,5 +1,5 @@
+import { config, landing, person, post } from 'contentlayer/types'
 import React, { FC } from 'react'
-import { config, landing, person, post } from 'sourcebit/types'
 import { SectionContact } from '../components/landing-sections/SectionContact'
 import { SectionContent } from '../components/landing-sections/SectionContent'
 import { SectionCta } from '../components/landing-sections/SectionCta'

@@ -1,5 +1,5 @@
+import { action } from 'contentlayer/types'
 import React, { FC } from 'react'
-import { action } from 'sourcebit/types'
 import { classNames, Link, withPrefix } from '../utils'
 import { Icon } from './Icon'
 

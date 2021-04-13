@@ -1,5 +1,5 @@
+import { footer_form, form_field, section_contact } from 'contentlayer/types'
 import React, { FC } from 'react'
-import { footer_form, form_field, section_contact } from 'sourcebit/types'
 import { classNames } from '../utils'
 
 export const FormField: FC<{ section: footer_form | section_contact; field: form_field }> = ({ field, section }) => {

@@ -1,5 +1,5 @@
+import { section_cta } from 'contentlayer/types'
 import React, { FC } from 'react'
-import { section_cta } from 'sourcebit/types'
 import { htmlToReact } from '../../utils'
 import { CtaButtons } from './CtaButtons'
 

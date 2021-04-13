@@ -1,6 +1,6 @@
+import { section_contact } from 'contentlayer/types'
 import _ from 'lodash'
 import React, { FC } from 'react'
-import { section_contact } from 'sourcebit/types'
 import { htmlToReact, markdownify } from '../../utils'
 import { FormField } from '../FormField'
 

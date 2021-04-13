@@ -1334,6 +1334,83 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@contentlayer/cli@workspace:*, @contentlayer/cli@workspace:packages/@contentlayer/cli":
+  version: 0.0.0-use.local
+  resolution: "@contentlayer/cli@workspace:packages/@contentlayer/cli"
+  dependencies:
+    "@contentlayer/core": "workspace:*"
+    "@types/js-yaml": ^4.0.0
+    "@types/minimatch": ^3.0.4
+    "@types/node": ^14.14.37
+    clipanion: ^3.0.0-rc.11
+    typanion: ^3.3.0
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
+"@contentlayer/client@workspace:*, @contentlayer/client@workspace:packages/@contentlayer/client":
+  version: 0.0.0-use.local
+  resolution: "@contentlayer/client@workspace:packages/@contentlayer/client"
+  dependencies:
+    "@contentlayer/core": "workspace:*"
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
+"@contentlayer/core@workspace:*, @contentlayer/core@workspace:packages/@contentlayer/core":
+  version: 0.0.0-use.local
+  resolution: "@contentlayer/core@workspace:packages/@contentlayer/core"
+  dependencies:
+    "@types/pkg-up": ^3.1.0
+    esbuild: ^0.11.5
+    pkg-up: ^3.1.0
+    rxjs: ^6.6.7
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
+"@contentlayer/source-contentful@workspace:*, @contentlayer/source-contentful@workspace:packages/@contentlayer/source-contentful":
+  version: 0.0.0-use.local
+  resolution: "@contentlayer/source-contentful@workspace:packages/@contentlayer/source-contentful"
+  dependencies:
+    "@types/node": ^14.14.37
+    contentful-management: ^7.14.0
+    rxjs: ^6.6.7
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
+"@contentlayer/source-local@workspace:*, @contentlayer/source-local@workspace:packages/@contentlayer/source-local":
+  version: 0.0.0-use.local
+  resolution: "@contentlayer/source-local@workspace:packages/@contentlayer/source-local"
+  dependencies:
+    "@contentlayer/core": "workspace:*"
+    chokidar: ^3.5.1
+    glob-promise: ^4.0.1
+    gray-matter: ^4.0.2
+    js-yaml: ^4.0.0
+    minimatch: ^3.0.4
+    rxjs: ^6.6.7
+    ts-pattern: ^2.1.2
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
+"@contentlayer/source-sanity@workspace:*, @contentlayer/source-sanity@workspace:packages/@contentlayer/source-sanity":
+  version: 0.0.0-use.local
+  resolution: "@contentlayer/source-sanity@workspace:packages/@contentlayer/source-sanity"
+  dependencies:
+    "@contentlayer/core": "workspace:*"
+    "@sanity/client": ^2.7.1
+    "@sanity/core": ^2.7.4
+    "@sanity/image-url": ^0.140.22
+    "@sanity/schema": ^2.7.4
+    "@types/node": ^14.14.37
+    rxjs: ^6.6.7
+    typescript: ^4.2.3
+  languageName: unknown
+  linkType: soft
+
 "@emotion/is-prop-valid@npm:^0.8.2, @emotion/is-prop-valid@npm:^0.8.8":
   version: 0.8.8
   resolution: "@emotion/is-prop-valid@npm:0.8.8"
@@ -2590,83 +2667,6 @@ __metadata:
   checksum: e5528639aef1d266c23050897a6571c1e2aeccb59b6a22006a153fbd73aee78ae995bf19c022d70de5a00589a7f51372e78ef9aacd34a3dd9b13720c866aca7e
   languageName: node
   linkType: hard
-
-"@sourcebit/cli@workspace:*, @sourcebit/cli@workspace:packages/@sourcebit/cli":
-  version: 0.0.0-use.local
-  resolution: "@sourcebit/cli@workspace:packages/@sourcebit/cli"
-  dependencies:
-    "@sourcebit/core": "workspace:*"
-    "@types/js-yaml": ^4.0.0
-    "@types/minimatch": ^3.0.4
-    "@types/node": ^14.14.37
-    clipanion: ^3.0.0-rc.11
-    typanion: ^3.3.0
-    typescript: ^4.2.3
-  languageName: unknown
-  linkType: soft
-
-"@sourcebit/client@workspace:*, @sourcebit/client@workspace:packages/@sourcebit/client":
-  version: 0.0.0-use.local
-  resolution: "@sourcebit/client@workspace:packages/@sourcebit/client"
-  dependencies:
-    "@sourcebit/core": "workspace:*"
-    typescript: ^4.2.3
-  languageName: unknown
-  linkType: soft
-
-"@sourcebit/core@workspace:*, @sourcebit/core@workspace:packages/@sourcebit/core":
-  version: 0.0.0-use.local
-  resolution: "@sourcebit/core@workspace:packages/@sourcebit/core"
-  dependencies:
-    "@types/pkg-up": ^3.1.0
-    esbuild: ^0.11.5
-    pkg-up: ^3.1.0
-    rxjs: ^6.6.7
-    typescript: ^4.2.3
-  languageName: unknown
-  linkType: soft
-
-"@sourcebit/source-contentful@workspace:*, @sourcebit/source-contentful@workspace:packages/@sourcebit/source-contentful":
-  version: 0.0.0-use.local
-  resolution: "@sourcebit/source-contentful@workspace:packages/@sourcebit/source-contentful"
-  dependencies:
-    "@types/node": ^14.14.37
-    contentful-management: ^7.14.0
-    rxjs: ^6.6.7
-    typescript: ^4.2.3
-  languageName: unknown
-  linkType: soft
-
-"@sourcebit/source-local@workspace:*, @sourcebit/source-local@workspace:packages/@sourcebit/source-local":
-  version: 0.0.0-use.local
-  resolution: "@sourcebit/source-local@workspace:packages/@sourcebit/source-local"
-  dependencies:
-    "@sourcebit/core": "workspace:*"
-    chokidar: ^3.5.1
-    glob-promise: ^4.0.1
-    gray-matter: ^4.0.2
-    js-yaml: ^4.0.0
-    minimatch: ^3.0.4
-    rxjs: ^6.6.7
-    ts-pattern: ^2.1.2
-    typescript: ^4.2.3
-  languageName: unknown
-  linkType: soft
-
-"@sourcebit/source-sanity@workspace:*, @sourcebit/source-sanity@workspace:packages/@sourcebit/source-sanity":
-  version: 0.0.0-use.local
-  resolution: "@sourcebit/source-sanity@workspace:packages/@sourcebit/source-sanity"
-  dependencies:
-    "@sanity/client": ^2.7.1
-    "@sanity/core": ^2.7.4
-    "@sanity/image-url": ^0.140.22
-    "@sanity/schema": ^2.7.4
-    "@sourcebit/core": "workspace:*"
-    "@types/node": ^14.14.37
-    rxjs: ^6.6.7
-    typescript: ^4.2.3
-  languageName: unknown
-  linkType: soft
 
 "@stackbit/schema@npm:^0.1.4":
   version: 0.1.4
@@ -4792,6 +4792,37 @@ __metadata:
   checksum: 94bf749375d65d9546f237133994f630918048fe5ce0d3542a27080680c8c07f05c623471fe49d5139c41ed8c45f44ff45bdbbbc4a4c7f5507af7323fe3b86a4
   languageName: node
   linkType: hard
+
+"contentlayer-stackbit-yaml-generator@workspace:*, contentlayer-stackbit-yaml-generator@workspace:packages/sourcebit-stackbit-yaml-generator":
+  version: 0.0.0-use.local
+  resolution: "contentlayer-stackbit-yaml-generator@workspace:packages/sourcebit-stackbit-yaml-generator"
+  dependencies:
+    "@contentlayer/core": "workspace:*"
+    "@stackbit/sdk": ^0.1.9
+    "@types/yaml": ^1
+    clipanion: ^3.0.0-rc.11
+    esbuild: ^0.11.5
+    typescript: ^4.2.3
+    yaml: ^1.10.2
+  bin:
+    contentlayer-stackbit-yaml-generator: ./dist/index.js
+  languageName: unknown
+  linkType: soft
+
+"contentlayer@workspace:*, contentlayer@workspace:packages/contentlayer":
+  version: 0.0.0-use.local
+  resolution: "contentlayer@workspace:packages/contentlayer"
+  dependencies:
+    "@contentlayer/cli": "workspace:*"
+    "@contentlayer/client": "workspace:*"
+    "@contentlayer/core": "workspace:*"
+    "@contentlayer/source-local": "workspace:*"
+    esbuild: ^0.11.5
+    typescript: ^4.2.3
+  bin:
+    contentlayer: ./dist/cli/index.js
+  languageName: unknown
+  linkType: soft
 
 "convert-source-map@npm:1.7.0, convert-source-map@npm:^1.7.0":
   version: 1.7.0
@@ -10580,10 +10611,11 @@ fsevents@~2.3.1:
   version: 0.0.0-use.local
   resolution: "playground-azimuth-contentful@workspace:packages/playground-azimuth-contentful"
   dependencies:
-    "@sourcebit/source-contentful": "workspace:*"
+    "@contentlayer/source-contentful": "workspace:*"
     "@types/react": ^17.0.3
     "@types/react-dom": ^17.0.3
     "@types/react-helmet": ^6.1.0
+    contentlayer: "workspace:*"
     date-fns: ^2.19.0
     marked: ^2.0.1
     next: ^10.1.3
@@ -10592,7 +10624,6 @@ fsevents@~2.3.1:
     react-helmet: ^6.1.0
     react-script-tag: ^1.1.2
     sass: ^1.32.7
-    sourcebit: "workspace:*"
     ts-node: ^9.1.1
     typescript: ^4.2.3
   languageName: unknown
@@ -10621,10 +10652,11 @@ fsevents@~2.3.1:
   version: 0.0.0-use.local
   resolution: "playground-azimuth-sanity-web@workspace:packages/playground-azimuth-sanity/web"
   dependencies:
-    "@sourcebit/source-sanity": "workspace:*"
+    "@contentlayer/source-sanity": "workspace:*"
     "@types/react": ^17.0.3
     "@types/react-dom": ^17.0.3
     "@types/react-helmet": ^6.1.0
+    contentlayer: "workspace:*"
     date-fns: ^2.19.0
     marked: ^2.0.1
     next: ^10.1.3
@@ -10634,7 +10666,6 @@ fsevents@~2.3.1:
     react-html-parser: ^2.0.2
     react-script-tag: ^1.1.2
     sass: ^1.32.7
-    sourcebit: "workspace:*"
     typescript: ^4.2.3
   languageName: unknown
   linkType: soft
@@ -10646,6 +10677,8 @@ fsevents@~2.3.1:
     "@types/react": ^17.0.3
     "@types/react-dom": ^17.0.3
     "@types/react-helmet": ^6.1.0
+    contentlayer: "workspace:*"
+    contentlayer-stackbit-yaml-generator: "workspace:*"
     date-fns: ^2.19.0
     marked: ^2.0.1
     next: ^10.1.3
@@ -10654,8 +10687,6 @@ fsevents@~2.3.1:
     react-helmet: ^6.1.0
     react-script-tag: ^1.1.2
     sass: ^1.32.7
-    sourcebit: "workspace:*"
-    sourcebit-stackbit-yaml-generator: "workspace:*"
     ts-node: ^9.1.1
     typescript: ^4.2.3
   languageName: unknown
@@ -13460,37 +13491,6 @@ fsevents@~2.3.1:
   checksum: 8647829a0611724114022be455ca1c8a2c8ae61df81c5b3667d9b398207226a1e21174fb7bbf0b4dbeb27ac358222afb5a14f1c74a62a62b8883b012e5eb1270
   languageName: node
   linkType: hard
-
-"sourcebit-stackbit-yaml-generator@workspace:*, sourcebit-stackbit-yaml-generator@workspace:packages/sourcebit-stackbit-yaml-generator":
-  version: 0.0.0-use.local
-  resolution: "sourcebit-stackbit-yaml-generator@workspace:packages/sourcebit-stackbit-yaml-generator"
-  dependencies:
-    "@sourcebit/core": "workspace:*"
-    "@stackbit/sdk": ^0.1.9
-    "@types/yaml": ^1
-    clipanion: ^3.0.0-rc.11
-    esbuild: ^0.11.5
-    typescript: ^4.2.3
-    yaml: ^1.10.2
-  bin:
-    sourcebit-stackbit-yaml-generator: ./dist/index.js
-  languageName: unknown
-  linkType: soft
-
-"sourcebit@workspace:*, sourcebit@workspace:packages/sourcebit":
-  version: 0.0.0-use.local
-  resolution: "sourcebit@workspace:packages/sourcebit"
-  dependencies:
-    "@sourcebit/cli": "workspace:*"
-    "@sourcebit/client": "workspace:*"
-    "@sourcebit/core": "workspace:*"
-    "@sourcebit/source-local": "workspace:*"
-    esbuild: ^0.11.5
-    typescript: ^4.2.3
-  bin:
-    sourcebit: ./dist/cli/index.js
-  languageName: unknown
-  linkType: soft
 
 "space-separated-tokens@npm:^1.0.0":
   version: 1.1.5

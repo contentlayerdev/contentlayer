@@ -1,5 +1,5 @@
+import { action } from 'contentlayer/types'
 import React, { FC } from 'react'
-import { action } from 'sourcebit/types'
 import { Action } from '../Action'
 
 export const CtaButtons: FC<{ actions: action[] }> = ({ actions }) => (

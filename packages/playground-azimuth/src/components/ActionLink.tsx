@@ -1,5 +1,5 @@
+import { action } from 'contentlayer/types'
 import React, { FC } from 'react'
-import { action } from 'sourcebit/types'
 import { Link, withPrefix } from '../utils'
 
 export const ActionLink: FC<{ action: action }> = ({ action }) => (

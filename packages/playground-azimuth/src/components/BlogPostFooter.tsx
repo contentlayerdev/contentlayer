@@ -1,7 +1,7 @@
 // import moment from 'moment-strftime'
 // import { format} from 'date-fns'
+import { person, post } from 'contentlayer/types'
 import React, { FC, useMemo } from 'react'
-import { person, post } from 'sourcebit/types'
 
 export const BlogPostFooter: FC<{ post: post; dateType: 'long' | 'short'; persons: person[] }> = ({
   post,

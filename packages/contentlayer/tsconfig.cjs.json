@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "target": "ES5",
+    "outDir": "./dist/cjs"
+  },
+  "references": [
+    { "path": "../@contentlayer/client/tsconfig.cjs.json" },
+    { "path": "../@contentlayer/core/tsconfig.cjs.json" },
+    { "path": "../@contentlayer/cli/tsconfig.cjs.json" },
+    { "path": "../@contentlayer/source-local/tsconfig.cjs.json" }
+  ]
+}

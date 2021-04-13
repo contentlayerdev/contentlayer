@@ -12,8 +12,8 @@
     "strict": true,
     "target": "ES2020",
     "paths": {
-      "@sourcebit/*": ["./packages/@sourcebit/*/src"],
-      "sourcebit": ["./pacakges/sourcebit/src"]
+      "@contentlayer/*": ["./packages/@contentlayer/*/src"],
+      "contentlayer": ["./pacakges/contentlayer/src"]
     }
   }
 }

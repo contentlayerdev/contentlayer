@@ -1,5 +1,5 @@
+import { config, person, post } from 'contentlayer/types'
 import React, { FC } from 'react'
-import { config, person, post } from 'sourcebit/types'
 import { BlogPostFooter } from '../components/BlogPostFooter'
 import { Layout } from '../components/Layout'
 import { htmlToReact, markdownify, withPrefix } from '../utils'

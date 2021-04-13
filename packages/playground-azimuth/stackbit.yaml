@@ -133,8 +133,8 @@ models:
         type: string
       - name: path_prefix
         required: true
-        description: "The base URL of this site. Useful for sites hosted under specific
-          path, e.g.: https://www.example.com/my-site/"
+        description: 'The base URL of this site. Useful for sites hosted under specific
+          path, e.g.: https://www.example.com/my-site/'
         hidden: true
         label: Base URL
         type: string
@@ -374,7 +374,7 @@ models:
         type: string
       - name: type
         required: true
-        description: Needed for sourcebit for polymorphic list types
+        description: Needed for contentlayer for polymorphic list types
         label: Section type
         type: string
       - name: content
@@ -459,7 +459,7 @@ models:
         type: string
       - name: type
         required: true
-        description: Needed for sourcebit for polymorphic list types
+        description: Needed for contentlayer for polymorphic list types
         label: Section type
         type: string
       - name: nav_links
@@ -481,7 +481,7 @@ models:
         type: string
       - name: type
         required: true
-        description: Needed for sourcebit for polymorphic list types
+        description: Needed for contentlayer for polymorphic list types
         label: Section type
         type: string
       - name: image
@@ -515,7 +515,7 @@ models:
         type: string
       - name: type
         required: true
-        description: Needed for sourcebit for polymorphic list types
+        description: Needed for contentlayer for polymorphic list types
         label: Section type
         type: string
       - name: content
@@ -560,7 +560,7 @@ models:
         type: string
       - name: type
         required: true
-        description: Needed for sourcebit for polymorphic list types
+        description: Needed for contentlayer for polymorphic list types
         label: Section type
         type: string
       - name: subtitle
@@ -589,7 +589,7 @@ models:
         type: string
       - name: type
         required: true
-        description: Needed for sourcebit for polymorphic list types
+        description: Needed for contentlayer for polymorphic list types
         label: Section type
         type: string
       - name: subtitle
@@ -636,7 +636,7 @@ models:
         type: string
       - name: type
         required: true
-        description: Needed for sourcebit for polymorphic list types
+        description: Needed for contentlayer for polymorphic list types
         label: Section type
         type: string
       - name: subtitle
@@ -700,7 +700,7 @@ models:
         type: string
       - name: type
         required: true
-        description: Needed for sourcebit for polymorphic list types
+        description: Needed for contentlayer for polymorphic list types
         label: Section type
         type: string
       - name: content
@@ -736,7 +736,7 @@ models:
         type: string
       - name: type
         required: true
-        description: Needed for sourcebit for polymorphic list types
+        description: Needed for contentlayer for polymorphic list types
         label: Section type
         type: string
       - name: subtitle
@@ -765,7 +765,7 @@ models:
         type: string
       - name: type
         required: true
-        description: Needed for sourcebit for polymorphic list types
+        description: Needed for contentlayer for polymorphic list types
         label: Section type
         type: string
       - name: subtitle
@@ -830,7 +830,7 @@ models:
         type: string
       - name: type
         required: true
-        description: Needed for sourcebit for polymorphic list types
+        description: Needed for contentlayer for polymorphic list types
         label: Section type
         type: string
       - name: subtitle
@@ -884,7 +884,7 @@ models:
         type: string
       - name: type
         required: true
-        description: Needed for sourcebit for polymorphic list types
+        description: Needed for contentlayer for polymorphic list types
         label: Section type
         type: string
       - name: subtitle

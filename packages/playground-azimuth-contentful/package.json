@@ -1,14 +1,16 @@
 {
   "name": "playground-azimuth-contentful",
+  "private": true,
   "scripts": {
     "_postinstall": "yarn generate && yarn fetch",
-    "dev": "node dev.js ./sourcebit/sourcebit.ts",
+    "dev": "node dev.js ./contentlayer/contentlayer.ts",
     "build": "yarn generate && yarn fetch && next build",
-    "generate": "sourcebit generate --config ./sourcebit/sourcebit.ts",
-    "fetch": "sourcebit fetch --config ./sourcebit/sourcebit.ts"
+    "generate": "contentlayer generate --config ./contentlayer/contentlayer.ts",
+    "fetch": "contentlayer fetch --config ./contentlayer/contentlayer.ts"
   },
   "dependencies": {
-    "@sourcebit/source-contentful": "workspace:*",
+    "@contentlayer/source-contentful": "workspace:*",
+    "contentlayer": "workspace:*",
     "date-fns": "^2.19.0",
     "marked": "^2.0.1",
     "next": "^10.1.3",
@@ -16,8 +18,7 @@
     "react-dom": "^17.0.2",
     "react-helmet": "^6.1.0",
     "react-script-tag": "^1.1.2",
-    "sass": "^1.32.7",
-    "sourcebit": "workspace:*"
+    "sass": "^1.32.7"
   },
   "devDependencies": {
     "@types/react": "^17.0.3",

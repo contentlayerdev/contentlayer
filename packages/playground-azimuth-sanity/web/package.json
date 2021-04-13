@@ -1,13 +1,15 @@
 {
   "name": "playground-azimuth-sanity-web",
+  "private": true,
   "scripts": {
-    "dev": "PORT=3001 node dev.js ./sourcebit/sourcebit.ts",
+    "dev": "PORT=3001 node dev.js ./contentlayer/contentlayer.ts",
     "build": "yarn generate && yarn fetch && next build",
-    "generate": "sourcebit generate --config ./sourcebit/sourcebit.ts",
-    "fetch": "sourcebit fetch --config ./sourcebit/sourcebit.ts"
+    "generate": "contentlayer generate --config ./contentlayer/contentlayer.ts",
+    "fetch": "contentlayer fetch --config ./contentlayer/contentlayer.ts"
   },
   "dependencies": {
-    "@sourcebit/source-sanity": "workspace:*",
+    "@contentlayer/source-sanity": "workspace:*",
+    "contentlayer": "workspace:*",
     "date-fns": "^2.19.0",
     "marked": "^2.0.1",
     "next": "^10.1.3",
@@ -16,8 +18,7 @@
     "react-helmet": "^6.1.0",
     "react-html-parser": "^2.0.2",
     "react-script-tag": "^1.1.2",
-    "sass": "^1.32.7",
-    "sourcebit": "workspace:*"
+    "sass": "^1.32.7"
   },
   "devDependencies": {
     "@types/react": "^17.0.3",

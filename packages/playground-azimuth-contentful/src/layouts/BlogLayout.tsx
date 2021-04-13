@@ -1,6 +1,6 @@
-// import { blog, post, config } from 'sourcebit/types'
+// import { blog, post, config } from 'contentlayer/types'
+import { blog, config, person, post } from 'contentlayer/types'
 import React, { FC } from 'react'
-import { blog, config, person, post } from 'sourcebit/types'
 import { BlogPostFooter } from '../components/BlogPostFooter'
 import { Layout } from '../components/Layout'
 import { Link, withPrefix } from '../utils'

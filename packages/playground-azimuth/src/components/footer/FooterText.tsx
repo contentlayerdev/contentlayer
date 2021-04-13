@@ -1,5 +1,5 @@
+import { footer_text } from 'contentlayer/types'
 import React, { FC } from 'react'
-import { footer_text } from 'sourcebit/types'
 import { Link, markdownify, withPrefix } from '../../utils'
 
 export const FooterText: FC<{ section: footer_text }> = ({ section }) => (

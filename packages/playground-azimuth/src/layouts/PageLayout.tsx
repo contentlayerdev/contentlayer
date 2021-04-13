@@ -1,5 +1,5 @@
+import { config, page } from 'contentlayer/types'
 import React, { FC } from 'react'
-import { config, page } from 'sourcebit/types'
 import { Layout } from '../components/Layout'
 import { htmlToReact, markdownify, withPrefix } from '../utils'
 

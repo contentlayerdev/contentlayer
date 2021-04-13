@@ -1,5 +1,5 @@
+import { footer_nav } from 'contentlayer/types'
 import React, { FC } from 'react'
-import { footer_nav } from 'sourcebit/types'
 import { Action } from '../Action'
 
 export const FooterNav: FC<{ section: footer_nav }> = ({ section }) => (

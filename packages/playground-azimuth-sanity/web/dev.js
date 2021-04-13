@@ -15,7 +15,7 @@ if (!configPath) {
 }
 
 const sanityScript = /* js */ `\
-const { watch } = require('sourcebit/core')
+const { watch } = require('contentlayer/core')
 
 watch({
   configPath: '${configPath}',

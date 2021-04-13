@@ -1,7 +1,7 @@
+import { blog, config, landing, page, post } from 'contentlayer/types'
 import _ from 'lodash'
 import React, { FC } from 'react'
 import { Helmet } from 'react-helmet'
-import { blog, config, landing, page, post } from 'sourcebit/types'
 import { withPrefix } from '../utils'
 import { Footer } from './footer/Footer'
 import { Header } from './Header'

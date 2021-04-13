@@ -1,5 +1,5 @@
+import { person, post, section_posts } from 'contentlayer/types'
 import React, { FC } from 'react'
-import { person, post, section_posts } from 'sourcebit/types'
 import { htmlToReact, Link, withPrefix } from '../../utils'
 import { BlogPostFooter } from '../BlogPostFooter'
 

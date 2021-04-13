@@ -1,6 +1,6 @@
+import { ContentlayerClient } from 'contentlayer/client'
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next'
 import React from 'react'
-import { SourcebitClient } from 'sourcebit/client'
 
 /** Needed in combination with `InferGetServerSidePropsType` */
 export function defineServerSideProps<Fn extends GetServerSideProps>(fn: Fn): Fn {
@@ -24,5 +24,5 @@ export function notUndefined<T>(_: T | undefined): _ is T {
   return _ !== undefined
 }
 
-export const SourcebitContext = React.createContext<SourcebitClient>(null as any)
-export const useSourcebit = () => React.useContext(SourcebitContext)
+export const ContentlayerContext = React.createContext<ContentlayerClient>(null as any)
+export const useContentlayer = () => React.useContext(ContentlayerContext)

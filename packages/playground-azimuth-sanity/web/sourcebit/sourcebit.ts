@@ -1,6 +1,6 @@
-import { makeSourcePlugin } from '@sourcebit/source-sanity'
+import { makeSourcePlugin } from '@contentlayer/source-sanity'
+import { defineConfig } from 'contentlayer/core'
 import * as path from 'path'
-import { defineConfig } from 'sourcebit/core'
 
 export default defineConfig({
   source: makeSourcePlugin({

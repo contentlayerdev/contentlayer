@@ -1,5 +1,5 @@
+import { section_pricing } from 'contentlayer/types'
 import React, { FC } from 'react'
-import { section_pricing } from 'sourcebit/types'
 import { classNames, htmlToReact, markdownify } from '../../utils'
 import { CtaButtons } from './CtaButtons'
 

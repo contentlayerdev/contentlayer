@@ -1,5 +1,5 @@
+import { section_faq } from 'contentlayer/types'
 import React, { FC } from 'react'
-import { section_faq } from 'sourcebit/types'
 import { htmlToReact, markdownify } from '../../utils'
 
 export const SectionFaq: FC<{ section: section_faq }> = ({ section }) => (

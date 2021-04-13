@@ -1,5 +1,5 @@
+import { section_hero } from 'contentlayer/types'
 import React, { FC } from 'react'
-import { section_hero } from 'sourcebit/types'
 import { markdownify, withPrefix } from '../../utils'
 import { CtaButtons } from './CtaButtons'
 

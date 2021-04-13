@@ -1,5 +1,5 @@
+import { footer_form } from 'contentlayer/types'
 import React, { FC } from 'react'
-import { footer_form } from 'sourcebit/types'
 import { markdownify } from '../../utils'
 import { FormField } from '../FormField'
 

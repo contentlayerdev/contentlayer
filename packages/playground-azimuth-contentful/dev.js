@@ -2,7 +2,7 @@
 
 const { createServer } = require('http')
 const next = require('next')
-const { watch } = require('sourcebit/core')
+const { watch } = require('contentlayer/core')
 const { parse } = require('url')
 
 const app = next({ dev: true, dir: process.cwd() })
