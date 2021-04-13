@@ -60,7 +60,7 @@ const convertSchema = ({ documentDefMap, objectDefMap }: Core.SchemaDef): Stackb
     ),
   ].reduce((acc, { model, name }) => ({ ...acc, [name]: model }), {} as Stackbit.YamlModels)
 
-  return { stackbitVersion: '~0.3.0', models }
+  return { stackbitVersion: '~0.3.0', models, nodeVersion: '>12' }
 }
 
 const documentDefToStackbitYamlModel = ({
