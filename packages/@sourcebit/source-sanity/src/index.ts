@@ -6,7 +6,7 @@ import { fetchData } from './fetchData'
 import { provideSchema } from './provideSchema'
 import { getSanityClient } from './sanity-client'
 
-type MakeSourcePlugin = (_: { studioDirPath: string }) => SourcePlugin
+type MakeSourcePlugin = (_: { studioDirPath: string; preview?: boolean }) => SourcePlugin
 
 export const makeSourcePlugin: MakeSourcePlugin = ({ studioDirPath }) => ({
   provideSchema: () => provideSchema(studioDirPath),

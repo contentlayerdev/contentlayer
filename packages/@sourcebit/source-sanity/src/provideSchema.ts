@@ -31,6 +31,9 @@ export const provideSchema = async (studioDirPath: string): Promise<Core.SchemaD
   return { documentDefMap, objectDefMap }
 }
 
+/**
+ * Looks for object types that were referenced (directly or indirectly) through at least one document type.
+ */
 const collectUsedObjectTypes = ({
   documentTypes,
   objectTypes,

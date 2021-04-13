@@ -1,8 +1,6 @@
 {
   "name": "sourcebit",
-  "bin": {
-    "sourcebit": "./dist/cli/index.js"
-  },
+  "bin": "./dist/cli/index.js",
   "exports": {
     "./source-local": {
       "import": "./dist/esm/source-local/index.js",

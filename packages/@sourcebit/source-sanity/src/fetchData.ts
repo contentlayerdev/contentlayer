@@ -27,6 +27,7 @@ export const fetchData = async ({
 
   if (force || previousCache === undefined || lastUpdateInMs > previousCache.lastUpdateInMs) {
     const entries: Sanity.DataDocument[] = await client.fetch('*[]')
+    // TODO overlay drafts -> ids: draft.__original_id__
 
     // ;(await import('fs')).writeFileSync('entries.json', JSON.stringify(entries, null, 2))
 
