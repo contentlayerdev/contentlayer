@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { Builtins, Cli } from 'clipanion'
 import { GenerateCommand } from './GenerateCommand'
 

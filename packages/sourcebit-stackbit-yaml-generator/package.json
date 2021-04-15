@@ -1,11 +1,11 @@
 {
   "name": "contentlayer-stackbit-yaml-generator",
-  "version": "0.0.1",
+  "version": "0.0.2-5",
   "bin": "./dist/index.js",
   "scripts": {
     "prepack": "yarn build",
     "build": "yarn build:cli && yarn build:lib",
-    "build:cli": "rm -rf dist && esbuild --bundle src/index.ts --outfile=dist/index.js --platform=node --sourcemap --external:esbuild"
+    "build:cli": "rm -rf dist && esbuild --bundle src/index.ts --outfile=dist/index.js --platform=node --sourcemap --external:esbuild && chmod +x ./dist/index.js"
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*",

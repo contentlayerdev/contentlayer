@@ -5,6 +5,9 @@
     "./packages/*",
     "./packages/playground-azimuth-sanity/*"
   ],
+  "scripts": {
+    "release:pre": "yarn workspaces foreach --verbose --topological-dev --no-private version prerelease && yarn workspaces foreach --verbose --topological-dev --no-private npm publish --tolerate-republish"
+  },
   "devDependencies": {
     "ts-node": "^9.1.1",
     "typescript": "^4.2.3"

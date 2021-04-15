@@ -15,6 +15,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-helmet": "^6.1.0",
+    "react-html-parser": "^2.0.2",
     "react-script-tag": "^1.1.2",
     "sass": "^1.32.7"
   },
