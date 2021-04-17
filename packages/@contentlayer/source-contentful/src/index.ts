@@ -1,4 +1,4 @@
-import { SourcePlugin } from '@contentlayer/core'
+import { GetAllTypeNamesGen, SourcePlugin } from '@contentlayer/core'
 import { createClient } from 'contentful-management'
 import { defer, Observable, of } from 'rxjs'
 import { mergeMap, startWith } from 'rxjs/operators'
@@ -6,16 +6,35 @@ import type * as Contentful from './contentful-types'
 import { fetchData } from './fetchData'
 import { provideSchema } from './provideSchema'
 
-type MakeSourcePlugin = (_: { accessToken: string; spaceId: string; environmentId?: string }) => SourcePlugin
+/** 
+Since Contentful only provides one kind of content types this schema overrides argument allows you
+to turn relations into embedded objects. Either provide an array of type names via `objectTypes` or `documentTypes`.
+*/
+export type SchemaOverrides = {
+  objectTypes?: GetAllTypeNamesGen[]
+  documentTypes?: GetAllTypeNamesGen[]
+}
 
-export const makeSourcePlugin: MakeSourcePlugin = ({ accessToken, spaceId, environmentId = 'master' }) => ({
+type MakeSourcePlugin = (_: {
+  accessToken: string
+  spaceId: string
+  environmentId?: string
+  schemaOverrides?: SchemaOverrides
+}) => SourcePlugin
+
+export const makeSourcePlugin: MakeSourcePlugin = ({
+  accessToken,
+  spaceId,
+  environmentId = 'master',
+  schemaOverrides = {},
+}) => ({
   provideSchema: async () => {
     const environment = await getEnvironment({ accessToken, spaceId, environmentId })
-    return provideSchema(environment)
+    return provideSchema({ environment, schemaOverrides })
   },
   fetchData: ({ watch, force, previousCache }) =>
     defer(() => getEnvironment({ accessToken, spaceId, environmentId })).pipe(
-      mergeMap(provideSchema),
+      mergeMap((environment) => provideSchema({ environment, schemaOverrides })),
       mergeMap((schemaDef) =>
         (watch ? getUpdateEvents().pipe(startWith(0)) : of(0)).pipe(
           mergeMap(() => fetchData({ schemaDef, force, previousCache })),

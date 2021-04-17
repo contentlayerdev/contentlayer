@@ -1,16 +1,21 @@
 import type * as Core from '@contentlayer/core'
 import { Cache } from '@contentlayer/core'
+import type * as Contentful from './contentful-types'
 
 export const fetchData = async ({
   schemaDef,
   force,
   previousCache,
+  environment,
 }: {
   schemaDef: Core.SchemaDef
   force: boolean
   previousCache: Cache | undefined
+  environment: Contentful.Environment
 }): Promise<Cache> => {
   // const client = await getSanityClient(studioDirPath)
+  const entries = await environment.getEntries()
+  entries.items[0].fields
 
   return {} as any
 

@@ -89,21 +89,25 @@ ${fieldDefs}
 export type Image = string
 
 export interface ContentlayerGenTypes {
-  types: Types
-  typeMap: TypeMap
-  typeNames: TypeNames
+  documentTypes: DocumentTypes
+  documentTypeMap: DocumentTypeMap
+  documentTypeNames: DocumentTypeNames
+  allTypeNames: AllTypeNames
 }
 
 declare global {
   interface ContentlayerGen extends ContentlayerGenTypes {}
 }
 
-export type TypeMap = {
+export type DocumentTypeMap = {
 ${typeMap}
 }
 
-export type Types = ${documentTypes.map((_) => _.typeName).join(' | ')}
-export type TypeNames = Types['_typeName']
+export type AllTypes = DocumentTypes | ObjectTypes
+export type AllTypeNames = DocumentTypeNames | ObjectTypeNames
+
+export type DocumentTypes = ${documentTypes.map((_) => _.typeName).join(' | ')}
+export type DocumentTypeNames = DocumentTypes['_typeName']
 
 /** Document types */
 
@@ -118,6 +122,9 @@ ${documentTypes.map((_) => _.typeDef).join('\n\n')}
 ${/*export namespace Objects {
   export { ${objectTypes.map((_) => _.typeName).join(', ')} }
 }*/ ``}
+
+export type ObjectTypes = ${objectTypes.length > 0 ? objectTypes.map((_) => _.typeName).join(' | ') : 'never'}
+export type ObjectTypeNames = ObjectTypes['_typeName']
 
 ${objectTypes.map((_) => _.typeDef).join('\n\n')}
 `

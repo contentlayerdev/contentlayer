@@ -6,6 +6,7 @@ export type FieldDef =
   | StringFieldDef
   | NumberFieldDef
   | BooleanFieldDef
+  | JSONFieldDef
   | SlugFieldDef
   | DateFieldDef
   | MarkdownFieldDef
@@ -17,7 +18,7 @@ export type FieldDef =
   | ReferenceFieldDef
   | EnumFieldDef
 
-interface FieldBase {
+export interface FieldBase {
   /** Field name should contain only alphanumeric characters, underscore and a hyphen [A-Za-z0-9_]. Must start with a letter. Must not end with an underscore or a hyphen. */
   name: string
   /** Should be short enough as some CMS's have restrictions on its length. Some CMS require label to be unique. */
@@ -95,7 +96,12 @@ export type BooleanFieldDef = FieldBase & {
   default?: boolean
 }
 
-// why is this field type needed?
+export type JSONFieldDef = FieldBase & {
+  type: 'json'
+  default?: any
+}
+
+// TODO why is this field type needed?
 export type SlugFieldDef = FieldBase & {
   type: 'slug'
   default?: string

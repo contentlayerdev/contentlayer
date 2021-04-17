@@ -3,8 +3,11 @@ import { defineConfig } from 'contentlayer/core'
 
 export default defineConfig({
   source: makeSourcePlugin({
-    accessToken: 'CFPAT-0rr1pfX__gDLyvVQsPbwdBnBQvta9AnqMiVx02twCTo',
+    accessToken: process.env['CONTENTFUL_ACCESS_TOKEN']!,
     spaceId: 'rfcpfiludecf',
     environmentId: 'master',
+    schemaOverrides: {
+      documentTypes: ['landing', 'blog', 'page', 'post', 'person', 'config'],
+    },
   }),
 })

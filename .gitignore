@@ -12,4 +12,8 @@ node_modules
 
 dist*
 
+.tmp*
+
 *.tsbuildinfo
+
+.envrc

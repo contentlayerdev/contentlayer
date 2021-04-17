@@ -1,2 +1,5 @@
+export type { ContentType } from 'contentful-management/dist/typings/entities/content-type'
+export type { ContentFields } from 'contentful-management/dist/typings/entities/content-type-fields'
 export type { Environment } from 'contentful-management/dist/typings/entities/environment'
+export type { FieldType } from 'contentful-management/dist/typings/entities/field-type'
 export type { Space } from 'contentful-management/dist/typings/entities/space'

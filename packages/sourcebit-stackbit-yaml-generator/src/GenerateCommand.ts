@@ -109,6 +109,8 @@ const fieldDefToStackbitField = (fieldDef: Core.FieldDef): Stackbit.Field => {
       return { ...commonField, type: 'reference', models: [fieldDef.documentName] }
     case 'inline_object':
       return { ...commonField, type: 'object', fields: fieldDef.fieldDefs.map(fieldDefToStackbitField) }
+    case 'json':
+      return { ...commonField, type: 'object', fields: [] }
     case 'object':
       return { ...commonField, type: 'model', models: [fieldDef.objectName] }
     case 'list':

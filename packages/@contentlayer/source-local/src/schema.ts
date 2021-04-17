@@ -63,6 +63,7 @@ export type FieldDef =
   | StringField
   | NumberField
   | BooleanField
+  | JSONField
   | SlugField
   | DateField
   | MarkdownField
@@ -145,7 +146,12 @@ export type BooleanField = FieldBase & {
   default?: boolean
 }
 
-// why is this field type needed?
+export type JSONField = FieldBase & {
+  type: 'json'
+  default?: any
+}
+
+// TODO why is this field type needed?
 export type SlugField = FieldBase & {
   type: 'slug'
   default?: string

@@ -1,0 +1,26 @@
+{
+  "name": "@contentlayer/server",
+  "version": "0.0.2-5",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "scripts": {
+    "dev": "rm -rf dist && tsc --watch",
+    "build": "rm -rf dist && yarn build:esm && yarn build:cjs && echo Build complete",
+    "build:esm": "tsc --build tsconfig.json",
+    "build:cjs": "tsc --build tsconfig.cjs.json"
+  },
+  "dependencies": {
+    "@contentlayer/core": "workspace:*",
+    "body-parser": "^1.19.0",
+    "graphql": "^15.5.0",
+    "nexus": "^1.0.0",
+    "polka": "^0.5.2",
+    "rxjs": "^6.6.7"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1",
+    "@types/polka": "^0",
+    "typescript": "^4.2.3"
+  }
+}
