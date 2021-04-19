@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs'
 import * as path from 'path'
-import { combineLatest, defer, Observable } from 'rxjs'
+import { combineLatest, from, Observable } from 'rxjs'
 import { mergeMap } from 'rxjs/operators'
 import { Config } from '../config'
 import { Cache } from '../data'
@@ -17,7 +17,7 @@ export const fetchDataAndCache = ({
 }): Observable<void> => {
   const writeCache_ = writeCache()
   return combineLatest([
-    defer(prepareCacheFilePath),
+    from(prepareCacheFilePath()),
     config.source.fetchData({ watch, force: false, previousCache: undefined }),
   ]).pipe(mergeMap(([cacheFilePath, cache]) => writeCache_({ cacheFilePath, cache })))
 }
