@@ -170,6 +170,7 @@ const getDataForListItem = ({
     return rawItemData
   }
 
+  // polymorphic list case
   if (rawItemData._type in schemaDef.objectDefMap) {
     const objectDef = schemaDef.objectDefMap[rawItemData._type]
     return makeObject({

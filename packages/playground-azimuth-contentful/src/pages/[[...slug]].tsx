@@ -1,4 +1,5 @@
 import { ContentlayerClient, isType } from 'contentlayer/client'
+import { ContentlayerContext } from 'contentlayer/react'
 import { InferGetStaticPropsType } from 'next'
 import React, { FC } from 'react'
 import { BlogLayout } from '../layouts/BlogLayout'
@@ -6,21 +7,6 @@ import { LandingLayout } from '../layouts/LandingLayout'
 import { PageLayout } from '../layouts/PageLayout'
 import { PostLayout } from '../layouts/PostLayout'
 import { defineStaticProps, toParams } from '../utils/next'
-
-const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ config, doc, posts, persons }) => {
-  switch (doc._typeName) {
-    case 'landing':
-      return <LandingLayout doc={doc} config={config} posts={posts} persons={persons} />
-    case 'page':
-      return <PageLayout doc={doc} config={config} />
-    case 'blog':
-      return <BlogLayout doc={doc} config={config} posts={posts} persons={persons} />
-    case 'post':
-      return <PostLayout doc={doc} config={config} persons={persons} />
-  }
-}
-
-export default Page
 
 export const getStaticPaths = async () => {
   const contentlayer = new ContentlayerClient()
@@ -41,8 +27,26 @@ export const getStaticProps = defineStaticProps(async (context) => {
   const docs = contentlayer.getAllDocuments()
   const doc = docs.filter(isType(['post', 'landing', 'page', 'blog'])).find((_) => _.url_path === pagePath)!
   const posts = docs.filter(isType('post'))
-  const persons = docs.filter(isType('person'))
   const config = docs.find(isType('config'))!
 
-  return { props: { doc, config, posts, persons } }
+  return { props: { docs, doc, config, posts } }
 })
+
+const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ docs, doc, config, posts }) => (
+  <ContentlayerContext.Provider value={docs}>
+    {(() => {
+      switch (doc._typeName) {
+        case 'landing':
+          return <LandingLayout doc={doc} config={config} posts={posts} />
+        case 'page':
+          return <PageLayout doc={doc} config={config} />
+        case 'blog':
+          return <BlogLayout doc={doc} config={config} posts={posts} />
+        case 'post':
+          return <PostLayout doc={doc} config={config} />
+      }
+    })()}
+  </ContentlayerContext.Provider>
+)
+
+export default Page

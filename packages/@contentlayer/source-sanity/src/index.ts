@@ -1,6 +1,6 @@
 import { SourcePlugin } from '@contentlayer/core'
 import type { MutationEvent } from '@sanity/client'
-import { defer, Observable, of } from 'rxjs'
+import { defer, from, Observable, of } from 'rxjs'
 import { mergeMap, startWith } from 'rxjs/operators'
 import { fetchData } from './fetchData'
 import { provideSchema } from './provideSchema'
@@ -10,15 +10,14 @@ type MakeSourcePlugin = (_: { studioDirPath: string; preview?: boolean }) => Sou
 
 export const makeSourcePlugin: MakeSourcePlugin = ({ studioDirPath }) => ({
   provideSchema: () => provideSchema(studioDirPath),
-  fetchData: ({ watch, force, previousCache }) =>
-    of(studioDirPath).pipe(
-      mergeMap(provideSchema),
-      mergeMap((schemaDef) =>
-        (watch ? getUpdateEvents(studioDirPath).pipe(startWith(0)) : of(0)).pipe(
-          mergeMap(() => fetchData({ studioDirPath, schemaDef, force, previousCache })),
-        ),
-      ),
-    ),
+  fetchData: ({ watch, force, previousCache }) => {
+    const updates$ = watch ? getUpdateEvents(studioDirPath).pipe(startWith(0)) : of(0)
+    const data$ = from(provideSchema(studioDirPath)).pipe(
+      mergeMap((schemaDef) => fetchData({ schemaDef, force, previousCache, studioDirPath })),
+    )
+
+    return updates$.pipe(mergeMap(() => data$))
+  },
   watchDataChange: () => getUpdateEvents(studioDirPath),
 })
 

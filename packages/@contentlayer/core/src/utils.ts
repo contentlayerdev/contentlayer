@@ -23,3 +23,7 @@ export const fileExists = async (pathLike: string): Promise<boolean> => {
     return false
   }
 }
+
+export function assertUnreachable(x: never): never {
+  throw new Error("Didn't expect to get here")
+}

@@ -1,5 +1,5 @@
 import type * as Core from '@contentlayer/core'
-import { getConfig } from '@contentlayer/core'
+import { assertUnreachable, getConfig } from '@contentlayer/core'
 import type * as Stackbit from '@stackbit/sdk'
 import { Command, Option } from 'clipanion'
 import * as fs from 'fs/promises'
@@ -188,10 +188,6 @@ const partition = <T>(arr: T[], isLeft: (_: T) => boolean): [T[], T[]] => {
     },
     [[], []] as [T[], T[]],
   )
-}
-
-function assertUnreachable(x: never): never {
-  throw new Error("Didn't expect to get here")
 }
 
 function recRemoveUndefinedValues(val: any): void {

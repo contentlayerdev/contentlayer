@@ -1,13 +1,9 @@
-import { person, post, section_posts } from 'contentlayer/types'
+import { post, section_posts } from 'contentlayer/types'
 import React, { FC } from 'react'
 import { htmlToReact, Link, withPrefix } from '../../utils'
 import { BlogPostFooter } from '../BlogPostFooter'
 
-export const SectionPosts: FC<{ section: section_posts; posts: post[]; persons: person[] }> = ({
-  section,
-  posts,
-  persons,
-}) => {
+export const SectionPosts: FC<{ section: section_posts; posts: post[] }> = ({ section, posts }) => {
   const recentPosts = posts
     // TODO do proper date constructing
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
@@ -38,7 +34,7 @@ export const SectionPosts: FC<{ section: section_posts; posts: post[]; persons: 
                   <div className="post-excerpt">
                     <p>{post.excerpt}</p>
                   </div>
-                  <BlogPostFooter post={post} dateType={'short'} persons={persons} />
+                  <BlogPostFooter post={post} dateType={'short'} />
                 </div>
               </div>
             </article>

@@ -1369,6 +1369,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@contentlayer/react@workspace:*, @contentlayer/react@workspace:packages/@contentlayer/react":
+  version: 0.0.0-use.local
+  resolution: "@contentlayer/react@workspace:packages/@contentlayer/react"
+  dependencies:
+    "@contentlayer/client": "workspace:*"
+    "@contentlayer/core": "workspace:*"
+    "@types/react": ^17.0.3
+    typescript: ^4.2.3
+  peerDependencies:
+    react: "*"
+  languageName: unknown
+  linkType: soft
+
 "@contentlayer/source-contentful@workspace:*, @contentlayer/source-contentful@workspace:packages/@contentlayer/source-contentful":
   version: 0.0.0-use.local
   resolution: "@contentlayer/source-contentful@workspace:packages/@contentlayer/source-contentful"
@@ -4794,9 +4807,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"contentlayer-stackbit-yaml-generator@workspace:*, contentlayer-stackbit-yaml-generator@workspace:packages/sourcebit-stackbit-yaml-generator":
+"contentlayer-stackbit-yaml-generator@workspace:*, contentlayer-stackbit-yaml-generator@workspace:packages/contentlayer-stackbit-yaml-generator":
   version: 0.0.0-use.local
-  resolution: "contentlayer-stackbit-yaml-generator@workspace:packages/sourcebit-stackbit-yaml-generator"
+  resolution: "contentlayer-stackbit-yaml-generator@workspace:packages/contentlayer-stackbit-yaml-generator"
   dependencies:
     "@contentlayer/core": "workspace:*"
     "@stackbit/sdk": ^0.1.9
@@ -4817,6 +4830,7 @@ __metadata:
     "@contentlayer/cli": "workspace:*"
     "@contentlayer/client": "workspace:*"
     "@contentlayer/core": "workspace:*"
+    "@contentlayer/react": "workspace:*"
     "@contentlayer/source-local": "workspace:*"
     esbuild: ^0.11.5
     typescript: ^4.2.3

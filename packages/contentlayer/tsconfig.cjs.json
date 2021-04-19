@@ -9,6 +9,7 @@
     { "path": "../@contentlayer/client/tsconfig.cjs.json" },
     { "path": "../@contentlayer/core/tsconfig.cjs.json" },
     { "path": "../@contentlayer/cli/tsconfig.cjs.json" },
+    { "path": "../@contentlayer/react/tsconfig.cjs.json" },
     { "path": "../@contentlayer/source-local/tsconfig.cjs.json" }
   ]
 }

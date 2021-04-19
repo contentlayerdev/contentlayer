@@ -1,4 +1,4 @@
-import { config, landing, person, post } from 'contentlayer/types'
+import { config, landing, post } from 'contentlayer/types'
 import React, { FC } from 'react'
 import { SectionContact } from '../components/landing-sections/SectionContact'
 import { SectionContent } from '../components/landing-sections/SectionContent'
@@ -15,8 +15,7 @@ export const LandingLayout: FC<{
   doc: landing
   config: config
   posts: post[]
-  persons: person[]
-}> = ({ doc, config, posts, persons }) => (
+}> = ({ doc, config, posts }) => (
   <Layout doc={doc} config={config}>
     {doc.sections?.map((section, index) => {
       switch (section._typeName) {
@@ -33,7 +32,7 @@ export const LandingLayout: FC<{
         case 'section_hero':
           return <SectionHero key={index} section={section} />
         case 'section_posts':
-          return <SectionPosts key={index} section={section} posts={posts} persons={persons} />
+          return <SectionPosts key={index} section={section} posts={posts} />
         case 'section_pricing':
           return <SectionPricing key={index} section={section} />
         case 'section_reviews':

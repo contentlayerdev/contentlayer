@@ -1,6 +1,6 @@
 {
   "name": "contentlayer",
-  "version": "0.0.2-5",
+  "version": "0.0.2-6",
   "bin": "./dist/cli/index.js",
   "exports": {
     "./source-local": {
@@ -10,6 +10,10 @@
     "./client": {
       "import": "./dist/esm/client/index.js",
       "require": "./dist/cjs/client/index.js"
+    },
+    "./react": {
+      "import": "./dist/esm/react/index.js",
+      "require": "./dist/cjs/react/index.js"
     },
     "./core": {
       "import": "./dist/esm/core/index.js",
@@ -24,6 +28,9 @@
       ],
       "client": [
         "./dist/esm/client"
+      ],
+      "react": [
+        "./dist/esm/react"
       ],
       "core": [
         "./dist/esm/core"
@@ -42,6 +49,7 @@
     "@contentlayer/cli": "workspace:*",
     "@contentlayer/client": "workspace:*",
     "@contentlayer/core": "workspace:*",
+    "@contentlayer/react": "workspace:*",
     "@contentlayer/source-local": "workspace:*"
   },
   "devDependencies": {

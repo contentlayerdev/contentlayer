@@ -1,26 +1,25 @@
 {
-  "name": "@contentlayer/source-sanity",
+  "name": "@contentlayer/react",
   "version": "0.0.2-6",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
   "scripts": {
     "prepack": "yarn build",
-    "dev": "rm -rf dist *.tsbuildinfo && tsc --watch",
+    "dev": "rm -rf dist && tsc --watch",
     "build": "rm -rf dist && yarn build:esm && yarn build:cjs && echo Build complete",
     "build:esm": "tsc --build tsconfig.json",
     "build:cjs": "tsc --build tsconfig.cjs.json"
   },
   "devDependencies": {
-    "@types/node": "^14.14.37",
+    "@types/react": "^17.0.3",
     "typescript": "^4.2.3"
   },
   "dependencies": {
-    "@contentlayer/core": "workspace:*",
-    "@sanity/client": "^2.7.1",
-    "@sanity/core": "^2.7.4",
-    "@sanity/image-url": "^0.140.22",
-    "@sanity/schema": "^2.7.4",
-    "rxjs": "^6.6.7"
+    "@contentlayer/client": "workspace:*",
+    "@contentlayer/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "*"
   }
 }

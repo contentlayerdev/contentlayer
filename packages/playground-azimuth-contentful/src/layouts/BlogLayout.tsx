@@ -1,16 +1,11 @@
 // import { blog, post, config } from 'contentlayer/types'
-import { blog, config, person, post } from 'contentlayer/types'
+import { blog, config, post } from 'contentlayer/types'
 import React, { FC } from 'react'
 import { BlogPostFooter } from '../components/BlogPostFooter'
 import { Layout } from '../components/Layout'
 import { Link, withPrefix } from '../utils'
 
-export const BlogLayout: FC<{ doc: blog; config: config; posts: post[]; persons: person[] }> = ({
-  doc,
-  config,
-  posts,
-  persons,
-}) => (
+export const BlogLayout: FC<{ doc: blog; config: config; posts: post[] }> = ({ doc, config, posts }) => (
   <Layout doc={doc} config={config}>
     <div className="outer">
       <div className="inner">
@@ -34,7 +29,7 @@ export const BlogLayout: FC<{ doc: blog; config: config; posts: post[]; persons:
                     <div className="post-excerpt">
                       <p>{post.excerpt}</p>
                     </div>
-                    <BlogPostFooter post={post} persons={persons} dateType="short" />
+                    <BlogPostFooter post={post} dateType="short" />
                   </div>
                 </div>
               </article>

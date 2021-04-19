@@ -1,6 +1,6 @@
 import { GetAllTypeNamesGen, SourcePlugin } from '@contentlayer/core'
 import { createClient } from 'contentful-management'
-import { defer, Observable, of } from 'rxjs'
+import { defer, forkJoin, from, Observable, of } from 'rxjs'
 import { mergeMap, startWith } from 'rxjs/operators'
 import type * as Contentful from './contentful-types'
 import { fetchData } from './fetchData'
@@ -32,15 +32,15 @@ export const makeSourcePlugin: MakeSourcePlugin = ({
     const environment = await getEnvironment({ accessToken, spaceId, environmentId })
     return provideSchema({ environment, schemaOverrides })
   },
-  fetchData: ({ watch, force, previousCache }) =>
-    defer(() => getEnvironment({ accessToken, spaceId, environmentId })).pipe(
-      mergeMap((environment) => provideSchema({ environment, schemaOverrides })),
-      mergeMap((schemaDef) =>
-        (watch ? getUpdateEvents().pipe(startWith(0)) : of(0)).pipe(
-          mergeMap(() => fetchData({ schemaDef, force, previousCache })),
-        ),
-      ),
-    ),
+  fetchData: ({ watch, force, previousCache }) => {
+    const updates$ = watch ? getUpdateEvents().pipe(startWith(0)) : of(0)
+    const data$ = from(getEnvironment({ accessToken, spaceId, environmentId })).pipe(
+      mergeMap((environment) => forkJoin([of(environment), provideSchema({ environment, schemaOverrides })])),
+      mergeMap(([environment, schemaDef]) => fetchData({ schemaDef, force, previousCache, environment })),
+    )
+
+    return updates$.pipe(mergeMap(() => data$))
+  },
   watchDataChange: () => getUpdateEvents(),
 })
 

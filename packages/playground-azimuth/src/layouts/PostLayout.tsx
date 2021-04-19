@@ -1,4 +1,4 @@
-import { config, person, post } from 'contentlayer/types'
+import { config, post } from 'contentlayer/types'
 import React, { FC } from 'react'
 import { BlogPostFooter } from '../components/BlogPostFooter'
 import { Layout } from '../components/Layout'
@@ -7,8 +7,7 @@ import { htmlToReact, markdownify, withPrefix } from '../utils'
 export const PostLayout: FC<{
   doc: post
   config: config
-  persons: person[]
-}> = ({ config, doc, persons }) => (
+}> = ({ config, doc }) => (
   <Layout config={config} doc={doc}>
     <div className="outer">
       <div className="inner-medium">
@@ -23,7 +22,7 @@ export const PostLayout: FC<{
             </div>
           )}
           <div className="post-content">{markdownify(doc.content)}</div>
-          <BlogPostFooter post={doc} dateType="long" persons={persons} />
+          <BlogPostFooter post={doc} dateType="long" />
         </article>
       </div>
     </div>

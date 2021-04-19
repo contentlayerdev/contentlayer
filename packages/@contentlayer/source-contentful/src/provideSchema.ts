@@ -1,4 +1,5 @@
 import type * as Core from '@contentlayer/core'
+import { assertUnreachable } from '@contentlayer/core'
 import { SchemaOverrides } from '.'
 import type * as Contentful from './contentful-types'
 import { partition } from './utils'
@@ -107,7 +108,7 @@ const toFieldDef = ({
           return { ...fieldBase, type: 'object', objectName: typeName }
         }
       } else {
-        return { ...fieldBase, type: 'url' }
+        return { ...fieldBase, type: 'image' }
       }
     case 'Location':
     case 'Object':
@@ -163,8 +164,4 @@ const toListFieldDefItem = ({
   } else {
     return { type: 'object', objectName: typeName }
   }
-}
-
-function assertUnreachable(x: never): never {
-  throw new Error("Didn't expect to get here")
 }
