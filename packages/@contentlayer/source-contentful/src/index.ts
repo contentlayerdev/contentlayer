@@ -6,10 +6,6 @@ import type * as Contentful from './contentful-types'
 import { fetchData } from './fetchData'
 import { provideSchema } from './provideSchema'
 
-/** 
-Since Contentful only provides one kind of content types this schema overrides argument allows you
-to turn relations into embedded objects. Either provide an array of type names via `objectTypes` or `documentTypes`.
-*/
 export type SchemaOverrides = {
   objectTypes?: GetAllTypeNamesGen[]
   documentTypes?: GetAllTypeNamesGen[]
@@ -19,6 +15,10 @@ type MakeSourcePlugin = (_: {
   accessToken: string
   spaceId: string
   environmentId?: string
+  /**
+   * Since Contentful only provides one kind of content types this schema overrides argument allows you
+   * to turn relations into embedded objects. Either provide an array of type names via `objectTypes` or `documentTypes`.
+   */
   schemaOverrides?: SchemaOverrides
 }) => SourcePlugin
 
@@ -41,7 +41,6 @@ export const makeSourcePlugin: MakeSourcePlugin = ({
 
     return updates$.pipe(mergeMap(() => data$))
   },
-  watchDataChange: () => getUpdateEvents(),
 })
 
 const getEnvironment = async ({

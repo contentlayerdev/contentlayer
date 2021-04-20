@@ -53,8 +53,14 @@ const callEsbuild = ({
       sourcemap: true,
       platform: 'node',
       plugins: [dirnameOverrideEsbuildPlugin()],
-      // TODO make dynamic
-      external: ['@sanity/core/lib/actions/graphql/getSanitySchema', 'esbuild'],
+      external: [
+        'esbuild',
+        // TODO make dynamic
+        // needed for source-sanity
+        '@sanity/core/lib/actions/graphql/getSanitySchema',
+        // needed to make chokidar work on OSX (in source-local)
+        'fsevents',
+      ],
       format: 'cjs',
       bundle: true,
       watch: watch

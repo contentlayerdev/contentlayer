@@ -13,13 +13,14 @@ export const fetchDataAndCache = ({
 }: {
   config: Config
   cachePath?: string
-  watch?: boolean
+  watch: boolean
 }): Observable<void> => {
-  const writeCache_ = writeCache()
+  const writeCacheToFile_ = writeCacheToFile()
+
   return combineLatest([
-    from(prepareCacheFilePath()),
+    from(prepareCacheFilePath(cachePath)),
     config.source.fetchData({ watch, force: false, previousCache: undefined }),
-  ]).pipe(mergeMap(([cacheFilePath, cache]) => writeCache_({ cacheFilePath, cache })))
+  ]).pipe(mergeMap(([cacheFilePath, cache]) => writeCacheToFile_({ cacheFilePath, cache })))
 }
 
 const prepareCacheFilePath = async (cachePath?: string): Promise<string> => {
@@ -31,7 +32,7 @@ const prepareCacheFilePath = async (cachePath?: string): Promise<string> => {
   }
 }
 
-const writeCache = () => {
+const writeCacheToFile = () => {
   let lastUpdateInMs: number | undefined
   return async ({ cache, cacheFilePath }: { cacheFilePath: string; cache: Cache }) => {
     if (cache.lastUpdateInMs !== lastUpdateInMs) {

@@ -18,7 +18,6 @@ export const makeSourcePlugin: MakeSourcePlugin = ({ studioDirPath }) => ({
 
     return updates$.pipe(mergeMap(() => data$))
   },
-  watchDataChange: () => getUpdateEvents(studioDirPath),
 })
 
 const getUpdateEvents = (studioDirPath: string): Observable<any> =>

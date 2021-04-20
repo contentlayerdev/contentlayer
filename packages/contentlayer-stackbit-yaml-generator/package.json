@@ -1,6 +1,6 @@
 {
   "name": "contentlayer-stackbit-yaml-generator",
-  "version": "0.0.2-7",
+  "version": "0.0.2-8",
   "bin": "./dist/index.js",
   "scripts": {
     "prepack": "yarn build",

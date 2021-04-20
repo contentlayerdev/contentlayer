@@ -1,4 +1,4 @@
-import { Observable, SourcePlugin } from '@contentlayer/core'
+import { SourcePlugin } from '@contentlayer/core'
 import * as chokidar from 'chokidar'
 import { promise as glob } from 'glob-promise'
 import * as path from 'path'
@@ -21,28 +21,24 @@ export const makeSourcePlugin: MakeSourcePlugin = ({ documentDefs: documentDefs_
   return {
     provideSchema: () => makeCoreSchema({ documentDefs }),
     fetchData: ({ watch, force, previousCache }) => {
-      const schemaDef = makeCoreSchema({ documentDefs })
       const filePathPatternMap: FilePathPatternMap = documentDefs.reduce(
         (acc, documentDef) => ({ ...acc, [documentDef.name]: documentDef.filePathPattern }),
         {},
       )
 
-      return of(0).pipe(
-        mergeMap(() =>
-          watch
-            ? defer(() => getFilePaths({ contentDirPath, documentDefs })).pipe(
-                mergeMap((filePaths) => fromEvent<void>(chokidar.watch(filePaths), 'change')),
-                startWith(0),
-              )
-            : of(0),
-        ),
-        mergeMap(() => fetch({ schemaDef, filePathPatternMap, contentDirPath, force, previousCache })),
+      const updates$ = watch
+        ? defer(() => getFilePaths({ contentDirPath, documentDefs })).pipe(
+            mergeMap((filePaths) => fromEvent<void>(chokidar.watch(filePaths), 'change')),
+            startWith(0),
+          )
+        : of(0)
+
+      const data$ = of(makeCoreSchema({ documentDefs })).pipe(
+        mergeMap((schemaDef) => fetch({ schemaDef, filePathPatternMap, contentDirPath, force, previousCache })),
       )
+
+      return updates$.pipe(mergeMap(() => data$))
     },
-    watchDataChange: (): Observable<void> =>
-      defer(() => getFilePaths({ contentDirPath, documentDefs })).pipe(
-        mergeMap((filePaths) => fromEvent<void>(chokidar.watch(filePaths), 'change')),
-      ),
   }
 }
 
