@@ -103,7 +103,7 @@ async function makeDocumentFromFilePath({
 
   const doc = makeDocument({ documentDef, rawContent: content, schemaDef, sourceFilePath })
 
-  const computedValues = getComputedValues({ documentDef, doc })
+  const computedValues = await getComputedValues({ documentDef, doc })
   if (computedValues) {
     Object.entries(computedValues).forEach(([fieldName, value]) => {
       doc[fieldName] = value
@@ -290,19 +290,24 @@ const getDataForListItem = ({
   }
 }
 
-function getComputedValues({
+const getComputedValues = async ({
   doc,
   documentDef,
 }: {
   documentDef: Core.DocumentDef
   doc: Document
-}): undefined | Record<string, any> {
+}): Promise<undefined | Record<string, any>> => {
   if (documentDef.computedFields === undefined) {
     return undefined
   }
 
-  const computedValues = documentDef.computedFields.reduce((acc, field) => {
-    acc[field.name] = field.resolve(doc)
+  type Tuple = [fieldName: string, value: any]
+  const tuples = await Promise.all(
+    documentDef.computedFields.map<Promise<Tuple>>(async (field) => [field.name, await field.resolve(doc)]),
+  )
+
+  const computedValues = tuples.reduce((acc, [fieldName, value]) => {
+    acc[fieldName] = value
     return acc
   }, {} as any)
 

@@ -8,6 +8,8 @@ import {
 } from '@contentlayer/core'
 import { isType } from './guards'
 
+export const getDocuments = () => new ContentlayerClient().getAllDocuments()
+
 export class ContentlayerClient {
   constructor(props?: { cache?: Cache; config?: Config }) {
     if (props?.config) {

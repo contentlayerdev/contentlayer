@@ -1,6 +1,6 @@
 import { Config } from '@contentlayer/core'
 import { build as esbuild, BuildResult, Plugin } from 'esbuild'
-import * as fs from 'fs/promises'
+import { promises as fs } from 'fs'
 import * as path from 'path'
 import pkgUp from 'pkg-up'
 import { Observable, of } from 'rxjs'

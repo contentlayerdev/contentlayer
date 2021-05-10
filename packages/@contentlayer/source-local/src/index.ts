@@ -3,7 +3,7 @@ import * as chokidar from 'chokidar'
 import { promise as glob } from 'glob-promise'
 import * as path from 'path'
 import { defer, fromEvent, of } from 'rxjs'
-import { mergeMap, startWith } from 'rxjs/operators'
+import { mergeMap, startWith, tap } from 'rxjs/operators'
 import { fetch, FilePathPatternMap } from './fetchData'
 import { makeCoreSchema } from './provideSchema'
 import { DocumentDef, Thunk } from './schema'
@@ -21,14 +21,19 @@ export const makeSourcePlugin: MakeSourcePlugin = ({ documentDefs: documentDefs_
   return {
     provideSchema: () => makeCoreSchema({ documentDefs }),
     fetchData: ({ watch, force, previousCache }) => {
-      const filePathPatternMap: FilePathPatternMap = documentDefs.reduce(
+      const filePathPatternMap = documentDefs.reduce(
         (acc, documentDef) => ({ ...acc, [documentDef.name]: documentDef.filePathPattern }),
-        {},
+        {} as FilePathPatternMap,
       )
 
       const updates$ = watch
         ? defer(() => getFilePaths({ contentDirPath, documentDefs })).pipe(
-            mergeMap((filePaths) => fromEvent<void>(chokidar.watch(filePaths), 'change')),
+            mergeMap((filePaths) => fromEvent<any>(chokidar.watch(filePaths, { ignoreInitial: true }), 'all')),
+            tap((e) => {
+              if (e && Array.isArray(e) && e.length >= 2) {
+                console.log(`Watch event "${e[0]}": ${e[1]}`)
+              }
+            }),
             startWith(0),
           )
         : of(0)
