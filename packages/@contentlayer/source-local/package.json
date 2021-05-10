@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/source-local",
-  "version": "0.0.2-11",
+  "version": "0.0.2-12",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
@@ -13,16 +13,17 @@
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*",
+    "@contentlayer/utils": "workspace:*",
     "chokidar": "^3.5.1",
-    "glob": "^7.1.6",
-    "glob-promise": "^4.0.1",
-    "gray-matter": "^4.0.2",
-    "js-yaml": "^4.0.0",
+    "glob": "^7.1.7",
+    "glob-promise": "^4.1.0",
+    "gray-matter": "^4.0.3",
+    "js-yaml": "^4.1.0",
     "minimatch": "^3.0.4",
-    "rxjs": "^6.6.7",
+    "rxjs": "^7.0.0",
     "ts-pattern": "^2.1.2"
   },
   "devDependencies": {
-    "typescript": "^4.2.3"
+    "typescript": "^4.2.4"
   }
 }

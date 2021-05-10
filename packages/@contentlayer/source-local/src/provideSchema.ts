@@ -1,5 +1,5 @@
 import type * as Core from '@contentlayer/core'
-import { pick } from '@contentlayer/core'
+import { pick } from '@contentlayer/utils'
 import { DocumentDef, FieldDef, ListFieldItem, ObjectDef, SchemaDef } from './schema'
 
 export function makeCoreSchema(schemaDef: SchemaDef): Core.SchemaDef {
@@ -9,6 +9,7 @@ export function makeCoreSchema(schemaDef: SchemaDef): Core.SchemaDef {
   for (const documentDef of schemaDef.documentDefs) {
     const coreDocumentDef: Core.DocumentDef = {
       ...pick(documentDef, ['name', 'label', 'description', 'labelField']),
+      isSingleton: false,
       fieldDefs: Object.entries(documentDef.fields).map(fieldDefToCoreFieldDef),
       computedFields: (documentDef.computedFields?.((_) => _) as Core.ComputedField[]) ?? [],
     }
@@ -28,8 +29,8 @@ export function makeCoreSchema(schemaDef: SchemaDef): Core.SchemaDef {
 }
 
 function fieldDefToCoreFieldDef([name, fieldDef]: [name: string, fieldDef: FieldDef]): Core.FieldDef {
-  const baseFields = {
-    ...pick(fieldDef, ['type', 'default', 'label', 'description', 'required', 'const', 'hidden']),
+  const baseFields: Core.FieldBase = {
+    ...pick(fieldDef, ['type', 'default', 'description', 'label', 'required', 'const', 'hidden']),
     name,
   }
   switch (fieldDef.type) {
@@ -48,8 +49,14 @@ function fieldDefToCoreFieldDef([name, fieldDef]: [name: string, fieldDef: Field
       return <Core.InlineObjectFieldDef>{ ...baseFields, fieldDefs }
     case 'reference':
       return <Core.ReferenceFieldDef>{ ...baseFields, documentName: fieldDef.document().name }
+    case 'enum':
+      return <Core.EnumFieldDef>{ ...baseFields, options: fieldDef.options }
     default:
-      return { ...fieldDef, name }
+      return {
+        // needs to pick again since fieldDef.type has been
+        ...pick(fieldDef, ['type', 'default', 'description', 'label', 'required', 'const', 'hidden']),
+        name,
+      }
   }
 }
 

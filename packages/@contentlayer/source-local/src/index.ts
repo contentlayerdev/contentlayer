@@ -28,7 +28,7 @@ export const makeSourcePlugin: MakeSourcePlugin = ({ documentDefs: documentDefs_
 
       const updates$ = watch
         ? defer(() => getFilePaths({ contentDirPath, documentDefs })).pipe(
-            mergeMap((filePaths) => fromEvent<any>(chokidar.watch(filePaths, { ignoreInitial: true }), 'all')),
+            mergeMap((filePaths) => fromEvent(chokidar.watch(filePaths, { ignoreInitial: true }), 'all')),
             tap((e) => {
               if (e && Array.isArray(e) && e.length >= 2) {
                 console.log(`Watch event "${e[0]}": ${e[1]}`)

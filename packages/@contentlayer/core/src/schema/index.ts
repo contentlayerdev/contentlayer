@@ -13,8 +13,9 @@ export type SchemaDef = {
 export type DocumentDef = {
   name: string
   label: string
-  description?: string
-  labelField?: string
+  description: string | undefined
+  labelField: string | undefined
+  isSingleton: boolean
   fieldDefs: FieldDef[]
   computedFields: ComputedField[]
 }
@@ -22,8 +23,8 @@ export type DocumentDef = {
 export type ObjectDef = {
   name: string
   label: string
-  description?: string
-  labelField?: string
+  description: string | undefined
+  labelField: string | undefined
   fieldDefs: FieldDef[]
 }
 
@@ -31,7 +32,7 @@ export type ComputedFieldType = 'string' | 'number' | 'boolean'
 
 export type ComputedField = {
   name: string
-  description?: string
+  description: string | undefined
   type: ComputedFieldType
   resolve: ComputedFieldResolver
 }

@@ -3,7 +3,7 @@ import { build as esbuild, BuildResult, Plugin } from 'esbuild'
 import { promises as fs } from 'fs'
 import * as path from 'path'
 import pkgUp from 'pkg-up'
-import { Observable, of } from 'rxjs'
+import { firstValueFrom, Observable, of } from 'rxjs'
 import { finalize, mergeMap } from 'rxjs/operators'
 
 export const getConfigWatch = ({ configPath, cwd }: { configPath: string; cwd: string }): Observable<Config> => {
@@ -11,7 +11,7 @@ export const getConfigWatch = ({ configPath, cwd }: { configPath: string; cwd: s
 }
 
 export const getConfig = async ({ configPath, cwd }: { configPath: string; cwd: string }): Promise<Config> => {
-  return getConfig_({ configPath, cwd, watch: false }).toPromise()
+  return firstValueFrom(getConfig_({ configPath, cwd, watch: false }))
 }
 
 const getConfig_ = ({

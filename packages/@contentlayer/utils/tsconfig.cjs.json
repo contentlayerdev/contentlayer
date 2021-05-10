@@ -4,6 +4,5 @@
     "module": "CommonJS",
     "target": "ES5",
     "outDir": "./dist/cjs"
-  },
-  "references": [{ "path": "../utils/tsconfig.cjs.json" }, { "path": "../core/tsconfig.cjs.json" }]
+  }
 }

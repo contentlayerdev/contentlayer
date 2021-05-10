@@ -22,8 +22,14 @@ export const makeSourcePlugin: MakeSourcePlugin = ({ studioDirPath }) => ({
 
 const getUpdateEvents = (studioDirPath: string): Observable<any> =>
   defer(() => getSanityClient(studioDirPath)).pipe(
-    mergeMap((sanityClient) =>
-      // `visibility: 'query'` needed otherwise event will trigger too early
-      sanityClient.listen<MutationEvent>('*', {}, { events: ['mutation'], visibility: 'query' }),
+    mergeMap(
+      (sanityClient) =>
+        // TOOD Observable wrapping can be removed once RXJS in sanity is updated to v7
+        new Observable((subscriber) => {
+          // `visibility: 'query'` needed otherwise event will trigger too early
+          sanityClient
+            .listen<MutationEvent>('*', {}, { events: ['mutation'], visibility: 'query' })
+            .subscribe(subscriber)
+        }),
     ),
   )

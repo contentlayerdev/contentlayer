@@ -10,5 +10,5 @@
     "outDir": "./dist/esm"
   },
   "include": ["./src"],
-  "references": [{ "path": "../core" }]
+  "references": [{ "path": "../utils/tsconfig.json" }, { "path": "../core/tsconfig.json" }]
 }

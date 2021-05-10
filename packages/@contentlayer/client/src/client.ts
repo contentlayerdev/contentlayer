@@ -6,6 +6,8 @@ import {
   GetDocumentTypeNamesGen,
   GetDocumentTypesGen,
 } from '@contentlayer/core'
+import { recRemoveUndefinedValues } from '@contentlayer/utils'
+import { firstValueFrom } from 'rxjs'
 import { isType } from './guards'
 
 export const getDocuments = () => new ContentlayerClient().getAllDocuments()
@@ -16,8 +18,7 @@ export class ContentlayerClient {
       this.config = props.config
     } else {
       if (props?.cache) {
-        this.cache = props.cache as any
-        recRemoveUndefinedValues(this.cache)
+        this.setCache(props.cache)
       } else {
         // this.cache = require(`${process.cwd()}/node_modules/.contentlayer/cache.json`)
         eval(`delete require.cache[require.resolve(".contentlayer/cache.json")]`)
@@ -49,7 +50,14 @@ export class ContentlayerClient {
       force: false,
       previousCache: this.cache as any,
     })
-    this.cache = (await observable.toPromise()) as any
+    const cache = await firstValueFrom(observable)
+    this.setCache(cache)
+  }
+
+  private setCache = (cache: Cache) => {
+    this.cache = cache
+
+    // Next.js doesn't allow for returning `undefined` values in `getStaticProps`
     recRemoveUndefinedValues(this.cache)
   }
 
@@ -75,23 +83,5 @@ export class ContentlayerClient {
 function assertCacheExists(cache: CacheGen | undefined): asserts cache is CacheGen {
   if (cache === undefined) {
     throw new Error(`You can't access ContentlayerClient data before you haven't fetched`)
-  }
-}
-
-/**
- * Next.js doesn't allow for returning `undefined` values in `getStaticProps`
- * TODO move this function to a better place
- */
-function recRemoveUndefinedValues(val: any): void {
-  if (Array.isArray(val)) {
-    val.forEach(recRemoveUndefinedValues)
-  } else if (typeof val === 'object') {
-    Object.keys(val).forEach((key) => {
-      if (val[key] === undefined) {
-        delete val[key]
-      } else {
-        recRemoveUndefinedValues(val[key])
-      }
-    })
   }
 }

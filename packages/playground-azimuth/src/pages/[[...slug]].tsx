@@ -1,4 +1,4 @@
-import { ContentlayerClient, isType } from 'contentlayer/client'
+import { getDocuments, isType } from 'contentlayer/client'
 import { ContentlayerContext } from 'contentlayer/react'
 import { InferGetStaticPropsType } from 'next'
 import React, { FC } from 'react'
@@ -9,9 +9,7 @@ import { PostLayout } from '../layouts/PostLayout'
 import { defineStaticProps, toParams } from '../utils/next'
 
 export const getStaticPaths = async () => {
-  const contentlayer = new ContentlayerClient()
-  const paths = contentlayer
-    .getAllDocuments()
+  const paths = getDocuments()
     .filter(isType(['post', 'landing', 'page', 'blog']))
     .map((_) => _.url_path)
     .map(toParams)
@@ -23,8 +21,7 @@ export const getStaticProps = defineStaticProps(async (context) => {
   const params = context.params as any
   const pagePath = `/${params.slug?.join('/') ?? ''}`
 
-  const contentlayer = new ContentlayerClient()
-  const docs = contentlayer.getAllDocuments()
+  const docs = getDocuments()
   const doc = docs.filter(isType(['post', 'landing', 'page', 'blog'])).find((_) => _.url_path === pagePath)!
   const posts = docs.filter(isType('post'))
   const config = docs.find(isType('config'))!

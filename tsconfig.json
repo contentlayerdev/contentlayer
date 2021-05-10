@@ -5,7 +5,7 @@
     "declarationMap": true,
     "incremental": true,
     "isolatedModules": true,
-    "lib": ["ES2020"],
+    "lib": ["ES2020", "DOM"],
     "module": "ES2020",
     "moduleResolution": "node",
     "sourceMap": true,

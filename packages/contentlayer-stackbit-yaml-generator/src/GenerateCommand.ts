@@ -1,5 +1,6 @@
 import type * as Core from '@contentlayer/core'
 import { assertUnreachable, getConfig } from '@contentlayer/core'
+import { partition, recRemoveUndefinedValues } from '@contentlayer/utils'
 import type * as Stackbit from '@stackbit/sdk'
 import { Command, Option } from 'clipanion'
 import { promises as fs } from 'fs'
@@ -44,6 +45,7 @@ export class GenerateCommand extends Command {
 }
 
 const convertSchema = ({ documentDefMap, objectDefMap }: Core.SchemaDef): Stackbit.YamlConfig => {
+  // TODO this needs to be more dynamic/configurable
   const urlPathFieldName = 'url_path'
   const documentDefs = Object.values(documentDefMap)
   const [pageDocumentDefs, dataDocumentDefs] = partition(
@@ -60,7 +62,7 @@ const convertSchema = ({ documentDefMap, objectDefMap }: Core.SchemaDef): Stackb
     ),
   ].reduce((acc, { model, name }) => ({ ...acc, [name]: model }), {} as Stackbit.YamlModels)
 
-  return { stackbitVersion: '~0.3.0', models, nodeVersion: '>12' }
+  return { stackbitVersion: '~0.3.0', models, nodeVersion: '>=12' }
 }
 
 const documentDefToStackbitYamlModel = ({
@@ -69,7 +71,6 @@ const documentDefToStackbitYamlModel = ({
 }: {
   def: Core.DocumentDef | Core.ObjectDef
   type: Stackbit.YamlModel['type']
-  // TODO
   urlPathFieldName: string
 }): { model: Stackbit.YamlModel; name: string } => {
   const name = def.name
@@ -174,32 +175,4 @@ const listFieldDefToStackbitFieldListItems = (
   }
 
   throw new Error(`Not implemented ${JSON.stringify(fieldDef)}`)
-}
-
-const partition = <T>(arr: T[], isLeft: (_: T) => boolean): [T[], T[]] => {
-  return arr.reduce(
-    (acc, el) => {
-      if (isLeft(el)) {
-        acc[0].push(el)
-      } else {
-        acc[1].push(el)
-      }
-      return acc
-    },
-    [[], []] as [T[], T[]],
-  )
-}
-
-function recRemoveUndefinedValues(val: any): void {
-  if (Array.isArray(val)) {
-    val.forEach(recRemoveUndefinedValues)
-  } else if (typeof val === 'object') {
-    Object.keys(val).forEach((key) => {
-      if (val[key] === undefined) {
-        delete val[key]
-      } else {
-        recRemoveUndefinedValues(val[key])
-      }
-    })
-  }
 }

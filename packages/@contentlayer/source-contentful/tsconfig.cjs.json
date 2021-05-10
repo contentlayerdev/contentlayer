@@ -5,5 +5,5 @@
     "target": "ES5",
     "outDir": "./dist/cjs"
   },
-  "references": [{ "path": "../core/tsconfig.cjs.json" }]
+  "references": [{ "path": "../utils/tsconfig.cjs.json" }, { "path": "../core/tsconfig.cjs.json" }]
 }

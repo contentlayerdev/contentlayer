@@ -1,8 +1,8 @@
 import type * as Core from '@contentlayer/core'
 import { assertUnreachable } from '@contentlayer/core'
+import { partition } from '@contentlayer/utils'
 import { SchemaOverrides } from '.'
 import type * as Contentful from './contentful-types'
-import { partition } from './utils'
 
 export const provideSchema = async ({
   environment,
@@ -52,6 +52,7 @@ const toDocumentDef = ({
     computedFields: [],
     description: contentType.description,
     labelField: contentType.displayField,
+    isSingleton: false,
   }
 }
 
@@ -83,8 +84,9 @@ const toFieldDef = ({
     label: field.name,
     hidden: field.omitted,
     required: field.required,
-    // default: field.
-    // description: field.
+    const: undefined,
+    default: undefined,
+    description: undefined,
   }
   switch (field.type) {
     case 'Boolean':
@@ -143,7 +145,7 @@ const toFieldDef = ({
           return {
             ...fieldBase,
             type: 'list',
-            of: { type: 'string' },
+            of: { type: 'string', labelField: undefined },
           }
         }
       }
@@ -160,8 +162,8 @@ const toListFieldDefItem = ({
   schemaOverrides: SchemaOverrides
 }): Core.ListFieldDefItem => {
   if (isDocument({ schemaOverrides, typeName })) {
-    return { type: 'reference', documentName: typeName }
+    return { type: 'reference', documentName: typeName, labelField: undefined }
   } else {
-    return { type: 'object', objectName: typeName }
+    return { type: 'object', objectName: typeName, labelField: undefined }
   }
 }
