@@ -37,7 +37,7 @@ const writeCacheToFile = () => {
   return async ({ cache, cacheFilePath }: { cacheFilePath: string; cache: Cache }) => {
     if (cache.lastUpdateInMs !== lastUpdateInMs) {
       await fs.writeFile(cacheFilePath, JSON.stringify(cache, null, 2))
-      console.log(`Data cache file successfully written to ${cacheFilePath}`)
+      // console.log(`Data cache file successfully written to ${cacheFilePath}`)
       lastUpdateInMs = cache.lastUpdateInMs
     }
   }

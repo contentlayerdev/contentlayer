@@ -1,6 +1,13 @@
 import { Document } from '../data'
-import { FieldDef } from './field'
+import { FieldDef, FieldDefType } from './field'
 export * from './field'
+
+export type Markdown = {
+  /** Raw Markdown source */
+  raw: string
+  /** Generated HTML based on Markdown source */
+  html: string
+}
 
 export type DocumentDefMap = Record<string, DocumentDef>
 export type ObjectDefMap = Record<string, ObjectDef>
@@ -11,6 +18,7 @@ export type SchemaDef = {
 }
 
 export type DocumentDef = {
+  /** Sometimes also called "id" */
   name: string
   label: string
   description: string | undefined
@@ -28,13 +36,11 @@ export type ObjectDef = {
   fieldDefs: FieldDef[]
 }
 
-export type ComputedFieldType = 'string' | 'number' | 'boolean'
-
 export type ComputedField = {
   name: string
   description: string | undefined
-  type: ComputedFieldType
+  type: FieldDefType
   resolve: ComputedFieldResolver
 }
 
-type ComputedFieldResolver = (_: Document) => ComputedFieldType | Promise<ComputedFieldType>
+type ComputedFieldResolver = (_: Document) => FieldDefType | Promise<FieldDefType>

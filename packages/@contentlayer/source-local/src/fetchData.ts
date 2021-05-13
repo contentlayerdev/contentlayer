@@ -1,5 +1,6 @@
 import type * as Core from '@contentlayer/core'
-import { Cache, Document } from '@contentlayer/core'
+import { Cache, Document, Markdown, markdownToHtml } from '@contentlayer/core'
+import { promiseMap, promiseMapToDict } from '@contentlayer/utils'
 import { promises as fs } from 'fs'
 import { promise as glob } from 'glob-promise'
 import matter from 'gray-matter'
@@ -101,7 +102,7 @@ async function makeDocumentFromFilePath({
   const re = new RegExp(`^${contentDirPath}(\/)?`)
   const sourceFilePath = filePath.replace(re, '')
 
-  const doc = makeDocument({ documentDef, rawContent: content, schemaDef, sourceFilePath })
+  const doc = await makeDocument({ documentDef, rawContent: content, schemaDef, sourceFilePath })
 
   const computedValues = await getComputedValues({ documentDef, doc })
   if (computedValues) {
@@ -136,10 +137,17 @@ function checkSchema({
   const requiredFields = documentDef.fieldDefs.filter((_) => _.required)
   const misingRequiredFields = requiredFields.filter((fieldDef) => !existingDataFieldKeys.includes(fieldDef.name))
   if (misingRequiredFields.length > 0) {
+    const misingRequiredFieldsStr = misingRequiredFields.map((_, i) => `  ${i + 1}: ` + JSON.stringify(_)).join('\n')
     throw new Error(
-      `Missing required fields (type: "${documentDef.name}") for "${filePath}":\n${misingRequiredFields
-        .map((_, i) => `${i + 1}: ` + JSON.stringify(_))
-        .join('\n')}`,
+      `\
+Missing required fields (type: "${documentDef.name}") for "${filePath}".
+
+Missing fields:
+${misingRequiredFieldsStr}
+
+Content:
+${JSON.stringify(content, null, 2)}
+`,
     )
   }
 
@@ -148,7 +156,7 @@ function checkSchema({
   return documentDef
 }
 
-const makeDocument = ({
+const makeDocument = async ({
   rawContent,
   documentDef,
   schemaDef,
@@ -158,25 +166,29 @@ const makeDocument = ({
   documentDef: Core.DocumentDef
   schemaDef: Core.SchemaDef
   sourceFilePath: string
-}): Core.Document => {
+}): Promise<Core.Document> => {
+  const docValues = await promiseMapToDict(
+    documentDef.fieldDefs,
+    (fieldDef) =>
+      getDataForFieldDef({
+        fieldDef,
+        rawFieldData: rawContent.data[fieldDef.name],
+        schemaDef,
+      }),
+    (fieldDef) => fieldDef.name,
+  )
+
   const doc: Core.Document = {
     _typeName: documentDef.name,
     _id: sourceFilePath,
     _raw: { sourceFilePath, kind: rawContent.kind },
+    ...docValues,
   }
-
-  documentDef.fieldDefs.forEach((fieldDef) => {
-    doc[fieldDef.name] = getDataForFieldDef({
-      fieldDef,
-      rawFieldData: rawContent.data[fieldDef.name],
-      schemaDef,
-    })
-  })
 
   return doc
 }
 
-const makeObject = ({
+const makeObject = async ({
   rawObjectData,
   fieldDefs,
   typeName,
@@ -187,22 +199,24 @@ const makeObject = ({
   fieldDefs: Core.FieldDef[]
   typeName: string
   schemaDef: Core.SchemaDef
-}): Core.Object => {
+}): Promise<Core.Object> => {
+  const objValues = await promiseMapToDict(
+    fieldDefs,
+    (fieldDef) =>
+      getDataForFieldDef({
+        fieldDef,
+        rawFieldData: rawObjectData[fieldDef.name],
+        schemaDef,
+      }),
+    (fieldDef) => fieldDef.name,
+  )
   const raw = Object.fromEntries(Object.entries(rawObjectData).filter(([key]) => key.startsWith('_')))
-  const obj: Core.Object = { _typeName: typeName, _raw: raw }
-
-  fieldDefs.forEach((fieldDef) => {
-    obj[fieldDef.name] = getDataForFieldDef({
-      fieldDef,
-      rawFieldData: rawObjectData[fieldDef.name],
-      schemaDef,
-    })
-  })
+  const obj: Core.Object = { _typeName: typeName, _raw: raw, ...objValues }
 
   return obj
 }
 
-const getDataForFieldDef = ({
+const getDataForFieldDef = async ({
   fieldDef,
   rawFieldData,
   schemaDef,
@@ -210,7 +224,7 @@ const getDataForFieldDef = ({
   fieldDef: Core.FieldDef
   rawFieldData: any
   schemaDef: Core.SchemaDef
-}): any => {
+}): Promise<any> => {
   if (rawFieldData === undefined) {
     if (fieldDef.required) {
       console.error(`Inconsistent data found: ${fieldDef}`)
@@ -239,13 +253,22 @@ const getDataForFieldDef = ({
       return rawFieldData
     case 'polymorphic_list':
     case 'list':
-      return (rawFieldData as any[]).map((rawItemData) => getDataForListItem({ rawItemData, fieldDef, schemaDef }))
+      return promiseMap(rawFieldData as any[], (rawItemData) =>
+        getDataForListItem({ rawItemData, fieldDef, schemaDef }),
+      )
+    case 'date':
+      return new Date(rawFieldData)
+    case 'markdown':
+      return <Markdown>{
+        raw: rawFieldData,
+        html: await markdownToHtml(rawFieldData),
+      }
     default:
       return rawFieldData
   }
 }
 
-const getDataForListItem = ({
+const getDataForListItem = async ({
   rawItemData,
   fieldDef,
   schemaDef,
@@ -253,7 +276,7 @@ const getDataForListItem = ({
   rawItemData: any
   fieldDef: Core.ListFieldDef | Core.PolymorphicListFieldDef
   schemaDef: Core.SchemaDef
-}): any => {
+}): Promise<any> => {
   if (typeof rawItemData === 'string') {
     return rawItemData
   }
@@ -301,15 +324,11 @@ const getComputedValues = async ({
     return undefined
   }
 
-  type Tuple = [fieldName: string, value: any]
-  const tuples = await Promise.all(
-    documentDef.computedFields.map<Promise<Tuple>>(async (field) => [field.name, await field.resolve(doc)]),
+  const computedValues = await promiseMapToDict(
+    documentDef.computedFields,
+    (field) => field.resolve(doc),
+    (field) => field.name,
   )
-
-  const computedValues = tuples.reduce((acc, [fieldName, value]) => {
-    acc[fieldName] = value
-    return acc
-  }, {} as any)
 
   return computedValues
 }

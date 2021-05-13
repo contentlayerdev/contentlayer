@@ -20,18 +20,9 @@ export class ContentlayerClient {
       if (props?.cache) {
         this.setCache(props.cache)
       } else {
-        // this.cache = require(`${process.cwd()}/node_modules/.contentlayer/cache.json`)
+        // needs to use `eval` otherwise can't import from `node_modules`
         eval(`delete require.cache[require.resolve(".contentlayer/cache.json")]`)
         this.cache = eval(`require(".contentlayer/cache.json")`)
-
-        // if (process.env.NODE_ENV === 'development') {
-        //   import('fs').then((fs) => {
-        //     fs.watchFile(`${process.cwd()}/node_modules/.contentlayer/cache.json`, () => {
-        //       eval(`delete require.cache[require.resolve(".contentlayer/cache.json")]`)
-        //       this.cache = eval(`require(".contentlayer/cache.json")`)
-        //     })
-        //   })
-        // }
       }
     }
   }

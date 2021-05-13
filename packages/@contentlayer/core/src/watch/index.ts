@@ -15,18 +15,10 @@ export const watch = ({ configPath, onContentChange }: { configPath: string; onC
     cwd: process.cwd(),
   })
     .pipe(
-      tap((config) => generateTypes({ config })),
-      tap(() => console.log('new config')),
+      tap({ next: () => console.log(`Contentlayer config change detected. Updating type definitions and data...`) }),
+      tap({ next: (config) => generateTypes({ config }) }),
       switchMap((config) => fetchDataAndCache({ config, watch: true })),
-      tap(onContentChange),
-      tap(() => console.log('content change')),
+      tap({ next: onContentChange }),
     )
     .subscribe()
-
-  // .subscribe((config) => {
-  //   console.log('new config')
-
-  //   config.source.watchDataChange().subscribe(onContentChange)
-  //   generateTypes({ config })
-  // })
 }

@@ -1,6 +1,5 @@
 import type * as Core from '@contentlayer/core'
-import { assertUnreachable } from '@contentlayer/core'
-import { partition } from '@contentlayer/utils'
+import { assertUnreachable, partition } from '@contentlayer/utils'
 import { SchemaOverrides } from '.'
 import type * as Contentful from './contentful-types'
 

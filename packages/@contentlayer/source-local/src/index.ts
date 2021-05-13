@@ -1,7 +1,5 @@
 import { SourcePlugin } from '@contentlayer/core'
 import * as chokidar from 'chokidar'
-import { promise as glob } from 'glob-promise'
-import * as path from 'path'
 import { defer, fromEvent, of } from 'rxjs'
 import { mergeMap, startWith, tap } from 'rxjs/operators'
 import { fetch, FilePathPatternMap } from './fetchData'
@@ -27,8 +25,12 @@ export const makeSourcePlugin: MakeSourcePlugin = ({ documentDefs: documentDefs_
       )
 
       const updates$ = watch
-        ? defer(() => getFilePaths({ contentDirPath, documentDefs })).pipe(
-            mergeMap((filePaths) => fromEvent(chokidar.watch(filePaths, { ignoreInitial: true }), 'all')),
+        ? defer(() =>
+            fromEvent(
+              chokidar.watch(contentDirPath, { ignoreInitial: true, awaitWriteFinish: { stabilityThreshold: 200 } }),
+              'all',
+            ),
+          ).pipe(
             tap((e) => {
               if (e && Array.isArray(e) && e.length >= 2) {
                 console.log(`Watch event "${e[0]}": ${e[1]}`)
@@ -45,15 +47,4 @@ export const makeSourcePlugin: MakeSourcePlugin = ({ documentDefs: documentDefs_
       return updates$.pipe(mergeMap(() => data$))
     },
   }
-}
-
-const getFilePaths = async ({
-  documentDefs,
-  contentDirPath,
-}: {
-  documentDefs: DocumentDef[]
-  contentDirPath: string
-}): Promise<string[]> => {
-  const filePaths_ = await Promise.all(documentDefs.map((_) => glob(path.join(contentDirPath, _.filePathPattern))))
-  return filePaths_.flat()
 }

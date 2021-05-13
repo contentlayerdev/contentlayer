@@ -1,50 +1,8 @@
 import type * as Core from '@contentlayer/core'
-import { assertUnreachable, getConfig } from '@contentlayer/core'
-import { partition, recRemoveUndefinedValues } from '@contentlayer/utils'
+import { assertUnreachable, partition } from '@contentlayer/utils'
 import type * as Stackbit from '@stackbit/sdk'
-import { Command, Option } from 'clipanion'
-import { promises as fs } from 'fs'
-import * as path from 'path'
-import * as t from 'typanion'
-import * as YAML from 'yaml'
 
-const defaultYamlPath = () => `${path.join(process.cwd())}/stackbit.yaml`
-
-export class GenerateCommand extends Command {
-  // static paths = [['generate']]
-
-  configPath = Option.String('-c,--config', {
-    required: true,
-    description: 'Path to the Contentlayer config',
-    validator: t.isString(),
-  })
-
-  yamlPath = Option.String('-s,--stackbit', defaultYamlPath(), {
-    description: 'Target path for Stackbit YAML file',
-    validator: t.isString(),
-  })
-
-  async execute() {
-    try {
-      await this.executeSafe()
-    } catch (e) {
-      console.error(e)
-      throw e
-    }
-  }
-
-  async executeSafe() {
-    const config = await getConfig({ configPath: this.configPath, cwd: process.cwd() })
-    const schema = await config.source.provideSchema()
-    const stackbitConfig = convertSchema(schema)
-    recRemoveUndefinedValues(stackbitConfig)
-    const yamlContent = YAML.stringify(stackbitConfig)
-    await fs.writeFile(this.yamlPath, yamlContent)
-    console.log(`Stackbit config generated to ${this.yamlPath}`)
-  }
-}
-
-const convertSchema = ({ documentDefMap, objectDefMap }: Core.SchemaDef): Stackbit.YamlConfig => {
+export const convertSchema = ({ documentDefMap, objectDefMap }: Core.SchemaDef): Stackbit.YamlConfig => {
   // TODO this needs to be more dynamic/configurable
   const urlPathFieldName = 'url_path'
   const documentDefs = Object.values(documentDefMap)
@@ -62,7 +20,7 @@ const convertSchema = ({ documentDefMap, objectDefMap }: Core.SchemaDef): Stackb
     ),
   ].reduce((acc, { model, name }) => ({ ...acc, [name]: model }), {} as Stackbit.YamlModels)
 
-  return { stackbitVersion: '~0.3.0', models, nodeVersion: '>=12' }
+  return { stackbitVersion: '~0.3.0', nodeVersion: '>=12', models }
 }
 
 const documentDefToStackbitYamlModel = ({
@@ -78,7 +36,7 @@ const documentDefToStackbitYamlModel = ({
     label: def.label,
     labelField: def.labelField,
     description: def.description,
-    fields: def.fieldDefs.map(fieldDefToStackbitField),
+    fields: def.fieldDefs.filter(not(isContentMarkdownFieldDef)).map(fieldDefToStackbitField),
   }
 
   switch (type) {
@@ -109,7 +67,11 @@ const fieldDefToStackbitField = (fieldDef: Core.FieldDef): Stackbit.Field => {
     case 'reference':
       return { ...commonField, type: 'reference', models: [fieldDef.documentName] }
     case 'inline_object':
-      return { ...commonField, type: 'object', fields: fieldDef.fieldDefs.map(fieldDefToStackbitField) }
+      return {
+        ...commonField,
+        type: 'object',
+        fields: fieldDef.fieldDefs.filter(not(isContentMarkdownFieldDef)).map(fieldDefToStackbitField),
+      }
     case 'json':
       return { ...commonField, type: 'object', fields: [] }
     case 'object':
@@ -145,6 +107,14 @@ const listFieldDefToStackbitFieldListItems = (
     }
   }
 
+  if (fieldDef.type === 'polymorphic_list' && fieldDef.typeField !== 'type') {
+    // TODO make more configurable via global `objectTypeKey` option
+    // https://www.stackbit.com/docs/stackbit-yaml/properties/#objecttypekey
+    throw new Error(
+      `typeField needs to be called "type" in order to be supported by Stackbit. typeField found: "${fieldDef.typeField}"`,
+    )
+  }
+
   if (
     fieldDef.type === 'polymorphic_list' &&
     fieldDef.of.every(
@@ -163,7 +133,10 @@ const listFieldDefToStackbitFieldListItems = (
       case 'boolean':
         return { type: fieldDef.of.type }
       case 'inline_object':
-        return { type: 'object', fields: fieldDef.of.fieldDefs.map(fieldDefToStackbitField) }
+        return {
+          type: 'object',
+          fields: fieldDef.of.fieldDefs.filter(not(isContentMarkdownFieldDef)).map(fieldDefToStackbitField),
+        }
       case 'enum':
         return { type: 'enum', options: fieldDef.of.options }
       case 'object':
@@ -176,3 +149,8 @@ const listFieldDefToStackbitFieldListItems = (
 
   throw new Error(`Not implemented ${JSON.stringify(fieldDef)}`)
 }
+
+const not = <Fn extends (...args: any[]) => boolean>(fn: Fn) => (...args: Parameters<Fn>) => !fn(...args)
+
+const isContentMarkdownFieldDef = (fieldDef: Core.FieldDef) =>
+  fieldDef.name === 'content' && fieldDef.type === 'markdown'

@@ -7,11 +7,31 @@ export function makeCoreSchema(schemaDef: SchemaDef): Core.SchemaDef {
   const coreObjectDefMap: Core.ObjectDefMap = {}
 
   for (const documentDef of schemaDef.documentDefs) {
+    let fieldDefs = Object.entries(documentDef.fields).map(fieldDefToCoreFieldDef)
+
+    if (documentDef.fileType === undefined || documentDef.fileType === 'md') {
+      fieldDefs.push({
+        type: 'markdown',
+        name: 'content',
+        label: 'Markdown content',
+        description: 'Default markdown file content',
+        default: undefined,
+        const: undefined,
+        hidden: undefined,
+        required: undefined,
+      })
+    }
+
+    const computedFields = Object.entries(documentDef.computedFields ?? {}).map<Core.ComputedField>(
+      ([name, computedField]) => ({ ...pick(computedField, ['description', 'resolve', 'type']), name }),
+    )
+
     const coreDocumentDef: Core.DocumentDef = {
-      ...pick(documentDef, ['name', 'label', 'description', 'labelField']),
-      isSingleton: false,
-      fieldDefs: Object.entries(documentDef.fields).map(fieldDefToCoreFieldDef),
-      computedFields: (documentDef.computedFields?.((_) => _) as Core.ComputedField[]) ?? [],
+      ...pick(documentDef, ['name', 'description', 'labelField']),
+      label: documentDef.label ?? documentDef.name,
+      isSingleton: documentDef.isSingleton ?? false,
+      fieldDefs,
+      computedFields,
     }
     coreDocumentDefMap[documentDef.name] = coreDocumentDef
   }
@@ -19,7 +39,8 @@ export function makeCoreSchema(schemaDef: SchemaDef): Core.SchemaDef {
   const objectDefs = collectObjectDefs(schemaDef.documentDefs)
   for (const objectDef of objectDefs) {
     const coreObjectDef: Core.ObjectDef = {
-      ...pick(objectDef, ['name', 'label', 'description', 'labelField']),
+      ...pick(objectDef, ['name', 'description', 'labelField']),
+      label: objectDef.label ?? objectDef.name,
       fieldDefs: Object.entries(objectDef.fields).map(fieldDefToCoreFieldDef),
     }
     coreObjectDefMap[coreObjectDef.name] = coreObjectDef
@@ -30,7 +51,8 @@ export function makeCoreSchema(schemaDef: SchemaDef): Core.SchemaDef {
 
 function fieldDefToCoreFieldDef([name, fieldDef]: [name: string, fieldDef: FieldDef]): Core.FieldDef {
   const baseFields: Core.FieldBase = {
-    ...pick(fieldDef, ['type', 'default', 'description', 'label', 'required', 'const', 'hidden']),
+    ...pick(fieldDef, ['type', 'default', 'description', 'required', 'const', 'hidden']),
+    label: fieldDef.label ?? name,
     name,
   }
   switch (fieldDef.type) {

@@ -1,4 +1,7 @@
+export * from './fs'
+export * from './guards'
 export * from './pick'
+export * from './promise'
 
 export const recRemoveUndefinedValues = (val: any): void => {
   if (Array.isArray(val)) {
@@ -26,4 +29,16 @@ export const partition = <T>(arr: T[], isLeft: (_: T) => boolean): [T[], T[]] =>
     },
     [[], []] as [T[], T[]],
   )
+}
+
+export function assertUnreachable(_: never): never {
+  throw new Error("Didn't expect to get here")
+}
+
+export const unwrapThunk = <T>(_: T | (() => T)): T => {
+  if (typeof _ === 'function') {
+    return (_ as any)()
+  } else {
+    return _
+  }
 }

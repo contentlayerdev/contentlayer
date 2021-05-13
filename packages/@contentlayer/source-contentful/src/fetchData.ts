@@ -1,5 +1,6 @@
 import type * as Core from '@contentlayer/core'
-import { assertUnreachable, Cache } from '@contentlayer/core'
+import { Cache } from '@contentlayer/core'
+import { assertUnreachable } from '@contentlayer/utils'
 import type * as Contentful from './contentful-types'
 
 export const fetchData = async ({

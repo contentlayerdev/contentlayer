@@ -1,27 +1,34 @@
-import { ComputedField, ComputedFieldType } from './computed-field'
+import { ComputedField } from './computed-field'
 
 export type SchemaDef = {
   documentDefs: DocumentDef[]
 }
+
+export type DocumentFileType = 'md' | 'json' | 'yaml'
 
 /** Top level model type */
 export type DocumentDef<Name extends string = any> = {
   name: Name
   // type: ModelType
   /**  */
-  label: string
+  label?: string
   description?: string
-  // the name of the field that will be used as a title of an object
+  /** the name of the field that will be used as a title of an object */
   labelField?: string
+
+  /**
+   * In the case of `fileType: "md"` the fields are used for the frontmatter
+   * and have an implicit field called `content` with the markdown body.
+   */
   fields: Record<string, FieldDef>
-  // TODO file + URL matching
-  // computedFields?: ComputedField<any, Name>
-  // computedFields?:  <T extends ComputedFieldType>(_: ComputedField<T, Name>) => ComputedField<any, Name>
-  computedFields?: (
-    defineField: <T extends ComputedFieldType>(cf: ComputedField<T, Name>) => ComputedField<T, Name>,
-  ) => ComputedField<ComputedFieldType, Name>[]
-  /** Path is relative to the `contentlayer.ts` config file */
+
+  computedFields?: Record<string, ComputedField<Name>>
+
+  /** Path is relative to the `contentDirPath` config */
   filePathPattern: string // | ((doc: Document) => string)
+  /** Default is `md` */
+  fileType?: DocumentFileType
+  isSingleton?: boolean
   /** Conditional extensions */
   // extentions?:
   //   | {
@@ -56,6 +63,8 @@ export type DocumentDef<Name extends string = any> = {
 //   // | 'model'
 //   /** Reference to document */
 //   | 'reference'
+
+export type FieldDefType = FieldDef['type']
 
 export type FieldDef =
   | ListField
@@ -215,7 +224,7 @@ export type ObjectDef = {
   name: string
   // type: ModelType
   /**  */
-  label: string
+  label?: string
   description?: string
   labelField?: string
   fields: Record<string, FieldDef>
