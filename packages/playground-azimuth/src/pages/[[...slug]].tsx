@@ -1,5 +1,4 @@
-import { getDocuments, isType } from 'contentlayer/client'
-import { ContentlayerContext } from 'contentlayer/react'
+import { allconfig, allDocuments, allpost, isType } from '.contentlayer'
 import { InferGetStaticPropsType } from 'next'
 import React, { FC } from 'react'
 import { BlogLayout } from '../layouts/BlogLayout'
@@ -9,7 +8,7 @@ import { PostLayout } from '../layouts/PostLayout'
 import { defineStaticProps, toParams } from '../utils/next'
 
 export const getStaticPaths = async () => {
-  const paths = getDocuments()
+  const paths = allDocuments
     .filter(isType(['post', 'landing', 'page', 'blog']))
     .map((_) => _.url_path)
     .map(toParams)
@@ -21,29 +20,24 @@ export const getStaticProps = defineStaticProps(async (context) => {
   const params = context.params as any
   const pagePath = `/${params.slug?.join('/') ?? ''}`
 
-  const docs = getDocuments()
-  const doc = docs.filter(isType(['post', 'landing', 'page', 'blog'])).find((_) => _.url_path === pagePath)!
-  const posts = docs.filter(isType('post'))
-  const config = docs.find(isType('config'))!
+  const doc = allDocuments.filter(isType(['post', 'landing', 'page', 'blog'])).find((_) => _.url_path === pagePath)!
+  const posts = allpost
+  const config = allconfig[0]
 
-  return { props: { docs, doc, config, posts } }
+  return { props: { doc, config, posts } }
 })
 
-const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ docs, doc, config, posts }) => (
-  <ContentlayerContext.Provider value={docs}>
-    {(() => {
-      switch (doc._typeName) {
-        case 'landing':
-          return <LandingLayout doc={doc} config={config} posts={posts} />
-        case 'page':
-          return <PageLayout doc={doc} config={config} />
-        case 'blog':
-          return <BlogLayout doc={doc} config={config} posts={posts} />
-        case 'post':
-          return <PostLayout doc={doc} config={config} />
-      }
-    })()}
-  </ContentlayerContext.Provider>
-)
+const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ doc, config, posts }) => {
+  switch (doc._typeName) {
+    case 'landing':
+      return <LandingLayout doc={doc} config={config} posts={posts} />
+    case 'page':
+      return <PageLayout doc={doc} config={config} />
+    case 'blog':
+      return <BlogLayout doc={doc} config={config} posts={posts} />
+    case 'post':
+      return <PostLayout doc={doc} config={config} />
+  }
+}
 
 export default Page

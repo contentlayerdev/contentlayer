@@ -1,25 +1,24 @@
-import { fileExists } from '@contentlayer/utils'
 import { promises as fs } from 'fs'
 import * as path from 'path'
-import { Config } from '../config'
-import { FieldDef, ListFieldDefItem, SchemaDef } from '../schema'
+import { SourcePlugin } from '../plugin'
+import { DocumentDef, FieldDef, ListFieldDefItem, ObjectDef, SchemaDef } from '../schema'
 import { makeArtifactsDir } from '../utils'
 
 export const generateTypes = async ({
-  config,
+  source,
   generateSchemaJson,
 }: {
-  config: Config
+  source: SourcePlugin
   generateSchemaJson?: boolean
 }): Promise<void> => {
-  const schemaDef = await config.source.provideSchema()
+  const schemaDef = await source.provideSchema()
 
   if (generateSchemaJson) {
     const artifactsDirPath = await makeArtifactsDir()
     await fs.writeFile(path.join(artifactsDirPath, 'schema.json'), JSON.stringify(schemaDef, null, 2))
   }
 
-  const source = buildSource(schemaDef)
+  const src = buildSource(schemaDef)
 
   const typegenTargetDir = path.join('node_modules', '@types', 'contentlayer', 'types')
   await fs.mkdir(typegenTargetDir, { recursive: true })
@@ -28,55 +27,24 @@ export const generateTypes = async ({
   if (await fileExists(typegenTargetFilePath)) {
     await fs.unlink(typegenTargetFilePath)
   }
-  await fs.writeFile(typegenTargetFilePath, source)
+  await fs.writeFile(typegenTargetFilePath, src)
 
   console.log(`Type file successfully written to ${typegenTargetFilePath}`)
 }
 
-const buildSource = (schemaDef: SchemaDef): string => {
+export const buildSource = (schemaDef: SchemaDef): string => {
   const documentTypes = Object.values(schemaDef.documentDefMap)
     .sort((a, b) => a.name.localeCompare(b.name))
     .map((docDef) => ({
       typeName: docDef.name,
-      fieldDefs:
-        docDef.fieldDefs.map(renderFieldDef).join('\n') +
-        '\n' +
-        docDef.computedFields
-          .map(
-            (field) =>
-              `${field.description ? `    /** ${field.description} */\n` : ''}    ${field.name}: ${field.type}`,
-          )
-          .join('\n'),
-      description: docDef.description ?? docDef.label,
+      typeDef: renderDocumentOrObjectDef(docDef),
     }))
-    .map(({ typeName, fieldDefs, description }) => ({
-      typeName,
-      typeDef: `\
-${description ? `/** ${description} */\n` : ''}export type ${typeName} = {
-  _id: string
-  _typeName: '${typeName}'
-  _raw?: Record<string, any>
-${fieldDefs}
-}`,
-    }))
-
-  // ...(docDef.computedFields ? docDef.computedFields(_ => _) : []),
 
   const objectTypes = Object.values(schemaDef.objectDefMap)
     .sort((a, b) => a.name.localeCompare(b.name))
-    .map((objectDef) => ({
-      typeName: objectDef.name,
-      description: objectDef.description ?? objectDef.label,
-      fieldDefs: objectDef.fieldDefs.map(renderFieldDef).join('\n'),
-    }))
-    .map(({ typeName, description, fieldDefs }) => ({
-      typeName,
-      typeDef: `\
-${description ? `/** ${description} */\n` : ''}export type ${typeName} = {
-  _typeName: '${typeName}'
-  _raw?: Record<string, any>
-${fieldDefs}
-}`,
+    .map((objDef) => ({
+      typeName: objDef.name,
+      typeDef: renderDocumentOrObjectDef(objDef),
     }))
 
   const typeMap = documentTypes
@@ -116,17 +84,21 @@ export type DocumentTypeNames = DocumentTypes['_typeName']
 
 /** Document types */
 
-${/*export namespace Documents {
+${
+  /*export namespace Documents {
   export { ${documentTypes.map((_) => _.typeName).join(', ')} }
-}*/ ``}
+}*/ ``
+}
 
 ${documentTypes.map((_) => _.typeDef).join('\n\n')}
 
 /** Object types */
 
-${/*export namespace Objects {
+${
+  /*export namespace Objects {
   export { ${objectTypes.map((_) => _.typeName).join(', ')} }
-}*/ ``}
+}*/ ``
+}
 
 export type ObjectTypes = ${objectTypes.length > 0 ? objectTypes.map((_) => _.typeName).join(' | ') : 'never'}
 export type ObjectTypeNames = ObjectTypes['_typeName']
@@ -135,13 +107,31 @@ ${objectTypes.map((_) => _.typeDef).join('\n\n')}
 `
 }
 
-function renderFieldDef(field: FieldDef): string {
+export const renderDocumentOrObjectDef = (def: DocumentDef | ObjectDef): string => {
+  const typeName = def.name
+  const fieldDefs = def.fieldDefs.map(renderFieldDef).join('\n')
+  const computedFields = (def._tag === 'DocumentDef' ? def.computedFields : [])
+    .map((field) => `${field.description ? `  /** ${field.description} */\n` : ''}  ${field.name}: ${field.type}`)
+    .join('\n')
+  const description = def.description ?? def.label
+
+  return `\
+${description ? `/** ${description} */\n` : ''}export type ${typeName} = {
+  _id: string
+  _typeName: '${typeName}'
+  _raw?: Record<string, any>
+${fieldDefs}
+${computedFields}
+}`
+}
+
+const renderFieldDef = (field: FieldDef): string => {
   return `${field.description ? `  /** ${field.description} */\n` : ''}  ${field.name}: ${renderFieldType(field)}${
     field.required ? '' : ' | undefined'
   }`
 }
 
-function renderFieldType(field: FieldDef): string {
+const renderFieldType = (field: FieldDef): string => {
   switch (field.type) {
     case 'boolean':
     case 'string':
@@ -173,7 +163,7 @@ function renderFieldType(field: FieldDef): string {
   }
 }
 
-function renderListItemFieldType(item: ListFieldDefItem): string {
+const renderListItemFieldType = (item: ListFieldDefItem): string => {
   switch (item.type) {
     case 'boolean':
     case 'string':
@@ -186,5 +176,15 @@ function renderListItemFieldType(item: ListFieldDefItem): string {
       return '{\n' + item.fieldDefs.map(renderFieldDef).join('\n') + '\n}'
     case 'reference':
       return item.documentName
+  }
+}
+
+const fileExists = async (pathLike: string): Promise<boolean> => {
+  // const { promises: fs } = await import('fs')
+  try {
+    const fileStat = await fs.stat(pathLike)
+    return fileStat.isFile()
+  } catch (_e) {
+    return false
   }
 }

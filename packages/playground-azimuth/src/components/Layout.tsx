@@ -1,4 +1,4 @@
-import { blog, config, landing, page, post } from 'contentlayer/types'
+import { blog, config, landing, page, post } from '.contentlayer'
 import _ from 'lodash'
 import React, { FC } from 'react'
 import { Helmet } from 'react-helmet'

@@ -1,24 +1,24 @@
 {
-  "name": "@contentlayer/source-contentful",
+  "name": "next-contentlayer",
   "version": "0.0.2-18",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
   "scripts": {
     "prepack": "yarn build",
-    "dev": "rm -rf dist *.tsbuildinfo && tsc --watch",
     "build": "rm -rf dist && yarn build:esm && yarn build:cjs && echo Build complete",
     "build:esm": "tsc --build tsconfig.json",
     "build:cjs": "tsc --build tsconfig.cjs.json"
   },
-  "devDependencies": {
-    "@types/node": "^15.0.3",
-    "typescript": "^4.2.4"
-  },
   "dependencies": {
     "@contentlayer/core": "workspace:*",
-    "@contentlayer/utils": "workspace:*",
-    "contentful-management": "7.14.0",
     "rxjs": "^7.0.1"
+  },
+  "peerDependencies": {
+    "next": "^10"
+  },
+  "devDependencies": {
+    "next": "^10.2.0",
+    "typescript": "^4.2.4"
   }
 }

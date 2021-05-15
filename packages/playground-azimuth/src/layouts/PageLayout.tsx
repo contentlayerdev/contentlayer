@@ -1,4 +1,4 @@
-import { config, page } from 'contentlayer/types'
+import { config, page } from '.contentlayer'
 import React, { FC } from 'react'
 import { Layout } from '../components/Layout'
 import { htmlToReact, markdownify, withPrefix } from '../utils'

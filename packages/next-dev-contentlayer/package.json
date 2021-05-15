@@ -1,6 +1,6 @@
 {
   "name": "next-dev-contentlayer",
-  "version": "0.0.2-16",
+  "version": "0.0.2-18",
   "bin": "./dist/index.js",
   "scripts": {
     "prepack": "yarn build",

@@ -9,11 +9,11 @@ import { DocumentDef, Thunk } from './schema'
 export * from './schema'
 
 type MakeSourcePlugin = (_: {
-  documentDefs: Thunk<DocumentDef>[] | Record<string, Thunk<DocumentDef>>
+  schema: Thunk<DocumentDef>[] | Record<string, Thunk<DocumentDef>>
   contentDirPath: string
 }) => SourcePlugin
 
-export const makeSourcePlugin: MakeSourcePlugin = ({ documentDefs: documentDefs_, contentDirPath }) => {
+export const fromLocalContent: MakeSourcePlugin = ({ schema: documentDefs_, contentDirPath }) => {
   const documentDefs = (Array.isArray(documentDefs_) ? documentDefs_ : Object.values(documentDefs_)).map((_) => _())
 
   return {
@@ -27,7 +27,10 @@ export const makeSourcePlugin: MakeSourcePlugin = ({ documentDefs: documentDefs_
       const updates$ = watch
         ? defer(() =>
             fromEvent(
-              chokidar.watch(contentDirPath, { ignoreInitial: true, awaitWriteFinish: { stabilityThreshold: 200 } }),
+              chokidar.watch(contentDirPath, {
+                ignoreInitial: true,
+                awaitWriteFinish: { stabilityThreshold: 50, pollInterval: 10 },
+              }),
               'all',
             ),
           ).pipe(

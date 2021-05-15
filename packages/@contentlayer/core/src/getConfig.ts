@@ -1,16 +1,18 @@
-import { Config } from '@contentlayer/core'
 import { build as esbuild, BuildResult, Plugin } from 'esbuild'
 import { promises as fs } from 'fs'
 import * as path from 'path'
 import pkgUp from 'pkg-up'
 import { firstValueFrom, Observable, of } from 'rxjs'
 import { finalize, mergeMap } from 'rxjs/operators'
+import { SourcePlugin } from './plugin'
 
-export const getConfigWatch = ({ configPath, cwd }: { configPath: string; cwd: string }): Observable<Config> => {
+// TODO rename to getSourceWatch
+export const getConfigWatch = ({ configPath, cwd }: { configPath: string; cwd: string }): Observable<SourcePlugin> => {
   return getConfig_({ configPath, cwd, watch: true })
 }
 
-export const getConfig = async ({ configPath, cwd }: { configPath: string; cwd: string }): Promise<Config> => {
+// TODO rename to getSource
+export const getConfig = async ({ configPath, cwd }: { configPath: string; cwd: string }): Promise<SourcePlugin> => {
   return firstValueFrom(getConfig_({ configPath, cwd, watch: false }))
 }
 
@@ -22,7 +24,7 @@ const getConfig_ = ({
   configPath: string
   cwd: string
   watch: boolean
-}): Observable<Config> => {
+}): Observable<SourcePlugin> => {
   return of(0).pipe(
     mergeMap(ensureEsbuildBin),
     mergeMap(() => makeTmpDirAndResolveEntryPoint({ configPath, cwd })),
@@ -129,7 +131,7 @@ const getConfigFromResult = async ({
   result: BuildResult
   configPath: string
   outfilePath: string
-}): Promise<Config> => {
+}): Promise<SourcePlugin> => {
   if (result.warnings.length > 0) {
     console.error(result.warnings)
   }

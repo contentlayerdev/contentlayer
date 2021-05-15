@@ -5,6 +5,7 @@ import {
   GetDocumentTypeGen,
   GetDocumentTypeNamesGen,
   GetDocumentTypesGen,
+  SourcePlugin,
 } from '@contentlayer/core'
 import { recRemoveUndefinedValues } from '@contentlayer/utils'
 import { firstValueFrom } from 'rxjs'
@@ -13,9 +14,9 @@ import { isType } from './guards'
 export const getDocuments = () => new ContentlayerClient().getAllDocuments()
 
 export class ContentlayerClient {
-  constructor(props?: { cache?: Cache; config?: Config }) {
-    if (props?.config) {
-      this.config = props.config
+  constructor(props?: { cache?: Cache; source?: SourcePlugin }) {
+    if (props?.source) {
+      this.source = props.source
     } else {
       if (props?.cache) {
         this.setCache(props.cache)
@@ -28,15 +29,15 @@ export class ContentlayerClient {
   }
 
   private cache: CacheGen | undefined
-  private config: Config | undefined
+  private source: Config | undefined
 
   async fetchData(): Promise<void> {
-    if (this.config === undefined) {
+    if (this.source === undefined) {
       throw new Error(
-        `When running \`fetchData\`, you need to provide the \`config\` property when initializing the ContentlayerClient`,
+        `When running \`fetchData\`, you need to provide the \`source\` property when initializing the ContentlayerClient`,
       )
     }
-    const observable = this.config.source.fetchData({
+    const observable = this.source.fetchData({
       watch: false,
       force: false,
       previousCache: this.cache as any,

@@ -18,6 +18,7 @@ export type SchemaDef = {
 }
 
 export type DocumentDef = {
+  readonly _tag: 'DocumentDef'
   /** Sometimes also called "id" */
   name: string
   label: string
@@ -29,6 +30,7 @@ export type DocumentDef = {
 }
 
 export type ObjectDef = {
+  readonly _tag: 'ObjectDef'
   name: string
   label: string
   description: string | undefined

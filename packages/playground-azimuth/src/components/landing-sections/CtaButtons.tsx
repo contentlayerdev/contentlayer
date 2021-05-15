@@ -1,4 +1,4 @@
-import { action } from 'contentlayer/types'
+import { action } from '.contentlayer'
 import React, { FC } from 'react'
 import { Action } from '../Action'
 

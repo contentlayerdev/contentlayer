@@ -1,8 +1,8 @@
-import { config, post } from 'contentlayer/types'
+import { config, post } from '.contentlayer'
 import React, { FC } from 'react'
 import { BlogPostFooter } from '../components/BlogPostFooter'
 import { Layout } from '../components/Layout'
-import { htmlToReact, markdownify, withPrefix } from '../utils'
+import { htmlToReact, withPrefix } from '../utils'
 
 export const PostLayout: FC<{
   doc: post
@@ -21,7 +21,8 @@ export const PostLayout: FC<{
               <img src={withPrefix(doc.image)} alt={doc.image_alt ?? ''} />
             </div>
           )}
-          <div className="post-content">{markdownify(doc.content)}</div>
+          <div className="post-content" dangerouslySetInnerHTML={{ __html: doc.content?.html ?? '' }} />
+          {/* <div className="post-content">{markdownify(doc.content)}</div> */}
           <BlogPostFooter post={doc} dateType="long" />
         </article>
       </div>

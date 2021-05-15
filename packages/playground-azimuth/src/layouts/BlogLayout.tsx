@@ -1,5 +1,5 @@
-// import { blog, post, config } from 'contentlayer/types'
-import { blog, config, post } from 'contentlayer/types'
+// import { blog, post, config } from '.contentlayer'
+import { blog, config, post } from '.contentlayer'
 import React, { FC } from 'react'
 import { BlogPostFooter } from '../components/BlogPostFooter'
 import { Layout } from '../components/Layout'

@@ -14,7 +14,7 @@ export class FetchCommand extends BaseCommand {
   watch = Option.Boolean('--watch,-w', {})
 
   async executeSafe() {
-    const config = await getConfig({ configPath: this.configPath, cwd: process.cwd() })
-    fetchDataAndCache({ config, cachePath: this.cachePath, watch: this.watch ?? false }).subscribe()
+    const source = await getConfig({ configPath: this.configPath, cwd: process.cwd() })
+    fetchDataAndCache({ source, cachePath: this.cachePath, watch: this.watch ?? false }).subscribe()
   }
 }

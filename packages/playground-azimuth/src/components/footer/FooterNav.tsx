@@ -1,4 +1,4 @@
-import { footer_nav } from 'contentlayer/types'
+import { footer_nav } from '.contentlayer'
 import React, { FC } from 'react'
 import { Action } from '../Action'
 

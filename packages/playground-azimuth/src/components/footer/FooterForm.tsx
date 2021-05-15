@@ -1,4 +1,4 @@
-import { footer_form } from 'contentlayer/types'
+import { footer_form } from '.contentlayer'
 import React, { FC } from 'react'
 import { markdownify } from '../../utils'
 import { FormField } from '../FormField'

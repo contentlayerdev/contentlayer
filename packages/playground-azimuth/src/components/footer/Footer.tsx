@@ -1,4 +1,4 @@
-import { config } from 'contentlayer/types'
+import { config } from '.contentlayer'
 import React, { FC } from 'react'
 import { htmlToReact } from '../../utils'
 import { ActionLink } from '../ActionLink'

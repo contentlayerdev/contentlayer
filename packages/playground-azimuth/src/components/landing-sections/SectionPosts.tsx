@@ -1,4 +1,4 @@
-import { post, section_posts } from 'contentlayer/types'
+import { post, section_posts } from '.contentlayer'
 import React, { FC } from 'react'
 import { htmlToReact, Link, withPrefix } from '../../utils'
 import { BlogPostFooter } from '../BlogPostFooter'

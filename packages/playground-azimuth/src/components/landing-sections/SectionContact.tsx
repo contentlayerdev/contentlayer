@@ -1,4 +1,4 @@
-import { section_contact } from 'contentlayer/types'
+import { section_contact } from '.contentlayer'
 import _ from 'lodash'
 import React, { FC } from 'react'
 import { htmlToReact, markdownify } from '../../utils'

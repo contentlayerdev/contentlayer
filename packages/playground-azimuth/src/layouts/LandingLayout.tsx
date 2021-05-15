@@ -1,4 +1,4 @@
-import { config, landing, post } from 'contentlayer/types'
+import { config, landing, post } from '.contentlayer'
 import React, { FC } from 'react'
 import { SectionContact } from '../components/landing-sections/SectionContact'
 import { SectionContent } from '../components/landing-sections/SectionContent'

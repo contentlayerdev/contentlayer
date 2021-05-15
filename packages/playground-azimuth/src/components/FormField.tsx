@@ -1,4 +1,4 @@
-import { footer_form, form_field, section_contact } from 'contentlayer/types'
+import { footer_form, form_field, section_contact } from '.contentlayer'
 import React, { FC } from 'react'
 import { classNames } from '../utils'
 

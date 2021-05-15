@@ -2,10 +2,9 @@
   "name": "playground-azimuth",
   "private": true,
   "scripts": {
-    "dev": "node dev.js ./contentlayer/contentlayer.ts",
-    "build": "yarn generate && yarn fetch && next build",
-    "generate": "contentlayer generate --config ./contentlayer/contentlayer.ts",
-    "fetch": "contentlayer fetch --config ./contentlayer/contentlayer.ts"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
     "contentlayer": "workspace:*",
@@ -24,6 +23,7 @@
     "@types/react-dom": "^17.0.3",
     "@types/react-helmet": "^6.1.1",
     "contentlayer-stackbit-yaml-generator": "workspace:*",
+    "next-contentlayer": "workspace:*",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
   }

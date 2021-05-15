@@ -45,6 +45,7 @@ const toDocumentDef = ({
   schemaOverrides: SchemaOverrides
 }): Core.DocumentDef => {
   return {
+    _tag: 'DocumentDef',
     name: contentType.sys.id,
     label: contentType.name,
     fieldDefs: contentType.fields.map((field: any) => toFieldDef({ field, schemaOverrides })),
@@ -63,6 +64,7 @@ const toObjectDef = ({
   schemaOverrides: SchemaOverrides
 }): Core.ObjectDef => {
   return {
+    _tag: 'ObjectDef',
     name: contentType.sys.id,
     label: contentType.name,
     fieldDefs: contentType.fields.map((field: any) => toFieldDef({ field, schemaOverrides })),

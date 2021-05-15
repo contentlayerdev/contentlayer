@@ -1,4 +1,4 @@
-import { section_pricing } from 'contentlayer/types'
+import { section_pricing } from '.contentlayer'
 import React, { FC } from 'react'
 import { classNames, htmlToReact, markdownify } from '../../utils'
 import { CtaButtons } from './CtaButtons'

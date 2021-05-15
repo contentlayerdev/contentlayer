@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/client",
-  "version": "0.0.2-16",
+  "version": "0.0.2-18",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
@@ -17,6 +17,6 @@
   "dependencies": {
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
-    "rxjs": "^7.0.0"
+    "rxjs": "^7.0.1"
   }
 }

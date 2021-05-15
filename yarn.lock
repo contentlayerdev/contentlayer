@@ -1409,7 +1409,7 @@ __metadata:
     "@contentlayer/core": "workspace:*"
     "@types/js-yaml": ^4.0.1
     "@types/minimatch": ^3.0.4
-    "@types/node": ^15.0.2
+    "@types/node": ^15.0.3
     clipanion: ^3.0.0-rc.12
     typanion: ^3.3.1
     typescript: ^4.2.4
@@ -1422,7 +1422,7 @@ __metadata:
   dependencies:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/utils": "workspace:*"
-    rxjs: ^7.0.0
+    rxjs: ^7.0.1
     typescript: ^4.2.4
   languageName: unknown
   linkType: soft
@@ -1438,7 +1438,8 @@ __metadata:
     pkg-up: ^3.1.0
     remark: ^12.0.0
     remark-html: ^12.0.0
-    rxjs: ^7.0.0
+    rxjs: ^7.0.1
+    type-fest: ^1.1.1
     typescript: ^4.2.4
   languageName: unknown
   linkType: soft
@@ -1462,9 +1463,9 @@ __metadata:
   dependencies:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/utils": "workspace:*"
-    "@types/node": ^15.0.2
+    "@types/node": ^15.0.3
     contentful-management: 7.14.0
-    rxjs: ^7.0.0
+    rxjs: ^7.0.1
     typescript: ^4.2.4
   languageName: unknown
   linkType: soft
@@ -1481,7 +1482,7 @@ __metadata:
     gray-matter: ^4.0.3
     js-yaml: ^4.1.0
     minimatch: ^3.0.4
-    rxjs: ^7.0.0
+    rxjs: ^7.0.1
     ts-pattern: ^2.1.2
     typescript: ^4.2.4
   languageName: unknown
@@ -1496,8 +1497,8 @@ __metadata:
     "@sanity/core": ^2.10.2
     "@sanity/image-url": ^0.140.22
     "@sanity/schema": ^2.10.0
-    "@types/node": ^15.0.2
-    rxjs: ^7.0.0
+    "@types/node": ^15.0.3
+    rxjs: ^7.0.1
     typescript: ^4.2.4
   languageName: unknown
   linkType: soft
@@ -3225,10 +3226,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^15.0.2":
+"@types/node@npm:*":
   version: 15.0.2
   resolution: "@types/node@npm:15.0.2"
   checksum: ea8dd741bf16ad3318cca505783b7c211a5c8bea49202f99ba88d2ce8a804e994e1fd1b575b994e434e8b8ead810da966d588ea112998f8fe8d95cd74c396f8a
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^15.0.3":
+  version: 15.0.3
+  resolution: "@types/node@npm:15.0.3"
+  checksum: 72bfbac4282443a7b5d5b43c7c39fe855aa1687b5fa5629b735fd2ceacf371b711ccfc956c8af1b1cbd9c74c79be845a801a4c7275048f340aa0df3beec6b10f
   languageName: node
   linkType: hard
 
@@ -5497,6 +5505,7 @@ __metadata:
     "@stackbit/sdk": ^0.1.15
     "@types/yaml": ^1
     clipanion: ^3.0.0-rc.12
+    contentlayer: "workspace:*"
     esbuild: ^0.11.20
     typescript: ^4.2.4
     yaml: ^1.10.2
@@ -11256,7 +11265,7 @@ fsevents@^1.2.7:
     contentlayer-stackbit-yaml-generator: latest
     date-fns: ^2.21.3
     next: ^10.2.0
-    next-dev-contentlayer: latest
+    next-contentlayer: latest
     react: 17.0.2
     react-dom: 17.0.2
     typescript: ^4.2.4
@@ -11344,7 +11353,20 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"next-dev-contentlayer@workspace:*, next-dev-contentlayer@workspace:packages/next-dev-contentlayer":
+"next-contentlayer@workspace:*, next-contentlayer@workspace:packages/next-contentlayer":
+  version: 0.0.0-use.local
+  resolution: "next-contentlayer@workspace:packages/next-contentlayer"
+  dependencies:
+    "@contentlayer/core": "workspace:*"
+    next: ^10.2.0
+    rxjs: ^7.0.1
+    typescript: ^4.2.4
+  peerDependencies:
+    next: ^10
+  languageName: unknown
+  linkType: soft
+
+"next-dev-contentlayer@workspace:packages/next-dev-contentlayer":
   version: 0.0.0-use.local
   resolution: "next-dev-contentlayer@workspace:packages/next-dev-contentlayer"
   dependencies:
@@ -12404,6 +12426,7 @@ fsevents@^1.2.7:
     date-fns: ^2.21.3
     marked: ^2.0.3
     next: ^10.2.0
+    next-contentlayer: "workspace:*"
     react: ^17.0.2
     react-dom: ^17.0.2
     react-helmet: ^6.1.0
@@ -14791,12 +14814,12 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "rxjs@npm:7.0.0"
+"rxjs@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "rxjs@npm:7.0.1"
   dependencies:
     tslib: ~2.1.0
-  checksum: e0d08420f94474c73a14e57b7a1bcbf7010791817e06e5a16a998a8e151b89bd0b4a4883203cb86906a81b0e052cb99cfe3d96b652de4c744282f4d60a51d73e
+  checksum: 5268539238140320c8217a4548199a4e5b6b4d6e683e1a6cf4c83f31dd36f05accb65c740d91947505693b78e2b8e3b21eb7726421b1ba64f4e161f60d2499a8
   languageName: node
   linkType: hard
 
@@ -16547,6 +16570,13 @@ fsevents@^1.2.7:
   version: 0.8.1
   resolution: "type-fest@npm:0.8.1"
   checksum: f8c4b4249f52e8bea7a4fc55b3653c96c2d547240e4c772e001d02b7cc38b8c3eb493ab9fbe985a76a203cd1aa7044776b728a71ba12bf36e7131f989597885b
+  languageName: node
+  linkType: hard
+
+"type-fest@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "type-fest@npm:1.1.1"
+  checksum: 083231eb34b405caaf1a41d3941a6ddc08763c0b89d079ffc634f7ec4e802da717b1e3cd4618c45bc4dc8b243ab34e1d4f09e9b81fe7a4fb6e7d91ab6321d983
   languageName: node
   linkType: hard
 

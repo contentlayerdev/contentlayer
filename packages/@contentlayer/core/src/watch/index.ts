@@ -8,6 +8,9 @@ import { getConfigWatch } from '../getConfig'
  * In case of config changes, it regenerates the types.
  * In case of data changes it caches the content and calls the `onContentChange` callback.
  * Also both fetches data and generates content when starting up.
+ *
+ *
+ * NOTE this code isn't really used anymore
  */
 export const watch = ({ configPath, onContentChange }: { configPath: string; onContentChange?: () => void }) => {
   getConfigWatch({
@@ -16,8 +19,8 @@ export const watch = ({ configPath, onContentChange }: { configPath: string; onC
   })
     .pipe(
       tap({ next: () => console.log(`Contentlayer config change detected. Updating type definitions and data...`) }),
-      tap({ next: (config) => generateTypes({ config }) }),
-      switchMap((config) => fetchDataAndCache({ config, watch: true })),
+      tap({ next: (source) => generateTypes({ source }) }),
+      switchMap((source) => fetchDataAndCache({ source, watch: true })),
       tap({ next: onContentChange }),
     )
     .subscribe()

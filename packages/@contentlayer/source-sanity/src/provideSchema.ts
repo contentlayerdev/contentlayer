@@ -85,32 +85,34 @@ const collectUsedObjectTypes = ({
   return Object.keys(visitedObjectTypes).map((_) => objectTypeMap[_])
 }
 
-const sanityDocumentTypeToCoreDocumentDef = (objectTypeNames: string[]) => (
-  documentType: Sanity.DocumentType,
-): Core.DocumentDef => {
-  const previewSelectValues = Object.values(documentType.preview?.select ?? {})
-  return {
-    name: documentType.name,
-    label: documentType.title ?? '',
-    description: undefined,
-    isSingleton: false,
-    labelField: previewSelectValues.length > 0 ? previewSelectValues[0] : undefined,
-    fieldDefs: documentType.fields.map(sanityFieldToCoreFieldDef(objectTypeNames)),
-    computedFields: [],
+const sanityDocumentTypeToCoreDocumentDef =
+  (objectTypeNames: string[]) =>
+  (documentType: Sanity.DocumentType): Core.DocumentDef => {
+    const previewSelectValues = Object.values(documentType.preview?.select ?? {})
+    return {
+      _tag: 'DocumentDef',
+      name: documentType.name,
+      label: documentType.title ?? '',
+      description: undefined,
+      isSingleton: false,
+      labelField: previewSelectValues.length > 0 ? previewSelectValues[0] : undefined,
+      fieldDefs: documentType.fields.map(sanityFieldToCoreFieldDef(objectTypeNames)),
+      computedFields: [],
+    }
   }
-}
 
-const sanityObjectTypeToCoreObjectDef = (objectTypeNames: string[]) => (
-  objectType: Sanity.ObjectType,
-): Core.ObjectDef => {
-  return {
-    name: objectType.name,
-    label: objectType.title ?? '',
-    description: objectType.description,
-    fieldDefs: objectType.fields.map(sanityFieldToCoreFieldDef(objectTypeNames)),
-    labelField: undefined,
+const sanityObjectTypeToCoreObjectDef =
+  (objectTypeNames: string[]) =>
+  (objectType: Sanity.ObjectType): Core.ObjectDef => {
+    return {
+      _tag: 'ObjectDef',
+      name: objectType.name,
+      label: objectType.title ?? '',
+      description: objectType.description,
+      fieldDefs: objectType.fields.map(sanityFieldToCoreFieldDef(objectTypeNames)),
+      labelField: undefined,
+    }
   }
-}
 
 const sanityMockRule = new Proxy<Sanity.RuleType>({} as any, {
   get: (_target, prop) => {
@@ -122,131 +124,133 @@ const sanityMockRule = new Proxy<Sanity.RuleType>({} as any, {
   },
 })
 
-const sanityFieldToCoreFieldDef = (objectTypeNames: string[]) => (field: Sanity.Field): Core.FieldDef => {
-  const required = field.validation?.(sanityMockRule) as boolean | undefined
-  const baseFields = { ...pick(field, ['description', 'name']), required }
-  switch (field.type) {
-    case 'reference':
-      return <Core.ReferenceFieldDef>{
-        ...baseFields,
-        type: 'reference',
-        // TODO support polymorphic references
-        documentName: field.to[0].type,
-      }
-    case 'array':
-      // special handling for enum array
-      if ((field.options as any)?.list) {
-        return <Core.ListFieldDef>{
+const sanityFieldToCoreFieldDef =
+  (objectTypeNames: string[]) =>
+  (field: Sanity.Field): Core.FieldDef => {
+    const required = field.validation?.(sanityMockRule) as boolean | undefined
+    const baseFields = { ...pick(field, ['description', 'name']), required }
+    switch (field.type) {
+      case 'reference':
+        return <Core.ReferenceFieldDef>{
           ...baseFields,
-          type: 'list',
-          of: <Core.ListFieldItemEnum>{ type: 'enum', options: (field.options as any).list },
+          type: 'reference',
+          // TODO support polymorphic references
+          documentName: field.to[0].type,
         }
-      }
-
-      if (field.of.length === 1) {
-        return <Core.ListFieldDef>{
-          ...baseFields,
-          type: 'list',
-          of: sanityArrayOfToCoreFieldListDefItem(objectTypeNames)(field.of[0]),
+      case 'array':
+        // special handling for enum array
+        if ((field.options as any)?.list) {
+          return <Core.ListFieldDef>{
+            ...baseFields,
+            type: 'list',
+            of: <Core.ListFieldItemEnum>{ type: 'enum', options: (field.options as any).list },
+          }
         }
-      }
 
-      return <Core.PolymorphicListFieldDef>{
-        ...baseFields,
-        type: 'polymorphic_list',
-        of: field.of.map(sanityArrayOfToCoreFieldListDefItem(objectTypeNames)),
-        typeField: '_type',
-      }
-    case 'object':
-      return <Core.InlineObjectFieldDef>{
-        ...baseFields,
-        type: 'inline_object',
-        fieldDefs: field.fields.map(sanityFieldToCoreFieldDef(objectTypeNames)),
-      }
-    case 'date':
-    case 'datetime': {
-      return <Core.DateFieldDef>{
-        ...baseFields,
-        type: 'date',
-        label: field.title,
-        hidden: field.hidden,
-      }
-    }
-    case 'string': {
-      // special handling for enum
-      if (field.options?.list) {
-        return <Core.EnumFieldDef>{
+        if (field.of.length === 1) {
+          return <Core.ListFieldDef>{
+            ...baseFields,
+            type: 'list',
+            of: sanityArrayOfToCoreFieldListDefItem(objectTypeNames)(field.of[0]),
+          }
+        }
+
+        return <Core.PolymorphicListFieldDef>{
           ...baseFields,
-          type: 'enum',
-          options: field.options.list,
+          type: 'polymorphic_list',
+          of: field.of.map(sanityArrayOfToCoreFieldListDefItem(objectTypeNames)),
+          typeField: '_type',
+        }
+      case 'object':
+        return <Core.InlineObjectFieldDef>{
+          ...baseFields,
+          type: 'inline_object',
+          fieldDefs: field.fields.map(sanityFieldToCoreFieldDef(objectTypeNames)),
+        }
+      case 'date':
+      case 'datetime': {
+        return <Core.DateFieldDef>{
+          ...baseFields,
+          type: 'date',
           label: field.title,
           hidden: field.hidden,
         }
       }
-    }
-    case 'markdown':
-    case 'url':
-    case 'image':
-    case 'slug':
-    case 'boolean':
-    case 'number':
-    case 'text': {
-      type FieldDef =
-        | Core.MarkdownFieldDef
-        | Core.UrlFieldDef
-        | Core.ImageFieldDef
-        | Core.SlugFieldDef
-        | Core.BooleanFieldDef
-        | Core.NumberFieldDef
-        | Core.StringFieldDef
-        | Core.TextFieldDef
-      return <FieldDef>{
-        ...baseFields,
-        type: field.type,
-        label: field.title,
-        hidden: field.hidden,
-      }
-    }
-    case 'block':
-    default: {
-      if (objectTypeNames.includes(field.type)) {
-        return <Core.ObjectFieldDef>{
-          ...baseFields,
-          type: 'object',
-          objectName: field.type,
+      case 'string': {
+        // special handling for enum
+        if (field.options?.list) {
+          return <Core.EnumFieldDef>{
+            ...baseFields,
+            type: 'enum',
+            options: field.options.list,
+            label: field.title,
+            hidden: field.hidden,
+          }
         }
       }
+      case 'markdown':
+      case 'url':
+      case 'image':
+      case 'slug':
+      case 'boolean':
+      case 'number':
+      case 'text': {
+        type FieldDef =
+          | Core.MarkdownFieldDef
+          | Core.UrlFieldDef
+          | Core.ImageFieldDef
+          | Core.SlugFieldDef
+          | Core.BooleanFieldDef
+          | Core.NumberFieldDef
+          | Core.StringFieldDef
+          | Core.TextFieldDef
+        return <FieldDef>{
+          ...baseFields,
+          type: field.type,
+          label: field.title,
+          hidden: field.hidden,
+        }
+      }
+      case 'block':
+      default: {
+        if (objectTypeNames.includes(field.type)) {
+          return <Core.ObjectFieldDef>{
+            ...baseFields,
+            type: 'object',
+            objectName: field.type,
+          }
+        }
 
-      throw new Error(`Case not implemented ${field.type}`)
+        throw new Error(`Case not implemented ${field.type}`)
+      }
     }
   }
-}
 
-const sanityArrayOfToCoreFieldListDefItem = (objectTypeNames: string[]) => (
-  arrayOf: Sanity.ArrayOf,
-): Core.ListFieldDefItem => {
-  switch (arrayOf.type) {
-    case 'string':
-      return <Core.ListFieldItemString>{ type: 'string' }
-    case 'reference':
-      return <Core.ListFieldItemReference>{
-        type: 'reference',
-        // TODO support polymorphic references
-        documentName: arrayOf.to[0].type,
-      }
-    case 'object':
-      return <Core.ListFieldItemInlineObject>{
-        type: 'inline_object',
-        fieldDefs: arrayOf.fields.map(sanityFieldToCoreFieldDef(objectTypeNames)),
-      }
-    default:
-      if (objectTypeNames.includes(arrayOf.type)) {
-        return <Core.ListFieldItemObject>{ type: 'object', objectName: arrayOf.type }
-      }
+const sanityArrayOfToCoreFieldListDefItem =
+  (objectTypeNames: string[]) =>
+  (arrayOf: Sanity.ArrayOf): Core.ListFieldDefItem => {
+    switch (arrayOf.type) {
+      case 'string':
+        return <Core.ListFieldItemString>{ type: 'string' }
+      case 'reference':
+        return <Core.ListFieldItemReference>{
+          type: 'reference',
+          // TODO support polymorphic references
+          documentName: arrayOf.to[0].type,
+        }
+      case 'object':
+        return <Core.ListFieldItemInlineObject>{
+          type: 'inline_object',
+          fieldDefs: arrayOf.fields.map(sanityFieldToCoreFieldDef(objectTypeNames)),
+        }
+      default:
+        if (objectTypeNames.includes(arrayOf.type)) {
+          return <Core.ListFieldItemObject>{ type: 'object', objectName: arrayOf.type }
+        }
 
-      throw new Error(`Case not implemented ${arrayOf.type}`)
+        throw new Error(`Case not implemented ${arrayOf.type}`)
+    }
   }
-}
 
 const sanitizeString = (_: string): string => _.replace(/\./g, '_')
 

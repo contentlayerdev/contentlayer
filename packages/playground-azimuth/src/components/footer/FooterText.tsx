@@ -1,4 +1,4 @@
-import { footer_text } from 'contentlayer/types'
+import { footer_text } from '.contentlayer'
 import React, { FC } from 'react'
 import { Link, markdownify, withPrefix } from '../../utils'
 

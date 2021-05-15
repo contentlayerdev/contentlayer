@@ -1,4 +1,4 @@
-import { section_reviews } from 'contentlayer/types'
+import { section_reviews } from '.contentlayer'
 import React, { FC } from 'react'
 import { htmlToReact, withPrefix } from '../../utils'
 

@@ -1,4 +1,5 @@
 export * from './commands/cache-data'
+export * from './commands/generate-dotpkg'
 export * from './commands/generate-types'
 export * from './config'
 export * from './data'

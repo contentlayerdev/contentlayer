@@ -1,12 +1,10 @@
 // import moment from 'moment-strftime'
 // import { format} from 'date-fns'
-import { isType } from 'contentlayer/client'
-import { useContentlayer } from 'contentlayer/react'
-import { post } from 'contentlayer/types'
-import React, { FC } from 'react'
+import { allperson, post } from '.contentlayer'
+import React, { FC, useMemo } from 'react'
 
 export const BlogPostFooter: FC<{ post: post; dateType: 'long' | 'short' }> = ({ post, dateType }) => {
-  const author = useContentlayer((docs) => docs.filter(isType('person')).find((_) => post.author === _._id), [post])
+  const author = useMemo(() => allperson.find((_) => post.author === _._id), [post])
 
   return (
     <footer className="post-meta">

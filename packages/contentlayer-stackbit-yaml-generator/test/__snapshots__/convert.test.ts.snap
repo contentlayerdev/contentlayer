@@ -4,6 +4,7 @@ exports[`convert azimuth schema 1`] = `
 Object {
   "documentDefMap": Object {
     "blog": Object {
+      "_tag": "DocumentDef",
       "computedFields": Array [
         Object {
           "description": "The URL path of this page relative to site root. For example, the site root page would be \\"/\\", and post page would be \\"posts/new-post/\\"",
@@ -52,6 +53,7 @@ Object {
       "name": "blog",
     },
     "config": Object {
+      "_tag": "DocumentDef",
       "computedFields": Array [],
       "description": undefined,
       "fieldDefs": Array [
@@ -156,6 +158,7 @@ Object {
       "name": "config",
     },
     "landing": Object {
+      "_tag": "DocumentDef",
       "computedFields": Array [
         Object {
           "description": "The URL path of this page relative to site root. For example, the site root page would be \\"/\\", and post page would be \\"posts/new-post/\\"",
@@ -262,6 +265,7 @@ Object {
       "name": "landing",
     },
     "page": Object {
+      "_tag": "DocumentDef",
       "computedFields": Array [
         Object {
           "description": "The URL path of this page relative to site root. For example, the site root page would be \\"/\\", and post page would be \\"posts/new-post/\\"",
@@ -350,6 +354,7 @@ Object {
       "name": "page",
     },
     "person": Object {
+      "_tag": "DocumentDef",
       "computedFields": Array [],
       "description": undefined,
       "fieldDefs": Array [
@@ -400,6 +405,7 @@ Object {
       "name": "person",
     },
     "post": Object {
+      "_tag": "DocumentDef",
       "computedFields": Array [
         Object {
           "description": "The URL path of this page relative to site root. For example, the site root page would be \\"/\\", and post page would be \\"posts/new-post/\\"",
@@ -541,6 +547,7 @@ Object {
   },
   "objectDefMap": Object {
     "action": Object {
+      "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
         Object {
@@ -650,6 +657,7 @@ Object {
       "name": "action",
     },
     "faq_item": Object {
+      "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
         Object {
@@ -678,6 +686,7 @@ Object {
       "name": "faq_item",
     },
     "feature_item": Object {
+      "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
         Object {
@@ -741,6 +750,7 @@ Object {
       "name": "feature_item",
     },
     "footer": Object {
+      "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
         Object {
@@ -827,6 +837,7 @@ Object {
       "name": "footer",
     },
     "footer_form": Object {
+      "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
         Object {
@@ -920,6 +931,7 @@ Object {
       "name": "footer_form",
     },
     "footer_nav": Object {
+      "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
         Object {
@@ -963,6 +975,7 @@ Object {
       "name": "footer_nav",
     },
     "footer_text": Object {
+      "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
         Object {
@@ -1031,6 +1044,7 @@ Object {
       "name": "footer_text",
     },
     "form_field": Object {
+      "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
         Object {
@@ -1112,6 +1126,7 @@ Object {
       "name": "form_field",
     },
     "header": Object {
+      "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
         Object {
@@ -1165,6 +1180,7 @@ Object {
       "name": "header",
     },
     "pricing_plan": Object {
+      "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
         Object {
@@ -1238,6 +1254,7 @@ Object {
       "name": "pricing_plan",
     },
     "review_item": Object {
+      "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
         Object {
@@ -1286,6 +1303,7 @@ Object {
       "name": "review_item",
     },
     "section_contact": Object {
+      "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
         Object {
@@ -1413,6 +1431,7 @@ Object {
       "name": "section_contact",
     },
     "section_content": Object {
+      "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
         Object {
@@ -1510,6 +1529,7 @@ Object {
       "name": "section_content",
     },
     "section_cta": Object {
+      "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
         Object {
@@ -1573,6 +1593,7 @@ Object {
       "name": "section_cta",
     },
     "section_faq": Object {
+      "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
         Object {
@@ -1650,6 +1671,7 @@ Object {
       "name": "section_faq",
     },
     "section_features": Object {
+      "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
         Object {
@@ -1727,6 +1749,7 @@ Object {
       "name": "section_features",
     },
     "section_hero": Object {
+      "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
         Object {
@@ -1810,6 +1833,7 @@ Object {
       "name": "section_hero",
     },
     "section_posts": Object {
+      "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
         Object {
@@ -1872,6 +1896,7 @@ Object {
       "name": "section_posts",
     },
     "section_pricing": Object {
+      "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
         Object {
@@ -1949,6 +1974,7 @@ Object {
       "name": "section_pricing",
     },
     "section_reviews": Object {
+      "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
         Object {
@@ -2026,6 +2052,7 @@ Object {
       "name": "section_reviews",
     },
     "seo": Object {
+      "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
         Object {
@@ -3690,6 +3717,7 @@ exports[`convert blog schema 1`] = `
 Object {
   "documentDefMap": Object {
     "Post": Object {
+      "_tag": "DocumentDef",
       "computedFields": Array [
         Object {
           "description": undefined,
