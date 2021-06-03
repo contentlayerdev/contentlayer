@@ -1,4 +1,5 @@
 import { defineDocument } from 'contentlayer/source-local'
+
 import { seo } from '../objects/seo'
 import { urlFromFilePath } from '../utils'
 import { person } from './person'

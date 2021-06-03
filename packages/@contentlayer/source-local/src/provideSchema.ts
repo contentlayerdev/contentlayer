@@ -1,13 +1,14 @@
 import type * as Core from '@contentlayer/core'
 import { pick } from '@contentlayer/utils'
-import { DocumentDef, FieldDef, ListFieldItem, ObjectDef, SchemaDef } from './schema'
 
-export function makeCoreSchema(schemaDef: SchemaDef): Core.SchemaDef {
+import type { DocumentDef, FieldDef, ListFieldItem, ObjectDef, SchemaDef } from './schema'
+
+export const makeCoreSchema = (schemaDef: SchemaDef): Core.SchemaDef => {
   const coreDocumentDefMap: Core.DocumentDefMap = {}
   const coreObjectDefMap: Core.ObjectDefMap = {}
 
   for (const documentDef of schemaDef.documentDefs) {
-    let fieldDefs = Object.entries(documentDef.fields).map(fieldDefToCoreFieldDef)
+    const fieldDefs = Object.entries(documentDef.fields).map(fieldDefToCoreFieldDef)
 
     if (documentDef.fileType === undefined || documentDef.fileType === 'md') {
       fieldDefs.push({

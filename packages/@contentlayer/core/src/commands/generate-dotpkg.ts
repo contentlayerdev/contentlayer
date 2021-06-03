@@ -1,11 +1,13 @@
 import { promises as fs } from 'fs'
 import * as path from 'path'
-import { combineLatest, defer, Observable } from 'rxjs'
+import type { Observable } from 'rxjs'
+import { combineLatest, defer } from 'rxjs'
 import { switchMap } from 'rxjs/operators'
-import { PackageJson } from 'type-fest'
-import { Cache } from '..'
-import { SourcePlugin } from '../plugin'
-import { SchemaDef } from '../schema'
+import type { PackageJson } from 'type-fest'
+
+import type { Cache } from '..'
+import type { SourcePlugin } from '../plugin'
+import type { SchemaDef } from '../schema'
 import { makeArtifactsDir } from '../utils'
 import { renderDocumentOrObjectDef } from './generate-types'
 

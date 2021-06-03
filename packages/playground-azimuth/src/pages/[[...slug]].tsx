@@ -1,11 +1,13 @@
-import { allconfig, allDocuments, allpost, isType } from '.contentlayer'
-import { InferGetStaticPropsType } from 'next'
-import React, { FC } from 'react'
+import type { InferGetStaticPropsType } from 'next'
+import type { FC } from 'react'
+import React from 'react'
+
 import { BlogLayout } from '../layouts/BlogLayout'
 import { LandingLayout } from '../layouts/LandingLayout'
 import { PageLayout } from '../layouts/PageLayout'
 import { PostLayout } from '../layouts/PostLayout'
 import { defineStaticProps, toParams } from '../utils/next'
+import { allconfig, allDocuments, allpost, isType } from '.contentlayer'
 
 export const getStaticPaths = async () => {
   const paths = allDocuments

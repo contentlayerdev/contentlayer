@@ -1,10 +1,12 @@
-import { SourcePlugin } from '@contentlayer/core'
+import type { SourcePlugin } from '@contentlayer/core'
 import * as chokidar from 'chokidar'
 import { defer, fromEvent, of } from 'rxjs'
 import { mergeMap, startWith, tap } from 'rxjs/operators'
-import { fetch, FilePathPatternMap } from './fetchData'
+
+import type { FilePathPatternMap } from './fetchData'
+import { fetch } from './fetchData'
 import { makeCoreSchema } from './provideSchema'
-import { DocumentDef, Thunk } from './schema'
+import type { DocumentDef, Thunk } from './schema'
 
 export * from './schema'
 
@@ -29,6 +31,7 @@ export const fromLocalContent: MakeSourcePlugin = ({ schema: documentDefs_, cont
             fromEvent(
               chokidar.watch(contentDirPath, {
                 ignoreInitial: true,
+                // Unfortunately needed in order to avoid race conditions
                 awaitWriteFinish: { stabilityThreshold: 50, pollInterval: 10 },
               }),
               'all',

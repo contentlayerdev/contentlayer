@@ -115,7 +115,7 @@ const makeTmpDirAndResolveEntryPoint = async ({ cwd, configPath }: { cwd: string
   const packageJsonPath = await pkgUp({ cwd })
   const packageDir = path.join(packageJsonPath!, '..')
   // `tmpDir` needs to be in package directory for `require` statements to work
-  const tmpDir = path.join(packageDir, 'node_modules', '.contentlayer', 'config')
+  const tmpDir = path.join(packageDir, 'node_modules', '.tmp', 'contentlayer', 'config')
   await fs.mkdir(tmpDir, { recursive: true })
   const outfilePath = path.join(tmpDir, 'config.js')
   const entryPointPath = path.join(cwd, configPath)

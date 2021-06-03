@@ -1,4 +1,4 @@
-import {
+import type {
   Cache,
   CacheGen,
   Config,
@@ -9,9 +9,10 @@ import {
 } from '@contentlayer/core'
 import { recRemoveUndefinedValues } from '@contentlayer/utils'
 import { firstValueFrom } from 'rxjs'
+
 import { isType } from './guards'
 
-export const getDocuments = () => new ContentlayerClient().getAllDocuments()
+export const getDocuments = (): GetDocumentTypesGen[] => new ContentlayerClient().getAllDocuments()
 
 export class ContentlayerClient {
   constructor(props?: { cache?: Cache; source?: SourcePlugin }) {
@@ -47,7 +48,7 @@ export class ContentlayerClient {
   }
 
   private setCache = (cache: Cache) => {
-    this.cache = cache
+    this.cache = cache as any
 
     // Next.js doesn't allow for returning `undefined` values in `getStaticProps`
     recRemoveUndefinedValues(this.cache)

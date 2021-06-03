@@ -1,6 +1,7 @@
-import { Observable } from 'rxjs'
-import { Cache } from './data'
-import { SchemaDef } from './schema'
+import type { Observable } from 'rxjs'
+
+import type { Cache } from './data'
+import type { SchemaDef } from './schema'
 
 export type SourcePlugin = {
   provideSchema: ProvideSchemaFn
@@ -10,6 +11,7 @@ export type SourcePlugin = {
 export type ProvideSchemaFn = () => SchemaDef | Promise<SchemaDef>
 export type FetchDataFn = (_: {
   watch?: boolean
+  /** Ignore `previousCache` */
   force: boolean
   previousCache: Cache | undefined
 }) => Observable<Cache>

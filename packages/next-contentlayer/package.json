@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*",
-    "rxjs": "^7.0.1"
+    "rxjs": "^7.1.0"
   },
   "peerDependencies": {
     "next": "^10"

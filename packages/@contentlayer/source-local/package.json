@@ -20,7 +20,7 @@
     "gray-matter": "^4.0.3",
     "js-yaml": "^4.1.0",
     "minimatch": "^3.0.4",
-    "rxjs": "^7.0.1",
+    "rxjs": "^7.1.0",
     "ts-pattern": "^2.1.2"
   },
   "devDependencies": {

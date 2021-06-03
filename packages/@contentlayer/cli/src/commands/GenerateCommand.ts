@@ -1,4 +1,5 @@
 import { generateTypes, getConfig } from '@contentlayer/core'
+
 import { BaseCommand } from './_BaseCommand'
 
 export class GenerateCommand extends BaseCommand {

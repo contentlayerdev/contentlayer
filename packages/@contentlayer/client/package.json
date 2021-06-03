@@ -17,6 +17,6 @@
   "dependencies": {
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
-    "rxjs": "^7.0.1"
+    "rxjs": "^7.1.0"
   }
 }

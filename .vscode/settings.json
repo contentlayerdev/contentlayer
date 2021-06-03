@@ -8,7 +8,9 @@
   },
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.organizeImports": true
+    "source.organizeImports": false,
+    "source.fixAll": true,
+    "source.addMissingImports": true
   },
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "prettier.singleQuote": true,

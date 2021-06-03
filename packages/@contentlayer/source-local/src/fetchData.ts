@@ -1,6 +1,7 @@
 import type * as Core from '@contentlayer/core'
-import { Cache, Document, Markdown, markdownToHtml } from '@contentlayer/core'
-import { promiseMap, promiseMapToDict } from '@contentlayer/utils'
+import type { Cache, Document, Markdown } from '@contentlayer/core'
+import { markdownToHtml } from '@contentlayer/core'
+import { measureAsync, promiseMap, promiseMapToDict } from '@contentlayer/utils'
 import { promises as fs } from 'fs'
 import { promise as glob } from 'glob-promise'
 import matter from 'gray-matter'
@@ -12,36 +13,40 @@ type DocumentDefName = string
 type FilePathPattern = string
 export type FilePathPatternMap = Record<DocumentDefName, FilePathPattern>
 
-export async function fetch({
-  schemaDef,
-  filePathPatternMap,
-  contentDirPath,
-  force,
-  previousCache,
-}: {
-  schemaDef: Core.SchemaDef
-  filePathPatternMap: FilePathPatternMap
-  contentDirPath: string
-  force: boolean
-  previousCache: Cache | undefined
-}): Promise<Cache> {
-  // TODO implement "lazy" fetching by using `force` / `previousCache`
+export const fetch = measureAsync('fetch-data')(
+  async ({
+    schemaDef,
+    filePathPatternMap,
+    contentDirPath,
+    force,
+    previousCache,
+  }: {
+    schemaDef: Core.SchemaDef
+    filePathPatternMap: FilePathPatternMap
+    contentDirPath: string
+    force: boolean
+    previousCache: Cache | undefined
+  }): Promise<Cache> => {
+    // TODO implement "lazy" fetching by using `force` / `previousCache`
 
-  const documentDefNameWithFilePathsTuples = await Promise.all(
-    Object.entries(filePathPatternMap).map<Promise<[string, string[]]>>(async ([documentDefName, filePathPattern]) => [
-      documentDefName,
-      await glob(path.join(contentDirPath, filePathPattern)),
-    ]),
-  )
+    const documentDefNameWithFilePathsTuples = await Promise.all(
+      Object.entries(filePathPatternMap).map<Promise<[string, string[]]>>(
+        async ([documentDefName, filePathPattern]) => [
+          documentDefName,
+          await glob(path.join(contentDirPath, filePathPattern)),
+        ],
+      ),
+    )
 
-  const documents = await Promise.all(
-    documentDefNameWithFilePathsTuples.flatMap(([documentDefName, filePaths]) =>
-      filePaths.map((filePath) => makeDocumentFromFilePath({ filePath, schemaDef, documentDefName, contentDirPath })),
-    ),
-  )
+    const documents = await Promise.all(
+      documentDefNameWithFilePathsTuples.flatMap(([documentDefName, filePaths]) =>
+        filePaths.map((filePath) => makeDocumentFromFilePath({ filePath, schemaDef, documentDefName, contentDirPath })),
+      ),
+    )
 
-  return { documents, lastUpdateInMs: new Date().getTime() }
-}
+    return { documents, lastUpdateInMs: new Date().getTime() }
+  },
+)
 
 type Content = ContentMarkdown | ContentJSON
 type ContentMarkdown = {

@@ -12,6 +12,12 @@
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",
+    "@typescript-eslint/eslint-plugin": "^4.15.2",
+    "@typescript-eslint/parser": "^4.15.2",
+    "eslint": "^7.21.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
     "jest": "^26.6.3",
     "ts-jest": "^26.5.6",
     "ts-node": "^9.1.1",
@@ -21,6 +27,7 @@
     "contentlayer": "workspace:*",
     "contentlayer-stackbit-yaml-generator": "workspace:*",
     "next-contentlayer": "workspace:*",
+    "rxjs": "^7.1.0",
     "next-dev-contentlayer": "workspace:*"
   }
 }
