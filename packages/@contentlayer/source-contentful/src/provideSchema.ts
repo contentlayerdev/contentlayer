@@ -1,6 +1,7 @@
 import type * as Core from '@contentlayer/core'
 import { assertUnreachable, partition } from '@contentlayer/utils'
-import { SchemaOverrides } from '.'
+
+import type { SchemaOverrides } from '.'
 import type * as Contentful from './contentful-types'
 
 export const provideSchema = async ({

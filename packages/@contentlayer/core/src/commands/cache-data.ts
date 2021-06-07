@@ -1,9 +1,11 @@
 import { promises as fs } from 'fs'
 import * as path from 'path'
-import { combineLatest, from, Observable } from 'rxjs'
+import type { Observable } from 'rxjs'
+import { combineLatest, from } from 'rxjs'
 import { mergeMap } from 'rxjs/operators'
-import { Cache } from '../data'
-import { SourcePlugin } from '../plugin'
+
+import type { Cache } from '../data'
+import type { SourcePlugin } from '../plugin'
 import { makeArtifactsDir } from '../utils'
 
 export const fetchDataAndCache = ({

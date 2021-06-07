@@ -1,7 +1,8 @@
-import { SourcePlugin } from '@contentlayer/core'
+import type { SourcePlugin } from '@contentlayer/core'
 import type { MutationEvent } from '@sanity/client'
 import { defer, from, Observable, of } from 'rxjs'
 import { mergeMap, startWith } from 'rxjs/operators'
+
 import { fetchData } from './fetchData'
 import { provideSchema } from './provideSchema'
 import { getSanityClient } from './sanity-client'
@@ -9,6 +10,7 @@ import { getSanityClient } from './sanity-client'
 type MakeSourcePlugin = (_: { studioDirPath: string; preview?: boolean }) => SourcePlugin
 
 export const makeSourcePlugin: MakeSourcePlugin = ({ studioDirPath }) => ({
+  type: 'sanity',
   provideSchema: () => provideSchema(studioDirPath),
   fetchData: ({ watch, force, previousCache }) => {
     const updates$ = watch ? getUpdateEvents(studioDirPath).pipe(startWith(0)) : of(0)

@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "allowSyntheticDefaultImports": true,
+    "rootDir": ".",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "incremental": false,
+    "composite": false,
+    "noEmit": true
+  },
+  "include": ["next-env.d.ts", "./src", "./src/**/*.json", "./node_modules/@types"],
+  "references": [{ "path": "../../contentlayer/tsconfig.json" }],
+  "exclude": ["node_modules"]
+}

@@ -1,6 +1,7 @@
 export * from './guards'
 export * from './pick'
 export * from './promise'
+export * from './performance'
 
 export const recRemoveUndefinedValues = (val: any): void => {
   if (Array.isArray(val)) {

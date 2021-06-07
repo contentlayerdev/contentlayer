@@ -1,6 +1,6 @@
 import { generateDotpkg, getConfigWatch } from 'contentlayer/core'
+import { logPerformance } from 'contentlayer/utils'
 import type { NextConfig } from 'next/dist/next-server/server/config'
-import { performance, PerformanceObserver } from 'perf_hooks'
 import { switchMap, tap } from 'rxjs/operators'
 
 export type { NextConfig }
@@ -13,13 +13,7 @@ export const withContentlayer =
     const isNextDev = process.argv.includes('dev')
 
     if (isNextDev) {
-      if (process.env['CL_PROFILE']) {
-        const obs = new PerformanceObserver((items) => {
-          items.getEntries().forEach(({ duration, name }) => console.log(`[${name}] ${duration.toFixed(0)}ms`))
-          performance.clearMarks()
-        })
-        obs.observe({ entryTypes: ['measure'] })
-      }
+      logPerformance()
 
       getConfigWatch({
         configPath: './contentlayer.config.ts',

@@ -1,7 +1,9 @@
-import { GetAllTypeNamesGen, SourcePlugin } from '@contentlayer/core'
+import type { GetAllTypeNamesGen, SourcePlugin } from '@contentlayer/core'
 import { createClient } from 'contentful-management'
-import { defer, forkJoin, from, Observable, of } from 'rxjs'
+import type { Observable } from 'rxjs'
+import { defer, forkJoin, from, of } from 'rxjs'
 import { mergeMap, startWith } from 'rxjs/operators'
+
 import type * as Contentful from './contentful-types'
 import { fetchData } from './fetchData'
 import { provideSchema } from './provideSchema'
@@ -28,6 +30,7 @@ export const makeSourcePlugin: MakeSourcePlugin = ({
   environmentId = 'master',
   schemaOverrides = {},
 }) => ({
+  type: 'contentful',
   provideSchema: async () => {
     const environment = await getEnvironment({ accessToken, spaceId, environmentId })
     return provideSchema({ environment, schemaOverrides })

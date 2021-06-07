@@ -1,10 +1,13 @@
-import { build as esbuild, BuildResult, Plugin } from 'esbuild'
+import { measureAsync } from '@contentlayer/utils'
+import type { BuildResult } from 'esbuild'
+import { build as esbuild } from 'esbuild'
 import { promises as fs } from 'fs'
 import * as path from 'path'
 import pkgUp from 'pkg-up'
 import { firstValueFrom, Observable, of } from 'rxjs'
 import { finalize, mergeMap } from 'rxjs/operators'
-import { SourcePlugin } from './plugin'
+
+import type { SourcePlugin } from './plugin'
 
 // TODO rename to getSourceWatch
 export const getConfigWatch = ({ configPath, cwd }: { configPath: string; cwd: string }): Observable<SourcePlugin> => {
@@ -12,9 +15,10 @@ export const getConfigWatch = ({ configPath, cwd }: { configPath: string; cwd: s
 }
 
 // TODO rename to getSource
-export const getConfig = async ({ configPath, cwd }: { configPath: string; cwd: string }): Promise<SourcePlugin> => {
-  return firstValueFrom(getConfig_({ configPath, cwd, watch: false }))
-}
+export const getConfig = measureAsync('getConfig')(
+  async ({ configPath, cwd }: { configPath: string; cwd: string }): Promise<SourcePlugin> =>
+    firstValueFrom(getConfig_({ configPath, cwd, watch: false })),
+)
 
 const getConfig_ = ({
   configPath,
@@ -54,15 +58,21 @@ const callEsbuild = ({
       outfile: outfilePath,
       sourcemap: true,
       platform: 'node',
-      plugins: [dirnameOverrideEsbuildPlugin()],
+      // plugins: [dirnameOverrideEsbuildPlugin()],
       external: [
         'esbuild',
         // TODO make dynamic
         // needed for source-sanity
         '@sanity/core/lib/actions/graphql/getSanitySchema',
+
         // needed to make chokidar work on OSX (in source-local)
         'fsevents',
+
+        // needed for shiki
+        'onigasm',
+        'shiki',
       ],
+      target: 'es6',
       format: 'cjs',
       bundle: true,
       watch: watch
@@ -154,18 +164,18 @@ const getConfigFromResult = async ({
 }
 
 /** Needed to override the `__dirname` variable so relative linking still works */
-const dirnameOverrideEsbuildPlugin = (): Plugin => ({
-  name: 'dirname_override',
-  setup(build) {
-    // TODO need to come up with a better `filter`
-    build.onLoad({ filter: /\/contentlayer\/.*/, namespace: 'file' }, async (args) => {
-      // NOTE needed to deal with TypeScript sources as esbuild plugins don't seem to be composable right now
-      const result = await esbuild({
-        entryPoints: [args.path],
-        write: false,
-      })
-      const contents = `var __dirname = "${path.dirname(args.path)}";\n${result.outputFiles![0].text}`
-      return { contents }
-    })
-  },
-})
+// const dirnameOverrideEsbuildPlugin = (): Plugin => ({
+//   name: 'dirname_override',
+//   setup(build) {
+//     // TODO need to come up with a better `filter`
+//     build.onLoad({ filter: /\/contentlayer\/.*/, namespace: 'file' }, async (args) => {
+//       // NOTE needed to deal with TypeScript sources as esbuild plugins don't seem to be composable right now
+//       const result = await esbuild({
+//         entryPoints: [args.path],
+//         write: false,
+//       })
+//       const contents = `var __dirname = "${path.dirname(args.path)}";\n${result.outputFiles![0].text}`
+//       return { contents }
+//     })
+//   },
+// })

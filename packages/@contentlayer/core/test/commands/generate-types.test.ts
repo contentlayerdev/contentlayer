@@ -1,4 +1,5 @@
 import { defineDocument, fromLocalContent } from 'contentlayer/source-local'
+
 import { buildSource } from '../../src'
 
 export const post = defineDocument(() => ({
@@ -23,7 +24,7 @@ export const post = defineDocument(() => ({
 
 describe('generate-types', () => {
   test('simple schema', async () => {
-    const schema = await fromLocalContent({ schema: [post], contentDirPath: '' }).provideSchema()
+    const schema = await fromLocalContent({ schema: [post], contentDirPath: '' }).then((_) => _.provideSchema())
     const typeSource = buildSource(schema)
     expect(typeSource).toMatchSnapshot()
   })

@@ -1,13 +1,15 @@
 import type * as Core from '@contentlayer/core'
-import type { Cache, Document, Markdown } from '@contentlayer/core'
+import type { Cache, Document, Markdown, Options } from '@contentlayer/core'
 import { markdownToHtml } from '@contentlayer/core'
-import { measureAsync, promiseMap, promiseMapToDict } from '@contentlayer/utils'
+import { isNotUndefined, measureAsync, promiseMap, promiseMapToDict } from '@contentlayer/utils'
 import { promises as fs } from 'fs'
 import { promise as glob } from 'glob-promise'
 import matter from 'gray-matter'
 import * as yaml from 'js-yaml'
 import * as path from 'path'
 import { match } from 'ts-pattern'
+
+import type { Flags } from '.'
 
 type DocumentDefName = string
 type FilePathPattern = string
@@ -20,12 +22,16 @@ export const fetch = measureAsync('fetch-data')(
     contentDirPath,
     force,
     previousCache,
+    flags,
+    options,
   }: {
     schemaDef: Core.SchemaDef
     filePathPatternMap: FilePathPatternMap
     contentDirPath: string
     force: boolean
     previousCache: Cache | undefined
+    flags: Flags
+    options?: Options
   }): Promise<Cache> => {
     // TODO implement "lazy" fetching by using `force` / `previousCache`
 
@@ -40,9 +46,18 @@ export const fetch = measureAsync('fetch-data')(
 
     const documents = await Promise.all(
       documentDefNameWithFilePathsTuples.flatMap(([documentDefName, filePaths]) =>
-        filePaths.map((filePath) => makeDocumentFromFilePath({ filePath, schemaDef, documentDefName, contentDirPath })),
+        filePaths.map((filePath) =>
+          makeDocumentFromFilePath({
+            filePath,
+            schemaDef,
+            documentDefName,
+            contentDirPath,
+            flags,
+            options,
+          }),
+        ),
       ),
-    )
+    ).then((_) => _.filter(isNotUndefined))
 
     return { documents, lastUpdateInMs: new Date().getTime() }
   },
@@ -63,12 +78,16 @@ async function makeDocumentFromFilePath({
   schemaDef,
   documentDefName,
   contentDirPath,
+  flags,
+  options,
 }: {
   filePath: string
   schemaDef: Core.SchemaDef
   documentDefName: string
   contentDirPath: string
-}): Promise<Core.Document> {
+  flags: Flags
+  options?: Options
+}): Promise<Core.Document | undefined> {
   const fileContent = await fs.readFile(filePath, 'utf-8')
   const filePathExtension = filePath.toLowerCase().split('.').pop()
   const content = match<string | undefined, Content>(filePathExtension)
@@ -88,26 +107,17 @@ async function makeDocumentFromFilePath({
       throw new Error(`Unsupported file extension "${filePathExtension}" for ${filePath}`)
     })
 
-  checkSchema({ content, filePath, documentDefName, schemaDef })
+  const re = new RegExp(`^${contentDirPath}(\/)?`)
+  const relativeFilePath = filePath.replace(re, '')
+
+  const isValid = checkSchema({ content, relativeFilePath, documentDefName, schemaDef, flags })
+  if (!isValid) {
+    return undefined
+  }
 
   const documentDef = schemaDef.documentDefMap[documentDefName]
 
-  // add __meta.TypeName to embedded objects
-  // documentDef.fieldDefs.filter(isObjectFieldDef).forEach((fieldDef) => {
-  //   addMetaToDataRec({
-  //     dataRef: content.data,
-  //     fieldDef,
-  //     isArray: false,
-  //     schemaDef,
-  //   })
-  // })
-
-  // TOOD add meta data to objects in array as well
-
-  const re = new RegExp(`^${contentDirPath}(\/)?`)
-  const sourceFilePath = filePath.replace(re, '')
-
-  const doc = await makeDocument({ documentDef, rawContent: content, schemaDef, sourceFilePath })
+  const doc = await makeDocument({ documentDef, rawContent: content, schemaDef, relativeFilePath, options })
 
   const computedValues = await getComputedValues({ documentDef, doc })
   if (computedValues) {
@@ -122,18 +132,21 @@ async function makeDocumentFromFilePath({
 function checkSchema({
   schemaDef,
   content,
-  filePath,
+  relativeFilePath,
   documentDefName,
+  flags,
 }: {
   schemaDef: Core.SchemaDef
   content: Content
-  filePath: string
+  /** relativeFilePath just needed for better error handling */
+  relativeFilePath: string
   documentDefName: string
-}): Core.DocumentDef {
+  flags: Flags
+}): boolean {
   const documentDef = schemaDef.documentDefMap[documentDefName]
 
   if (documentDef === undefined) {
-    throw new Error(`No matching document definition found for "${filePath}"`)
+    throw new Error(`No matching document definition found for "${relativeFilePath}"`)
   }
 
   const existingDataFieldKeys = Object.keys(content.data)
@@ -142,35 +155,60 @@ function checkSchema({
   const requiredFields = documentDef.fieldDefs.filter((_) => _.required)
   const misingRequiredFields = requiredFields.filter((fieldDef) => !existingDataFieldKeys.includes(fieldDef.name))
   if (misingRequiredFields.length > 0) {
-    const misingRequiredFieldsStr = misingRequiredFields.map((_, i) => `  ${i + 1}: ` + JSON.stringify(_)).join('\n')
-    throw new Error(
-      `\
-Missing required fields (type: "${documentDef.name}") for "${filePath}".
+    const misingRequiredFieldsStr = misingRequiredFields.map((_, i) => `     ${i + 1}: ` + JSON.stringify(_)).join('\n')
 
-Missing fields:
+    const message = `\
+Missing required fields (type: "${documentDef.name}") for "${relativeFilePath}".
+  Missing fields:
 ${misingRequiredFieldsStr}
+`
 
-Content:
-${JSON.stringify(content, null, 2)}
-`,
-    )
+    switch (flags.onMissingOrIncompatibleData) {
+      case 'skip':
+        console.log(`Skipping document. Reason: ${message}`)
+        return false
+      case 'skip-ignore':
+        return false
+      case 'fail':
+        throw new Error(`Error: ${message}`)
+    }
+  }
+
+  // TODO validate whether data has correct type
+
+  // warn about data fields not defined in the schema
+  if (flags.onExtraData === 'warn') {
+    const schemaFieldNames = documentDef.fieldDefs.map((_) => _.name)
+    const extraFieldKeys = existingDataFieldKeys.filter((fieldKey) => !schemaFieldNames.includes(fieldKey))
+    if (extraFieldKeys.length > 0) {
+      console.log(`\
+Warning: Document (type: "${
+        documentDef.name
+      }") contained fields that are not defined in schema for "${relativeFilePath}".
+
+Extra fields:
+${extraFieldKeys.map((key) => `  ${key}: ${JSON.stringify(content.data[key])}`).join('\n')}
+`)
+    }
   }
 
   // TODO validate objects
 
-  return documentDef
+  return true
 }
 
 const makeDocument = async ({
   rawContent,
   documentDef,
   schemaDef,
-  sourceFilePath,
+  relativeFilePath,
+  options,
 }: {
   rawContent: Content
   documentDef: Core.DocumentDef
   schemaDef: Core.SchemaDef
-  sourceFilePath: string
+  relativeFilePath: string
+  options?: Options
 }): Promise<Core.Document> => {
   const docValues = await promiseMapToDict(
     documentDef.fieldDefs,
@@ -179,14 +217,15 @@ const makeDocument = async ({
         fieldDef,
         rawFieldData: rawContent.data[fieldDef.name],
         schemaDef,
+        options,
       }),
     (fieldDef) => fieldDef.name,
   )
 
   const doc: Core.Document = {
     _typeName: documentDef.name,
-    _id: sourceFilePath,
-    _raw: { sourceFilePath, kind: rawContent.kind },
+    _id: relativeFilePath,
+    _raw: { sourceFilePath: relativeFilePath, kind: rawContent.kind },
     ...docValues,
   }
 
@@ -198,12 +237,14 @@ const makeObject = async ({
   fieldDefs,
   typeName,
   schemaDef,
+  options,
 }: {
   rawObjectData: Record<string, any>
   /** Passing `FieldDef[]` here instead of `ObjectDef` in order to also support `inline_object` */
   fieldDefs: Core.FieldDef[]
   typeName: string
   schemaDef: Core.SchemaDef
+  options?: Options
 }): Promise<Core.Object> => {
   const objValues = await promiseMapToDict(
     fieldDefs,
@@ -212,6 +253,7 @@ const makeObject = async ({
         fieldDef,
         rawFieldData: rawObjectData[fieldDef.name],
         schemaDef,
+        options,
       }),
     (fieldDef) => fieldDef.name,
   )
@@ -225,10 +267,12 @@ const getDataForFieldDef = async ({
   fieldDef,
   rawFieldData,
   schemaDef,
+  options,
 }: {
   fieldDef: Core.FieldDef
   rawFieldData: any
   schemaDef: Core.SchemaDef
+  options?: Options
 }): Promise<any> => {
   if (rawFieldData === undefined) {
     if (fieldDef.required) {
@@ -246,6 +290,7 @@ const getDataForFieldDef = async ({
         fieldDefs: objectDef.fieldDefs,
         typeName: objectDef.name,
         schemaDef,
+        options,
       })
     case 'inline_object':
       return makeObject({
@@ -253,20 +298,21 @@ const getDataForFieldDef = async ({
         fieldDefs: fieldDef.fieldDefs,
         typeName: 'inline_object',
         schemaDef,
+        options,
       })
     case 'reference':
       return rawFieldData
     case 'polymorphic_list':
     case 'list':
       return promiseMap(rawFieldData as any[], (rawItemData) =>
-        getDataForListItem({ rawItemData, fieldDef, schemaDef }),
+        getDataForListItem({ rawItemData, fieldDef, schemaDef, options }),
       )
     case 'date':
       return new Date(rawFieldData)
     case 'markdown':
       return <Markdown>{
         raw: rawFieldData,
-        html: await markdownToHtml(rawFieldData),
+        html: await markdownToHtml({ mdString: rawFieldData, options: options?.markdown }),
       }
     default:
       return rawFieldData
@@ -277,10 +323,12 @@ const getDataForListItem = async ({
   rawItemData,
   fieldDef,
   schemaDef,
+  options,
 }: {
   rawItemData: any
   fieldDef: Core.ListFieldDef | Core.PolymorphicListFieldDef
   schemaDef: Core.SchemaDef
+  options?: Options
 }): Promise<any> => {
   if (typeof rawItemData === 'string') {
     return rawItemData
@@ -294,6 +342,7 @@ const getDataForListItem = async ({
       fieldDefs: objectDef.fieldDefs,
       typeName: objectDef.name,
       schemaDef,
+      options,
     })
   }
 
@@ -305,6 +354,7 @@ const getDataForListItem = async ({
         fieldDefs: objectDef.fieldDefs,
         typeName: objectDef.name,
         schemaDef,
+        options,
       })
     case 'inline_object':
       return makeObject({
@@ -312,6 +362,7 @@ const getDataForListItem = async ({
         fieldDefs: fieldDef.of.fieldDefs,
         typeName: 'inline_object',
         schemaDef,
+        options,
       })
     default:
       return rawItemData

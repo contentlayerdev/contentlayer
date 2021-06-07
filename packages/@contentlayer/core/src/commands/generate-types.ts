@@ -1,7 +1,8 @@
 import { promises as fs } from 'fs'
 import * as path from 'path'
-import { SourcePlugin } from '../plugin'
-import { DocumentDef, FieldDef, ListFieldDefItem, ObjectDef, SchemaDef } from '../schema'
+
+import type { SourcePlugin, SourcePluginType } from '../plugin'
+import type { DocumentDef, FieldDef, ListFieldDefItem, ObjectDef, SchemaDef } from '../schema'
 import { makeArtifactsDir } from '../utils'
 
 export const generateTypes = async ({
@@ -37,14 +38,14 @@ export const buildSource = (schemaDef: SchemaDef): string => {
     .sort((a, b) => a.name.localeCompare(b.name))
     .map((docDef) => ({
       typeName: docDef.name,
-      typeDef: renderDocumentOrObjectDef(docDef),
+      typeDef: renderDocumentOrObjectDef({ def: docDef, sourcePluginType: 'unknown' }),
     }))
 
   const objectTypes = Object.values(schemaDef.objectDefMap)
     .sort((a, b) => a.name.localeCompare(b.name))
     .map((objDef) => ({
       typeName: objDef.name,
-      typeDef: renderDocumentOrObjectDef(objDef),
+      typeDef: renderDocumentOrObjectDef({ def: objDef, sourcePluginType: 'unknown' }),
     }))
 
   const typeMap = documentTypes
@@ -107,7 +108,13 @@ ${objectTypes.map((_) => _.typeDef).join('\n\n')}
 `
 }
 
-export const renderDocumentOrObjectDef = (def: DocumentDef | ObjectDef): string => {
+export const renderDocumentOrObjectDef = ({
+  def,
+  sourcePluginType,
+}: {
+  def: DocumentDef | ObjectDef
+  sourcePluginType: SourcePluginType | 'unknown'
+}): string => {
   const typeName = def.name
   const fieldDefs = def.fieldDefs.map(renderFieldDef).join('\n')
   const computedFields = (def._tag === 'DocumentDef' ? def.computedFields : [])
@@ -115,14 +122,54 @@ export const renderDocumentOrObjectDef = (def: DocumentDef | ObjectDef): string 
     .join('\n')
   const description = def.description ?? def.label
 
+  const rawType = renderRawType({ sourcePluginType })
+  const idDocs = renderIdDocs({ sourcePluginType })
+
   return `\
 ${description ? `/** ${description} */\n` : ''}export type ${typeName} = {
+  /** ${idDocs} */
   _id: string
   _typeName: '${typeName}'
-  _raw?: Record<string, any>
+  _raw: ${rawType}
 ${fieldDefs}
 ${computedFields}
 }`
+}
+
+const renderIdDocs = ({ sourcePluginType }: { sourcePluginType: SourcePluginType }) => {
+  switch (sourcePluginType) {
+    case 'local':
+      return 'File path relative to `contentDirPath`'
+    case 'contentful':
+      return 'Contentful object id'
+    case 'sanity':
+      return 'Sanity object id'
+    default:
+      return 'ID'
+  }
+}
+
+const renderRawType = ({ sourcePluginType }: { sourcePluginType: SourcePluginType }) => {
+  switch (sourcePluginType) {
+    case 'local':
+      return `\
+{
+  sourceFilePath: string
+  kind: 'markdown' | 'json' | 'yaml'
+}
+`
+    case 'contentful':
+      return `\
+{
+  sys: any
+  metadata: any
+}
+`
+    case 'sanity':
+      return 'Record<string, any>'
+    default:
+      return 'Record<string, any>'
+  }
 }
 
 const renderFieldDef = (field: FieldDef): string => {

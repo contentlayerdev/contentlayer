@@ -1,0 +1,30 @@
+{
+  "name": "playground-azimuth",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "contentlayer": "workspace:*",
+    "date-fns": "^2.22.1",
+    "marked": "^2.0.3",
+    "next": "^10.2.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-helmet": "^6.1.0",
+    "react-html-parser": "^2.0.2",
+    "react-script-tag": "^1.1.2",
+    "sass": "^1.32.7"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.9",
+    "@types/react-dom": "^17.0.6",
+    "@types/react-helmet": "^6.1.1",
+    "contentlayer-stackbit-yaml-generator": "workspace:*",
+    "next-contentlayer": "workspace:*",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.2.4"
+  }
+}

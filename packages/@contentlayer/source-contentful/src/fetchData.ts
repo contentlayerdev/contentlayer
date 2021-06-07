@@ -1,6 +1,7 @@
 import type * as Core from '@contentlayer/core'
-import { Cache } from '@contentlayer/core'
+import type { Cache } from '@contentlayer/core'
 import { assertUnreachable } from '@contentlayer/utils'
+
 import type * as Contentful from './contentful-types'
 
 export const fetchData = async ({
@@ -65,7 +66,7 @@ export const fetchData = async ({
 }
 
 const getAllEntries = async (environment: Contentful.Environment): Promise<Contentful.Entry[]> => {
-  let entries: Contentful.Entry[] = []
+  const entries: Contentful.Entry[] = []
   const { total } = await environment.getEntries({ limit: 0 })
   const chunkSize = 500
 
@@ -79,7 +80,7 @@ const getAllEntries = async (environment: Contentful.Environment): Promise<Conte
 }
 
 const getAllAssets = async (environment: Contentful.Environment): Promise<Contentful.Asset[]> => {
-  let assets: Contentful.Asset[] = []
+  const assets: Contentful.Asset[] = []
   const { total } = await environment.getEntries({ limit: 0 })
   const chunkSize = 500
 
