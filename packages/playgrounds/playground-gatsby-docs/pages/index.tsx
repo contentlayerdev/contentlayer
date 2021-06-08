@@ -1,18 +1,19 @@
+import type { InferGetStaticPropsType } from 'next'
 import type { FC } from 'react'
 
 import { allDocuments } from '.contentlayer/data'
 
 export const getStaticProps = () => {
-  const ids = allDocuments.map((_) => _._id)
+  const docs = allDocuments.map((_) => ({ id: _._id, title: _.title }))
 
-  return { props: { ids } }
+  return { props: { docs } }
 }
 
-const Page: FC<{ ids: string[] }> = ({ ids }) => (
+const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ docs }) => (
   <div>
-    {ids.map((id) => (
-      <a style={{ display: 'block' }} key={id} href={`/${id}`}>
-        {id}
+    {docs.map((doc) => (
+      <a style={{ display: 'block' }} key={doc.id} href={`/${doc.id.replace(/\.md$/, '')}`}>
+        {doc.title}
       </a>
     ))}
   </div>

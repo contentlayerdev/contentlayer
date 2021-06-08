@@ -1,14 +1,12 @@
 {
   "name": "next-contentlayer",
-  "version": "0.0.2-18",
+  "version": "0.0.2-19",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
   "scripts": {
     "prepack": "yarn build",
-    "build": "rm -rf dist && yarn build:esm && yarn build:cjs && echo Build complete",
-    "build:esm": "tsc --build tsconfig.json",
-    "build:cjs": "tsc --build tsconfig.cjs.json"
+    "build": "(yarn workspaces foreach -vpR -j=6 run g:build:lib & run g:build:types) && echo Build complete"
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*",
@@ -20,5 +18,6 @@
   "devDependencies": {
     "next": "^10.2.3",
     "typescript": "^4.2.4"
-  }
+  },
+  "stableVersion": "0.0.2-18"
 }

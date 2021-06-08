@@ -36,9 +36,10 @@ export type DocumentTypeNames = DocumentTypes['_typeName']
 
 /** Post */
 export type Post = {
+  /** ID */
   _id: string
   _typeName: 'Post'
-  _raw?: Record<string, any>
+  _raw: Record<string, any>
   /** The title of the post */
   title: string
   /** The date of the post */

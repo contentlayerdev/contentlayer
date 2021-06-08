@@ -1,11 +1,10 @@
 {
   "extends": "../../../tsconfig.json",
   "compilerOptions": {
-    "target": "ES2015",
     "esModuleInterop": true,
     "rootDir": "./src",
-    "outDir": "./dist/esm"
+    "outDir": "./dist/types"
   },
   "include": ["./src"],
-  "references": [{ "path": "../utils/tsconfig.json" }, { "path": "../core/tsconfig.json" }]
+  "references": [{ "path": "../utils" }, { "path": "../core" }]
 }

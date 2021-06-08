@@ -1402,7 +1402,6 @@ __metadata:
     clipanion: ^3.0.0-rc.12
     rxjs: ^7.1.0
     typanion: ^3.3.1
-    typescript: ^4.2.4
   languageName: unknown
   linkType: soft
 
@@ -1413,7 +1412,6 @@ __metadata:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/utils": "workspace:*"
     rxjs: ^7.1.0
-    typescript: ^4.2.4
   languageName: unknown
   linkType: soft
 
@@ -1432,7 +1430,6 @@ __metadata:
     remark-rehype: ^8.1.0
     rxjs: ^7.1.0
     type-fest: ^1.2.0
-    typescript: ^4.2.4
     unified: ^9.2.1
   languageName: unknown
   linkType: soft
@@ -1459,7 +1456,6 @@ __metadata:
     "@types/node": ^15.12.0
     contentful-management: 7.22.4
     rxjs: ^7.1.0
-    typescript: ^4.2.4
   languageName: unknown
   linkType: soft
 
@@ -1477,7 +1473,6 @@ __metadata:
     minimatch: ^3.0.4
     rxjs: ^7.1.0
     ts-pattern: ^2.1.2
-    typescript: ^4.2.4
   languageName: unknown
   linkType: soft
 
@@ -1492,15 +1487,12 @@ __metadata:
     "@sanity/schema": ^2.10.0
     "@types/node": ^15.12.0
     rxjs: ^7.1.0
-    typescript: ^4.2.4
   languageName: unknown
   linkType: soft
 
 "@contentlayer/utils@workspace:*, @contentlayer/utils@workspace:packages/@contentlayer/utils":
   version: 0.0.0-use.local
   resolution: "@contentlayer/utils@workspace:packages/@contentlayer/utils"
-  dependencies:
-    typescript: ^4.2.4
   languageName: unknown
   linkType: soft
 
@@ -1882,23 +1874,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/env@npm:10.2.4-canary.3":
-  version: 10.2.4-canary.3
-  resolution: "@next/env@npm:10.2.4-canary.3"
-  checksum: 7ddfc20a644749e06199354673ff923ae32682a1529fc404bb633a5753e1e2b3eac308e0d7af4cfb159ebb75e343c56dd619b28a40537c2fc24568c414dce093
+"@next/env@npm:10.2.4-canary.7":
+  version: 10.2.4-canary.7
+  resolution: "@next/env@npm:10.2.4-canary.7"
+  checksum: ff473f2a476d1c12fc741ca1dd4dfc19fc9d61e1a0ce2fda7c2daa970e1bde08279fa735a110deb405829bcc6f5e5c006ba62e5acab37510fb46f90fb40328e2
   languageName: node
   linkType: hard
 
-"@next/polyfill-module@npm:10.2.4-canary.3":
-  version: 10.2.4-canary.3
-  resolution: "@next/polyfill-module@npm:10.2.4-canary.3"
-  checksum: 521d75ca42e8b8084ca09d580880a379bf668a60f178a365cf377735f161adc903d509625047425da8bec0dd39eea9ad67e8a3f38ca535ed18552f20785195b4
+"@next/polyfill-module@npm:10.2.4-canary.7":
+  version: 10.2.4-canary.7
+  resolution: "@next/polyfill-module@npm:10.2.4-canary.7"
+  checksum: f2459a06ae11ee2d4e7436f48937774dc3baf1824812eed1ae968149d73b2e65d1f6747b2a89cc4fc7893d979cd8d38d26281ac01a032c884ad7c04efe4d9309
   languageName: node
   linkType: hard
 
-"@next/react-dev-overlay@npm:10.2.4-canary.3":
-  version: 10.2.4-canary.3
-  resolution: "@next/react-dev-overlay@npm:10.2.4-canary.3"
+"@next/react-dev-overlay@npm:10.2.4-canary.7":
+  version: 10.2.4-canary.7
+  resolution: "@next/react-dev-overlay@npm:10.2.4-canary.7"
   dependencies:
     "@babel/code-frame": 7.12.11
     anser: 1.4.9
@@ -1912,22 +1904,22 @@ __metadata:
     stacktrace-parser: 0.1.10
     strip-ansi: 6.0.0
   peerDependencies:
-    react: ^16.9.0 || ^17
-    react-dom: ^16.9.0 || ^17
-  checksum: 45432edf19e497e04a7130fd2c16d43e5d9732c540c11c79693a6380bd0d52642acf461b50d4ab0de44ebabddd2a3e99d9866fbc06df4b339902e25797fdc850
+    react: ^17.0.2
+    react-dom: ^17.0.2
+  checksum: c3869d6c6030d6bc0ecb76e745f6579544c4e69d71b3f2790dfb98b26fbc287394b0b58d76ef0cc4b3e04118611ba13d5507c1440b614e220b08d4b9b973aae1
   languageName: node
   linkType: hard
 
-"@next/react-refresh-utils@npm:10.2.4-canary.3":
-  version: 10.2.4-canary.3
-  resolution: "@next/react-refresh-utils@npm:10.2.4-canary.3"
+"@next/react-refresh-utils@npm:10.2.4-canary.7":
+  version: 10.2.4-canary.7
+  resolution: "@next/react-refresh-utils@npm:10.2.4-canary.7"
   peerDependencies:
     react-refresh: 0.8.3
     webpack: ^4 || ^5
   peerDependenciesMeta:
     webpack:
       optional: true
-  checksum: a50f0ba05b37f863fcc7def1771d8ffdd282f14104be8b822eb78f8d27514d874a1de6601a7bb76c765b27feaf079b008dbfeef30af4d3747ae0fb8bcefe840c
+  checksum: 00b9127461b0bff5d15c41e3b51e3c140075f9e8e640a751d601044031bddf3a76ec3d412083cc3e751c8dcf8ac162f563ac663af724e2d4858ddab13f865e3d
   languageName: node
   linkType: hard
 
@@ -5065,10 +5057,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30000792, caniuse-lite@npm:^1.0.30000805, caniuse-lite@npm:^1.0.30001202, caniuse-lite@npm:^1.0.30001219, caniuse-lite@npm:^1.0.30001228":
+"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30000792, caniuse-lite@npm:^1.0.30000805, caniuse-lite@npm:^1.0.30001219":
   version: 1.0.30001233
   resolution: "caniuse-lite@npm:1.0.30001233"
   checksum: 7a628430f01192779a0e21384a464c566b7ffd1b9a082526efdb1dee4dda685ae05bbf7c2b8c04217ae7e3fb507af65c3df1eb0f87c3441f5e6a01a9a7030858
+  languageName: node
+  linkType: hard
+
+"caniuse-lite@npm:^1.0.30001202, caniuse-lite@npm:^1.0.30001228":
+  version: 1.0.30001235
+  resolution: "caniuse-lite@npm:1.0.30001235"
+  checksum: 4703293ada758a8e73e5dae0a988a3247b7a9d80e6d4cad38ca9347f54767fcee4e9e627f05926dde50e9de0fec305c603959ee78a4f8f92bfe0dce309df2b01
   languageName: node
   linkType: hard
 
@@ -9134,6 +9133,17 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"image-size@npm:1.0.0":
+  version: 1.0.0
+  resolution: "image-size@npm:1.0.0"
+  dependencies:
+    queue: 6.0.2
+  bin:
+    image-size: bin/image-size.js
+  checksum: 2d9d1edc43c0fa8effd27c44cd2d1b02ecc963219e78a76ac80b9d363f69c5aa19990cc23a323959ea510742ff07667e231f0852fd57eba5dc5b55432b58106d
+  languageName: node
+  linkType: hard
+
 "immer@npm:^5.0.0":
   version: 5.3.6
   resolution: "immer@npm:5.3.6"
@@ -11992,21 +12002,6 @@ fsevents@^1.2.7:
   languageName: unknown
   linkType: soft
 
-"next-dev-contentlayer@workspace:packages/next-dev-contentlayer":
-  version: 0.0.0-use.local
-  resolution: "next-dev-contentlayer@workspace:packages/next-dev-contentlayer"
-  dependencies:
-    "@contentlayer/core": "workspace:*"
-    clipanion: ^3.0.0-rc.12
-    next: ^10.2.3
-    typescript: ^4.2.4
-  peerDependencies:
-    next: ^10
-  bin:
-    next-dev-contentlayer: ./dist/index.js
-  languageName: unknown
-  linkType: soft
-
 "next-tick@npm:~1.0.0":
   version: 1.0.0
   resolution: "next-tick@npm:1.0.0"
@@ -12014,16 +12009,16 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"next@npm:canary":
-  version: 10.2.4-canary.3
-  resolution: "next@npm:10.2.4-canary.3"
+"next@npm:10.2.4-canary.7":
+  version: 10.2.4-canary.7
+  resolution: "next@npm:10.2.4-canary.7"
   dependencies:
     "@babel/runtime": 7.12.5
     "@hapi/accept": 5.0.2
-    "@next/env": 10.2.4-canary.3
-    "@next/polyfill-module": 10.2.4-canary.3
-    "@next/react-dev-overlay": 10.2.4-canary.3
-    "@next/react-refresh-utils": 10.2.4-canary.3
+    "@next/env": 10.2.4-canary.7
+    "@next/polyfill-module": 10.2.4-canary.7
+    "@next/react-dev-overlay": 10.2.4-canary.7
+    "@next/react-refresh-utils": 10.2.4-canary.7
     "@opentelemetry/api": 0.14.0
     assert: 2.0.0
     ast-types: 0.13.2
@@ -12042,6 +12037,7 @@ fsevents@^1.2.7:
     find-cache-dir: 3.3.1
     get-orientation: 1.1.2
     https-browserify: 1.0.0
+    image-size: 1.0.0
     jest-worker: 27.0.0-next.5
     native-url: 0.3.4
     node-fetch: 2.6.1
@@ -12056,7 +12052,7 @@ fsevents@^1.2.7:
     prop-types: 15.7.2
     querystring-es3: 0.2.1
     raw-body: 2.4.1
-    react-is: 16.13.1
+    react-is: 17.0.2
     react-refresh: 0.8.3
     stream-browserify: 3.0.0
     stream-http: 3.1.1
@@ -12071,8 +12067,8 @@ fsevents@^1.2.7:
   peerDependencies:
     fibers: ">= 3.1.0"
     node-sass: ^4.0.0 || ^5.0.0
-    react: ^16.6.0 || ^17
-    react-dom: ^16.6.0 || ^17
+    react: ^17.0.2
+    react-dom: ^17.0.2
     sass: ^1.3.0
   peerDependenciesMeta:
     fibers:
@@ -12083,7 +12079,7 @@ fsevents@^1.2.7:
       optional: true
   bin:
     next: dist/bin/next
-  checksum: ec8fa09c2d0baa44108ece894a7abb867e98e1123c04168e5842c75005fd2f19efcaaa81c943c9a769c8b40db0465844f8d8af0f297e74ee320f03d5f42dcebb
+  checksum: c77d90dc0d15ca2003eb870b45938329798fa038d91b79dc4c8708151491f24e77264969523e3030638c0226ee287a3ef0840120d88241c68fe159fa2a0ca96b
   languageName: node
   linkType: hard
 
@@ -13005,6 +13001,7 @@ fsevents@^1.2.7:
     date-fns: ^2.22.1
     marked: ^2.0.3
     next: ^10.2.3
+    next-contentlayer: "workspace:*"
     react: ^17.0.2
     react-dom: ^17.0.2
     react-helmet: ^6.1.0
@@ -13090,10 +13087,10 @@ fsevents@^1.2.7:
     "@types/react-dom": ^17.0.6
     contentlayer: "workspace:*"
     next: ^10.2.3
+    next-contentlayer: "workspace:*"
     react: ^17.0.2
     react-dom: ^17.0.2
     shiki: ^0.9.4
-    ts-node: ^10.0.0
     typescript: ^4.2.4
   languageName: unknown
   linkType: soft
@@ -14353,6 +14350,15 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"queue@npm:6.0.2":
+  version: 6.0.2
+  resolution: "queue@npm:6.0.2"
+  dependencies:
+    inherits: ~2.0.3
+  checksum: ebc23639248e4fe40a789f713c20548e513e053b3dc4924b6cb0ad741e3f264dcff948225c8737834dd4f9ec286dbc06a1a7c13858ea382d9379f4303bcc0916
+  languageName: node
+  linkType: hard
+
 "raf@npm:^3.4.1":
   version: 3.4.1
   resolution: "raf@npm:3.4.1"
@@ -14609,17 +14615,17 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"react-is@npm:16.13.1, react-is@npm:^16.7.0, react-is@npm:^16.8.1, react-is@npm:^16.8.6":
-  version: 16.13.1
-  resolution: "react-is@npm:16.13.1"
-  checksum: f7a19ac3496de32ca9ae12aa030f00f14a3d45374f1ceca0af707c831b2a6098ef0d6bdae51bd437b0a306d7f01d4677fcc8de7c0d331eb47ad0f46130e53c5f
-  languageName: node
-  linkType: hard
-
-"react-is@npm:^17.0.1, react-is@npm:^17.0.2":
+"react-is@npm:17.0.2, react-is@npm:^17.0.1, react-is@npm:^17.0.2":
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
   checksum: 9d6d111d8990dc98bc5402c1266a808b0459b5d54830bbea24c12d908b536df7883f268a7868cfaedde3dd9d4e0d574db456f84d2e6df9c4526f99bb4b5344d8
+  languageName: node
+  linkType: hard
+
+"react-is@npm:^16.7.0, react-is@npm:^16.8.1, react-is@npm:^16.8.6":
+  version: 16.13.1
+  resolution: "react-is@npm:16.13.1"
+  checksum: f7a19ac3496de32ca9ae12aa030f00f14a3d45374f1ceca0af707c831b2a6098ef0d6bdae51bd437b0a306d7f01d4677fcc8de7c0d331eb47ad0f46130e53c5f
   languageName: node
   linkType: hard
 
@@ -15447,6 +15453,7 @@ fsevents@^1.2.7:
     "@types/jest": ^26.0.23
     "@typescript-eslint/eslint-plugin": ^4.15.2
     "@typescript-eslint/parser": ^4.15.2
+    esbuild: ^0.12.6
     eslint: ^7.21.0
     eslint-config-prettier: ^8.3.0
     eslint-plugin-react-hooks: ^4.2.0

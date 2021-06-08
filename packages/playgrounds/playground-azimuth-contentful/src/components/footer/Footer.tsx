@@ -1,10 +1,12 @@
-import { config } from 'contentlayer/types'
-import React, { FC } from 'react'
+import type { FC } from 'react'
+import React from 'react'
+
 import { htmlToReact } from '../../utils'
 import { ActionLink } from '../ActionLink'
 import { FooterForm } from './FooterForm'
 import { FooterNav } from './FooterNav'
 import { FooterText } from './FooterText'
+import type { config } from '.contentlayer/types'
 
 export const Footer: FC<{ config: config }> = ({ config }) => (
   <footer id="colophon" className="site-footer">

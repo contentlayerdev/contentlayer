@@ -1,5 +1,4 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "jsx": "preserve",
     "allowSyntheticDefaultImports": true,
@@ -11,9 +10,14 @@
     "resolveJsonModule": true,
     "incremental": false,
     "composite": false,
-    "noEmit": true
+    "noEmit": true,
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "strict": false,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "isolatedModules": true
   },
-  "include": ["next-env.d.ts", "./src", "./src/**/*.json", "./node_modules/@types"],
-  "references": [{ "path": "../../contentlayer/tsconfig.json" }],
+  "include": ["next-env.d.ts", "**/*.tsx", "**/*.ts", "./node_modules/.contentlayer/*", "./node_modules/@types"],
   "exclude": ["node_modules"]
 }

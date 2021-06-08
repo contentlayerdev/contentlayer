@@ -1,7 +1,9 @@
-import { footer_form } from '.contentlayer'
-import React, { FC } from 'react'
+import type { FC } from 'react'
+import React from 'react'
+
 import { markdownify } from '../../utils'
 import { FormField } from '../FormField'
+import type { footer_form } from '.contentlayer/types'
 
 export const FooterForm: FC<{ section: footer_form }> = ({ section }) => (
   <section className="cell widget widget-form">

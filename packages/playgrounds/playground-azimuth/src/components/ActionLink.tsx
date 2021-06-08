@@ -1,6 +1,8 @@
-import { action } from '.contentlayer'
-import React, { FC } from 'react'
+import type { FC } from 'react'
+import React from 'react'
+
 import { Link, withPrefix } from '../utils'
+import type { action } from '.contentlayer/types'
 
 export const ActionLink: FC<{ action: action }> = ({ action }) => (
   <Link

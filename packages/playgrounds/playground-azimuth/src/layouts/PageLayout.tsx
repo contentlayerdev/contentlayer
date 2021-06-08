@@ -1,7 +1,9 @@
-import { config, page } from '.contentlayer'
-import React, { FC } from 'react'
+import type { FC } from 'react'
+import React from 'react'
+
 import { Layout } from '../components/Layout'
 import { htmlToReact, markdownify, withPrefix } from '../utils'
+import type { config, page } from '.contentlayer/types'
 
 export const PageLayout: FC<{
   doc: page

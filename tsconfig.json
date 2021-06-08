@@ -2,6 +2,7 @@
   "compilerOptions": {
     "composite": true,
     "declaration": true,
+    "emitDeclarationOnly": true,
     "declarationMap": true,
     "incremental": true,
     "isolatedModules": true,

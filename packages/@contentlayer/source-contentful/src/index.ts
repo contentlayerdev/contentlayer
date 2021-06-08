@@ -1,7 +1,7 @@
 import type { GetAllTypeNamesGen, SourcePlugin } from '@contentlayer/core'
 import { createClient } from 'contentful-management'
 import type { Observable } from 'rxjs'
-import { defer, forkJoin, from, of } from 'rxjs'
+import { forkJoin, from, interval, of } from 'rxjs'
 import { mergeMap, startWith } from 'rxjs/operators'
 
 import type * as Contentful from './contentful-types'
@@ -60,11 +60,5 @@ const getEnvironment = async ({
   return space.getEnvironment(environmentId)
 }
 
-const getUpdateEvents = (): Observable<any> =>
-  defer(async () => 0)
-    .pipe
-    // mergeMap((sanityClient) =>
-    //   // `visibility: 'query'` needed otherwise event will trigger too early
-    //   sanityClient.listen<MutationEvent>('*', {}, { events: ['mutation'], visibility: 'query' }),
-    // ),
-    ()
+// TODO remove polling and implement "properly"
+const getUpdateEvents = (): Observable<any> => interval(5_000)

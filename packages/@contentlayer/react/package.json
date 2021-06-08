@@ -1,15 +1,13 @@
 {
   "name": "@contentlayer/react",
-  "version": "0.0.2-18",
+  "version": "0.0.2-19",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
-  "types": "./dist/esm/index.d.ts",
+  "types": "./dist/types/index.d.ts",
   "scripts": {
     "prepack": "yarn build",
     "dev": "rm -rf dist && tsc --watch",
-    "build": "rm -rf dist && yarn build:esm && yarn build:cjs && echo Build complete",
-    "build:esm": "tsc --build tsconfig.json",
-    "build:cjs": "tsc --build tsconfig.cjs.json"
+    "build": "(yarn workspaces foreach -vpR -j=6 run g:build:lib & run g:build:types) && echo Build complete"
   },
   "devDependencies": {
     "@types/react": "^17.0.9",
@@ -21,5 +19,6 @@
   },
   "peerDependencies": {
     "react": "*"
-  }
+  },
+  "stableVersion": "0.0.2-18"
 }

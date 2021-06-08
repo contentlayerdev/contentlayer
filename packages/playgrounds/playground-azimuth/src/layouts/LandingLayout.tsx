@@ -1,5 +1,6 @@
-import { config, landing, post } from '.contentlayer'
-import React, { FC } from 'react'
+import type { FC } from 'react'
+import React from 'react'
+
 import { SectionContact } from '../components/landing-sections/SectionContact'
 import { SectionContent } from '../components/landing-sections/SectionContent'
 import { SectionCta } from '../components/landing-sections/SectionCta'
@@ -10,6 +11,7 @@ import { SectionPosts } from '../components/landing-sections/SectionPosts'
 import { SectionPricing } from '../components/landing-sections/SectionPricing'
 import { SectionReviews } from '../components/landing-sections/SectionReviews'
 import { Layout } from '../components/Layout'
+import type { config, landing, post } from '.contentlayer/types'
 
 export const LandingLayout: FC<{
   doc: landing

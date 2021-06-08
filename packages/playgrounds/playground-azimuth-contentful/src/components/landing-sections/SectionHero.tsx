@@ -1,7 +1,9 @@
-import { section_hero } from 'contentlayer/types'
-import React, { FC } from 'react'
+import type { FC } from 'react'
+import React from 'react'
+
 import { markdownify, withPrefix } from '../../utils'
 import { CtaButtons } from './CtaButtons'
+import type { section_hero } from '.contentlayer/types'
 
 export const SectionHero: FC<{ section: section_hero }> = ({ section }) => {
   return (

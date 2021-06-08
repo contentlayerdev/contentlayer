@@ -1,4 +1,4 @@
-import { logPerformance } from '@contentlayer/utils'
+import { logPerformance } from '@contentlayer/utils/node'
 import { Command, Option } from 'clipanion'
 import * as t from 'typanion'
 

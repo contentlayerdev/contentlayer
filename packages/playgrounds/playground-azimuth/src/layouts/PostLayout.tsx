@@ -1,8 +1,10 @@
-import { config, post } from '.contentlayer'
-import React, { FC } from 'react'
+import type { FC } from 'react'
+import React from 'react'
+
 import { BlogPostFooter } from '../components/BlogPostFooter'
 import { Layout } from '../components/Layout'
 import { htmlToReact, withPrefix } from '../utils'
+import type { config, post } from '.contentlayer/types'
 
 export const PostLayout: FC<{
   doc: post

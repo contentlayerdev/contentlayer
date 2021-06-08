@@ -1,6 +1,8 @@
-import { section_reviews } from 'contentlayer/types'
-import React, { FC } from 'react'
+import type { FC } from 'react'
+import React from 'react'
+
 import { htmlToReact, withPrefix } from '../../utils'
+import type { section_reviews } from '.contentlayer/types'
 
 export const SectionReviews: FC<{ section: section_reviews }> = ({ section }) => (
   <section id={section.section_id} className={'block reviews-block bg-' + section.background + ' outer'}>

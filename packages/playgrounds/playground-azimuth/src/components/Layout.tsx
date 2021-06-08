@@ -1,10 +1,12 @@
-import { blog, config, landing, page, post } from '.contentlayer'
 import _ from 'lodash'
-import React, { FC } from 'react'
+import type { FC } from 'react'
+import React from 'react'
 import { Helmet } from 'react-helmet'
+
 import { withPrefix } from '../utils'
 import { Footer } from './footer/Footer'
 import { Header } from './Header'
+import type { blog, config, landing, page, post } from '.contentlayer/types'
 
 export const Layout: FC<{
   doc: blog | page | landing | post

@@ -1,6 +1,6 @@
 {
   "name": "contentlayer",
-  "version": "0.0.2-18",
+  "version": "0.0.2-19",
   "bin": "./dist/cli/index.js",
   "exports": {
     "./source-local": {
@@ -19,6 +19,10 @@
       "import": "./dist/esm/utils/index.js",
       "require": "./dist/cjs/utils/index.js"
     },
+    "./utils/node": {
+      "import": "./dist/esm/utils/node/index.js",
+      "require": "./dist/cjs/utils/node/index.js"
+    },
     "./core": {
       "import": "./dist/esm/core/index.js",
       "require": "./dist/cjs/core/index.js"
@@ -28,29 +32,29 @@
   "typesVersions": {
     "*": {
       "source-local": [
-        "./dist/esm/source-local"
+        "./dist/types/source-local"
       ],
       "client": [
-        "./dist/esm/client"
+        "./dist/types/client"
       ],
       "react": [
-        "./dist/esm/react"
+        "./dist/types/react"
       ],
       "utils": [
-        "./dist/esm/utils"
+        "./dist/types/utils"
+      ],
+      "utils/node": [
+        "./dist/types/utils/node"
       ],
       "core": [
-        "./dist/esm/core"
+        "./dist/types/core"
       ]
     }
   },
   "scripts": {
     "prepack": "yarn build",
-    "build": "yarn build:cli && yarn build:lib && echo Build complete",
-    "build:cli": "rm -rf dist/cli && esbuild --bundle src/cli/index.ts --outfile=dist/cli/index.js --platform=node --target=node12 --sourcemap --external:esbuild && chmod +x ./dist/cli/index.js",
-    "build:lib": "yarn build:lib:esm && yarn build:lib:cjs",
-    "build:lib:cjs": "rm -rf ./dist/cjs ./dist/tsconfig.cjs.tsbuildinfo && tsc --build tsconfig.cjs.json",
-    "build:lib:esm": "rm -rf ./dist/esm ./dist/tsconfig.tsbuildinfo && tsc --build tsconfig.json"
+    "build": "(yarn workspaces foreach -vpR -j=6 run g:build:lib & run g:build:types & run build:cli) && echo Build complete",
+    "build:cli": "rm -rf dist/cli && esbuild --bundle ./src/cli/index.ts --outfile=./dist/cli/index.js --platform=node --target=node12 --sourcemap --external:esbuild && chmod +x ./dist/cli/index.js"
   },
   "dependencies": {
     "@contentlayer/cli": "workspace:*",
@@ -63,5 +67,6 @@
   "devDependencies": {
     "esbuild": "^0.12.6",
     "typescript": "^4.2.4"
-  }
+  },
+  "stableVersion": "0.0.2-18"
 }

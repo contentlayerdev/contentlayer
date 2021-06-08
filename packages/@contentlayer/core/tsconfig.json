@@ -3,10 +3,9 @@
   "compilerOptions": {
     // Needed for `pkg-up`
     "esModuleInterop": true,
-    "target": "ES2015",
     "rootDir": "./src",
-    "outDir": "./dist/esm"
+    "outDir": "./dist/types"
   },
   "include": ["./src"],
-  "references": [{ "path": "../utils/tsconfig.json" }]
+  "references": [{ "path": "../utils" }]
 }

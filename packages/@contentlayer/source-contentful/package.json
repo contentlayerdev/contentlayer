@@ -1,24 +1,22 @@
 {
   "name": "@contentlayer/source-contentful",
-  "version": "0.0.2-18",
+  "version": "0.0.2-19",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
-  "types": "./dist/esm/index.d.ts",
+  "types": "./dist/types/index.d.ts",
   "scripts": {
     "prepack": "yarn build",
     "dev": "rm -rf dist *.tsbuildinfo && tsc --watch",
-    "build": "rm -rf dist && yarn build:esm && yarn build:cjs && echo Build complete",
-    "build:esm": "tsc --build tsconfig.json",
-    "build:cjs": "tsc --build tsconfig.cjs.json"
+    "build": "(yarn workspaces foreach -vpR -j=6 run g:build:lib & run g:build:types) && echo Build complete"
   },
   "devDependencies": {
-    "@types/node": "^15.12.0",
-    "typescript": "^4.2.4"
+    "@types/node": "^15.12.0"
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
     "contentful-management": "7.22.4",
     "rxjs": "^7.1.0"
-  }
+  },
+  "stableVersion": "0.0.2-18"
 }

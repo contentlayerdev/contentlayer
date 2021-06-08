@@ -1,4 +1,4 @@
-import { section_cta } from '.contentlayer'
+import { section_cta } from '.contentlayer/types'
 import React, { FC } from 'react'
 import { htmlToReact } from '../../utils'
 import { CtaButtons } from './CtaButtons'

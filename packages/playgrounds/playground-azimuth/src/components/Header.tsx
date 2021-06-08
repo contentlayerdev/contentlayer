@@ -1,7 +1,10 @@
-import { blog, config, isType, landing, page, post } from '.contentlayer'
-import React, { FC } from 'react'
+import type { FC } from 'react'
+import React from 'react'
+
 import { classNames, Link, withPrefix } from '../utils'
 import { Action } from './Action'
+import type { blog, config, landing, page, post } from '.contentlayer/types'
+import { isType } from '.contentlayer/types'
 
 export const Header: FC<{
   config: config
@@ -46,9 +49,9 @@ export const Header: FC<{
                 </button>
                 <ul className="menu">
                   {config.header.nav_links.map((action, action_idx) => {
-                    let page_url = 'TODO URL path'
-                    let action_url = action.url.trim() ?? '/'
-                    let action_style = action.style ?? 'link'
+                    const page_url = 'TODO URL path'
+                    const action_url = action.url.trim() ?? '/'
+                    const action_style = action.style ?? 'link'
                     return (
                       <li
                         key={action_idx}

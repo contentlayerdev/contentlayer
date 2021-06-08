@@ -1,5 +1,5 @@
 {
-  "extends": "../../../tsconfig.json",
+  "extends": "../../../../tsconfig.json",
   "compilerOptions": {
     "jsx": "preserve",
     "allowSyntheticDefaultImports": true,
@@ -12,9 +12,6 @@
     "noEmit": true
   },
   "include": ["./src", "./src/**/*.json", "./contentlayer", "./node_modules/@types"],
-  "references": [
-    { "path": "../../../contentlayer/tsconfig.json" },
-    { "path": "../../../@contentlayer/source-sanity/tsconfig.json" }
-  ],
+  "references": [{ "path": "../../../contentlayer" }, { "path": "../../../@contentlayer/source-sanity" }],
   "exclude": ["node_modules"]
 }

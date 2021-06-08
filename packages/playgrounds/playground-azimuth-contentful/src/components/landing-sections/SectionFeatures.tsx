@@ -1,4 +1,4 @@
-import { section_features } from 'contentlayer/types'
+import { section_features } from '.contentlayer/types'
 import React, { FC } from 'react'
 import { htmlToReact, markdownify, withPrefix } from '../../utils'
 import { CtaButtons } from './CtaButtons'

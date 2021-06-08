@@ -5,13 +5,13 @@ import { allDocuments } from '.contentlayer/data'
 import type { DocumentTypes } from '.contentlayer/types'
 
 export const getStaticPaths = () => {
-  const paths = allDocuments.map((_) => `/${_._id}`)
+  const paths = allDocuments.map((_) => `/${_._id.replace(/\.md$/, '')}`)
 
   return { paths, fallback: false }
 }
 
 export const getStaticProps = (context: any) => {
-  const doc = allDocuments.find((_) => _._id === context.params.id.join('/'))
+  const doc = allDocuments.find((_) => _._id.replace(/\.md$/, '') === context.params.id.join('/'))
 
   return { props: { doc } }
 }

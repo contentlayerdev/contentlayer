@@ -1,5 +1,5 @@
 import { generateDotpkg, getConfigWatch } from 'contentlayer/core'
-import { logPerformance } from 'contentlayer/utils'
+import { logPerformance } from 'contentlayer/utils/node'
 import type { NextConfig } from 'next/dist/next-server/server/config'
 import { switchMap, tap } from 'rxjs/operators'
 
@@ -29,6 +29,7 @@ export const withContentlayer =
     }
 
     return {
+      webpack5: true as any,
       ...nextConfig,
       webpack(config: any, options: any) {
         config.watchOptions = {

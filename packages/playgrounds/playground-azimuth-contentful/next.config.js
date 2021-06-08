@@ -1,3 +1,3 @@
-module.exports = {
-  future: { webpack5: true },
-}
+const { withContentlayer } = require('next-contentlayer')
+
+module.exports = withContentlayer()({})

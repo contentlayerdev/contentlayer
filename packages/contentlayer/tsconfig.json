@@ -2,15 +2,14 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "rootDir": "./src",
-    "target": "ES2015",
-    "outDir": "./dist/esm"
+    "outDir": "./dist/types"
   },
   "include": ["./src"],
   "references": [
-    { "path": "../@contentlayer/client/tsconfig.json" },
-    { "path": "../@contentlayer/core/tsconfig.json" },
-    { "path": "../@contentlayer/cli/tsconfig.json" },
-    { "path": "../@contentlayer/react/tsconfig.json" },
-    { "path": "../@contentlayer/source-local/tsconfig.json" }
+    { "path": "../@contentlayer/client" },
+    { "path": "../@contentlayer/core" },
+    { "path": "../@contentlayer/cli" },
+    { "path": "../@contentlayer/react" },
+    { "path": "../@contentlayer/source-local" }
   ]
 }

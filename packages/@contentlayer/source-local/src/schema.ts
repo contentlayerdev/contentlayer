@@ -1,4 +1,4 @@
-import { ComputedField } from './computed-field'
+import type { ComputedField } from './computed-field'
 
 export type SchemaDef = {
   documentDefs: DocumentDef[]

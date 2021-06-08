@@ -3,14 +3,10 @@
   "private": true,
   "scripts": {
     "_postinstall": "yarn generate && yarn fetch",
-    "dev": "node dev.js ./contentlayer/contentlayer.ts",
-    "build": "yarn generate && yarn fetch && next build",
-    "generate": "contentlayer generate --config ./contentlayer/contentlayer.ts",
-    "fetch": "contentlayer fetch --config ./contentlayer/contentlayer.ts"
+    "dev": "next dev",
+    "build": "yarn contentlayer build && next build"
   },
   "dependencies": {
-    "@contentlayer/source-contentful": "workspace:*",
-    "contentlayer": "workspace:*",
     "date-fns": "^2.22.1",
     "marked": "^2.0.3",
     "next": "^10.2.3",
@@ -22,9 +18,12 @@
     "sass": "^1.32.7"
   },
   "devDependencies": {
+    "@contentlayer/source-contentful": "workspace:*",
     "@types/react": "^17.0.9",
     "@types/react-dom": "^17.0.6",
     "@types/react-helmet": "^6.1.1",
+    "contentlayer": "workspace:*",
+    "next-contentlayer": "workspace:*",
     "ts-node": "^10.0.0",
     "typescript": "^4.2.4"
   }

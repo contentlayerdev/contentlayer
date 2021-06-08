@@ -1,6 +1,4 @@
-import { ContentlayerClient } from 'contentlayer/client'
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next'
-import React from 'react'
+import type { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next'
 
 /** Needed in combination with `InferGetServerSidePropsType` */
 export function defineServerSideProps<Fn extends GetServerSideProps>(fn: Fn): Fn {
@@ -23,6 +21,3 @@ export function toParams(path: string): { params: { slug: string[] } } {
 export function notUndefined<T>(_: T | undefined): _ is T {
   return _ !== undefined
 }
-
-export const ContentlayerContext = React.createContext<ContentlayerClient>(null as any)
-export const useContentlayer = () => React.useContext(ContentlayerContext)

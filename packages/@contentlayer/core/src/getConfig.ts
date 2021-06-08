@@ -1,4 +1,4 @@
-import { measureAsync } from '@contentlayer/utils'
+import { measureAsync } from '@contentlayer/utils/node'
 import type { BuildResult } from 'esbuild'
 import { build as esbuild } from 'esbuild'
 import { promises as fs } from 'fs'

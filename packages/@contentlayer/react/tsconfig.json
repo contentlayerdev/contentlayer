@@ -1,11 +1,10 @@
 {
   "extends": "../../../tsconfig.json",
   "compilerOptions": {
-    "rootDir": "./src",
     "jsx": "preserve",
-    "target": "ES2015",
-    "outDir": "./dist/esm"
+    "rootDir": "./src",
+    "outDir": "./dist/types"
   },
   "include": ["./src"],
-  "references": [{ "path": "../client/tsconfig.json" }, { "path": "../core/tsconfig.json" }]
+  "references": [{ "path": "../client" }, { "path": "../core" }]
 }

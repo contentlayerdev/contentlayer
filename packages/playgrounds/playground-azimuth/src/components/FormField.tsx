@@ -1,6 +1,8 @@
-import { footer_form, form_field, section_contact } from '.contentlayer'
-import React, { FC } from 'react'
+import type { FC } from 'react'
+import React from 'react'
+
 import { classNames } from '../utils'
+import type { footer_form, form_field, section_contact } from '.contentlayer/types'
 
 export const FormField: FC<{ section: footer_form | section_contact; field: form_field }> = ({ field, section }) => {
   return (

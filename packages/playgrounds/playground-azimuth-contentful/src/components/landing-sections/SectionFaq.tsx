@@ -1,4 +1,4 @@
-import { section_faq } from 'contentlayer/types'
+import { section_faq } from '.contentlayer/types'
 import React, { FC } from 'react'
 import { htmlToReact, markdownify } from '../../utils'
 

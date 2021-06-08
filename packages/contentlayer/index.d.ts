@@ -1,1 +1,1 @@
-// needed to fix a Next.js problem
+// needed for Next.js to work

@@ -2,7 +2,7 @@
   "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "rootDir": "./src",
-    "outDir": "./dist/esm"
+    "outDir": "./dist/types"
   },
   "include": ["./src"],
   "references": [{ "path": "../core/tsconfig.json" }]
