@@ -2,7 +2,7 @@
 title: Features
 sections:
   - section_id: features
-    type: section_content
+    type: SectionContent
     background: gray
     image: images/feature1.png
     image_alt: App preview on a phone and tablet
@@ -30,7 +30,7 @@ sections:
         url: '#'
         style: secondary
   - section_id: call-to-action
-    type: section_cta
+    type: SectionCta
     title: This Is Call to Action Block!
     subtitle: This is an optional description for the call to action block.
     actions:

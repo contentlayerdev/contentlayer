@@ -1,9 +1,11 @@
-import { post, section_posts } from '.contentlayer/types'
-import React, { FC } from 'react'
+import type { FC } from 'react'
+import React from 'react'
+
 import { htmlToReact, Link, withPrefix } from '../../utils'
 import { BlogPostFooter } from '../BlogPostFooter'
+import type { Post, Section_posts } from '.contentlayer/types'
 
-export const SectionPosts: FC<{ section: section_posts; posts: post[] }> = ({ section, posts }) => {
+export const SectionPosts: FC<{ section: Section_posts; posts: Post[] }> = ({ section, posts }) => {
   const recentPosts = posts
     // TODO do proper date constructing
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())

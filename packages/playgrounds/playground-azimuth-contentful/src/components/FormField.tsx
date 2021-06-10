@@ -2,9 +2,9 @@ import type { FC } from 'react'
 import React from 'react'
 
 import { classNames } from '../utils'
-import type { footer_form, form_field, section_contact } from '.contentlayer/types'
+import type { Footer_form, Form_field, Section_contact } from '.contentlayer/types'
 
-export const FormField: FC<{ section: footer_form | section_contact; field: form_field }> = ({ field, section }) => {
+export const FormField: FC<{ section: Footer_form | Section_contact; field: Form_field }> = ({ field, section }) => {
   return (
     <>
       {field.input_type !== 'checkbox' && field.label && (

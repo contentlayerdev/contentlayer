@@ -16,5 +16,11 @@
   "prettier.singleQuote": true,
   "prettier.trailingComma": "all",
   "prettier.printWidth": 120,
-  "prettier.semi": false
+  "prettier.semi": false,
+  // needed to keep task starting fast (https://github.com/microsoft/vscode/issues/63055#issuecomment-438957634)
+  "typescript.tsc.autoDetect": "off",
+  "npm.autoDetect": "off",
+  "gulp.autoDetect": "off",
+  "grunt.autoDetect": "off",
+  "jake.autoDetect": "off"
 }

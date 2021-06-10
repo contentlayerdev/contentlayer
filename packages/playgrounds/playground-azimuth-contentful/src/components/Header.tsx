@@ -3,12 +3,12 @@ import React from 'react'
 
 import { classNames, Link, withPrefix } from '../utils'
 import { Action } from './Action'
-import type { blog, config, landing, page, post } from '.contentlayer/types'
+import type { Blog, Config, Landing, Page, Post } from '.contentlayer/types'
 import { isType } from '.contentlayer/types'
 
 export const Header: FC<{
-  config: config
-  page: blog | page | landing | post
+  config: Config
+  page: Blog | Page | Landing | Post
 }> = ({ config, page }) => (
   <header id="masthead" className="site-header outer">
     <div className="inner">
@@ -21,7 +21,7 @@ export const Header: FC<{
               </Link>
             </p>
           )}
-          {isType(['page', 'post'], page) ? (
+          {isType(['Page', 'Post'], page) ? (
             <h1
               className={classNames('site-title', {
                 'screen-reader-text': config.header.logo_img,

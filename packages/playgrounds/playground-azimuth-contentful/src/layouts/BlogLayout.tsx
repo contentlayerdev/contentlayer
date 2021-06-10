@@ -5,10 +5,10 @@ import React from 'react'
 import { BlogPostFooter } from '../components/BlogPostFooter'
 import { Layout } from '../components/Layout'
 import { Link, withPrefix } from '../utils'
-import type { blog, config, post } from '.contentlayer/types'
+import type { Blog, Config, Post } from '.contentlayer/types'
 
-export const BlogLayout: FC<{ doc: blog; config: config; posts: post[] }> = ({ doc, config, posts }) => (
-  <Layout doc={doc} config={config}>
+export const BlogLayout: FC<{ blog: Blog; config: Config; posts: Post[] }> = ({ blog, config, posts }) => (
+  <Layout doc={blog} config={config}>
     <div className="outer">
       <div className="inner">
         <div className="grid post-feed">

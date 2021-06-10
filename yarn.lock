@@ -1421,6 +1421,7 @@ __metadata:
   dependencies:
     "@contentlayer/utils": "workspace:*"
     "@types/pkg-up": ^3.1.0
+    "@types/source-map-support": ^0
     esbuild: ^0.12.6
     gray-matter: ^4.0.3
     markdown-wasm: ^1.1.2
@@ -1429,6 +1430,7 @@ __metadata:
     remark-parse: ^9.0.0
     remark-rehype: ^8.1.0
     rxjs: ^7.1.0
+    source-map-support: ^0.5.19
     type-fest: ^1.2.0
     unified: ^9.2.1
   languageName: unknown
@@ -1493,6 +1495,10 @@ __metadata:
 "@contentlayer/utils@workspace:*, @contentlayer/utils@workspace:packages/@contentlayer/utils":
   version: 0.0.0-use.local
   resolution: "@contentlayer/utils@workspace:packages/@contentlayer/utils"
+  dependencies:
+    "@types/inflection": ^1
+    inflection: ^1.13.1
+    ts-pattern: ^3.1.7
   languageName: unknown
   linkType: soft
 
@@ -3213,6 +3219,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/inflection@npm:^1":
+  version: 1.5.28
+  resolution: "@types/inflection@npm:1.5.28"
+  checksum: 9a6babb9fcb38edd71a53e6eaa681dd0142268dc4d596b5aeec23eee6034c9ab25f570e4f005afdc3386ee9fa4df716a1f73d853410a4062936a4c11b3721f79
+  languageName: node
+  linkType: hard
+
 "@types/is-hotkey@npm:^0.1.1":
   version: 0.1.2
   resolution: "@types/is-hotkey@npm:0.1.2"
@@ -3397,6 +3410,15 @@ __metadata:
   version: 0.16.1
   resolution: "@types/scheduler@npm:0.16.1"
   checksum: 2ff8034df029a6cbb3623b05fa895cac4fc504806a8e948ebe29675a1edfa5ac04faac7611016076b3ffefc2037bbe344ad1978304059b2d4c78e513ec43c7bf
+  languageName: node
+  linkType: hard
+
+"@types/source-map-support@npm:^0":
+  version: 0.5.3
+  resolution: "@types/source-map-support@npm:0.5.3"
+  dependencies:
+    source-map: ^0.6.0
+  checksum: 96eabd19d1640e5921d9830f075d832d16febb0e0d5131c58f47338afcc0070d3fa74f73052d7529906c17c7ba979920a0c660ca845d9d29ae3534f28b91896d
   languageName: node
   linkType: hard
 
@@ -9241,6 +9263,13 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"inflection@npm:^1.13.1":
+  version: 1.13.1
+  resolution: "inflection@npm:1.13.1"
+  checksum: 0ae265f710f61320306207501931fe4248dace8e841fb911a33625df68f611bc3736d9f03be5abc5351ae3698c7830e35c400a3a092cd68e93aa3d8cc01cb73a
+  languageName: node
+  linkType: hard
+
 "inflight@npm:^1.0.4":
   version: 1.0.6
   resolution: "inflight@npm:1.0.6"
@@ -11890,24 +11919,6 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"my-app@workspace:packages/playgrounds/playground-starter":
-  version: 0.0.0-use.local
-  resolution: "my-app@workspace:packages/playgrounds/playground-starter"
-  dependencies:
-    "@types/react": ^17.0.9
-    "@types/react-dom": ^17.0.6
-    contentlayer: latest
-    contentlayer-stackbit-yaml-generator: latest
-    date-fns: ^2.22.1
-    next: ^10.2.3
-    next-contentlayer: latest
-    react: 17.0.2
-    react-dom: 17.0.2
-    rehype-highlight: ^4.1.0
-    typescript: ^4.2.4
-  languageName: unknown
-  linkType: soft
-
 "nan@npm:^2.12.1":
   version: 2.14.2
   resolution: "nan@npm:2.14.2"
@@ -13091,6 +13102,24 @@ fsevents@^1.2.7:
     react: ^17.0.2
     react-dom: ^17.0.2
     shiki: ^0.9.4
+    typescript: ^4.2.4
+  languageName: unknown
+  linkType: soft
+
+"playground-starter@workspace:packages/playgrounds/playground-starter":
+  version: 0.0.0-use.local
+  resolution: "playground-starter@workspace:packages/playgrounds/playground-starter"
+  dependencies:
+    "@types/react": ^17.0.9
+    "@types/react-dom": ^17.0.6
+    contentlayer: latest
+    contentlayer-stackbit-yaml-generator: latest
+    date-fns: ^2.22.1
+    next: ^10.2.3
+    next-contentlayer: latest
+    react: 17.0.2
+    react-dom: 17.0.2
+    rehype-highlight: ^4.1.0
     typescript: ^4.2.4
   languageName: unknown
   linkType: soft
@@ -16052,7 +16081,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"source-map-support@npm:^0.5.16, source-map-support@npm:^0.5.17, source-map-support@npm:^0.5.6, source-map-support@npm:~0.5.12":
+"source-map-support@npm:^0.5.16, source-map-support@npm:^0.5.17, source-map-support@npm:^0.5.19, source-map-support@npm:^0.5.6, source-map-support@npm:~0.5.12":
   version: 0.5.19
   resolution: "source-map-support@npm:0.5.19"
   dependencies:
@@ -17145,6 +17174,13 @@ fsevents@^1.2.7:
   version: 2.4.0
   resolution: "ts-pattern@npm:2.4.0"
   checksum: 68266493293449b50b89810db5e627b6336bf3735379a244f8a17e864ad2092e6ec7981bca4d7173495128d58c4a5a76cbff241c53a3aeb2db783f7e21674ff4
+  languageName: node
+  linkType: hard
+
+"ts-pattern@npm:^3.1.7":
+  version: 3.1.7
+  resolution: "ts-pattern@npm:3.1.7"
+  checksum: ba03b37b0711ad2b795cda01e694f13654114c6791187bd3985fc4cd37d590056cd82ad330db3df6ecb5ab4b887a8e0d29df78b7dffb35c74681b0bff4e95ef5
   languageName: node
   linkType: hard
 

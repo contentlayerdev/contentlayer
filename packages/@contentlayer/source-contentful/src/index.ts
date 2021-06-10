@@ -1,17 +1,15 @@
-import type { GetAllTypeNamesGen, SourcePlugin } from '@contentlayer/core'
+import type { SourcePlugin } from '@contentlayer/core'
 import { createClient } from 'contentful-management'
 import type { Observable } from 'rxjs'
 import { forkJoin, from, interval, of } from 'rxjs'
 import { mergeMap, startWith } from 'rxjs/operators'
 
-import type * as Contentful from './contentful-types'
 import { fetchData } from './fetchData'
 import { provideSchema } from './provideSchema'
+import type * as SchemaOverrides from './schemaOverrides'
+import type { Contentful } from './types'
 
-export type SchemaOverrides = {
-  objectTypes?: GetAllTypeNamesGen[]
-  documentTypes?: GetAllTypeNamesGen[]
-}
+export type { RawDocumentData } from './types'
 
 type MakeSourcePlugin = (_: {
   accessToken: string
@@ -20,8 +18,11 @@ type MakeSourcePlugin = (_: {
   /**
    * Since Contentful only provides one kind of content types this schema overrides argument allows you
    * to turn relations into embedded objects. Either provide an array of type names via `objectTypes` or `documentTypes`.
+   * By default all Contentful content types are treated as document types.
+   *
+   * In case a type name has be re-mapped using `typeNameMapping` please use your choosen type name
    */
-  schemaOverrides?: SchemaOverrides
+  schemaOverrides?: SchemaOverrides.Input.SchemaOverrides
 }) => SourcePlugin
 
 export const makeSourcePlugin: MakeSourcePlugin = ({
@@ -39,7 +40,9 @@ export const makeSourcePlugin: MakeSourcePlugin = ({
     const updates$ = watch ? getUpdateEvents().pipe(startWith(0)) : of(0)
     const data$ = from(getEnvironment({ accessToken, spaceId, environmentId })).pipe(
       mergeMap((environment) => forkJoin([of(environment), provideSchema({ environment, schemaOverrides })])),
-      mergeMap(([environment, schemaDef]) => fetchData({ schemaDef, force, previousCache, environment })),
+      mergeMap(([environment, schemaDef]) =>
+        fetchData({ schemaDef, force, previousCache, environment, schemaOverrides }),
+      ),
     )
 
     return updates$.pipe(mergeMap(() => data$))

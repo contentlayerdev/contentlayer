@@ -3,9 +3,9 @@ import React from 'react'
 
 import { markdownify, withPrefix } from '../../utils'
 import { CtaButtons } from './CtaButtons'
-import type { section_hero } from '.contentlayer/types'
+import type { Section_hero } from '.contentlayer/types'
 
-export const SectionHero: FC<{ section: section_hero }> = ({ section }) => {
+export const SectionHero: FC<{ section: Section_hero }> = ({ section }) => {
   return (
     <section id={section.section_id} className="block hero-block bg-accent outer">
       <div className="inner">

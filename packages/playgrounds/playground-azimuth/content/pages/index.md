@@ -2,7 +2,7 @@
 title: Home
 sections:
   - section_id: hero
-    type: section_hero
+    type: SectionHero
     image: images/hero.png
     image_alt: App preview
     title: This Is A Big Hero Headline 76
@@ -14,7 +14,7 @@ sections:
         url: /features
         style: primary
   - section_id: features
-    type: section_features
+    type: SectionFeatures
     background: gray
     title: Features
     subtitle: >-
@@ -64,7 +64,7 @@ sections:
             icon: arrow-right
             icon_position: right
   - section_id: reviews
-    type: section_reviews
+    type: SectionReviews
     background: white
     title: Testimonials
     subtitle: >-
@@ -91,7 +91,7 @@ sections:
           Integer consectetur purus neque, ac porttitor enim convallis vitae.
           Interdum et malesuada fames ac ante ipsum primis in faucibus.
   - section_id: call-to-action
-    type: section_cta
+    type: SectionCta
     title: This Is Call To Action Block!
     subtitle: This is an optional description for the call to action block.
     actions:
@@ -99,7 +99,7 @@ sections:
         url: /signup
         style: primary
   - section_id: recent-posts
-    type: section_posts
+    type: SectionPosts
     background: gray
     title: Latest Posts
 seo:

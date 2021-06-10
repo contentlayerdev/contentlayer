@@ -1,7 +1,7 @@
 import { defineObject } from 'contentlayer/source-local'
 
-export const form_field = defineObject(() => ({
-  name: 'form_field',
+export const FormField = defineObject(() => ({
+  name: 'FormField',
   label: 'Form Field',
   labelField: 'name',
   fields: {

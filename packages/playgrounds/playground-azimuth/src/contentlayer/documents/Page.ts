@@ -1,12 +1,11 @@
 import { defineDocument } from 'contentlayer/source-local'
-import { seo } from '../objects/seo'
+
+import { SEO } from '../objects/SEO'
 import { urlFromFilePath } from '../utils'
 
-export const page = defineDocument(() => ({
-  name: 'page',
-  label: 'Page',
+export const Page = defineDocument(() => ({
+  name: 'Page',
   filePathPattern: 'pages/{about,privacy-policy,signup,style-guide,terms-of-service}.md',
-  fileType: 'md',
   fields: {
     title: {
       type: 'string',
@@ -31,13 +30,7 @@ export const page = defineDocument(() => ({
     },
     seo: {
       type: 'object',
-      object: seo,
-    },
-    content: {
-      type: 'markdown',
-      label: 'Page content',
-      description: 'Page content',
-      required: false,
+      object: SEO,
     },
   },
   computedFields: {

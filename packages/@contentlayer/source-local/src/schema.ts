@@ -4,7 +4,7 @@ export type SchemaDef = {
   documentDefs: DocumentDef[]
 }
 
-export type DocumentFileType = 'md' | 'json' | 'yaml'
+export type DocumentFileType = 'markdown' | 'json' | 'yaml'
 
 /** Top level model type */
 export type DocumentDef<Name extends string = any> = {

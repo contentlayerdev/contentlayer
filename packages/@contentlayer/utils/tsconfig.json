@@ -1,6 +1,8 @@
 {
   "extends": "../../../tsconfig.json",
   "compilerOptions": {
+    // Needed for `inflection`
+    "allowSyntheticDefaultImports": true,
     "rootDir": "./src",
     "outDir": "./dist/types"
   },

@@ -3,11 +3,11 @@
 import type { FC } from 'react'
 import React, { useMemo } from 'react'
 
-import { allperson } from '.contentlayer/data'
-import type { post } from '.contentlayer/types'
+import { allPeople } from '.contentlayer/data'
+import type { Post } from '.contentlayer/types'
 
-export const BlogPostFooter: FC<{ post: post; dateType: 'long' | 'short' }> = ({ post, dateType }) => {
-  const author = useMemo(() => allperson.find((_) => post.author === _._id), [post])
+export const BlogPostFooter: FC<{ post: Post; dateType: 'long' | 'short' }> = ({ post, dateType }) => {
+  const author = useMemo(() => allPeople.find((_) => post.author === _._id), [post])
 
   return (
     <footer className="post-meta">

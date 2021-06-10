@@ -5,13 +5,15 @@ import { DevCommand } from './commands/DevCommand'
 import { FetchCommand } from './commands/FetchCommand'
 import { GenerateCommand } from './commands/GenerateCommand'
 
+const packageJson = require('../package.json')
+
 export const run = () => {
   const [node, app, ...args] = process.argv
 
   const cli = new Cli({
     binaryLabel: `My Application`,
     binaryName: `${node} ${app}`,
-    binaryVersion: `1.0.1`,
+    binaryVersion: packageJson.version,
   })
 
   // cli.register(FetchCommand)

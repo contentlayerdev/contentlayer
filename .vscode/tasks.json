@@ -1,0 +1,63 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build:contentlayer",
+      "type": "shell",
+      "command": "yarn build",
+      "options": { "cwd": "${workspaceFolder}/packages/contentlayer" },
+      "presentation": {
+        "focus": false,
+        "panel": "dedicated",
+        "group": "build",
+        "reveal": "silent",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+    {
+      "label": "build:@contentlayer/source-contentful",
+      "type": "shell",
+      "command": "yarn build",
+      "options": { "cwd": "${workspaceFolder}/packages/@contentlayer/source-contentful" },
+      "presentation": {
+        "focus": false,
+        "panel": "dedicated",
+        "group": "build",
+        "reveal": "silent",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+    {
+      "label": "build:@contentlayer/source-sanity",
+      "type": "shell",
+      "command": "yarn build",
+      "options": { "cwd": "${workspaceFolder}/packages/@contentlayer/source-sanity" },
+      "presentation": {
+        "focus": false,
+        "panel": "dedicated",
+        "group": "build",
+        "reveal": "silent",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+    {
+      "label": "build:next-contentlayer",
+      "type": "shell",
+      "command": "yarn build",
+      "options": { "cwd": "${workspaceFolder}/packages/next-contentlayer" },
+      "presentation": {
+        "focus": false,
+        "panel": "dedicated",
+        "group": "build",
+        "reveal": "silent",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    }
+  ]
+}

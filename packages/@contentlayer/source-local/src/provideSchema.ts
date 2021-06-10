@@ -1,5 +1,5 @@
 import type * as Core from '@contentlayer/core'
-import { pick } from '@contentlayer/utils'
+import { pick, uppercaseFirstChar } from '@contentlayer/utils'
 
 import type { DocumentDef, FieldDef, ListFieldItem, ObjectDef, SchemaDef } from './schema'
 
@@ -8,9 +8,15 @@ export const makeCoreSchema = (schemaDef: SchemaDef): Core.SchemaDef => {
   const coreObjectDefMap: Core.ObjectDefMap = {}
 
   for (const documentDef of schemaDef.documentDefs) {
+    validateDefName({ defName: documentDef.name })
+
     const fieldDefs = Object.entries(documentDef.fields).map(fieldDefToCoreFieldDef)
 
-    if (documentDef.fileType === undefined || documentDef.fileType === 'md') {
+    // add default content markdown field if not explicitly provided
+    if (
+      (documentDef.fileType === undefined || documentDef.fileType === 'markdown') &&
+      fieldDefs.every((_) => _.name !== 'content')
+    ) {
       fieldDefs.push({
         type: 'markdown',
         name: 'content',
@@ -40,6 +46,8 @@ export const makeCoreSchema = (schemaDef: SchemaDef): Core.SchemaDef => {
 
   const objectDefs = collectObjectDefs(schemaDef.documentDefs)
   for (const objectDef of objectDefs) {
+    validateDefName({ defName: objectDef.name })
+
     const coreObjectDef: Core.ObjectDef = {
       _tag: 'ObjectDef',
       ...pick(objectDef, ['name', 'description', 'labelField']),
@@ -52,7 +60,18 @@ export const makeCoreSchema = (schemaDef: SchemaDef): Core.SchemaDef => {
   return { documentDefMap: coreDocumentDefMap, objectDefMap: coreObjectDefMap }
 }
 
-function fieldDefToCoreFieldDef([name, fieldDef]: [name: string, fieldDef: FieldDef]): Core.FieldDef {
+const validateDefName = ({ defName }: { defName: string }): void => {
+  const firstChar = defName.charAt(0)
+  if (firstChar.toLowerCase() === firstChar) {
+    const improvedDefName = uppercaseFirstChar(defName)
+    console.warn(`\
+Warning: A document or object definition name should start with a uppercase letter.
+You've provided the name "${defName}" - please consider using "${improvedDefName}" instead.
+`)
+  }
+}
+
+const fieldDefToCoreFieldDef = ([name, fieldDef]: [name: string, fieldDef: FieldDef]): Core.FieldDef => {
   const baseFields: Core.FieldBase = {
     ...pick(fieldDef, ['type', 'default', 'description', 'required', 'const', 'hidden']),
     label: fieldDef.label ?? name,
@@ -85,7 +104,7 @@ function fieldDefToCoreFieldDef([name, fieldDef]: [name: string, fieldDef: Field
   }
 }
 
-function fieldListItemsToCoreFieldListDefItems(listFieldItem: ListFieldItem): Core.ListFieldDefItem {
+const fieldListItemsToCoreFieldListDefItems = (listFieldItem: ListFieldItem): Core.ListFieldDefItem => {
   switch (listFieldItem.type) {
     case 'boolean':
     case 'string':

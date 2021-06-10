@@ -1,9 +1,11 @@
-import { section_pricing } from '.contentlayer/types'
-import React, { FC } from 'react'
+import type { FC } from 'react'
+import React from 'react'
+
 import { classNames, htmlToReact, markdownify } from '../../utils'
 import { CtaButtons } from './CtaButtons'
+import type { Section_pricing } from '.contentlayer/types'
 
-export const SectionPricing: FC<{ section: section_pricing }> = ({ section }) => (
+export const SectionPricing: FC<{ section: Section_pricing }> = ({ section }) => (
   <section id={section.section_id} className={'block pricing-block bg-' + section.background + ' outer'}>
     <div className="block-header inner-small">
       {section.title && <h2 className="block-title">{section.title}</h2>}

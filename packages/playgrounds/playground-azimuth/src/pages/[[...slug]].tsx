@@ -7,12 +7,12 @@ import { LandingLayout } from '../layouts/LandingLayout'
 import { PageLayout } from '../layouts/PageLayout'
 import { PostLayout } from '../layouts/PostLayout'
 import { defineStaticProps, toParams } from '../utils/next'
-import { allconfig, allDocuments, allpost } from '.contentlayer/data'
+import { allDocuments, allPosts, config } from '.contentlayer/data'
 import { isType } from '.contentlayer/types'
 
 export const getStaticPaths = async () => {
   const paths = allDocuments
-    .filter(isType(['post', 'landing', 'page', 'blog']))
+    .filter(isType(['Post', 'Landing', 'Page', 'Blog']))
     .map((_) => _.url_path)
     .map(toParams)
 
@@ -23,23 +23,21 @@ export const getStaticProps = defineStaticProps(async (context) => {
   const params = context.params as any
   const pagePath = `/${params.slug?.join('/') ?? ''}`
 
-  const doc = allDocuments.filter(isType(['post', 'landing', 'page', 'blog'])).find((_) => _.url_path === pagePath)!
-  const posts = allpost
-  const config = allconfig[0]
+  const doc = allDocuments.filter(isType(['Post', 'Landing', 'Page', 'Blog'])).find((_) => _.url_path === pagePath)!
 
-  return { props: { doc, config, posts } }
+  return { props: { doc, config, posts: allPosts } }
 })
 
 const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ doc, config, posts }) => {
   switch (doc._typeName) {
-    case 'landing':
-      return <LandingLayout doc={doc} config={config} posts={posts} />
-    case 'page':
-      return <PageLayout doc={doc} config={config} />
-    case 'blog':
-      return <BlogLayout doc={doc} config={config} posts={posts} />
-    case 'post':
-      return <PostLayout doc={doc} config={config} />
+    case 'Landing':
+      return <LandingLayout landing={doc} config={config} posts={posts} />
+    case 'Page':
+      return <PageLayout page={doc} config={config} />
+    case 'Blog':
+      return <BlogLayout blog={doc} config={config} posts={posts} />
+    case 'Post':
+      return <PostLayout post={doc} config={config} />
   }
 }
 

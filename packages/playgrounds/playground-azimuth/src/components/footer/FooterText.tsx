@@ -2,9 +2,9 @@ import type { FC } from 'react'
 import React from 'react'
 
 import { Link, markdownify, withPrefix } from '../../utils'
-import type { footer_text } from '.contentlayer/types'
+import type { Footer_text } from '.contentlayer/types'
 
-export const FooterText: FC<{ section: footer_text }> = ({ section }) => (
+export const FooterText: FC<{ section: Footer_text }> = ({ section }) => (
   <section className="cell widget widget-text">
     {section.image &&
       (section.image_url ? (

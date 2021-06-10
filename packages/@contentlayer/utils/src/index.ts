@@ -1,6 +1,11 @@
+export * from './string'
 export * from './guards'
-export * from './pick'
+export * from './object'
 export * from './promise'
+
+export * as pattern from 'ts-pattern'
+import inflection from 'inflection'
+export { inflection }
 
 export const recRemoveUndefinedValues = (val: any): void => {
   if (Array.isArray(val)) {

@@ -1,3 +1,4 @@
+/** Promise.all + Array.map */
 export const promiseMap = <T, Res>(arr: T[], map: (el: T, index?: number) => Res | Promise<Res>) =>
   Promise.all(arr.map(map))
 

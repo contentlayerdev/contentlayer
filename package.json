@@ -14,8 +14,8 @@
     "g:build:types": "cd $INIT_CWD && tsc --build",
     "g:build:types:force": "cd $INIT_CWD && rm -rf ./dist/types && tsc --build",
     "g:build:lib": "cd $INIT_CWD && (run g:build:lib:esm & run g:build:lib:cjs)",
-    "g:build:lib:esm": "cd $INIT_CWD && rm -rf ./dist/esm && esbuild ./src/**/*.ts --outdir=./dist/esm --format=esm",
-    "g:build:lib:cjs": "cd $INIT_CWD && rm -rf ./dist/cjs && esbuild ./src/**/*.ts --outdir=./dist/cjs --format=cjs"
+    "g:build:lib:esm": "cd $INIT_CWD && rm -rf ./dist/esm && esbuild ./src/**/*.ts --outdir=./dist/esm --format=esm --sourcemap",
+    "g:build:lib:cjs": "cd $INIT_CWD && rm -rf ./dist/cjs && esbuild ./src/**/*.ts --outdir=./dist/cjs --format=cjs --sourcemap"
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",
@@ -33,6 +33,7 @@
   },
   "resolutions": {
     "contentlayer": "workspace:*",
+    "@contentlayer/*": "workspace:*",
     "contentlayer-stackbit-yaml-generator": "workspace:*",
     "next-contentlayer": "workspace:*",
     "rxjs": "^7.1.0",

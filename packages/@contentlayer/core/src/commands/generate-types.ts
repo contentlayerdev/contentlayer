@@ -5,6 +5,7 @@ import type { SourcePlugin, SourcePluginType } from '../plugin'
 import type { DocumentDef, FieldDef, ListFieldDefItem, ObjectDef, SchemaDef } from '../schema'
 import { makeArtifactsDir } from '../utils'
 
+// NOTE unused and can be deleted soon
 export const generateTypes = async ({
   source,
   generateSchemaJson,
@@ -33,6 +34,7 @@ export const generateTypes = async ({
   console.log(`Type file successfully written to ${typegenTargetFilePath}`)
 }
 
+// NOTE unused and can be deleted soon
 export const buildSource = (schemaDef: SchemaDef): string => {
   const documentTypes = Object.values(schemaDef.documentDefMap)
     .sort((a, b) => a.name.localeCompare(b.name))
@@ -152,19 +154,9 @@ const renderIdDocs = ({ sourcePluginType }: { sourcePluginType: SourcePluginType
 const renderRawType = ({ sourcePluginType }: { sourcePluginType: SourcePluginType }) => {
   switch (sourcePluginType) {
     case 'local':
-      return `\
-{
-  sourceFilePath: string
-  kind: 'markdown' | 'json' | 'yaml'
-}
-`
+      return `Local.RawDocumentData`
     case 'contentful':
-      return `\
-{
-  sys: any
-  metadata: any
-}
-`
+      return `Contentful.RawDocumentData`
     case 'sanity':
       return 'Record<string, any>'
     default:

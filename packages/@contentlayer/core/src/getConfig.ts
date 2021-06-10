@@ -5,7 +5,7 @@ import { promises as fs } from 'fs'
 import * as path from 'path'
 import pkgUp from 'pkg-up'
 import { firstValueFrom, Observable, of } from 'rxjs'
-import { finalize, mergeMap } from 'rxjs/operators'
+import { finalize, mergeMap, tap } from 'rxjs/operators'
 
 import type { SourcePlugin } from './plugin'
 
@@ -35,7 +35,7 @@ const getConfig_ = ({
     mergeMap(({ entryPointPath, outfilePath, tmpDir }) =>
       callEsbuild({ entryPointPath, outfilePath, watch }).pipe(
         mergeMap((result) => getConfigFromResult({ result, configPath, outfilePath })),
-        finalize(() => fs.rmdir(tmpDir, { recursive: true })),
+        // finalize(() => fs.rmdir(tmpDir, { recursive: true })),
       ),
     ),
   )
@@ -148,8 +148,11 @@ const getConfigFromResult = async ({
 
   // wrapping in try/catch is needed to surpress esbuild warning
   try {
-    // TODO
+    // Needed in case of re-loading when watching the config file for changes
     delete require.cache[require.resolve(outfilePath)]
+
+    // Needed in order for source maps of dynamic file to work
+    require('source-map-support').install()
 
     const exports = require(outfilePath)
     if (!('default' in exports)) {

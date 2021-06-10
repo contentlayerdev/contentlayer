@@ -3,12 +3,13 @@ import * as chokidar from 'chokidar'
 import { defer, fromEvent, of } from 'rxjs'
 import { mergeMap, startWith, tap } from 'rxjs/operators'
 
-import type { FilePathPatternMap } from './fetchData'
 import { fetch } from './fetchData'
 import { makeCoreSchema } from './provideSchema'
 import type { DocumentDef, Thunk } from './schema'
+import type { FilePathPatternMap } from './types'
 
 export * from './schema'
+export * from './types'
 
 type Args = {
   schema: Thunk<DocumentDef>[] | Record<string, Thunk<DocumentDef>>

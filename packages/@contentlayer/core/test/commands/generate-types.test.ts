@@ -22,6 +22,7 @@ export const post = defineDocument(() => ({
   },
 }))
 
+// TODO rewrite test for gendotpkg
 describe('generate-types', () => {
   test('simple schema', async () => {
     const schema = await fromLocalContent({ schema: [post], contentDirPath: '' }).then((_) => _.provideSchema())

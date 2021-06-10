@@ -3,9 +3,9 @@ import React from 'react'
 
 import { markdownify } from '../../utils'
 import { FormField } from '../FormField'
-import type { footer_form } from '.contentlayer/types'
+import type { Footer_form } from '.contentlayer/types'
 
-export const FooterForm: FC<{ section: footer_form }> = ({ section }) => (
+export const FooterForm: FC<{ section: Footer_form }> = ({ section }) => (
   <section className="cell widget widget-form">
     {section.title && <h2 className="widget-title">{section.title}</h2>}
     {markdownify(section.content)}

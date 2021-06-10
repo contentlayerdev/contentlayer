@@ -6,11 +6,11 @@ import { Helmet } from 'react-helmet'
 import { withPrefix } from '../utils'
 import { Footer } from './footer/Footer'
 import { Header } from './Header'
-import type { blog, config, landing, page, post } from '.contentlayer/types'
+import type { Blog, Config, Landing, Page, Post } from '.contentlayer/types'
 
 export const Layout: FC<{
-  doc: blog | page | landing | post
-  config: config
+  doc: Blog | Page | Landing | Post
+  config: Config
 }> = ({ doc, config, children, ...props }) => {
   const font = config.base_font ?? 'nunito-sans'
 

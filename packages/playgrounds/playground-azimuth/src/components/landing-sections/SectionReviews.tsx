@@ -2,9 +2,9 @@ import type { FC } from 'react'
 import React from 'react'
 
 import { htmlToReact, withPrefix } from '../../utils'
-import type { section_reviews } from '.contentlayer/types'
+import type { Section_reviews } from '.contentlayer/types'
 
-export const SectionReviews: FC<{ section: section_reviews }> = ({ section }) => (
+export const SectionReviews: FC<{ section: Section_reviews }> = ({ section }) => (
   <section id={section.section_id} className={'block reviews-block bg-' + section.background + ' outer'}>
     <div className="block-header inner-small">
       {section.title && <h2 className="block-title">{section.title}</h2>}

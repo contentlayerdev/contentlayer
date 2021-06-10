@@ -1,9 +1,11 @@
-import { section_content } from '.contentlayer/types'
-import React, { FC } from 'react'
+import type { FC } from 'react'
+import React from 'react'
+
 import { markdownify, withPrefix } from '../../utils'
 import { CtaButtons } from './CtaButtons'
+import type { Section_content } from '.contentlayer/types'
 
-export const SectionContent: FC<{ section: section_content }> = ({ section }) => (
+export const SectionContent: FC<{ section: Section_content }> = ({ section }) => (
   <section id={section.section_id} className={'block text-block bg-' + section.background + ' outer'}>
     <div className="inner">
       <div className="grid">

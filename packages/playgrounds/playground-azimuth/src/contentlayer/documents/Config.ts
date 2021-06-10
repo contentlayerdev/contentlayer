@@ -1,10 +1,10 @@
 import { defineDocument, defineObject } from 'contentlayer/source-local'
 
-import { action } from '../objects/action'
-import { form_field } from '../objects/form_field'
+import { Action } from '../objects/Action'
+import { FormField } from '../objects/FormField'
 
-export const config = defineDocument(() => ({
-  name: 'config',
+export const Config = defineDocument(() => ({
+  name: 'Config',
   label: 'Site Configuration',
   filePathPattern: 'data/config.json',
   fileType: 'json',
@@ -53,19 +53,19 @@ export const config = defineDocument(() => ({
       type: 'object',
       label: 'Header Configuration',
       required: true,
-      object: header,
+      object: Header,
     },
     footer: {
       type: 'object',
       label: 'Footer Configuration',
       required: true,
-      object: footer,
+      object: Footer,
     },
   },
 }))
 
-const header = defineObject(() => ({
-  name: 'header',
+const Header = defineObject(() => ({
+  name: 'Header',
   label: 'Header Configuration',
   fields: {
     logo_img: {
@@ -88,13 +88,13 @@ const header = defineObject(() => ({
       type: 'list',
       label: 'Navigation Links',
       description: 'List of navigation links',
-      of: { type: 'object', object: action },
+      of: { type: 'object', object: Action },
     },
   },
 }))
 
-const footer = defineObject(() => ({
-  name: 'footer',
+const Footer = defineObject(() => ({
+  name: 'Footer',
   label: 'Footer Configuration',
   labelField: 'content',
   fields: {
@@ -102,7 +102,7 @@ const footer = defineObject(() => ({
       type: 'polymorphic_list',
       label: 'Sections',
       description: 'Footer sections',
-      of: [footer_form, footer_nav, footer_text].map((object) => ({ type: 'object', object })),
+      of: [FooterForm, FooterNav, FooterText].map((object) => ({ type: 'object', object })),
       typeField: 'type',
     },
     has_nav: {
@@ -115,7 +115,7 @@ const footer = defineObject(() => ({
       type: 'list',
       label: 'Horizontal Navigation Links',
       description: 'List of horizontal navigation links',
-      of: { type: 'object', object: action },
+      of: { type: 'object', object: Action },
     },
     content: {
       type: 'string',
@@ -126,7 +126,7 @@ const footer = defineObject(() => ({
       type: 'list',
       label: 'Links',
       description: 'A list of links displayed in the footer',
-      of: { type: 'object', object: action },
+      of: { type: 'object', object: Action },
     },
   },
 }))
@@ -145,9 +145,9 @@ const footerSectionBaseFields = {
   },
 } as const
 
-const footer_form = defineObject(() => ({
-  name: 'footer_form',
-  label: 'Form',
+const FooterForm = defineObject(() => ({
+  name: 'FooterForm',
+  label: 'Footer Form',
   labelField: 'title',
   fields: {
     ...footerSectionBaseFields,
@@ -175,7 +175,7 @@ const footer_form = defineObject(() => ({
     form_fields: {
       type: 'list',
       label: 'Form Fields',
-      of: { type: 'object', object: form_field },
+      of: { type: 'object', object: FormField },
     },
     submit_label: {
       type: 'string',
@@ -185,8 +185,8 @@ const footer_form = defineObject(() => ({
   },
 }))
 
-const footer_nav = defineObject(() => ({
-  name: 'footer_nav',
+const FooterNav = defineObject(() => ({
+  name: 'FooterNav',
   label: 'Vertical Navigation',
   labelField: 'title',
   fields: {
@@ -195,13 +195,13 @@ const footer_nav = defineObject(() => ({
       type: 'list',
       label: 'Vertical Navigation Links',
       description: 'List of vertical navigation links',
-      of: { type: 'object', object: action },
+      of: { type: 'object', object: Action },
     },
   },
 }))
 
-const footer_text = defineObject(() => ({
-  name: 'footer_text',
+const FooterText = defineObject(() => ({
+  name: 'FooterText',
   label: 'Text',
   labelField: 'title',
   fields: {

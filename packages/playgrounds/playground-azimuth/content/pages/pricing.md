@@ -2,7 +2,7 @@
 title: Pricing
 sections:
   - section_id: pricing
-    type: section_pricing
+    type: SectionPricing
     background: gray
     title: Pricing Plans
     subtitle: You can have a separate pricing page or list everything on the home page.
@@ -46,7 +46,7 @@ sections:
             url: /signup
             style: secondary
   - section_id: faq
-    type: section_faq
+    type: SectionFaq
     background: gray
     title: Frequently Asked Questions
     subtitle: 'Phasellus luctus laoreet arcu, vel porta metus imperdiet sit amet.'

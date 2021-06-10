@@ -11,10 +11,7 @@ import * as path from 'path'
 import { match } from 'ts-pattern'
 
 import type { Flags } from '.'
-
-type DocumentDefName = string
-type FilePathPattern = string
-export type FilePathPatternMap = Record<DocumentDefName, FilePathPattern>
+import type { FilePathPatternMap, RawDocumentData } from './types'
 
 export const fetch = measureAsync('fetch-data')(
   async ({
@@ -36,17 +33,15 @@ export const fetch = measureAsync('fetch-data')(
   }): Promise<Cache> => {
     // TODO implement "lazy" fetching by using `force` / `previousCache`
 
-    const documentDefNameWithFilePathsTuples = await Promise.all(
-      Object.entries(filePathPatternMap).map<Promise<[string, string[]]>>(
-        async ([documentDefName, filePathPattern]) => [
-          documentDefName,
-          await glob(path.join(contentDirPath, filePathPattern)),
-        ],
-      ),
+    const documentDefNameWithFilePaths = await Promise.all(
+      Object.entries(filePathPatternMap).map(async ([documentDefName, filePathPattern]) => ({
+        documentDefName,
+        filePaths: await glob(path.join(contentDirPath, filePathPattern)),
+      })),
     )
 
     const documents = await Promise.all(
-      documentDefNameWithFilePathsTuples.flatMap(([documentDefName, filePaths]) =>
+      documentDefNameWithFilePaths.flatMap(({ documentDefName, filePaths }) =>
         filePaths.map((filePath) =>
           makeDocumentFromFilePath({
             filePath,
@@ -64,13 +59,17 @@ export const fetch = measureAsync('fetch-data')(
   },
 )
 
-type Content = ContentMarkdown | ContentJSON
+type Content = ContentMarkdown | ContentJSON | ContentYAML
 type ContentMarkdown = {
   readonly kind: 'markdown'
   data: Record<string, any> & { content: string }
 }
 type ContentJSON = {
   readonly kind: 'json'
+  data: Record<string, any>
+}
+type ContentYAML = {
+  readonly kind: 'yaml'
   data: Record<string, any>
 }
 
@@ -102,7 +101,7 @@ async function makeDocumentFromFilePath({
     .with('json', () => ({ kind: 'json', data: JSON.parse(fileContent) }))
     .when(
       (_) => ['yaml', 'yml'].includes(_ ?? ''),
-      () => ({ kind: 'json', data: yaml.load(fileContent) as object }),
+      () => ({ kind: 'yaml', data: yaml.load(fileContent) as object }),
     )
     .otherwise(() => {
       throw new Error(`Unsupported file extension "${filePathExtension}" for ${filePath}`)
@@ -223,14 +222,32 @@ const makeDocument = async ({
     (fieldDef) => fieldDef.name,
   )
 
+  const _raw: RawDocumentData = {
+    sourceFilePath: relativeFilePath,
+    fileType: rawContent.kind,
+    flattenedPath: getFlattenedPath(relativeFilePath),
+  }
+
   const doc: Core.Document = {
     _typeName: documentDef.name,
     _id: relativeFilePath,
-    _raw: { sourceFilePath: relativeFilePath, kind: rawContent.kind },
+    _raw,
     ...docValues,
   }
 
   return doc
+}
+
+const getFlattenedPath = (relativeFilePath: string): string => {
+  return (
+    relativeFilePath
+      // remove extension
+      .split('.')
+      .slice(0, -1)
+      .join('.')
+      // remove tailing `/index`
+      .replace(/\index$/, '')
+  )
 }
 
 const makeObject = async ({
@@ -258,8 +275,7 @@ const makeObject = async ({
       }),
     (fieldDef) => fieldDef.name,
   )
-  const raw = Object.fromEntries(Object.entries(rawObjectData).filter(([key]) => key.startsWith('_')))
-  const obj: Core.Object = { _typeName: typeName, _raw: raw, ...objValues }
+  const obj: Core.Object = { _typeName: typeName, _raw: {}, ...objValues }
 
   return obj
 }
@@ -338,6 +354,16 @@ const getDataForListItem = async ({
   if (fieldDef.type === 'polymorphic_list') {
     const objectTypeName = rawItemData[fieldDef.typeField]
     const objectDef = schemaDef.objectDefMap[objectTypeName]
+    if (objectDef === undefined) {
+      const valueTypeValues = fieldDef.of
+        .filter((_): _ is Core.ListFieldItemObject => _.type === 'object')
+        .map((_) => _.objectName)
+        .join(', ')
+
+      throw new Error(`\
+Invalid value "${objectTypeName}" for type field "${fieldDef.typeField}" for field "${fieldDef.name}".
+Needs to be one of the following values: ${valueTypeValues}`)
+    }
     return makeObject({
       rawObjectData: rawItemData,
       fieldDefs: objectDef.fieldDefs,

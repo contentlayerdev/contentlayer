@@ -2,7 +2,7 @@
 title: Contact
 sections:
   - section_id: contact
-    type: section_contact
+    type: SectionContact
     background: gray
     title: Contact
     content: >-

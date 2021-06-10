@@ -11,33 +11,33 @@ import { SectionPosts } from '../components/landing-sections/SectionPosts'
 import { SectionPricing } from '../components/landing-sections/SectionPricing'
 import { SectionReviews } from '../components/landing-sections/SectionReviews'
 import { Layout } from '../components/Layout'
-import type { config, landing, post } from '.contentlayer/types'
+import type { Config, Landing, Post } from '.contentlayer/types'
 
 export const LandingLayout: FC<{
-  doc: landing
-  config: config
-  posts: post[]
-}> = ({ doc, config, posts }) => (
-  <Layout doc={doc} config={config}>
-    {doc.sections?.map((section, index) => {
+  landing: Landing
+  config: Config
+  posts: Post[]
+}> = ({ landing, config, posts }) => (
+  <Layout doc={landing} config={config}>
+    {landing.sections?.map((section, index) => {
       switch (section._typeName) {
-        case 'section_contact':
+        case 'SectionContact':
           return <SectionContact key={index} section={section} />
-        case 'section_content':
+        case 'SectionContent':
           return <SectionContent key={index} section={section} />
-        case 'section_cta':
+        case 'SectionCta':
           return <SectionCta key={index} section={section} />
-        case 'section_faq':
+        case 'SectionFaq':
           return <SectionFaq key={index} section={section} />
-        case 'section_features':
+        case 'SectionFeatures':
           return <SectionFeatures key={index} section={section} />
-        case 'section_hero':
+        case 'SectionHero':
           return <SectionHero key={index} section={section} />
-        case 'section_posts':
+        case 'SectionPosts':
           return <SectionPosts key={index} section={section} posts={posts} />
-        case 'section_pricing':
+        case 'SectionPricing':
           return <SectionPricing key={index} section={section} />
-        case 'section_reviews':
+        case 'SectionReviews':
           return <SectionReviews key={index} section={section} />
       }
     })}

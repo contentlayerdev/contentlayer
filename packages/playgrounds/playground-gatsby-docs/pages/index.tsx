@@ -4,7 +4,7 @@ import type { FC } from 'react'
 import { allDocuments } from '.contentlayer/data'
 
 export const getStaticProps = () => {
-  const docs = allDocuments.map((_) => ({ id: _._id, title: _.title }))
+  const docs = allDocuments.map((_) => ({ path: _._raw.flattenedPath, title: _.title }))
 
   return { props: { docs } }
 }
@@ -12,7 +12,7 @@ export const getStaticProps = () => {
 const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ docs }) => (
   <div>
     {docs.map((doc) => (
-      <a style={{ display: 'block' }} key={doc.id} href={`/${doc.id.replace(/\.md$/, '')}`}>
+      <a style={{ display: 'block' }} key={doc.path} href={`/${doc.path}`}>
         {doc.title}
       </a>
     ))}

@@ -1,9 +1,11 @@
-import { section_features } from '.contentlayer/types'
-import React, { FC } from 'react'
+import type { FC } from 'react'
+import React from 'react'
+
 import { htmlToReact, markdownify, withPrefix } from '../../utils'
 import { CtaButtons } from './CtaButtons'
+import type { Section_features } from '.contentlayer/types'
 
-export const SectionFeatures: FC<{ section: section_features }> = ({ section, ...props }) => {
+export const SectionFeatures: FC<{ section: Section_features }> = ({ section, ...props }) => {
   return (
     <section id={section.section_id} className={'block features-block bg-' + section.background + ' outer'}>
       <div className="block-header inner-small">

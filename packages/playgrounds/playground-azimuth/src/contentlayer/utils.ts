@@ -1,10 +1,3 @@
-import { DocumentGen } from 'contentlayer/core'
+import type { DocumentGen } from 'contentlayer/core'
 
-export function urlFromFilePath(doc: DocumentGen): string {
-  const url = doc._id
-    .replace('pages', '')
-    .replace(/\.md$/, '')
-    .replace(/\index$/, '')
-
-  return url
-}
+export const urlFromFilePath = (doc: DocumentGen): string => doc._raw.flattenedPath.replace('pages', '')

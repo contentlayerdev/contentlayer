@@ -1,9 +1,11 @@
-import { section_cta } from '.contentlayer/types'
-import React, { FC } from 'react'
+import type { FC } from 'react'
+import React from 'react'
+
 import { htmlToReact } from '../../utils'
 import { CtaButtons } from './CtaButtons'
+import type { Section_cta } from '.contentlayer/types'
 
-export const SectionCta: FC<{ section: section_cta }> = ({ section }) => (
+export const SectionCta: FC<{ section: Section_cta }> = ({ section }) => (
   <section id={section.section_id} className="block cta-block bg-accent outer">
     <div className="inner-large">
       <div className="grid">

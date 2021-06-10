@@ -26,5 +26,12 @@
     "dev": "rm -rf dist && tsc --watch",
     "build": "(run g:build:lib & run g:build:types) && echo Build complete"
   },
-  "stableVersion": "0.0.2-18"
+  "stableVersion": "0.0.2-18",
+  "dependencies": {
+    "inflection": "^1.13.1",
+    "ts-pattern": "^3.1.7"
+  },
+  "devDependencies": {
+    "@types/inflection": "^1"
+  }
 }
