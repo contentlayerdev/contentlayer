@@ -10,6 +10,7 @@ export type FieldDef =
   | SlugFieldDef
   | DateFieldDef
   | MarkdownFieldDef
+  | MDXFieldDef
   | TextFieldDef
   | ImageFieldDef
   | UrlFieldDef
@@ -114,6 +115,11 @@ export type DateFieldDef = FieldBase & {
 
 export type MarkdownFieldDef = FieldBase & {
   type: 'markdown'
+  default: string | undefined
+}
+
+export type MDXFieldDef = FieldBase & {
+  type: 'mdx'
   default: string | undefined
 }
 

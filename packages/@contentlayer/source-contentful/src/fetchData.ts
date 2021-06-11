@@ -1,5 +1,6 @@
 import type * as Core from '@contentlayer/core'
-import type { Cache, Markdown } from '@contentlayer/core'
+import type { Cache, Markdown, MDX } from '@contentlayer/core'
+import { bundleMDX } from '@contentlayer/core'
 import { markdownToHtml } from '@contentlayer/core'
 import { assertUnreachable, promiseMap, promiseMapToDict } from '@contentlayer/utils'
 
@@ -209,6 +210,11 @@ const getDataForFieldDef = async ({
       return <Markdown>{
         raw: rawFieldData,
         html: await markdownToHtml({ mdString: rawFieldData /*, options: options?.markdown */ }),
+      }
+    case 'mdx':
+      return <MDX>{
+        raw: rawFieldData,
+        code: await bundleMDX(rawFieldData),
       }
     case 'boolean':
     case 'string':

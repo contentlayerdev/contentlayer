@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/source-local",
-  "version": "0.0.2-19",
+  "version": "0.0.4",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
@@ -19,7 +19,6 @@
     "js-yaml": "^4.1.0",
     "minimatch": "^3.0.4",
     "rxjs": "^7.1.0",
-    "ts-pattern": "^2.1.2"
-  },
-  "stableVersion": "0.0.2-18"
+    "ts-pattern": "^3.1.7"
+  }
 }

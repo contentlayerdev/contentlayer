@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/core",
-  "version": "0.0.2-19",
+  "version": "0.0.4",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
@@ -14,6 +14,7 @@
     "esbuild": "^0.12.6",
     "gray-matter": "^4.0.3",
     "markdown-wasm": "^1.1.2",
+    "mdx-bundler": "^4.1.0",
     "pkg-up": "^3.1.0",
     "rehype-stringify": "^8.0.0",
     "remark-parse": "^9.0.0",
@@ -26,6 +27,5 @@
   "devDependencies": {
     "@types/pkg-up": "^3.1.0",
     "@types/source-map-support": "^0"
-  },
-  "stableVersion": "0.0.2-18"
+  }
 }

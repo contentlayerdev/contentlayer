@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/source-sanity",
-  "version": "0.0.2-19",
+  "version": "0.0.4",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
@@ -19,6 +19,5 @@
     "@sanity/image-url": "^0.140.22",
     "@sanity/schema": "^2.10.0",
     "rxjs": "^7.1.0"
-  },
-  "stableVersion": "0.0.2-18"
+  }
 }

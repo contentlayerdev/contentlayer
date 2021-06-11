@@ -1,7 +1,8 @@
 import type * as Core from '@contentlayer/core'
-import type { Cache, Document, Markdown, Options } from '@contentlayer/core'
+import type { Cache, Document, Markdown, MDX, Options } from '@contentlayer/core'
+import { bundleMDX } from '@contentlayer/core'
 import { markdownToHtml } from '@contentlayer/core'
-import { isNotUndefined, promiseMap, promiseMapToDict } from '@contentlayer/utils'
+import { assertUnreachable, isNotUndefined, promiseMap, promiseMapToDict } from '@contentlayer/utils'
 import { measureAsync } from '@contentlayer/utils/node'
 import { promises as fs } from 'fs'
 import { promise as glob } from 'glob-promise'
@@ -59,9 +60,13 @@ export const fetch = measureAsync('fetch-data')(
   },
 )
 
-type Content = ContentMarkdown | ContentJSON | ContentYAML
+type Content = ContentMarkdown | ContentMDX | ContentJSON | ContentYAML
 type ContentMarkdown = {
   readonly kind: 'markdown'
+  data: Record<string, any> & { content: string }
+}
+type ContentMDX = {
+  readonly kind: 'mdx'
   data: Record<string, any> & { content: string }
 }
 type ContentJSON = {
@@ -95,6 +100,13 @@ async function makeDocumentFromFilePath({
       const markdown = matter(fileContent)
       return {
         kind: 'markdown',
+        data: { ...markdown.data, content: markdown.content },
+      }
+    })
+    .with('mdx', () => {
+      const markdown = matter(fileContent)
+      return {
+        kind: 'mdx',
         data: { ...markdown.data, content: markdown.content },
       }
     })
@@ -224,6 +236,8 @@ const makeDocument = async ({
 
   const _raw: RawDocumentData = {
     sourceFilePath: relativeFilePath,
+    sourceFileName: path.basename(relativeFilePath),
+    sourceFileDir: path.dirname(relativeFilePath),
     fileType: rawContent.kind,
     flattenedPath: getFlattenedPath(relativeFilePath),
   }
@@ -331,8 +345,23 @@ const getDataForFieldDef = async ({
         raw: rawFieldData,
         html: await markdownToHtml({ mdString: rawFieldData, options: options?.markdown }),
       }
-    default:
+    case 'mdx':
+      return <MDX>{
+        raw: rawFieldData,
+        code: await bundleMDX({ mdxString: rawFieldData, options: options?.mdx }),
+      }
+    case 'boolean':
+    case 'string':
+    case 'number':
+    case 'json':
+    case 'slug':
+    case 'text':
+    case 'url':
+    case 'enum':
+    case 'image':
       return rawFieldData
+    default:
+      assertUnreachable(fieldDef)
   }
 }
 

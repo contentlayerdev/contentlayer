@@ -9,6 +9,7 @@ export type SourcePluginType = LiteralUnion<'local' | 'contentful' | 'sanity', s
 
 export type Options = {
   markdown?: MarkdownOptions
+  mdx?: MarkdownOptions
 }
 
 export type MarkdownOptions = {

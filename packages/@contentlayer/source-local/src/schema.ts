@@ -4,7 +4,7 @@ export type SchemaDef = {
   documentDefs: DocumentDef[]
 }
 
-export type DocumentFileType = 'markdown' | 'json' | 'yaml'
+export type DocumentFileType = 'markdown' | 'mdx' | 'json' | 'yaml'
 
 /** Top level model type */
 export type DocumentDef<Name extends string = any> = {
@@ -76,6 +76,7 @@ export type FieldDef =
   | SlugField
   | DateField
   | MarkdownField
+  | MDXField
   | TextField
   | UrlField
   | ImageField
@@ -173,6 +174,11 @@ export type DateField = FieldBase & {
 
 export type MarkdownField = FieldBase & {
   type: 'markdown'
+  default?: string
+}
+
+export type MDXField = FieldBase & {
+  type: 'mdx'
   default?: string
 }
 

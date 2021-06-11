@@ -1,5 +1,5 @@
-import { Document } from '../data'
-import { FieldDef, FieldDefType } from './field'
+import type { Document } from '../data'
+import type { FieldDef, FieldDefType } from './field'
 export * from './field'
 
 export type Markdown = {
@@ -7,6 +7,13 @@ export type Markdown = {
   raw: string
   /** Generated HTML based on Markdown source */
   html: string
+}
+
+export type MDX = {
+  /** Raw MDX source */
+  raw: string
+  /** Prebundled via mdx-bundler */
+  code: string
 }
 
 export type DocumentDefMap = Record<string, DocumentDef>

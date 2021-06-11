@@ -29,6 +29,20 @@ export const makeCoreSchema = (schemaDef: SchemaDef): Core.SchemaDef => {
       })
     }
 
+    // add default content MDX field if not explicitly provided
+    if (documentDef.fileType === 'mdx' && fieldDefs.every((_) => _.name !== 'content')) {
+      fieldDefs.push({
+        type: 'mdx',
+        name: 'content',
+        label: 'MDX content',
+        description: 'Default MDX file content',
+        default: undefined,
+        const: undefined,
+        hidden: undefined,
+        required: undefined,
+      })
+    }
+
     const computedFields = Object.entries(documentDef.computedFields ?? {}).map<Core.ComputedField>(
       ([name, computedField]) => ({ ...pick(computedField, ['description', 'resolve', 'type']), name }),
     )

@@ -4,7 +4,7 @@ export * from './object'
 export * from './promise'
 
 export * as pattern from 'ts-pattern'
-import inflection from 'inflection'
+import * as inflection from 'inflection'
 export { inflection }
 
 export const recRemoveUndefinedValues = (val: any): void => {
