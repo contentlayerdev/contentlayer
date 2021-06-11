@@ -1,4 +1,5 @@
 {
+  "name": "contentlayer-monorepo",
   "private": true,
   "workspaces": [
     "./packages/@contentlayer/*",
