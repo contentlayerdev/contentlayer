@@ -6,6 +6,9 @@ export const useLiveReload = () => {
   const router = useRouter()
   useEffect(() => {
     let lastBuiltHash: string | undefined
+
+    // Based on this "implementation detail"
+    // https://github.com/vercel/next.js/blob/canary/packages/next/client/dev/error-overlay/eventsource.js
     addMessageListener((e: any) => {
       if (e.type === 'message' && typeof e.data === 'string') {
         const data = JSON.parse(e.data)
