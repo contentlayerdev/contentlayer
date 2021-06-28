@@ -1904,23 +1904,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/env@npm:10.2.4-canary.7":
-  version: 10.2.4-canary.7
-  resolution: "@next/env@npm:10.2.4-canary.7"
-  checksum: ff473f2a476d1c12fc741ca1dd4dfc19fc9d61e1a0ce2fda7c2daa970e1bde08279fa735a110deb405829bcc6f5e5c006ba62e5acab37510fb46f90fb40328e2
+"@next/env@npm:11.0.1":
+  version: 11.0.1
+  resolution: "@next/env@npm:11.0.1"
+  checksum: 56fc85a19f5754e38db7e4bb7cff627f9addbdc12bad60bf1bbdbc744ab294ede5fdfc890579aeb6c1b185af538e3aa93ad5139931b76bb5432055ccf92ad8e6
   languageName: node
   linkType: hard
 
-"@next/polyfill-module@npm:10.2.4-canary.7":
-  version: 10.2.4-canary.7
-  resolution: "@next/polyfill-module@npm:10.2.4-canary.7"
-  checksum: f2459a06ae11ee2d4e7436f48937774dc3baf1824812eed1ae968149d73b2e65d1f6747b2a89cc4fc7893d979cd8d38d26281ac01a032c884ad7c04efe4d9309
+"@next/polyfill-module@npm:11.0.1":
+  version: 11.0.1
+  resolution: "@next/polyfill-module@npm:11.0.1"
+  checksum: 563292c39b6bb17db9603445b3f68da2b0996f31a9c567476092d83635ec9d84ffd150c7e1476b4041535197ef150c62756e05d1c6f74127f7cd6868275b3239
   languageName: node
   linkType: hard
 
-"@next/react-dev-overlay@npm:10.2.4-canary.7":
-  version: 10.2.4-canary.7
-  resolution: "@next/react-dev-overlay@npm:10.2.4-canary.7"
+"@next/react-dev-overlay@npm:11.0.1":
+  version: 11.0.1
+  resolution: "@next/react-dev-overlay@npm:11.0.1"
   dependencies:
     "@babel/code-frame": 7.12.11
     anser: 1.4.9
@@ -1936,20 +1936,20 @@ __metadata:
   peerDependencies:
     react: ^17.0.2
     react-dom: ^17.0.2
-  checksum: c3869d6c6030d6bc0ecb76e745f6579544c4e69d71b3f2790dfb98b26fbc287394b0b58d76ef0cc4b3e04118611ba13d5507c1440b614e220b08d4b9b973aae1
+  checksum: d03b8700207fbf388a533354e01eb6e9bb7a755f7517262cd23d3f7778efe8f8b60966739482de7e5475f89f56700e599d8f18774f41c792d39a71602f0e352e
   languageName: node
   linkType: hard
 
-"@next/react-refresh-utils@npm:10.2.4-canary.7":
-  version: 10.2.4-canary.7
-  resolution: "@next/react-refresh-utils@npm:10.2.4-canary.7"
+"@next/react-refresh-utils@npm:11.0.1":
+  version: 11.0.1
+  resolution: "@next/react-refresh-utils@npm:11.0.1"
   peerDependencies:
     react-refresh: 0.8.3
     webpack: ^4 || ^5
   peerDependenciesMeta:
     webpack:
       optional: true
-  checksum: 00b9127461b0bff5d15c41e3b51e3c140075f9e8e640a751d601044031bddf3a76ec3d412083cc3e751c8dcf8ac162f563ac663af724e2d4858ddab13f865e3d
+  checksum: 8d9a1f246d47bee1722603c3a596cc24b27874f0b282ca0623781eec826c5b7d0e236c6528ad4fe95728693feeeb984ead12c21040d578109b2acec20263a681
   languageName: node
   linkType: hard
 
@@ -2118,22 +2118,6 @@ __metadata:
   dependencies:
     "@octokit/openapi-types": ^7.2.3
   checksum: ff29bc18fd1fd25895afa626761cca6b07aa40e274168d5c9b18d71a8ef103eb53d7c2fddbd991ea755d97f826e3ef3c5fcba455428cf49493330b6f62059766
-  languageName: node
-  linkType: hard
-
-"@opentelemetry/api@npm:0.14.0":
-  version: 0.14.0
-  resolution: "@opentelemetry/api@npm:0.14.0"
-  dependencies:
-    "@opentelemetry/context-base": ^0.14.0
-  checksum: 856f05b0f21b8714f063eeebf1994d1168b0b13f4999c575ebf1224e2059041565d99e09c3b30fd1d1331ac26aefd452f8fbfff14572038bd95f986287fbfb2d
-  languageName: node
-  linkType: hard
-
-"@opentelemetry/context-base@npm:^0.14.0":
-  version: 0.14.0
-  resolution: "@opentelemetry/context-base@npm:0.14.0"
-  checksum: 4f3b4bd06d5fdffee46d3e6e59e3b49cbe8cc5c957e05e4464585102060709b7dd09008ca293481e3af6be917a646376034a59012a996a3a7601c577e5740083
   languageName: node
   linkType: hard
 
@@ -5873,6 +5857,25 @@ __metadata:
   checksum: a7485a01e44e898bc9fca72351963264461421397a2b631563c2504f144ef8e9d0dc87a56edd0426c0a694158361f938b2c21643ffe652df9e5499e54e75ea95
   languageName: node
   linkType: hard
+
+"contentlayer-monorepo@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "contentlayer-monorepo@workspace:."
+  dependencies:
+    "@types/jest": ^26.0.23
+    "@typescript-eslint/eslint-plugin": ^4.15.2
+    "@typescript-eslint/parser": ^4.15.2
+    esbuild: ^0.12.6
+    eslint: ^7.21.0
+    eslint-config-prettier: ^8.3.0
+    eslint-plugin-react-hooks: ^4.2.0
+    eslint-plugin-simple-import-sort: ^7.0.0
+    jest: ^27.0.4
+    ts-jest: ^27.0.2
+    ts-node: ^10.0.0
+    typescript: ^4.2.4
+  languageName: unknown
+  linkType: soft
 
 "contentlayer-stackbit-yaml-generator@workspace:*, contentlayer-stackbit-yaml-generator@workspace:packages/contentlayer-stackbit-yaml-generator":
   version: 0.0.0-use.local
@@ -12446,7 +12449,7 @@ fsevents@^1.2.7:
   resolution: "next-contentlayer@workspace:packages/next-contentlayer"
   dependencies:
     "@contentlayer/core": "workspace:*"
-    next: ^10.2.3
+    next: ^11.0.1
     rxjs: ^7.1.0
     typescript: ^4.2.4
   peerDependencies:
@@ -12461,17 +12464,16 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"next@npm:10.2.4-canary.7":
-  version: 10.2.4-canary.7
-  resolution: "next@npm:10.2.4-canary.7"
+"next@npm:^11.0.1":
+  version: 11.0.1
+  resolution: "next@npm:11.0.1"
   dependencies:
     "@babel/runtime": 7.12.5
     "@hapi/accept": 5.0.2
-    "@next/env": 10.2.4-canary.7
-    "@next/polyfill-module": 10.2.4-canary.7
-    "@next/react-dev-overlay": 10.2.4-canary.7
-    "@next/react-refresh-utils": 10.2.4-canary.7
-    "@opentelemetry/api": 0.14.0
+    "@next/env": 11.0.1
+    "@next/polyfill-module": 11.0.1
+    "@next/react-dev-overlay": 11.0.1
+    "@next/react-refresh-utils": 11.0.1
     assert: 2.0.0
     ast-types: 0.13.2
     browserify-zlib: 0.2.0
@@ -12531,7 +12533,7 @@ fsevents@^1.2.7:
       optional: true
   bin:
     next: dist/bin/next
-  checksum: c77d90dc0d15ca2003eb870b45938329798fa038d91b79dc4c8708151491f24e77264969523e3030638c0226ee287a3ef0840120d88241c68fe159fa2a0ca96b
+  checksum: c6b4747f1a748269b661f73897558c036a9d1d3b7ff878fac1876b06f3d61b42b8991eef2ed90bfbc273f8b40fa5892b94009a69fdff353a9af3583a7740c1ea
   languageName: node
   linkType: hard
 
@@ -13471,7 +13473,7 @@ fsevents@^1.2.7:
     contentlayer: "workspace:*"
     date-fns: ^2.22.1
     marked: ^2.0.3
-    next: ^10.2.3
+    next: ^11.0.1
     next-contentlayer: "workspace:*"
     react: ^17.0.2
     react-dom: ^17.0.2
@@ -13514,7 +13516,7 @@ fsevents@^1.2.7:
     contentlayer: "workspace:*"
     date-fns: ^2.22.1
     marked: ^2.0.3
-    next: ^10.2.3
+    next: ^11.0.1
     react: ^17.0.2
     react-dom: ^17.0.2
     react-helmet: ^6.1.0
@@ -13536,7 +13538,7 @@ fsevents@^1.2.7:
     contentlayer-stackbit-yaml-generator: "workspace:*"
     date-fns: ^2.22.1
     marked: ^2.0.3
-    next: ^10.2.3
+    next: ^11.0.1
     next-contentlayer: "workspace:*"
     react: ^17.0.2
     react-dom: ^17.0.2
@@ -13557,7 +13559,7 @@ fsevents@^1.2.7:
     "@types/react": ^17.0.9
     "@types/react-dom": ^17.0.6
     contentlayer: "workspace:*"
-    next: ^10.2.3
+    next: ^11.0.1
     next-contentlayer: "workspace:*"
     react: ^17.0.2
     react-dom: ^17.0.2
@@ -13574,7 +13576,7 @@ fsevents@^1.2.7:
     "@types/react-dom": ^17.0.6
     contentlayer: latest
     mdx-bundler: ^4.1.0
-    next: ^10.2.3
+    next: ^11.0.1
     react: ^17.0.2
     react-dom: ^17.0.2
   languageName: unknown
@@ -13589,7 +13591,7 @@ fsevents@^1.2.7:
     contentlayer: latest
     contentlayer-stackbit-yaml-generator: latest
     date-fns: ^2.22.1
-    next: ^10.2.3
+    next: ^11.0.1
     next-contentlayer: latest
     react: 17.0.2
     react-dom: 17.0.2
@@ -15978,25 +15980,6 @@ fsevents@^1.2.7:
   checksum: 006accc40578ee2beae382757c4ce2908a826b27e2b079efdcd2959ee544ddf210b7b5d7d5e80467807604244e7388427330f5c6d4cd61e6edaddc5773ccc393
   languageName: node
   linkType: hard
-
-"root-workspace-0b6124@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "root-workspace-0b6124@workspace:."
-  dependencies:
-    "@types/jest": ^26.0.23
-    "@typescript-eslint/eslint-plugin": ^4.15.2
-    "@typescript-eslint/parser": ^4.15.2
-    esbuild: ^0.12.6
-    eslint: ^7.21.0
-    eslint-config-prettier: ^8.3.0
-    eslint-plugin-react-hooks: ^4.2.0
-    eslint-plugin-simple-import-sort: ^7.0.0
-    jest: ^27.0.4
-    ts-jest: ^27.0.2
-    ts-node: ^10.0.0
-    typescript: ^4.2.4
-  languageName: unknown
-  linkType: soft
 
 "run-parallel@npm:^1.1.9":
   version: 1.2.0

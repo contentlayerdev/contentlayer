@@ -1,4 +1,5 @@
 import type { InferGetStaticPropsType } from 'next'
+import { useLiveReload } from 'next-contentlayer/hooks'
 import type { FC } from 'react'
 import React from 'react'
 
@@ -29,6 +30,8 @@ export const getStaticProps = defineStaticProps(async (context) => {
 })
 
 const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ doc, config, posts }) => {
+  useLiveReload()
+
   switch (doc._typeName) {
     case 'Landing':
       return <LandingLayout landing={doc} config={config} posts={posts} />

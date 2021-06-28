@@ -1,6 +1,8 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    // needed for Next.js imports
+    "allowSyntheticDefaultImports": true,
     "rootDir": "./src",
     "outDir": "./dist"
   },

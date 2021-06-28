@@ -38,7 +38,6 @@
     "@contentlayer/*": "workspace:*",
     "contentlayer-stackbit-yaml-generator": "workspace:*",
     "next-contentlayer": "workspace:*",
-    "rxjs": "^7.1.0",
-    "next": "10.2.4-canary.7"
+    "rxjs": "^7.1.0"
   }
 }
