@@ -19,3 +19,25 @@ export const promiseMapToDict = async <T, Res>(
 
   return Object.fromEntries(mappedEntries)
 }
+
+export const promiseMapPool = async <T, Res>(
+  arr: T[],
+  map: (el: T, index?: number) => Promise<Res>,
+  poolLimit: number,
+): Promise<Res[]> => {
+  const ret: Promise<Res>[] = []
+  const executing: Promise<Res>[] = []
+  for (const [index, item] of arr.entries()) {
+    const p = Promise.resolve().then(() => map(item, index))
+    ret.push(p)
+
+    if (poolLimit <= arr.length) {
+      const e: any = p.then(() => executing.splice(executing.indexOf(e), 1))
+      executing.push(e)
+      if (executing.length >= poolLimit) {
+        await Promise.race(executing)
+      }
+    }
+  }
+  return Promise.all(ret)
+}

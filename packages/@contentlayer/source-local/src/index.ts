@@ -1,5 +1,6 @@
 import type { Options, SourcePlugin } from '@contentlayer/core'
 import * as chokidar from 'chokidar'
+import type { Observable } from 'rxjs'
 import { defer, fromEvent, of } from 'rxjs'
 import { mergeMap, startWith, tap } from 'rxjs/operators'
 
@@ -52,21 +53,18 @@ export const fromLocalContent: MakeSourcePlugin = async (_args) => {
       const flags: Flags = { onExtraData, onMissingOrIncompatibleData }
 
       const updates$ = watch
-        ? defer(() =>
-            fromEvent(
-              chokidar.watch(contentDirPath, {
-                ignoreInitial: true,
-                // Unfortunately needed in order to avoid race conditions
-                awaitWriteFinish: { stabilityThreshold: 50, pollInterval: 10 },
-              }),
-              'all',
-            ),
+        ? defer(
+            () =>
+              fromEvent(
+                chokidar.watch(contentDirPath, {
+                  ignoreInitial: true,
+                  // Unfortunately needed in order to avoid race conditions
+                  awaitWriteFinish: { stabilityThreshold: 50, pollInterval: 10 },
+                }),
+                'all',
+              ) as Observable<ChokidarAllEvent>,
           ).pipe(
-            tap((e) => {
-              if (e && Array.isArray(e) && e.length >= 2) {
-                console.log(`Watch event "${e[0]}": ${e[1]}`)
-              }
-            }),
+            tap((e) => console.log(`Watch event "${e[0]}": ${e[1]}`)),
             startWith(0),
           )
         : of(0)
@@ -80,4 +78,9 @@ export const fromLocalContent: MakeSourcePlugin = async (_args) => {
       return updates$.pipe(mergeMap(() => data$))
     },
   }
+}
+
+type ChokidarAllEvent = [eventName: 'add' | 'addDir' | 'change' | 'unlink' | 'unlinkDir', path: string, stats?: any]
+const isChokidarAllEvent = (e: unknown): e is ChokidarAllEvent => {
+  return e !== undefined && Array.isArray(e) && e.length >= 2
 }

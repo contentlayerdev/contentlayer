@@ -1,78 +1,80 @@
 import type * as Core from '@contentlayer/core'
-import { pick, uppercaseFirstChar } from '@contentlayer/utils'
+import { pick, traceFn, uppercaseFirstChar } from '@contentlayer/utils'
 
 import type { DocumentDef, FieldDef, ListFieldItem, ObjectDef, SchemaDef } from './schema'
 
-export const makeCoreSchema = (schemaDef: SchemaDef): Core.SchemaDef => {
-  const coreDocumentDefMap: Core.DocumentDefMap = {}
-  const coreObjectDefMap: Core.ObjectDefMap = {}
+export const makeCoreSchema = traceFn('@contentlayer/source-local:makeCoreSchema')(
+  (schemaDef: SchemaDef): Core.SchemaDef => {
+    const coreDocumentDefMap: Core.DocumentDefMap = {}
+    const coreObjectDefMap: Core.ObjectDefMap = {}
 
-  for (const documentDef of schemaDef.documentDefs) {
-    validateDefName({ defName: documentDef.name })
+    for (const documentDef of schemaDef.documentDefs) {
+      validateDefName({ defName: documentDef.name })
 
-    const fieldDefs = Object.entries(documentDef.fields).map(fieldDefToCoreFieldDef)
+      const fieldDefs = Object.entries(documentDef.fields).map(fieldDefToCoreFieldDef)
 
-    // add default content markdown field if not explicitly provided
-    if (
-      (documentDef.fileType === undefined || documentDef.fileType === 'markdown') &&
-      fieldDefs.every((_) => _.name !== 'content')
-    ) {
-      fieldDefs.push({
-        type: 'markdown',
-        name: 'content',
-        label: 'Markdown content',
-        description: 'Default markdown file content',
-        default: undefined,
-        const: undefined,
-        hidden: undefined,
-        required: undefined,
-      })
+      // add default content markdown field if not explicitly provided
+      if (
+        (documentDef.fileType === undefined || documentDef.fileType === 'markdown') &&
+        fieldDefs.every((_) => _.name !== 'content')
+      ) {
+        fieldDefs.push({
+          type: 'markdown',
+          name: 'content',
+          label: 'Markdown content',
+          description: 'Default markdown file content',
+          default: undefined,
+          const: undefined,
+          hidden: undefined,
+          required: undefined,
+        })
+      }
+
+      // add default content MDX field if not explicitly provided
+      if (documentDef.fileType === 'mdx' && fieldDefs.every((_) => _.name !== 'content')) {
+        fieldDefs.push({
+          type: 'mdx',
+          name: 'content',
+          label: 'MDX content',
+          description: 'Default MDX file content',
+          default: undefined,
+          const: undefined,
+          hidden: undefined,
+          required: undefined,
+        })
+      }
+
+      const computedFields = Object.entries(documentDef.computedFields ?? {}).map<Core.ComputedField>(
+        ([name, computedField]) => ({ ...pick(computedField, ['description', 'resolve', 'type']), name }),
+      )
+
+      const coreDocumentDef: Core.DocumentDef = {
+        _tag: 'DocumentDef',
+        ...pick(documentDef, ['name', 'description', 'labelField']),
+        label: documentDef.label ?? documentDef.name,
+        isSingleton: documentDef.isSingleton ?? false,
+        fieldDefs,
+        computedFields,
+      }
+      coreDocumentDefMap[documentDef.name] = coreDocumentDef
     }
 
-    // add default content MDX field if not explicitly provided
-    if (documentDef.fileType === 'mdx' && fieldDefs.every((_) => _.name !== 'content')) {
-      fieldDefs.push({
-        type: 'mdx',
-        name: 'content',
-        label: 'MDX content',
-        description: 'Default MDX file content',
-        default: undefined,
-        const: undefined,
-        hidden: undefined,
-        required: undefined,
-      })
+    const objectDefs = collectObjectDefs(schemaDef.documentDefs)
+    for (const objectDef of objectDefs) {
+      validateDefName({ defName: objectDef.name })
+
+      const coreObjectDef: Core.ObjectDef = {
+        _tag: 'ObjectDef',
+        ...pick(objectDef, ['name', 'description', 'labelField']),
+        label: objectDef.label ?? objectDef.name,
+        fieldDefs: Object.entries(objectDef.fields).map(fieldDefToCoreFieldDef),
+      }
+      coreObjectDefMap[coreObjectDef.name] = coreObjectDef
     }
 
-    const computedFields = Object.entries(documentDef.computedFields ?? {}).map<Core.ComputedField>(
-      ([name, computedField]) => ({ ...pick(computedField, ['description', 'resolve', 'type']), name }),
-    )
-
-    const coreDocumentDef: Core.DocumentDef = {
-      _tag: 'DocumentDef',
-      ...pick(documentDef, ['name', 'description', 'labelField']),
-      label: documentDef.label ?? documentDef.name,
-      isSingleton: documentDef.isSingleton ?? false,
-      fieldDefs,
-      computedFields,
-    }
-    coreDocumentDefMap[documentDef.name] = coreDocumentDef
-  }
-
-  const objectDefs = collectObjectDefs(schemaDef.documentDefs)
-  for (const objectDef of objectDefs) {
-    validateDefName({ defName: objectDef.name })
-
-    const coreObjectDef: Core.ObjectDef = {
-      _tag: 'ObjectDef',
-      ...pick(objectDef, ['name', 'description', 'labelField']),
-      label: objectDef.label ?? objectDef.name,
-      fieldDefs: Object.entries(objectDef.fields).map(fieldDefToCoreFieldDef),
-    }
-    coreObjectDefMap[coreObjectDef.name] = coreObjectDef
-  }
-
-  return { documentDefMap: coreDocumentDefMap, objectDefMap: coreObjectDefMap }
-}
+    return { documentDefMap: coreDocumentDefMap, objectDefMap: coreObjectDefMap }
+  },
+)
 
 const validateDefName = ({ defName }: { defName: string }): void => {
   const firstChar = defName.charAt(0)

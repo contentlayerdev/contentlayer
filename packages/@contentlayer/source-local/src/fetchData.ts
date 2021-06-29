@@ -2,8 +2,15 @@ import type * as Core from '@contentlayer/core'
 import type { Cache, Document, Markdown, MDX, Options } from '@contentlayer/core'
 import { bundleMDX } from '@contentlayer/core'
 import { markdownToHtml } from '@contentlayer/core'
-import { assertUnreachable, isNotUndefined, promiseMap, promiseMapToDict } from '@contentlayer/utils'
-import { measureAsync } from '@contentlayer/utils/node'
+import {
+  assertUnreachable,
+  isNotUndefined,
+  promiseMap,
+  promiseMapPool,
+  promiseMapToDict,
+  traceAsyncFn,
+  tracer,
+} from '@contentlayer/utils'
 import { promises as fs } from 'fs'
 import { promise as glob } from 'glob-promise'
 import matter from 'gray-matter'
@@ -14,7 +21,7 @@ import { match } from 'ts-pattern'
 import type { Flags } from '.'
 import type { FilePathPatternMap, RawDocumentData } from './types'
 
-export const fetch = measureAsync('fetch-data')(
+export const fetch = traceAsyncFn('@contentlayer/source-local/fetchData:fetch')(
   async ({
     schemaDef,
     filePathPatternMap,
@@ -34,26 +41,29 @@ export const fetch = measureAsync('fetch-data')(
   }): Promise<Cache> => {
     // TODO implement "lazy" fetching by using `force` / `previousCache`
 
-    const documentDefNameWithFilePaths = await Promise.all(
+    const documentDefNameWithFilePathsArray = await Promise.all(
       Object.entries(filePathPatternMap).map(async ([documentDefName, filePathPattern]) => ({
         documentDefName,
         filePaths: await glob(path.join(contentDirPath, filePathPattern)),
       })),
     )
 
-    const documents = await Promise.all(
-      documentDefNameWithFilePaths.flatMap(({ documentDefName, filePaths }) =>
-        filePaths.map((filePath) =>
-          makeDocumentFromFilePath({
-            filePath,
-            schemaDef,
-            documentDefName,
-            contentDirPath,
-            flags,
-            options,
-          }),
-        ),
-      ),
+    const documentDefNameWithFilePathArray = documentDefNameWithFilePathsArray.flatMap(
+      ({ documentDefName, filePaths }) => filePaths.map((filePath) => ({ filePath, documentDefName })),
+    )
+
+    const documents = await promiseMapPool(
+      documentDefNameWithFilePathArray,
+      ({ documentDefName, filePath }) =>
+        makeDocumentFromFilePath({
+          filePath,
+          schemaDef,
+          documentDefName,
+          contentDirPath,
+          flags,
+          options,
+        }),
+      20,
     ).then((_) => _.filter(isNotUndefined))
 
     return { documents, lastUpdateInMs: new Date().getTime() }
@@ -78,68 +88,74 @@ type ContentYAML = {
   data: Record<string, any>
 }
 
-async function makeDocumentFromFilePath({
-  filePath,
-  schemaDef,
-  documentDefName,
-  contentDirPath,
-  flags,
-  options,
-}: {
-  filePath: string
-  schemaDef: Core.SchemaDef
-  documentDefName: string
-  contentDirPath: string
-  flags: Flags
-  options?: Options
-}): Promise<Core.Document | undefined> {
-  const fileContent = await fs.readFile(filePath, 'utf-8')
-  const filePathExtension = filePath.toLowerCase().split('.').pop()
-  const content = match<string | undefined, Content>(filePathExtension)
-    .with('md', () => {
-      const markdown = matter(fileContent)
-      return {
-        kind: 'markdown',
-        data: { ...markdown.data, content: markdown.content },
-      }
-    })
-    .with('mdx', () => {
-      const markdown = matter(fileContent)
-      return {
-        kind: 'mdx',
-        data: { ...markdown.data, content: markdown.content },
-      }
-    })
-    .with('json', () => ({ kind: 'json', data: JSON.parse(fileContent) }))
-    .when(
-      (_) => ['yaml', 'yml'].includes(_ ?? ''),
-      () => ({ kind: 'yaml', data: yaml.load(fileContent) as object }),
-    )
-    .otherwise(() => {
-      throw new Error(`Unsupported file extension "${filePathExtension}" for ${filePath}`)
-    })
+const makeDocumentFromFilePath = traceAsyncFn('@contentlayer/source-local/fetchData:makeDocumentFromFilePath')(
+  async ({
+    filePath,
+    schemaDef,
+    documentDefName,
+    contentDirPath,
+    flags,
+    options,
+  }: {
+    filePath: string
+    schemaDef: Core.SchemaDef
+    documentDefName: string
+    contentDirPath: string
+    flags: Flags
+    options?: Options
+  }): Promise<Core.Document | undefined> => {
+    const readFileSpan = tracer.startSpan('@contentlayer/source-local/fetchData:makeDocumentFromFilePath:read-file')
 
-  const re = new RegExp(`^${contentDirPath}(\/)?`)
-  const relativeFilePath = filePath.replace(re, '')
+    const fileContent = await fs.readFile(filePath, 'utf-8')
+    const filePathExtension = filePath.toLowerCase().split('.').pop()
+    const content = match<string | undefined, Content>(filePathExtension)
+      .with('md', () => {
+        const markdown = matter(fileContent)
+        return {
+          kind: 'markdown',
+          data: { ...markdown.data, content: markdown.content },
+        }
+      })
+      .with('mdx', () => {
+        const markdown = matter(fileContent)
+        return {
+          kind: 'mdx',
+          data: { ...markdown.data, content: markdown.content },
+        }
+      })
+      .with('json', () => ({ kind: 'json', data: JSON.parse(fileContent) }))
+      .when(
+        (_) => ['yaml', 'yml'].includes(_ ?? ''),
+        () => ({ kind: 'yaml', data: yaml.load(fileContent) as object }),
+      )
+      .otherwise(() => {
+        throw new Error(`Unsupported file extension "${filePathExtension}" for ${filePath}`)
+      })
 
-  const isValid = checkSchema({ content, relativeFilePath, documentDefName, schemaDef, flags })
-  if (!isValid) {
-    return undefined
-  }
+    readFileSpan.end()
 
-  const documentDef = schemaDef.documentDefMap[documentDefName]
+    const re = new RegExp(`^${contentDirPath}(\/)?`)
+    const relativeFilePath = filePath.replace(re, '')
 
-  const doc = await makeDocument({ documentDef, rawContent: content, schemaDef, relativeFilePath, options })
+    const isValid = checkSchema({ content, relativeFilePath, documentDefName, schemaDef, flags })
+    if (!isValid) {
+      return undefined
+    }
 
-  const computedValues = await getComputedValues({ documentDef, doc })
-  if (computedValues) {
-    Object.entries(computedValues).forEach(([fieldName, value]) => {
-      doc[fieldName] = value
-    })
-  }
+    const documentDef = schemaDef.documentDefMap[documentDefName]
 
-  return doc
-}
+    const doc = await makeDocument({ documentDef, rawContent: content, schemaDef, relativeFilePath, options })
+
+    const computedValues = await getComputedValues({ documentDef, doc })
+    if (computedValues) {
+      Object.entries(computedValues).forEach(([fieldName, value]) => {
+        doc[fieldName] = value
+      })
+    }
+
+    return doc
+  },
+)
 
 function checkSchema({
   schemaDef,

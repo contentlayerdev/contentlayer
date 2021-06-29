@@ -1,6 +1,7 @@
 export * from './string'
 export * from './guards'
 export * from './object'
+export * from './tracing'
 export * from './promise'
 
 export * as pattern from 'ts-pattern'

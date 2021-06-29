@@ -1,4 +1,4 @@
-import { inflection, lowercaseFirstChar, pattern, uppercaseFirstChar } from '@contentlayer/utils'
+import { inflection, lowercaseFirstChar, pattern, traceAsyncFn, uppercaseFirstChar } from '@contentlayer/utils'
 import { promises as fs } from 'fs'
 import * as path from 'path'
 import type { Observable } from 'rxjs'
@@ -25,41 +25,46 @@ export const generateDotpkg = ({
     schemaDef: defer(async () => source.provideSchema()),
     targetPath: defer(async () => makeArtifactsDir()),
     sourcePluginType: of(source.type),
-  }).pipe(switchMap(generateForCache))
+  }).pipe(switchMap(writeFilesForCache))
 }
 
-const generateForCache = async ({
-  cache,
-  schemaDef,
-  targetPath,
-  sourcePluginType,
-}: {
-  schemaDef: SchemaDef
-  cache: Cache
-  targetPath: string
-  sourcePluginType: SourcePluginType
-}): Promise<void> => {
-  const withPrefix = (...path_: string[]) => path.join(targetPath, ...path_)
+const writeFilesForCache = traceAsyncFn('@contentlayer/core/commands/generate-dotpkg:writeFilesForCache')(
+  async ({
+    cache,
+    schemaDef,
+    targetPath,
+    sourcePluginType,
+  }: {
+    schemaDef: SchemaDef
+    cache: Cache
+    targetPath: string
+    sourcePluginType: SourcePluginType
+  }): Promise<void> => {
+    const withPrefix = (...path_: string[]) => path.join(targetPath, ...path_)
 
-  const dataFiles = Object.values(schemaDef.documentDefMap).map((docDef) => ({
-    name: getDataVariableName({ docDef }),
-    content: makeDocumentDataFile({
-      docDef,
-      data: cache.documents.filter((_) => _._typeName === docDef.name),
-    }),
-  }))
+    const dataFiles = Object.values(schemaDef.documentDefMap).map((docDef) => ({
+      name: getDataVariableName({ docDef }),
+      content: makeDocumentDataFile({
+        docDef,
+        data: cache.documents.filter((_) => _._typeName === docDef.name),
+      }),
+    }))
 
-  await Promise.all([mkdir(withPrefix('types')), mkdir(withPrefix('data'))])
+    await Promise.all([mkdir(withPrefix('types')), mkdir(withPrefix('data'))])
 
-  await Promise.all([
-    generateFile({ filePath: withPrefix('package.json'), content: makePackageJson() }),
-    generateFile({ filePath: withPrefix('types', 'index.d.ts'), content: makeTypes({ schemaDef, sourcePluginType }) }),
-    generateFile({ filePath: withPrefix('types', 'index.js'), content: makeHelperTypes() }),
-    generateFile({ filePath: withPrefix('data', 'index.d.ts'), content: makeDataTypes({ schemaDef }) }),
-    generateFile({ filePath: withPrefix('data', 'index.js'), content: makeIndexJs({ schemaDef }) }),
-    ...dataFiles.map(({ name, content }) => generateFile({ filePath: withPrefix('data', `${name}.js`), content })),
-  ])
-}
+    await Promise.all([
+      generateFile({ filePath: withPrefix('package.json'), content: makePackageJson() }),
+      generateFile({
+        filePath: withPrefix('types', 'index.d.ts'),
+        content: makeTypes({ schemaDef, sourcePluginType }),
+      }),
+      generateFile({ filePath: withPrefix('types', 'index.js'), content: makeHelperTypes() }),
+      generateFile({ filePath: withPrefix('data', 'index.d.ts'), content: makeDataTypes({ schemaDef }) }),
+      generateFile({ filePath: withPrefix('data', 'index.js'), content: makeIndexJs({ schemaDef }) }),
+      ...dataFiles.map(({ name, content }) => generateFile({ filePath: withPrefix('data', `${name}.js`), content })),
+    ])
+  },
+)
 
 const makePackageJson = (): string => {
   const packageJson: PackageJson & { typesVersions: any } = {
