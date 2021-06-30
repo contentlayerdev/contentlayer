@@ -1,10 +1,11 @@
-import type { Options, SourcePlugin } from '@contentlayer/core'
+import type { Cache, Options, SourcePlugin } from '@contentlayer/core'
+import { casesHandled } from '@contentlayer/utils'
 import * as chokidar from 'chokidar'
 import type { Observable } from 'rxjs'
 import { defer, fromEvent, of } from 'rxjs'
-import { mergeMap, startWith, tap } from 'rxjs/operators'
+import { map, mergeMap, startWith, tap } from 'rxjs/operators'
 
-import { fetch } from './fetchData'
+import { fetchAllDocuments, getDocumentDefNameWithRelativeFilePathArray, makeDocumentFromFilePath } from './fetchData'
 import { makeCoreSchema } from './provideSchema'
 import type { DocumentDef, Thunk } from './schema'
 import type { FilePathPatternMap } from './types'
@@ -45,18 +46,24 @@ export const fromLocalContent: MakeSourcePlugin = async (_args) => {
   return {
     type: 'local',
     provideSchema: () => makeCoreSchema({ documentDefs }),
-    fetchData: ({ watch, force, previousCache }) => {
+    fetchData: ({ watch }) => {
       const filePathPatternMap = documentDefs.reduce(
         (acc, documentDef) => ({ ...acc, [documentDef.name]: documentDef.filePathPattern }),
         {} as FilePathPatternMap,
       )
       const flags: Flags = { onExtraData, onMissingOrIncompatibleData }
 
-      const updates$ = watch
+      const schemaDef = makeCoreSchema({ documentDefs })
+      const initEvent: CustomUpdateEventInit = { _tag: 'init' }
+
+      let cache: Cache | undefined = undefined
+
+      const updates$: Observable<CustomUpdateEvent> = watch
         ? defer(
             () =>
               fromEvent(
-                chokidar.watch(contentDirPath, {
+                chokidar.watch('.', {
+                  cwd: contentDirPath,
                   ignoreInitial: true,
                   // Unfortunately needed in order to avoid race conditions
                   awaitWriteFinish: { stabilityThreshold: 50, pollInterval: 10 },
@@ -64,23 +71,101 @@ export const fromLocalContent: MakeSourcePlugin = async (_args) => {
                 'all',
               ) as Observable<ChokidarAllEvent>,
           ).pipe(
-            tap((e) => console.log(`Watch event "${e[0]}": ${e[1]}`)),
-            startWith(0),
+            map(chokidarAllEventToCustomUpdateEvent),
+            tap(
+              (e) =>
+                (e._tag === 'update' || e._tag === 'deleted') &&
+                console.log(`Watch event "${e._tag}": ${e.relativeFilePath}`),
+            ),
+            startWith(initEvent),
           )
-        : of(0)
+        : of(initEvent)
 
-      const data$ = of(makeCoreSchema({ documentDefs })).pipe(
-        mergeMap((schemaDef) =>
-          fetch({ schemaDef, filePathPatternMap, contentDirPath, force, previousCache, flags, options }),
-        ),
-      )
+      return updates$
+        .pipe(
+          mergeMap((event) => {
+            switch (event._tag) {
+              case 'init':
+                return fetchAllDocuments({ schemaDef, filePathPatternMap, contentDirPath, flags, options })
+              case 'deleted': {
+                cache!.documents = cache!.documents.filter((_) => _._id !== event.relativeFilePath)
+                return of(cache!)
+              }
+              case 'update': {
+                return defer(async () => {
+                  const documentDefNameWithFilePathArray = await getDocumentDefNameWithRelativeFilePathArray({
+                    contentDirPath,
+                    filePathPatternMap,
+                  })
+                  const documentDefName = documentDefNameWithFilePathArray.find(
+                    (_) => _.relativeFilePath === event.relativeFilePath,
+                  )?.documentDefName
 
-      return updates$.pipe(mergeMap(() => data$))
+                  if (!documentDefName) {
+                    console.log(`No matching document def found for ${event.relativeFilePath}`)
+                    return cache!
+                  }
+
+                  const document = await makeDocumentFromFilePath({
+                    contentDirPath,
+                    documentDefName,
+                    relativeFilePath: event.relativeFilePath,
+                    flags,
+                    schemaDef,
+                    options,
+                  })
+
+                  if (document) {
+                    cache!.documents = cache!.documents.filter((_) => _._id !== event.relativeFilePath)
+                    cache!.documents.push(document)
+                  }
+
+                  return cache!
+                })
+              }
+              default:
+                casesHandled(event)
+            }
+          }),
+        )
+        .pipe(
+          tap((cache_) => {
+            cache = cache_
+          }),
+        )
     },
   }
 }
 
+const chokidarAllEventToCustomUpdateEvent = ([eventName, relativeFilePath]: ChokidarAllEvent): CustomUpdateEvent => {
+  switch (eventName) {
+    case 'add':
+    case 'change':
+      return { _tag: 'update', relativeFilePath }
+    case 'unlink':
+      return { _tag: 'deleted', relativeFilePath }
+    case 'unlinkDir':
+    case 'addDir':
+      return { _tag: 'init' }
+    default:
+      casesHandled(eventName)
+  }
+}
+
 type ChokidarAllEvent = [eventName: 'add' | 'addDir' | 'change' | 'unlink' | 'unlinkDir', path: string, stats?: any]
-const isChokidarAllEvent = (e: unknown): e is ChokidarAllEvent => {
-  return e !== undefined && Array.isArray(e) && e.length >= 2
+
+type CustomUpdateEvent = CustomUpdateEventFileUpdated | CustomUpdateEventFileDeleted | CustomUpdateEventInit
+
+type CustomUpdateEventFileUpdated = {
+  readonly _tag: 'update'
+  relativeFilePath: string
+}
+
+type CustomUpdateEventFileDeleted = {
+  readonly _tag: 'deleted'
+  relativeFilePath: string
+}
+
+type CustomUpdateEventInit = {
+  readonly _tag: 'init'
 }

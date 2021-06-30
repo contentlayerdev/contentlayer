@@ -3,7 +3,7 @@ import type { Cache, Document, Markdown, MDX, Options } from '@contentlayer/core
 import { bundleMDX } from '@contentlayer/core'
 import { markdownToHtml } from '@contentlayer/core'
 import {
-  assertUnreachable,
+  casesHandled,
   isNotUndefined,
   promiseMap,
   promiseMapPool,
@@ -15,55 +15,46 @@ import { promises as fs } from 'fs'
 import { promise as glob } from 'glob-promise'
 import matter from 'gray-matter'
 import * as yaml from 'js-yaml'
+import * as os from 'os'
 import * as path from 'path'
 import { match } from 'ts-pattern'
 
 import type { Flags } from '.'
 import type { FilePathPatternMap, RawDocumentData } from './types'
 
-export const fetch = traceAsyncFn('@contentlayer/source-local/fetchData:fetch')(
+export const fetchAllDocuments = traceAsyncFn('@contentlayer/source-local/fetchData:fetchAllDocuments')(
   async ({
     schemaDef,
     filePathPatternMap,
     contentDirPath,
-    force,
-    previousCache,
     flags,
     options,
   }: {
     schemaDef: Core.SchemaDef
     filePathPatternMap: FilePathPatternMap
     contentDirPath: string
-    force: boolean
-    previousCache: Cache | undefined
     flags: Flags
     options?: Options
   }): Promise<Cache> => {
-    // TODO implement "lazy" fetching by using `force` / `previousCache`
+    const documentDefNameWithRelativeFilePathArray = await getDocumentDefNameWithRelativeFilePathArray({
+      contentDirPath,
+      filePathPatternMap,
+    })
 
-    const documentDefNameWithFilePathsArray = await Promise.all(
-      Object.entries(filePathPatternMap).map(async ([documentDefName, filePathPattern]) => ({
-        documentDefName,
-        filePaths: await glob(path.join(contentDirPath, filePathPattern)),
-      })),
-    )
-
-    const documentDefNameWithFilePathArray = documentDefNameWithFilePathsArray.flatMap(
-      ({ documentDefName, filePaths }) => filePaths.map((filePath) => ({ filePath, documentDefName })),
-    )
+    const concurrencyLimit = os.cpus().length
 
     const documents = await promiseMapPool(
-      documentDefNameWithFilePathArray,
-      ({ documentDefName, filePath }) =>
+      documentDefNameWithRelativeFilePathArray,
+      ({ documentDefName, relativeFilePath }) =>
         makeDocumentFromFilePath({
-          filePath,
+          relativeFilePath,
           schemaDef,
           documentDefName,
           contentDirPath,
           flags,
           options,
         }),
-      20,
+      concurrencyLimit,
     ).then((_) => _.filter(isNotUndefined))
 
     return { documents, lastUpdateInMs: new Date().getTime() }
@@ -88,16 +79,38 @@ type ContentYAML = {
   data: Record<string, any>
 }
 
-const makeDocumentFromFilePath = traceAsyncFn('@contentlayer/source-local/fetchData:makeDocumentFromFilePath')(
+export const getDocumentDefNameWithRelativeFilePathArray = async ({
+  filePathPatternMap,
+  contentDirPath,
+}: {
+  filePathPatternMap: FilePathPatternMap
+  contentDirPath: string
+}): Promise<{ relativeFilePath: string; documentDefName: string }[]> => {
+  const documentDefNameWithRelativeFilePathsArray = await Promise.all(
+    Object.entries(filePathPatternMap).map(async ([documentDefName, filePathPattern]) => ({
+      documentDefName,
+      relativeFilePaths: await glob(filePathPattern, { cwd: contentDirPath }),
+    })),
+  )
+
+  const documentDefNameWithRelativeFilePathArray = documentDefNameWithRelativeFilePathsArray.flatMap(
+    ({ documentDefName, relativeFilePaths }) =>
+      relativeFilePaths.map((relativeFilePath) => ({ relativeFilePath, documentDefName })),
+  )
+
+  return documentDefNameWithRelativeFilePathArray
+}
+
+export const makeDocumentFromFilePath = traceAsyncFn('@contentlayer/source-local/fetchData:makeDocumentFromFilePath')(
   async ({
-    filePath,
+    relativeFilePath,
     schemaDef,
     documentDefName,
     contentDirPath,
     flags,
     options,
   }: {
-    filePath: string
+    relativeFilePath: string
     schemaDef: Core.SchemaDef
     documentDefName: string
     contentDirPath: string
@@ -106,8 +119,10 @@ const makeDocumentFromFilePath = traceAsyncFn('@contentlayer/source-local/fetchD
   }): Promise<Core.Document | undefined> => {
     const readFileSpan = tracer.startSpan('@contentlayer/source-local/fetchData:makeDocumentFromFilePath:read-file')
 
-    const fileContent = await fs.readFile(filePath, 'utf-8')
-    const filePathExtension = filePath.toLowerCase().split('.').pop()
+    const fullFilePath = path.join(contentDirPath, relativeFilePath)
+
+    const fileContent = await fs.readFile(fullFilePath, 'utf-8')
+    const filePathExtension = relativeFilePath.toLowerCase().split('.').pop()
     const content = match<string | undefined, Content>(filePathExtension)
       .with('md', () => {
         const markdown = matter(fileContent)
@@ -129,13 +144,10 @@ const makeDocumentFromFilePath = traceAsyncFn('@contentlayer/source-local/fetchD
         () => ({ kind: 'yaml', data: yaml.load(fileContent) as object }),
       )
       .otherwise(() => {
-        throw new Error(`Unsupported file extension "${filePathExtension}" for ${filePath}`)
+        throw new Error(`Unsupported file extension "${filePathExtension}" for ${relativeFilePath}`)
       })
 
     readFileSpan.end()
-
-    const re = new RegExp(`^${contentDirPath}(\/)?`)
-    const relativeFilePath = filePath.replace(re, '')
 
     const isValid = checkSchema({ content, relativeFilePath, documentDefName, schemaDef, flags })
     if (!isValid) {
@@ -377,7 +389,7 @@ const getDataForFieldDef = async ({
     case 'image':
       return rawFieldData
     default:
-      assertUnreachable(fieldDef)
+      casesHandled(fieldDef)
   }
 }
 

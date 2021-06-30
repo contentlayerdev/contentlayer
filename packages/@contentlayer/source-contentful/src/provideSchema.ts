@@ -1,5 +1,5 @@
 import type * as Core from '@contentlayer/core'
-import { assertUnreachable, partition } from '@contentlayer/utils'
+import { casesHandled, partition } from '@contentlayer/utils'
 
 import type * as SchemaOverrides from './schemaOverrides'
 import { normalizeSchemaOverrides } from './schemaOverrides'
@@ -179,7 +179,7 @@ const toFieldDef = ({
         }
       }
     default:
-      assertUnreachable(field)
+      casesHandled(field)
   }
 }
 

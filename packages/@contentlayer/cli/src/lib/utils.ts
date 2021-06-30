@@ -1,4 +1,4 @@
-import { DocumentDef, DocumentDefMap, ObjectDef, ObjectDefMap } from '@contentlayer/core'
+import type { DocumentDef, DocumentDefMap, ObjectDef, ObjectDefMap } from '@contentlayer/core'
 
 export const derefDocumentOrThrow = (documentDefMap: DocumentDefMap, documentDefName: string): DocumentDef => {
   if (!(documentDefName in documentDefMap)) {

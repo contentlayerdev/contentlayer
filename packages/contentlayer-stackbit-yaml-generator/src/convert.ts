@@ -1,5 +1,5 @@
 import type * as Core from '@contentlayer/core'
-import { assertUnreachable, partition } from '@contentlayer/utils'
+import { casesHandled, partition } from '@contentlayer/utils'
 import type * as Stackbit from '@stackbit/sdk'
 
 export const convertSchema = ({ documentDefMap, objectDefMap }: Core.SchemaDef): Stackbit.YamlConfig => {
@@ -89,8 +89,10 @@ const fieldDefToStackbitField = (fieldDef: Core.FieldDef): Stackbit.Field => {
     case 'url':
     case 'boolean':
       return { ...commonField, type: fieldDef.type }
+    case 'mdx':
+      throw new Error(`MDX isn't supported yet`)
     default:
-      assertUnreachable(fieldDef)
+      casesHandled(fieldDef)
   }
 }
 
@@ -143,14 +145,17 @@ const listFieldDefToStackbitFieldListItems = (
       case 'reference':
         throw new Error('Case handled above')
       default:
-        assertUnreachable(fieldDef.of)
+        casesHandled(fieldDef.of)
     }
   }
 
   throw new Error(`Not implemented ${JSON.stringify(fieldDef)}`)
 }
 
-const not = <Fn extends (...args: any[]) => boolean>(fn: Fn) => (...args: Parameters<Fn>) => !fn(...args)
+const not =
+  <Fn extends (...args: any[]) => boolean>(fn: Fn) =>
+  (...args: Parameters<Fn>) =>
+    !fn(...args)
 
 const isContentMarkdownFieldDef = (fieldDef: Core.FieldDef) =>
   fieldDef.name === 'content' && fieldDef.type === 'markdown'

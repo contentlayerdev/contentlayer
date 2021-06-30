@@ -2,7 +2,7 @@ import type * as Core from '@contentlayer/core'
 import type { Cache, Markdown, MDX } from '@contentlayer/core'
 import { bundleMDX } from '@contentlayer/core'
 import { markdownToHtml } from '@contentlayer/core'
-import { assertUnreachable, promiseMap, promiseMapToDict } from '@contentlayer/utils'
+import { casesHandled, promiseMap, promiseMapToDict } from '@contentlayer/utils'
 
 import type * as SchemaOverrides from './schemaOverrides'
 import { normalizeSchemaOverrides } from './schemaOverrides'
@@ -226,7 +226,7 @@ const getDataForFieldDef = async ({
     case 'enum':
       return rawFieldData
     default:
-      assertUnreachable(fieldDef)
+      casesHandled(fieldDef)
   }
 }
 

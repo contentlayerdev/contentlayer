@@ -3,6 +3,7 @@ export * from './guards'
 export * from './object'
 export * from './tracing'
 export * from './promise'
+export * from './rxjs'
 
 export * as pattern from 'ts-pattern'
 import * as inflection from 'inflection'
@@ -36,8 +37,12 @@ export const partition = <T>(arr: T[], isLeft: (_: T) => boolean): [T[], T[]] =>
   )
 }
 
-export function assertUnreachable(_: never): never {
-  throw new Error("Didn't expect to get here")
+/**
+ * Use this to make assertion at end of if-else chain that all members of a
+ * union have been accounted for.
+ */
+export function casesHandled(x: never): never {
+  throw new Error(`A case was not handled for value: ${JSON.stringify(x)}`)
 }
 
 export const unwrapThunk = <T>(_: T | (() => T)): T => {

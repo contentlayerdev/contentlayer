@@ -1,5 +1,4 @@
 import { CollectorTraceExporter } from '@opentelemetry/exporter-collector'
-// import { JaegerExporter } from '@opentelemetry/exporter-jaeger'
 import { NodeTracerProvider } from '@opentelemetry/node'
 import { Resource } from '@opentelemetry/resources'
 import { ResourceAttributes } from '@opentelemetry/semantic-conventions'

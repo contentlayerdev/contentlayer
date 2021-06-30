@@ -4,6 +4,20 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "release:patch",
+      "type": "shell",
+      "command": "yarn release:patch",
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": {
+        "focus": true,
+        "panel": "dedicated",
+        "group": "build",
+        "reveal": "silent",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+    {
       "label": "build:contentlayer",
       "type": "shell",
       "command": "yarn build",

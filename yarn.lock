@@ -1400,8 +1400,6 @@ __metadata:
     "@opentelemetry/api": ^1.0.1
     "@opentelemetry/core": ^0.21.0
     "@opentelemetry/exporter-collector": ^0.21.0
-    "@opentelemetry/exporter-jaeger": ^0.21.0
-    "@opentelemetry/metrics": ^0.21.0
     "@opentelemetry/node": ^0.21.0
     "@opentelemetry/plugin-http": ^0.18.2
     "@opentelemetry/plugin-https": ^0.18.2
@@ -2202,21 +2200,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/exporter-jaeger@npm:^0.21.0":
-  version: 0.21.0
-  resolution: "@opentelemetry/exporter-jaeger@npm:0.21.0"
-  dependencies:
-    "@opentelemetry/core": 0.21.0
-    "@opentelemetry/semantic-conventions": 0.21.0
-    "@opentelemetry/tracing": 0.21.0
-    jaeger-client: ^3.15.0
-  peerDependencies:
-    "@opentelemetry/api": ^0.21.0
-  checksum: e5bce885220aaf447551cd33862613242f522d29aa9ad928fd9e24f6ed5e75e285847b1a488c268a654a3e0a3d1b1a1dd5e2a121ae117813270f39408186dcaf
-  languageName: node
-  linkType: hard
-
-"@opentelemetry/metrics@npm:0.21.0, @opentelemetry/metrics@npm:^0.21.0":
+"@opentelemetry/metrics@npm:0.21.0":
   version: 0.21.0
   resolution: "@opentelemetry/metrics@npm:0.21.0"
   dependencies:
@@ -4148,13 +4132,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ansi-color@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "ansi-color@npm:0.2.1"
-  checksum: f3b809a91db1b2ec869a3bf5c0af13a4a8fa971d69a3404852b09d27e7789e1ca885ecd61d7c36f446d9c9f04980393ee099f9d02223d588a0dae19be033c4f3
-  languageName: node
-  linkType: hard
-
 "ansi-colors@npm:^4.1.1":
   version: 4.1.1
   resolution: "ansi-colors@npm:4.1.1"
@@ -5248,18 +5225,6 @@ __metadata:
     base64-js: ^1.3.1
     ieee754: ^1.1.13
   checksum: e2cf8429e1c4c7b8cbd30834ac09bd61da46ce35f5c22a78e6c2f04497d6d25541b16881e30a019c6fd3154150650ccee27a308eff3e26229d788bbdeb08ab84
-  languageName: node
-  linkType: hard
-
-"bufrw@npm:^1.3.0":
-  version: 1.3.0
-  resolution: "bufrw@npm:1.3.0"
-  dependencies:
-    ansi-color: ^0.2.1
-    error: ^7.0.0
-    hexer: ^1.5.0
-    xtend: ^4.0.0
-  checksum: e0cdfae2d1f4c0a2ffdc4e352ce3dbd547c4683c76072d48b98322945c318cbb0b6c2ccb5719d7de14abbe2076d68796f7d905b9b2c859fa29259fe66894b6c6
   languageName: node
   linkType: hard
 
@@ -7417,25 +7382,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"error@npm:7.0.2":
-  version: 7.0.2
-  resolution: "error@npm:7.0.2"
-  dependencies:
-    string-template: ~0.2.1
-    xtend: ~4.0.0
-  checksum: 407ff5faa73f5da3424a81d0160a1d3c6b5144e87cb1266334e7a4c2c7a69ae653e1b544032d7dbd8b210006858eea909ea0f46694b0484cd7555ba3086be0a8
-  languageName: node
-  linkType: hard
-
-"error@npm:^7.0.0":
-  version: 7.2.1
-  resolution: "error@npm:7.2.1"
-  dependencies:
-    string-template: ~0.2.1
-  checksum: 9c790d20a386947acfeabb0d1c39173efe8e5a38cb732b5f06c11a25c23ce8ac4dafbb7aa240565e034580a49aba0703e743d0274c6228500ddf947a1b998568
-  languageName: node
-  linkType: hard
-
 "es-abstract@npm:^1.17.2, es-abstract@npm:^1.18.0-next.1, es-abstract@npm:^1.18.0-next.2, es-abstract@npm:^1.18.2":
   version: 1.18.3
   resolution: "es-abstract@npm:1.18.3"
@@ -9346,20 +9292,6 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"hexer@npm:^1.5.0":
-  version: 1.5.0
-  resolution: "hexer@npm:1.5.0"
-  dependencies:
-    ansi-color: ^0.2.1
-    minimist: ^1.1.0
-    process: ^0.10.0
-    xtend: ^4.0.0
-  bin:
-    hexer: ./cli.js
-  checksum: 2e7a919da953ae7bc8ee3d88b01615fd640a71f65cfaa8e7f0775f44ebbd06fe9d3b901a582c155a518537282dd231f5ca2f8523a5e7b84defc0b07f16854c22
-  languageName: node
-  linkType: hard
-
 "hey-listen@npm:^1.0.8":
   version: 1.0.8
   resolution: "hey-listen@npm:1.0.8"
@@ -10515,19 +10447,6 @@ fsevents@^1.2.7:
     html-escaper: ^2.0.0
     istanbul-lib-report: ^3.0.0
   checksum: c5da63f1f4610f47f3015c525a3bc2fb4c87a8791ae452ee3983546d7a2873f0cf5d5fff7c3735ac52943c5b3506f49c294c92f1837df6ec03312625ccd176d7
-  languageName: node
-  linkType: hard
-
-"jaeger-client@npm:^3.15.0":
-  version: 3.18.1
-  resolution: "jaeger-client@npm:3.18.1"
-  dependencies:
-    node-int64: ^0.4.0
-    opentracing: ^0.14.4
-    thriftrw: ^3.5.0
-    uuid: ^3.2.1
-    xorshift: ^0.2.0
-  checksum: d8d0fa2449e5a85f73b95518570bc9661cdc646850e714b83e1943de5b05db4f8ed02f730c75afbfd1edd9a961b67a42bf08d13d45a04158b4830cb4e60fcb6d
   languageName: node
   linkType: hard
 
@@ -11821,13 +11740,6 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"long@npm:^2.4.0":
-  version: 2.4.0
-  resolution: "long@npm:2.4.0"
-  checksum: e24fd5e14be90ba6ec3faa43b3b0f1c4ac88bfdc52471d90f63e173572f6db27c45873e847f8af58283ca3140eb42d7ba11708102f3cc0956793b03305c737e0
-  languageName: node
-  linkType: hard
-
 "longest-streak@npm:^2.0.0":
   version: 2.0.4
   resolution: "longest-streak@npm:2.0.4"
@@ -12479,7 +12391,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"minimist@npm:^1.1.0, minimist@npm:^1.2.0, minimist@npm:^1.2.5":
+"minimist@npm:^1.2.0, minimist@npm:^1.2.5":
   version: 1.2.5
   resolution: "minimist@npm:1.2.5"
   checksum: 86706ce5b36c16bfc35c5fe3dbb01d5acdc9a22f2b6cc810b6680656a1d2c0e44a0159c9a3ba51fb072bb5c203e49e10b51dcd0eec39c481f4c42086719bae52
@@ -13204,13 +13116,6 @@ fsevents@^1.2.7:
   dependencies:
     lru-cache: ^5.1.1
   checksum: 97aedde610ef561f05853609d6a5b720ec1e123f867bdac1b38b5aeb3bc90ed60209678c75a5f0f9821aa793c720b6d17aabfb956e26ab115ee9b81d6e56bdf7
-  languageName: node
-  linkType: hard
-
-"opentracing@npm:^0.14.4":
-  version: 0.14.5
-  resolution: "opentracing@npm:0.14.5"
-  checksum: cb84f0a5d4340dfd1e023525bb743ab6a60587e022e90517b91183e68a09ccffb2cd8379d633f26cba59cbdba0047f3ae227515d45f016bf9686f6e09b2b25f4
   languageName: node
   linkType: hard
 
@@ -14860,13 +14765,6 @@ fsevents@^1.2.7:
   version: 0.11.10
   resolution: "process@npm:0.11.10"
   checksum: bfcce49814f7d172a6e6a14d5fa3ac92cc3d0c3b9feb1279774708a719e19acd673995226351a082a9ae99978254e320ccda4240ddc474ba31a76c79491ca7c3
-  languageName: node
-  linkType: hard
-
-"process@npm:^0.10.0":
-  version: 0.10.1
-  resolution: "process@npm:0.10.1"
-  checksum: bdaaa28a8edf96d5daa0f5c1faf4adfedce512ebca829a82e846d991492780c34eb934decf4fa5b311c698881d07a8d4592b4d7ea53ec03d51580a2f364d3e30
   languageName: node
   linkType: hard
 
@@ -17190,13 +17088,6 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"string-template@npm:~0.2.1":
-  version: 0.2.1
-  resolution: "string-template@npm:0.2.1"
-  checksum: 042cdcf4d4832378f12fbf45b42f479990f330cc409e6dc184838801efbc8352ccf9428fe169f8f8cfff2b864879d4ba1ef8b5f41d63d1d71844c48005a1683f
-  languageName: node
-  linkType: hard
-
 "string-width@npm:^1.0.1":
   version: 1.0.2
   resolution: "string-width@npm:1.0.2"
@@ -17723,19 +17614,6 @@ fsevents@^1.2.7:
   dependencies:
     escape-string-regexp: ^1.0.5
   checksum: b228a07de8d2668929647866fbe65f19eb3f5cda96d3825c0bdca96ece03f3c2bf774f3638115126c4c4a1e79ab9ed06fd0e16a5b694002ff6f0d9ce9cd257ba
-  languageName: node
-  linkType: hard
-
-"thriftrw@npm:^3.5.0":
-  version: 3.12.0
-  resolution: "thriftrw@npm:3.12.0"
-  dependencies:
-    bufrw: ^1.3.0
-    error: 7.0.2
-    long: ^2.4.0
-  bin:
-    thrift2json: ./thrift2json.js
-  checksum: fc03374131a713f5c5eca712a4092abf48282d985d23542f3ef7c92d222af52716e7037c446d5734708cc514d8fad42674f82dd6a9c59b8807beba0a1169b539
   languageName: node
   linkType: hard
 
@@ -18902,7 +18780,7 @@ typescript@^4.2.4:
   languageName: node
   linkType: hard
 
-"uuid@npm:^3.1.0, uuid@npm:^3.2.1, uuid@npm:^3.3.2":
+"uuid@npm:^3.1.0, uuid@npm:^3.3.2":
   version: 3.4.0
   resolution: "uuid@npm:3.4.0"
   bin:
@@ -19491,13 +19369,6 @@ typescript@^4.2.4:
   languageName: node
   linkType: hard
 
-"xorshift@npm:^0.2.0":
-  version: 0.2.1
-  resolution: "xorshift@npm:0.2.1"
-  checksum: 37e21340cdcef2982ce94d940ddccffc3fe2fc6ca28ef38763671d973ae72b7f03df2d81d6aec337db55b479e0ededf23f2456b60d495d3993754f3ac04c4f9d
-  languageName: node
-  linkType: hard
-
 "xregexp@npm:2.0.0":
   version: 2.0.0
   resolution: "xregexp@npm:2.0.0"
@@ -19505,7 +19376,7 @@ typescript@^4.2.4:
   languageName: node
   linkType: hard
 
-"xtend@npm:^4.0.0, xtend@npm:^4.0.1, xtend@npm:^4.0.2, xtend@npm:~4.0.0, xtend@npm:~4.0.1":
+"xtend@npm:^4.0.0, xtend@npm:^4.0.1, xtend@npm:^4.0.2, xtend@npm:~4.0.1":
   version: 4.0.2
   resolution: "xtend@npm:4.0.2"
   checksum: ac5dfa738b21f6e7f0dd6e65e1b3155036d68104e67e5d5d1bde74892e327d7e5636a076f625599dc394330a731861e87343ff184b0047fef1360a7ec0a5a36a

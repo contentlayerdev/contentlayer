@@ -1,3 +1,4 @@
+import { tapSkipFirst } from '@contentlayer/utils'
 import { generateDotpkg, getConfigWatch } from 'contentlayer/core'
 import { logPerformance } from 'contentlayer/utils/node'
 import type { NextConfig } from 'next/dist/next-server/server/config'
@@ -20,10 +21,9 @@ export const withContentlayer =
         cwd: process.cwd(),
       })
         .pipe(
-          tap({
-            next: () => console.log(`Contentlayer config change detected. Updating type definitions and data...`),
-          }),
+          tapSkipFirst(() => console.log(`Contentlayer config change detected. Updating type definitions and data...`)),
           switchMap((source) => generateDotpkg({ source, watchData: true })),
+          tap(() => console.log(`Generated node_modules/.contentlayer`)),
         )
         .subscribe()
     }
