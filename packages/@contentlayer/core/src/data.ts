@@ -1,7 +1,10 @@
 export type Cache = {
-  /** Unix timestamp in milliseconds of the last content change */
-  lastUpdateInMs: number
-  documents: Document[]
+  /**
+   * A map containing all documents indexed by id.
+   *
+   * Why: Map instead of document? -> easier cache operations
+   */
+  documentMap: { [id: string]: Document }
 }
 
 export type Document = Record<string, any> & DocumentMeta

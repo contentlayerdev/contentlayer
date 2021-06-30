@@ -20,7 +20,7 @@ export const fetchData = async ({
   const imageUrlBuilder = SantityImageUrlBuilder(client)
 
   const { _updatedAt }: { _updatedAt: string } = await client.fetch('*[] | order(_updatedAt desc) [0]{_updatedAt}')
-  const lastUpdateInMs = new Date(_updatedAt).getTime()
+  // const lastUpdateInMs = new Date(_updatedAt).getTime()
 
   // if (force || previousCache === undefined || lastUpdateInMs > previousCache.lastUpdateInMs) {
   const entries: Sanity.DataDocument[] = await client.fetch('*[]')
@@ -40,7 +40,9 @@ export const fetchData = async ({
       }),
     )
 
-  return { documents, lastUpdateInMs }
+  const documentMap = Object.fromEntries(documents.map((doc) => [doc._id, doc]))
+
+  return { documentMap }
   // }
 
   // return { documents: previousCache.documents, lastUpdateInMs: previousCache.lastUpdateInMs }

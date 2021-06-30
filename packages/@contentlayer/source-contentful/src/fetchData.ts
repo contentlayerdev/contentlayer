@@ -2,49 +2,53 @@ import type * as Core from '@contentlayer/core'
 import type { Cache, Markdown, MDX } from '@contentlayer/core'
 import { bundleMDX } from '@contentlayer/core'
 import { markdownToHtml } from '@contentlayer/core'
-import { casesHandled, promiseMap, promiseMapToDict } from '@contentlayer/utils'
+import { casesHandled, promiseMap, promiseMapToDict, traceAsyncFn } from '@contentlayer/utils'
 
 import type * as SchemaOverrides from './schemaOverrides'
 import { normalizeSchemaOverrides } from './schemaOverrides'
 import type { Contentful } from './types'
 
-export const fetchData = async ({
-  schemaDef,
-  environment,
-  schemaOverrides: schemaOverrides_,
-}: {
-  schemaDef: Core.SchemaDef
-  environment: Contentful.Environment
-  schemaOverrides: SchemaOverrides.Input.SchemaOverrides
-}): Promise<Cache> => {
-  const contentTypes = await environment.getContentTypes()
-
-  const schemaOverrides = normalizeSchemaOverrides({
-    contentTypes: contentTypes.items,
+export const fetchAllDocuments = traceAsyncFn('@contentlayer/source-contentlayer/fetchData:fetchAllDocuments')(
+  async ({
+    schemaDef,
+    environment,
     schemaOverrides: schemaOverrides_,
-  })
+  }: {
+    schemaDef: Core.SchemaDef
+    environment: Contentful.Environment
+    schemaOverrides: SchemaOverrides.Input.SchemaOverrides
+  }): Promise<Cache> => {
+    const contentTypes = await environment.getContentTypes()
 
-  const allEntries = await getAllEntries(environment)
+    const schemaOverrides = normalizeSchemaOverrides({
+      contentTypes: contentTypes.items,
+      schemaOverrides: schemaOverrides_,
+    })
 
-  const allAssets = await getAllAssets(environment)
+    const allEntries = await getAllEntries(environment)
 
-  if (process.env['CL_DEBUG']) {
-    ;(await import('fs')).writeFileSync('.tmp.assets.json', JSON.stringify(allAssets, null, 2))
-    ;(await import('fs')).writeFileSync('.tmp.entries.json', JSON.stringify(allEntries, null, 2))
-  }
+    const allAssets = await getAllAssets(environment)
 
-  const documents = await Promise.all(
-    Object.values(schemaDef.documentDefMap).flatMap((documentDef) =>
-      allEntries
-        .filter((_) => schemaOverrides.documentTypes[_.sys.contentType.sys.id]?.defName === documentDef.name)
-        .map((documentEntry) =>
-          makeDocument({ documentEntry, allEntries, allAssets, documentDef, schemaDef, schemaOverrides }),
-        ),
-    ),
-  )
+    if (process.env['CL_DEBUG']) {
+      ;(await import('fs')).writeFileSync('.tmp.assets.json', JSON.stringify(allAssets, null, 2))
+      ;(await import('fs')).writeFileSync('.tmp.entries.json', JSON.stringify(allEntries, null, 2))
+    }
 
-  return { documents, lastUpdateInMs: 0 }
-}
+    const documents = await Promise.all(
+      Object.values(schemaDef.documentDefMap).flatMap((documentDef) =>
+        allEntries
+          .filter((_) => schemaOverrides.documentTypes[_.sys.contentType.sys.id]?.defName === documentDef.name)
+          .map((documentEntry) =>
+            makeDocument({ documentEntry, allEntries, allAssets, documentDef, schemaDef, schemaOverrides }),
+          ),
+      ),
+    )
+
+    const documentMap = Object.fromEntries(documents.map((doc) => [doc._id, doc]))
+
+    return { documentMap }
+  },
+)
 
 const getAllEntries = async (environment: Contentful.Environment): Promise<Contentful.Entry[]> => {
   const entries: Contentful.Entry[] = []

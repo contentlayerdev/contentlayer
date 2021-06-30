@@ -57,7 +57,9 @@ export const fetchAllDocuments = traceAsyncFn('@contentlayer/source-local/fetchD
       concurrencyLimit,
     ).then((_) => _.filter(isNotUndefined))
 
-    return { documents, lastUpdateInMs: new Date().getTime() }
+    const documentMap = Object.fromEntries(documents.map((doc) => [doc._id, doc]))
+
+    return { documentMap }
   },
 )
 

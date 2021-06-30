@@ -1,4 +1,6 @@
 import { CollectorTraceExporter } from '@opentelemetry/exporter-collector'
+import { registerInstrumentations } from '@opentelemetry/instrumentation'
+import { HttpInstrumentation } from '@opentelemetry/instrumentation-http'
 import { NodeTracerProvider } from '@opentelemetry/node'
 import { Resource } from '@opentelemetry/resources'
 import { ResourceAttributes } from '@opentelemetry/semantic-conventions'
@@ -18,3 +20,7 @@ export const exporter = new CollectorTraceExporter()
 provider.addSpanProcessor(new SimpleSpanProcessor(exporter))
 
 provider.register()
+
+registerInstrumentations({
+  instrumentations: [new HttpInstrumentation()],
+})

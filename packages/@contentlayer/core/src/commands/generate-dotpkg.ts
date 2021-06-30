@@ -42,11 +42,13 @@ const writeFilesForCache = traceAsyncFn('@contentlayer/core/commands/generate-do
   }): Promise<void> => {
     const withPrefix = (...path_: string[]) => path.join(targetPath, ...path_)
 
+    const documents = Object.values(cache.documentMap)
+
     const dataFiles = Object.values(schemaDef.documentDefMap).map((docDef) => ({
       name: getDataVariableName({ docDef }),
       content: makeDocumentDataFile({
         docDef,
-        data: cache.documents.filter((_) => _._typeName === docDef.name),
+        data: documents.filter((_) => _._typeName === docDef.name),
       }),
     }))
 

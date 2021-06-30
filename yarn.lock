@@ -1502,9 +1502,9 @@ __metadata:
     "@opentelemetry/api": ^1.0.1
     "@opentelemetry/core": ^0.21.0
     "@opentelemetry/exporter-collector": ^0.21.0
+    "@opentelemetry/instrumentation": ^0.22.0
+    "@opentelemetry/instrumentation-http": ^0.22.0
     "@opentelemetry/node": ^0.21.0
-    "@opentelemetry/plugin-http": ^0.18.2
-    "@opentelemetry/plugin-https": ^0.18.2
     "@opentelemetry/resources": ^0.21.0
     "@opentelemetry/semantic-conventions": ^0.21.0
     "@opentelemetry/tracing": ^0.21.0
@@ -2149,10 +2149,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/api@npm:^0.18.1":
-  version: 0.18.1
-  resolution: "@opentelemetry/api@npm:0.18.1"
-  checksum: 2fdbcbaadf6493d374f23ae36aad90c86b8f18f700bb4233c2bd248ff3c6c6ea8a69c6922f93244910b350aa0928aa37f04e4ea70c49ba4dfce8b41587379704
+"@opentelemetry/api-metrics@npm:0.22.0":
+  version: 0.22.0
+  resolution: "@opentelemetry/api-metrics@npm:0.22.0"
+  peerDependencies:
+    "@opentelemetry/api": ^1.0.0
+  checksum: 7e1ce54e0b3bdb903fedadac3276a73368ddd14e2491809629ffb54d9f3d90de30985107f53a50f785375445dd35a0e13e79757676efc0e3a5bcebdf2d558c6c
   languageName: node
   linkType: hard
 
@@ -2184,13 +2186,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/core@npm:^0.18.2":
-  version: 0.18.2
-  resolution: "@opentelemetry/core@npm:0.18.2"
+"@opentelemetry/core@npm:0.22.0":
+  version: 0.22.0
+  resolution: "@opentelemetry/core@npm:0.22.0"
   dependencies:
-    "@opentelemetry/api": ^0.18.1
+    "@opentelemetry/semantic-conventions": 0.22.0
     semver: ^7.1.3
-  checksum: 15576dc38856151152ef3f627c21872b985074d8a77ee14e895382e5924dd380272ab0e357d31c4c7b2f2d30db1f5dca7b57d664e9e11226c31caf917faf8083
+  peerDependencies:
+    "@opentelemetry/api": ^1.0.0
+  checksum: b9ae3765a68ffd0b2e7af37ed3caa789ef261e68e1ffd3c18ea5ea43cfcd7ff407d6088313633201904c4b36211684843477b8579ba2503456f2adbff338869f
   languageName: node
   linkType: hard
 
@@ -2206,6 +2210,34 @@ __metadata:
   peerDependencies:
     "@opentelemetry/api": ^0.21.0
   checksum: 605417617bbea8eff75b8cb537517c798f1b968d7513687a812d0da926d50331e9bcc346a315f4907b9931030466e030eb7baa6bb459502a369ba27b400aa4a7
+  languageName: node
+  linkType: hard
+
+"@opentelemetry/instrumentation-http@npm:^0.22.0":
+  version: 0.22.0
+  resolution: "@opentelemetry/instrumentation-http@npm:0.22.0"
+  dependencies:
+    "@opentelemetry/core": 0.22.0
+    "@opentelemetry/instrumentation": 0.22.0
+    "@opentelemetry/semantic-conventions": 0.22.0
+    semver: ^7.1.3
+  peerDependencies:
+    "@opentelemetry/api": ^1.0.0
+  checksum: 3c4635a7c637bf2b5fb80600afd8ee7b3e91773cad30675e72340262534f1d2b29c5b4b8662423601679447ec7e8eae0bf48a239b4618ff62c05326bade73c29
+  languageName: node
+  linkType: hard
+
+"@opentelemetry/instrumentation@npm:0.22.0, @opentelemetry/instrumentation@npm:^0.22.0":
+  version: 0.22.0
+  resolution: "@opentelemetry/instrumentation@npm:0.22.0"
+  dependencies:
+    "@opentelemetry/api-metrics": 0.22.0
+    require-in-the-middle: ^5.0.3
+    semver: ^7.3.2
+    shimmer: ^1.2.1
+  peerDependencies:
+    "@opentelemetry/api": ^1.0.0
+  checksum: f4bb71029611830692d5511e97fd110213f3cc814e6865389967451b5882a01d0d94a1544ddcbd5164e0087c96fe703d3edf4ece00a009ea0063243a85eb706a
   languageName: node
   linkType: hard
 
@@ -2236,33 +2268,6 @@ __metadata:
   peerDependencies:
     "@opentelemetry/api": ^0.21.0
   checksum: b0398e34305eb3fd69cf808186184807e4a35aa9a05953db64f575701e5583bd7bb7ad66379fafe0bec16d2a3e63970b5138a4119ace69eb4829baf7652bbcfe
-  languageName: node
-  linkType: hard
-
-"@opentelemetry/plugin-http@npm:^0.18.2":
-  version: 0.18.2
-  resolution: "@opentelemetry/plugin-http@npm:0.18.2"
-  dependencies:
-    "@opentelemetry/api": ^0.18.1
-    "@opentelemetry/core": ^0.18.2
-    "@opentelemetry/semantic-conventions": ^0.18.2
-    semver: ^7.1.3
-    shimmer: ^1.2.1
-  checksum: b57bc249baee1dc9f4e71513277602f5e22b3111c571e304c356f89e40fdbaf64de1e3724202eb06aa6a8c8c51432381878fcb522a74cd01827290d9772f88a4
-  languageName: node
-  linkType: hard
-
-"@opentelemetry/plugin-https@npm:^0.18.2":
-  version: 0.18.2
-  resolution: "@opentelemetry/plugin-https@npm:0.18.2"
-  dependencies:
-    "@opentelemetry/api": ^0.18.1
-    "@opentelemetry/core": ^0.18.2
-    "@opentelemetry/plugin-http": ^0.18.2
-    "@opentelemetry/semantic-conventions": ^0.18.2
-    semver: ^7.1.3
-    shimmer: ^1.2.1
-  checksum: 6f6a2b80e1fe18ff561e51974c462881009616e7e012d5895c586f98934ba58201676f2eba8eca9c6a658ed2f16657c1f033bfe3ffa53d4a7683c44a1ce80f0a
   languageName: node
   linkType: hard
 
@@ -2307,10 +2312,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/semantic-conventions@npm:^0.18.2":
-  version: 0.18.2
-  resolution: "@opentelemetry/semantic-conventions@npm:0.18.2"
-  checksum: 333868108a0780b5e1fc4d1ad87bc55c903f0bd48f4ef7cc01ff86d4965e4d738a27252ee28956280a24fcb20c0e31bda50eaafbcf72852517acd030973cfe50
+"@opentelemetry/semantic-conventions@npm:0.22.0":
+  version: 0.22.0
+  resolution: "@opentelemetry/semantic-conventions@npm:0.22.0"
+  checksum: 50c553d6205dde2e37c2caa03214535b9ba4eb3aafc4428194c56dad3d271f88dd996f7693c6c9dfd3d9d23deecffc4ca36705434ab59a60b0757a05b6527a04
   languageName: node
   linkType: hard
 
@@ -12535,6 +12540,13 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"module-details-from-path@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "module-details-from-path@npm:1.0.3"
+  checksum: 378a8a26013889aa3086bfb0776b7860c5bb957336253e1ba5d779c2f239a218930b145ca76e52c1dd7c8079d52b2af64b8eec30822f81ffdb0dfa27d6fe6f33
+  languageName: node
+  linkType: hard
+
 "moment@npm:^2.19.1, moment@npm:^2.29.1":
   version: 2.29.1
   resolution: "moment@npm:2.29.1"
@@ -15993,6 +16005,17 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"require-in-the-middle@npm:^5.0.3":
+  version: 5.1.0
+  resolution: "require-in-the-middle@npm:5.1.0"
+  dependencies:
+    debug: ^4.1.1
+    module-details-from-path: ^1.0.3
+    resolve: ^1.12.0
+  checksum: 375f2e4b822c3fac5d65613082d93d5f9451cdbfb1cdfaf757febe2983aac3525ea5b8f95a10f2ee8304e6328d304d3c885830e255209d359faf66e5a3aa62e8
+  languageName: node
+  linkType: hard
+
 "require-main-filename@npm:^1.0.1":
   version: 1.0.1
   resolution: "require-main-filename@npm:1.0.1"
@@ -16077,7 +16100,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"resolve@^1.1.7, resolve@^1.10.0, resolve@^1.14.2, resolve@^1.19.0, resolve@^1.20.0, resolve@^1.3.3":
+"resolve@^1.1.7, resolve@^1.10.0, resolve@^1.12.0, resolve@^1.14.2, resolve@^1.19.0, resolve@^1.20.0, resolve@^1.3.3":
   version: 1.20.0
   resolution: "resolve@npm:1.20.0"
   dependencies:
@@ -16087,7 +16110,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@^1.1.7#~builtin<compat/resolve>, resolve@patch:resolve@^1.10.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.14.2#~builtin<compat/resolve>, resolve@patch:resolve@^1.19.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.20.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.3.3#~builtin<compat/resolve>":
+"resolve@patch:resolve@^1.1.7#~builtin<compat/resolve>, resolve@patch:resolve@^1.10.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.12.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.14.2#~builtin<compat/resolve>, resolve@patch:resolve@^1.19.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.20.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.3.3#~builtin<compat/resolve>":
   version: 1.20.0
   resolution: "resolve@patch:resolve@npm%3A1.20.0#~builtin<compat/resolve>::version=1.20.0&hash=00b1ff"
   dependencies:

@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/tracing-node",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
@@ -13,9 +13,9 @@
     "@opentelemetry/api": "^1.0.1",
     "@opentelemetry/core": "^0.21.0",
     "@opentelemetry/exporter-collector": "^0.21.0",
+    "@opentelemetry/instrumentation": "^0.22.0",
+    "@opentelemetry/instrumentation-http": "^0.22.0",
     "@opentelemetry/node": "^0.21.0",
-    "@opentelemetry/plugin-http": "^0.18.2",
-    "@opentelemetry/plugin-https": "^0.18.2",
     "@opentelemetry/resources": "^0.21.0",
     "@opentelemetry/semantic-conventions": "^0.21.0",
     "@opentelemetry/tracing": "^0.21.0"

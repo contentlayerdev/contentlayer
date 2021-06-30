@@ -4,7 +4,7 @@ import type { Observable } from 'rxjs'
 import { forkJoin, from, interval, of } from 'rxjs'
 import { mergeMap, startWith } from 'rxjs/operators'
 
-import { fetchData } from './fetchData'
+import { fetchAllDocuments } from './fetchData'
 import { provideSchema } from './provideSchema'
 import type * as SchemaOverrides from './schemaOverrides'
 import type { Contentful } from './types'
@@ -40,7 +40,7 @@ export const makeSourcePlugin: MakeSourcePlugin = ({
     const updates$ = watch ? getUpdateEvents().pipe(startWith(0)) : of(0)
     const data$ = from(getEnvironment({ accessToken, spaceId, environmentId })).pipe(
       mergeMap((environment) => forkJoin([of(environment), provideSchema({ environment, schemaOverrides })])),
-      mergeMap(([environment, schemaDef]) => fetchData({ schemaDef, environment, schemaOverrides })),
+      mergeMap(([environment, schemaDef]) => fetchAllDocuments({ schemaDef, environment, schemaOverrides })),
     )
 
     return updates$.pipe(mergeMap(() => data$))

@@ -1,6 +1,6 @@
 {
   "name": "next-contentlayer",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "main": "./dist/cjs/index.js",
   "exports": {
     ".": {

@@ -4,8 +4,6 @@ import { Builtins, Cli } from 'clipanion'
 
 import { BuildCommand } from './commands/BuildCommand'
 import { DevCommand } from './commands/DevCommand'
-import { FetchCommand } from './commands/FetchCommand'
-import { GenerateCommand } from './commands/GenerateCommand'
 
 const packageJson = require('../package.json')
 
@@ -18,8 +16,6 @@ export const run = async () => {
     binaryVersion: packageJson.version,
   })
 
-  // cli.register(FetchCommand)
-  // cli.register(GenerateCommand)
   cli.register(DevCommand)
   cli.register(BuildCommand)
   cli.register(Builtins.HelpCommand)

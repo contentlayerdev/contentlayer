@@ -88,7 +88,7 @@ export const fromLocalContent: MakeSourcePlugin = async (_args) => {
               case 'init':
                 return fetchAllDocuments({ schemaDef, filePathPatternMap, contentDirPath, flags, options })
               case 'deleted': {
-                cache!.documents = cache!.documents.filter((_) => _._id !== event.relativeFilePath)
+                delete cache!.documentMap[event.relativeFilePath]
                 return of(cache!)
               }
               case 'update': {
@@ -116,8 +116,7 @@ export const fromLocalContent: MakeSourcePlugin = async (_args) => {
                   })
 
                   if (document) {
-                    cache!.documents = cache!.documents.filter((_) => _._id !== event.relativeFilePath)
-                    cache!.documents.push(document)
+                    cache!.documentMap[event.relativeFilePath] = document
                   }
 
                   return cache!
