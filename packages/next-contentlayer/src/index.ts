@@ -1,3 +1,5 @@
+import '@contentlayer/tracing-node'
+
 import { tapSkipFirst } from '@contentlayer/utils'
 import { generateDotpkg, getConfigWatch } from 'contentlayer/core'
 import { logPerformance } from 'contentlayer/utils/node'

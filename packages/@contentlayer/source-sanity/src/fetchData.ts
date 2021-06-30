@@ -2,21 +2,18 @@
 const SantityImageUrlBuilder = require('@sanity/image-url')
 // import SantityImageUrlBuilder from '@sanity/image-url'
 import type * as Core from '@contentlayer/core'
-import { Cache } from '@contentlayer/core'
-import { ImageUrlBuilder } from '@sanity/image-url/lib/types/builder'
+import type { Cache } from '@contentlayer/core'
+import type { ImageUrlBuilder } from '@sanity/image-url/lib/types/builder'
+
 import { getSanityClient } from './sanity-client'
 import type * as Sanity from './sanity-types'
 
 export const fetchData = async ({
   studioDirPath,
   schemaDef,
-  force,
-  previousCache,
 }: {
   studioDirPath: string
   schemaDef: Core.SchemaDef
-  force: boolean
-  previousCache: Cache | undefined
 }): Promise<Cache> => {
   const client = await getSanityClient(studioDirPath)
 
@@ -25,28 +22,28 @@ export const fetchData = async ({
   const { _updatedAt }: { _updatedAt: string } = await client.fetch('*[] | order(_updatedAt desc) [0]{_updatedAt}')
   const lastUpdateInMs = new Date(_updatedAt).getTime()
 
-  if (force || previousCache === undefined || lastUpdateInMs > previousCache.lastUpdateInMs) {
-    const entries: Sanity.DataDocument[] = await client.fetch('*[]')
-    // TODO overlay drafts -> ids: draft.__original_id__
+  // if (force || previousCache === undefined || lastUpdateInMs > previousCache.lastUpdateInMs) {
+  const entries: Sanity.DataDocument[] = await client.fetch('*[]')
+  // TODO overlay drafts -> ids: draft.__original_id__
 
-    // ;(await import('fs')).writeFileSync('entries.json', JSON.stringify(entries, null, 2))
+  // ;(await import('fs')).writeFileSync('entries.json', JSON.stringify(entries, null, 2))
 
-    const documents = entries
-      // Ignores documents that are not explicitly defined in the schema (e.g. assets which are accessed via URLs instead)
-      .filter((_) => _._type in schemaDef.documentDefMap)
-      .map((rawDocumentData) =>
-        makeDocument({
-          rawDocumentData,
-          documentDef: schemaDef.documentDefMap[rawDocumentData._type],
-          schemaDef,
-          imageUrlBuilder,
-        }),
-      )
+  const documents = entries
+    // Ignores documents that are not explicitly defined in the schema (e.g. assets which are accessed via URLs instead)
+    .filter((_) => _._type in schemaDef.documentDefMap)
+    .map((rawDocumentData) =>
+      makeDocument({
+        rawDocumentData,
+        documentDef: schemaDef.documentDefMap[rawDocumentData._type],
+        schemaDef,
+        imageUrlBuilder,
+      }),
+    )
 
-    return { documents, lastUpdateInMs }
-  }
+  return { documents, lastUpdateInMs }
+  // }
 
-  return { documents: previousCache.documents, lastUpdateInMs: previousCache.lastUpdateInMs }
+  // return { documents: previousCache.documents, lastUpdateInMs: previousCache.lastUpdateInMs }
 }
 
 const makeDocument = ({

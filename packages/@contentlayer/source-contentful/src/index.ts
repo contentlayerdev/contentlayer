@@ -36,13 +36,11 @@ export const makeSourcePlugin: MakeSourcePlugin = ({
     const environment = await getEnvironment({ accessToken, spaceId, environmentId })
     return provideSchema({ environment, schemaOverrides })
   },
-  fetchData: ({ watch, force, previousCache }) => {
+  fetchData: ({ watch }) => {
     const updates$ = watch ? getUpdateEvents().pipe(startWith(0)) : of(0)
     const data$ = from(getEnvironment({ accessToken, spaceId, environmentId })).pipe(
       mergeMap((environment) => forkJoin([of(environment), provideSchema({ environment, schemaOverrides })])),
-      mergeMap(([environment, schemaDef]) =>
-        fetchData({ schemaDef, force, previousCache, environment, schemaOverrides }),
-      ),
+      mergeMap(([environment, schemaDef]) => fetchData({ schemaDef, environment, schemaOverrides })),
     )
 
     return updates$.pipe(mergeMap(() => data$))

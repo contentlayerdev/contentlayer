@@ -4,6 +4,5 @@
     "rootDir": "./src",
     "outDir": "./dist/types"
   },
-  "include": ["./src"],
-  "references": [{ "path": "../core/tsconfig.json" }, { "path": "../tracing-node/tsconfig.json" }]
+  "include": ["./src"]
 }

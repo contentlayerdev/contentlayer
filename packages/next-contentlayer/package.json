@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*",
+    "@contentlayer/tracing-node": "workspace:*",
     "rxjs": "^7.1.0"
   },
   "peerDependencies": {

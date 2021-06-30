@@ -1,6 +1,5 @@
-import './tracing'
+import '@contentlayer/tracing-node'
 
-import { traceAsyncFn } from '@contentlayer/utils'
 import { Builtins, Cli } from 'clipanion'
 
 import { BuildCommand } from './commands/BuildCommand'
@@ -10,7 +9,7 @@ import { GenerateCommand } from './commands/GenerateCommand'
 
 const packageJson = require('../package.json')
 
-export const run = traceAsyncFn('@contentlayer/cli/index:run')(async () => {
+export const run = async () => {
   const [node, app, ...args] = process.argv
 
   const cli = new Cli({
@@ -28,4 +27,4 @@ export const run = traceAsyncFn('@contentlayer/cli/index:run')(async () => {
 
   // Run the CLI
   await cli.runExit(args, Cli.defaultContext)
-})
+}

@@ -12,10 +12,10 @@ type MakeSourcePlugin = (_: { studioDirPath: string; preview?: boolean }) => Sou
 export const makeSourcePlugin: MakeSourcePlugin = ({ studioDirPath }) => ({
   type: 'sanity',
   provideSchema: () => provideSchema(studioDirPath),
-  fetchData: ({ watch, force, previousCache }) => {
+  fetchData: ({ watch }) => {
     const updates$ = watch ? getUpdateEvents(studioDirPath).pipe(startWith(0)) : of(0)
     const data$ = from(provideSchema(studioDirPath)).pipe(
-      mergeMap((schemaDef) => fetchData({ schemaDef, force, previousCache, studioDirPath })),
+      mergeMap((schemaDef) => fetchData({ schemaDef, studioDirPath })),
     )
 
     return updates$.pipe(mergeMap(() => data$))

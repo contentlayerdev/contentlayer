@@ -1396,16 +1396,8 @@ __metadata:
   resolution: "@contentlayer/cli@workspace:packages/@contentlayer/cli"
   dependencies:
     "@contentlayer/core": "workspace:*"
+    "@contentlayer/tracing-node": "workspace:*"
     "@contentlayer/utils": "workspace:*"
-    "@opentelemetry/api": ^1.0.1
-    "@opentelemetry/core": ^0.21.0
-    "@opentelemetry/exporter-collector": ^0.21.0
-    "@opentelemetry/node": ^0.21.0
-    "@opentelemetry/plugin-http": ^0.18.2
-    "@opentelemetry/plugin-https": ^0.18.2
-    "@opentelemetry/resources": ^0.21.0
-    "@opentelemetry/semantic-conventions": ^0.21.0
-    "@opentelemetry/tracing": ^0.21.0
     "@types/js-yaml": ^4.0.1
     "@types/minimatch": ^3.0.4
     "@types/node": ^15.12.0
@@ -1503,12 +1495,29 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@contentlayer/tracing-node@workspace:*, @contentlayer/tracing-node@workspace:packages/@contentlayer/tracing-node":
+  version: 0.0.0-use.local
+  resolution: "@contentlayer/tracing-node@workspace:packages/@contentlayer/tracing-node"
+  dependencies:
+    "@opentelemetry/api": ^1.0.1
+    "@opentelemetry/core": ^0.21.0
+    "@opentelemetry/exporter-collector": ^0.21.0
+    "@opentelemetry/node": ^0.21.0
+    "@opentelemetry/plugin-http": ^0.18.2
+    "@opentelemetry/plugin-https": ^0.18.2
+    "@opentelemetry/resources": ^0.21.0
+    "@opentelemetry/semantic-conventions": ^0.21.0
+    "@opentelemetry/tracing": ^0.21.0
+  languageName: unknown
+  linkType: soft
+
 "@contentlayer/utils@workspace:*, @contentlayer/utils@workspace:packages/@contentlayer/utils":
   version: 0.0.0-use.local
   resolution: "@contentlayer/utils@workspace:packages/@contentlayer/utils"
   dependencies:
     "@types/inflection": ^1
     inflection: ^1.13.1
+    rxjs: ^7.1.0
     ts-pattern: ^3.1.7
   languageName: unknown
   linkType: soft
@@ -12647,6 +12656,7 @@ fsevents@^1.2.7:
   resolution: "next-contentlayer@workspace:packages/next-contentlayer"
   dependencies:
     "@contentlayer/core": "workspace:*"
+    "@contentlayer/tracing-node": "workspace:*"
     next: ^11.0.1
     rxjs: ^7.1.0
     typescript: ^4.2.4

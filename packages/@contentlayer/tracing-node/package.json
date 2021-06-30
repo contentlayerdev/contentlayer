@@ -1,0 +1,23 @@
+{
+  "name": "@contentlayer/tracing-node",
+  "version": "0.0.6",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "sideEffects": true,
+  "scripts": {
+    "prepack": "yarn build",
+    "build": "(run g:build:lib & run g:build:types) && echo Build complete"
+  },
+  "dependencies": {
+    "@opentelemetry/api": "^1.0.1",
+    "@opentelemetry/core": "^0.21.0",
+    "@opentelemetry/exporter-collector": "^0.21.0",
+    "@opentelemetry/node": "^0.21.0",
+    "@opentelemetry/plugin-http": "^0.18.2",
+    "@opentelemetry/plugin-https": "^0.18.2",
+    "@opentelemetry/resources": "^0.21.0",
+    "@opentelemetry/semantic-conventions": "^0.21.0",
+    "@opentelemetry/tracing": "^0.21.0"
+  }
+}

@@ -26,7 +26,7 @@ export type SourcePlugin = {
 export type ProvideSchemaFn = () => SchemaDef | Promise<SchemaDef>
 export type FetchDataFn = (_: {
   watch?: boolean
-  /** Ignore `previousCache` */
-  force: boolean
-  previousCache: Cache | undefined
+  // /** Ignore `previousCache` */
+  // force: boolean
+  // previousCache: Cache | undefined
 }) => Observable<Cache>

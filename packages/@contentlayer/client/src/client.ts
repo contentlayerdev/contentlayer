@@ -38,11 +38,7 @@ export class ContentlayerClient {
         `When running \`fetchData\`, you need to provide the \`source\` property when initializing the ContentlayerClient`,
       )
     }
-    const observable = this.source.fetchData({
-      watch: false,
-      force: false,
-      previousCache: this.cache as any,
-    })
+    const observable = this.source.fetchData({ watch: false })
     const cache = await firstValueFrom(observable)
     this.setCache(cache)
   }

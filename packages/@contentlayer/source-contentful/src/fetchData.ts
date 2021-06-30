@@ -10,15 +10,10 @@ import type { Contentful } from './types'
 
 export const fetchData = async ({
   schemaDef,
-  force,
-  previousCache,
   environment,
   schemaOverrides: schemaOverrides_,
 }: {
   schemaDef: Core.SchemaDef
-  force: boolean
-  // TOOD use previous cache
-  previousCache: Cache | undefined
   environment: Contentful.Environment
   schemaOverrides: SchemaOverrides.Input.SchemaOverrides
 }): Promise<Cache> => {

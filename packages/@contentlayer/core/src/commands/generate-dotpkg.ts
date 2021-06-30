@@ -21,7 +21,7 @@ export const generateDotpkg = ({
   watchData: boolean
 }): Observable<void> => {
   return combineLatest({
-    cache: source.fetchData({ watch: watchData, force: true, previousCache: undefined }),
+    cache: source.fetchData({ watch: watchData }),
     schemaDef: defer(async () => source.provideSchema()),
     targetPath: defer(async () => makeArtifactsDir()),
     sourcePluginType: of(source.type),
