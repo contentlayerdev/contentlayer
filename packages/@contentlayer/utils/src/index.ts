@@ -5,6 +5,8 @@ export * from './tracing'
 export * from './promise'
 export * from './rxjs'
 
+import './global'
+
 export * as pattern from 'ts-pattern'
 import * as inflection from 'inflection'
 export { inflection }

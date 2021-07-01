@@ -15,10 +15,9 @@ export const getConfigWatch = ({ configPath, cwd }: { configPath: string; cwd: s
 }
 
 // TODO rename to getSource
-export const getConfig = traceAsyncFn('@contentlayer/core/getConfig:getConfig')(
-  async ({ configPath, cwd }: { configPath: string; cwd: string }): Promise<SourcePlugin> =>
-    firstValueFrom(getConfig_({ configPath, cwd, watch: false })),
-)
+export const getConfig = (async ({ configPath, cwd }: { configPath: string; cwd: string }): Promise<SourcePlugin> => {
+  return firstValueFrom(getConfig_({ configPath, cwd, watch: false }))
+})['|>'](traceAsyncFn('@contentlayer/core/getConfig:getConfig'))
 
 const getConfig_ = ({
   configPath,
@@ -133,40 +132,38 @@ const makeTmpDirAndResolveEntryPoint = async ({ cwd, configPath }: { cwd: string
   return { outfilePath, entryPointPath, tmpDir }
 }
 
-const getConfigFromResult = traceAsyncFn('@contentlayer/core/getConfig:getConfigFromResult')(
-  async ({
-    result,
-    configPath,
-    outfilePath,
-  }: {
-    result: BuildResult
-    configPath: string
-    outfilePath: string
-  }): Promise<SourcePlugin> => {
-    if (result.warnings.length > 0) {
-      console.error(result.warnings)
+const getConfigFromResult = (async ({
+  result,
+  configPath,
+  outfilePath,
+}: {
+  result: BuildResult
+  configPath: string
+  outfilePath: string
+}): Promise<SourcePlugin> => {
+  if (result.warnings.length > 0) {
+    console.error(result.warnings)
+  }
+
+  // wrapping in try/catch is needed to surpress esbuild warning
+  try {
+    // Needed in case of re-loading when watching the config file for changes
+    delete require.cache[require.resolve(outfilePath)]
+
+    // Needed in order for source maps of dynamic file to work
+    require('source-map-support').install()
+
+    const exports = require(outfilePath)
+    if (!('default' in exports)) {
+      throw new Error(`Provided config path (${configPath}) doesn't have a default export.`)
     }
 
-    // wrapping in try/catch is needed to surpress esbuild warning
-    try {
-      // Needed in case of re-loading when watching the config file for changes
-      delete require.cache[require.resolve(outfilePath)]
-
-      // Needed in order for source maps of dynamic file to work
-      require('source-map-support').install()
-
-      const exports = require(outfilePath)
-      if (!('default' in exports)) {
-        throw new Error(`Provided config path (${configPath}) doesn't have a default export.`)
-      }
-
-      return exports.default
-    } catch (error) {
-      console.error(error)
-      throw error
-    }
-  },
-)
+    return exports.default
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+})['|>'](traceAsyncFn('@contentlayer/core/getConfig:getConfigFromResult'))
 
 /** Needed to override the `__dirname` variable so relative linking still works */
 // const dirnameOverrideEsbuildPlugin = (): Plugin => ({

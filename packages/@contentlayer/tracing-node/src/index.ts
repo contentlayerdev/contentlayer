@@ -6,21 +6,38 @@ import { Resource } from '@opentelemetry/resources'
 import { ResourceAttributes } from '@opentelemetry/semantic-conventions'
 import { ConsoleSpanExporter, SimpleSpanProcessor } from '@opentelemetry/tracing'
 
-const provider = new NodeTracerProvider({
-  resource: new Resource({
-    [ResourceAttributes.SERVICE_NAME]: 'contentlayer',
-  }),
-})
+const init = () => {
+  const env = getEnv()
+  if (!env.enableCollector && !env.enableConsole) return
 
-if (process.env['TRACING_CONSOLE']) {
-  provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()))
+  const provider = new NodeTracerProvider({
+    resource: new Resource({
+      [ResourceAttributes.SERVICE_NAME]: 'contentlayer',
+    }),
+  })
+
+  if (env.enableConsole) {
+    provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()))
+  }
+
+  if (env.enableCollector) {
+    const exporter = new CollectorTraceExporter()
+    provider.addSpanProcessor(new SimpleSpanProcessor(exporter))
+  }
+
+  provider.register()
+
+  registerInstrumentations({
+    instrumentations: [new HttpInstrumentation()],
+  })
 }
 
-export const exporter = new CollectorTraceExporter()
-provider.addSpanProcessor(new SimpleSpanProcessor(exporter))
+type Env = { enableCollector: boolean; enableConsole: boolean }
+const getEnv = (): Env => {
+  const env = process.env['CONTENTLAYER_TRACING']
+  const enableCollector = env?.includes('collector') ?? false
+  const enableConsole = env?.includes('console') ?? false
+  return { enableCollector, enableConsole }
+}
 
-provider.register()
-
-registerInstrumentations({
-  instrumentations: [new HttpInstrumentation()],
-})
+init()

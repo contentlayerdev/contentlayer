@@ -8,33 +8,37 @@ import unified from 'unified'
 
 import type { MarkdownOptions } from './plugin'
 
-export const markdownToHtml = traceAsyncFn('@contentlayer/core/markdown:markdownToHtml')(
-  async ({ mdString, options }: { mdString: string; options?: MarkdownOptions }): Promise<string> => {
-    // const matterResult = matter(mdString)
+export const markdownToHtml = (async ({
+  mdString,
+  options,
+}: {
+  mdString: string
+  options?: MarkdownOptions
+}): Promise<string> => {
+  // const matterResult = matter(mdString)
 
-    // Use remark to convert markdown into HTML string
-    // const processedContent = await remark().use(html).process(matterResult.content)
+  // Use remark to convert markdown into HTML string
+  // const processedContent = await remark().use(html).process(matterResult.content)
 
-    if (process.env['CL_FAST_MARKDOWN']) {
-      return parseWasm(mdString)
-    }
+  if (process.env['CL_FAST_MARKDOWN']) {
+    return parseWasm(mdString)
+  }
 
-    const builder = unified().use(markdown)
+  const builder = unified().use(markdown)
 
-    if (options?.remarkPlugins) {
-      builder.use(options.remarkPlugins)
-    }
+  if (options?.remarkPlugins) {
+    builder.use(options.remarkPlugins)
+  }
 
-    builder.use(remark2rehype)
+  builder.use(remark2rehype)
 
-    if (options?.rehypePlugins) {
-      builder.use(options.rehypePlugins)
-    }
+  if (options?.rehypePlugins) {
+    builder.use(options.rehypePlugins)
+  }
 
-    builder.use(html)
+  builder.use(html)
 
-    const res = await builder.process(mdString)
+  const res = await builder.process(mdString)
 
-    return res.toString()
-  },
-)
+  return res.toString()
+})['|>'](traceAsyncFn('@contentlayer/core/markdown:markdownToHtml'))

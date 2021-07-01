@@ -5,40 +5,38 @@ import type * as SchemaOverrides from './schemaOverrides'
 import { normalizeSchemaOverrides } from './schemaOverrides'
 import type { Contentful } from './types'
 
-export const provideSchema = traceAsyncFn('@contentlayer/source-contentlayer/provideSchema:provideSchema')(
-  async ({
-    environment,
+export const provideSchema = (async ({
+  environment,
+  schemaOverrides: schemaOverrides_,
+}: {
+  environment: Contentful.Environment
+  schemaOverrides: SchemaOverrides.Input.SchemaOverrides
+}): Promise<Core.SchemaDef> => {
+  const contentTypes = await environment.getContentTypes()
+
+  const schemaOverrides = normalizeSchemaOverrides({
+    contentTypes: contentTypes.items,
     schemaOverrides: schemaOverrides_,
-  }: {
-    environment: Contentful.Environment
-    schemaOverrides: SchemaOverrides.Input.SchemaOverrides
-  }): Promise<Core.SchemaDef> => {
-    const contentTypes = await environment.getContentTypes()
+  })
 
-    const schemaOverrides = normalizeSchemaOverrides({
-      contentTypes: contentTypes.items,
-      schemaOverrides: schemaOverrides_,
-    })
+  // ;(await import('fs')).writeFileSync('.tmp.contentTypes.json', JSON.stringify(contentTypes, null, 2))
 
-    // ;(await import('fs')).writeFileSync('.tmp.contentTypes.json', JSON.stringify(contentTypes, null, 2))
+  const [documentContentTypes, objectContentTypes] = partition(contentTypes.items, (_) =>
+    isDocument({ schemaOverrides, contentTypeId: _.sys.id }),
+  )
 
-    const [documentContentTypes, objectContentTypes] = partition(contentTypes.items, (_) =>
-      isDocument({ schemaOverrides, contentTypeId: _.sys.id }),
-    )
+  const documentDefs = documentContentTypes.map((contentType) => toDocumentDef({ contentType, schemaOverrides }))
+  const documentDefMap = documentDefs.reduce((acc, documentDef) => ({ ...acc, [documentDef.name]: documentDef }), {})
+  const objectDefs = objectContentTypes.map((contentType) => toObjectDef({ contentType, schemaOverrides }))
+  const objectDefMap = objectDefs.reduce((acc, documentDef) => ({ ...acc, [documentDef.name]: documentDef }), {})
 
-    const documentDefs = documentContentTypes.map((contentType) => toDocumentDef({ contentType, schemaOverrides }))
-    const documentDefMap = documentDefs.reduce((acc, documentDef) => ({ ...acc, [documentDef.name]: documentDef }), {})
-    const objectDefs = objectContentTypes.map((contentType) => toObjectDef({ contentType, schemaOverrides }))
-    const objectDefMap = objectDefs.reduce((acc, documentDef) => ({ ...acc, [documentDef.name]: documentDef }), {})
+  const schema = { documentDefMap, objectDefMap }
 
-    const schema = { documentDefMap, objectDefMap }
-
-    if (process.env['CL_DEBUG']) {
-      ;(await import('fs')).writeFileSync('.tmp.schema.json', JSON.stringify(schema, null, 2))
-    }
-    return schema
-  },
-)
+  if (process.env['CL_DEBUG']) {
+    ;(await import('fs')).writeFileSync('.tmp.schema.json', JSON.stringify(schema, null, 2))
+  }
+  return schema
+})['|>'](traceAsyncFn('@contentlayer/source-contentlayer/provideSchema:provideSchema'))
 
 const isDocument = ({
   contentTypeId,
