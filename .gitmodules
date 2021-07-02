@@ -2,10 +2,6 @@
 	path = packages/playgrounds/playground-starter
 	url = git@github.com:schickling-test/contentlayer-blog.git
 
-[submodule "packages/playgrounds/playground-radix/radix"]
-	path = packages/playgrounds/playground-radix/radix
-	url = git@github.com:radix-ui/website.git
-
 [submodule "packages/playgrounds/playground-gatsby-docs/gatsby"]
 	path = packages/playgrounds/playground-gatsby-docs/gatsby
 	url = git@github.com:gatsbyjs/gatsby.git
