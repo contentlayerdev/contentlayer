@@ -4,6 +4,7 @@ import { Command, Option } from 'clipanion'
 import { promises as fs } from 'fs'
 import * as path from 'path'
 import * as t from 'typanion'
+
 import { convertSchema } from './convert'
 import { toYamlString } from './utils'
 
@@ -31,7 +32,7 @@ export class DefaultCommand extends Command {
 
   async executeSafe() {
     const config = await getConfig({ configPath: this.configPath, cwd: process.cwd() })
-    const schema = await config.source.provideSchema()
+    const schema = await config.provideSchema()
     const stackbitConfig = convertSchema(schema)
     recRemoveUndefinedValues(stackbitConfig)
 

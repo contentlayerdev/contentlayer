@@ -5,7 +5,7 @@ import { promises as fs } from 'fs'
 import * as path from 'path'
 import pkgUp from 'pkg-up'
 import { firstValueFrom, Observable, of } from 'rxjs'
-import { finalize, mergeMap, tap } from 'rxjs/operators'
+import { mergeMap } from 'rxjs/operators'
 
 import type { SourcePlugin } from './plugin'
 
@@ -31,10 +31,9 @@ const getConfig_ = ({
   return of(0).pipe(
     mergeMap(ensureEsbuildBin),
     mergeMap(() => makeTmpDirAndResolveEntryPoint({ configPath, cwd })),
-    mergeMap(({ entryPointPath, outfilePath, tmpDir }) =>
+    mergeMap(({ entryPointPath, outfilePath }) =>
       callEsbuild({ entryPointPath, outfilePath, watch }).pipe(
         mergeMap((result) => getConfigFromResult({ result, configPath, outfilePath })),
-        // finalize(() => fs.rmdir(tmpDir, { recursive: true })),
       ),
     ),
   )
@@ -164,20 +163,3 @@ const getConfigFromResult = (async ({
     throw error
   }
 })['|>'](traceAsyncFn('@contentlayer/core/getConfig:getConfigFromResult'))
-
-/** Needed to override the `__dirname` variable so relative linking still works */
-// const dirnameOverrideEsbuildPlugin = (): Plugin => ({
-//   name: 'dirname_override',
-//   setup(build) {
-//     // TODO need to come up with a better `filter`
-//     build.onLoad({ filter: /\/contentlayer\/.*/, namespace: 'file' }, async (args) => {
-//       // NOTE needed to deal with TypeScript sources as esbuild plugins don't seem to be composable right now
-//       const result = await esbuild({
-//         entryPoints: [args.path],
-//         write: false,
-//       })
-//       const contents = `var __dirname = "${path.dirname(args.path)}";\n${result.outputFiles![0].text}`
-//       return { contents }
-//     })
-//   },
-// })

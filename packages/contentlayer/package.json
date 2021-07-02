@@ -11,10 +11,6 @@
       "import": "./dist/esm/client/index.js",
       "require": "./dist/cjs/client/index.js"
     },
-    "./react": {
-      "import": "./dist/esm/react/index.js",
-      "require": "./dist/cjs/react/index.js"
-    },
     "./utils": {
       "import": "./dist/esm/utils/index.js",
       "require": "./dist/cjs/utils/index.js"
@@ -37,9 +33,6 @@
       "client": [
         "./dist/types/client"
       ],
-      "react": [
-        "./dist/types/react"
-      ],
       "utils": [
         "./dist/types/utils"
       ],
@@ -60,7 +53,6 @@
     "@contentlayer/cli": "workspace:*",
     "@contentlayer/client": "workspace:*",
     "@contentlayer/core": "workspace:*",
-    "@contentlayer/react": "workspace:*",
     "@contentlayer/source-local": "workspace:*",
     "@contentlayer/utils": "workspace:*"
   },

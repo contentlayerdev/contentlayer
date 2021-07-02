@@ -1,7 +1,8 @@
 const getSanitySchema = require('@sanity/core/lib/actions/graphql/getSanitySchema')
 import type * as Core from '@contentlayer/core'
 import { pick } from '@contentlayer/utils'
-import Schema from '@sanity/schema'
+import type Schema from '@sanity/schema'
+
 import type * as Sanity from './sanity-types'
 
 export const provideSchema = async (studioDirPath: string): Promise<Core.SchemaDef> => {

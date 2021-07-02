@@ -1,4 +1,5 @@
 import { defineDocument, defineObject } from 'contentlayer/source-local'
+
 import { action } from '../objects/action'
 import { form_field } from '../objects/form_field'
 import { seo } from '../objects/seo'
@@ -8,7 +9,7 @@ export const landing = defineDocument(() => ({
   name: 'landing',
   label: 'Landing Page',
   filePathPattern: 'pages/{contact,features,index,pricing}.md',
-  fileType: 'md',
+  fileType: 'markdown',
   fields: {
     title: {
       type: 'string',

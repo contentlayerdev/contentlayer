@@ -9,7 +9,6 @@ import {
   promiseMapPool,
   promiseMapToDict,
   traceAsyncFn,
-  tracer,
 } from '@contentlayer/utils'
 import { promises as fs } from 'fs'
 import { promise as glob } from 'glob-promise'

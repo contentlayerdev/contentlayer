@@ -1,7 +1,7 @@
 // Source https://gist.github.com/barbogast/4bea3ad77272fafe0af3d4f70446d037 from May 18, 2020
 // via https://github.com/sanity-io/sanity/issues/1857#issuecomment-630241904
-import { ReactComponentLike } from 'prop-types'
-import { ReactElement } from 'react'
+import type { ReactComponentLike } from 'prop-types'
+import type { ReactElement } from 'react'
 
 type IsoDateTimeString = string
 
@@ -177,9 +177,9 @@ export type Field =
 // | ObjectField
 
 // NOTE `ObjectField` is commented out since it otherwise breaks the string literal union tags for `type`
-type ObjectField = CommonFieldProps & {
-  type: string
-}
+// type ObjectField = CommonFieldProps & {
+//   type: string
+// }
 
 export type InlineObjectField = ObjectType
 

@@ -1,5 +1,3 @@
-import { promises as fs } from 'fs'
-
 import type { SourcePluginType } from '../plugin'
 import type { DocumentDef, FieldDef, ListFieldDefItem, ObjectDef } from '../schema'
 
@@ -110,15 +108,5 @@ const renderListItemFieldType = (item: ListFieldDefItem): string => {
       return '{\n' + item.fieldDefs.map(renderFieldDef).join('\n') + '\n}'
     case 'reference':
       return item.documentName
-  }
-}
-
-const fileExists = async (pathLike: string): Promise<boolean> => {
-  // const { promises: fs } = await import('fs')
-  try {
-    const fileStat = await fs.stat(pathLike)
-    return fileStat.isFile()
-  } catch (_e) {
-    return false
   }
 }

@@ -11,7 +11,7 @@ export type { NextConfig }
 type PluginOptions = {}
 
 export const withContentlayer =
-  (pluginOptions: PluginOptions = {}) =>
+  (_pluginOptions: PluginOptions = {}) =>
   (nextConfig: Partial<NextConfig> = {}): Partial<NextConfig> => {
     // could be either `next dev` or just `next`
     const isNextDev = process.argv.includes('dev') || process.argv.some((_) => _.endsWith('/.bin/next'))

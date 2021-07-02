@@ -1,4 +1,4 @@
-import { SourcePlugin } from './plugin'
+import type { SourcePlugin } from './plugin'
 
 export type Config = SourcePlugin
 

@@ -1,0 +1,3 @@
+packages/playgrounds/*
+packages/_archive/*
+**/dist/*

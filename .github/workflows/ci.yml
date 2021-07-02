@@ -1,0 +1,66 @@
+name: ci
+
+on:
+  push:
+    branches: ['**']
+
+jobs:
+  eslint:
+    strategy:
+      matrix:
+        node-version: [16.x]
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+        if: ${{ !env.ACT }}
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn install
+      - run: yarn lint:eslint:check
+
+  prettier:
+    strategy:
+      matrix:
+        node-version: [16.x]
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+        if: ${{ !env.ACT }}
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn install
+      - run: yarn lint:prettier:check
+
+  build:
+    strategy:
+      matrix:
+        node-version: [16.x]
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+        if: ${{ !env.ACT }}
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn install
+      - run: yarn build
+
+  test:
+    strategy:
+      matrix:
+        node-version: [16.x]
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+        if: ${{ !env.ACT }}
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn install
+      - run: yarn test

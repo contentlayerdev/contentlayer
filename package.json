@@ -11,6 +11,12 @@
     "test": "jest",
     "build": "yarn workspaces foreach --verbose --topological-dev --no-private run build",
     "release:patch": "yarn workspaces foreach --verbose --topological-dev --no-private version patch && yarn workspaces foreach --verbose --topological-dev --parallel --no-private npm publish --tolerate-republish",
+    "lint:check": "run lint:eslint:check && run lint:prettier:check",
+    "lint:fix": "run lint:eslint:fix & run lint:prettier:fix",
+    "lint:eslint:fix": "eslint packages --ext .ts --fix",
+    "lint:eslint:check": "eslint packages --ext .ts --max-warnings=0",
+    "lint:prettier:fix": "prettier packages --write",
+    "lint:prettier:check": "prettier packages --check",
     "g:build": "cd $INIT_CWD && (run g:build:types & run g:build:lib)",
     "g:build:types": "cd $INIT_CWD && tsc --build",
     "g:build:types:force": "cd $INIT_CWD && rm -rf ./dist/types && tsc --build",
@@ -20,6 +26,7 @@
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",
+    "@types/prettier": "^2",
     "@typescript-eslint/eslint-plugin": "^4.15.2",
     "@typescript-eslint/parser": "^4.15.2",
     "esbuild": "^0.12.6",
@@ -28,6 +35,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "jest": "^27.0.4",
+    "prettier": "^2.3.2",
     "ts-jest": "^27.0.2",
     "ts-node": "^10.0.0",
     "typescript": "^4.2.4"

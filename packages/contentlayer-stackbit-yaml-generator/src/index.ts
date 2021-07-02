@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { Builtins, Cli } from 'clipanion'
+
 import { DefaultCommand } from './DefaultCommand'
 
 export const run = () => {

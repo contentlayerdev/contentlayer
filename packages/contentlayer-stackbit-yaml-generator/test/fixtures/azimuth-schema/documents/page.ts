@@ -1,4 +1,5 @@
 import { defineDocument } from 'contentlayer/source-local'
+
 import { seo } from '../objects/seo'
 import { urlFromFilePath } from '../utils'
 
@@ -6,7 +7,7 @@ export const page = defineDocument(() => ({
   name: 'page',
   label: 'Page',
   filePathPattern: 'pages/{about,privacy-policy,signup,style-guide,terms-of-service}.md',
-  fileType: 'md',
+  fileType: 'markdown',
   fields: {
     title: {
       type: 'string',

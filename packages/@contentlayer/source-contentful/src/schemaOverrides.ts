@@ -1,4 +1,3 @@
-import type * as Core from '@contentlayer/core'
 import { mapObjectValues } from '@contentlayer/utils'
 
 import type { Contentful } from './types'
