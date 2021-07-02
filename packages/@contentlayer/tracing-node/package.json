@@ -11,13 +11,13 @@
   },
   "dependencies": {
     "@opentelemetry/api": "^1.0.1",
-    "@opentelemetry/core": "^0.21.0",
-    "@opentelemetry/exporter-collector": "^0.21.0",
+    "@opentelemetry/core": "^0.22.0",
+    "@opentelemetry/exporter-collector": "^0.22.0",
     "@opentelemetry/instrumentation": "^0.22.0",
     "@opentelemetry/instrumentation-http": "^0.22.0",
-    "@opentelemetry/node": "^0.21.0",
-    "@opentelemetry/resources": "^0.21.0",
-    "@opentelemetry/semantic-conventions": "^0.21.0",
-    "@opentelemetry/tracing": "^0.21.0"
+    "@opentelemetry/node": "^0.22.0",
+    "@opentelemetry/resources": "^0.22.0",
+    "@opentelemetry/semantic-conventions": "^0.22.0",
+    "@opentelemetry/tracing": "^0.22.0"
   }
 }

@@ -12,13 +12,13 @@
   "dependencies": {
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
-    "chokidar": "^3.5.1",
+    "chokidar": "^3.5.2",
     "glob": "^7.1.7",
     "glob-promise": "^4.1.0",
     "gray-matter": "^4.0.3",
     "js-yaml": "^4.1.0",
     "minimatch": "^3.0.4",
     "rxjs": "^7.1.0",
-    "ts-pattern": "^3.1.7"
+    "ts-pattern": "^3.2.1"
   }
 }

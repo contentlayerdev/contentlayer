@@ -27,18 +27,18 @@
   "devDependencies": {
     "@types/jest": "^26.0.23",
     "@types/prettier": "^2",
-    "@typescript-eslint/eslint-plugin": "^4.15.2",
-    "@typescript-eslint/parser": "^4.15.2",
-    "esbuild": "^0.12.6",
+    "@typescript-eslint/eslint-plugin": "^4.28.1",
+    "@typescript-eslint/parser": "^4.28.1",
+    "esbuild": "^0.12.14",
     "eslint": "^7.21.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "jest": "^27.0.4",
     "prettier": "^2.3.2",
-    "ts-jest": "^27.0.2",
+    "ts-jest": "^27.0.3",
     "ts-node": "^10.0.0",
-    "typescript": "^4.2.4"
+    "typescript": "^4.3.5"
   },
   "resolutions": {
     "esbuild": "0.12.8",

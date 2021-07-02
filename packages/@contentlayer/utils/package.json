@@ -29,7 +29,7 @@
   "dependencies": {
     "inflection": "^1.13.1",
     "rxjs": "^7.1.0",
-    "ts-pattern": "^3.1.7"
+    "ts-pattern": "^3.2.1"
   },
   "devDependencies": {
     "@types/inflection": "^1"

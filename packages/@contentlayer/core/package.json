@@ -11,21 +11,21 @@
   },
   "dependencies": {
     "@contentlayer/utils": "workspace:*",
-    "esbuild": "^0.12.6",
+    "esbuild": "^0.12.14",
     "gray-matter": "^4.0.3",
     "markdown-wasm": "^1.1.2",
-    "mdx-bundler": "^4.1.0",
+    "mdx-bundler": "^4.1.1",
     "pkg-up": "^3.1.0",
     "rehype-stringify": "^8.0.0",
     "remark-parse": "^9.0.0",
     "remark-rehype": "^8.1.0",
     "rxjs": "^7.1.0",
     "source-map-support": "^0.5.19",
-    "type-fest": "^1.2.0",
+    "type-fest": "^1.2.1",
     "unified": "^9.2.1"
   },
   "devDependencies": {
     "@types/pkg-up": "^3.1.0",
-    "@types/source-map-support": "^0"
+    "@types/source-map-support": "^0.5.3"
   }
 }

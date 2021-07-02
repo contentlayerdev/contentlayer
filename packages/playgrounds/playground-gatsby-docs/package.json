@@ -18,6 +18,6 @@
     "contentlayer": "workspace:*",
     "next-contentlayer": "workspace:*",
     "shiki": "^0.9.4",
-    "typescript": "^4.2.4"
+    "typescript": "^4.3.5"
   }
 }
