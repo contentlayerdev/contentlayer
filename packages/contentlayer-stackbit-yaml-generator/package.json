@@ -15,7 +15,6 @@
     "yaml": "^1.10.2"
   },
   "devDependencies": {
-    "@types/yaml": "^1.9.7",
     "contentlayer": "workspace:*",
     "esbuild": "^0.12.14",
     "typescript": "^4.3.5"

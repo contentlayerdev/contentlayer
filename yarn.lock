@@ -1459,7 +1459,6 @@ __metadata:
   resolution: "@contentlayer/core@workspace:packages/@contentlayer/core"
   dependencies:
     "@contentlayer/utils": "workspace:*"
-    "@types/pkg-up": ^3.1.0
     "@types/source-map-support": ^0.5.3
     esbuild: ^0.12.14
     gray-matter: ^4.0.3
@@ -3599,15 +3598,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pkg-up@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "@types/pkg-up@npm:3.1.0"
-  dependencies:
-    pkg-up: "*"
-  checksum: 205372e9b059a2695bb430cda29171fb844652f711ebaa0045b489e832a9fc65d942227892b925284b4e8d81e94a7964e016234989e93fdda4e1766a534c8d6d
-  languageName: node
-  linkType: hard
-
 "@types/prettier@npm:^2, @types/prettier@npm:^2.1.5":
   version: 2.3.1
   resolution: "@types/prettier@npm:2.3.1"
@@ -3775,15 +3765,6 @@ __metadata:
     anymatch: ^3.0.0
     source-map: ^0.6.0
   checksum: 6ab86a5b57276044e5b54d2caf04d01940a29ba8269f9cb406ef592f1b72adeebce55a88ef94ff3c5488571e17a212ec4e0854ff0498d18161dd78d9051fe2fb
-  languageName: node
-  linkType: hard
-
-"@types/yaml@npm:^1.9.7":
-  version: 1.9.7
-  resolution: "@types/yaml@npm:1.9.7"
-  dependencies:
-    yaml: "*"
-  checksum: 0cdbf1857d89ade9b7d00aa09f2e0a2a56b707870b1dc1387f5be5398cd60c3f92bb32a543471147d2eaf38919f921391e0ade34fc9e1e022c7d67fb1a0da73c
   languageName: node
   linkType: hard
 
@@ -6103,7 +6084,6 @@ __metadata:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/utils": "workspace:*"
     "@stackbit/sdk": ^0.1.15
-    "@types/yaml": ^1.9.7
     clipanion: ^3.0.0-rc.12
     contentlayer: "workspace:*"
     esbuild: ^0.12.14
@@ -13669,7 +13649,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"pkg-up@npm:*, pkg-up@npm:^3.1.0":
+"pkg-up@npm:^3.1.0":
   version: 3.1.0
   resolution: "pkg-up@npm:3.1.0"
   dependencies:
@@ -19490,7 +19470,7 @@ typescript@^4.3.5:
   languageName: node
   linkType: hard
 
-"yaml@npm:*, yaml@npm:^1.10.2":
+"yaml@npm:^1.10.2":
   version: 1.10.2
   resolution: "yaml@npm:1.10.2"
   checksum: ce4ada136e8a78a0b08dc10b4b900936912d15de59905b2bf415b4d33c63df1d555d23acb2a41b23cf9fb5da41c256441afca3d6509de7247daa062fd2c5ea5f
