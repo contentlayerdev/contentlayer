@@ -13,7 +13,8 @@ type PluginOptions = {}
 export const withContentlayer =
   (pluginOptions: PluginOptions = {}) =>
   (nextConfig: Partial<NextConfig> = {}): Partial<NextConfig> => {
-    const isNextDev = process.argv.includes('dev')
+    // could be either `next dev` or just `next`
+    const isNextDev = process.argv.includes('dev') || process.argv.some((_) => _.endsWith('/.bin/next'))
 
     if (isNextDev) {
       logPerformance()
