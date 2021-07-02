@@ -1,8 +1,8 @@
 import '@contentlayer/tracing-node'
 
+import { generateDotpkg, getConfigWatch } from '@contentlayer/core'
 import { tapSkipFirst } from '@contentlayer/utils'
-import { generateDotpkg, getConfigWatch } from 'contentlayer/core'
-import { logPerformance } from 'contentlayer/utils/node'
+import { logPerformance } from '@contentlayer/utils/node'
 import type { NextConfig } from 'next/dist/next-server/server/config'
 import { switchMap, tap } from 'rxjs/operators'
 
