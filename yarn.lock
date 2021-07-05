@@ -1460,7 +1460,7 @@ __metadata:
   dependencies:
     "@contentlayer/utils": "workspace:*"
     "@types/source-map-support": ^0.5.3
-    esbuild: ^0.12.14
+    esbuild: 0.11.x || 0.12.x
     gray-matter: ^4.0.3
     markdown-wasm: ^1.1.2
     mdx-bundler: ^4.1.1

@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/core",
-  "version": "0.0.9",
+  "version": "0.0.11",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@contentlayer/utils": "workspace:*",
-    "esbuild": "^0.12.14",
+    "esbuild": "0.11.x || 0.12.x",
     "gray-matter": "^4.0.3",
     "markdown-wasm": "^1.1.2",
     "mdx-bundler": "^4.1.1",

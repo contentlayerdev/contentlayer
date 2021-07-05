@@ -1,4 +1,5 @@
 import type * as Core from '@contentlayer/core'
+import { hashObject } from '@contentlayer/core'
 import { casesHandled, partition, traceAsyncFn } from '@contentlayer/utils'
 
 import type * as SchemaOverrides from './schemaOverrides'
@@ -30,12 +31,14 @@ export const provideSchema = (async ({
   const objectDefs = objectContentTypes.map((contentType) => toObjectDef({ contentType, schemaOverrides }))
   const objectDefMap = objectDefs.reduce((acc, documentDef) => ({ ...acc, [documentDef.name]: documentDef }), {})
 
-  const schema = { documentDefMap, objectDefMap }
+  const defs = { documentDefMap, objectDefMap }
+  const hash = hashObject(defs)
 
   if (process.env['CL_DEBUG']) {
-    ;(await import('fs')).writeFileSync('.tmp.schema.json', JSON.stringify(schema, null, 2))
+    ;(await import('fs')).writeFileSync('.tmp.schema.json', JSON.stringify(defs, null, 2))
   }
-  return schema
+
+  return { ...defs, hash }
 })['|>'](traceAsyncFn('@contentlayer/source-contentlayer/provideSchema:provideSchema'))
 
 const isDocument = ({

@@ -5,6 +5,7 @@ import { markdownToHtml } from '@contentlayer/core'
 import {
   casesHandled,
   isNotUndefined,
+  omit,
   promiseMap,
   promiseMapPool,
   promiseMapToDict,
@@ -27,12 +28,14 @@ export const fetchAllDocuments = (async ({
   contentDirPath,
   flags,
   options,
+  previousCache,
 }: {
   schemaDef: Core.SchemaDef
   filePathPatternMap: FilePathPatternMap
   contentDirPath: string
   flags: Flags
   options?: Options
+  previousCache: Cache | undefined
 }): Promise<Cache> => {
   const documentDefNameWithRelativeFilePathArray = await getDocumentDefNameWithRelativeFilePathArray({
     contentDirPath,
@@ -44,21 +47,22 @@ export const fetchAllDocuments = (async ({
   const documents = await promiseMapPool(
     documentDefNameWithRelativeFilePathArray,
     ({ documentDefName, relativeFilePath }) =>
-      makeDocumentFromFilePath({
+      makeCacheItemFromFilePath({
         relativeFilePath,
         schemaDef,
         documentDefName,
         contentDirPath,
         flags,
         options,
+        previousCache,
       }),
     concurrencyLimit,
   ).then((_) => _.filter(isNotUndefined))
 
-  const documentMap = Object.fromEntries(documents.map((doc) => [doc._id, doc]))
+  const cacheItemsMap = Object.fromEntries(documents.map((_) => [_.document._id, _]))
 
-  return { documentMap }
-})['|>'](traceAsyncFn('@contentlayer/source-local/fetchData:fetchAllDocuments'))
+  return { cacheItemsMap }
+})['|>'](traceAsyncFn('@contentlayer/source-local/fetchData:fetchAllDocuments', (_) => omit(_, ['previousCache'])))
 
 type Content = ContentMarkdown | ContentMDX | ContentJSON | ContentYAML
 type ContentMarkdown = {
@@ -100,13 +104,14 @@ export const getDocumentDefNameWithRelativeFilePathArray = async ({
   return documentDefNameWithRelativeFilePathArray
 }
 
-export const makeDocumentFromFilePath = (async ({
+export const makeCacheItemFromFilePath = (async ({
   relativeFilePath,
   schemaDef,
   documentDefName,
   contentDirPath,
   flags,
   options,
+  previousCache,
 }: {
   relativeFilePath: string
   schemaDef: Core.SchemaDef
@@ -114,8 +119,20 @@ export const makeDocumentFromFilePath = (async ({
   contentDirPath: string
   flags: Flags
   options?: Options
-}): Promise<Core.Document | undefined> => {
+  previousCache: Cache | undefined
+}): Promise<Core.CacheItem | undefined> => {
   const fullFilePath = path.join(contentDirPath, relativeFilePath)
+
+  const documentHash = (await fs.stat(fullFilePath)).mtime.getTime().toString()
+
+  // return previous cache item if it exists
+  if (
+    previousCache &&
+    previousCache.cacheItemsMap[relativeFilePath] &&
+    previousCache.cacheItemsMap[relativeFilePath].documentHash === documentHash
+  ) {
+    return previousCache.cacheItemsMap[relativeFilePath]
+  }
 
   const fileContent = await fs.readFile(fullFilePath, 'utf-8')
   const filePathExtension = relativeFilePath.toLowerCase().split('.').pop()
@@ -150,17 +167,19 @@ export const makeDocumentFromFilePath = (async ({
 
   const documentDef = schemaDef.documentDefMap[documentDefName]
 
-  const doc = await makeDocument({ documentDef, rawContent: content, schemaDef, relativeFilePath, options })
+  const document = await makeDocument({ documentDef, rawContent: content, schemaDef, relativeFilePath, options })
 
-  const computedValues = await getComputedValues({ documentDef, doc })
+  const computedValues = await getComputedValues({ documentDef, doc: document })
   if (computedValues) {
     Object.entries(computedValues).forEach(([fieldName, value]) => {
-      doc[fieldName] = value
+      document[fieldName] = value
     })
   }
 
-  return doc
-})['|>'](traceAsyncFn('@contentlayer/source-local/fetchData:makeDocumentFromFilePath'))
+  return { document, documentHash }
+})['|>'](
+  traceAsyncFn('@contentlayer/source-local/fetchData:makeDocumentFromFilePath', (_) => omit(_, ['previousCache'])),
+)
 
 function checkSchema({
   schemaDef,

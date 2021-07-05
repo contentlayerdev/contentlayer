@@ -22,6 +22,8 @@ export type ObjectDefMap = Record<string, ObjectDef>
 export type SchemaDef = {
   documentDefMap: DocumentDefMap
   objectDefMap: ObjectDefMap
+  /** Hash of the schema def which can be used e.g. for caching purposes. */
+  hash: string
 }
 
 export type DocumentDef = {

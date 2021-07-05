@@ -1,5 +1,6 @@
 const getSanitySchema = require('@sanity/core/lib/actions/graphql/getSanitySchema')
 import type * as Core from '@contentlayer/core'
+import { hashObject } from '@contentlayer/core'
 import { pick } from '@contentlayer/utils'
 import type Schema from '@sanity/schema'
 
@@ -29,7 +30,10 @@ export const provideSchema = async (studioDirPath: string): Promise<Core.SchemaD
     .map(sanitizeDef)
     .reduce((acc, _) => ({ ...acc, [_.name]: _ }), {})
 
-  return { documentDefMap, objectDefMap }
+  const defs = { documentDefMap, objectDefMap }
+  const hash = hashObject(defs)
+
+  return { ...defs, hash }
 }
 
 /**

@@ -1,4 +1,5 @@
 import type * as Core from '@contentlayer/core'
+import { hashObject } from '@contentlayer/core'
 import { pick, traceFn, uppercaseFirstChar } from '@contentlayer/utils'
 
 import type { DocumentDef, FieldDef, ListFieldItem, ObjectDef, SchemaDef } from './schema'
@@ -72,7 +73,10 @@ export const makeCoreSchema = traceFn('@contentlayer/source-local:makeCoreSchema
       coreObjectDefMap[coreObjectDef.name] = coreObjectDef
     }
 
-    return { documentDefMap: coreDocumentDefMap, objectDefMap: coreObjectDefMap }
+    const defs = { documentDefMap: coreDocumentDefMap, objectDefMap: coreObjectDefMap }
+    const hash = hashObject(defs)
+
+    return { ...defs, hash }
   },
 )
 

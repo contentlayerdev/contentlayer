@@ -1,4 +1,4 @@
-import { traceAsyncFn } from '@contentlayer/utils'
+import { pick, traceAsyncFn } from '@contentlayer/utils'
 import type { BuildResult } from 'esbuild'
 import { build as esbuild } from 'esbuild'
 import { promises as fs } from 'fs'
@@ -162,4 +162,6 @@ const getConfigFromResult = (async ({
     console.error(error)
     throw error
   }
-})['|>'](traceAsyncFn('@contentlayer/core/getConfig:getConfigFromResult'))
+})['|>'](
+  traceAsyncFn('@contentlayer/core/getConfig:getConfigFromResult', (_) => pick(_, ['configPath', 'outfilePath'])),
+)

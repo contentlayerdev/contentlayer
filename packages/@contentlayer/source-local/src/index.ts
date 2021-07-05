@@ -1,11 +1,14 @@
-import type { Cache, Options, SourcePlugin } from '@contentlayer/core'
+import type { Cache, Options, SchemaDef, SourcePlugin } from '@contentlayer/core'
+import { getArtifactsDir } from '@contentlayer/core'
 import { casesHandled } from '@contentlayer/utils'
 import * as chokidar from 'chokidar'
+import { promises as fs } from 'fs'
+import * as path from 'path'
 import type { Observable } from 'rxjs'
 import { defer, fromEvent, of } from 'rxjs'
 import { map, mergeMap, startWith, tap } from 'rxjs/operators'
 
-import { fetchAllDocuments, getDocumentDefNameWithRelativeFilePathArray, makeDocumentFromFilePath } from './fetchData'
+import { fetchAllDocuments, getDocumentDefNameWithRelativeFilePathArray, makeCacheItemFromFilePath } from './fetchData'
 import { makeCoreSchema } from './provideSchema'
 import type { DocumentDef, Thunk } from './schema'
 import type { FilePathPatternMap } from './types'
@@ -31,16 +34,16 @@ export type Flags = {
   onMissingOrIncompatibleData: 'skip' | 'fail' | 'skip-ignore'
 }
 
-type MakeSourcePlugin = (_: Args | (() => Args) | (() => Promise<Args>)) => Promise<SourcePlugin>
+type MakeSourcePlugin = (_: Args | Thunk<Args> | Thunk<Promise<Args>>) => Promise<SourcePlugin>
 
-export const fromLocalContent: MakeSourcePlugin = async (_args) => {
+export const fromLocalContent: MakeSourcePlugin = async (argsOrArgsThunk) => {
   const {
     contentDirPath,
     schema: documentDefs_,
     onMissingOrIncompatibleData = 'skip',
     onExtraData = 'warn',
     ...options
-  } = typeof _args === 'function' ? await _args() : _args
+  } = typeof argsOrArgsThunk === 'function' ? await argsOrArgsThunk() : argsOrArgsThunk
   const documentDefs = (Array.isArray(documentDefs_) ? documentDefs_ : Object.values(documentDefs_)).map((_) => _())
 
   return {
@@ -81,59 +84,110 @@ export const fromLocalContent: MakeSourcePlugin = async (_args) => {
           )
         : of(initEvent)
 
-      return updates$
-        .pipe(
-          mergeMap((event) => {
-            switch (event._tag) {
-              case 'init':
-                return fetchAllDocuments({ schemaDef, filePathPatternMap, contentDirPath, flags, options })
-              case 'deleted': {
-                delete cache!.documentMap[event.relativeFilePath]
-                return of(cache!)
+      return (
+        updates$
+          .pipe(
+            // init cache from persisted cache
+            mergeMap(async (event) => {
+              if (!cache) {
+                cache = await loadPreviousCacheFromDisk({ schemaHash: schemaDef.hash })
+                if (cache) {
+                  console.log('found previous cache')
+                }
               }
-              case 'update': {
-                return defer(async () => {
-                  const documentDefNameWithFilePathArray = await getDocumentDefNameWithRelativeFilePathArray({
+              return event
+            }),
+            mergeMap(async (event) => {
+              switch (event._tag) {
+                case 'init':
+                  return fetchAllDocuments({
+                    schemaDef,
+                    filePathPatternMap,
+                    contentDirPath,
+                    flags,
+                    options,
+                    previousCache: cache,
+                  })
+                case 'deleted': {
+                  delete cache!.cacheItemsMap[event.relativeFilePath]
+                  return cache!
+                }
+                case 'update': {
+                  return updateCacheEntry({
                     contentDirPath,
                     filePathPatternMap,
-                  })
-                  const documentDefName = documentDefNameWithFilePathArray.find(
-                    (_) => _.relativeFilePath === event.relativeFilePath,
-                  )?.documentDefName
-
-                  if (!documentDefName) {
-                    console.log(`No matching document def found for ${event.relativeFilePath}`)
-                    return cache!
-                  }
-
-                  const document = await makeDocumentFromFilePath({
-                    contentDirPath,
-                    documentDefName,
-                    relativeFilePath: event.relativeFilePath,
+                    cache: cache!,
+                    event,
                     flags,
                     schemaDef,
                     options,
                   })
-
-                  if (document) {
-                    cache!.documentMap[event.relativeFilePath] = document
-                  }
-
-                  return cache!
-                })
+                }
+                default:
+                  casesHandled(event)
               }
-              default:
-                casesHandled(event)
-            }
-          }),
-        )
-        .pipe(
-          tap((cache_) => {
-            cache = cache_
-          }),
-        )
+            }),
+          )
+          // update local and persisted cache
+          .pipe(
+            tap(async (cache_) => {
+              cache = cache_
+              await writeCacheToDisk({ cache, schemaHash: schemaDef.hash })
+            }),
+          )
+      )
     },
   }
+}
+
+const updateCacheEntry = async ({
+  contentDirPath,
+  filePathPatternMap,
+  cache,
+  event,
+  flags,
+  schemaDef,
+  options,
+}: {
+  contentDirPath: string
+  filePathPatternMap: FilePathPatternMap
+  cache: Cache
+  event: CustomUpdateEventFileUpdated
+  flags: Flags
+  schemaDef: SchemaDef
+  options: Options
+}): Promise<Cache> => {
+  // TODO re-implement with better glob identity matching
+  const documentDefNameWithFilePathArray = await getDocumentDefNameWithRelativeFilePathArray({
+    contentDirPath,
+    filePathPatternMap,
+  })
+  const documentDefName = documentDefNameWithFilePathArray.find(
+    (_) => _.relativeFilePath === event.relativeFilePath,
+  )?.documentDefName
+
+  if (!documentDefName) {
+    console.log(
+      `Tried to update cache. No matching document def found called ${documentDefName} for file ${event.relativeFilePath}`,
+    )
+    return cache
+  }
+
+  const cacheItem = await makeCacheItemFromFilePath({
+    contentDirPath,
+    documentDefName,
+    relativeFilePath: event.relativeFilePath,
+    flags,
+    schemaDef,
+    options,
+    previousCache: cache,
+  })
+
+  if (cacheItem) {
+    cache!.cacheItemsMap[event.relativeFilePath] = cacheItem
+  }
+
+  return cache
 }
 
 const chokidarAllEventToCustomUpdateEvent = ([eventName, relativeFilePath]: ChokidarAllEvent): CustomUpdateEvent => {
@@ -149,6 +203,24 @@ const chokidarAllEventToCustomUpdateEvent = ([eventName, relativeFilePath]: Chok
     default:
       casesHandled(eventName)
   }
+}
+
+const loadPreviousCacheFromDisk = async ({ schemaHash }: { schemaHash: string }): Promise<Cache | undefined> => {
+  const filePath = path.join(getArtifactsDir(), 'cache', `${schemaHash}.json`)
+  try {
+    const file = await fs.readFile(filePath, 'utf8')
+    return JSON.parse(file)
+  } catch (e) {
+    return undefined
+  }
+}
+
+const writeCacheToDisk = async ({ cache, schemaHash }: { cache: Cache; schemaHash: string }): Promise<void> => {
+  const cacheDirPath = path.join(getArtifactsDir(), 'cache')
+  const filePath = path.join(cacheDirPath, `${schemaHash}.json`)
+
+  await fs.mkdir(cacheDirPath, { recursive: true })
+  await fs.writeFile(filePath, JSON.stringify(cache), 'utf8')
 }
 
 type ChokidarAllEvent = [eventName: 'add' | 'addDir' | 'change' | 'unlink' | 'unlinkDir', path: string, stats?: any]

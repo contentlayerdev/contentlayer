@@ -23,7 +23,7 @@ export const generateDotpkg = ({
   return combineLatest({
     cache: source.fetchData({ watch: watchData }),
     schemaDef: defer(async () => source.provideSchema()),
-    targetPath: defer(async () => makeArtifactsDir()),
+    targetPath: defer(makeArtifactsDir),
     sourcePluginType: of(source.type),
   }).pipe(switchMap(writeFilesForCache))
 }
@@ -41,13 +41,13 @@ const writeFilesForCache = (async ({
 }): Promise<void> => {
   const withPrefix = (...path_: string[]) => path.join(targetPath, ...path_)
 
-  const documents = Object.values(cache.documentMap)
+  const allDocuments = Object.values(cache.cacheItemsMap).map((_) => _.document)
 
-  const dataFiles = Object.values(schemaDef.documentDefMap).map((docDef) => ({
+  const dataFilesByDocumentType = Object.values(schemaDef.documentDefMap).map((docDef) => ({
     name: getDataVariableName({ docDef }),
     content: makeDocumentDataFile({
       docDef,
-      data: documents.filter((_) => _._typeName === docDef.name),
+      data: allDocuments.filter((_) => _._typeName === docDef.name),
     }),
   }))
 
@@ -62,7 +62,9 @@ const writeFilesForCache = (async ({
     generateFile({ filePath: withPrefix('types', 'index.js'), content: makeHelperTypes() }),
     generateFile({ filePath: withPrefix('data', 'index.d.ts'), content: makeDataTypes({ schemaDef }) }),
     generateFile({ filePath: withPrefix('data', 'index.js'), content: makeIndexJs({ schemaDef }) }),
-    ...dataFiles.map(({ name, content }) => generateFile({ filePath: withPrefix('data', `${name}.js`), content })),
+    ...dataFilesByDocumentType.map(({ name, content }) =>
+      generateFile({ filePath: withPrefix('data', `${name}.js`), content }),
+    ),
   ])
 })['|>'](traceAsyncFn('@contentlayer/core/commands/generate-dotpkg:writeFilesForCache', (_) => omit(_, ['cache'])))
 

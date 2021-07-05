@@ -1,6 +1,6 @@
 {
   "name": "next-contentlayer",
-  "version": "0.0.9",
+  "version": "0.0.11",
   "main": "./dist/cjs/index.js",
   "exports": {
     ".": {
@@ -32,7 +32,7 @@
     "rxjs": "^7.1.0"
   },
   "peerDependencies": {
-    "next": "^10"
+    "next": "^11"
   },
   "devDependencies": {
     "next": "^11.0.1",

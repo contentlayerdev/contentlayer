@@ -40,9 +40,9 @@ export const fetchData = async ({
       }),
     )
 
-  const documentMap = Object.fromEntries(documents.map((doc) => [doc._id, doc]))
+  const cacheItemsMap = Object.fromEntries(documents.map((_) => [_.document._id, _]))
 
-  return { documentMap }
+  return { cacheItemsMap }
   // }
 
   // return { documents: previousCache.documents, lastUpdateInMs: previousCache.lastUpdateInMs }

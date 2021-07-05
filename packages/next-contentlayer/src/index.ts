@@ -32,11 +32,12 @@ export const withContentlayer =
     }
 
     return {
-      webpack5: true as any,
       ...nextConfig,
       webpack(config: any, options: any) {
         config.watchOptions = {
-          ignored: /node_modules([\\]+|\/)+(?!\.contentlayer)/,
+          ...config.watchOptions,
+          // ignored: [/node_modules([\\]+|\/)+(?!\.contentlayer)/],
+          ignored: ['**/node_modules/!(.contentlayer)/**/*'],
         }
 
         if (typeof nextConfig.webpack === 'function') {

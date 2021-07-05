@@ -43,9 +43,9 @@ export const fetchAllDocuments = (async ({
     ),
   )
 
-  const documentMap = Object.fromEntries(documents.map((doc) => [doc._id, doc]))
+  const cacheItemsMap = Object.fromEntries(documents.map((_) => [_.document._id, _]))
 
-  return { documentMap }
+  return { cacheItemsMap }
 })['|>'](traceAsyncFn('@contentlayer/source-contentlayer/fetchData:fetchAllDocuments'))
 
 const getAllEntries = async (environment: Contentful.Environment): Promise<Contentful.Entry[]> => {
