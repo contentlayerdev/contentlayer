@@ -1,5 +1,6 @@
-import { logPerformance } from '@contentlayer/utils/node'
+import { getArtifactsDir } from '@contentlayer/core'
 import { Command, Option } from 'clipanion'
+import { promises as fs } from 'fs'
 import * as t from 'typanion'
 
 export abstract class BaseCommand extends Command {
@@ -8,10 +9,17 @@ export abstract class BaseCommand extends Command {
     validator: t.isString(),
   })
 
-  async execute() {
-    logPerformance()
+  clearCache = Option.Boolean('--clearCache', false, {
+    description: 'Whether to clear the cache before running the command',
+  })
 
+  async execute() {
     try {
+      if (this.clearCache) {
+        await fs.rm(getArtifactsDir(), { recursive: true })
+        console.log('Cache cleared successfully')
+      }
+
       await this.executeSafe()
     } catch (e) {
       console.error(e)

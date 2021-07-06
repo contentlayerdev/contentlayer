@@ -9,7 +9,6 @@
     { "path": "../@contentlayer/client" },
     { "path": "../@contentlayer/core" },
     { "path": "../@contentlayer/cli" },
-    { "path": "../@contentlayer/react" },
     { "path": "../@contentlayer/source-local" }
   ]
 }

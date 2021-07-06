@@ -1,11 +1,12 @@
 import { inflection, lowercaseFirstChar, omit, pattern, traceAsyncFn, uppercaseFirstChar } from '@contentlayer/utils'
+import { camelCase } from 'camel-case'
 import { promises as fs } from 'fs'
 import * as path from 'path'
 import type { Observable } from 'rxjs'
 import { of } from 'rxjs'
 import { combineLatest, defer } from 'rxjs'
 import { switchMap } from 'rxjs/operators'
-import type { JsonArray, PackageJson } from 'type-fest'
+import type { PackageJson } from 'type-fest'
 
 import type { Cache } from '..'
 import type { SourcePlugin, SourcePluginType } from '../plugin'
@@ -13,6 +14,15 @@ import type { DocumentDef, SchemaDef } from '../schema'
 import { makeArtifactsDir } from '../utils'
 import { renderDocumentOrObjectDef } from './generate-types'
 
+/**
+ * Used to track which files already have been written.
+ * Gets re-initialized per `generateDotpkg` invocation therefore only "works" during dev mode.
+ */
+type FilePath = string
+type DocumentHash = string
+type WrittenFilesCache = Record<FilePath, DocumentHash>
+
+// TODO remove unused old generated files
 export const generateDotpkg = ({
   source,
   watchData,
@@ -25,6 +35,7 @@ export const generateDotpkg = ({
     schemaDef: defer(async () => source.provideSchema()),
     targetPath: defer(makeArtifactsDir),
     sourcePluginType: of(source.type),
+    writtenFilesCache: of({}),
   }).pipe(switchMap(writeFilesForCache))
 }
 
@@ -33,38 +44,51 @@ const writeFilesForCache = (async ({
   schemaDef,
   targetPath,
   sourcePluginType,
+  writtenFilesCache,
 }: {
   schemaDef: SchemaDef
   cache: Cache
   targetPath: string
   sourcePluginType: SourcePluginType
+  writtenFilesCache: WrittenFilesCache
 }): Promise<void> => {
   const withPrefix = (...path_: string[]) => path.join(targetPath, ...path_)
 
-  const allDocuments = Object.values(cache.cacheItemsMap).map((_) => _.document)
+  const allCacheItems = Object.values(cache.cacheItemsMap)
+  const allDocuments = allCacheItems.map((_) => _.document)
 
-  const dataFilesByDocumentType = Object.values(schemaDef.documentDefMap).map((docDef) => ({
-    name: getDataVariableName({ docDef }),
-    content: makeDocumentDataFile({
+  const documentDefs = Object.values(schemaDef.documentDefMap)
+
+  const dataBarrelFiles = documentDefs.map((docDef) => ({
+    content: makeDataExportFile({
       docDef,
-      data: allDocuments.filter((_) => _._typeName === docDef.name),
+      documentIds: allDocuments.filter((_) => _._typeName === docDef.name).map((_) => _._id),
     }),
+    filePath: withPrefix('data', `${getDataVariableName({ docDef })}.js`),
   }))
 
-  await Promise.all([mkdir(withPrefix('types')), mkdir(withPrefix('data'))])
+  const dataJsonFiles = allCacheItems.map(({ document, documentHash }) => ({
+    content: JSON.stringify(document, null, 2),
+    filePath: withPrefix('data', document._typeName, `${idToFileName(document._id)}.json`),
+    documentHash,
+  }))
+
+  const dataDirPaths = documentDefs.map((_) => withPrefix('data', _.name))
+  await Promise.all([mkdir(withPrefix('types')), ...dataDirPaths.map(mkdir)])
+
+  const writeFile = writeFileWithWrittenFilesCache({ writtenFilesCache })
 
   await Promise.all([
-    generateFile({ filePath: withPrefix('package.json'), content: makePackageJson() }),
-    generateFile({
+    writeFile({ filePath: withPrefix('package.json'), content: makePackageJson() }),
+    writeFile({
       filePath: withPrefix('types', 'index.d.ts'),
       content: makeTypes({ schemaDef, sourcePluginType }),
     }),
-    generateFile({ filePath: withPrefix('types', 'index.js'), content: makeHelperTypes() }),
-    generateFile({ filePath: withPrefix('data', 'index.d.ts'), content: makeDataTypes({ schemaDef }) }),
-    generateFile({ filePath: withPrefix('data', 'index.js'), content: makeIndexJs({ schemaDef }) }),
-    ...dataFilesByDocumentType.map(({ name, content }) =>
-      generateFile({ filePath: withPrefix('data', `${name}.js`), content }),
-    ),
+    writeFile({ filePath: withPrefix('types', 'index.js'), content: makeHelperTypes() }),
+    writeFile({ filePath: withPrefix('data', 'index.d.ts'), content: makeDataTypes({ schemaDef }) }),
+    writeFile({ filePath: withPrefix('data', 'index.js'), content: makeIndexJs({ schemaDef }) }),
+    ...dataBarrelFiles.map(writeFile),
+    ...dataJsonFiles.map(writeFile),
   ])
 })['|>'](traceAsyncFn('@contentlayer/core/commands/generate-dotpkg:writeFilesForCache', (_) => omit(_, ['cache'])))
 
@@ -94,7 +118,7 @@ const makePackageJson = (): string => {
 
 const mkdir = async (dirPath: string) => {
   try {
-    await fs.mkdir(dirPath)
+    await fs.mkdir(dirPath, { recursive: true })
   } catch (e) {
     if (e.code !== 'EEXIST') {
       throw e
@@ -102,17 +126,53 @@ const mkdir = async (dirPath: string) => {
   }
 }
 
-const generateFile = async ({ filePath, content }: { filePath: string; content: string }): Promise<void> => {
-  await fs.writeFile(filePath, content, 'utf8')
-}
+/**
+ * Remembers which files already have been written to disk.
+ * If no `documentHash` was provided, the writes won't be cached. */
+const writeFileWithWrittenFilesCache =
+  ({ writtenFilesCache }: { writtenFilesCache: WrittenFilesCache }) =>
+  async ({
+    filePath,
+    content,
+    documentHash,
+  }: {
+    filePath: string
+    content: string
+    documentHash?: string
+  }): Promise<void> => {
+    if (documentHash !== undefined && writtenFilesCache[filePath] === documentHash) {
+      return
+    }
 
-const makeDocumentDataFile = ({ docDef, data }: { docDef: DocumentDef; data: JsonArray }): string => {
+    await fs.writeFile(filePath, content, 'utf8')
+    if (documentHash) {
+      writtenFilesCache[filePath] = documentHash
+    }
+  }
+
+const makeDataExportFile = ({ docDef, documentIds }: { docDef: DocumentDef; documentIds: string[] }): string => {
   const dataVariableName = getDataVariableName({ docDef })
-  const data_ = docDef.isSingleton ? data[0] : data
+
+  if (docDef.isSingleton) {
+    const documentId = documentIds[0]
+    return `\
+// ${autogeneratedNote}
+export { default as ${dataVariableName} } from './${docDef.name}/${idToFileName(documentId)}.json'
+`
+  }
+
+  const makeVariableName = (id: string) => camelCase(idToFileName(id), { stripRegexp: /[^A-Z0-9\_]/gi })
+
+  const docImports = documentIds
+    .map((_) => `import ${makeVariableName(_)} from './${docDef.name}/${idToFileName(_)}.json'`)
+    .join('\n')
+
   return `\
 // ${autogeneratedNote}
 
-export const ${dataVariableName} = ${JSON.stringify(data_, null, 2)}
+${docImports}
+
+export const ${dataVariableName} = [${documentIds.map((_) => makeVariableName(_)).join(', ')}]
 `
 }
 
@@ -265,4 +325,8 @@ const getDataVariableName = ({ docDef }: { docDef: DocumentDef }): string => {
   } else {
     return 'all' + uppercaseFirstChar(inflection.pluralize(docDef.name))
   }
+}
+
+const idToFileName = (id: string): string => {
+  return id.replace(/\//g, '__')
 }

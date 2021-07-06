@@ -91,9 +91,6 @@ export const fromLocalContent: MakeSourcePlugin = async (argsOrArgsThunk) => {
             mergeMap(async (event) => {
               if (!cache) {
                 cache = await loadPreviousCacheFromDisk({ schemaHash: schemaDef.hash })
-                if (cache) {
-                  console.log('found previous cache')
-                }
               }
               return event
             }),

@@ -1,5 +1,5 @@
 import { generateDotpkg, getConfig } from '@contentlayer/core'
-import { traceAsync, traceAsyncFn } from '@contentlayer/utils'
+import { traceAsyncFn } from '@contentlayer/utils'
 import { firstValueFrom } from 'rxjs'
 
 import { BaseCommand } from './_BaseCommand'
@@ -9,6 +9,6 @@ export class BuildCommand extends BaseCommand {
 
   executeSafe = (async () => {
     const source = await getConfig({ configPath: this.configPath, cwd: process.cwd() })
-    await traceAsync('', () => firstValueFrom(generateDotpkg({ source, watchData: false })))
+    await firstValueFrom(generateDotpkg({ source, watchData: false }))
   })['|>'](traceAsyncFn('@contentlayer/cli/commands/BuildCommand:executeSafe'))
 }
