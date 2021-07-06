@@ -300,7 +300,7 @@ const getFlattenedPath = (relativeFilePath: string): string => {
       .slice(0, -1)
       .join('.')
       // remove tailing `/index`
-      .replace(/\index$/, '')
+      .replace(/\/index$/, '')
   )
 }
 
