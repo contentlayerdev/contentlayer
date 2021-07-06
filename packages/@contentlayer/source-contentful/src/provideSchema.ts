@@ -39,7 +39,7 @@ export const provideSchema = (async ({
   }
 
   return { ...defs, hash }
-})['|>'](traceAsyncFn('@contentlayer/source-contentlayer/provideSchema:provideSchema'))
+})['|>'](traceAsyncFn('@contentlayer/source-contentlayer/provideSchema:provideSchema', ['schemaOverrides']))
 
 const isDocument = ({
   contentTypeId,

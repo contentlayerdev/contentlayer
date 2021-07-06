@@ -14,14 +14,18 @@ export const traceAsync = <Res>(spanName: string, fn: () => Promise<Res>): Promi
   })
 }
 
-const identityAllArgs = <T extends any[]>(..._: T): T => _
+/**
+ * For convenience (instead of providing a mapping function)
+ * an array of object keys for the first argument can be provided
+ */
+type ArgKeysOrArgsMapper<T extends any[]> = (keyof T[0])[] | ((...args: T) => any)
 
 export const traceAsyncFn =
-  <T extends any[]>(spanName: string, mapSpanArgs: (...args: T) => any = identityAllArgs) =>
+  <T extends any[]>(spanName: string, argsMapper: ArgKeysOrArgsMapper<T> = []) =>
   <U>(fn: (...args: T) => Promise<U>) => {
     return (...args: T): Promise<U> => {
       return tracer.startActiveSpan(spanName, (span) => {
-        addArgsToSpan(span, mapSpanArgs(...args))
+        addArgsToSpan(span, argsMapper, args)
 
         return fn(...args)
           .catch((e) => {
@@ -36,11 +40,11 @@ export const traceAsyncFn =
   }
 
 export const traceFn =
-  <T extends any[]>(spanName: string, mapSpanArgs: (...args: T) => any = identityAllArgs) =>
+  <T extends any[]>(spanName: string, argsMapper: ArgKeysOrArgsMapper<T> = []) =>
   <U>(fn: (...args: T) => U) => {
     return (...args: T): U => {
       return tracer.startActiveSpan(spanName, (span) => {
-        addArgsToSpan(span, mapSpanArgs(...args))
+        addArgsToSpan(span, argsMapper, args)
 
         try {
           return fn(...args)
@@ -72,14 +76,18 @@ export const makeSpanTuple = (spanName: string): SpanTuple => {
   return { start, end }
 }
 
-const addArgsToSpan = (span: Span, args: any | any[]): void => {
+const addArgsToSpan = (span: Span, argsMapper: ArgKeysOrArgsMapper<any>, args: any[]): void => {
+  const args_ = Array.isArray(argsMapper)
+    ? Object.fromEntries(argsMapper.map((key) => [key, args[0][key]]))
+    : argsMapper(...args)
+
   try {
-    if (Array.isArray(args)) {
-      for (const [key, arg] of args.entries()) {
+    if (Array.isArray(args_)) {
+      for (const [key, arg] of args_.entries()) {
         span.setAttribute(`args.${key}`, JSON.stringify(arg, null, 2))
       }
     } else {
-      span.setAttribute(`args`, JSON.stringify(args, null, 2))
+      span.setAttribute(`args`, JSON.stringify(args_, null, 2))
     }
   } catch (_) {}
 }

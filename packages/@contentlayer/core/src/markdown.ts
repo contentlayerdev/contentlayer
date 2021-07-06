@@ -41,4 +41,4 @@ export const markdownToHtml = (async ({
   const res = await builder.process(mdString)
 
   return res.toString()
-})['|>'](traceAsyncFn('@contentlayer/core/markdown:markdownToHtml'))
+})['|>'](traceAsyncFn('@contentlayer/core/markdown:markdownToHtml', ['options']))

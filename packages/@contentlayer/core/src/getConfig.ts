@@ -1,4 +1,4 @@
-import { pick, traceAsyncFn } from '@contentlayer/utils'
+import { traceAsyncFn } from '@contentlayer/utils'
 import type { BuildResult } from 'esbuild'
 import { build as esbuild } from 'esbuild'
 import { promises as fs } from 'fs'
@@ -17,7 +17,7 @@ export const getConfigWatch = ({ configPath, cwd }: { configPath: string; cwd: s
 // TODO rename to getSource
 export const getConfig = (async ({ configPath, cwd }: { configPath: string; cwd: string }): Promise<SourcePlugin> => {
   return firstValueFrom(getConfig_({ configPath, cwd, watch: false }))
-})['|>'](traceAsyncFn('@contentlayer/core/getConfig:getConfig'))
+})['|>'](traceAsyncFn('@contentlayer/core/getConfig:getConfig', ['configPath', 'cwd']))
 
 const getConfig_ = ({
   configPath,
@@ -162,6 +162,4 @@ const getConfigFromResult = (async ({
     console.error(error)
     throw error
   }
-})['|>'](
-  traceAsyncFn('@contentlayer/core/getConfig:getConfigFromResult', (_) => pick(_, ['configPath', 'outfilePath'])),
-)
+})['|>'](traceAsyncFn('@contentlayer/core/getConfig:getConfigFromResult', ['configPath', 'outfilePath']))

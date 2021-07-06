@@ -23,4 +23,4 @@ export const bundleMDX = (async ({
     },
   })
   return res.code
-})['|>'](traceAsyncFn('@contentlayer/core/mdx:bundleMDX'))
+})['|>'](traceAsyncFn('@contentlayer/core/mdx:bundleMDX', ['options']))

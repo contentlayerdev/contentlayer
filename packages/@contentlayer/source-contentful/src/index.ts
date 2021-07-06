@@ -1,7 +1,7 @@
 import type { SourcePlugin } from '@contentlayer/core'
 import { createClient } from 'contentful-management'
 import type { Observable } from 'rxjs'
-import { forkJoin, from, interval, of } from 'rxjs'
+import { from, interval, of } from 'rxjs'
 import { mergeMap, startWith } from 'rxjs/operators'
 
 import { fetchAllDocuments } from './fetchData'
@@ -39,8 +39,11 @@ export const makeSourcePlugin: MakeSourcePlugin = ({
   fetchData: ({ watch }) => {
     const updates$ = watch ? getUpdateEvents().pipe(startWith(0)) : of(0)
     const data$ = from(getEnvironment({ accessToken, spaceId, environmentId })).pipe(
-      mergeMap((environment) => forkJoin([of(environment), provideSchema({ environment, schemaOverrides })])),
-      mergeMap(([environment, schemaDef]) => fetchAllDocuments({ schemaDef, environment, schemaOverrides })),
+      mergeMap(async (environment) => ({
+        environment,
+        schemaDef: await provideSchema({ environment, schemaOverrides }),
+      })),
+      mergeMap(({ environment, schemaDef }) => fetchAllDocuments({ schemaDef, environment, schemaOverrides })),
     )
 
     return updates$.pipe(mergeMap(() => data$))
