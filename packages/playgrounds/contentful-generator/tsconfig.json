@@ -4,6 +4,5 @@
     "rootDir": "./src",
     "outDir": "./dist/types"
   },
-  "include": ["./src"],
-  "references": [{ "path": "../utils" }, { "path": "../core" }]
+  "include": ["./src"]
 }

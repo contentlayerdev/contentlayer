@@ -1,4 +1,12 @@
-import { inflection, lowercaseFirstChar, omit, pattern, traceAsyncFn, uppercaseFirstChar } from '@contentlayer/utils'
+import {
+  flow,
+  inflection,
+  lowercaseFirstChar,
+  omit,
+  pattern,
+  traceAsyncFn,
+  uppercaseFirstChar,
+} from '@contentlayer/utils'
 import { camelCase } from 'camel-case'
 import { promises as fs } from 'fs'
 import * as path from 'path'
@@ -161,7 +169,7 @@ export { default as ${dataVariableName} } from './${docDef.name}/${idToFileName(
 `
   }
 
-  const makeVariableName = (id: string) => camelCase(idToFileName(id), { stripRegexp: /[^A-Z0-9\_]/gi })
+  const makeVariableName = flow(idToFileName, (_) => camelCase(_, { stripRegexp: /[^A-Z0-9\_]/gi }))
 
   const docImports = documentIds
     .map((_) => `import ${makeVariableName(_)} from './${docDef.name}/${idToFileName(_)}.json'`)
@@ -328,5 +336,12 @@ const getDataVariableName = ({ docDef }: { docDef: DocumentDef }): string => {
 }
 
 const idToFileName = (id: string): string => {
-  return id.replace(/\//g, '__')
+  return leftPadWithUnderscoreIfStartsWithNumber(id).replace(/\//g, '__')
+}
+
+const leftPadWithUnderscoreIfStartsWithNumber = (str: string): string => {
+  if (/^[0-9]/.test(str)) {
+    return '_' + str
+  }
+  return str
 }

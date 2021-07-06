@@ -4,6 +4,8 @@ export * from './object'
 export * from './tracing'
 export * from './promise'
 export * from './rxjs'
+export * from './pipe'
+export * from './flow'
 
 import './global'
 

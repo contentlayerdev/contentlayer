@@ -38,7 +38,7 @@ export const fetchAllDocuments = (async ({
       allEntries
         .filter((_) => schemaOverrides.documentTypes[_.sys.contentType.sys.id]?.defName === documentDef.name)
         .map((documentEntry) =>
-          makeDocument({ documentEntry, allEntries, allAssets, documentDef, schemaDef, schemaOverrides }),
+          makeCacheItem({ documentEntry, allEntries, allAssets, documentDef, schemaDef, schemaOverrides }),
         ),
     ),
   )
@@ -76,7 +76,7 @@ const getAllAssets = async (environment: Contentful.Environment): Promise<Conten
   return assets
 }
 
-const makeDocument = async ({
+const makeCacheItem = async ({
   documentEntry,
   allEntries,
   allAssets,
@@ -90,7 +90,7 @@ const makeDocument = async ({
   documentDef: Core.DocumentDef
   schemaDef: Core.SchemaDef
   schemaOverrides: SchemaOverrides.Normalized.SchemaOverrides
-}): Promise<Core.Document> => {
+}): Promise<Core.CacheItem> => {
   const docValues = await promiseMapToDict(
     documentDef.fieldDefs,
     (fieldDef) =>
@@ -106,9 +106,11 @@ const makeDocument = async ({
   )
 
   const raw = { sys: documentEntry.sys, metadata: documentEntry.metadata }
-  const doc: Core.Document = { _typeName: documentDef.name, _id: documentEntry.sys.id, _raw: raw, ...docValues }
+  const document: Core.Document = { _typeName: documentDef.name, _id: documentEntry.sys.id, _raw: raw, ...docValues }
 
-  return doc
+  const documentHash = documentEntry.sys.updatedAt
+
+  return { document, documentHash }
 }
 
 const makeObject = async ({

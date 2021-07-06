@@ -1,0 +1,15 @@
+{
+  "name": "contentful-generator",
+  "private": true,
+  "scripts": {
+    "dev": "ts-node --transpile-only --compiler-options '{\"module\":\"CommonJS\"}' ./src/index.ts"
+  },
+  "devDependencies": {
+    "ts-node": "^10.0.0"
+  },
+  "dependencies": {
+    "contentful-management": "7.22.4",
+    "contentful-migration": "^4.2.3",
+    "lorem-ipsum": "^2.0.3"
+  }
+}
