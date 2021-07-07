@@ -1,4 +1,5 @@
-import type { Cache, Document } from './data'
+import type { Cache } from './cache'
+import type { Document } from './data'
 
 export type GetDocumentTypeMapGen = ContentlayerGen extends { documentTypeMap: infer T } ? T : Record<string, Document>
 export type GetDocumentTypeGen<Name extends string> = Name extends keyof GetDocumentTypeMapGen

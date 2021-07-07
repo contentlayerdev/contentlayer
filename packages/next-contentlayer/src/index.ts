@@ -67,10 +67,7 @@ const runContentlayerDev = ({ onGeneration }: { onGeneration: () => void }) => {
   if (contentlayerInitialized) return
   contentlayerInitialized = true
 
-  getConfigWatch({
-    configPath: './contentlayer.config.ts',
-    cwd: process.cwd(),
-  })
+  getConfigWatch({ cwd: process.cwd() })
     .pipe(
       tapSkipFirst(() => console.log(`Contentlayer config change detected. Updating type definitions and data...`)),
       switchMap((source) => generateDotpkg({ source, watchData: true })),
@@ -83,10 +80,7 @@ const runContentlayerBuild = async () => {
   if (contentlayerInitialized) return
   contentlayerInitialized = true
 
-  const source = await getConfig({
-    configPath: './contentlayer.config.ts',
-    cwd: process.cwd(),
-  })
+  const source = await getConfig({ cwd: process.cwd() })
   await firstValueFrom(generateDotpkg({ source, watchData: false }))
   console.log(`Generated node_modules/.contentlayer`)
 }

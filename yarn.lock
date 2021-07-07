@@ -14659,6 +14659,21 @@ fsevents@^1.2.7:
   languageName: unknown
   linkType: soft
 
+"playground-starter-js@workspace:packages/playgrounds/playground-starter-js":
+  version: 0.0.0-use.local
+  resolution: "playground-starter-js@workspace:packages/playgrounds/playground-starter-js"
+  dependencies:
+    contentlayer: latest
+    contentlayer-stackbit-yaml-generator: latest
+    date-fns: ^2.22.1
+    next: ^11.0.1
+    next-contentlayer: latest
+    react: 17.0.2
+    react-dom: 17.0.2
+    rehype-highlight: ^4.1.0
+  languageName: unknown
+  linkType: soft
+
 "playground-starter@workspace:packages/playgrounds/playground-starter":
   version: 0.0.0-use.local
   resolution: "playground-starter@workspace:packages/playgrounds/playground-starter"

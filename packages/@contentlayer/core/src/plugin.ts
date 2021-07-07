@@ -2,7 +2,7 @@ import type { Observable } from 'rxjs'
 import type { LiteralUnion } from 'type-fest'
 import type { Pluggable } from 'unified'
 
-import type { Cache } from './data'
+import type { Cache } from './cache'
 import type { SchemaDef } from './schema'
 
 export type SourcePluginType = LiteralUnion<'local' | 'contentful' | 'sanity', string>

@@ -1,21 +1,22 @@
-import { traceAsyncFn } from '@contentlayer/utils'
+import { promiseMap, traceAsyncFn } from '@contentlayer/utils'
+import { fileOrDirExists } from '@contentlayer/utils/node'
 import type { BuildResult } from 'esbuild'
 import { build as esbuild } from 'esbuild'
 import { promises as fs } from 'fs'
 import * as path from 'path'
 import pkgUp from 'pkg-up'
-import { firstValueFrom, Observable, of } from 'rxjs'
+import { firstValueFrom, forkJoin, Observable } from 'rxjs'
 import { mergeMap } from 'rxjs/operators'
 
 import type { SourcePlugin } from './plugin'
 
 // TODO rename to getSourceWatch
-export const getConfigWatch = ({ configPath, cwd }: { configPath: string; cwd: string }): Observable<SourcePlugin> => {
+export const getConfigWatch = ({ configPath, cwd }: { configPath?: string; cwd: string }): Observable<SourcePlugin> => {
   return getConfig_({ configPath, cwd, watch: true })
 }
 
 // TODO rename to getSource
-export const getConfig = (async ({ configPath, cwd }: { configPath: string; cwd: string }): Promise<SourcePlugin> => {
+export const getConfig = (async ({ configPath, cwd }: { configPath?: string; cwd: string }): Promise<SourcePlugin> => {
   return firstValueFrom(getConfig_({ configPath, cwd, watch: false }))
 })['|>'](traceAsyncFn('@contentlayer/core/getConfig:getConfig', ['configPath', 'cwd']))
 
@@ -24,15 +25,17 @@ const getConfig_ = ({
   cwd,
   watch,
 }: {
-  configPath: string
+  configPath?: string
   cwd: string
   watch: boolean
 }): Observable<SourcePlugin> => {
-  return of(0).pipe(
-    mergeMap(ensureEsbuildBin),
-    mergeMap(() => makeTmpDirAndResolveEntryPoint({ configPath, cwd })),
-    mergeMap(({ entryPointPath, outfilePath }) =>
-      callEsbuild({ entryPointPath, outfilePath, watch }).pipe(
+  return forkJoin({
+    _esbuild: ensureEsbuildBin(),
+    configPath: resolveConfigPath({ configPath, cwd }),
+  }).pipe(
+    mergeMap(({ configPath }) => makeTmpDirAndResolveEntryPoint({ configPath, cwd })),
+    mergeMap(({ outfilePath, configPath }) =>
+      callEsbuild({ entryPointPath: configPath, outfilePath, watch }).pipe(
         mergeMap((result) => getConfigFromResult({ result, configPath, outfilePath })),
       ),
     ),
@@ -119,6 +122,25 @@ const ensureEsbuildBin = async (): Promise<void> => {
   }
 }
 
+const resolveConfigPath = async ({ configPath, cwd }: { configPath?: string; cwd: string }): Promise<string> => {
+  if (configPath) {
+    if (path.isAbsolute(configPath)) {
+      return configPath
+    }
+
+    return path.join(cwd, configPath)
+  }
+
+  const defaultFilePaths = [path.join(cwd, 'contentlayer.config.ts'), path.join(cwd, 'contentlayer.config.js')]
+  const foundDefaultFiles = await promiseMap(defaultFilePaths, fileOrDirExists)
+  const foundDefaultFile = defaultFilePaths[foundDefaultFiles.findIndex((_) => _)]
+  if (foundDefaultFile) {
+    return foundDefaultFile
+  }
+
+  throw new Error(`Could not find contentlayer.config.ts or contentlayer.config.js in ${cwd}`)
+}
+
 const makeTmpDirAndResolveEntryPoint = async ({ cwd, configPath }: { cwd: string; configPath: string }) => {
   const packageJsonPath = await pkgUp({ cwd })
   const packageDir = path.join(packageJsonPath!, '..')
@@ -126,9 +148,8 @@ const makeTmpDirAndResolveEntryPoint = async ({ cwd, configPath }: { cwd: string
   const tmpDir = path.join(packageDir, 'node_modules', '.tmp', 'contentlayer', 'config')
   await fs.mkdir(tmpDir, { recursive: true })
   const outfilePath = path.join(tmpDir, 'config.js')
-  const entryPointPath = path.join(cwd, configPath)
 
-  return { outfilePath, entryPointPath, tmpDir }
+  return { outfilePath, tmpDir, configPath }
 }
 
 const getConfigFromResult = (async ({
@@ -137,6 +158,7 @@ const getConfigFromResult = (async ({
   outfilePath,
 }: {
   result: BuildResult
+  /** configPath only needed for error message */
   configPath: string
   outfilePath: string
 }): Promise<SourcePlugin> => {

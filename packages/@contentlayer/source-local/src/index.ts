@@ -1,9 +1,7 @@
 import type { Cache, Options, SchemaDef, SourcePlugin } from '@contentlayer/core'
-import { getArtifactsDir } from '@contentlayer/core'
+import { loadPreviousCacheFromDisk, writeCacheToDisk } from '@contentlayer/core'
 import { casesHandled } from '@contentlayer/utils'
 import * as chokidar from 'chokidar'
-import { promises as fs } from 'fs'
-import * as path from 'path'
 import type { Observable } from 'rxjs'
 import { defer, fromEvent, of } from 'rxjs'
 import { map, mergeMap, startWith, tap } from 'rxjs/operators'
@@ -200,24 +198,6 @@ const chokidarAllEventToCustomUpdateEvent = ([eventName, relativeFilePath]: Chok
     default:
       casesHandled(eventName)
   }
-}
-
-const loadPreviousCacheFromDisk = async ({ schemaHash }: { schemaHash: string }): Promise<Cache | undefined> => {
-  const filePath = path.join(getArtifactsDir(), 'cache', `${schemaHash}.json`)
-  try {
-    const file = await fs.readFile(filePath, 'utf8')
-    return JSON.parse(file)
-  } catch (e) {
-    return undefined
-  }
-}
-
-const writeCacheToDisk = async ({ cache, schemaHash }: { cache: Cache; schemaHash: string }): Promise<void> => {
-  const cacheDirPath = path.join(getArtifactsDir(), 'cache')
-  const filePath = path.join(cacheDirPath, `${schemaHash}.json`)
-
-  await fs.mkdir(cacheDirPath, { recursive: true })
-  await fs.writeFile(filePath, JSON.stringify(cache), 'utf8')
 }
 
 type ChokidarAllEvent = [eventName: 'add' | 'addDir' | 'change' | 'unlink' | 'unlinkDir', path: string, stats?: any]
