@@ -1,5 +1,5 @@
 const getSanitySchema = require('@sanity/core/lib/actions/graphql/getSanitySchema')
-import type * as Core from '@contentlayer/core'
+import * as Core from '@contentlayer/core'
 import { hashObject } from '@contentlayer/core'
 import { pick } from '@contentlayer/utils'
 import type Schema from '@sanity/schema'
@@ -33,7 +33,11 @@ export const provideSchema = async (studioDirPath: string): Promise<Core.SchemaD
   const defs = { documentDefMap, objectDefMap }
   const hash = hashObject(defs)
 
-  return { ...defs, hash }
+  const coreSchemaDef = { ...defs, hash }
+
+  Core.validateSchema(coreSchemaDef)
+
+  return coreSchemaDef
 }
 
 /**

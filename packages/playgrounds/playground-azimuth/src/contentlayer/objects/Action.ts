@@ -2,7 +2,7 @@ import { defineObject } from 'contentlayer/source-local'
 
 export const Action = defineObject(() => ({
   name: 'Action',
-  labelField: 'title',
+  labelField: 'label',
   fields: {
     label: {
       type: 'string',

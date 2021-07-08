@@ -410,7 +410,6 @@ const SectionReviews = defineObject(() => ({
 const ReviewItem = defineObject(() => ({
   name: 'ReviewItem',
   label: 'Review Item',
-  labelField: 'title',
   fields: {
     author: {
       type: 'string',

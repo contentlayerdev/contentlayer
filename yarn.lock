@@ -6423,7 +6423,7 @@ __metadata:
     typescript: ^4.3.5
     yaml: ^1.10.2
   bin:
-    contentlayer-stackbit-yaml-generator: ./dist/index.js
+    contentlayer-stackbit-yaml-generator: ./dist/cli/index.js
   languageName: unknown
   linkType: soft
 

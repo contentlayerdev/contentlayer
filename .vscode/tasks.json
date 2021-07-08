@@ -86,6 +86,20 @@
         "showReuseMessage": true,
         "clear": true
       }
+    },
+    {
+      "label": "build:contentlayer-stackbit-yaml-generator",
+      "type": "shell",
+      "command": "yarn build",
+      "options": { "cwd": "${workspaceFolder}/packages/contentlayer-stackbit-yaml-generator" },
+      "presentation": {
+        "focus": false,
+        "panel": "dedicated",
+        "group": "build",
+        "reveal": "silent",
+        "showReuseMessage": true,
+        "clear": true
+      }
     }
   ]
 }

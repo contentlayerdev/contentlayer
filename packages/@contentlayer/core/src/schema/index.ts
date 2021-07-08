@@ -1,6 +1,7 @@
 import type { Document } from '../data'
 import type { FieldDef, FieldDefType } from './field'
 export * from './field'
+export * from './validate'
 
 export type Markdown = {
   /** Raw Markdown source */

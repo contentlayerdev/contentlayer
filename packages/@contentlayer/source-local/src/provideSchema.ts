@@ -1,4 +1,4 @@
-import type * as Core from '@contentlayer/core'
+import * as Core from '@contentlayer/core'
 import { hashObject } from '@contentlayer/core'
 import { pick, traceFn, uppercaseFirstChar } from '@contentlayer/utils'
 
@@ -75,7 +75,11 @@ export const makeCoreSchema = ((schemaDef: SchemaDef): Core.SchemaDef => {
   const defs = { documentDefMap: coreDocumentDefMap, objectDefMap: coreObjectDefMap }
   const hash = hashObject(defs)
 
-  return { ...defs, hash }
+  const coreSchemaDef = { ...defs, hash }
+
+  Core.validateSchema(coreSchemaDef)
+
+  return coreSchemaDef
 })['|>'](traceFn('@contentlayer/source-local:makeCoreSchema', ['documentDefs']))
 
 const validateDefName = ({ defName }: { defName: string }): void => {

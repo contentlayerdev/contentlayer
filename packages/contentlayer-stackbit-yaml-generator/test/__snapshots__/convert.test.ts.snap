@@ -2776,6 +2776,14 @@ models:
         hidden: null
         label: Section type
         type: string
+      - name: content
+        required: null
+        const: null
+        default: null
+        description: The content of the section, appears above the form
+        hidden: null
+        label: Content
+        type: markdown
       - name: form_id
         required: true
         const: null
@@ -2966,6 +2974,14 @@ models:
         hidden: null
         label: Image URL
         type: string
+      - name: content
+        required: null
+        const: null
+        default: null
+        description: The text content of the section
+        hidden: null
+        label: Content
+        type: markdown
     type: object
   SectionContent:
     label: Content Section
@@ -2996,6 +3012,14 @@ models:
         hidden: null
         label: Section type
         type: string
+      - name: content
+        required: null
+        const: null
+        default: null
+        description: The text content of the section
+        hidden: null
+        label: Content
+        type: markdown
       - name: image
         required: null
         const: null
@@ -3243,6 +3267,14 @@ models:
         hidden: null
         label: Title
         type: string
+      - name: content
+        required: null
+        const: null
+        default: null
+        description: Feature description
+        hidden: null
+        label: Content
+        type: markdown
       - name: image
         required: null
         const: null
@@ -3301,6 +3333,14 @@ models:
         hidden: null
         label: Section type
         type: string
+      - name: content
+        required: null
+        const: null
+        default: null
+        description: The text content of the section
+        hidden: null
+        label: Content
+        type: markdown
       - name: image
         required: null
         const: null
@@ -3634,6 +3674,14 @@ models:
         hidden: null
         label: Subtitle
         type: string
+      - name: content
+        required: null
+        const: null
+        default: null
+        description: the content of the section, appears above the form
+        hidden: null
+        label: Content
+        type: markdown
       - name: background
         required: null
         const: null

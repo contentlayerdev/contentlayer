@@ -16,6 +16,12 @@ export * from './types'
 
 type Args = {
   schema: Thunk<DocumentDef>[] | Record<string, Thunk<DocumentDef>>
+  /**
+   * Path to the root directory that contains all content. Every content file path will be relative
+   * to this directory. This includes:
+   *  - `filePathPattern` is relative to `contentDirPath`
+   *  - `_raw` fields such as `flattenedPath`, `sourceFilePath`, `sourceFileDir`
+   */
   contentDirPath: string
 } & Options &
   Partial<Flags>

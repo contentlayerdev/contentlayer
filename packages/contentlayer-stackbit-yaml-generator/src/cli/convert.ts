@@ -13,17 +13,17 @@ export const convertSchema = ({ documentDefMap, objectDefMap }: Core.SchemaDef):
   )
 
   const models = [
-    ...pageDocumentDefs.map((def) => documentDefToStackbitYamlModel({ def, type: 'page', urlPathFieldName })),
-    ...dataDocumentDefs.map((def) => documentDefToStackbitYamlModel({ def, type: 'data', urlPathFieldName })),
+    ...pageDocumentDefs.map((def) => documentOrObjectDefToStackbitYamlModel({ def, type: 'page', urlPathFieldName })),
+    ...dataDocumentDefs.map((def) => documentOrObjectDefToStackbitYamlModel({ def, type: 'data', urlPathFieldName })),
     ...Object.values(objectDefMap).map((def) =>
-      documentDefToStackbitYamlModel({ def, type: 'object', urlPathFieldName }),
+      documentOrObjectDefToStackbitYamlModel({ def, type: 'object', urlPathFieldName }),
     ),
   ].reduce((acc, { model, name }) => ({ ...acc, [name]: model }), {} as Stackbit.YamlModels)
 
   return { stackbitVersion: '~0.3.0', nodeVersion: '>=12', models }
 }
 
-const documentDefToStackbitYamlModel = ({
+const documentOrObjectDefToStackbitYamlModel = ({
   def,
   type,
 }: {
@@ -31,23 +31,30 @@ const documentDefToStackbitYamlModel = ({
   type: Stackbit.YamlModel['type']
   urlPathFieldName: string
 }): { model: Stackbit.YamlModel; name: string } => {
-  const name = def.name
+  const fields =
+    def._tag === 'DocumentDef'
+      ? def.fieldDefs.filter(not(isContentMarkdownFieldDef)).map(fieldDefToStackbitField)
+      : def.fieldDefs.map(fieldDefToStackbitField)
+
   const modelCommon: Stackbit.YamlBaseModel = {
     label: def.label,
     labelField: def.labelField,
     description: def.description,
-    fields: def.fieldDefs.filter(not(isContentMarkdownFieldDef)).map(fieldDefToStackbitField),
+    fields,
   }
+
+  const name = def.name
+  const singleInstance: any = def._tag === 'DocumentDef' && def.isSingleton
 
   switch (type) {
     case 'data':
-      return { name, model: { ...modelCommon, type: 'data' } }
+      return { name, model: { ...modelCommon, type: 'data', singleInstance } }
     case 'config':
-      return { name, model: { ...modelCommon, type: 'config' } }
+      return { name, model: { ...modelCommon, type: 'config', singleInstance } }
     case 'object':
       return { name, model: { ...modelCommon, type: 'object' } }
     case 'page':
-      return { name, model: { ...modelCommon, type: 'page' } }
+      return { name, model: { ...modelCommon, type: 'page', singleInstance } }
   }
 }
 

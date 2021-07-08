@@ -1,5 +1,5 @@
-import { convertSchema } from '../src/convert'
-import { toYamlString } from '../src/utils'
+import { convertSchema } from '../src/cli/convert'
+import { toYamlString } from '../src/cli/utils'
 import * as fixtures from './fixtures'
 
 describe('convert', () => {

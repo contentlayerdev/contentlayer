@@ -1,4 +1,4 @@
-import type * as Core from '@contentlayer/core'
+import * as Core from '@contentlayer/core'
 import { hashObject } from '@contentlayer/core'
 import { casesHandled, partition, traceAsyncFn } from '@contentlayer/utils'
 
@@ -38,7 +38,11 @@ export const provideSchema = (async ({
     ;(await import('fs')).writeFileSync('.tmp.schema.json', JSON.stringify(defs, null, 2))
   }
 
-  return { ...defs, hash }
+  const coreSchemaDef = { ...defs, hash }
+
+  Core.validateSchema(coreSchemaDef)
+
+  return coreSchemaDef
 })['|>'](traceAsyncFn('@contentlayer/source-contentlayer/provideSchema:provideSchema', ['schemaOverrides']))
 
 const isDocument = ({
