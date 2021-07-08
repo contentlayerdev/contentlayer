@@ -3,9 +3,9 @@ import React from 'react'
 
 import { classNames, Link, withPrefix } from '../utils'
 import { Icon } from './Icon'
-import type { Action as Action_ } from '.contentlayer/types'
+import type * as types from '.contentlayer/types'
 
-export const Action: FC<{ action: Action_ }> = ({ action }) => (
+export const Action: FC<{ action: types.Action }> = ({ action }) => (
   <Link
     href={withPrefix(action.url)}
     target={action.new_window ? '_blank' : undefined}

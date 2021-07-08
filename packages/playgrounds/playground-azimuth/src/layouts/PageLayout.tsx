@@ -3,11 +3,11 @@ import React from 'react'
 
 import { Layout } from '../components/Layout'
 import { htmlToReact, markdownify, withPrefix } from '../utils'
-import type { Config, Page } from '.contentlayer/types'
+import type * as types from '.contentlayer/types'
 
 export const PageLayout: FC<{
-  page: Page
-  config: Config
+  page: types.Page
+  config: types.Config
 }> = ({ config, page }) => (
   <Layout doc={page} config={config}>
     <div className="outer">

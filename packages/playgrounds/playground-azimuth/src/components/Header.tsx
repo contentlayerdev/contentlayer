@@ -3,12 +3,12 @@ import React from 'react'
 
 import { classNames, Link, withPrefix } from '../utils'
 import { Action } from './Action'
-import type { Blog, Config, Landing, Page, Post } from '.contentlayer/types'
+import type * as types from '.contentlayer/types'
 import { isType } from '.contentlayer/types'
 
 export const Header: FC<{
-  config: Config
-  page: Blog | Page | Landing | Post
+  config: types.Config
+  page: types.Blog | types.Page | types.Landing | types.Post
 }> = ({ config, page }) => (
   <header id="masthead" className="site-header outer">
     <div className="inner">

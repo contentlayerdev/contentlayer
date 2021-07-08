@@ -4,9 +4,9 @@ import React from 'react'
 
 import { htmlToReact, markdownify } from '../../utils'
 import { FormField } from '../FormField'
-import type { Section_contact } from '.contentlayer/types'
+import type * as types from '.contentlayer/types'
 
-export const SectionContact: FC<{ section: Section_contact }> = ({ section }) => (
+export const SectionContact: FC<{ section: types.SectionContact }> = ({ section }) => (
   <section id={section.section_id} className={'block contact-block bg-' + section.background + ' outer'}>
     <div className="block-header inner-small">
       {section.title && <h2 className="block-title">{section.title}</h2>}

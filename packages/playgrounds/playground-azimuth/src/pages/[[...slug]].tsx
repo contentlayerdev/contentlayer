@@ -22,7 +22,8 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = defineStaticProps(async (context) => {
   const params = context.params as any
-  const pagePath = `/${params.slug?.join('/') ?? ''}`
+  const pagePath = params.slug?.join('/') ?? ''
+  console.log({ pagePath })
 
   const doc = allDocuments.filter(isType(['Post', 'Landing', 'Page', 'Blog'])).find((_) => _.url_path === pagePath)!
 

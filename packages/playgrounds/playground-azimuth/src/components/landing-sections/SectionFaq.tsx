@@ -2,9 +2,9 @@ import type { FC } from 'react'
 import React from 'react'
 
 import { htmlToReact, markdownify } from '../../utils'
-import type { Section_faq } from '.contentlayer/types'
+import type * as types from '.contentlayer/types'
 
-export const SectionFaq: FC<{ section: Section_faq }> = ({ section }) => (
+export const SectionFaq: FC<{ section: types.SectionFaq }> = ({ section }) => (
   <section id={section.section_id} className={'block faq-block bg-' + section.background + ' outer'}>
     <div className="inner-small">
       <div className="block-header">

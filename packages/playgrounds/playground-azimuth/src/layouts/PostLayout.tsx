@@ -4,11 +4,11 @@ import React from 'react'
 import { BlogPostFooter } from '../components/BlogPostFooter'
 import { Layout } from '../components/Layout'
 import { htmlToReact, withPrefix } from '../utils'
-import type { Config, Post } from '.contentlayer/types'
+import type * as types from '.contentlayer/types'
 
 export const PostLayout: FC<{
-  post: Post
-  config: Config
+  post: types.Post
+  config: types.Config
 }> = ({ config, post }) => (
   <Layout config={config} doc={post}>
     <div className="outer">

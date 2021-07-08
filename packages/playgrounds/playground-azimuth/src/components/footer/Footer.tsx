@@ -6,9 +6,9 @@ import { ActionLink } from '../ActionLink'
 import { FooterForm } from './FooterForm'
 import { FooterNav } from './FooterNav'
 import { FooterText } from './FooterText'
-import type { Config } from '.contentlayer/types'
+import type * as types from '.contentlayer/types'
 
-export const Footer: FC<{ config: Config }> = ({ config }) => (
+export const Footer: FC<{ config: types.Config }> = ({ config }) => (
   <footer id="colophon" className="site-footer">
     {config.footer.sections && config.footer.sections.length > 0 && (
       <div className="footer-top outer">
@@ -16,11 +16,11 @@ export const Footer: FC<{ config: Config }> = ({ config }) => (
           <div className="grid footer-widgets">
             {config.footer.sections.map((section, index) => {
               switch (section._typeName) {
-                case 'footer_form':
+                case 'FooterForm':
                   return <FooterForm key={index} section={section} />
-                case 'footer_nav':
+                case 'FooterNav':
                   return <FooterNav key={index} section={section} />
-                case 'footer_text':
+                case 'FooterText':
                   return <FooterText key={index} section={section} />
               }
             })}

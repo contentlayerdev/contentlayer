@@ -11,12 +11,12 @@ import { SectionPosts } from '../components/landing-sections/SectionPosts'
 import { SectionPricing } from '../components/landing-sections/SectionPricing'
 import { SectionReviews } from '../components/landing-sections/SectionReviews'
 import { Layout } from '../components/Layout'
-import type { Config, Landing, Post } from '.contentlayer/types'
+import type * as types from '.contentlayer/types'
 
 export const LandingLayout: FC<{
-  landing: Landing
-  config: Config
-  posts: Post[]
+  landing: types.Landing
+  config: types.Config
+  posts: types.Post[]
 }> = ({ landing, config, posts }) => (
   <Layout doc={landing} config={config}>
     {landing.sections?.map((section, index) => {

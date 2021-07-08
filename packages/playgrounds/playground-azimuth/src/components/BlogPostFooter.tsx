@@ -4,9 +4,9 @@ import type { FC } from 'react'
 import React, { useMemo } from 'react'
 
 import { allPeople } from '.contentlayer/data'
-import type { Post } from '.contentlayer/types'
+import type * as types from '.contentlayer/types'
 
-export const BlogPostFooter: FC<{ post: Post; dateType: 'long' | 'short' }> = ({ post, dateType }) => {
+export const BlogPostFooter: FC<{ post: types.Post; dateType: 'long' | 'short' }> = ({ post, dateType }) => {
   const author = useMemo(() => allPeople.find((_) => post.author === _._id), [post])
 
   return (
