@@ -16,7 +16,7 @@ import { combineLatest, defer } from 'rxjs'
 import { switchMap } from 'rxjs/operators'
 import type { PackageJson } from 'type-fest'
 
-import type { Cache } from '..'
+import type { Cache } from '../cache'
 import type { SourcePlugin, SourcePluginType } from '../plugin'
 import type { DocumentDef, SchemaDef } from '../schema'
 import { makeArtifactsDir } from '../utils'
@@ -30,22 +30,15 @@ type FilePath = string
 type DocumentHash = string
 type WrittenFilesCache = Record<FilePath, DocumentHash>
 
-// TODO remove unused old generated files
-export const generateDotpkg = ({
-  source,
-  watchData,
-}: {
-  source: SourcePlugin
-  watchData: boolean
-}): Observable<void> => {
-  return combineLatest({
+// TODO make sure unused old generated files are removed
+export const generateDotpkg = ({ source, watchData }: { source: SourcePlugin; watchData: boolean }): Observable<void> =>
+  combineLatest({
     cache: source.fetchData({ watch: watchData }),
     schemaDef: defer(async () => source.provideSchema()),
     targetPath: defer(makeArtifactsDir),
     sourcePluginType: of(source.type),
     writtenFilesCache: of({}),
   }).pipe(switchMap(writeFilesForCache))
-}
 
 const writeFilesForCache = (async ({
   cache,

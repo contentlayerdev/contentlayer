@@ -337,16 +337,6 @@ Object {
           "required": false,
           "type": "markdown",
         },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "Default markdown file content",
-          "hidden": undefined,
-          "label": "Markdown content",
-          "name": "content",
-          "required": undefined,
-          "type": "markdown",
-        },
       ],
       "isSingleton": false,
       "label": "Page",
@@ -528,16 +518,6 @@ Object {
           "required": false,
           "type": "markdown",
         },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "Default markdown file content",
-          "hidden": undefined,
-          "label": "Markdown content",
-          "name": "content",
-          "required": undefined,
-          "type": "markdown",
-        },
       ],
       "isSingleton": false,
       "label": "Post",
@@ -545,6 +525,7 @@ Object {
       "name": "post",
     },
   },
+  "hash": "4716fca1a192efb3dfd17175da39e0fb",
   "objectDefMap": Object {
     "action": Object {
       "_tag": "ObjectDef",
@@ -3765,6 +3746,7 @@ Object {
       "name": "Post",
     },
   },
+  "hash": "9e5925e70ff731e1df3d41d9da2da0ee",
   "objectDefMap": Object {},
 }
 `;
