@@ -1,15 +1,14 @@
 import { defineDocument, defineObject } from 'contentlayer/source-local'
 
-import { action } from '../objects/action'
-import { form_field } from '../objects/form_field'
-import { seo } from '../objects/seo'
+import { Action } from '../objects/Action'
+import { FormField } from '../objects/FormField'
+import { SEO } from '../objects/SEO'
 import { urlFromFilePath } from '../utils'
 
-export const landing = defineDocument(() => ({
-  name: 'landing',
+export const Landing = defineDocument(() => ({
+  name: 'Landing',
   label: 'Landing Page',
   filePathPattern: 'pages/{contact,features,index,pricing}.md',
-  fileType: 'markdown',
   fields: {
     title: {
       type: 'string',
@@ -22,21 +21,21 @@ export const landing = defineDocument(() => ({
       label: 'Sections',
       description: 'Page sections',
       of: [
-        { type: 'object', labelField: 'title', object: section_content },
-        { type: 'object', labelField: 'title', object: section_cta },
-        { type: 'object', labelField: 'title', object: section_faq },
-        { type: 'object', labelField: 'title', object: section_features },
-        { type: 'object', labelField: 'title', object: section_hero },
-        { type: 'object', labelField: 'title', object: section_posts },
-        { type: 'object', labelField: 'title', object: section_pricing },
-        { type: 'object', labelField: 'title', object: section_reviews },
-        { type: 'object', labelField: 'title', object: section_contact },
+        { type: 'object', labelField: 'title', object: SectionContent },
+        { type: 'object', labelField: 'title', object: SectionCta },
+        { type: 'object', labelField: 'title', object: SectionFaq },
+        { type: 'object', labelField: 'title', object: SectionFeatures },
+        { type: 'object', labelField: 'title', object: SectionHero },
+        { type: 'object', labelField: 'title', object: SectionPosts },
+        { type: 'object', labelField: 'title', object: SectionPricing },
+        { type: 'object', labelField: 'title', object: SectionReviews },
+        { type: 'object', labelField: 'title', object: SectionContact },
       ],
       typeField: 'type',
     },
     seo: {
       type: 'object',
-      object: seo,
+      object: SEO,
     },
   },
   computedFields: {
@@ -68,8 +67,8 @@ const sectionBaseFields = {
   },
 } as const
 
-const section_content = defineObject(() => ({
-  name: 'section_content',
+const SectionContent = defineObject(() => ({
+  name: 'SectionContent',
   label: 'Content Section',
   labelField: 'title',
   fields: {
@@ -99,13 +98,13 @@ const section_content = defineObject(() => ({
     actions: {
       type: 'list',
       label: 'Action Buttons',
-      of: { type: 'object', object: action },
+      of: { type: 'object', object: Action },
     },
   },
 }))
 
-const section_cta = defineObject(() => ({
-  name: 'section_cta',
+const SectionCta = defineObject(() => ({
+  name: 'SectionCta',
   label: 'Call to Action Section',
   labelField: 'title',
   fields: {
@@ -118,13 +117,13 @@ const section_cta = defineObject(() => ({
     actions: {
       type: 'list',
       label: 'Action Buttons',
-      of: { type: 'object', object: action },
+      of: { type: 'object', object: Action },
     },
   },
 }))
 
-const section_hero = defineObject(() => ({
-  name: 'section_hero',
+const SectionHero = defineObject(() => ({
+  name: 'SectionHero',
   label: 'Hero Section',
   labelField: 'title',
   fields: {
@@ -147,13 +146,13 @@ const section_hero = defineObject(() => ({
     actions: {
       type: 'list',
       label: 'Action Buttons',
-      of: { type: 'object', object: action },
+      of: { type: 'object', object: Action },
     },
   },
 }))
 
-const section_features = defineObject(() => ({
-  name: 'section_features',
+const SectionFeatures = defineObject(() => ({
+  name: 'SectionFeatures',
   label: 'Features Section',
   labelField: 'title',
   fields: {
@@ -173,13 +172,13 @@ const section_features = defineObject(() => ({
     features: {
       type: 'list',
       label: 'Features',
-      of: { type: 'object', object: feature_item },
+      of: { type: 'object', object: FeatureItem },
     },
   },
 }))
 
-const feature_item = defineObject(() => ({
-  name: 'feature_item',
+const FeatureItem = defineObject(() => ({
+  name: 'FeatureItem',
   label: 'Feature Item',
   labelField: 'title',
   fields: {
@@ -205,13 +204,13 @@ const feature_item = defineObject(() => ({
     actions: {
       type: 'list',
       label: 'Action Buttons',
-      of: { type: 'object', object: action },
+      of: { type: 'object', object: Action },
     },
   },
 }))
 
-const section_contact = defineObject(() => ({
-  name: 'section_contact',
+const SectionContact = defineObject(() => ({
+  name: 'SectionContact',
   label: 'Contact Section',
   labelField: 'title',
   fields: {
@@ -252,7 +251,7 @@ const section_contact = defineObject(() => ({
     form_fields: {
       type: 'list',
       label: 'Form Fields',
-      of: { type: 'object', object: form_field },
+      of: { type: 'object', object: FormField },
     },
     submit_label: {
       type: 'string',
@@ -262,8 +261,8 @@ const section_contact = defineObject(() => ({
   },
 }))
 
-const section_faq = defineObject(() => ({
-  name: 'section_faq',
+const SectionFaq = defineObject(() => ({
+  name: 'SectionFaq',
   label: 'FAQ Section',
   labelField: 'title',
   fields: {
@@ -283,13 +282,13 @@ const section_faq = defineObject(() => ({
     faq_items: {
       type: 'list',
       label: 'FAQ Items',
-      of: { type: 'object', object: faq_item },
+      of: { type: 'object', object: FaqItem },
     },
   },
 }))
 
-const faq_item = defineObject(() => ({
-  name: 'faq_item',
+const FaqItem = defineObject(() => ({
+  name: 'FaqItem',
   label: 'FAQ Item',
   fields: {
     question: {
@@ -303,8 +302,8 @@ const faq_item = defineObject(() => ({
   },
 }))
 
-const section_posts = defineObject(() => ({
-  name: 'section_posts',
+const SectionPosts = defineObject(() => ({
+  name: 'SectionPosts',
   label: 'Posts List',
   fields: {
     ...sectionBaseFields,
@@ -323,8 +322,8 @@ const section_posts = defineObject(() => ({
   },
 }))
 
-const section_pricing = defineObject(() => ({
-  name: 'section_pricing',
+const SectionPricing = defineObject(() => ({
+  name: 'SectionPricing',
   label: 'Pricing Section',
   fields: {
     ...sectionBaseFields,
@@ -343,13 +342,13 @@ const section_pricing = defineObject(() => ({
     pricing_plans: {
       type: 'list',
       label: 'Pricing Plans',
-      of: { type: 'object', object: pricing_plan },
+      of: { type: 'object', object: PricingPlan },
     },
   },
 }))
 
-const pricing_plan = defineObject(() => ({
-  name: 'pricing_plan',
+const PricingPlan = defineObject(() => ({
+  name: 'PricingPlan',
   label: 'Pricing Plan',
   labelField: 'title',
   fields: {
@@ -378,13 +377,13 @@ const pricing_plan = defineObject(() => ({
     actions: {
       type: 'list',
       label: 'Action Buttons',
-      of: { type: 'object', object: action },
+      of: { type: 'object', object: Action },
     },
   },
 }))
 
-const section_reviews = defineObject(() => ({
-  name: 'section_reviews',
+const SectionReviews = defineObject(() => ({
+  name: 'SectionReviews',
   label: 'Reviews Section',
   fields: {
     ...sectionBaseFields,
@@ -403,13 +402,13 @@ const section_reviews = defineObject(() => ({
     reviews: {
       type: 'list',
       label: 'Reviews',
-      of: { type: 'object', object: review_item },
+      of: { type: 'object', object: ReviewItem },
     },
   },
 }))
 
-const review_item = defineObject(() => ({
-  name: 'review_item',
+const ReviewItem = defineObject(() => ({
+  name: 'ReviewItem',
   label: 'Review Item',
   labelField: 'title',
   fields: {

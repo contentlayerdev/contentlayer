@@ -1,13 +1,11 @@
 import { defineDocument } from 'contentlayer/source-local'
 
-import { seo } from '../objects/seo'
+import { SEO } from '../objects/SEO'
 import { urlFromFilePath } from '../utils'
 
-export const blog = defineDocument(() => ({
-  name: 'blog',
-  label: 'Blog',
+export const Blog = defineDocument(() => ({
+  name: 'Blog',
   filePathPattern: `pages/blog.md`,
-  fileType: 'markdown',
   isSingleton: true,
   fields: {
     title: {
@@ -18,7 +16,7 @@ export const blog = defineDocument(() => ({
     },
     seo: {
       type: 'object',
-      object: seo,
+      object: SEO,
     },
   },
   computedFields: {

@@ -3,7 +3,7 @@
 exports[`convert azimuth schema 1`] = `
 Object {
   "documentDefMap": Object {
-    "blog": Object {
+    "Blog": Object {
       "_tag": "DocumentDef",
       "computedFields": Array [
         Object {
@@ -32,7 +32,7 @@ Object {
           "hidden": undefined,
           "label": "seo",
           "name": "seo",
-          "objectName": "seo",
+          "objectName": "SEO",
           "required": undefined,
           "type": "object",
         },
@@ -50,9 +50,9 @@ Object {
       "isSingleton": true,
       "label": "Blog",
       "labelField": undefined,
-      "name": "blog",
+      "name": "Blog",
     },
-    "config": Object {
+    "Config": Object {
       "_tag": "DocumentDef",
       "computedFields": Array [],
       "description": undefined,
@@ -136,7 +136,7 @@ Object {
           "hidden": undefined,
           "label": "Header Configuration",
           "name": "header",
-          "objectName": "header",
+          "objectName": "Header",
           "required": true,
           "type": "object",
         },
@@ -147,7 +147,7 @@ Object {
           "hidden": undefined,
           "label": "Footer Configuration",
           "name": "footer",
-          "objectName": "footer",
+          "objectName": "Footer",
           "required": true,
           "type": "object",
         },
@@ -155,9 +155,9 @@ Object {
       "isSingleton": true,
       "label": "Site Configuration",
       "labelField": undefined,
-      "name": "config",
+      "name": "Config",
     },
-    "landing": Object {
+    "Landing": Object {
       "_tag": "DocumentDef",
       "computedFields": Array [
         Object {
@@ -189,47 +189,47 @@ Object {
           "of": Array [
             Object {
               "labelField": "title",
-              "objectName": "section_content",
+              "objectName": "SectionContent",
               "type": "object",
             },
             Object {
               "labelField": "title",
-              "objectName": "section_cta",
+              "objectName": "SectionCta",
               "type": "object",
             },
             Object {
               "labelField": "title",
-              "objectName": "section_faq",
+              "objectName": "SectionFaq",
               "type": "object",
             },
             Object {
               "labelField": "title",
-              "objectName": "section_features",
+              "objectName": "SectionFeatures",
               "type": "object",
             },
             Object {
               "labelField": "title",
-              "objectName": "section_hero",
+              "objectName": "SectionHero",
               "type": "object",
             },
             Object {
               "labelField": "title",
-              "objectName": "section_posts",
+              "objectName": "SectionPosts",
               "type": "object",
             },
             Object {
               "labelField": "title",
-              "objectName": "section_pricing",
+              "objectName": "SectionPricing",
               "type": "object",
             },
             Object {
               "labelField": "title",
-              "objectName": "section_reviews",
+              "objectName": "SectionReviews",
               "type": "object",
             },
             Object {
               "labelField": "title",
-              "objectName": "section_contact",
+              "objectName": "SectionContact",
               "type": "object",
             },
           ],
@@ -244,7 +244,7 @@ Object {
           "hidden": undefined,
           "label": "seo",
           "name": "seo",
-          "objectName": "seo",
+          "objectName": "SEO",
           "required": undefined,
           "type": "object",
         },
@@ -262,9 +262,9 @@ Object {
       "isSingleton": false,
       "label": "Landing Page",
       "labelField": undefined,
-      "name": "landing",
+      "name": "Landing",
     },
-    "page": Object {
+    "Page": Object {
       "_tag": "DocumentDef",
       "computedFields": Array [
         Object {
@@ -323,27 +323,27 @@ Object {
           "hidden": undefined,
           "label": "seo",
           "name": "seo",
-          "objectName": "seo",
+          "objectName": "SEO",
           "required": undefined,
           "type": "object",
         },
         Object {
           "const": undefined,
           "default": undefined,
-          "description": "Page content",
+          "description": "Default markdown file content",
           "hidden": undefined,
-          "label": "Page content",
+          "label": "Markdown content",
           "name": "content",
-          "required": false,
+          "required": undefined,
           "type": "markdown",
         },
       ],
       "isSingleton": false,
       "label": "Page",
       "labelField": undefined,
-      "name": "page",
+      "name": "Page",
     },
-    "person": Object {
+    "Person": Object {
       "_tag": "DocumentDef",
       "computedFields": Array [],
       "description": undefined,
@@ -392,9 +392,9 @@ Object {
       "isSingleton": false,
       "label": "Person",
       "labelField": undefined,
-      "name": "person",
+      "name": "Person",
     },
-    "post": Object {
+    "Post": Object {
       "_tag": "DocumentDef",
       "computedFields": Array [
         Object {
@@ -440,7 +440,7 @@ Object {
           "const": undefined,
           "default": undefined,
           "description": "Post author",
-          "documentName": "person",
+          "documentName": "Person",
           "hidden": undefined,
           "label": "author",
           "name": "author",
@@ -504,30 +504,30 @@ Object {
           "hidden": undefined,
           "label": "seo",
           "name": "seo",
-          "objectName": "seo",
+          "objectName": "SEO",
           "required": undefined,
           "type": "object",
         },
         Object {
           "const": undefined,
           "default": undefined,
-          "description": "Page content",
+          "description": "Default markdown file content",
           "hidden": undefined,
-          "label": "Page content",
+          "label": "Markdown content",
           "name": "content",
-          "required": false,
+          "required": undefined,
           "type": "markdown",
         },
       ],
       "isSingleton": false,
       "label": "Post",
       "labelField": undefined,
-      "name": "post",
+      "name": "Post",
     },
   },
-  "hash": "4716fca1a192efb3dfd17175da39e0fb",
+  "hash": "8b324cd6b4ad24dcba5eeb0252a32b81",
   "objectDefMap": Object {
-    "action": Object {
+    "Action": Object {
       "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
@@ -635,9 +635,9 @@ Object {
       ],
       "label": "Action",
       "labelField": "title",
-      "name": "action",
+      "name": "Action",
     },
-    "faq_item": Object {
+    "FaqItem": Object {
       "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
@@ -664,9 +664,9 @@ Object {
       ],
       "label": "FAQ Item",
       "labelField": undefined,
-      "name": "faq_item",
+      "name": "FaqItem",
     },
-    "feature_item": Object {
+    "FeatureItem": Object {
       "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
@@ -719,7 +719,7 @@ Object {
           "name": "actions",
           "of": Object {
             "labelField": undefined,
-            "objectName": "action",
+            "objectName": "Action",
             "type": "object",
           },
           "required": undefined,
@@ -728,9 +728,9 @@ Object {
       ],
       "label": "Feature Item",
       "labelField": "title",
-      "name": "feature_item",
+      "name": "FeatureItem",
     },
-    "footer": Object {
+    "Footer": Object {
       "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
@@ -744,17 +744,17 @@ Object {
           "of": Array [
             Object {
               "labelField": undefined,
-              "objectName": "footer_form",
+              "objectName": "FooterForm",
               "type": "object",
             },
             Object {
               "labelField": undefined,
-              "objectName": "footer_nav",
+              "objectName": "FooterNav",
               "type": "object",
             },
             Object {
               "labelField": undefined,
-              "objectName": "footer_text",
+              "objectName": "FooterText",
               "type": "object",
             },
           ],
@@ -781,7 +781,7 @@ Object {
           "name": "nav_links",
           "of": Object {
             "labelField": undefined,
-            "objectName": "action",
+            "objectName": "Action",
             "type": "object",
           },
           "required": undefined,
@@ -806,7 +806,7 @@ Object {
           "name": "links",
           "of": Object {
             "labelField": undefined,
-            "objectName": "action",
+            "objectName": "Action",
             "type": "object",
           },
           "required": undefined,
@@ -815,9 +815,9 @@ Object {
       ],
       "label": "Footer Configuration",
       "labelField": "content",
-      "name": "footer",
+      "name": "Footer",
     },
-    "footer_form": Object {
+    "FooterForm": Object {
       "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
@@ -890,7 +890,7 @@ Object {
           "name": "form_fields",
           "of": Object {
             "labelField": undefined,
-            "objectName": "form_field",
+            "objectName": "FormField",
             "type": "object",
           },
           "required": undefined,
@@ -907,11 +907,11 @@ Object {
           "type": "string",
         },
       ],
-      "label": "Form",
+      "label": "Footer Form",
       "labelField": "title",
-      "name": "footer_form",
+      "name": "FooterForm",
     },
-    "footer_nav": Object {
+    "FooterNav": Object {
       "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
@@ -944,7 +944,7 @@ Object {
           "name": "nav_links",
           "of": Object {
             "labelField": undefined,
-            "objectName": "action",
+            "objectName": "Action",
             "type": "object",
           },
           "required": undefined,
@@ -953,9 +953,9 @@ Object {
       ],
       "label": "Vertical Navigation",
       "labelField": "title",
-      "name": "footer_nav",
+      "name": "FooterNav",
     },
-    "footer_text": Object {
+    "FooterText": Object {
       "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
@@ -1022,9 +1022,9 @@ Object {
       ],
       "label": "Text",
       "labelField": "title",
-      "name": "footer_text",
+      "name": "FooterText",
     },
-    "form_field": Object {
+    "FormField": Object {
       "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
@@ -1104,9 +1104,9 @@ Object {
       ],
       "label": "Form Field",
       "labelField": "name",
-      "name": "form_field",
+      "name": "FormField",
     },
-    "header": Object {
+    "Header": Object {
       "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
@@ -1149,7 +1149,7 @@ Object {
           "name": "nav_links",
           "of": Object {
             "labelField": undefined,
-            "objectName": "action",
+            "objectName": "Action",
             "type": "object",
           },
           "required": undefined,
@@ -1158,9 +1158,9 @@ Object {
       ],
       "label": "Header Configuration",
       "labelField": undefined,
-      "name": "header",
+      "name": "Header",
     },
-    "pricing_plan": Object {
+    "PricingPlan": Object {
       "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
@@ -1223,7 +1223,7 @@ Object {
           "name": "actions",
           "of": Object {
             "labelField": undefined,
-            "objectName": "action",
+            "objectName": "Action",
             "type": "object",
           },
           "required": undefined,
@@ -1232,9 +1232,9 @@ Object {
       ],
       "label": "Pricing Plan",
       "labelField": "title",
-      "name": "pricing_plan",
+      "name": "PricingPlan",
     },
-    "review_item": Object {
+    "ReviewItem": Object {
       "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
@@ -1281,758 +1281,9 @@ Object {
       ],
       "label": "Review Item",
       "labelField": "title",
-      "name": "review_item",
+      "name": "ReviewItem",
     },
-    "section_contact": Object {
-      "_tag": "ObjectDef",
-      "description": undefined,
-      "fieldDefs": Array [
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "A unique identifier of the section, must not contain whitespace",
-          "hidden": undefined,
-          "label": "Section ID",
-          "name": "section_id",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The title of the section",
-          "hidden": undefined,
-          "label": "Title",
-          "name": "title",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "hidden": undefined,
-          "label": "Section type",
-          "name": "type",
-          "required": true,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The text shown below the title",
-          "hidden": undefined,
-          "label": "Subtitle",
-          "name": "subtitle",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "the content of the section, appears above the form",
-          "hidden": undefined,
-          "label": "Content",
-          "name": "content",
-          "required": undefined,
-          "type": "markdown",
-        },
-        Object {
-          "const": undefined,
-          "default": "gray",
-          "description": "The background of the section",
-          "hidden": undefined,
-          "label": "Background",
-          "name": "background",
-          "options": Array [
-            "gray",
-            "white",
-          ],
-          "required": undefined,
-          "type": "enum",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "A unique identifier of the form, must not contain whitespace",
-          "hidden": undefined,
-          "label": "Form ID",
-          "name": "form_id",
-          "required": true,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The path of your custom \\"success\\" page, if you want to replace the default success message.",
-          "hidden": undefined,
-          "label": "Form Action",
-          "name": "form_action",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": false,
-          "description": undefined,
-          "hidden": undefined,
-          "label": "Hide labels of the form fields?",
-          "name": "hide_labels",
-          "required": undefined,
-          "type": "boolean",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": undefined,
-          "hidden": undefined,
-          "label": "Form Fields",
-          "name": "form_fields",
-          "of": Object {
-            "labelField": undefined,
-            "objectName": "form_field",
-            "type": "object",
-          },
-          "required": undefined,
-          "type": "list",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": undefined,
-          "hidden": undefined,
-          "label": "Submit Button Label",
-          "name": "submit_label",
-          "required": true,
-          "type": "string",
-        },
-      ],
-      "label": "Contact Section",
-      "labelField": "title",
-      "name": "section_contact",
-    },
-    "section_content": Object {
-      "_tag": "ObjectDef",
-      "description": undefined,
-      "fieldDefs": Array [
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "A unique identifier of the section, must not contain whitespace",
-          "hidden": undefined,
-          "label": "Section ID",
-          "name": "section_id",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The title of the section",
-          "hidden": undefined,
-          "label": "Title",
-          "name": "title",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "hidden": undefined,
-          "label": "Section type",
-          "name": "type",
-          "required": true,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The text content of the section",
-          "hidden": undefined,
-          "label": "Content",
-          "name": "content",
-          "required": undefined,
-          "type": "markdown",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The image of the section",
-          "hidden": undefined,
-          "label": "Image",
-          "name": "image",
-          "required": undefined,
-          "type": "image",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The alt text of the section image",
-          "hidden": undefined,
-          "label": "Image Alt Text",
-          "name": "image_alt",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": "gray",
-          "description": "The background of the section",
-          "hidden": undefined,
-          "label": "Background",
-          "name": "background",
-          "options": Array [
-            "gray",
-            "white",
-          ],
-          "required": undefined,
-          "type": "enum",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": undefined,
-          "hidden": undefined,
-          "label": "Action Buttons",
-          "name": "actions",
-          "of": Object {
-            "labelField": undefined,
-            "objectName": "action",
-            "type": "object",
-          },
-          "required": undefined,
-          "type": "list",
-        },
-      ],
-      "label": "Content Section",
-      "labelField": "title",
-      "name": "section_content",
-    },
-    "section_cta": Object {
-      "_tag": "ObjectDef",
-      "description": undefined,
-      "fieldDefs": Array [
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "A unique identifier of the section, must not contain whitespace",
-          "hidden": undefined,
-          "label": "Section ID",
-          "name": "section_id",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The title of the section",
-          "hidden": undefined,
-          "label": "Title",
-          "name": "title",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "hidden": undefined,
-          "label": "Section type",
-          "name": "type",
-          "required": true,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The subtitle of the section",
-          "hidden": undefined,
-          "label": "Subtitle",
-          "name": "subtitle",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": undefined,
-          "hidden": undefined,
-          "label": "Action Buttons",
-          "name": "actions",
-          "of": Object {
-            "labelField": undefined,
-            "objectName": "action",
-            "type": "object",
-          },
-          "required": undefined,
-          "type": "list",
-        },
-      ],
-      "label": "Call to Action Section",
-      "labelField": "title",
-      "name": "section_cta",
-    },
-    "section_faq": Object {
-      "_tag": "ObjectDef",
-      "description": undefined,
-      "fieldDefs": Array [
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "A unique identifier of the section, must not contain whitespace",
-          "hidden": undefined,
-          "label": "Section ID",
-          "name": "section_id",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The title of the section",
-          "hidden": undefined,
-          "label": "Title",
-          "name": "title",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "hidden": undefined,
-          "label": "Section type",
-          "name": "type",
-          "required": true,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The subtitle of the section",
-          "hidden": undefined,
-          "label": "Subtitle",
-          "name": "subtitle",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": "gray",
-          "description": "The background of the section",
-          "hidden": undefined,
-          "label": "Background",
-          "name": "background",
-          "options": Array [
-            "gray",
-            "white",
-          ],
-          "required": undefined,
-          "type": "enum",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": undefined,
-          "hidden": undefined,
-          "label": "FAQ Items",
-          "name": "faq_items",
-          "of": Object {
-            "labelField": undefined,
-            "objectName": "faq_item",
-            "type": "object",
-          },
-          "required": undefined,
-          "type": "list",
-        },
-      ],
-      "label": "FAQ Section",
-      "labelField": "title",
-      "name": "section_faq",
-    },
-    "section_features": Object {
-      "_tag": "ObjectDef",
-      "description": undefined,
-      "fieldDefs": Array [
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "A unique identifier of the section, must not contain whitespace",
-          "hidden": undefined,
-          "label": "Section ID",
-          "name": "section_id",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The title of the section",
-          "hidden": undefined,
-          "label": "Title",
-          "name": "title",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "hidden": undefined,
-          "label": "Section type",
-          "name": "type",
-          "required": true,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The subtitle of the section",
-          "hidden": undefined,
-          "label": "Subtitle",
-          "name": "subtitle",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": "gray",
-          "description": "The background of the section",
-          "hidden": undefined,
-          "label": "Background",
-          "name": "background",
-          "options": Array [
-            "gray",
-            "white",
-          ],
-          "required": undefined,
-          "type": "enum",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": undefined,
-          "hidden": undefined,
-          "label": "Features",
-          "name": "features",
-          "of": Object {
-            "labelField": undefined,
-            "objectName": "feature_item",
-            "type": "object",
-          },
-          "required": undefined,
-          "type": "list",
-        },
-      ],
-      "label": "Features Section",
-      "labelField": "title",
-      "name": "section_features",
-    },
-    "section_hero": Object {
-      "_tag": "ObjectDef",
-      "description": undefined,
-      "fieldDefs": Array [
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "A unique identifier of the section, must not contain whitespace",
-          "hidden": undefined,
-          "label": "Section ID",
-          "name": "section_id",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The title of the section",
-          "hidden": undefined,
-          "label": "Title",
-          "name": "title",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "hidden": undefined,
-          "label": "Section type",
-          "name": "type",
-          "required": true,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The text content of the section",
-          "hidden": undefined,
-          "label": "Content",
-          "name": "content",
-          "required": undefined,
-          "type": "markdown",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The image of the section",
-          "hidden": undefined,
-          "label": "Image",
-          "name": "image",
-          "required": undefined,
-          "type": "image",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The alt text of the section image",
-          "hidden": undefined,
-          "label": "Image Alt Text",
-          "name": "image_alt",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": undefined,
-          "hidden": undefined,
-          "label": "Action Buttons",
-          "name": "actions",
-          "of": Object {
-            "labelField": undefined,
-            "objectName": "action",
-            "type": "object",
-          },
-          "required": undefined,
-          "type": "list",
-        },
-      ],
-      "label": "Hero Section",
-      "labelField": "title",
-      "name": "section_hero",
-    },
-    "section_posts": Object {
-      "_tag": "ObjectDef",
-      "description": undefined,
-      "fieldDefs": Array [
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "A unique identifier of the section, must not contain whitespace",
-          "hidden": undefined,
-          "label": "Section ID",
-          "name": "section_id",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The title of the section",
-          "hidden": undefined,
-          "label": "Title",
-          "name": "title",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "hidden": undefined,
-          "label": "Section type",
-          "name": "type",
-          "required": true,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The subtitle of the section",
-          "hidden": undefined,
-          "label": "Subtitle",
-          "name": "subtitle",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": "gray",
-          "description": "The background of the section",
-          "hidden": undefined,
-          "label": "Background",
-          "name": "background",
-          "options": Array [
-            "gray",
-            "white",
-          ],
-          "required": undefined,
-          "type": "enum",
-        },
-      ],
-      "label": "Posts List",
-      "labelField": undefined,
-      "name": "section_posts",
-    },
-    "section_pricing": Object {
-      "_tag": "ObjectDef",
-      "description": undefined,
-      "fieldDefs": Array [
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "A unique identifier of the section, must not contain whitespace",
-          "hidden": undefined,
-          "label": "Section ID",
-          "name": "section_id",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The title of the section",
-          "hidden": undefined,
-          "label": "Title",
-          "name": "title",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "hidden": undefined,
-          "label": "Section type",
-          "name": "type",
-          "required": true,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The subtitle of the section",
-          "hidden": undefined,
-          "label": "Subtitle",
-          "name": "subtitle",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": "gray",
-          "description": "The background of the section",
-          "hidden": undefined,
-          "label": "Background",
-          "name": "background",
-          "options": Array [
-            "gray",
-            "white",
-          ],
-          "required": undefined,
-          "type": "enum",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": undefined,
-          "hidden": undefined,
-          "label": "Pricing Plans",
-          "name": "pricing_plans",
-          "of": Object {
-            "labelField": undefined,
-            "objectName": "pricing_plan",
-            "type": "object",
-          },
-          "required": undefined,
-          "type": "list",
-        },
-      ],
-      "label": "Pricing Section",
-      "labelField": undefined,
-      "name": "section_pricing",
-    },
-    "section_reviews": Object {
-      "_tag": "ObjectDef",
-      "description": undefined,
-      "fieldDefs": Array [
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "A unique identifier of the section, must not contain whitespace",
-          "hidden": undefined,
-          "label": "Section ID",
-          "name": "section_id",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The title of the section",
-          "hidden": undefined,
-          "label": "Title",
-          "name": "title",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "hidden": undefined,
-          "label": "Section type",
-          "name": "type",
-          "required": true,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The subtitle of the section",
-          "hidden": undefined,
-          "label": "Subtitle",
-          "name": "subtitle",
-          "required": undefined,
-          "type": "string",
-        },
-        Object {
-          "const": undefined,
-          "default": "gray",
-          "description": "The background of the section",
-          "hidden": undefined,
-          "label": "Background",
-          "name": "background",
-          "options": Array [
-            "gray",
-            "white",
-          ],
-          "required": undefined,
-          "type": "enum",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": undefined,
-          "hidden": undefined,
-          "label": "Reviews",
-          "name": "reviews",
-          "of": Object {
-            "labelField": undefined,
-            "objectName": "review_item",
-            "type": "object",
-          },
-          "required": undefined,
-          "type": "list",
-        },
-      ],
-      "label": "Reviews Section",
-      "labelField": undefined,
-      "name": "section_reviews",
-    },
-    "seo": Object {
+    "SEO": Object {
       "_tag": "ObjectDef",
       "description": undefined,
       "fieldDefs": Array [
@@ -2139,7 +1390,756 @@ Object {
       ],
       "label": "Page meta data",
       "labelField": undefined,
-      "name": "seo",
+      "name": "SEO",
+    },
+    "SectionContact": Object {
+      "_tag": "ObjectDef",
+      "description": undefined,
+      "fieldDefs": Array [
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "hidden": undefined,
+          "label": "Section ID",
+          "name": "section_id",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "The title of the section",
+          "hidden": undefined,
+          "label": "Title",
+          "name": "title",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "Needed for contentlayer for polymorphic list types",
+          "hidden": undefined,
+          "label": "Section type",
+          "name": "type",
+          "required": true,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "The text shown below the title",
+          "hidden": undefined,
+          "label": "Subtitle",
+          "name": "subtitle",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "the content of the section, appears above the form",
+          "hidden": undefined,
+          "label": "Content",
+          "name": "content",
+          "required": undefined,
+          "type": "markdown",
+        },
+        Object {
+          "const": undefined,
+          "default": "gray",
+          "description": "The background of the section",
+          "hidden": undefined,
+          "label": "Background",
+          "name": "background",
+          "options": Array [
+            "gray",
+            "white",
+          ],
+          "required": undefined,
+          "type": "enum",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "A unique identifier of the form, must not contain whitespace",
+          "hidden": undefined,
+          "label": "Form ID",
+          "name": "form_id",
+          "required": true,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "The path of your custom \\"success\\" page, if you want to replace the default success message.",
+          "hidden": undefined,
+          "label": "Form Action",
+          "name": "form_action",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": false,
+          "description": undefined,
+          "hidden": undefined,
+          "label": "Hide labels of the form fields?",
+          "name": "hide_labels",
+          "required": undefined,
+          "type": "boolean",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": undefined,
+          "hidden": undefined,
+          "label": "Form Fields",
+          "name": "form_fields",
+          "of": Object {
+            "labelField": undefined,
+            "objectName": "FormField",
+            "type": "object",
+          },
+          "required": undefined,
+          "type": "list",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": undefined,
+          "hidden": undefined,
+          "label": "Submit Button Label",
+          "name": "submit_label",
+          "required": true,
+          "type": "string",
+        },
+      ],
+      "label": "Contact Section",
+      "labelField": "title",
+      "name": "SectionContact",
+    },
+    "SectionContent": Object {
+      "_tag": "ObjectDef",
+      "description": undefined,
+      "fieldDefs": Array [
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "hidden": undefined,
+          "label": "Section ID",
+          "name": "section_id",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "The title of the section",
+          "hidden": undefined,
+          "label": "Title",
+          "name": "title",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "Needed for contentlayer for polymorphic list types",
+          "hidden": undefined,
+          "label": "Section type",
+          "name": "type",
+          "required": true,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "The text content of the section",
+          "hidden": undefined,
+          "label": "Content",
+          "name": "content",
+          "required": undefined,
+          "type": "markdown",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "The image of the section",
+          "hidden": undefined,
+          "label": "Image",
+          "name": "image",
+          "required": undefined,
+          "type": "image",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "The alt text of the section image",
+          "hidden": undefined,
+          "label": "Image Alt Text",
+          "name": "image_alt",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": "gray",
+          "description": "The background of the section",
+          "hidden": undefined,
+          "label": "Background",
+          "name": "background",
+          "options": Array [
+            "gray",
+            "white",
+          ],
+          "required": undefined,
+          "type": "enum",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": undefined,
+          "hidden": undefined,
+          "label": "Action Buttons",
+          "name": "actions",
+          "of": Object {
+            "labelField": undefined,
+            "objectName": "Action",
+            "type": "object",
+          },
+          "required": undefined,
+          "type": "list",
+        },
+      ],
+      "label": "Content Section",
+      "labelField": "title",
+      "name": "SectionContent",
+    },
+    "SectionCta": Object {
+      "_tag": "ObjectDef",
+      "description": undefined,
+      "fieldDefs": Array [
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "hidden": undefined,
+          "label": "Section ID",
+          "name": "section_id",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "The title of the section",
+          "hidden": undefined,
+          "label": "Title",
+          "name": "title",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "Needed for contentlayer for polymorphic list types",
+          "hidden": undefined,
+          "label": "Section type",
+          "name": "type",
+          "required": true,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "The subtitle of the section",
+          "hidden": undefined,
+          "label": "Subtitle",
+          "name": "subtitle",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": undefined,
+          "hidden": undefined,
+          "label": "Action Buttons",
+          "name": "actions",
+          "of": Object {
+            "labelField": undefined,
+            "objectName": "Action",
+            "type": "object",
+          },
+          "required": undefined,
+          "type": "list",
+        },
+      ],
+      "label": "Call to Action Section",
+      "labelField": "title",
+      "name": "SectionCta",
+    },
+    "SectionFaq": Object {
+      "_tag": "ObjectDef",
+      "description": undefined,
+      "fieldDefs": Array [
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "hidden": undefined,
+          "label": "Section ID",
+          "name": "section_id",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "The title of the section",
+          "hidden": undefined,
+          "label": "Title",
+          "name": "title",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "Needed for contentlayer for polymorphic list types",
+          "hidden": undefined,
+          "label": "Section type",
+          "name": "type",
+          "required": true,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "The subtitle of the section",
+          "hidden": undefined,
+          "label": "Subtitle",
+          "name": "subtitle",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": "gray",
+          "description": "The background of the section",
+          "hidden": undefined,
+          "label": "Background",
+          "name": "background",
+          "options": Array [
+            "gray",
+            "white",
+          ],
+          "required": undefined,
+          "type": "enum",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": undefined,
+          "hidden": undefined,
+          "label": "FAQ Items",
+          "name": "faq_items",
+          "of": Object {
+            "labelField": undefined,
+            "objectName": "FaqItem",
+            "type": "object",
+          },
+          "required": undefined,
+          "type": "list",
+        },
+      ],
+      "label": "FAQ Section",
+      "labelField": "title",
+      "name": "SectionFaq",
+    },
+    "SectionFeatures": Object {
+      "_tag": "ObjectDef",
+      "description": undefined,
+      "fieldDefs": Array [
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "hidden": undefined,
+          "label": "Section ID",
+          "name": "section_id",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "The title of the section",
+          "hidden": undefined,
+          "label": "Title",
+          "name": "title",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "Needed for contentlayer for polymorphic list types",
+          "hidden": undefined,
+          "label": "Section type",
+          "name": "type",
+          "required": true,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "The subtitle of the section",
+          "hidden": undefined,
+          "label": "Subtitle",
+          "name": "subtitle",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": "gray",
+          "description": "The background of the section",
+          "hidden": undefined,
+          "label": "Background",
+          "name": "background",
+          "options": Array [
+            "gray",
+            "white",
+          ],
+          "required": undefined,
+          "type": "enum",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": undefined,
+          "hidden": undefined,
+          "label": "Features",
+          "name": "features",
+          "of": Object {
+            "labelField": undefined,
+            "objectName": "FeatureItem",
+            "type": "object",
+          },
+          "required": undefined,
+          "type": "list",
+        },
+      ],
+      "label": "Features Section",
+      "labelField": "title",
+      "name": "SectionFeatures",
+    },
+    "SectionHero": Object {
+      "_tag": "ObjectDef",
+      "description": undefined,
+      "fieldDefs": Array [
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "hidden": undefined,
+          "label": "Section ID",
+          "name": "section_id",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "The title of the section",
+          "hidden": undefined,
+          "label": "Title",
+          "name": "title",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "Needed for contentlayer for polymorphic list types",
+          "hidden": undefined,
+          "label": "Section type",
+          "name": "type",
+          "required": true,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "The text content of the section",
+          "hidden": undefined,
+          "label": "Content",
+          "name": "content",
+          "required": undefined,
+          "type": "markdown",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "The image of the section",
+          "hidden": undefined,
+          "label": "Image",
+          "name": "image",
+          "required": undefined,
+          "type": "image",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "The alt text of the section image",
+          "hidden": undefined,
+          "label": "Image Alt Text",
+          "name": "image_alt",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": undefined,
+          "hidden": undefined,
+          "label": "Action Buttons",
+          "name": "actions",
+          "of": Object {
+            "labelField": undefined,
+            "objectName": "Action",
+            "type": "object",
+          },
+          "required": undefined,
+          "type": "list",
+        },
+      ],
+      "label": "Hero Section",
+      "labelField": "title",
+      "name": "SectionHero",
+    },
+    "SectionPosts": Object {
+      "_tag": "ObjectDef",
+      "description": undefined,
+      "fieldDefs": Array [
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "hidden": undefined,
+          "label": "Section ID",
+          "name": "section_id",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "The title of the section",
+          "hidden": undefined,
+          "label": "Title",
+          "name": "title",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "Needed for contentlayer for polymorphic list types",
+          "hidden": undefined,
+          "label": "Section type",
+          "name": "type",
+          "required": true,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "The subtitle of the section",
+          "hidden": undefined,
+          "label": "Subtitle",
+          "name": "subtitle",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": "gray",
+          "description": "The background of the section",
+          "hidden": undefined,
+          "label": "Background",
+          "name": "background",
+          "options": Array [
+            "gray",
+            "white",
+          ],
+          "required": undefined,
+          "type": "enum",
+        },
+      ],
+      "label": "Posts List",
+      "labelField": undefined,
+      "name": "SectionPosts",
+    },
+    "SectionPricing": Object {
+      "_tag": "ObjectDef",
+      "description": undefined,
+      "fieldDefs": Array [
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "hidden": undefined,
+          "label": "Section ID",
+          "name": "section_id",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "The title of the section",
+          "hidden": undefined,
+          "label": "Title",
+          "name": "title",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "Needed for contentlayer for polymorphic list types",
+          "hidden": undefined,
+          "label": "Section type",
+          "name": "type",
+          "required": true,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "The subtitle of the section",
+          "hidden": undefined,
+          "label": "Subtitle",
+          "name": "subtitle",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": "gray",
+          "description": "The background of the section",
+          "hidden": undefined,
+          "label": "Background",
+          "name": "background",
+          "options": Array [
+            "gray",
+            "white",
+          ],
+          "required": undefined,
+          "type": "enum",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": undefined,
+          "hidden": undefined,
+          "label": "Pricing Plans",
+          "name": "pricing_plans",
+          "of": Object {
+            "labelField": undefined,
+            "objectName": "PricingPlan",
+            "type": "object",
+          },
+          "required": undefined,
+          "type": "list",
+        },
+      ],
+      "label": "Pricing Section",
+      "labelField": undefined,
+      "name": "SectionPricing",
+    },
+    "SectionReviews": Object {
+      "_tag": "ObjectDef",
+      "description": undefined,
+      "fieldDefs": Array [
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "A unique identifier of the section, must not contain whitespace",
+          "hidden": undefined,
+          "label": "Section ID",
+          "name": "section_id",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "The title of the section",
+          "hidden": undefined,
+          "label": "Title",
+          "name": "title",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "Needed for contentlayer for polymorphic list types",
+          "hidden": undefined,
+          "label": "Section type",
+          "name": "type",
+          "required": true,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": "The subtitle of the section",
+          "hidden": undefined,
+          "label": "Subtitle",
+          "name": "subtitle",
+          "required": undefined,
+          "type": "string",
+        },
+        Object {
+          "const": undefined,
+          "default": "gray",
+          "description": "The background of the section",
+          "hidden": undefined,
+          "label": "Background",
+          "name": "background",
+          "options": Array [
+            "gray",
+            "white",
+          ],
+          "required": undefined,
+          "type": "enum",
+        },
+        Object {
+          "const": undefined,
+          "default": undefined,
+          "description": undefined,
+          "hidden": undefined,
+          "label": "Reviews",
+          "name": "reviews",
+          "of": Object {
+            "labelField": undefined,
+            "objectName": "ReviewItem",
+            "type": "object",
+          },
+          "required": undefined,
+          "type": "list",
+        },
+      ],
+      "label": "Reviews Section",
+      "labelField": undefined,
+      "name": "SectionReviews",
     },
   },
 }
@@ -2149,7 +2149,7 @@ exports[`convert azimuth schema 2`] = `
 "stackbitVersion: ~0.3.0
 nodeVersion: \\">=12\\"
 models:
-  blog:
+  Blog:
     label: Blog
     labelField: null
     description: null
@@ -2171,9 +2171,9 @@ models:
         label: seo
         type: model
         models:
-          - seo
+          - SEO
     type: page
-  landing:
+  Landing:
     label: Landing Page
     labelField: null
     description: null
@@ -2197,15 +2197,15 @@ models:
         items:
           type: model
           models:
-            - section_content
-            - section_cta
-            - section_faq
-            - section_features
-            - section_hero
-            - section_posts
-            - section_pricing
-            - section_reviews
-            - section_contact
+            - SectionContent
+            - SectionCta
+            - SectionFaq
+            - SectionFeatures
+            - SectionHero
+            - SectionPosts
+            - SectionPricing
+            - SectionReviews
+            - SectionContact
       - name: seo
         required: null
         const: null
@@ -2215,9 +2215,9 @@ models:
         label: seo
         type: model
         models:
-          - seo
+          - SEO
     type: page
-  page:
+  Page:
     label: Page
     labelField: null
     description: null
@@ -2263,9 +2263,9 @@ models:
         label: seo
         type: model
         models:
-          - seo
+          - SEO
     type: page
-  post:
+  Post:
     label: Post
     labelField: null
     description: null
@@ -2303,7 +2303,7 @@ models:
         label: author
         type: reference
         models:
-          - person
+          - Person
       - name: excerpt
         required: null
         const: null
@@ -2353,9 +2353,9 @@ models:
         label: seo
         type: model
         models:
-          - seo
+          - SEO
     type: page
-  config:
+  Config:
     label: Site Configuration
     labelField: null
     description: null
@@ -2429,7 +2429,7 @@ models:
         label: Header Configuration
         type: model
         models:
-          - header
+          - Header
       - name: footer
         required: true
         const: null
@@ -2439,9 +2439,9 @@ models:
         label: Footer Configuration
         type: model
         models:
-          - footer
+          - Footer
     type: data
-  person:
+  Person:
     label: Person
     labelField: null
     description: null
@@ -2479,7 +2479,7 @@ models:
         label: null
         type: image
     type: data
-  seo:
+  SEO:
     label: Page meta data
     labelField: null
     description: null
@@ -2564,7 +2564,7 @@ models:
               label: Relative Url
               type: boolean
     type: object
-  header:
+  Header:
     label: Header Configuration
     labelField: null
     description: null
@@ -2605,9 +2605,9 @@ models:
         items:
           type: model
           models:
-            - action
+            - Action
     type: object
-  action:
+  Action:
     label: Action
     labelField: title
     description: null
@@ -2695,7 +2695,7 @@ models:
         label: No follow
         type: boolean
     type: object
-  footer:
+  Footer:
     label: Footer Configuration
     labelField: content
     description: null
@@ -2711,9 +2711,9 @@ models:
         items:
           type: model
           models:
-            - footer_form
-            - footer_nav
-            - footer_text
+            - FooterForm
+            - FooterNav
+            - FooterText
       - name: has_nav
         required: null
         const: null
@@ -2733,7 +2733,7 @@ models:
         items:
           type: model
           models:
-            - action
+            - Action
       - name: content
         required: null
         const: null
@@ -2753,10 +2753,10 @@ models:
         items:
           type: model
           models:
-            - action
+            - Action
     type: object
-  footer_form:
-    label: Form
+  FooterForm:
+    label: Footer Form
     labelField: title
     description: null
     fields:
@@ -2812,7 +2812,7 @@ models:
         items:
           type: model
           models:
-            - form_field
+            - FormField
       - name: submit_label
         required: true
         const: null
@@ -2822,7 +2822,7 @@ models:
         label: Submit Button Label
         type: string
     type: object
-  form_field:
+  FormField:
     label: Form Field
     labelField: name
     description: null
@@ -2887,7 +2887,7 @@ models:
         label: Is the field required?
         type: boolean
     type: object
-  footer_nav:
+  FooterNav:
     label: Vertical Navigation
     labelField: title
     description: null
@@ -2919,9 +2919,9 @@ models:
         items:
           type: model
           models:
-            - action
+            - Action
     type: object
-  footer_text:
+  FooterText:
     label: Text
     labelField: title
     description: null
@@ -2967,7 +2967,7 @@ models:
         label: Image URL
         type: string
     type: object
-  section_content:
+  SectionContent:
     label: Content Section
     labelField: title
     description: null
@@ -3034,9 +3034,9 @@ models:
         items:
           type: model
           models:
-            - action
+            - Action
     type: object
-  section_cta:
+  SectionCta:
     label: Call to Action Section
     labelField: title
     description: null
@@ -3084,9 +3084,9 @@ models:
         items:
           type: model
           models:
-            - action
+            - Action
     type: object
-  section_faq:
+  SectionFaq:
     label: FAQ Section
     labelField: title
     description: null
@@ -3145,9 +3145,9 @@ models:
         items:
           type: model
           models:
-            - faq_item
+            - FaqItem
     type: object
-  faq_item:
+  FaqItem:
     label: FAQ Item
     labelField: null
     description: null
@@ -3169,7 +3169,7 @@ models:
         label: Answer
         type: markdown
     type: object
-  section_features:
+  SectionFeatures:
     label: Features Section
     labelField: title
     description: null
@@ -3228,9 +3228,9 @@ models:
         items:
           type: model
           models:
-            - feature_item
+            - FeatureItem
     type: object
-  feature_item:
+  FeatureItem:
     label: Feature Item
     labelField: title
     description: null
@@ -3270,9 +3270,9 @@ models:
         items:
           type: model
           models:
-            - action
+            - Action
     type: object
-  section_hero:
+  SectionHero:
     label: Hero Section
     labelField: title
     description: null
@@ -3328,9 +3328,9 @@ models:
         items:
           type: model
           models:
-            - action
+            - Action
     type: object
-  section_posts:
+  SectionPosts:
     label: Posts List
     labelField: null
     description: null
@@ -3379,7 +3379,7 @@ models:
           - gray
           - white
     type: object
-  section_pricing:
+  SectionPricing:
     label: Pricing Section
     labelField: null
     description: null
@@ -3438,9 +3438,9 @@ models:
         items:
           type: model
           models:
-            - pricing_plan
+            - PricingPlan
     type: object
-  pricing_plan:
+  PricingPlan:
     label: Pricing Plan
     labelField: title
     description: null
@@ -3496,9 +3496,9 @@ models:
         items:
           type: model
           models:
-            - action
+            - Action
     type: object
-  section_reviews:
+  SectionReviews:
     label: Reviews Section
     labelField: null
     description: null
@@ -3557,9 +3557,9 @@ models:
         items:
           type: model
           models:
-            - review_item
+            - ReviewItem
     type: object
-  review_item:
+  ReviewItem:
     label: Review Item
     labelField: title
     description: null
@@ -3597,7 +3597,7 @@ models:
         label: Content
         type: text
     type: object
-  section_contact:
+  SectionContact:
     label: Contact Section
     labelField: title
     description: null
@@ -3681,7 +3681,7 @@ models:
         items:
           type: model
           models:
-            - form_field
+            - FormField
       - name: submit_label
         required: true
         const: null

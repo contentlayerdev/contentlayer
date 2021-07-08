@@ -9,5 +9,5 @@ export type DocumentMeta = {
    */
   _id: string
   _typeName: string
-  _raw?: Record<string, any>
+  _raw: Record<string, any>
 }

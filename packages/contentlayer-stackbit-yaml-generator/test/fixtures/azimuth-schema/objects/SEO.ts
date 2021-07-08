@@ -1,7 +1,7 @@
 import { defineObject } from 'contentlayer/source-local'
 
-export const seo = defineObject(() => ({
-  name: 'seo',
+export const SEO = defineObject(() => ({
+  name: 'SEO',
   label: 'Page meta data',
   fields: {
     title: {

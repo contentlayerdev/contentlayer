@@ -1,8 +1,6 @@
 {
   "extends": "../../../tsconfig.json",
   "compilerOptions": {
-    // Needed for `pkg-up`
-    "esModuleInterop": true,
     "rootDir": "./src",
     "outDir": "./dist/types"
   },

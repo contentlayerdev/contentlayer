@@ -1,14 +1,12 @@
 import { defineDocument } from 'contentlayer/source-local'
 
-import { seo } from '../objects/seo'
+import { SEO } from '../objects/SEO'
 import { urlFromFilePath } from '../utils'
-import { person } from './person'
+import { Person } from './Person'
 
-export const post = defineDocument(() => ({
-  name: 'post',
-  label: 'Post',
+export const Post = defineDocument(() => ({
+  name: 'Post',
   filePathPattern: `pages/blog/**/*.md`,
-  fileType: 'markdown',
   fields: {
     title: {
       type: 'string',
@@ -29,7 +27,7 @@ export const post = defineDocument(() => ({
     author: {
       type: 'reference',
       description: 'Post author',
-      document: person,
+      document: Person,
     },
     excerpt: {
       type: 'string',
@@ -58,13 +56,7 @@ export const post = defineDocument(() => ({
     },
     seo: {
       type: 'object',
-      object: seo,
-    },
-    content: {
-      type: 'markdown',
-      label: 'Page content',
-      description: 'Page content',
-      required: false,
+      object: SEO,
     },
   },
   computedFields: {

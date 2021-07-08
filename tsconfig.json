@@ -6,6 +6,7 @@
     "declarationMap": true,
     "incremental": true,
     "isolatedModules": true,
+    "esModuleInterop": true,
     "lib": ["ES2020", "DOM"],
     "module": "ES2020",
     "moduleResolution": "node",

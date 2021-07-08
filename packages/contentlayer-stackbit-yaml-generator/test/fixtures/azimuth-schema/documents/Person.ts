@@ -1,8 +1,7 @@
 import { defineDocument } from 'contentlayer/source-local'
 
-export const person = defineDocument(() => ({
-  name: 'person',
-  label: 'Person',
+export const Person = defineDocument(() => ({
+  name: 'Person',
   filePathPattern: 'data/authors/*.yaml',
   fileType: 'yaml',
   fields: {
