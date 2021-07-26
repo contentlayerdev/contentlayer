@@ -1,7 +1,13 @@
 import type { Document } from '../data'
 import type { FieldDef, FieldDefType } from './field'
+import type { StackbitExtension } from './stackbit-extension'
 export * from './field'
 export * from './validate'
+export * from './stackbit-extension'
+
+export type Extensions = {
+  stackbit?: StackbitExtension.Extension
+}
 
 export type Markdown = {
   /** Raw Markdown source */
@@ -37,6 +43,7 @@ export type DocumentDef = {
   isSingleton: boolean
   fieldDefs: FieldDef[]
   computedFields: ComputedField[]
+  extensions: Extensions
 }
 
 export type ObjectDef = {
@@ -46,6 +53,7 @@ export type ObjectDef = {
   description: string | undefined
   labelField: string | undefined
   fieldDefs: FieldDef[]
+  extensions: Extensions
 }
 
 export type ComputedField = {

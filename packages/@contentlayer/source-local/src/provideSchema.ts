@@ -55,6 +55,7 @@ export const makeCoreSchema = ((schemaDef: SchemaDef): Core.SchemaDef => {
       isSingleton: documentDef.isSingleton ?? false,
       fieldDefs,
       computedFields,
+      extensions: documentDef.extensions ?? {},
     }
     coreDocumentDefMap[documentDef.name] = coreDocumentDef
   }
@@ -68,6 +69,7 @@ export const makeCoreSchema = ((schemaDef: SchemaDef): Core.SchemaDef => {
       ...pick(objectDef, ['name', 'description', 'labelField']),
       label: objectDef.label ?? objectDef.name,
       fieldDefs: Object.entries(objectDef.fields).map(fieldDefToCoreFieldDef),
+      extensions: objectDef.extensions ?? {},
     }
     coreObjectDefMap[coreObjectDef.name] = coreObjectDef
   }

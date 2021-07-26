@@ -107,6 +107,7 @@ const sanityDocumentTypeToCoreDocumentDef =
       labelField: previewSelectValues.length > 0 ? previewSelectValues[0] : undefined,
       fieldDefs: documentType.fields.map(sanityFieldToCoreFieldDef(objectTypeNames)),
       computedFields: [],
+      extensions: {},
     }
   }
 
@@ -120,6 +121,7 @@ const sanityObjectTypeToCoreObjectDef =
       description: objectType.description,
       fieldDefs: objectType.fields.map(sanityFieldToCoreFieldDef(objectTypeNames)),
       labelField: undefined,
+      extensions: {},
     }
   }
 

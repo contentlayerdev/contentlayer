@@ -75,6 +75,7 @@ const toDocumentDef = ({
     description: contentType.description,
     labelField: contentType.displayField,
     isSingleton: schemaOverrides.documentTypes[contentType.sys.id].isSingleton,
+    extensions: {},
   }
 }
 
@@ -98,6 +99,7 @@ const toObjectDef = ({
     ),
     description: contentType.description,
     labelField: contentType.displayField,
+    extensions: {},
   }
 }
 

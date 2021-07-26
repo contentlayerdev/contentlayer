@@ -1,3 +1,5 @@
+import type { StackbitExtension } from '@contentlayer/core'
+
 import type { ComputedField } from './computed-field'
 
 export type SchemaDef = {
@@ -5,6 +7,10 @@ export type SchemaDef = {
 }
 
 export type DocumentFileType = 'markdown' | 'mdx' | 'json' | 'yaml'
+
+export type Extensions = {
+  stackbit?: StackbitExtension.Extension
+}
 
 /** Top level model type */
 export type DocumentDef<Name extends string = any> = {
@@ -29,6 +35,8 @@ export type DocumentDef<Name extends string = any> = {
   /** Default is `md` */
   fileType?: DocumentFileType
   isSingleton?: boolean
+
+  extensions?: Extensions
   /** Conditional extensions */
   // extentions?:
   //   | {
@@ -234,6 +242,7 @@ export type ObjectDef = {
   description?: string
   labelField?: string
   fields: Record<string, FieldDef>
+  extensions?: Extensions
 }
 
 export type Thunk<T> = () => T

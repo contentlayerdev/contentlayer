@@ -101,6 +101,19 @@ const SectionContent = defineObject(() => ({
       of: { type: 'object', object: Action },
     },
   },
+  extensions: {
+    stackbit: {
+      fieldGroups: [
+        { name: 'content', label: 'Content' },
+        { name: 'design', label: 'Design' },
+      ],
+      fields: {
+        content: { group: 'content' },
+        image: { group: 'content', control: { type: 'image-gallery', options: {} } },
+        background: { group: 'design', control: { type: 'image-gallery', options: {} } },
+      },
+    },
+  },
 }))
 
 const SectionCta = defineObject(() => ({
