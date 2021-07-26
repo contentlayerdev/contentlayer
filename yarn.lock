@@ -1459,8 +1459,6 @@ __metadata:
   resolution: "@contentlayer/client@workspace:packages/@contentlayer/client"
   dependencies:
     "@contentlayer/core": "workspace:*"
-    "@contentlayer/utils": "workspace:*"
-    rxjs: ^7.1.0
   languageName: unknown
   linkType: soft
 
@@ -14534,6 +14532,30 @@ fsevents@^1.2.7:
   checksum: 6f472a09c61d418c7e26c1c16d0bdc029549d512dbec6526216a1e59ec68100d07007d0097dcba69dddad883d6f2a83361b4bdfe0094a3d9a2af24158643d85e
   languageName: node
   linkType: hard
+
+"playground-azimuth-colocated@workspace:packages/playgrounds/playground-azimuth-colocated":
+  version: 0.0.0-use.local
+  resolution: "playground-azimuth-colocated@workspace:packages/playgrounds/playground-azimuth-colocated"
+  dependencies:
+    "@types/react": ^17.0.9
+    "@types/react-dom": ^17.0.6
+    "@types/react-helmet": ^6.1.1
+    contentlayer: "workspace:*"
+    contentlayer-stackbit-yaml-generator: "workspace:*"
+    date-fns: ^2.22.1
+    marked: ^2.0.3
+    next: ^11.0.1
+    next-contentlayer: "workspace:*"
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    react-helmet: ^6.1.0
+    react-html-parser: ^2.0.2
+    react-script-tag: ^1.1.2
+    sass: ^1.32.7
+    ts-node: ^10.0.0
+    typescript: ^4.3.5
+  languageName: unknown
+  linkType: soft
 
 "playground-azimuth-contentful@workspace:packages/playgrounds/playground-azimuth-contentful":
   version: 0.0.0-use.local

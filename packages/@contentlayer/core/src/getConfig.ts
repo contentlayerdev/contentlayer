@@ -1,7 +1,6 @@
 import { promiseMap, traceAsyncFn } from '@contentlayer/utils'
 import { fileOrDirExists } from '@contentlayer/utils/node'
-import type { BuildResult } from 'esbuild'
-import { build as esbuild } from 'esbuild'
+import * as esbuild from 'esbuild'
 import { promises as fs } from 'fs'
 import * as path from 'path'
 import pkgUp from 'pkg-up'
@@ -50,44 +49,53 @@ const callEsbuild = ({
   outfilePath: string
   entryPointPath: string
   watch: boolean
-}): Observable<BuildResult> => {
+}): Observable<esbuild.BuildResult> => {
   return new Observable((subscriber) => {
-    let result: BuildResult | undefined
+    let result: esbuild.BuildResult | undefined
 
-    esbuild({
-      entryPoints: [entryPointPath],
-      outfile: outfilePath,
-      sourcemap: true,
-      platform: 'node',
-      // plugins: [dirnameOverrideEsbuildPlugin()],
-      external: [
-        'esbuild',
-        // TODO make dynamic
-        // needed for source-sanity
-        '@sanity/core/lib/actions/graphql/getSanitySchema',
+    esbuild
+      .build({
+        entryPoints: [entryPointPath],
+        outfile: outfilePath,
+        sourcemap: true,
+        platform: 'node',
+        // plugins: [dirnameOverrideEsbuildPlugin()],
+        external: [
+          'esbuild',
+          // TODO make dynamic
+          // needed for source-sanity
+          '@sanity/core/lib/actions/graphql/getSanitySchema',
 
-        // needed to make chokidar work on OSX (in source-local)
-        'fsevents',
+          // contentlayer
+          // 'contentlayer/*',
+          // '@contentlayer/*',
 
-        // needed for shiki
-        'onigasm',
-        'shiki',
-      ],
-      target: 'es6',
-      format: 'cjs',
-      bundle: true,
-      watch: watch
-        ? {
-            onRebuild: (error, result) => {
-              if (error) {
-                subscriber.error(error)
-              } else {
-                subscriber.next(result!)
-              }
-            },
-          }
-        : false,
-    })
+          // needed to make chokidar work on OSX (in source-local)
+          'fsevents',
+
+          // needed for shiki
+          'onigasm',
+          'shiki',
+        ],
+        target: 'es6',
+        format: 'cjs',
+        // needed in case models are colocated with React components
+        jsx: 'transform',
+        bundle: true,
+        logLevel: 'error',
+        plugins: [contentlayerGenPlugin()],
+        watch: watch
+          ? {
+              onRebuild: (error, result) => {
+                if (error) {
+                  subscriber.error(error)
+                } else {
+                  subscriber.next(result!)
+                }
+              },
+            }
+          : false,
+      })
       .then((result_) => {
         result = result_
         subscriber.next(result)
@@ -157,13 +165,20 @@ const getConfigFromResult = (async ({
   configPath,
   outfilePath,
 }: {
-  result: BuildResult
+  result: esbuild.BuildResult
   /** configPath only needed for error message */
   configPath: string
   outfilePath: string
 }): Promise<SourcePlugin> => {
-  if (result.warnings.length > 0) {
-    console.error(result.warnings)
+  const unknownWarnings = result.warnings.filter(
+    (warning) =>
+      warning.text.match(
+        /Import \".*\" will always be undefined because the file \"contentlayer-gen:.contentlayer\/(data|types)\" has no exports/,
+      ) === null,
+  )
+  if (unknownWarnings.length > 0) {
+    console.error(`Esbuild errors:`)
+    console.error(unknownWarnings)
   }
 
   // wrapping in try/catch is needed to surpress esbuild warning
@@ -185,3 +200,28 @@ const getConfigFromResult = (async ({
     throw error
   }
 })['|>'](traceAsyncFn('@contentlayer/core/getConfig:getConfigFromResult', ['configPath', 'outfilePath']))
+
+const contentlayerGenPlugin = (): esbuild.Plugin => ({
+  name: 'contentlayer-gen',
+  setup(build) {
+    build.onResolve({ filter: /^\.contentlayer\// }, (args) => ({
+      path: args.path,
+      namespace: 'contentlayer-gen',
+    }))
+
+    // // TODO need to come up with a better `filter`
+    // build.onLoad({ filter: /\/contentlayer\/.*/, namespace: 'file' }, async (args) => {
+    //   // NOTE needed to deal with TypeScript sources as esbuild plugins don't seem to be composable right now
+    //   const result = await esbuild.build({
+    //     entryPoints: [args.path],
+    //     write: false,
+    //   })
+    //   const contents = `var __dirname = "${path.dirname(args.path)}";\n${result.outputFiles![0].text}`
+    //   return { contents }
+    // })
+
+    build.onLoad({ filter: /.*/, namespace: 'contentlayer-gen' }, () => ({
+      contents: '// empty',
+    }))
+  },
+})

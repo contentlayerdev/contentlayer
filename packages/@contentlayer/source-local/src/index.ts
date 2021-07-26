@@ -1,7 +1,7 @@
 import type { Cache, Options, SchemaDef, SourcePlugin } from '@contentlayer/core'
 import { loadPreviousCacheFromDisk, writeCacheToDisk } from '@contentlayer/core'
 import { casesHandled } from '@contentlayer/utils'
-import * as chokidar from 'chokidar'
+// import * as chokidar from 'chokidar'
 import type { Observable } from 'rxjs'
 import { defer, fromEvent, of } from 'rxjs'
 import { map, mergeMap, startWith, tap } from 'rxjs/operators'
@@ -11,7 +11,6 @@ import { makeCoreSchema } from './provideSchema'
 import type { DocumentDef, Thunk } from './schema'
 import type { FilePathPatternMap } from './types'
 
-export * from './schema'
 export * from './types'
 
 type Args = {
@@ -49,6 +48,8 @@ export const fromLocalContent: MakeSourcePlugin = async (argsOrArgsThunk) => {
     ...options
   } = typeof argsOrArgsThunk === 'function' ? await argsOrArgsThunk() : argsOrArgsThunk
   const documentDefs = (Array.isArray(documentDefs_) ? documentDefs_ : Object.values(documentDefs_)).map((_) => _())
+
+  const chokidar = await import('chokidar')
 
   return {
     type: 'local',

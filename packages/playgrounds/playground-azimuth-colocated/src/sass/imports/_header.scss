@@ -1,0 +1,253 @@
+.site-header {
+  background: #fff;
+  color: $gray-700;
+  padding-bottom: 1em;
+  padding-top: 1em;
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.site-header-inside {
+  -ms-flex-align: center;
+  align-items: center;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.site-branding {
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+}
+
+.site-title {
+  color: $gray-700;
+  font-size: 1.33333em;
+  font-weight: bold;
+  line-height: 1.2;
+  margin: 0;
+
+  .font-fira-sans & {
+    font-weight: 600;
+  }
+}
+
+.site-logo {
+  margin: 0;
+
+  img {
+    max-height: 40px;
+  }
+}
+
+.site-navigation {
+  .button {
+    font-size: 1em;
+  }
+}
+
+#masthead {
+  .site-branding {
+    a {
+      color: inherit;
+    }
+  }
+
+  .site-navigation {
+    .current-menu-item {
+      color: $gray-500;
+    }
+
+    a:not(.button) {
+      color: inherit;
+  
+      &:hover {
+        color: $gray-500;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 801px) {
+  .menu-toggle {
+    display: none;
+  }
+
+  .site-navigation {
+    margin-left: auto;
+
+    .menu-item {
+      display: inline-block;
+      margin: 0 0 0 1.875em;
+    }
+
+    .button {
+      padding: 0.25em 0.9375em;
+    }
+
+    .menu-button + .menu-button {
+      margin-left: 0.9375em;
+    }
+  }
+
+  @supports (position: sticky) or (position: -webkit-sticky) {
+    .site-header {
+      background: #fff;
+      position: -webkit-sticky;
+      position: sticky;
+      top:0;
+      z-index: 999;
+
+      .has--scrolled & {
+        box-shadow: $box-shadow-sm;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .site {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .site-header {
+    &:before {
+      background: rgba($gray-100, .75);
+      content: "";
+      height: 100vh;
+      left: 0;
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      -webkit-transition: opacity .15s ease-in-out,visibility 0s ease-in-out .15s;
+      transition: opacity .15s ease-in-out,visibility 0s ease-in-out .15s;
+      visibility: hidden;
+      width: 100%;
+      z-index: 998;
+    }
+  }
+
+  .menu-toggle {
+    background: 0;
+    border: 0;
+    box-shadow: none;
+    color: inherit;
+    display: block;
+    cursor: pointer;
+    font-size: inherit;
+    height: 1.66667rem;
+    padding: 0;
+    position: relative;
+    width: 1.66667rem;
+
+    &:hover,
+    &:focus,
+    &:active {
+      outline: 0;
+    }
+  }
+
+  #menu-open {
+    margin-left: auto;
+  }
+
+  #menu-close {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+  }
+
+  .site-navigation {
+    background: #fff;
+    box-sizing: border-box;
+    height: 100vh;
+    -webkit-overflow-scrolling: touch;
+    position: absolute;
+    right: -400px;
+    top: 0;
+    -webkit-transition: right .3s ease-in-out, visibility 0s .3s ease-in-out;
+    transition: right .3s ease-in-out, visibility 0s .3s ease-in-out;
+    visibility: hidden;
+    width: 400px;
+    z-index: 999;
+
+    .menu {
+      padding: 3.66667em $container-padding 2.5em;
+    }
+
+    .menu-item {
+      &:not(.menu-button) {
+        border-bottom: 1px solid $gray-200;
+
+        &:first-child {
+          border-top: 1px solid $gray-200;
+        }
+      }
+
+      &.menu-button {
+        margin-top: 1.66667em;
+      }
+    }
+
+    a {
+      &:not(.button) {
+        display: block;
+        padding: 0.75em 0;
+      }
+    }
+
+    .button {
+      width: 100%;
+    }
+  }
+
+  .site-nav-inside {
+    height: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+  }
+
+  .menu--opened {
+    .site {
+      height: 100%;
+      left: 0;
+      overflow: hidden;
+      position: fixed;
+      top: 0;
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+      width: 100%;
+      z-index: 997;
+    }
+
+    .site-navigation {
+      right: 0;
+      -webkit-transition: right .3s ease-in-out;
+      transition: right .3s ease-in-out;
+      visibility: visible;
+    }
+
+    .site-header {
+      &:before {
+        opacity: 1;
+        -webkit-transition-delay: 0s;
+        transition-delay: 0s;
+        visibility: visible;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .site-navigation {
+    width: 100%;
+  }
+
+  #menu-close {
+    right: $container-padding;
+    top: $container-padding;
+  }
+}

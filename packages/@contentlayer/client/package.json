@@ -10,8 +10,6 @@
     "build": "(yarn workspaces foreach -vpR -j=6 run g:build:lib & run g:build:types) && echo Build complete"
   },
   "dependencies": {
-    "@contentlayer/core": "workspace:*",
-    "@contentlayer/utils": "workspace:*",
-    "rxjs": "^7.1.0"
+    "@contentlayer/core": "workspace:*"
   }
 }

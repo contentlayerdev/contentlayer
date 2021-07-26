@@ -1,0 +1,52 @@
+// Color palettes
+@each $palette in map-keys($theme-palettes) {
+  $palette-suffix: "#{$palette}";
+  $color-primary: map-deep-get($theme-palettes, $palette, "primary");
+  $color-secondary: map-deep-get($theme-palettes, $palette, "secondary");
+
+  .palette-#{$palette-suffix} {
+    a:not(.button) {
+      color: $color-primary;
+
+      &:hover {
+        color: $gray-600;
+      }
+    }
+
+    blockquote,
+    .underline:after,
+    .card.highlight {
+      border-color: $color-primary;
+    }
+
+    .button {
+      background: $color-primary;
+      border-color: $color-primary;
+
+      &.secondary {
+        background: transparent;
+        color: $color-primary;
+      }
+    }
+
+    .icon-plus {
+      background: $color-primary;
+    }
+
+    .review-text {
+      &:before {
+        color: $color-primary;
+      }
+    }
+
+    .bg-accent {
+      background: $color-primary;
+      background: -webkit-gradient(linear, left top, right top, from($color-primary), to($color-secondary));
+      background: linear-gradient(to right,$color-primary, $color-secondary);
+
+      .button {
+        color: $color-primary;
+      }
+    }
+  }
+}

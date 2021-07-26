@@ -1,0 +1,62 @@
+// Fonts
+$font-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace !default;
+
+// Colors
+$color-primary:   #0072ff !default;
+$color-secondary: #00c6ff !default;
+
+$gray-100:        #f7f9fb !default;
+$gray-200:        #ebecf0 !default;
+$gray-300:        #c5c8d4 !default;
+$gray-400:        #999fb3 !default;
+$gray-500:        #7b839e !default;
+$gray-600:        #4c5267 !default;
+$gray-700:        #2c2f3b !default;
+
+$yellow-pale:     #fcffc4 !default;
+
+// Border radius
+$border-radius: 3px;
+
+// Box shadow
+$box-shadow:          0 3px 10px 0 rgba($gray-600,.1) !default;
+$box-shadow-white-bg: 0 3px 10px 0 rgba($gray-600,.15) !default;
+$box-shadow-sm:       0 1px 4px 0 rgba($gray-600,.1) !default;
+
+// Container max width
+$container:    1140px !default;
+$container-sm: 555px !default;
+$container-md: 750px !default;
+$container-lg: 945px !default;
+
+// Container padding
+$container-padding: 4vw !default;
+
+// Grid gap
+$grid-gap: 1.66667rem !default;
+
+// Theme variations
+$theme-fonts: (
+  nunito-sans: ("Nunito Sans", sans-serif),
+  fira-sans:   ("Fira Sans", sans-serif),
+  system-sans: (-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif)
+);
+
+$theme-palettes: (
+  cyan: (
+    primary:   #2cb1bc,
+    secondary: #54d1db
+  ),
+  green: (
+    primary:   #37b05d,
+    secondary: #57cb85
+  ),
+  orange: (
+    primary:   #fe8c00,
+    secondary: #f83600
+  ),
+  purple: (
+    primary:   #653cad,
+    secondary: #8662c7
+  )
+);

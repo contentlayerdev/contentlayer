@@ -7,6 +7,10 @@
       "import": "./dist/esm/source-local/index.js",
       "require": "./dist/cjs/source-local/index.js"
     },
+    "./source-local/schema": {
+      "import": "./dist/esm/source-local/schema/index.js",
+      "require": "./dist/cjs/source-local/schema/index.js"
+    },
     "./client": {
       "import": "./dist/esm/client/index.js",
       "require": "./dist/cjs/client/index.js"
@@ -29,6 +33,9 @@
     "*": {
       "source-local": [
         "./dist/types/source-local"
+      ],
+      "source-local/schema": [
+        "./dist/types/source-local/schema"
       ],
       "client": [
         "./dist/types/client"

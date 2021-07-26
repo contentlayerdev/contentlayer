@@ -1,4 +1,4 @@
-import { defineObject } from 'contentlayer/source-local'
+import { defineObject } from 'contentlayer/source-local/schema'
 
 export const SEO = defineObject(() => ({
   name: 'SEO',

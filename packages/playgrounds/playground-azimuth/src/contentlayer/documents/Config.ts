@@ -1,4 +1,4 @@
-import { defineDocument, defineObject } from 'contentlayer/source-local'
+import { defineDocument, defineObject } from 'contentlayer/source-local/schema'
 
 import { Action } from '../objects/Action'
 import { FormField } from '../objects/FormField'

@@ -3,7 +3,24 @@
   "version": "0.0.19",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    },
+    "./schema": {
+      "import": "./dist/esm/schema/index.js",
+      "require": "./dist/cjs/schema/index.js"
+    }
+  },
   "types": "./dist/types/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "schema": [
+        "./dist/types/schema"
+      ]
+    }
+  },
   "scripts": {
     "prepack": "yarn build",
     "dev": "rm -rf dist && tsc --watch",

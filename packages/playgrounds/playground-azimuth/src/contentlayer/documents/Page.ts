@@ -1,4 +1,4 @@
-import { defineDocument } from 'contentlayer/source-local'
+import { defineDocument } from 'contentlayer/source-local/schema'
 
 import { SEO } from '../objects/SEO'
 import { urlFromFilePath } from '../utils'
