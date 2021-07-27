@@ -1,6 +1,6 @@
 import * as Core from '@contentlayer/core'
 import { hashObject } from '@contentlayer/core'
-import { pick, traceFn, uppercaseFirstChar } from '@contentlayer/utils'
+import { casesHandled, pick, traceFn, uppercaseFirstChar } from '@contentlayer/utils'
 
 import type { DocumentDef, FieldDef, FieldDefs, ListFieldItem, ObjectDef, SchemaDef } from './schema'
 
@@ -151,17 +151,17 @@ const fieldListItemsToCoreFieldListDefItems = (listFieldItem: ListFieldItem): Co
     case 'boolean':
     case 'string':
       return pick(listFieldItem, ['labelField', 'type'])
-    case 'object':
-      return {
-        type: 'object',
-        labelField: listFieldItem.labelField,
-        objectName: listFieldItem.object().name,
-      }
     case 'enum':
       return {
         type: 'enum',
         labelField: listFieldItem.labelField,
         options: listFieldItem.options,
+      }
+    case 'object':
+      return {
+        type: 'object',
+        labelField: listFieldItem.labelField,
+        objectName: listFieldItem.object().name,
       }
     case 'inline_object':
       return {
@@ -169,6 +169,14 @@ const fieldListItemsToCoreFieldListDefItems = (listFieldItem: ListFieldItem): Co
         labelField: listFieldItem.labelField,
         fieldDefs: getFieldDefEntries(listFieldItem.fields).map(fieldDefEntryToCoreFieldDef),
       }
+    case 'reference':
+      return {
+        type: 'reference',
+        labelField: listFieldItem.labelField,
+        documentName: listFieldItem.document().name,
+      }
+    default:
+      casesHandled(listFieldItem)
   }
 }
 
@@ -195,6 +203,22 @@ function collectObjectDefs(documentDefs: DocumentDef[]): ObjectDef[] {
         return field.of.forEach(traverseListFieldItem)
       case 'list':
         return traverseListFieldItem(field.of)
+      case 'boolean':
+      case 'date':
+      case 'enum':
+      case 'image':
+      case 'json':
+      case 'markdown':
+      case 'mdx':
+      case 'number':
+      case 'slug':
+      case 'string':
+      case 'text':
+      case 'url':
+      case 'reference':
+        return
+      default:
+        casesHandled(field)
     }
   }
 

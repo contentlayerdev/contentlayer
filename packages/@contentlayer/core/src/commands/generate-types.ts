@@ -107,6 +107,7 @@ const renderListItemFieldType = (item: ListFieldDefItem): string => {
     case 'inline_object':
       return '{\n' + item.fieldDefs.map(renderFieldDef).join('\n') + '\n}'
     case 'reference':
-      return item.documentName
+      // We're just returning the id (e.g. file path or record id) to the referenced document here
+      return 'string'
   }
 }

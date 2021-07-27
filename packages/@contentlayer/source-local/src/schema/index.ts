@@ -151,6 +151,7 @@ export type ListFieldItem =
   | ListFieldItemBoolean
   | ListFieldItemObject
   | ListFieldItemInlineObject
+  | ListFieldItemReference
 
 type BaseListFieldItem = { labelField?: string }
 
@@ -164,6 +165,10 @@ export type ListFieldItemObject = BaseListFieldItem & {
 export type ListFieldItemInlineObject = BaseListFieldItem & {
   type: 'inline_object'
   fields: FieldDefs
+}
+export type ListFieldItemReference = BaseListFieldItem & {
+  type: 'reference'
+  document: Thunk<DocumentDef>
 }
 
 export const isListFieldItemObject = (_: ListFieldItem): _ is ListFieldItemObject => _.type === 'object'
