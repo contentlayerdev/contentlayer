@@ -2,7 +2,7 @@ import * as Core from '@contentlayer/core'
 import { hashObject } from '@contentlayer/core'
 import { pick, traceFn, uppercaseFirstChar } from '@contentlayer/utils'
 
-import type { DocumentDef, FieldDef, ListFieldItem, ObjectDef, SchemaDef } from './schema'
+import type { DocumentDef, FieldDef, FieldDefs, ListFieldItem, ObjectDef, SchemaDef } from './schema'
 
 export const makeCoreSchema = ((schemaDef: SchemaDef): Core.SchemaDef => {
   const coreDocumentDefMap: Core.DocumentDefMap = {}
@@ -11,7 +11,7 @@ export const makeCoreSchema = ((schemaDef: SchemaDef): Core.SchemaDef => {
   for (const documentDef of schemaDef.documentDefs) {
     validateDefName({ defName: documentDef.name })
 
-    const fieldDefs = Object.entries(documentDef.fields).map(fieldDefToCoreFieldDef)
+    const fieldDefs = getFieldDefEntries(documentDef.fields).map(fieldDefEntryToCoreFieldDef)
 
     // add default content markdown field if not explicitly provided
     if (
@@ -68,7 +68,7 @@ export const makeCoreSchema = ((schemaDef: SchemaDef): Core.SchemaDef => {
       _tag: 'ObjectDef',
       ...pick(objectDef, ['name', 'description', 'labelField']),
       label: objectDef.label ?? objectDef.name,
-      fieldDefs: Object.entries(objectDef.fields).map(fieldDefToCoreFieldDef),
+      fieldDefs: getFieldDefEntries(objectDef.fields).map(fieldDefEntryToCoreFieldDef),
       extensions: objectDef.extensions ?? {},
     }
     coreObjectDefMap[coreObjectDef.name] = coreObjectDef
@@ -95,7 +95,25 @@ You've provided the name "${defName}" - please consider using "${improvedDefName
   }
 }
 
-const fieldDefToCoreFieldDef = ([name, fieldDef]: [name: string, fieldDef: FieldDef]): Core.FieldDef => {
+const getFieldDefEntries = (fieldDefs: FieldDefs): FieldDefEntry[] => {
+  if (Array.isArray(fieldDefs)) {
+    return fieldDefs.map((fieldDef) => [fieldDef.name, fieldDef])
+  } else {
+    return Object.entries(fieldDefs)
+  }
+}
+
+const getFieldDefValues = (fieldDefs: FieldDefs): FieldDef[] => {
+  if (Array.isArray(fieldDefs)) {
+    return fieldDefs
+  } else {
+    return Object.values(fieldDefs)
+  }
+}
+
+type FieldDefEntry = [fieldName: string, fieldDef: FieldDef]
+
+const fieldDefEntryToCoreFieldDef = ([name, fieldDef]: FieldDefEntry): Core.FieldDef => {
   const baseFields: Core.FieldBase = {
     ...pick(fieldDef, ['type', 'default', 'description', 'required', 'const', 'hidden']),
     label: fieldDef.label ?? name,
@@ -113,7 +131,7 @@ const fieldDefToCoreFieldDef = ([name, fieldDef]: [name: string, fieldDef: Field
     case 'object':
       return <Core.ObjectFieldDef>{ ...baseFields, objectName: fieldDef.object().name }
     case 'inline_object':
-      const fieldDefs = Object.entries(fieldDef.fields).map(fieldDefToCoreFieldDef)
+      const fieldDefs = getFieldDefEntries(fieldDef.fields).map(fieldDefEntryToCoreFieldDef)
       return <Core.InlineObjectFieldDef>{ ...baseFields, fieldDefs }
     case 'reference':
       return <Core.ReferenceFieldDef>{ ...baseFields, documentName: fieldDef.document().name }
@@ -149,7 +167,7 @@ const fieldListItemsToCoreFieldListDefItems = (listFieldItem: ListFieldItem): Co
       return {
         type: 'inline_object',
         labelField: listFieldItem.labelField,
-        fieldDefs: Object.entries(listFieldItem.fields).map(fieldDefToCoreFieldDef),
+        fieldDefs: getFieldDefEntries(listFieldItem.fields).map(fieldDefEntryToCoreFieldDef),
       }
   }
 }
@@ -164,7 +182,7 @@ function collectObjectDefs(documentDefs: DocumentDef[]): ObjectDef[] {
 
     objectDefMap[objectDef.name] = objectDef
 
-    Object.values(objectDef.fields).forEach(traverseField)
+    getFieldDefValues(objectDef.fields).forEach(traverseField)
   }
 
   const traverseField = (field: FieldDef) => {
@@ -172,7 +190,7 @@ function collectObjectDefs(documentDefs: DocumentDef[]): ObjectDef[] {
       case 'object':
         return traverseObjectDef(field.object())
       case 'inline_object':
-        return Object.values(field.fields).forEach(traverseField)
+        return getFieldDefValues(field.fields).forEach(traverseField)
       case 'polymorphic_list':
         return field.of.forEach(traverseListFieldItem)
       case 'list':
@@ -187,7 +205,7 @@ function collectObjectDefs(documentDefs: DocumentDef[]): ObjectDef[] {
     }
   }
 
-  documentDefs.flatMap((_) => Object.values(_.fields)).forEach(traverseField)
+  documentDefs.flatMap((_) => getFieldDefValues(_.fields)).forEach(traverseField)
 
   return Object.values(objectDefMap)
 }

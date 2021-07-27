@@ -12,6 +12,8 @@ export type Extensions = {
   stackbit?: StackbitExtension.Extension
 }
 
+export type FieldDefs = Record<string, FieldDef> | FieldDefWithName[]
+
 /** Top level model type */
 export type DocumentDef<Name extends string = any> = {
   name: Name
@@ -23,10 +25,14 @@ export type DocumentDef<Name extends string = any> = {
   labelField?: string
 
   /**
+   * The field definitions can either be provided as an object with the field names as keys or
+   * as an array of all field definitions including the name as an extra field. (The array definition
+   * can be used if you want more control over the order of the fields.)
+   *
    * In the case of `fileType: "md"` the fields are used for the frontmatter
    * and have an implicit field called `content` with the markdown body.
    */
-  fields: Record<string, FieldDef>
+  fields: FieldDefs
 
   computedFields?: Record<string, ComputedField<Name>>
 
@@ -61,6 +67,17 @@ export type DocumentDef<Name extends string = any> = {
   // 2) file path
 }
 
+export type ObjectDef = {
+  name: string
+  // type: ModelType
+  /**  */
+  label?: string
+  description?: string
+  labelField?: string
+  fields: FieldDefs
+  extensions?: Extensions
+}
+
 // export type FieldType =
 //   | 'string'
 //   | 'text'
@@ -73,6 +90,8 @@ export type DocumentDef<Name extends string = any> = {
 //   | 'reference'
 
 export type FieldDefType = FieldDef['type']
+
+export type FieldDefWithName = FieldDef & { name: string }
 
 export type FieldDef =
   | ListField
@@ -144,7 +163,7 @@ export type ListFieldItemObject = BaseListFieldItem & {
 }
 export type ListFieldItemInlineObject = BaseListFieldItem & {
   type: 'inline_object'
-  fields: Record<string, FieldDef>
+  fields: FieldDefs
 }
 
 export const isListFieldItemObject = (_: ListFieldItem): _ is ListFieldItemObject => _.type === 'object'
@@ -232,17 +251,6 @@ export type ReferenceField = FieldBase & {
   type: 'reference'
   default?: string
   document: Thunk<DocumentDef>
-}
-
-export type ObjectDef = {
-  name: string
-  // type: ModelType
-  /**  */
-  label?: string
-  description?: string
-  labelField?: string
-  fields: Record<string, FieldDef>
-  extensions?: Extensions
 }
 
 export type Thunk<T> = () => T
