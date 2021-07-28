@@ -4,7 +4,7 @@
     // needed for Next.js imports
     "allowSyntheticDefaultImports": true,
     "rootDir": "./src",
-    "outDir": "./dist"
+    "outDir": "./dist/types"
   },
   "include": ["./src"],
   "references": [

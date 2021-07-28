@@ -13,7 +13,7 @@ export const renderDocumentOrObjectDef = ({
   const computedFields = (def._tag === 'DocumentDef' ? def.computedFields : [])
     .map((field) => `${field.description ? `  /** ${field.description} */\n` : ''}  ${field.name}: ${field.type}`)
     .join('\n')
-  const description = def.description ?? def.label
+  const description = def.description ?? def.extensions.stackbit?.fields?.[def.name]?.label
 
   const rawType = renderRawType({ sourcePluginType })
   const idDocs = renderIdDocs({ sourcePluginType })
@@ -81,7 +81,7 @@ const renderFieldType = (field: FieldDef): string => {
     case 'object': {
       return field.objectName
     }
-    case 'reference':
+    case 'document':
       return 'string'
     case 'polymorphic_list':
       const wrapInParenthesis = (_: string) => `(${_})`
@@ -106,7 +106,7 @@ const renderListItemFieldType = (item: ListFieldDefItem): string => {
       return '(' + item.options.map((_) => `'${_}'`).join(' | ') + ')'
     case 'inline_object':
       return '{\n' + item.fieldDefs.map(renderFieldDef).join('\n') + '\n}'
-    case 'reference':
+    case 'document':
       // We're just returning the id (e.g. file path or record id) to the referenced document here
       return 'string'
   }

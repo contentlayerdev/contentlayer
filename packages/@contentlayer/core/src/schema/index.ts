@@ -6,7 +6,7 @@ export * from './validate'
 export * from './stackbit-extension'
 
 export type Extensions = {
-  stackbit?: StackbitExtension.Extension
+  stackbit?: StackbitExtension.ModelExtension
 }
 
 export type Markdown = {
@@ -37,9 +37,7 @@ export type DocumentDef = {
   readonly _tag: 'DocumentDef'
   /** Sometimes also called "id" */
   name: string
-  label: string
   description: string | undefined
-  labelField: string | undefined
   isSingleton: boolean
   fieldDefs: FieldDef[]
   computedFields: ComputedField[]
@@ -49,9 +47,7 @@ export type DocumentDef = {
 export type ObjectDef = {
   readonly _tag: 'ObjectDef'
   name: string
-  label: string
   description: string | undefined
-  labelField: string | undefined
   fieldDefs: FieldDef[]
   extensions: Extensions
 }

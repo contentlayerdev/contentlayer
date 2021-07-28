@@ -1,4 +1,5 @@
-import { defineDocument, fromLocalContent } from 'contentlayer/source-local'
+import { fromLocalContent } from 'contentlayer/source-local'
+import { defineDocument } from 'contentlayer/source-local/schema'
 import highlight from 'rehype-highlight'
 
 export const Post = defineDocument(() => ({

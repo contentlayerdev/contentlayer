@@ -7,13 +7,15 @@ import {
   traceAsyncFn,
   uppercaseFirstChar,
 } from '@contentlayer/utils'
+import { fileOrDirExists } from '@contentlayer/utils/node'
 import { camelCase } from 'camel-case'
 import { promises as fs } from 'fs'
+import { watch } from 'fs'
 import * as path from 'path'
 import type { Observable } from 'rxjs'
 import { of } from 'rxjs'
 import { combineLatest, defer } from 'rxjs'
-import { switchMap } from 'rxjs/operators'
+import { switchMap, tap } from 'rxjs/operators'
 import type { PackageJson } from 'type-fest'
 
 import type { Cache } from '../cache'
@@ -35,7 +37,9 @@ export const generateDotpkg = ({ source, watchData }: { source: SourcePlugin; wa
   combineLatest({
     cache: source.fetchData({ watch: watchData }),
     schemaDef: defer(async () => source.provideSchema()),
-    targetPath: defer(makeArtifactsDir),
+    targetPath: defer(makeArtifactsDir).pipe(
+      tap((artifactsDir) => watchData && errorIfArtifactsDirIsDeleted({ artifactsDir })),
+    ),
     sourcePluginType: of(source.type),
     writtenFilesCache: of({}),
   }).pipe(switchMap(writeFilesForCache))
@@ -230,7 +234,12 @@ const makeTypes = ({
 
   // TODO this might be no longer needed and can be removed once `isType` has been refactored
   // to not depend on global types
-  const typeMap = documentTypes
+  const documentTypeMap = documentTypes
+    .map((_) => _.typeName)
+    .map((_) => `  ${_}: ${_}`)
+    .join('\n')
+
+  const objectTypeMap = objectTypes
     .map((_) => _.typeName)
     .map((_) => `  ${_}: ${_}`)
     .join('\n')
@@ -256,6 +265,9 @@ export interface ContentlayerGenTypes {
   documentTypes: DocumentTypes
   documentTypeMap: DocumentTypeMap
   documentTypeNames: DocumentTypeNames
+  objectTypes: ObjectTypes
+  objectTypeMap: ObjectTypeMap
+  objectTypeNames: ObjectTypeNames
   allTypeNames: AllTypeNames
 }
 
@@ -264,7 +276,11 @@ declare global {
 }
 
 export type DocumentTypeMap = {
-${typeMap}
+${documentTypeMap}
+}
+
+export type ObjectTypeMap = {
+${objectTypeMap}
 }
 
 export type AllTypes = DocumentTypes | ObjectTypes
@@ -337,4 +353,13 @@ const leftPadWithUnderscoreIfStartsWithNumber = (str: string): string => {
     return '_' + str
   }
   return str
+}
+
+const errorIfArtifactsDirIsDeleted = ({ artifactsDir }: { artifactsDir: string }) => {
+  watch(artifactsDir, async (event) => {
+    if (event === 'rename' && !(await fileOrDirExists(artifactsDir))) {
+      console.error(`Seems like the target directory (${artifactsDir}) was deleted. Please restart the command.`)
+      process.exit(1)
+    }
+  })
 }

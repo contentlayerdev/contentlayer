@@ -22,18 +22,14 @@ export type FieldDef =
 export interface FieldBase {
   /** Field name should contain only alphanumeric characters, underscore and a hyphen [A-Za-z0-9_]. Must start with a letter. Must not end with an underscore or a hyphen. */
   name: string
-  /** Should be short enough as some CMS's have restrictions on its length. Some CMS require label to be unique. */
-  label: string | undefined
+  // /** Should be short enough as some CMS's have restrictions on its length. Some CMS require label to be unique. */
+  // label: string | undefined
   /** Short description to editors how the field is to be used */
   description: string | undefined
   /**
    * Default: false
    */
   required: boolean | undefined
-  /** IS THIS NEEDED? */
-  const: any | undefined
-  /** Users will not be able to edit hidden fields, therefore when hiding a field you should specify the default or const properties to populate these fields when new objects are created. */
-  hidden: boolean | undefined
 }
 
 export interface ListFieldDef extends FieldBase {
@@ -61,7 +57,9 @@ export type ListFieldDefItem =
   | ListFieldItemInlineObject
   | ListFieldItemReference
 
-type BaseListFieldItem = { labelField: string | undefined }
+type BaseListFieldItem = {
+  // labelField: string | undefined
+}
 
 export type ListFieldItemString = BaseListFieldItem & { type: 'string' }
 export type ListFieldItemEnum = BaseListFieldItem & { type: 'enum'; options: string[] }
@@ -76,7 +74,7 @@ export type ListFieldItemInlineObject = BaseListFieldItem & {
 }
 
 export type ListFieldItemReference = BaseListFieldItem & {
-  type: 'reference'
+  type: 'document'
   documentName: string
 }
 
@@ -163,7 +161,7 @@ export type InlineObjectFieldDef = FieldBase & {
 export const isInlineObjectFieldDef = (_: FieldDef): _ is InlineObjectFieldDef => _.type === 'inline_object'
 
 export type ReferenceFieldDef = FieldBase & {
-  type: 'reference'
+  type: 'document'
   default: string | undefined
   documentName: string
 }

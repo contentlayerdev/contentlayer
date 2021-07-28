@@ -10,9 +10,8 @@ import { mergeMap } from 'rxjs/operators'
 import type { SourcePlugin } from './plugin'
 
 // TODO rename to getSourceWatch
-export const getConfigWatch = ({ configPath, cwd }: { configPath?: string; cwd: string }): Observable<SourcePlugin> => {
-  return getConfig_({ configPath, cwd, watch: true })
-}
+export const getConfigWatch = ({ configPath, cwd }: { configPath?: string; cwd: string }): Observable<SourcePlugin> =>
+  getConfig_({ configPath, cwd, watch: true })
 
 // TODO rename to getSource
 export const getConfig = (async ({ configPath, cwd }: { configPath?: string; cwd: string }): Promise<SourcePlugin> => {
@@ -82,7 +81,7 @@ const callEsbuild = ({
         // needed in case models are colocated with React components
         jsx: 'transform',
         bundle: true,
-        logLevel: 'error',
+        logLevel: 'silent',
         plugins: [contentlayerGenPlugin()],
         watch: watch
           ? {

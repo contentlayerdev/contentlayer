@@ -10,4 +10,7 @@ export const Person = defineDocument(() => ({
     bio: { type: 'markdown' },
     photo: { type: 'image' },
   },
+  extensions: {
+    stackbit: { folder: 'authors' },
+  },
 }))

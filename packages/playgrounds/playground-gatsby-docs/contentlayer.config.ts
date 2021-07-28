@@ -1,6 +1,7 @@
 import rehypeShiki from '@leafac/rehype-shiki'
-import type { FieldDef } from 'contentlayer/source-local'
-import { defineDocument, fromLocalContent } from 'contentlayer/source-local'
+import { fromLocalContent } from 'contentlayer/source-local'
+import type { FieldDef } from 'contentlayer/source-local/schema'
+import { defineDocument } from 'contentlayer/source-local/schema'
 import * as path from 'path'
 import * as shiki from 'shiki'
 

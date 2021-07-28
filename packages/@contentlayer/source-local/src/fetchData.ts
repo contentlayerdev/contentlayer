@@ -204,8 +204,10 @@ function checkSchema({
   const existingDataFieldKeys = Object.keys(content.data)
 
   // make sure all required fields are present
-  const requiredFields = documentDef.fieldDefs.filter((_) => _.required)
-  const misingRequiredFields = requiredFields.filter((fieldDef) => !existingDataFieldKeys.includes(fieldDef.name))
+  const requiredFieldsWithoutDefaultValue = documentDef.fieldDefs.filter((_) => _.required && _.default === undefined)
+  const misingRequiredFields = requiredFieldsWithoutDefaultValue.filter(
+    (fieldDef) => !existingDataFieldKeys.includes(fieldDef.name),
+  )
   if (misingRequiredFields.length > 0) {
     const misingRequiredFieldsStr = misingRequiredFields.map((_, i) => `     ${i + 1}: ` + JSON.stringify(_)).join('\n')
 
@@ -346,10 +348,13 @@ const getDataForFieldDef = async ({
   options?: Options
 }): Promise<any> => {
   if (rawFieldData === undefined) {
+    if (fieldDef.default !== undefined) {
+      return fieldDef.default
+    }
+
     if (fieldDef.required) {
       console.error(`Inconsistent data found: ${fieldDef}`)
     }
-
     return undefined
   }
 
@@ -371,7 +376,7 @@ const getDataForFieldDef = async ({
         schemaDef,
         options,
       })
-    case 'reference':
+    case 'document':
       return rawFieldData
     case 'polymorphic_list':
     case 'list':

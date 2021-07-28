@@ -28,10 +28,7 @@ export const Page = defineDocument(() => ({
       label: 'Image Alt Text',
       description: 'The alt text of the image',
     },
-    seo: {
-      type: 'object',
-      object: SEO,
-    },
+    seo: SEO,
   },
   computedFields: {
     url_path: {
@@ -40,5 +37,8 @@ export const Page = defineDocument(() => ({
         'The URL path of this page relative to site root. For example, the site root page would be "/", and post page would be "posts/new-post/"',
       resolve: urlFromFilePath,
     },
+  },
+  extensions: {
+    stackbit: { match: ['about.md', 'privacy-policy.md', 'signup.md', 'style-guide.md', 'terms-of-service.md'] },
   },
 }))

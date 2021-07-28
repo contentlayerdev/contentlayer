@@ -8,21 +8,17 @@ export type SchemaDef = {
 
 export type DocumentFileType = 'markdown' | 'mdx' | 'json' | 'yaml'
 
-export type Extensions = {
-  stackbit?: StackbitExtension.Extension
+export type ModelExtensions<DefName extends string = string> = {
+  stackbit?: StackbitExtension.ModelExtension<DefName>
 }
 
 export type FieldDefs = Record<string, FieldDef> | FieldDefWithName[]
 
 /** Top level model type */
-export type DocumentDef<Name extends string = any> = {
-  name: Name
+export type DocumentDef<DefName extends string = string> = {
+  name: DefName
   // type: ModelType
-  /**  */
-  label?: string
   description?: string
-  /** the name of the field that will be used as a title of an object */
-  labelField?: string
 
   /**
    * The field definitions can either be provided as an object with the field names as keys or
@@ -34,7 +30,7 @@ export type DocumentDef<Name extends string = any> = {
    */
   fields: FieldDefs
 
-  computedFields?: Record<string, ComputedField<Name>>
+  computedFields?: Record<string, ComputedField<DefName>>
 
   /** Path is relative to the `contentDirPath` config */
   filePathPattern: string // | ((doc: Document) => string)
@@ -42,40 +38,16 @@ export type DocumentDef<Name extends string = any> = {
   fileType?: DocumentFileType
   isSingleton?: boolean
 
-  extensions?: Extensions
-  /** Conditional extensions */
-  // extentions?:
-  //   | {
-  //       /** just needed for simple SSGs */
-  //       kind: 'simple-ssg'
-  //       /** E.g. `./src/fetched-content/blog/${doc.slug}.md` */
-  //       saveToFilePath: string | ((doc: Document) => string)
-  //     }
-  //   | {
-  //       /** Needed for Next.js */
-  //       kind: 'local-source'
-  //       /** Supports file globbing */
-  //       filePath: string | ((doc: Document) => string)
-  //       filter?: (doc: Document) => boolean
-  //     }
-  // 1) difference between page vs raw data: page has a URL path
-  /**
-   * Just needed for Next.js & Gatsby, not for simple SSG (e.g. Hugo derives the URL based on the filePath).
-   * Also needed for some Stackbit Studio features to work.
-   */
-  // urlPath?: string | ((doc: Document) => string)
-  // 2) file path
+  extensions?: ModelExtensions<DefName>
 }
 
-export type ObjectDef = {
-  name: string
+export type ObjectDef<DefName extends string = string> = {
+  name: DefName
   // type: ModelType
   /**  */
-  label?: string
   description?: string
-  labelField?: string
   fields: FieldDefs
-  extensions?: Extensions
+  extensions?: ModelExtensions<DefName>
 }
 
 // export type FieldType =
@@ -112,21 +84,15 @@ export type FieldDef =
   | ReferenceField
   | EnumField
 
+/** Field name should contain only alphanumeric characters, underscore and a hyphen [A-Za-z0-9_]. Must start with a letter. Must not end with an underscore or a hyphen. */
 interface FieldBase {
-  /** Field name should contain only alphanumeric characters, underscore and a hyphen [A-Za-z0-9_]. Must start with a letter. Must not end with an underscore or a hyphen. */
-  // name: string
-  /** Should be short enough as some CMS's have restrictions on its length. Some CMS require label to be unique. */
-  label?: string
   /** Short description to editors how the field is to be used */
   description?: string
   /**
-   * Default: false
+   * Whether the field is required or not. Fields are optional by default.
+   * @default false
    */
   required?: boolean
-  /** IS THIS NEEDED? */
-  const?: any
-  /** Users will not be able to edit hidden fields, therefore when hiding a field you should specify the default or const properties to populate these fields when new objects are created. */
-  hidden?: boolean
 }
 
 export interface ListField extends FieldBase {
@@ -153,23 +119,15 @@ export type ListFieldItem =
   | ListFieldItemInlineObject
   | ListFieldItemReference
 
-type BaseListFieldItem = { labelField?: string }
-
-export type ListFieldItemString = BaseListFieldItem & { type: 'string' }
-export type ListFieldItemEnum = BaseListFieldItem & { type: 'enum'; options: string[] }
-export type ListFieldItemBoolean = BaseListFieldItem & { type: 'boolean' }
-export type ListFieldItemObject = BaseListFieldItem & {
-  type: 'object'
-  object: Thunk<ObjectDef>
-}
-export type ListFieldItemInlineObject = BaseListFieldItem & {
+export type ListFieldItemString = { type: 'string' }
+export type ListFieldItemEnum = { type: 'enum'; options: string[] }
+export type ListFieldItemBoolean = { type: 'boolean' }
+export type ListFieldItemObject = ObjectModel
+export type ListFieldItemInlineObject = {
   type: 'inline_object'
   fields: FieldDefs
 }
-export type ListFieldItemReference = BaseListFieldItem & {
-  type: 'reference'
-  document: Thunk<DocumentDef>
-}
+export type ListFieldItemReference = DocumentModel
 
 export const isListFieldItemObject = (_: ListFieldItem): _ is ListFieldItemObject => _.type === 'object'
 
@@ -236,11 +194,10 @@ export type EnumField = FieldBase & {
   options: string[]
 }
 
-export type ObjectField = FieldBase & {
-  type: 'object'
-  default?: any
-  object: Thunk<ObjectDef>
-}
+export type ObjectField = FieldBase &
+  ObjectModel & {
+    default?: any
+  }
 
 export const isObjectField = (_: FieldDef): _ is ObjectField => _.type === 'object'
 
@@ -252,16 +209,24 @@ export type InlineObjectField = FieldBase & {
 
 export const isInlineObjectField = (_: FieldDef): _ is InlineObjectField => _.type === 'inline_object'
 
-export type ReferenceField = FieldBase & {
-  type: 'reference'
-  default?: string
-  document: Thunk<DocumentDef>
-}
+export type ReferenceField = FieldBase &
+  DocumentModel & {
+    default?: string
+  }
 
 export type Thunk<T> = () => T
 
-export const defineObject = (_: () => ObjectDef) => _
+export type ObjectModel<DefName extends string = string> = { type: 'object'; def: Thunk<ObjectDef<DefName>> }
+export type DocumentModel<DefName extends string = string> = { type: 'document'; def: Thunk<DocumentDef<DefName>> }
 
-export const defineDocument = <N extends string>(_: () => DocumentDef<N>) => _
+export const defineObject = <DefName extends string>(def: () => ObjectDef<DefName>): ObjectModel<DefName> => ({
+  type: 'object',
+  def,
+})
 
-export const defineSchema = (_: SchemaDef): SchemaDef => _
+export const defineDocument = <DefName extends string>(def: () => DocumentDef<DefName>): DocumentModel<DefName> => ({
+  type: 'document',
+  def,
+})
+
+// export const defineSchema = (_: SchemaDef): SchemaDef => _

@@ -6,4 +6,10 @@ import * as schema from './src/contentlayer'
 export default fromLocalContent({
   contentDirPath: path.join(process.cwd(), 'content'),
   schema,
+  extensions: {
+    stackbit: {
+      pagesDir: 'content/pages',
+      dataDir: 'content/data',
+    },
+  },
 })

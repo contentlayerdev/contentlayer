@@ -21,11 +21,8 @@ export const makeCoreSchema = ((schemaDef: SchemaDef): Core.SchemaDef => {
       fieldDefs.push({
         type: 'markdown',
         name: 'content',
-        label: 'Markdown content',
-        description: 'Default markdown file content',
+        description: 'Markdown file content',
         default: undefined,
-        const: undefined,
-        hidden: undefined,
         required: undefined,
       })
     }
@@ -35,11 +32,8 @@ export const makeCoreSchema = ((schemaDef: SchemaDef): Core.SchemaDef => {
       fieldDefs.push({
         type: 'mdx',
         name: 'content',
-        label: 'MDX content',
-        description: 'Default MDX file content',
+        description: 'MDX file content',
         default: undefined,
-        const: undefined,
-        hidden: undefined,
         required: undefined,
       })
     }
@@ -50,8 +44,7 @@ export const makeCoreSchema = ((schemaDef: SchemaDef): Core.SchemaDef => {
 
     const coreDocumentDef: Core.DocumentDef = {
       _tag: 'DocumentDef',
-      ...pick(documentDef, ['name', 'description', 'labelField']),
-      label: documentDef.label ?? documentDef.name,
+      ...pick(documentDef, ['name', 'description']),
       isSingleton: documentDef.isSingleton ?? false,
       fieldDefs,
       computedFields,
@@ -66,8 +59,7 @@ export const makeCoreSchema = ((schemaDef: SchemaDef): Core.SchemaDef => {
 
     const coreObjectDef: Core.ObjectDef = {
       _tag: 'ObjectDef',
-      ...pick(objectDef, ['name', 'description', 'labelField']),
-      label: objectDef.label ?? objectDef.name,
+      ...pick(objectDef, ['name', 'description']),
       fieldDefs: getFieldDefEntries(objectDef.fields).map(fieldDefEntryToCoreFieldDef),
       extensions: objectDef.extensions ?? {},
     }
@@ -115,8 +107,7 @@ type FieldDefEntry = [fieldName: string, fieldDef: FieldDef]
 
 const fieldDefEntryToCoreFieldDef = ([name, fieldDef]: FieldDefEntry): Core.FieldDef => {
   const baseFields: Core.FieldBase = {
-    ...pick(fieldDef, ['type', 'default', 'description', 'required', 'const', 'hidden']),
-    label: fieldDef.label ?? name,
+    ...pick(fieldDef, ['type', 'default', 'description', 'required']),
     name,
   }
   switch (fieldDef.type) {
@@ -129,20 +120,32 @@ const fieldDefEntryToCoreFieldDef = ([name, fieldDef]: FieldDefEntry): Core.Fiel
         of: fieldDef.of.map(fieldListItemsToCoreFieldListDefItems),
       }
     case 'object':
-      return <Core.ObjectFieldDef>{ ...baseFields, objectName: fieldDef.object().name }
+      return <Core.ObjectFieldDef>{ ...baseFields, objectName: fieldDef.def().name }
     case 'inline_object':
       const fieldDefs = getFieldDefEntries(fieldDef.fields).map(fieldDefEntryToCoreFieldDef)
       return <Core.InlineObjectFieldDef>{ ...baseFields, fieldDefs }
-    case 'reference':
-      return <Core.ReferenceFieldDef>{ ...baseFields, documentName: fieldDef.document().name }
+    case 'document':
+      return <Core.ReferenceFieldDef>{ ...baseFields, documentName: fieldDef.def().name }
     case 'enum':
       return <Core.EnumFieldDef>{ ...baseFields, options: fieldDef.options }
-    default:
+    case 'boolean':
+    case 'date':
+    case 'image':
+    case 'json':
+    case 'markdown':
+    case 'mdx':
+    case 'number':
+    case 'slug':
+    case 'string':
+    case 'text':
+    case 'url':
       return {
         // needs to pick again since fieldDef.type has been
-        ...pick(fieldDef, ['type', 'default', 'description', 'label', 'required', 'const', 'hidden']),
+        ...pick(fieldDef, ['type', 'default', 'description', 'required']),
         name,
       }
+    default:
+      casesHandled(fieldDef)
   }
 }
 
@@ -150,30 +153,26 @@ const fieldListItemsToCoreFieldListDefItems = (listFieldItem: ListFieldItem): Co
   switch (listFieldItem.type) {
     case 'boolean':
     case 'string':
-      return pick(listFieldItem, ['labelField', 'type'])
+      return pick(listFieldItem, ['type'])
     case 'enum':
       return {
         type: 'enum',
-        labelField: listFieldItem.labelField,
         options: listFieldItem.options,
       }
     case 'object':
       return {
         type: 'object',
-        labelField: listFieldItem.labelField,
-        objectName: listFieldItem.object().name,
+        objectName: listFieldItem.def().name,
       }
     case 'inline_object':
       return {
         type: 'inline_object',
-        labelField: listFieldItem.labelField,
         fieldDefs: getFieldDefEntries(listFieldItem.fields).map(fieldDefEntryToCoreFieldDef),
       }
-    case 'reference':
+    case 'document':
       return {
-        type: 'reference',
-        labelField: listFieldItem.labelField,
-        documentName: listFieldItem.document().name,
+        type: 'document',
+        documentName: listFieldItem.def().name,
       }
     default:
       casesHandled(listFieldItem)
@@ -196,7 +195,7 @@ function collectObjectDefs(documentDefs: DocumentDef[]): ObjectDef[] {
   const traverseField = (field: FieldDef) => {
     switch (field.type) {
       case 'object':
-        return traverseObjectDef(field.object())
+        return traverseObjectDef(field.def())
       case 'inline_object':
         return getFieldDefValues(field.fields).forEach(traverseField)
       case 'polymorphic_list':
@@ -215,7 +214,7 @@ function collectObjectDefs(documentDefs: DocumentDef[]): ObjectDef[] {
       case 'string':
       case 'text':
       case 'url':
-      case 'reference':
+      case 'document':
         return
       default:
         casesHandled(field)
@@ -225,7 +224,7 @@ function collectObjectDefs(documentDefs: DocumentDef[]): ObjectDef[] {
   const traverseListFieldItem = (listFieldItem: ListFieldItem) => {
     switch (listFieldItem.type) {
       case 'object':
-        return traverseObjectDef(listFieldItem.object())
+        return traverseObjectDef(listFieldItem.def())
     }
   }
 

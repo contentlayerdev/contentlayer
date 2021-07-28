@@ -2,21 +2,17 @@ import { defineObject } from 'contentlayer/source-local/schema'
 
 export const SEO = defineObject(() => ({
   name: 'SEO',
-  label: 'Page meta data',
   fields: {
     title: {
       type: 'string',
-      label: 'Title',
       description: 'The page title that goes into the <title> tag',
     },
     description: {
       type: 'string',
-      label: 'Description',
       description: 'The page description that goes into the <meta name="description"> tag',
     },
     robots: {
       type: 'list',
-      label: 'Robots',
       description: 'The items that go into the <meta name="robots"> tag',
       of: {
         type: 'enum',
@@ -25,7 +21,6 @@ export const SEO = defineObject(() => ({
     },
     extra: {
       type: 'list',
-      label: 'Extra',
       description: 'Additional definition for specific meta tags such as open-graph, twitter, etc.',
       of: {
         type: 'inline_object',
@@ -40,6 +35,17 @@ export const SEO = defineObject(() => ({
           },
           relativeUrl: { type: 'boolean', label: 'Relative Url' },
         },
+      },
+    },
+  },
+  extensions: {
+    stackbit: {
+      label: 'Page meta data',
+      fields: {
+        title: { label: 'Title' },
+        description: { label: 'Description' },
+        robots: { label: 'Robots' },
+        extra: { label: 'Extra' },
       },
     },
   },

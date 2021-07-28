@@ -15,10 +15,10 @@
   "typesVersions": {
     "*": {
       ".": [
-        "./dist/index"
+        "./dist/types/index"
       ],
       "hooks": [
-        "./dist/hooks"
+        "./dist/types/hooks"
       ]
     }
   },

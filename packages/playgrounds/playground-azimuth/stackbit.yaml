@@ -12,13 +12,12 @@ models:
         label: Title
         type: string
       - name: seo
-        label: seo
         type: model
         models:
           - SEO
+    file: blog.md
     type: page
     singleInstance: true
-    file: blog.md
   Landing:
     label: Landing Page
     fields:
@@ -44,48 +43,44 @@ models:
             - SectionReviews
             - SectionContact
       - name: seo
-        label: seo
         type: model
         models:
           - SEO
-    type: page
     match:
       - contact.md
       - features.md
       - index.md
       - pricing.md
+    type: page
+    singleInstance: false
   Page:
     label: Page
     fields:
       - name: title
         required: true
         description: The title of the page
-        label: Title
         type: string
       - name: subtitle
         description: The text shown below the page title
-        label: Subtitle
         type: string
       - name: image
         description: The image shown below the page title
-        label: Image
         type: image
       - name: image_alt
         description: The alt text of the image
-        label: Image Alt Text
         type: string
       - name: seo
-        label: seo
         type: model
         models:
           - SEO
-    type: page
     match:
       - about.md
       - privacy-policy.md
       - signup.md
       - style-guide.md
       - terms-of-service.md
+    type: page
+    singleInstance: false
   Post:
     label: Post
     fields:
@@ -104,7 +99,6 @@ models:
         type: date
       - name: author
         description: Post author
-        label: author
         type: reference
         models:
           - Person
@@ -114,7 +108,7 @@ models:
         type: string
       - name: image
         description: The image shown below the title
-        label: Image (single post)
+        label: Image
         type: image
       - name: image_alt
         description: The alt text of the featured image
@@ -129,12 +123,12 @@ models:
         label: Image alt text (blog feed)
         type: string
       - name: seo
-        label: seo
         type: model
         models:
           - SEO
-    type: page
     match: blog/**.md
+    type: page
+    singleInstance: false
   Config:
     label: Site Configuration
     fields:
@@ -192,9 +186,9 @@ models:
         type: model
         models:
           - Footer
+    file: config.json
     type: data
     singleInstance: true
-    file: config.json
   Person:
     label: Person
     fields:
@@ -206,8 +200,9 @@ models:
         type: markdown
       - name: photo
         type: image
-    type: data
     folder: authors
+    type: data
+    singleInstance: false
   SEO:
     label: Page meta data
     fields:
@@ -243,17 +238,13 @@ models:
           type: object
           fields:
             - name: name
-              label: Name
               type: string
             - name: value
-              label: Value
               type: string
             - name: keyName
               default: name
-              label: Key Name
               type: string
             - name: relativeUrl
-              label: Relative Url
               type: boolean
     type: object
   Header:
@@ -408,7 +399,7 @@ models:
         type: string
       - name: hide_labels
         default: false
-        label: Hide labels of the form fields?
+        label: Hide Labels
         type: boolean
       - name: form_fields
         label: Form Fields
@@ -591,7 +582,7 @@ models:
             - Action
     type: object
   SectionFaq:
-    label: FAQ Section
+    label: Contact Section
     labelField: title
     fields:
       - name: section_id

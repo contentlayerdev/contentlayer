@@ -43,7 +43,7 @@ export class DefaultCommand extends Command {
   async executeSafe() {
     const config = await getConfig({ configPath: this.configPath, cwd: process.cwd() })
     const schema = await config.provideSchema()
-    let stackbitConfig = convertSchema(schema)
+    let stackbitConfig = convertSchema(schema, config.extensions)
     recRemoveUndefinedValues(stackbitConfig)
 
     const transform = await getTransform(this.transformPath)

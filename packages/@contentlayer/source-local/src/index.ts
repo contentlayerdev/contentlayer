@@ -1,20 +1,20 @@
-import type { Cache, Options, SchemaDef, SourcePlugin } from '@contentlayer/core'
+import type { Cache, Options, SchemaDef, SourcePlugin, StackbitExtension } from '@contentlayer/core'
 import { loadPreviousCacheFromDisk, writeCacheToDisk } from '@contentlayer/core'
 import { casesHandled } from '@contentlayer/utils'
-// import * as chokidar from 'chokidar'
+import * as chokidar from 'chokidar'
 import type { Observable } from 'rxjs'
 import { defer, fromEvent, of } from 'rxjs'
 import { map, mergeMap, startWith, tap } from 'rxjs/operators'
 
 import { fetchAllDocuments, getDocumentDefNameWithRelativeFilePathArray, makeCacheItemFromFilePath } from './fetchData'
 import { makeCoreSchema } from './provideSchema'
-import type { DocumentDef, Thunk } from './schema'
+import type { DocumentModel, Thunk } from './schema'
 import type { FilePathPatternMap } from './types'
 
 export * from './types'
 
 type Args = {
-  schema: Thunk<DocumentDef>[] | Record<string, Thunk<DocumentDef>>
+  schema: DocumentModel[] | Record<string, DocumentModel>
   /**
    * Path to the root directory that contains all content. Every content file path will be relative
    * to this directory. This includes:
@@ -22,6 +22,9 @@ type Args = {
    *  - `_raw` fields such as `flattenedPath`, `sourceFilePath`, `sourceFileDir`
    */
   contentDirPath: string
+  extensions?: {
+    stackbit?: StackbitExtension.Config
+  }
 } & Options &
   Partial<Flags>
 
@@ -42,17 +45,19 @@ type MakeSourcePlugin = (_: Args | Thunk<Args> | Thunk<Promise<Args>>) => Promis
 export const fromLocalContent: MakeSourcePlugin = async (argsOrArgsThunk) => {
   const {
     contentDirPath,
-    schema: documentDefs_,
+    schema: documentModels,
     onMissingOrIncompatibleData = 'skip',
     onExtraData = 'warn',
+    extensions,
     ...options
   } = typeof argsOrArgsThunk === 'function' ? await argsOrArgsThunk() : argsOrArgsThunk
-  const documentDefs = (Array.isArray(documentDefs_) ? documentDefs_ : Object.values(documentDefs_)).map((_) => _())
-
-  const chokidar = await import('chokidar')
+  const documentDefs = (Array.isArray(documentModels) ? documentModels : Object.values(documentModels)).map((_) =>
+    _.def(),
+  )
 
   return {
     type: 'local',
+    extensions: extensions ?? {},
     provideSchema: () => makeCoreSchema({ documentDefs }),
     fetchData: ({ watch }) => {
       const filePathPatternMap = documentDefs.reduce(
