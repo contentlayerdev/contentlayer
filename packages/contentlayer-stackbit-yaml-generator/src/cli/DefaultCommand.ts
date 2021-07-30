@@ -1,7 +1,6 @@
 import { getConfig } from '@contentlayer/core'
 import { recRemoveUndefinedValues } from '@contentlayer/utils'
 import { fileOrDirExists } from '@contentlayer/utils/node'
-import type { YamlConfig } from '@stackbit/sdk'
 import { Command, Option } from 'clipanion'
 import { promises as fs } from 'fs'
 import * as path from 'path'

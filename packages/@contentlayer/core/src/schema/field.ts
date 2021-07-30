@@ -1,3 +1,5 @@
+import type { UnnamedNestedTypeDef } from '.'
+
 export type FieldDefType = FieldDef['type']
 
 export type FieldDef =
@@ -14,8 +16,8 @@ export type FieldDef =
   | TextFieldDef
   | ImageFieldDef
   | UrlFieldDef
-  | ObjectFieldDef
-  | InlineObjectFieldDef
+  | NestedFieldDef
+  | UnnamedNestedFieldDef
   | ReferenceFieldDef
   | EnumFieldDef
 
@@ -36,7 +38,7 @@ export interface ListFieldDef extends FieldBase {
   type: 'list'
   default: any[] | undefined
   // TODO support polymorphic definitions
-  of: ListFieldDefItem
+  of: ListFieldDefItem.Item
 }
 
 export const isListFieldDef = (_: FieldDef): _ is ListFieldDef => _.type === 'list'
@@ -44,41 +46,37 @@ export const isListFieldDef = (_: FieldDef): _ is ListFieldDef => _.type === 'li
 export interface PolymorphicListFieldDef extends FieldBase {
   type: 'polymorphic_list'
   default: any[] | undefined
-  of: ListFieldDefItem[]
+  of: ListFieldDefItem.Item[]
   /** Field needed to distiguish list data items at run time */
   typeField: string
 }
 
-export type ListFieldDefItem =
-  | ListFieldItemString
-  | ListFieldItemEnum
-  | ListFieldItemBoolean
-  | ListFieldItemObject
-  | ListFieldItemInlineObject
-  | ListFieldItemReference
+export namespace ListFieldDefItem {
+  export type Item = ItemString | ItemEnum | ItemBoolean | ItemNested | ItemUnamedNested | ItemReference
 
-type BaseListFieldItem = {
-  // labelField: string | undefined
-}
+  type BaseItem = {
+    // labelField: string | undefined
+  }
 
-export type ListFieldItemString = BaseListFieldItem & { type: 'string' }
-export type ListFieldItemEnum = BaseListFieldItem & { type: 'enum'; options: string[] }
-export type ListFieldItemBoolean = BaseListFieldItem & { type: 'boolean' }
-export type ListFieldItemObject = BaseListFieldItem & {
-  type: 'object'
-  objectName: string
-}
-export type ListFieldItemInlineObject = BaseListFieldItem & {
-  type: 'inline_object'
-  fieldDefs: FieldDef[]
-}
+  export type ItemString = BaseItem & { type: 'string' }
+  export type ItemEnum = BaseItem & { type: 'enum'; options: string[] }
+  export type ItemBoolean = BaseItem & { type: 'boolean' }
+  export type ItemNested = BaseItem & {
+    type: 'nested'
+    nestedTypeName: string
+  }
+  export type ItemUnamedNested = BaseItem & {
+    type: 'unnamed_nested'
+    typeDef: UnnamedNestedTypeDef
+  }
 
-export type ListFieldItemReference = BaseListFieldItem & {
-  type: 'document'
-  documentName: string
-}
+  export type ItemReference = BaseItem & {
+    type: 'document'
+    documentName: string
+  }
 
-export const isListFieldDefItemObject = (_: ListFieldDefItem): _ is ListFieldItemObject => _.type === 'object'
+  export const isDefItemNested = (_: Item): _ is ItemNested => _.type === 'nested'
+}
 
 export type StringFieldDef = FieldBase & {
   type: 'string'
@@ -143,25 +141,25 @@ export type EnumFieldDef = FieldBase & {
   options: string[]
 }
 
-export type ObjectFieldDef = FieldBase & {
-  type: 'object'
+export type NestedFieldDef = FieldBase & {
+  type: 'nested'
   default: any | undefined
-  /** References entry in ObjectDefMap */
-  objectName: string
+  /** References entry in NestedDefMap */
+  nestedTypeName: string
 }
 
-export const isObjectFieldDef = (_: FieldDef): _ is ObjectFieldDef => _.type === 'object'
+export const isNestedFieldDef = (_: FieldDef): _ is NestedFieldDef => _.type === 'nested'
 
-export type InlineObjectFieldDef = FieldBase & {
-  type: 'inline_object'
+export type UnnamedNestedFieldDef = FieldBase & {
+  type: 'unnamed_nested'
   default: any | undefined
-  fieldDefs: FieldDef[]
+  typeDef: UnnamedNestedTypeDef
 }
 
-export const isInlineObjectFieldDef = (_: FieldDef): _ is InlineObjectFieldDef => _.type === 'inline_object'
+export const isUnamedNestedFieldDef = (_: FieldDef): _ is UnnamedNestedFieldDef => _.type === 'unnamed_nested'
 
 export type ReferenceFieldDef = FieldBase & {
   type: 'document'
   default: string | undefined
-  documentName: string
+  documentTypeName: string
 }

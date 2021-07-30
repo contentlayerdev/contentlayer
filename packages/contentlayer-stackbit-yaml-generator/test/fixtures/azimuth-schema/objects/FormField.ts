@@ -1,6 +1,6 @@
-import { defineObject } from 'contentlayer/source-local/schema'
+import { defineEmbedded } from 'contentlayer/source-local/schema'
 
-export const FormField = defineObject(() => ({
+export const FormField = defineEmbedded(() => ({
   name: 'FormField',
   label: 'Form Field',
   labelField: 'name',

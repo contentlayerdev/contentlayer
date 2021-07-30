@@ -1,4 +1,4 @@
-import { defineObject } from 'contentlayer/source-local/schema'
+import { defineEmbedded } from 'contentlayer/source-local/schema'
 import type { FC } from 'react'
 import React from 'react'
 
@@ -76,7 +76,7 @@ export const FormField: FC<{ section: types.FooterForm | types.SectionContact; f
   )
 }
 
-export const FormFieldModel = defineObject(() => ({
+export const FormFieldModel = defineEmbedded(() => ({
   name: 'FormField',
   label: 'Form Field',
   labelField: 'name',

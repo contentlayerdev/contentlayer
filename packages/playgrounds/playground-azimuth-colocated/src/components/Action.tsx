@@ -1,4 +1,4 @@
-import { defineObject } from 'contentlayer/source-local/schema'
+import { defineEmbedded } from 'contentlayer/source-local/schema'
 import type { FC } from 'react'
 import React from 'react'
 
@@ -28,7 +28,7 @@ export const Action: FC<{ action: types.Action }> = ({ action }) => (
   </Link>
 )
 
-export const ActionModel = defineObject(() => ({
+export const ActionModel = defineEmbedded(() => ({
   name: 'Action',
   labelField: 'label',
   fields: {

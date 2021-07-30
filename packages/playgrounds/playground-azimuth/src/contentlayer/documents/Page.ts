@@ -1,9 +1,9 @@
-import { defineDocument } from 'contentlayer/source-local/schema'
+import { defineDocumentType } from 'contentlayer/source-local/schema'
 
-import { SEO } from '../objects/SEO'
+import { SEO } from '../nested/SEO'
 import { urlFromFilePath } from '../utils'
 
-export const Page = defineDocument(() => ({
+export const Page = defineDocumentType(() => ({
   name: 'Page',
   filePathPattern: 'pages/{about,privacy-policy,signup,style-guide,terms-of-service}.md',
   fields: {

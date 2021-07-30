@@ -1,16 +1,16 @@
 import type { SourcePluginType } from '../plugin'
-import type { DocumentDef, FieldDef, ListFieldDefItem, ObjectDef } from '../schema'
+import type { DocumentTypeDef, FieldDef, ListFieldDefItem, NestedTypeDef } from '../schema'
 
-export const renderDocumentOrObjectDef = ({
+export const renderDocumentTypeDefOrNestedTypeDef = ({
   def,
   sourcePluginType,
 }: {
-  def: DocumentDef | ObjectDef
+  def: DocumentTypeDef | NestedTypeDef
   sourcePluginType: SourcePluginType | 'unknown'
 }): string => {
   const typeName = def.name
   const fieldDefs = def.fieldDefs.map(renderFieldDef).join('\n')
-  const computedFields = (def._tag === 'DocumentDef' ? def.computedFields : [])
+  const computedFields = (def._tag === 'DocumentTypeDef' ? def.computedFields : [])
     .map((field) => `${field.description ? `  /** ${field.description} */\n` : ''}  ${field.name}: ${field.type}`)
     .join('\n')
   const description = def.description ?? def.extensions.stackbit?.fields?.[def.name]?.label
@@ -76,10 +76,10 @@ const renderFieldType = (field: FieldDef): string => {
       return 'Markdown'
     case 'mdx':
       return 'MDX'
-    case 'inline_object':
-      return '{\n' + field.fieldDefs.map(renderFieldDef).join('\n') + '\n}'
-    case 'object': {
-      return field.objectName
+    case 'unnamed_nested':
+      return '{\n' + field.typeDef.fieldDefs.map(renderFieldDef).join('\n') + '\n}'
+    case 'nested': {
+      return field.nestedTypeName
     }
     case 'document':
       return 'string'
@@ -95,17 +95,17 @@ const renderFieldType = (field: FieldDef): string => {
   }
 }
 
-const renderListItemFieldType = (item: ListFieldDefItem): string => {
+const renderListItemFieldType = (item: ListFieldDefItem.Item): string => {
   switch (item.type) {
     case 'boolean':
     case 'string':
       return item.type
-    case 'object':
-      return item.objectName
+    case 'nested':
+      return item.nestedTypeName
     case 'enum':
       return '(' + item.options.map((_) => `'${_}'`).join(' | ') + ')'
-    case 'inline_object':
-      return '{\n' + item.fieldDefs.map(renderFieldDef).join('\n') + '\n}'
+    case 'unnamed_nested':
+      return '{\n' + item.typeDef.fieldDefs.map(renderFieldDef).join('\n') + '\n}'
     case 'document':
       // We're just returning the id (e.g. file path or record id) to the referenced document here
       return 'string'

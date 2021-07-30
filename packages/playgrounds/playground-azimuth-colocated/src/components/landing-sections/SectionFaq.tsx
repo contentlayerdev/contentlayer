@@ -1,4 +1,4 @@
-import { defineObject } from 'contentlayer/source-local/schema'
+import { defineEmbedded } from 'contentlayer/source-local/schema'
 import type { FC } from 'react'
 import React from 'react'
 
@@ -34,7 +34,7 @@ export const SectionFaq: FC<{ section: types.SectionFaq }> = ({ section }) => (
   </section>
 )
 
-export const SectionFaqModel = defineObject(() => ({
+export const SectionFaqModel = defineEmbedded(() => ({
   name: 'SectionFaq',
   label: 'FAQ Section',
   labelField: 'title',
@@ -60,7 +60,7 @@ export const SectionFaqModel = defineObject(() => ({
   },
 }))
 
-const FaqItem = defineObject(() => ({
+const FaqItem = defineEmbedded(() => ({
   name: 'FaqItem',
   label: 'FAQ Item',
   fields: {

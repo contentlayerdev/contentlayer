@@ -1,4 +1,4 @@
-import { defineObject } from 'contentlayer/source-local/schema'
+import { defineEmbedded } from 'contentlayer/source-local/schema'
 import _ from 'lodash'
 import type { FC } from 'react'
 import React from 'react'
@@ -59,7 +59,7 @@ export const SectionContact: FC<{ section: types.SectionContact }> = ({ section 
   </section>
 )
 
-export const SectionContactModel = defineObject(() => ({
+export const SectionContactModel = defineEmbedded(() => ({
   name: 'SectionContact',
   label: 'Contact Section',
   labelField: 'title',

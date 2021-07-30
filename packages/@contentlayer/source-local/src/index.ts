@@ -8,13 +8,13 @@ import { map, mergeMap, startWith, tap } from 'rxjs/operators'
 
 import { fetchAllDocuments, getDocumentDefNameWithRelativeFilePathArray, makeCacheItemFromFilePath } from './fetchData'
 import { makeCoreSchema } from './provideSchema'
-import type { DocumentModel, Thunk } from './schema'
+import type { DocumentType, Thunk } from './schema'
 import type { FilePathPatternMap } from './types'
 
 export * from './types'
 
 type Args = {
-  schema: DocumentModel[] | Record<string, DocumentModel>
+  documentTypes: DocumentType[] | Record<string, DocumentType>
   /**
    * Path to the root directory that contains all content. Every content file path will be relative
    * to this directory. This includes:
@@ -45,28 +45,28 @@ type MakeSourcePlugin = (_: Args | Thunk<Args> | Thunk<Promise<Args>>) => Promis
 export const fromLocalContent: MakeSourcePlugin = async (argsOrArgsThunk) => {
   const {
     contentDirPath,
-    schema: documentModels,
+    documentTypes,
     onMissingOrIncompatibleData = 'skip',
     onExtraData = 'warn',
     extensions,
     ...options
   } = typeof argsOrArgsThunk === 'function' ? await argsOrArgsThunk() : argsOrArgsThunk
-  const documentDefs = (Array.isArray(documentModels) ? documentModels : Object.values(documentModels)).map((_) =>
+  const documentTypeDefs = (Array.isArray(documentTypes) ? documentTypes : Object.values(documentTypes)).map((_) =>
     _.def(),
   )
 
   return {
     type: 'local',
     extensions: extensions ?? {},
-    provideSchema: () => makeCoreSchema({ documentDefs }),
+    provideSchema: () => makeCoreSchema({ documentDefs: documentTypeDefs }),
     fetchData: ({ watch }) => {
-      const filePathPatternMap = documentDefs.reduce(
+      const filePathPatternMap = documentTypeDefs.reduce(
         (acc, documentDef) => ({ ...acc, [documentDef.name]: documentDef.filePathPattern }),
         {} as FilePathPatternMap,
       )
       const flags: Flags = { onExtraData, onMissingOrIncompatibleData }
 
-      const schemaDef = makeCoreSchema({ documentDefs })
+      const schemaDef = makeCoreSchema({ documentDefs: documentTypeDefs })
       const initEvent: CustomUpdateEventInit = { _tag: 'init' }
 
       let cache: Cache | undefined = undefined

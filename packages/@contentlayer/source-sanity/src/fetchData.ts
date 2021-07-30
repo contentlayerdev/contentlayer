@@ -82,7 +82,7 @@ const makeObject = ({
   imageUrlBuilder,
 }: {
   rawObjectData: Sanity.DataObject
-  /** Passing `FieldDef[]` here instead of `ObjectDef` in order to also support `inline_object` */
+  /** Passing `FieldDef[]` here instead of `ObjectDef` in order to also support `inline_embedded` */
   fieldDefs: Core.FieldDef[]
   typeName: string
   schemaDef: Core.SchemaDef
@@ -132,11 +132,11 @@ const getDataForFieldDef = ({
         schemaDef,
         imageUrlBuilder,
       })
-    case 'inline_object':
+    case 'inline_embedded':
       return makeObject({
         rawObjectData: rawFieldData,
         fieldDefs: fieldDef.fieldDefs,
-        typeName: 'inline_object',
+        typeName: 'inline_embedded',
         schemaDef,
         imageUrlBuilder,
       })
@@ -181,11 +181,11 @@ const getDataForListItem = ({
     })
   }
 
-  if (fieldDef.type === 'list' && fieldDef.of.type === 'inline_object') {
+  if (fieldDef.type === 'list' && fieldDef.of.type === 'inline_embedded') {
     return makeObject({
       rawObjectData: rawItemData,
       fieldDefs: fieldDef.of.fieldDefs,
-      typeName: 'inline_object',
+      typeName: 'inline_embedded',
       schemaDef,
       imageUrlBuilder,
     })

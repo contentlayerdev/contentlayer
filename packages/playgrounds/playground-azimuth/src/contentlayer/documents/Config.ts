@@ -1,9 +1,9 @@
-import { defineDocument, defineObject } from 'contentlayer/source-local/schema'
+import { defineDocumentType, defineNestedType } from 'contentlayer/source-local/schema'
 
-import { Action } from '../objects/Action'
-import { FormField } from '../objects/FormField'
+import { Action } from '../nested/Action'
+import { FormField } from '../nested/FormField'
 
-export const Config = defineDocument(() => ({
+export const Config = defineDocumentType(() => ({
   name: 'Config',
   filePathPattern: 'data/config.json',
   fileType: 'json',
@@ -42,6 +42,8 @@ export const Config = defineDocument(() => ({
       required: true,
     },
     header: { ...Header, required: true },
+    // header: schema.embedded({ model: Header, required: true }),
+    // header: { type: 'embedded', model: Header, required: true },
     footer: { ...Footer, required: true },
   },
   extensions: {
@@ -62,7 +64,7 @@ export const Config = defineDocument(() => ({
   },
 }))
 
-const Header = defineObject(() => ({
+const Header = defineNestedType(() => ({
   name: 'Header',
   fields: {
     logo_img: {
@@ -97,11 +99,11 @@ const Header = defineObject(() => ({
   },
 }))
 
-const Footer = defineObject(() => ({
+const Footer = defineNestedType(() => ({
   name: 'Footer',
   fields: {
     sections: {
-      type: 'polymorphic_list',
+      type: 'list',
       description: 'Footer sections',
       of: [FooterForm, FooterNav, FooterText],
       typeField: 'type',
@@ -164,7 +166,7 @@ const footerSectionBaseFieldsExtension = {
   },
 } as const
 
-const FooterForm = defineObject(() => ({
+const FooterForm = defineNestedType(() => ({
   name: 'FooterForm',
   fields: {
     ...footerSectionBaseFields,
@@ -211,7 +213,7 @@ const FooterForm = defineObject(() => ({
   },
 }))
 
-const FooterNav = defineObject(() => ({
+const FooterNav = defineNestedType(() => ({
   name: 'FooterNav',
   fields: {
     ...footerSectionBaseFields,
@@ -233,7 +235,7 @@ const FooterNav = defineObject(() => ({
   },
 }))
 
-const FooterText = defineObject(() => ({
+const FooterText = defineNestedType(() => ({
   name: 'FooterText',
   fields: {
     ...footerSectionBaseFields,

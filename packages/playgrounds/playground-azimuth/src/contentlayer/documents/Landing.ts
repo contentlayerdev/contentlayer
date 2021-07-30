@@ -1,11 +1,11 @@
-import { defineDocument, defineObject } from 'contentlayer/source-local/schema'
+import { defineDocumentType, defineNestedType } from 'contentlayer/source-local/schema'
 
-import { Action } from '../objects/Action'
-import { FormField } from '../objects/FormField'
-import { SEO } from '../objects/SEO'
+import { Action } from '../nested/Action'
+import { FormField } from '../nested/FormField'
+import { SEO } from '../nested/SEO'
 import { urlFromFilePath } from '../utils'
 
-export const Landing = defineDocument(() => ({
+export const Landing = defineDocumentType(() => ({
   name: 'Landing',
   filePathPattern: 'pages/{contact,features,index,pricing}.md',
   fields: {
@@ -15,7 +15,7 @@ export const Landing = defineDocument(() => ({
       required: true,
     },
     sections: {
-      type: 'polymorphic_list',
+      type: 'list',
       description: 'Page sections',
       of: [
         SectionContent,
@@ -74,7 +74,7 @@ const sectionBaseFieldsExtension = {
   type: { label: 'Section type' },
 } as const
 
-const SectionContent = defineObject(() => ({
+const SectionContent = defineNestedType(() => ({
   name: 'SectionContent',
   fields: {
     ...sectionBaseFields,
@@ -121,7 +121,7 @@ const SectionContent = defineObject(() => ({
   },
 }))
 
-const SectionCta = defineObject(() => ({
+const SectionCta = defineNestedType(() => ({
   name: 'SectionCta',
   fields: {
     ...sectionBaseFields,
@@ -147,7 +147,7 @@ const SectionCta = defineObject(() => ({
   },
 }))
 
-const SectionHero = defineObject(() => ({
+const SectionHero = defineNestedType(() => ({
   name: 'SectionHero',
   fields: {
     ...sectionBaseFields,
@@ -183,7 +183,7 @@ const SectionHero = defineObject(() => ({
   },
 }))
 
-const SectionFeatures = defineObject(() => ({
+const SectionFeatures = defineNestedType(() => ({
   name: 'SectionFeatures',
   fields: {
     ...sectionBaseFields,
@@ -216,7 +216,7 @@ const SectionFeatures = defineObject(() => ({
   },
 }))
 
-const FeatureItem = defineObject(() => ({
+const FeatureItem = defineNestedType(() => ({
   name: 'FeatureItem',
   fields: {
     title: { type: 'string' },
@@ -252,7 +252,7 @@ const FeatureItem = defineObject(() => ({
   },
 }))
 
-const SectionContact = defineObject(() => ({
+const SectionContact = defineNestedType(() => ({
   name: 'SectionContact',
   fields: {
     ...sectionBaseFields,
@@ -311,7 +311,7 @@ const SectionContact = defineObject(() => ({
   },
 }))
 
-const SectionFaq = defineObject(() => ({
+const SectionFaq = defineNestedType(() => ({
   name: 'SectionFaq',
   label: 'FAQ Section',
   labelField: 'title',
@@ -346,7 +346,7 @@ const SectionFaq = defineObject(() => ({
   },
 }))
 
-const FaqItem = defineObject(() => ({
+const FaqItem = defineNestedType(() => ({
   name: 'FaqItem',
   fields: {
     question: { type: 'text' },
@@ -363,7 +363,7 @@ const FaqItem = defineObject(() => ({
   },
 }))
 
-const SectionPosts = defineObject(() => ({
+const SectionPosts = defineNestedType(() => ({
   name: 'SectionPosts',
   fields: {
     ...sectionBaseFields,
@@ -390,7 +390,7 @@ const SectionPosts = defineObject(() => ({
   },
 }))
 
-const SectionPricing = defineObject(() => ({
+const SectionPricing = defineNestedType(() => ({
   name: 'SectionPricing',
   fields: {
     ...sectionBaseFields,
@@ -422,7 +422,7 @@ const SectionPricing = defineObject(() => ({
   },
 }))
 
-const PricingPlan = defineObject(() => ({
+const PricingPlan = defineNestedType(() => ({
   name: 'PricingPlan',
   fields: {
     title: {
@@ -463,7 +463,7 @@ const PricingPlan = defineObject(() => ({
   },
 }))
 
-const SectionReviews = defineObject(() => ({
+const SectionReviews = defineNestedType(() => ({
   name: 'SectionReviews',
   fields: {
     ...sectionBaseFields,
@@ -495,7 +495,7 @@ const SectionReviews = defineObject(() => ({
   },
 }))
 
-const ReviewItem = defineObject(() => ({
+const ReviewItem = defineNestedType(() => ({
   name: 'ReviewItem',
   fields: {
     author: { type: 'string' },

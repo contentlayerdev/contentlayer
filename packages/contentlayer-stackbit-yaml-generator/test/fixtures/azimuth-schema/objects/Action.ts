@@ -1,6 +1,6 @@
-import { defineObject } from 'contentlayer/source-local/schema'
+import { defineEmbedded } from 'contentlayer/source-local/schema'
 
-export const Action = defineObject(() => ({
+export const Action = defineEmbedded(() => ({
   name: 'Action',
   labelField: 'label',
   fields: {

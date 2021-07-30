@@ -127,7 +127,7 @@ const makeObject = async ({
   entryId: string
   allEntries: Contentful.Entry[]
   allAssets: Contentful.Asset[]
-  /** Passing `FieldDef[]` here instead of `ObjectDef` in order to also support `inline_object` */
+  /** Passing `FieldDef[]` here instead of `ObjectDef` in order to also support `inline_embedded` */
   fieldDefs: Core.FieldDef[]
   typeName: string
   schemaDef: Core.SchemaDef
@@ -191,9 +191,9 @@ const getDataForFieldDef = async ({
         schemaDef,
         schemaOverrides,
       })
-    case 'inline_object':
+    case 'inline_embedded':
       throw new Error(`Doesn't exist in Contentful`)
-    case 'reference':
+    case 'document':
       return rawFieldData.sys.id
     case 'image':
       const asset = allAssets.find((_) => _.sys.id === rawFieldData.sys.id)!
@@ -266,13 +266,13 @@ const getDataForListItem = async ({
     })
   }
 
-  if (fieldDef.type === 'list' && fieldDef.of.type === 'inline_object') {
+  if (fieldDef.type === 'list' && fieldDef.of.type === 'inline_embedded') {
     return makeObject({
       entryId: rawItemData.sys.id,
       allEntries,
       allAssets,
       fieldDefs: fieldDef.of.fieldDefs,
-      typeName: 'inline_object',
+      typeName: 'inline_embedded',
       schemaDef,
       schemaOverrides,
     })

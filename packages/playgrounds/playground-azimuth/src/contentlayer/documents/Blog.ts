@@ -1,9 +1,9 @@
-import { defineDocument } from 'contentlayer/source-local/schema'
+import { defineDocumentType } from 'contentlayer/source-local/schema'
 
-import { SEO } from '../objects/SEO'
+import { SEO } from '../nested/SEO'
 import { urlFromFilePath } from '../utils'
 
-export const Blog = defineDocument(() => ({
+export const Blog = defineDocumentType(() => ({
   name: 'Blog',
   filePathPattern: `pages/blog.md`,
   isSingleton: true,

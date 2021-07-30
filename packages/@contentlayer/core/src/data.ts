@@ -1,6 +1,6 @@
 export type Document = Record<string, any> & DocumentMeta
 
-export type Object = Record<string, any> & Omit<DocumentMeta, '_id'>
+export type NestedDocument = Record<string, any> & Omit<DocumentMeta, '_id'>
 
 export type DocumentMeta = {
   /**

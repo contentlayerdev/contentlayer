@@ -2,11 +2,13 @@ import * as Core from '@contentlayer/core'
 import { hashObject } from '@contentlayer/core'
 import { casesHandled, pick, traceFn, uppercaseFirstChar } from '@contentlayer/utils'
 
-import type { DocumentDef, FieldDef, FieldDefs, ListFieldItem, ObjectDef, SchemaDef } from './schema'
+import type { DocumentTypeDef, FieldDef, FieldDefs, ListFieldItem, NestedTypeDef, SchemaDef } from './schema'
+import { isNestedTypeDef } from './schema'
+import { isPolymorphicListField, isUnnamedNestedTypeDef } from './schema'
 
 export const makeCoreSchema = ((schemaDef: SchemaDef): Core.SchemaDef => {
-  const coreDocumentDefMap: Core.DocumentDefMap = {}
-  const coreObjectDefMap: Core.ObjectDefMap = {}
+  const coreDocumentTypeDefMap: Core.DocumentTypeDefMap = {}
+  const coreNestedTypeDefMap: Core.NestedTypeDefMap = {}
 
   for (const documentDef of schemaDef.documentDefs) {
     validateDefName({ defName: documentDef.name })
@@ -42,31 +44,32 @@ export const makeCoreSchema = ((schemaDef: SchemaDef): Core.SchemaDef => {
       ([name, computedField]) => ({ ...pick(computedField, ['description', 'resolve', 'type']), name }),
     )
 
-    const coreDocumentDef: Core.DocumentDef = {
-      _tag: 'DocumentDef',
+    const coreDocumentDef: Core.DocumentTypeDef = {
+      _tag: 'DocumentTypeDef',
       ...pick(documentDef, ['name', 'description']),
       isSingleton: documentDef.isSingleton ?? false,
       fieldDefs,
       computedFields,
       extensions: documentDef.extensions ?? {},
     }
-    coreDocumentDefMap[documentDef.name] = coreDocumentDef
+    coreDocumentTypeDefMap[documentDef.name] = coreDocumentDef
   }
 
-  const objectDefs = collectObjectDefs(schemaDef.documentDefs)
-  for (const objectDef of objectDefs) {
-    validateDefName({ defName: objectDef.name })
+  const nestedDefs = collectNestedDefs(schemaDef.documentDefs)
+  for (const nestedDef of nestedDefs) {
+    validateDefName({ defName: nestedDef.name })
 
-    const coreObjectDef: Core.ObjectDef = {
-      _tag: 'ObjectDef',
-      ...pick(objectDef, ['name', 'description']),
-      fieldDefs: getFieldDefEntries(objectDef.fields).map(fieldDefEntryToCoreFieldDef),
-      extensions: objectDef.extensions ?? {},
+    const coreNestedTypeDef: Core.NestedTypeDef = {
+      _tag: 'NestedTypeDef',
+      ...pick(nestedDef, ['description']),
+      name: nestedDef.name,
+      fieldDefs: getFieldDefEntries(nestedDef.fields).map(fieldDefEntryToCoreFieldDef),
+      extensions: nestedDef.extensions ?? {},
     }
-    coreObjectDefMap[coreObjectDef.name] = coreObjectDef
+    coreNestedTypeDefMap[coreNestedTypeDef.name] = coreNestedTypeDef
   }
 
-  const defs = { documentDefMap: coreDocumentDefMap, objectDefMap: coreObjectDefMap }
+  const defs = { documentTypeDefMap: coreDocumentTypeDefMap, nestedTypeDefMap: coreNestedTypeDefMap }
   const hash = hashObject(defs)
 
   const coreSchemaDef = { ...defs, hash }
@@ -81,7 +84,7 @@ const validateDefName = ({ defName }: { defName: string }): void => {
   if (firstChar.toLowerCase() === firstChar) {
     const improvedDefName = uppercaseFirstChar(defName)
     console.warn(`\
-Warning: A document or object definition name should start with a uppercase letter.
+Warning: A document or nested definition name should start with a uppercase letter.
 You've provided the name "${defName}" - please consider using "${improvedDefName}" instead.
 `)
   }
@@ -112,20 +115,28 @@ const fieldDefEntryToCoreFieldDef = ([name, fieldDef]: FieldDefEntry): Core.Fiel
   }
   switch (fieldDef.type) {
     case 'list':
-      return <Core.ListFieldDef>{ ...baseFields, of: fieldListItemsToCoreFieldListDefItems(fieldDef.of) }
-    case 'polymorphic_list':
-      return <Core.PolymorphicListFieldDef>{
-        ...baseFields,
-        typeField: fieldDef.typeField,
-        of: fieldDef.of.map(fieldListItemsToCoreFieldListDefItems),
+      if (isPolymorphicListField(fieldDef)) {
+        return <Core.PolymorphicListFieldDef>{
+          ...baseFields,
+          type: 'polymorphic_list',
+          typeField: fieldDef.typeField,
+          of: fieldDef.of.map(fieldListItemsToCoreFieldListDefItems),
+        }
       }
-    case 'object':
-      return <Core.ObjectFieldDef>{ ...baseFields, objectName: fieldDef.def().name }
-    case 'inline_object':
-      const fieldDefs = getFieldDefEntries(fieldDef.fields).map(fieldDefEntryToCoreFieldDef)
-      return <Core.InlineObjectFieldDef>{ ...baseFields, fieldDefs }
+
+      return <Core.ListFieldDef>{ ...baseFields, of: fieldListItemsToCoreFieldListDefItems(fieldDef.of) }
+    case 'nested':
+      const nestedTypeDef = fieldDef.def()
+      if (isNestedTypeDef(nestedTypeDef)) {
+        return <Core.NestedFieldDef>{ ...baseFields, nestedTypeName: nestedTypeDef.name }
+      }
+
+      const fieldDefs = getFieldDefEntries(nestedTypeDef.fields).map(fieldDefEntryToCoreFieldDef)
+      const extensions = nestedTypeDef.extensions ?? {}
+      const typeDef: Core.UnnamedNestedTypeDef = { _tag: 'UnnamedNestedTypeDef', fieldDefs, extensions }
+      return <Core.UnnamedNestedFieldDef>{ ...baseFields, type: 'unnamed_nested', typeDef }
     case 'document':
-      return <Core.ReferenceFieldDef>{ ...baseFields, documentName: fieldDef.def().name }
+      return <Core.ReferenceFieldDef>{ ...baseFields, documentTypeName: fieldDef.def().name }
     case 'enum':
       return <Core.EnumFieldDef>{ ...baseFields, options: fieldDef.options }
     case 'boolean':
@@ -149,7 +160,7 @@ const fieldDefEntryToCoreFieldDef = ([name, fieldDef]: FieldDefEntry): Core.Fiel
   }
 }
 
-const fieldListItemsToCoreFieldListDefItems = (listFieldItem: ListFieldItem): Core.ListFieldDefItem => {
+const fieldListItemsToCoreFieldListDefItems = (listFieldItem: ListFieldItem): Core.ListFieldDefItem.Item => {
   switch (listFieldItem.type) {
     case 'boolean':
     case 'string':
@@ -159,16 +170,16 @@ const fieldListItemsToCoreFieldListDefItems = (listFieldItem: ListFieldItem): Co
         type: 'enum',
         options: listFieldItem.options,
       }
-    case 'object':
-      return {
-        type: 'object',
-        objectName: listFieldItem.def().name,
+    case 'nested':
+      const nestedTypeDef = listFieldItem.def()
+      if (isNestedTypeDef(nestedTypeDef)) {
+        return { type: 'nested', nestedTypeName: nestedTypeDef.name }
       }
-    case 'inline_object':
-      return {
-        type: 'inline_object',
-        fieldDefs: getFieldDefEntries(listFieldItem.fields).map(fieldDefEntryToCoreFieldDef),
-      }
+
+      const fieldDefs = getFieldDefEntries(nestedTypeDef.fields).map(fieldDefEntryToCoreFieldDef)
+      const extensions = nestedTypeDef.extensions ?? {}
+      const typeDef: Core.UnnamedNestedTypeDef = { _tag: 'UnnamedNestedTypeDef', fieldDefs, extensions }
+      return { type: 'unnamed_nested', typeDef }
     case 'document':
       return {
         type: 'document',
@@ -179,10 +190,10 @@ const fieldListItemsToCoreFieldListDefItems = (listFieldItem: ListFieldItem): Co
   }
 }
 
-function collectObjectDefs(documentDefs: DocumentDef[]): ObjectDef[] {
-  const objectDefMap: { [objectDefName: string]: ObjectDef } = {}
+const collectNestedDefs = (documentDefs: DocumentTypeDef[]): NestedTypeDef[] => {
+  const objectDefMap: { [objectDefName: string]: NestedTypeDef } = {}
 
-  const traverseObjectDef = (objectDef: ObjectDef) => {
+  const traverseNestedDef = (objectDef: NestedTypeDef) => {
     if (objectDef.name in objectDefMap) {
       return
     }
@@ -194,13 +205,16 @@ function collectObjectDefs(documentDefs: DocumentDef[]): ObjectDef[] {
 
   const traverseField = (field: FieldDef) => {
     switch (field.type) {
-      case 'object':
-        return traverseObjectDef(field.def())
-      case 'inline_object':
-        return getFieldDefValues(field.fields).forEach(traverseField)
-      case 'polymorphic_list':
-        return field.of.forEach(traverseListFieldItem)
+      case 'nested':
+        const nestedTypeDef = field.def()
+        if (isNestedTypeDef(nestedTypeDef)) {
+          return traverseNestedDef(nestedTypeDef)
+        }
+        return getFieldDefValues(nestedTypeDef.fields).forEach(traverseField)
       case 'list':
+        if (isPolymorphicListField(field)) {
+          return field.of.forEach(traverseListFieldItem)
+        }
         return traverseListFieldItem(field.of)
       case 'boolean':
       case 'date':
@@ -223,8 +237,12 @@ function collectObjectDefs(documentDefs: DocumentDef[]): ObjectDef[] {
 
   const traverseListFieldItem = (listFieldItem: ListFieldItem) => {
     switch (listFieldItem.type) {
-      case 'object':
-        return traverseObjectDef(listFieldItem.def())
+      case 'nested':
+        const nestedTypeDef = listFieldItem.def()
+        if (isUnnamedNestedTypeDef(nestedTypeDef)) {
+          return getFieldDefValues(nestedTypeDef.fields).forEach(traverseField)
+        }
+        return traverseNestedDef(nestedTypeDef)
     }
   }
 

@@ -154,7 +154,7 @@ export const makeCacheItemFromFilePath = (async ({
     .with('json', () => ({ kind: 'json', data: JSON.parse(fileContent) }))
     .when(
       (_) => ['yaml', 'yml'].includes(_ ?? ''),
-      () => ({ kind: 'yaml', data: yaml.load(fileContent) as object }),
+      () => ({ kind: 'yaml', data: yaml.load(fileContent) as any }),
     )
     .otherwise(() => {
       throw new Error(`Unsupported file extension "${filePathExtension}" for ${relativeFilePath}`)
@@ -165,11 +165,17 @@ export const makeCacheItemFromFilePath = (async ({
     return undefined
   }
 
-  const documentDef = schemaDef.documentDefMap[documentDefName]
+  const documentTypeDef = schemaDef.documentTypeDefMap[documentDefName]
 
-  const document = await makeDocument({ documentDef, rawContent: content, schemaDef, relativeFilePath, options })
+  const document = await makeDocument({
+    documentTypeDef,
+    rawContent: content,
+    schemaDef,
+    relativeFilePath,
+    options,
+  })
 
-  const computedValues = await getComputedValues({ documentDef, doc: document })
+  const computedValues = await getComputedValues({ documentDef: documentTypeDef, doc: document })
   if (computedValues) {
     Object.entries(computedValues).forEach(([fieldName, value]) => {
       document[fieldName] = value
@@ -181,7 +187,7 @@ export const makeCacheItemFromFilePath = (async ({
   traceAsyncFn('@contentlayer/source-local/fetchData:makeDocumentFromFilePath', (_) => omit(_, ['previousCache'])),
 )
 
-function checkSchema({
+const checkSchema = ({
   schemaDef,
   content,
   relativeFilePath,
@@ -194,17 +200,19 @@ function checkSchema({
   relativeFilePath: string
   documentDefName: string
   flags: Flags
-}): boolean {
-  const documentDef = schemaDef.documentDefMap[documentDefName]
+}): boolean => {
+  const documentTypeDef = schemaDef.documentTypeDefMap[documentDefName]
 
-  if (documentDef === undefined) {
+  if (documentTypeDef === undefined) {
     throw new Error(`No matching document definition found for "${relativeFilePath}"`)
   }
 
   const existingDataFieldKeys = Object.keys(content.data)
 
   // make sure all required fields are present
-  const requiredFieldsWithoutDefaultValue = documentDef.fieldDefs.filter((_) => _.required && _.default === undefined)
+  const requiredFieldsWithoutDefaultValue = documentTypeDef.fieldDefs.filter(
+    (_) => _.required && _.default === undefined,
+  )
   const misingRequiredFields = requiredFieldsWithoutDefaultValue.filter(
     (fieldDef) => !existingDataFieldKeys.includes(fieldDef.name),
   )
@@ -212,7 +220,7 @@ function checkSchema({
     const misingRequiredFieldsStr = misingRequiredFields.map((_, i) => `     ${i + 1}: ` + JSON.stringify(_)).join('\n')
 
     const message = `\
-Missing required fields (type: "${documentDef.name}") for "${relativeFilePath}".
+Missing required fields (type: "${documentTypeDef.name}") for "${relativeFilePath}".
   Missing fields:
 ${misingRequiredFieldsStr}
 `
@@ -232,12 +240,12 @@ ${misingRequiredFieldsStr}
 
   // warn about data fields not defined in the schema
   if (flags.onExtraData === 'warn') {
-    const schemaFieldNames = documentDef.fieldDefs.map((_) => _.name)
+    const schemaFieldNames = documentTypeDef.fieldDefs.map((_) => _.name)
     const extraFieldKeys = existingDataFieldKeys.filter((fieldKey) => !schemaFieldNames.includes(fieldKey))
     if (extraFieldKeys.length > 0) {
       console.log(`\
 Warning: Document (type: "${
-        documentDef.name
+        documentTypeDef.name
       }") contained fields that are not defined in schema for "${relativeFilePath}".
 
 Extra fields:
@@ -246,26 +254,26 @@ ${extraFieldKeys.map((key) => `  ${key}: ${JSON.stringify(content.data[key])}`).
     }
   }
 
-  // TODO validate objects
+  // TODO validate nesteds
 
   return true
 }
 
 const makeDocument = async ({
   rawContent,
-  documentDef,
+  documentTypeDef,
   schemaDef,
   relativeFilePath,
   options,
 }: {
   rawContent: Content
-  documentDef: Core.DocumentDef
+  documentTypeDef: Core.DocumentTypeDef
   schemaDef: Core.SchemaDef
   relativeFilePath: string
   options?: Options
 }): Promise<Core.Document> => {
   const docValues = await promiseMapToDict(
-    documentDef.fieldDefs,
+    documentTypeDef.fieldDefs,
     (fieldDef) =>
       getDataForFieldDef({
         fieldDef,
@@ -285,7 +293,7 @@ const makeDocument = async ({
   }
 
   const doc: Core.Document = {
-    _typeName: documentDef.name,
+    _typeName: documentTypeDef.name,
     _id: relativeFilePath,
     _raw,
     ...docValues,
@@ -306,7 +314,7 @@ const getFlattenedPath = (relativeFilePath: string): string => {
   )
 }
 
-const makeObject = async ({
+const makeNestedDocument = async ({
   rawObjectData,
   fieldDefs,
   typeName,
@@ -314,12 +322,12 @@ const makeObject = async ({
   options,
 }: {
   rawObjectData: Record<string, any>
-  /** Passing `FieldDef[]` here instead of `ObjectDef` in order to also support `inline_object` */
+  /** Passing `FieldDef[]` here instead of `ObjectDef` in order to also support `inline_nested` */
   fieldDefs: Core.FieldDef[]
   typeName: string
   schemaDef: Core.SchemaDef
   options?: Options
-}): Promise<Core.Object> => {
+}): Promise<Core.NestedDocument> => {
   const objValues = await promiseMapToDict(
     fieldDefs,
     (fieldDef) =>
@@ -331,7 +339,7 @@ const makeObject = async ({
       }),
     (fieldDef) => fieldDef.name,
   )
-  const obj: Core.Object = { _typeName: typeName, _raw: {}, ...objValues }
+  const obj: Core.NestedDocument = { _typeName: typeName, _raw: {}, ...objValues }
 
   return obj
 }
@@ -359,20 +367,20 @@ const getDataForFieldDef = async ({
   }
 
   switch (fieldDef.type) {
-    case 'object':
-      const objectDef = schemaDef.objectDefMap[fieldDef.objectName]
-      return makeObject({
+    case 'nested':
+      const nestedTypeDef = schemaDef.nestedTypeDefMap[fieldDef.nestedTypeName]
+      return makeNestedDocument({
         rawObjectData: rawFieldData,
-        fieldDefs: objectDef.fieldDefs,
-        typeName: objectDef.name,
+        fieldDefs: nestedTypeDef.fieldDefs,
+        typeName: nestedTypeDef.name,
         schemaDef,
         options,
       })
-    case 'inline_object':
-      return makeObject({
+    case 'unnamed_nested':
+      return makeNestedDocument({
         rawObjectData: rawFieldData,
-        fieldDefs: fieldDef.fieldDefs,
-        typeName: 'inline_object',
+        fieldDefs: fieldDef.typeDef.fieldDefs,
+        typeName: '__UNNAMED__',
         schemaDef,
         options,
       })
@@ -426,42 +434,42 @@ const getDataForListItem = async ({
   }
 
   if (fieldDef.type === 'polymorphic_list') {
-    const objectTypeName = rawItemData[fieldDef.typeField]
-    const objectDef = schemaDef.objectDefMap[objectTypeName]
-    if (objectDef === undefined) {
+    const nestedTypeName = rawItemData[fieldDef.typeField]
+    const nestedTypeDef = schemaDef.nestedTypeDefMap[nestedTypeName]
+    if (nestedTypeDef === undefined) {
       const valueTypeValues = fieldDef.of
-        .filter((_): _ is Core.ListFieldItemObject => _.type === 'object')
-        .map((_) => _.objectName)
+        .filter((_): _ is Core.ListFieldDefItem.ItemNested => _.type === 'nested')
+        .map((_) => _.nestedTypeName)
         .join(', ')
 
       throw new Error(`\
-Invalid value "${objectTypeName}" for type field "${fieldDef.typeField}" for field "${fieldDef.name}".
+Invalid value "${nestedTypeName}" for type field "${fieldDef.typeField}" for field "${fieldDef.name}".
 Needs to be one of the following values: ${valueTypeValues}`)
     }
-    return makeObject({
+    return makeNestedDocument({
       rawObjectData: rawItemData,
-      fieldDefs: objectDef.fieldDefs,
-      typeName: objectDef.name,
+      fieldDefs: nestedTypeDef.fieldDefs,
+      typeName: nestedTypeDef.name,
       schemaDef,
       options,
     })
   }
 
   switch (fieldDef.of.type) {
-    case 'object':
-      const objectDef = schemaDef.objectDefMap[fieldDef.of.objectName]
-      return makeObject({
+    case 'nested':
+      const nestedTypeDef = schemaDef.nestedTypeDefMap[fieldDef.of.nestedTypeName]
+      return makeNestedDocument({
         rawObjectData: rawItemData,
-        fieldDefs: objectDef.fieldDefs,
-        typeName: objectDef.name,
+        fieldDefs: nestedTypeDef.fieldDefs,
+        typeName: nestedTypeDef.name,
         schemaDef,
         options,
       })
-    case 'inline_object':
-      return makeObject({
+    case 'unnamed_nested':
+      return makeNestedDocument({
         rawObjectData: rawItemData,
-        fieldDefs: fieldDef.of.fieldDefs,
-        typeName: 'inline_object',
+        fieldDefs: fieldDef.of.typeDef.fieldDefs,
+        typeName: '__UNNAMED__',
         schemaDef,
         options,
       })
@@ -474,7 +482,7 @@ const getComputedValues = async ({
   doc,
   documentDef,
 }: {
-  documentDef: Core.DocumentDef
+  documentDef: Core.DocumentTypeDef
   doc: Document
 }): Promise<undefined | Record<string, any>> => {
   if (documentDef.computedFields === undefined) {

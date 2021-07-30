@@ -1,4 +1,4 @@
-import { defineDocument, defineObject } from 'contentlayer/source-local/schema'
+import { defineDocument, defineEmbedded } from 'contentlayer/source-local/schema'
 
 import { Action } from '../objects/Action'
 import { FormField } from '../objects/FormField'
@@ -64,7 +64,7 @@ export const Config = defineDocument(() => ({
   },
 }))
 
-const Header = defineObject(() => ({
+const Header = defineEmbedded(() => ({
   name: 'Header',
   label: 'Header Configuration',
   fields: {
@@ -93,7 +93,7 @@ const Header = defineObject(() => ({
   },
 }))
 
-const Footer = defineObject(() => ({
+const Footer = defineEmbedded(() => ({
   name: 'Footer',
   label: 'Footer Configuration',
   labelField: 'content',
@@ -145,7 +145,7 @@ const footerSectionBaseFields = {
   },
 } as const
 
-const FooterForm = defineObject(() => ({
+const FooterForm = defineEmbedded(() => ({
   name: 'FooterForm',
   label: 'Footer Form',
   labelField: 'title',
@@ -185,7 +185,7 @@ const FooterForm = defineObject(() => ({
   },
 }))
 
-const FooterNav = defineObject(() => ({
+const FooterNav = defineEmbedded(() => ({
   name: 'FooterNav',
   label: 'Vertical Navigation',
   labelField: 'title',
@@ -200,7 +200,7 @@ const FooterNav = defineObject(() => ({
   },
 }))
 
-const FooterText = defineObject(() => ({
+const FooterText = defineEmbedded(() => ({
   name: 'FooterText',
   label: 'Text',
   labelField: 'title',

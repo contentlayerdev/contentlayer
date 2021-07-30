@@ -5,8 +5,8 @@ export * from './field'
 export * from './validate'
 export * from './stackbit-extension'
 
-export type Extensions = {
-  stackbit?: StackbitExtension.ModelExtension
+export type TypeDefExtensions = {
+  stackbit?: StackbitExtension.TypeExtension
 }
 
 export type Markdown = {
@@ -23,33 +23,39 @@ export type MDX = {
   code: string
 }
 
-export type DocumentDefMap = Record<string, DocumentDef>
-export type ObjectDefMap = Record<string, ObjectDef>
+export type DocumentTypeDefMap = Record<string, DocumentTypeDef>
+export type NestedTypeDefMap = Record<string, NestedTypeDef>
 
 export type SchemaDef = {
-  documentDefMap: DocumentDefMap
-  objectDefMap: ObjectDefMap
+  documentTypeDefMap: DocumentTypeDefMap
+  nestedTypeDefMap: NestedTypeDefMap
   /** Hash of the schema def which can be used e.g. for caching purposes. */
   hash: string
 }
 
-export type DocumentDef = {
-  readonly _tag: 'DocumentDef'
+export type DocumentTypeDef = {
+  readonly _tag: 'DocumentTypeDef'
   /** Sometimes also called "id" */
   name: string
   description: string | undefined
   isSingleton: boolean
   fieldDefs: FieldDef[]
   computedFields: ComputedField[]
-  extensions: Extensions
+  extensions: TypeDefExtensions
 }
 
-export type ObjectDef = {
-  readonly _tag: 'ObjectDef'
+export type NestedTypeDef = {
+  readonly _tag: 'NestedTypeDef'
   name: string
   description: string | undefined
   fieldDefs: FieldDef[]
-  extensions: Extensions
+  extensions: TypeDefExtensions
+}
+
+export type UnnamedNestedTypeDef = {
+  readonly _tag: 'UnnamedNestedTypeDef'
+  fieldDefs: FieldDef[]
+  extensions: TypeDefExtensions
 }
 
 export type ComputedField = {

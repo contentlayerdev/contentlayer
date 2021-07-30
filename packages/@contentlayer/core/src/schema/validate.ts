@@ -1,11 +1,11 @@
-import type { DocumentDef, ObjectDef, SchemaDef } from './index'
+import type { DocumentTypeDef, NestedTypeDef, SchemaDef } from './index'
 
 export const validateSchema = (schema: SchemaDef): void => {
-  Object.values(schema.documentDefMap).forEach((def) => validateDocumentOrObjectDef({ def }))
-  Object.values(schema.objectDefMap).forEach((def) => validateDocumentOrObjectDef({ def }))
+  Object.values(schema.documentTypeDefMap).forEach((def) => validateDocumentOrObjectDef({ def }))
+  Object.values(schema.nestedTypeDefMap).forEach((def) => validateDocumentOrObjectDef({ def }))
 }
 
-const validateDocumentOrObjectDef = ({ def }: { def: DocumentDef | ObjectDef }): void => {
+const validateDocumentOrObjectDef = ({ def }: { def: DocumentTypeDef | NestedTypeDef }): void => {
   // TODO move out this code to a new stackbit extension package
   const stackbitExt = def.extensions.stackbit
   if (stackbitExt?.labelField) {

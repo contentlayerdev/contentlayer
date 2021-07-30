@@ -4,14 +4,14 @@ import { casesHandled, partition } from '@contentlayer/utils'
 import type * as Stackbit from '@stackbit/sdk'
 
 export const convertSchema = (
-  { documentDefMap, objectDefMap }: Core.SchemaDef,
+  { documentTypeDefMap, nestedTypeDefMap }: Core.SchemaDef,
   extensions: PluginExtensions,
 ): Stackbit.YamlConfig => {
   // TODO this needs to be more dynamic/configurable
   const urlPathFieldName = 'url_path'
-  const documentDefs = Object.values(documentDefMap)
+  const documentTypeDefs = Object.values(documentTypeDefMap)
   const [pageDocumentDefs, dataDocumentDefs] = partition(
-    documentDefs,
+    documentTypeDefs,
     (_) =>
       _.fieldDefs.some((_) => _.name === urlPathFieldName) || _.computedFields.some((_) => _.name === urlPathFieldName),
   )
@@ -21,7 +21,7 @@ export const convertSchema = (
   const models = [
     ...pageDocumentDefs.map((def) => documentOrObjectDefToStackbitYamlModel({ def, type: 'page', urlPathFieldName })),
     ...dataDocumentDefs.map((def) => documentOrObjectDefToStackbitYamlModel({ def, type: 'data', urlPathFieldName })),
-    ...Object.values(objectDefMap).map((def) =>
+    ...Object.values(nestedTypeDefMap).map((def) =>
       documentOrObjectDefToStackbitYamlModel({ def, type: 'object', urlPathFieldName }),
     ),
   ].reduce((acc, { model, name }) => ({ ...acc, [name]: model }), {} as Stackbit.YamlModels)
@@ -33,13 +33,13 @@ const documentOrObjectDefToStackbitYamlModel = ({
   def,
   type,
 }: {
-  def: Core.DocumentDef | Core.ObjectDef
+  def: Core.DocumentTypeDef | Core.NestedTypeDef
   type: Stackbit.YamlModel['type']
   urlPathFieldName: string
 }): { model: Stackbit.YamlModel; name: string } => {
   const ext = def.extensions.stackbit
   const fields =
-    def._tag === 'DocumentDef'
+    def._tag === 'DocumentTypeDef'
       ? def.fieldDefs
           .filter(not(isContentMarkdownFieldDef))
           .map((fieldDef) => fieldDefToStackbitField({ fieldDef, fieldExtension: ext?.fields?.[fieldDef.name] }))
@@ -61,7 +61,7 @@ const documentOrObjectDefToStackbitYamlModel = ({
   }
 
   const name = def.name
-  const singleInstance: any = def._tag === 'DocumentDef' && def.isSingleton
+  const singleInstance: any = def._tag === 'DocumentTypeDef' && def.isSingleton
 
   switch (type) {
     case 'data':
@@ -95,19 +95,19 @@ const fieldDefToStackbitField = ({
     case 'enum':
       return { ...commonField, type: 'enum', options: fieldDef.options }
     case 'document':
-      return { ...commonField, type: 'reference', models: [fieldDef.documentName] }
-    case 'inline_object':
+      return { ...commonField, type: 'reference', models: [fieldDef.documentTypeName] }
+    case 'nested':
+      return { ...commonField, type: 'model', models: [fieldDef.nestedTypeName] }
+    case 'unnamed_nested':
       return {
         ...commonField,
         type: 'object',
-        fields: fieldDef.fieldDefs
+        fields: fieldDef.typeDef.fieldDefs
           .filter(not(isContentMarkdownFieldDef))
           .map((fieldDef) => fieldDefToStackbitField({ fieldDef, fieldExtension: undefined })),
       }
     case 'json':
       return { ...commonField, type: 'object', fields: [] }
-    case 'object':
-      return { ...commonField, type: 'model', models: [fieldDef.objectName] }
     case 'list':
     case 'polymorphic_list':
       return { ...commonField, type: 'list', items: listFieldDefToStackbitFieldListItems(fieldDef) }
@@ -131,10 +131,10 @@ const fieldDefToStackbitField = ({
 const listFieldDefToStackbitFieldListItems = (
   fieldDef: Core.ListFieldDef | Core.PolymorphicListFieldDef,
 ): Stackbit.FieldListItems => {
-  const getModelName = (item: Core.ListFieldItemObject | Core.ListFieldItemReference) =>
-    item.type === 'document' ? item.documentName : item.objectName
+  const getModelName = (item: Core.ListFieldDefItem.ItemNested | Core.ListFieldDefItem.ItemReference) =>
+    item.type === 'document' ? item.documentName : item.nestedTypeName
 
-  if (fieldDef.type === 'list' && (fieldDef.of.type === 'document' || fieldDef.of.type === 'object')) {
+  if (fieldDef.type === 'list' && (fieldDef.of.type === 'document' || fieldDef.of.type === 'nested')) {
     return {
       type: 'model',
       models: [getModelName(fieldDef.of)],
@@ -152,7 +152,8 @@ const listFieldDefToStackbitFieldListItems = (
   if (
     fieldDef.type === 'polymorphic_list' &&
     fieldDef.of.every(
-      (_): _ is Core.ListFieldItemReference | Core.ListFieldItemObject => _.type === 'document' || _.type === 'object',
+      (_): _ is Core.ListFieldDefItem.ItemReference | Core.ListFieldDefItem.ItemNested =>
+        _.type === 'document' || _.type === 'nested',
     )
   ) {
     return {
@@ -166,16 +167,16 @@ const listFieldDefToStackbitFieldListItems = (
       case 'string':
       case 'boolean':
         return { type: fieldDef.of.type }
-      case 'inline_object':
+      case 'unnamed_nested':
         return {
           type: 'object',
-          fields: fieldDef.of.fieldDefs
+          fields: fieldDef.of.typeDef.fieldDefs
             .filter(not(isContentMarkdownFieldDef))
             .map((fieldDef) => fieldDefToStackbitField({ fieldDef, fieldExtension: undefined })),
         }
       case 'enum':
         return { type: 'enum', options: fieldDef.of.options }
-      case 'object':
+      case 'nested':
       case 'document':
         throw new Error('Case handled above')
       default:

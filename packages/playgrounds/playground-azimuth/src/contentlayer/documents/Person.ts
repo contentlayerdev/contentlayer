@@ -1,6 +1,6 @@
-import { defineDocument } from 'contentlayer/source-local/schema'
+import { defineDocumentType } from 'contentlayer/source-local/schema'
 
-export const Person = defineDocument(() => ({
+export const Person = defineDocumentType(() => ({
   name: 'Person',
   filePathPattern: 'data/authors/*.yaml',
   fileType: 'yaml',

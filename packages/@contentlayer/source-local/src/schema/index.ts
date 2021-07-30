@@ -3,25 +3,25 @@ import type { StackbitExtension } from '@contentlayer/core'
 import type { ComputedField } from './computed-field'
 
 export type SchemaDef = {
-  documentDefs: DocumentDef[]
+  documentDefs: DocumentTypeDef[]
 }
 
 export type DocumentFileType = 'markdown' | 'mdx' | 'json' | 'yaml'
 
-export type ModelExtensions<DefName extends string = string> = {
-  stackbit?: StackbitExtension.ModelExtension<DefName>
+export type TypeExtensions<DefName extends string = string> = {
+  stackbit?: StackbitExtension.TypeExtension<DefName>
 }
 
 export type FieldDefs = Record<string, FieldDef> | FieldDefWithName[]
 
 /** Top level model type */
-export type DocumentDef<DefName extends string = string> = {
+export type DocumentTypeDef<DefName extends string = string> = {
   name: DefName
   // type: ModelType
   description?: string
 
   /**
-   * The field definitions can either be provided as an object with the field names as keys or
+   * The field definitions can either be provided as an embedded with the field names as keys or
    * as an array of all field definitions including the name as an extra field. (The array definition
    * can be used if you want more control over the order of the fields.)
    *
@@ -38,24 +38,32 @@ export type DocumentDef<DefName extends string = string> = {
   fileType?: DocumentFileType
   isSingleton?: boolean
 
-  extensions?: ModelExtensions<DefName>
+  extensions?: TypeExtensions<DefName>
 }
 
-export type ObjectDef<DefName extends string = string> = {
+export type NestedTypeDef<DefName extends string = string> = {
   name: DefName
-  // type: ModelType
-  /**  */
   description?: string
   fields: FieldDefs
-  extensions?: ModelExtensions<DefName>
+  extensions?: TypeExtensions<DefName>
 }
+
+export const isNestedTypeDef = (_: NestedTypeDef | UnnamedNestedTypeDef): _ is NestedTypeDef => _.hasOwnProperty('name')
+
+export type UnnamedNestedTypeDef = {
+  fields: FieldDefs
+  extensions?: TypeExtensions
+}
+
+export const isUnnamedNestedTypeDef = (_: NestedTypeDef | UnnamedNestedTypeDef): _ is UnnamedNestedTypeDef =>
+  !_.hasOwnProperty('name')
 
 // export type FieldType =
 //   | 'string'
 //   | 'text'
 //   | 'slug'
-//   /** Reference to owned object, (= "inline model") */
-//   | 'object'
+//   /** Reference to owned embedded, (= "inline model") */
+//   | 'nested'
 //   // /** Reference to owned model */
 //   // | 'model'
 //   /** Reference to document */
@@ -79,8 +87,7 @@ export type FieldDef =
   | TextField
   | UrlField
   | ImageField
-  | ObjectField
-  | InlineObjectField
+  | NestedTypeField
   | ReferenceField
   | EnumField
 
@@ -102,34 +109,31 @@ export interface ListField extends FieldBase {
 }
 
 export interface PolymorphicListField extends FieldBase {
-  type: 'polymorphic_list'
+  type: 'list'
   default?: any[]
   of: ListFieldItem[]
   /** Field needed to distiguish list data items at run time */
   typeField: string
 }
 
-export const isListField = (_: FieldDef): _ is ListField => _.type === 'list'
+export const isListField = (_: FieldDef): _ is ListField => _.type === 'list' && !Array.isArray(_.of)
+export const isPolymorphicListField = (_: FieldDef): _ is PolymorphicListField =>
+  _.type === 'list' && Array.isArray(_.of)
 
 export type ListFieldItem =
   | ListFieldItemString
   | ListFieldItemEnum
   | ListFieldItemBoolean
-  | ListFieldItemObject
-  | ListFieldItemInlineObject
-  | ListFieldItemReference
+  | ListFieldItemNestedType
+  | ListFieldItemDocumentReference
 
 export type ListFieldItemString = { type: 'string' }
 export type ListFieldItemEnum = { type: 'enum'; options: string[] }
 export type ListFieldItemBoolean = { type: 'boolean' }
-export type ListFieldItemObject = ObjectModel
-export type ListFieldItemInlineObject = {
-  type: 'inline_object'
-  fields: FieldDefs
-}
-export type ListFieldItemReference = DocumentModel
+export type ListFieldItemNestedType = NestedType
+export type ListFieldItemDocumentReference = DocumentType
 
-export const isListFieldItemObject = (_: ListFieldItem): _ is ListFieldItemObject => _.type === 'object'
+export const isListFieldItemEmbedded = (_: ListFieldItem): _ is ListFieldItemNestedType => _.type === 'nested'
 
 export type StringField = FieldBase & {
   type: 'string'
@@ -194,37 +198,37 @@ export type EnumField = FieldBase & {
   options: string[]
 }
 
-export type ObjectField = FieldBase &
-  ObjectModel & {
+export type NestedTypeField = FieldBase &
+  NestedType & {
     default?: any
   }
 
-export const isObjectField = (_: FieldDef): _ is ObjectField => _.type === 'object'
-
-export type InlineObjectField = FieldBase & {
-  type: 'inline_object'
-  default?: any
-  fields: Record<string, FieldDef>
-}
-
-export const isInlineObjectField = (_: FieldDef): _ is InlineObjectField => _.type === 'inline_object'
+export const isNestedTypeField = (_: FieldDef): _ is NestedTypeField => _.type === 'nested'
 
 export type ReferenceField = FieldBase &
-  DocumentModel & {
+  DocumentType & {
     default?: string
   }
 
 export type Thunk<T> = () => T
 
-export type ObjectModel<DefName extends string = string> = { type: 'object'; def: Thunk<ObjectDef<DefName>> }
-export type DocumentModel<DefName extends string = string> = { type: 'document'; def: Thunk<DocumentDef<DefName>> }
+export type NestedType<DefName extends string = string> = {
+  type: 'nested'
+  def: Thunk<NestedTypeDef<DefName> | UnnamedNestedTypeDef>
+}
 
-export const defineObject = <DefName extends string>(def: () => ObjectDef<DefName>): ObjectModel<DefName> => ({
-  type: 'object',
+export type DocumentType<DefName extends string = string> = { type: 'document'; def: Thunk<DocumentTypeDef<DefName>> }
+
+export const defineNestedType = <DefName extends string>(
+  def: Thunk<NestedTypeDef<DefName> | UnnamedNestedTypeDef>,
+): NestedType<DefName> => ({
+  type: 'nested',
   def,
 })
 
-export const defineDocument = <DefName extends string>(def: () => DocumentDef<DefName>): DocumentModel<DefName> => ({
+export const defineDocumentType = <DefName extends string>(
+  def: Thunk<DocumentTypeDef<DefName>>,
+): DocumentType<DefName> => ({
   type: 'document',
   def,
 })

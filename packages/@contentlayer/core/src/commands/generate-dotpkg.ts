@@ -20,9 +20,9 @@ import type { PackageJson } from 'type-fest'
 
 import type { Cache } from '../cache'
 import type { SourcePlugin, SourcePluginType } from '../plugin'
-import type { DocumentDef, SchemaDef } from '../schema'
+import type { DocumentTypeDef, SchemaDef } from '../schema'
 import { makeArtifactsDir } from '../utils'
-import { renderDocumentOrObjectDef } from './generate-types'
+import { renderDocumentTypeDefOrNestedTypeDef } from './generate-types'
 
 /**
  * Used to track which files already have been written.
@@ -59,10 +59,14 @@ const writeFilesForCache = (async ({
 }): Promise<void> => {
   const withPrefix = (...path_: string[]) => path.join(targetPath, ...path_)
 
+  if (process.env['CL_DEBUG']) {
+    ;(await import('fs')).writeFileSync(withPrefix('cache', 'schema.json'), JSON.stringify(schemaDef, null, 2))
+  }
+
   const allCacheItems = Object.values(cache.cacheItemsMap)
   const allDocuments = allCacheItems.map((_) => _.document)
 
-  const documentDefs = Object.values(schemaDef.documentDefMap)
+  const documentDefs = Object.values(schemaDef.documentTypeDefMap)
 
   const dataBarrelFiles = documentDefs.map((docDef) => ({
     content: makeDataExportFile({
@@ -155,7 +159,7 @@ const writeFileWithWrittenFilesCache =
     }
   }
 
-const makeDataExportFile = ({ docDef, documentIds }: { docDef: DocumentDef; documentIds: string[] }): string => {
+const makeDataExportFile = ({ docDef, documentIds }: { docDef: DocumentTypeDef; documentIds: string[] }): string => {
   const dataVariableName = getDataVariableName({ docDef })
 
   if (docDef.isSingleton) {
@@ -182,7 +186,7 @@ export const ${dataVariableName} = [${documentIds.map((_) => makeVariableName(_)
 }
 
 const makeIndexJs = ({ schemaDef }: { schemaDef: SchemaDef }): string => {
-  const dataVariableNames = Object.values(schemaDef.documentDefMap).map(
+  const dataVariableNames = Object.values(schemaDef.documentTypeDefMap).map(
     (docDef) => [docDef, getDataVariableName({ docDef })] as const,
   )
   const constReexports = dataVariableNames
@@ -218,18 +222,18 @@ const makeTypes = ({
   schemaDef: SchemaDef
   sourcePluginType: SourcePluginType
 }): string => {
-  const documentTypes = Object.values(schemaDef.documentDefMap)
+  const documentTypes = Object.values(schemaDef.documentTypeDefMap)
     .sort((a, b) => a.name.localeCompare(b.name))
     .map((def) => ({
       typeName: def.name,
-      typeDef: renderDocumentOrObjectDef({ def, sourcePluginType }),
+      typeDef: renderDocumentTypeDefOrNestedTypeDef({ def, sourcePluginType }),
     }))
 
-  const objectTypes = Object.values(schemaDef.objectDefMap)
+  const nestedTypes = Object.values(schemaDef.nestedTypeDefMap)
     .sort((a, b) => a.name.localeCompare(b.name))
     .map((def) => ({
       typeName: def.name,
-      typeDef: renderDocumentOrObjectDef({ def, sourcePluginType }),
+      typeDef: renderDocumentTypeDefOrNestedTypeDef({ def, sourcePluginType }),
     }))
 
   // TODO this might be no longer needed and can be removed once `isType` has been refactored
@@ -239,7 +243,7 @@ const makeTypes = ({
     .map((_) => `  ${_}: ${_}`)
     .join('\n')
 
-  const objectTypeMap = objectTypes
+  const nestedTypeMap = nestedTypes
     .map((_) => _.typeName)
     .map((_) => `  ${_}: ${_}`)
     .join('\n')
@@ -265,9 +269,9 @@ export interface ContentlayerGenTypes {
   documentTypes: DocumentTypes
   documentTypeMap: DocumentTypeMap
   documentTypeNames: DocumentTypeNames
-  objectTypes: ObjectTypes
-  objectTypeMap: ObjectTypeMap
-  objectTypeNames: ObjectTypeNames
+  nestedTypes: NestedTypes
+  nestedTypeMap: NestedTypeMap
+  nestedTypeNames: NestedTypeNames
   allTypeNames: AllTypeNames
 }
 
@@ -279,26 +283,26 @@ export type DocumentTypeMap = {
 ${documentTypeMap}
 }
 
-export type ObjectTypeMap = {
-${objectTypeMap}
+export type NestedTypeMap = {
+${nestedTypeMap}
 }
 
-export type AllTypes = DocumentTypes | ObjectTypes
-export type AllTypeNames = DocumentTypeNames | ObjectTypeNames
+export type AllTypes = DocumentTypes | NestedTypes
+export type AllTypeNames = DocumentTypeNames | NestedTypeNames
 
 export type DocumentTypes = ${documentTypes.map((_) => _.typeName).join(' | ')}
 export type DocumentTypeNames = DocumentTypes['_typeName']
 
-export type ObjectTypes = ${objectTypes.length > 0 ? objectTypes.map((_) => _.typeName).join(' | ') : 'never'}
-export type ObjectTypeNames = ObjectTypes['_typeName']
+export type NestedTypes = ${nestedTypes.length > 0 ? nestedTypes.map((_) => _.typeName).join(' | ') : 'never'}
+export type NestedTypeNames = NestedTypes['_typeName']
 
 
 
 /** Document types */
 ${documentTypes.map((_) => _.typeDef).join('\n\n')}  
 
-/** Object types */
-${objectTypes.map((_) => _.typeDef).join('\n\n')}  
+/** Nested types */
+${nestedTypes.map((_) => _.typeDef).join('\n\n')}  
   
  `
 }
@@ -312,7 +316,7 @@ export { isType } from 'contentlayer/client'
 }
 
 const makeDataTypes = ({ schemaDef }: { schemaDef: SchemaDef }): string => {
-  const dataConsts = Object.values(schemaDef.documentDefMap)
+  const dataConsts = Object.values(schemaDef.documentTypeDefMap)
     .map((docDef) => [docDef, docDef.name, getDataVariableName({ docDef })] as const)
     .map(
       ([docDef, typeName, dataVariableName]) =>
@@ -320,7 +324,7 @@ const makeDataTypes = ({ schemaDef }: { schemaDef: SchemaDef }): string => {
     )
     .join('\n')
 
-  const documentTypeNames = Object.values(schemaDef.documentDefMap)
+  const documentTypeNames = Object.values(schemaDef.documentTypeDefMap)
     .map((docDef) => docDef.name)
     .join(', ')
 
@@ -336,7 +340,7 @@ export declare const allDocuments: DocumentTypes[]
 `
 }
 
-const getDataVariableName = ({ docDef }: { docDef: DocumentDef }): string => {
+const getDataVariableName = ({ docDef }: { docDef: DocumentTypeDef }): string => {
   if (docDef.isSingleton) {
     return lowercaseFirstChar(inflection.singularize(docDef.name))
   } else {

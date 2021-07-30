@@ -175,7 +175,7 @@ const sanityFieldToCoreFieldDef =
       case 'object':
         return <Core.InlineObjectFieldDef>{
           ...baseFields,
-          type: 'inline_object',
+          type: 'inline_embedded',
           fieldDefs: field.fields.map(sanityFieldToCoreFieldDef(objectTypeNames)),
         }
       case 'date':
@@ -251,7 +251,7 @@ const sanityArrayOfToCoreFieldListDefItem =
         }
       case 'object':
         return <Core.ListFieldItemInlineObject>{
-          type: 'inline_object',
+          type: 'inline_embedded',
           fieldDefs: arrayOf.fields.map(sanityFieldToCoreFieldDef(objectTypeNames)),
         }
       default:

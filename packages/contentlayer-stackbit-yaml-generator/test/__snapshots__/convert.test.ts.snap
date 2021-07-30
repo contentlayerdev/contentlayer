@@ -1382,7 +1382,7 @@ Object {
               },
             ],
             "labelField": "name",
-            "type": "inline_object",
+            "type": "inline_embedded",
           },
           "required": undefined,
           "type": "list",

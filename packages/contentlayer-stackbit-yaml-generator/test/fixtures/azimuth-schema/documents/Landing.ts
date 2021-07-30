@@ -1,4 +1,4 @@
-import { defineDocument, defineObject } from 'contentlayer/source-local/schema'
+import { defineDocument, defineEmbedded } from 'contentlayer/source-local/schema'
 
 import { Action } from '../objects/Action'
 import { FormField } from '../objects/FormField'
@@ -67,7 +67,7 @@ const sectionBaseFields = {
   },
 } as const
 
-const SectionContent = defineObject(() => ({
+const SectionContent = defineEmbedded(() => ({
   name: 'SectionContent',
   label: 'Content Section',
   labelField: 'title',
@@ -103,7 +103,7 @@ const SectionContent = defineObject(() => ({
   },
 }))
 
-const SectionCta = defineObject(() => ({
+const SectionCta = defineEmbedded(() => ({
   name: 'SectionCta',
   label: 'Call to Action Section',
   labelField: 'title',
@@ -122,7 +122,7 @@ const SectionCta = defineObject(() => ({
   },
 }))
 
-const SectionHero = defineObject(() => ({
+const SectionHero = defineEmbedded(() => ({
   name: 'SectionHero',
   label: 'Hero Section',
   labelField: 'title',
@@ -151,7 +151,7 @@ const SectionHero = defineObject(() => ({
   },
 }))
 
-const SectionFeatures = defineObject(() => ({
+const SectionFeatures = defineEmbedded(() => ({
   name: 'SectionFeatures',
   label: 'Features Section',
   labelField: 'title',
@@ -177,7 +177,7 @@ const SectionFeatures = defineObject(() => ({
   },
 }))
 
-const FeatureItem = defineObject(() => ({
+const FeatureItem = defineEmbedded(() => ({
   name: 'FeatureItem',
   label: 'Feature Item',
   labelField: 'title',
@@ -209,7 +209,7 @@ const FeatureItem = defineObject(() => ({
   },
 }))
 
-const SectionContact = defineObject(() => ({
+const SectionContact = defineEmbedded(() => ({
   name: 'SectionContact',
   label: 'Contact Section',
   labelField: 'title',
@@ -261,7 +261,7 @@ const SectionContact = defineObject(() => ({
   },
 }))
 
-const SectionFaq = defineObject(() => ({
+const SectionFaq = defineEmbedded(() => ({
   name: 'SectionFaq',
   label: 'FAQ Section',
   labelField: 'title',
@@ -287,7 +287,7 @@ const SectionFaq = defineObject(() => ({
   },
 }))
 
-const FaqItem = defineObject(() => ({
+const FaqItem = defineEmbedded(() => ({
   name: 'FaqItem',
   label: 'FAQ Item',
   fields: {
@@ -302,7 +302,7 @@ const FaqItem = defineObject(() => ({
   },
 }))
 
-const SectionPosts = defineObject(() => ({
+const SectionPosts = defineEmbedded(() => ({
   name: 'SectionPosts',
   label: 'Posts List',
   fields: {
@@ -322,7 +322,7 @@ const SectionPosts = defineObject(() => ({
   },
 }))
 
-const SectionPricing = defineObject(() => ({
+const SectionPricing = defineEmbedded(() => ({
   name: 'SectionPricing',
   label: 'Pricing Section',
   fields: {
@@ -347,7 +347,7 @@ const SectionPricing = defineObject(() => ({
   },
 }))
 
-const PricingPlan = defineObject(() => ({
+const PricingPlan = defineEmbedded(() => ({
   name: 'PricingPlan',
   label: 'Pricing Plan',
   labelField: 'title',
@@ -382,7 +382,7 @@ const PricingPlan = defineObject(() => ({
   },
 }))
 
-const SectionReviews = defineObject(() => ({
+const SectionReviews = defineEmbedded(() => ({
   name: 'SectionReviews',
   label: 'Reviews Section',
   fields: {
@@ -407,7 +407,7 @@ const SectionReviews = defineObject(() => ({
   },
 }))
 
-const ReviewItem = defineObject(() => ({
+const ReviewItem = defineEmbedded(() => ({
   name: 'ReviewItem',
   label: 'Review Item',
   fields: {
