@@ -144,7 +144,7 @@ const getDataForFieldDef = ({
       return rawFieldData._ref
     case 'image':
       return imageUrlBuilder.image(rawFieldData).url()
-    case 'polymorphic_list':
+    case 'list_polymorphic':
     case 'list':
       return (rawFieldData as any[]).map((rawItemData) =>
         getDataForListItem({ rawItemData, fieldDef, schemaDef, imageUrlBuilder }),
@@ -161,7 +161,7 @@ const getDataForListItem = ({
   imageUrlBuilder,
 }: {
   rawItemData: any
-  fieldDef: Core.ListFieldDef | Core.PolymorphicListFieldDef
+  fieldDef: Core.ListFieldDef | Core.ListPolymorphicFieldDef
   schemaDef: Core.SchemaDef
   imageUrlBuilder: ImageUrlBuilder
 }): any => {

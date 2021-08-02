@@ -1,4 +1,4 @@
-import { defineDocumentType, defineNestedType } from 'contentlayer/source-local/schema'
+import { defineDocumentType, defineNestedType } from 'contentlayer/source-local'
 
 import { Action } from '../nested/Action'
 import { FormField } from '../nested/FormField'
@@ -8,6 +8,7 @@ import { urlFromFilePath } from '../utils'
 export const Landing = defineDocumentType(() => ({
   name: 'Landing',
   filePathPattern: 'pages/{contact,features,index,pricing}.md',
+  contentType: 'no-content',
   fields: {
     title: {
       type: 'string',
@@ -30,7 +31,7 @@ export const Landing = defineDocumentType(() => ({
       ],
       typeField: 'type',
     },
-    seo: SEO,
+    seo: { type: 'nested', of: SEO },
   },
   computedFields: {
     url_path: {
@@ -83,7 +84,7 @@ const SectionContent = defineNestedType(() => ({
       description: 'The text content of the section',
     },
     image: {
-      type: 'image',
+      type: 'string',
       description: 'The image of the section',
     },
     image_alt: {
@@ -156,7 +157,7 @@ const SectionHero = defineNestedType(() => ({
       description: 'The text content of the section',
     },
     image: {
-      type: 'image',
+      type: 'string',
       description: 'The image of the section',
     },
     image_alt: {
@@ -225,7 +226,7 @@ const FeatureItem = defineNestedType(() => ({
       description: 'Feature description',
     },
     image: {
-      type: 'image',
+      type: 'string',
       description: 'Feature image',
     },
     image_alt: {
@@ -349,7 +350,7 @@ const SectionFaq = defineNestedType(() => ({
 const FaqItem = defineNestedType(() => ({
   name: 'FaqItem',
   fields: {
-    question: { type: 'text' },
+    question: { type: 'string' },
     answer: { type: 'markdown' },
   },
   extensions: {
@@ -499,9 +500,9 @@ const ReviewItem = defineNestedType(() => ({
   name: 'ReviewItem',
   fields: {
     author: { type: 'string' },
-    avatar: { type: 'image' },
+    avatar: { type: 'string' },
     avatar_alt: { type: 'string' },
-    content: { type: 'text' },
+    content: { type: 'string' },
   },
   extensions: {
     stackbit: {

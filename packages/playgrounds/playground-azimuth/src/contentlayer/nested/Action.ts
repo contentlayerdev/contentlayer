@@ -1,4 +1,4 @@
-import { defineNestedType } from 'contentlayer/source-local/schema'
+import { defineNestedType } from 'contentlayer/source-local'
 
 export const Action = defineNestedType(() => ({
   name: 'Action',

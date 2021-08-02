@@ -94,11 +94,15 @@ const fieldDefToStackbitField = ({
   switch (fieldDef.type) {
     case 'enum':
       return { ...commonField, type: 'enum', options: fieldDef.options }
-    case 'document':
+    case 'reference':
       return { ...commonField, type: 'reference', models: [fieldDef.documentTypeName] }
+    case 'reference_polymorphic':
+      return { ...commonField, type: 'reference', models: fieldDef.documentTypeNames }
     case 'nested':
       return { ...commonField, type: 'model', models: [fieldDef.nestedTypeName] }
-    case 'unnamed_nested':
+    case 'nested_polymorphic':
+      return { ...commonField, type: 'model', models: fieldDef.nestedTypeNames }
+    case 'nested_unnamed':
       return {
         ...commonField,
         type: 'object',
@@ -109,16 +113,16 @@ const fieldDefToStackbitField = ({
     case 'json':
       return { ...commonField, type: 'object', fields: [] }
     case 'list':
-    case 'polymorphic_list':
+    case 'list_polymorphic':
       return { ...commonField, type: 'list', items: listFieldDefToStackbitFieldListItems(fieldDef) }
     case 'date':
     case 'number':
     case 'string':
     case 'markdown':
-    case 'text':
-    case 'slug':
-    case 'image':
-    case 'url':
+    // case 'text':
+    // case 'slug':
+    // case 'image':
+    // case 'url':
     case 'boolean':
       return { ...commonField, type: fieldDef.type }
     case 'mdx':
@@ -129,19 +133,19 @@ const fieldDefToStackbitField = ({
 }
 
 const listFieldDefToStackbitFieldListItems = (
-  fieldDef: Core.ListFieldDef | Core.PolymorphicListFieldDef,
+  fieldDef: Core.ListFieldDef | Core.ListPolymorphicFieldDef,
 ): Stackbit.FieldListItems => {
   const getModelName = (item: Core.ListFieldDefItem.ItemNested | Core.ListFieldDefItem.ItemReference) =>
-    item.type === 'document' ? item.documentName : item.nestedTypeName
+    item.type === 'reference' ? item.documentName : item.nestedTypeName
 
-  if (fieldDef.type === 'list' && (fieldDef.of.type === 'document' || fieldDef.of.type === 'nested')) {
+  if (fieldDef.type === 'list' && (fieldDef.of.type === 'reference' || fieldDef.of.type === 'nested')) {
     return {
       type: 'model',
       models: [getModelName(fieldDef.of)],
     }
   }
 
-  if (fieldDef.type === 'polymorphic_list' && fieldDef.typeField !== 'type') {
+  if (fieldDef.type === 'list_polymorphic' && fieldDef.typeField !== 'type') {
     // TODO make more configurable via global `objectTypeKey` option
     // https://www.stackbit.com/docs/stackbit-yaml/properties/#objecttypekey
     throw new Error(
@@ -150,10 +154,10 @@ const listFieldDefToStackbitFieldListItems = (
   }
 
   if (
-    fieldDef.type === 'polymorphic_list' &&
+    fieldDef.type === 'list_polymorphic' &&
     fieldDef.of.every(
       (_): _ is Core.ListFieldDefItem.ItemReference | Core.ListFieldDefItem.ItemNested =>
-        _.type === 'document' || _.type === 'nested',
+        _.type === 'reference' || _.type === 'nested',
     )
   ) {
     return {
@@ -167,7 +171,7 @@ const listFieldDefToStackbitFieldListItems = (
       case 'string':
       case 'boolean':
         return { type: fieldDef.of.type }
-      case 'unnamed_nested':
+      case 'nested_unnamed':
         return {
           type: 'object',
           fields: fieldDef.of.typeDef.fieldDefs
@@ -177,7 +181,7 @@ const listFieldDefToStackbitFieldListItems = (
       case 'enum':
         return { type: 'enum', options: fieldDef.of.options }
       case 'nested':
-      case 'document':
+      case 'reference':
         throw new Error('Case handled above')
       default:
         casesHandled(fieldDef.of)

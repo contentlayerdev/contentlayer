@@ -1,9 +1,9 @@
-import { defineDocument } from 'contentlayer/source-local/schema'
+import { defineDocumentType } from 'contentlayer/source-local/schema'
 
-import { SEO } from '../objects/SEO'
+import { SEO } from '../nested/SEO'
 import { urlFromFilePath } from '../utils'
 
-export const Page = defineDocument(() => ({
+export const Page = defineDocumentType(() => ({
   name: 'Page',
   filePathPattern: 'pages/{about,privacy-policy,signup,style-guide,terms-of-service}.md',
   fields: {
@@ -28,10 +28,7 @@ export const Page = defineDocument(() => ({
       label: 'Image Alt Text',
       description: 'The alt text of the image',
     },
-    seo: {
-      type: 'object',
-      object: SEO,
-    },
+    seo: SEO,
   },
   computedFields: {
     url_path: {
@@ -40,5 +37,8 @@ export const Page = defineDocument(() => ({
         'The URL path of this page relative to site root. For example, the site root page would be "/", and post page would be "posts/new-post/"',
       resolve: urlFromFilePath,
     },
+  },
+  extensions: {
+    stackbit: { match: ['about.md', 'privacy-policy.md', 'signup.md', 'style-guide.md', 'terms-of-service.md'] },
   },
 }))

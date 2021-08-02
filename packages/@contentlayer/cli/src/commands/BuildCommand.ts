@@ -10,5 +10,6 @@ export class BuildCommand extends BaseCommand {
   executeSafe = (async () => {
     const source = await getConfig({ configPath: this.configPath, cwd: process.cwd() })
     await firstValueFrom(generateDotpkg({ source, watchData: false }))
+    console.log(`Generated node_modules/.contentlayer`)
   })['|>'](traceAsyncFn('@contentlayer/cli/commands/BuildCommand:executeSafe'))
 }

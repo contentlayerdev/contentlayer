@@ -12,9 +12,10 @@ import type { DocumentType, Thunk } from './schema'
 import type { FilePathPatternMap } from './types'
 
 export * from './types'
+export * from './schema'
 
 type Args = {
-  documentTypes: DocumentType[] | Record<string, DocumentType>
+  documentTypes: DocumentType<any>[] | Record<string, DocumentType<any>>
   /**
    * Path to the root directory that contains all content. Every content file path will be relative
    * to this directory. This includes:

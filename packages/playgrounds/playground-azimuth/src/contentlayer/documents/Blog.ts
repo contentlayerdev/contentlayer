@@ -1,4 +1,4 @@
-import { defineDocumentType } from 'contentlayer/source-local/schema'
+import { defineDocumentType } from 'contentlayer/source-local'
 
 import { SEO } from '../nested/SEO'
 import { urlFromFilePath } from '../utils'
@@ -6,6 +6,7 @@ import { urlFromFilePath } from '../utils'
 export const Blog = defineDocumentType(() => ({
   name: 'Blog',
   filePathPattern: `pages/blog.md`,
+  contentType: 'no-content',
   isSingleton: true,
   fields: {
     title: {
@@ -13,7 +14,7 @@ export const Blog = defineDocumentType(() => ({
       description: 'The title of the page',
       required: true,
     },
-    seo: SEO,
+    seo: { type: 'nested', of: SEO },
   },
   computedFields: {
     url_path: {

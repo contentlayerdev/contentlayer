@@ -64,20 +64,20 @@ export const fetchAllDocuments = (async ({
   return { cacheItemsMap }
 })['|>'](traceAsyncFn('@contentlayer/source-local/fetchData:fetchAllDocuments', (_) => omit(_, ['previousCache'])))
 
-type Content = ContentMarkdown | ContentMDX | ContentJSON | ContentYAML
-type ContentMarkdown = {
+type RawContent = RawContentMarkdown | RawContentMDX | RawContentJSON | RawContentYAML
+type RawContentMarkdown = {
   readonly kind: 'markdown'
-  data: Record<string, any> & { content: string }
+  data: Record<string, any> & { content?: string }
 }
-type ContentMDX = {
+type RawContentMDX = {
   readonly kind: 'mdx'
-  data: Record<string, any> & { content: string }
+  data: Record<string, any> & { content?: string }
 }
-type ContentJSON = {
+type RawContentJSON = {
   readonly kind: 'json'
   data: Record<string, any>
 }
-type ContentYAML = {
+type RawContentYAML = {
   readonly kind: 'yaml'
   data: Record<string, any>
 }
@@ -134,42 +134,46 @@ export const makeCacheItemFromFilePath = (async ({
     return previousCache.cacheItemsMap[relativeFilePath]
   }
 
+  const documentTypeDef = schemaDef.documentTypeDefMap[documentDefName]
+  const includeContent = documentTypeDef.fieldDefs.some((_) => _.name === 'content')
+
   const fileContent = await fs.readFile(fullFilePath, 'utf-8')
   const filePathExtension = relativeFilePath.toLowerCase().split('.').pop()
-  const content = match<string | undefined, Content>(filePathExtension)
+
+  const rawContent = match<string | undefined, RawContent>(filePathExtension)
     .with('md', () => {
       const markdown = matter(fileContent)
+      const content = includeContent ? { content: markdown.content } : {}
       return {
         kind: 'markdown',
-        data: { ...markdown.data, content: markdown.content },
+        data: { ...markdown.data, ...content },
       }
     })
     .with('mdx', () => {
       const markdown = matter(fileContent)
+      const content = includeContent ? { content: markdown.content } : {}
       return {
         kind: 'mdx',
-        data: { ...markdown.data, content: markdown.content },
+        data: { ...markdown.data, ...content },
       }
     })
     .with('json', () => ({ kind: 'json', data: JSON.parse(fileContent) }))
     .when(
-      (_) => ['yaml', 'yml'].includes(_ ?? ''),
+      (_) => _ === 'yaml' || _ === 'yml',
       () => ({ kind: 'yaml', data: yaml.load(fileContent) as any }),
     )
     .otherwise(() => {
       throw new Error(`Unsupported file extension "${filePathExtension}" for ${relativeFilePath}`)
     })
 
-  const isValid = checkSchema({ content, relativeFilePath, documentDefName, schemaDef, flags })
+  const isValid = checkSchema({ rawContent, relativeFilePath, documentDefName, schemaDef, flags })
   if (!isValid) {
     return undefined
   }
 
-  const documentTypeDef = schemaDef.documentTypeDefMap[documentDefName]
-
   const document = await makeDocument({
     documentTypeDef,
-    rawContent: content,
+    rawContent,
     schemaDef,
     relativeFilePath,
     options,
@@ -189,13 +193,13 @@ export const makeCacheItemFromFilePath = (async ({
 
 const checkSchema = ({
   schemaDef,
-  content,
+  rawContent,
   relativeFilePath,
   documentDefName,
   flags,
 }: {
   schemaDef: Core.SchemaDef
-  content: Content
+  rawContent: RawContent
   /** relativeFilePath just needed for better error handling */
   relativeFilePath: string
   documentDefName: string
@@ -207,7 +211,7 @@ const checkSchema = ({
     throw new Error(`No matching document definition found for "${relativeFilePath}"`)
   }
 
-  const existingDataFieldKeys = Object.keys(content.data)
+  const existingDataFieldKeys = Object.keys(rawContent.data)
 
   // make sure all required fields are present
   const requiredFieldsWithoutDefaultValue = documentTypeDef.fieldDefs.filter(
@@ -249,7 +253,7 @@ Warning: Document (type: "${
       }") contained fields that are not defined in schema for "${relativeFilePath}".
 
 Extra fields:
-${extraFieldKeys.map((key) => `  ${key}: ${JSON.stringify(content.data[key])}`).join('\n')}
+${extraFieldKeys.map((key) => `  ${key}: ${JSON.stringify(rawContent.data[key])}`).join('\n')}
 `)
     }
   }
@@ -266,7 +270,7 @@ const makeDocument = async ({
   relativeFilePath,
   options,
 }: {
-  rawContent: Content
+  rawContent: RawContent
   documentTypeDef: Core.DocumentTypeDef
   schemaDef: Core.SchemaDef
   relativeFilePath: string
@@ -367,7 +371,7 @@ const getDataForFieldDef = async ({
   }
 
   switch (fieldDef.type) {
-    case 'nested':
+    case 'nested': {
       const nestedTypeDef = schemaDef.nestedTypeDefMap[fieldDef.nestedTypeName]
       return makeNestedDocument({
         rawObjectData: rawFieldData,
@@ -376,7 +380,8 @@ const getDataForFieldDef = async ({
         schemaDef,
         options,
       })
-    case 'unnamed_nested':
+    }
+    case 'nested_unnamed':
       return makeNestedDocument({
         rawObjectData: rawFieldData,
         fieldDefs: fieldDef.typeDef.fieldDefs,
@@ -384,9 +389,30 @@ const getDataForFieldDef = async ({
         schemaDef,
         options,
       })
-    case 'document':
+    case 'nested_polymorphic': {
+      const typeName = rawFieldData[fieldDef.typeField]
+
+      if (!fieldDef.nestedTypeNames.includes(typeName)) {
+        const validTypeNames = fieldDef.nestedTypeNames.map((_) => `"${_}"`).join(', ')
+        throw new Error(
+          `Invalid "${fieldDef.typeField}" value found: "${typeName}" for field "${fieldDef.name}". Valid values: ${validTypeNames}`,
+        )
+      }
+
+      const nestedTypeDef = schemaDef.nestedTypeDefMap[typeName]!
+
+      return makeNestedDocument({
+        rawObjectData: rawFieldData,
+        fieldDefs: nestedTypeDef.fieldDefs,
+        typeName: nestedTypeDef.name,
+        schemaDef,
+        options,
+      })
+    }
+    case 'reference':
+    case 'reference_polymorphic':
       return rawFieldData
-    case 'polymorphic_list':
+    case 'list_polymorphic':
     case 'list':
       return promiseMap(rawFieldData as any[], (rawItemData) =>
         getDataForListItem({ rawItemData, fieldDef, schemaDef, options }),
@@ -407,11 +433,11 @@ const getDataForFieldDef = async ({
     case 'string':
     case 'number':
     case 'json':
-    case 'slug':
-    case 'text':
-    case 'url':
+    // case 'slug':
+    // case 'text':
+    // case 'url':
     case 'enum':
-    case 'image':
+      // case 'image':
       return rawFieldData
     default:
       casesHandled(fieldDef)
@@ -425,7 +451,7 @@ const getDataForListItem = async ({
   options,
 }: {
   rawItemData: any
-  fieldDef: Core.ListFieldDef | Core.PolymorphicListFieldDef
+  fieldDef: Core.ListFieldDef | Core.ListPolymorphicFieldDef
   schemaDef: Core.SchemaDef
   options?: Options
 }): Promise<any> => {
@@ -433,7 +459,7 @@ const getDataForListItem = async ({
     return rawItemData
   }
 
-  if (fieldDef.type === 'polymorphic_list') {
+  if (fieldDef.type === 'list_polymorphic') {
     const nestedTypeName = rawItemData[fieldDef.typeField]
     const nestedTypeDef = schemaDef.nestedTypeDefMap[nestedTypeName]
     if (nestedTypeDef === undefined) {
@@ -465,7 +491,7 @@ Needs to be one of the following values: ${valueTypeValues}`)
         schemaDef,
         options,
       })
-    case 'unnamed_nested':
+    case 'nested_unnamed':
       return makeNestedDocument({
         rawObjectData: rawItemData,
         fieldDefs: fieldDef.of.typeDef.fieldDefs,
@@ -473,8 +499,13 @@ Needs to be one of the following values: ${valueTypeValues}`)
         schemaDef,
         options,
       })
-    default:
+    case 'boolean':
+    case 'enum':
+    case 'reference':
+    case 'string':
       return rawItemData
+    default:
+      return casesHandled(fieldDef.of)
   }
 }
 

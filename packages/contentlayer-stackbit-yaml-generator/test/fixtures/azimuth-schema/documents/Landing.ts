@@ -1,42 +1,36 @@
-import { defineDocument, defineEmbedded } from 'contentlayer/source-local/schema'
+import { defineDocumentType, defineNestedType } from 'contentlayer/source-local/schema'
 
-import { Action } from '../objects/Action'
-import { FormField } from '../objects/FormField'
-import { SEO } from '../objects/SEO'
+import { Action } from '../nested/Action'
+import { FormField } from '../nested/FormField'
+import { SEO } from '../nested/SEO'
 import { urlFromFilePath } from '../utils'
 
-export const Landing = defineDocument(() => ({
+export const Landing = defineDocumentType(() => ({
   name: 'Landing',
-  label: 'Landing Page',
   filePathPattern: 'pages/{contact,features,index,pricing}.md',
   fields: {
     title: {
       type: 'string',
-      label: 'Title',
       description: 'The title of the page',
       required: true,
     },
     sections: {
-      type: 'polymorphic_list',
-      label: 'Sections',
+      type: 'list',
       description: 'Page sections',
       of: [
-        { type: 'object', labelField: 'title', object: SectionContent },
-        { type: 'object', labelField: 'title', object: SectionCta },
-        { type: 'object', labelField: 'title', object: SectionFaq },
-        { type: 'object', labelField: 'title', object: SectionFeatures },
-        { type: 'object', labelField: 'title', object: SectionHero },
-        { type: 'object', labelField: 'title', object: SectionPosts },
-        { type: 'object', labelField: 'title', object: SectionPricing },
-        { type: 'object', labelField: 'title', object: SectionReviews },
-        { type: 'object', labelField: 'title', object: SectionContact },
+        SectionContent,
+        SectionCta,
+        SectionFaq,
+        SectionFeatures,
+        SectionHero,
+        SectionPosts,
+        SectionPricing,
+        SectionReviews,
+        SectionContact,
       ],
       typeField: 'type',
     },
-    seo: {
-      type: 'object',
-      object: SEO,
-    },
+    seo: SEO,
   },
   computedFields: {
     url_path: {
@@ -46,222 +40,278 @@ export const Landing = defineDocument(() => ({
       resolve: urlFromFilePath,
     },
   },
+  extensions: {
+    stackbit: {
+      label: 'Landing Page',
+      fields: {
+        title: { label: 'Title' },
+        sections: { label: 'Sections' },
+      },
+      match: ['contact.md', 'features.md', 'index.md', 'pricing.md'],
+    },
+  },
 }))
 
 const sectionBaseFields = {
   section_id: {
     type: 'string',
-    label: 'Section ID',
     description: 'A unique identifier of the section, must not contain whitespace',
   },
   title: {
     type: 'string',
-    label: 'Title',
     description: 'The title of the section',
   },
   type: {
     type: 'string',
-    label: 'Section type',
     required: true,
     description: 'Needed for contentlayer for polymorphic list types',
   },
 } as const
 
-const SectionContent = defineEmbedded(() => ({
+const sectionBaseFieldsExtension = {
+  section_id: { label: 'Section ID' },
+  title: { label: 'Title' },
+  type: { label: 'Section type' },
+} as const
+
+const SectionContent = defineNestedType(() => ({
   name: 'SectionContent',
-  label: 'Content Section',
-  labelField: 'title',
   fields: {
     ...sectionBaseFields,
     content: {
       type: 'markdown',
-      label: 'Content',
       description: 'The text content of the section',
     },
     image: {
       type: 'image',
-      label: 'Image',
       description: 'The image of the section',
     },
     image_alt: {
       type: 'string',
-      label: 'Image Alt Text',
       description: 'The alt text of the section image',
     },
     background: {
       type: 'enum',
-      label: 'Background',
       description: 'The background of the section',
       options: ['gray', 'white'],
       default: 'gray',
     },
     actions: {
       type: 'list',
-      label: 'Action Buttons',
-      of: { type: 'object', object: Action },
+      of: Action,
+    },
+  },
+  extensions: {
+    stackbit: {
+      label: 'Content Section',
+      labelField: 'title',
+      fieldGroups: [
+        { name: 'content', label: 'Content' },
+        { name: 'design', label: 'Design' },
+      ],
+      fields: {
+        ...sectionBaseFieldsExtension,
+        content: { label: 'Content', group: 'content' },
+        image: { label: 'Image', group: 'content', control: { type: 'image-gallery', options: {} } },
+        image_alt: { label: 'Image Alt Text', group: 'content' },
+        background: { label: 'Background', group: 'design', control: { type: 'image-gallery', options: {} } },
+        actions: { label: 'Action Buttons' },
+      },
     },
   },
 }))
 
-const SectionCta = defineEmbedded(() => ({
+const SectionCta = defineNestedType(() => ({
   name: 'SectionCta',
-  label: 'Call to Action Section',
-  labelField: 'title',
   fields: {
     ...sectionBaseFields,
     subtitle: {
       type: 'string',
-      label: 'Subtitle',
       description: 'The subtitle of the section',
     },
     actions: {
       type: 'list',
-      label: 'Action Buttons',
-      of: { type: 'object', object: Action },
+      of: Action,
+    },
+  },
+  extensions: {
+    stackbit: {
+      label: 'Call to Action Section',
+      labelField: 'title',
+      fields: {
+        ...sectionBaseFieldsExtension,
+        subtitle: { label: 'Subtitle' },
+        actions: { label: 'Action Buttons' },
+      },
     },
   },
 }))
 
-const SectionHero = defineEmbedded(() => ({
+const SectionHero = defineNestedType(() => ({
   name: 'SectionHero',
-  label: 'Hero Section',
-  labelField: 'title',
   fields: {
     ...sectionBaseFields,
     content: {
       type: 'markdown',
-      label: 'Content',
       description: 'The text content of the section',
     },
     image: {
       type: 'image',
-      label: 'Image',
       description: 'The image of the section',
     },
     image_alt: {
       type: 'string',
-      label: 'Image Alt Text',
       description: 'The alt text of the section image',
     },
     actions: {
       type: 'list',
-      label: 'Action Buttons',
-      of: { type: 'object', object: Action },
+      of: Action,
+    },
+  },
+  extensions: {
+    stackbit: {
+      label: 'Hero Section',
+      labelField: 'title',
+      fields: {
+        ...sectionBaseFieldsExtension,
+        content: { label: 'Content' },
+        image: { label: 'Image', control: { type: 'image-gallery', options: {} } },
+        image_alt: { label: 'Image Alt Text' },
+        actions: { label: 'Action Buttons' },
+      },
     },
   },
 }))
 
-const SectionFeatures = defineEmbedded(() => ({
+const SectionFeatures = defineNestedType(() => ({
   name: 'SectionFeatures',
-  label: 'Features Section',
-  labelField: 'title',
   fields: {
     ...sectionBaseFields,
     subtitle: {
       type: 'string',
-      label: 'Subtitle',
       description: 'The subtitle of the section',
     },
     background: {
       type: 'enum',
-      label: 'Background',
       description: 'The background of the section',
       options: ['gray', 'white'],
       default: 'gray',
     },
     features: {
       type: 'list',
-      label: 'Features',
-      of: { type: 'object', object: FeatureItem },
+      of: FeatureItem,
+    },
+  },
+  extensions: {
+    stackbit: {
+      label: 'Features Section',
+      labelField: 'title',
+      fields: {
+        ...sectionBaseFieldsExtension,
+        subtitle: { label: 'Subtitle' },
+        background: { label: 'Background' },
+        features: { label: 'Features' },
+      },
     },
   },
 }))
 
-const FeatureItem = defineEmbedded(() => ({
+const FeatureItem = defineNestedType(() => ({
   name: 'FeatureItem',
-  label: 'Feature Item',
-  labelField: 'title',
   fields: {
-    title: {
-      type: 'string',
-      label: 'Title',
-    },
+    title: { type: 'string' },
     content: {
       type: 'markdown',
-      label: 'Content',
       description: 'Feature description',
     },
     image: {
       type: 'image',
-      label: 'Image',
       description: 'Feature image',
     },
     image_alt: {
       type: 'string',
-      label: 'Image Alt Text',
       description: 'The alt text of the feature image',
     },
     actions: {
       type: 'list',
-      label: 'Action Buttons',
-      of: { type: 'object', object: Action },
+      of: Action,
+    },
+  },
+  extensions: {
+    stackbit: {
+      label: 'Feature Item',
+      labelField: 'title',
+      fields: {
+        title: { label: 'Title' },
+        content: { label: 'Content' },
+        image: { label: 'Image', control: { type: 'image-gallery', options: {} } },
+        image_alt: { label: 'Image Alt Text' },
+        actions: { label: 'Action Buttons' },
+      },
     },
   },
 }))
 
-const SectionContact = defineEmbedded(() => ({
+const SectionContact = defineNestedType(() => ({
   name: 'SectionContact',
-  label: 'Contact Section',
-  labelField: 'title',
   fields: {
     ...sectionBaseFields,
     subtitle: {
       type: 'string',
-      label: 'Subtitle',
       description: 'The text shown below the title',
     },
     content: {
       type: 'markdown',
-      label: 'Content',
       description: 'the content of the section, appears above the form',
     },
     background: {
       type: 'enum',
-      label: 'Background',
       description: 'The background of the section',
       options: ['gray', 'white'],
       default: 'gray',
     },
     form_id: {
       type: 'string',
-      label: 'Form ID',
       description: 'A unique identifier of the form, must not contain whitespace',
       required: true,
     },
     form_action: {
       type: 'string',
-      label: 'Form Action',
       description: 'The path of your custom "success" page, if you want to replace the default success message.',
     },
     hide_labels: {
       type: 'boolean',
-      label: 'Hide labels of the form fields?',
       default: false,
     },
     form_fields: {
       type: 'list',
-      label: 'Form Fields',
-      of: { type: 'object', object: FormField },
+      of: FormField,
     },
     submit_label: {
       type: 'string',
-      label: 'Submit Button Label',
       required: true,
+    },
+  },
+  extensions: {
+    stackbit: {
+      label: 'Contact Section',
+      labelField: 'title',
+      fields: {
+        ...sectionBaseFieldsExtension,
+        subtitle: { label: 'Subtitle' },
+        content: { label: 'Content' },
+        background: { label: 'Background' },
+        form_id: { label: 'Form ID' },
+        form_action: { label: 'Form Action' },
+        hide_labels: { label: 'Hide labels of the form fields?' },
+        form_fields: { label: 'Form Fields' },
+        submit_label: { label: 'Submit Button Label' },
+      },
     },
   },
 }))
 
-const SectionFaq = defineEmbedded(() => ({
+const SectionFaq = defineNestedType(() => ({
   name: 'SectionFaq',
   label: 'FAQ Section',
   labelField: 'title',
@@ -269,163 +319,199 @@ const SectionFaq = defineEmbedded(() => ({
     ...sectionBaseFields,
     subtitle: {
       type: 'string',
-      label: 'Subtitle',
       description: 'The subtitle of the section',
     },
     background: {
       type: 'enum',
-      label: 'Background',
       description: 'The background of the section',
       options: ['gray', 'white'],
       default: 'gray',
     },
     faq_items: {
       type: 'list',
-      label: 'FAQ Items',
-      of: { type: 'object', object: FaqItem },
+      of: FaqItem,
+    },
+  },
+  extensions: {
+    stackbit: {
+      label: 'Contact Section',
+      labelField: 'title',
+      fields: {
+        ...sectionBaseFieldsExtension,
+        subtitle: { label: 'Subtitle' },
+        background: { label: 'Background' },
+        faq_items: { label: 'FAQ Items' },
+      },
     },
   },
 }))
 
-const FaqItem = defineEmbedded(() => ({
+const FaqItem = defineNestedType(() => ({
   name: 'FaqItem',
-  label: 'FAQ Item',
   fields: {
-    question: {
-      type: 'text',
-      label: 'Question',
-    },
-    answer: {
-      type: 'markdown',
-      label: 'Answer',
+    question: { type: 'text' },
+    answer: { type: 'markdown' },
+  },
+  extensions: {
+    stackbit: {
+      label: 'FAQ Item',
+      fields: {
+        question: { label: 'Question' },
+        answer: { label: 'Answer' },
+      },
     },
   },
 }))
 
-const SectionPosts = defineEmbedded(() => ({
+const SectionPosts = defineNestedType(() => ({
   name: 'SectionPosts',
-  label: 'Posts List',
   fields: {
     ...sectionBaseFields,
     subtitle: {
       type: 'string',
-      label: 'Subtitle',
       description: 'The subtitle of the section',
     },
     background: {
       type: 'enum',
-      label: 'Background',
       description: 'The background of the section',
       options: ['gray', 'white'],
       default: 'gray',
     },
   },
+  extensions: {
+    stackbit: {
+      label: 'Posts List',
+      fields: {
+        ...sectionBaseFieldsExtension,
+        subtitle: { label: 'Subtitle' },
+        background: { label: 'Background' },
+      },
+    },
+  },
 }))
 
-const SectionPricing = defineEmbedded(() => ({
+const SectionPricing = defineNestedType(() => ({
   name: 'SectionPricing',
-  label: 'Pricing Section',
   fields: {
     ...sectionBaseFields,
     subtitle: {
       type: 'string',
-      label: 'Subtitle',
       description: 'The subtitle of the section',
     },
     background: {
       type: 'enum',
-      label: 'Background',
       description: 'The background of the section',
       options: ['gray', 'white'],
       default: 'gray',
     },
     pricing_plans: {
       type: 'list',
-      label: 'Pricing Plans',
-      of: { type: 'object', object: PricingPlan },
+      of: PricingPlan,
+    },
+  },
+  extensions: {
+    stackbit: {
+      label: 'Pricing Section',
+      fields: {
+        ...sectionBaseFieldsExtension,
+        subtitle: { label: 'Subtitle' },
+        background: { label: 'Background' },
+        pricing_plans: { label: 'Pricing Plans' },
+      },
     },
   },
 }))
 
-const PricingPlan = defineEmbedded(() => ({
+const PricingPlan = defineNestedType(() => ({
   name: 'PricingPlan',
-  label: 'Pricing Plan',
-  labelField: 'title',
   fields: {
     title: {
       type: 'string',
-      label: 'Title',
     },
     subtitle: {
       type: 'string',
-      label: 'Subtitle',
     },
     price: {
       type: 'string',
-      label: 'Price',
     },
     details: {
       type: 'markdown',
-      label: 'Details',
     },
     highlight: {
       type: 'boolean',
-      label: 'Highlight',
       description: 'Make the plan stand out by adding a distinctive style',
       default: false,
     },
     actions: {
       type: 'list',
-      label: 'Action Buttons',
-      of: { type: 'object', object: Action },
+      of: Action,
+    },
+  },
+  extensions: {
+    stackbit: {
+      label: 'Pricing Plan',
+      labelField: 'title',
+      fields: {
+        title: { label: 'Title' },
+        subtitle: { label: 'Subtitle' },
+        price: { label: 'Price' },
+        details: { label: 'Details' },
+        highlight: { label: 'Highlight' },
+        actions: { label: 'Action Buttons' },
+      },
     },
   },
 }))
 
-const SectionReviews = defineEmbedded(() => ({
+const SectionReviews = defineNestedType(() => ({
   name: 'SectionReviews',
-  label: 'Reviews Section',
   fields: {
     ...sectionBaseFields,
     subtitle: {
       type: 'string',
-      label: 'Subtitle',
       description: 'The subtitle of the section',
     },
     background: {
       type: 'enum',
-      label: 'Background',
       description: 'The background of the section',
       options: ['gray', 'white'],
       default: 'gray',
     },
     reviews: {
       type: 'list',
-      label: 'Reviews',
-      of: { type: 'object', object: ReviewItem },
+      of: ReviewItem,
+    },
+  },
+  extensions: {
+    stackbit: {
+      label: 'Reviews Section',
+      fields: {
+        ...sectionBaseFieldsExtension,
+        subtitle: { label: 'Subtitle' },
+        background: { label: 'Background' },
+        reviews: { label: 'Reviews' },
+      },
     },
   },
 }))
 
-const ReviewItem = defineEmbedded(() => ({
+const ReviewItem = defineNestedType(() => ({
   name: 'ReviewItem',
-  label: 'Review Item',
   fields: {
-    author: {
-      type: 'string',
-      label: 'Author',
-    },
-    avatar: {
-      type: 'image',
-      label: 'Author Image',
-    },
-    avatar_alt: {
-      type: 'string',
-      label: 'Author Image Alt Text',
-    },
-    content: {
-      type: 'text',
-      label: 'Content',
+    author: { type: 'string' },
+    avatar: { type: 'image' },
+    avatar_alt: { type: 'string' },
+    content: { type: 'text' },
+  },
+  extensions: {
+    stackbit: {
+      label: 'Review Item',
+      fields: {
+        author: { label: 'Author' },
+        avatar: { label: 'Author Image' },
+        avatar_alt: { label: 'Author Image Alt Text' },
+        content: { label: 'Content' },
+      },
     },
   },
 }))

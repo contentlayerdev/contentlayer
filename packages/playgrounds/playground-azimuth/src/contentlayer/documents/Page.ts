@@ -1,4 +1,4 @@
-import { defineDocumentType } from 'contentlayer/source-local/schema'
+import { defineDocumentType } from 'contentlayer/source-local'
 
 import { SEO } from '../nested/SEO'
 import { urlFromFilePath } from '../utils'
@@ -19,7 +19,7 @@ export const Page = defineDocumentType(() => ({
       description: 'The text shown below the page title',
     },
     image: {
-      type: 'image',
+      type: 'string',
       label: 'Image',
       description: 'The image shown below the page title',
     },
@@ -28,7 +28,7 @@ export const Page = defineDocumentType(() => ({
       label: 'Image Alt Text',
       description: 'The alt text of the image',
     },
-    seo: SEO,
+    seo: { type: 'nested', of: SEO },
   },
   computedFields: {
     url_path: {

@@ -59,7 +59,7 @@ export const LandingModel = defineDocument(() => ({
       required: true,
     },
     sections: {
-      type: 'polymorphic_list',
+      type: 'list_polymorphic',
       label: 'Sections',
       description: 'Page sections',
       of: [

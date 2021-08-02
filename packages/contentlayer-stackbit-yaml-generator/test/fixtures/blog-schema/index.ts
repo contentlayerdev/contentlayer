@@ -1,6 +1,6 @@
-import { defineDocument } from 'contentlayer/source-local/schema'
+import { defineDocumentType } from 'contentlayer/source-local/schema'
 
-export const post = defineDocument(() => ({
+export const post = defineDocumentType(() => ({
   name: 'Post',
   filePathPattern: `**/*.md`,
   fields: {

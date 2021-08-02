@@ -166,9 +166,9 @@ const sanityFieldToCoreFieldDef =
           }
         }
 
-        return <Core.PolymorphicListFieldDef>{
+        return <Core.ListPolymorphicFieldDef>{
           ...baseFields,
-          type: 'polymorphic_list',
+          type: 'list_polymorphic',
           of: field.of.map(sanityArrayOfToCoreFieldListDefItem(objectTypeNames)),
           typeField: '_type',
         }
@@ -277,7 +277,7 @@ const sanitizeDef = <Def extends Core.ObjectDef | Core.DocumentDef>(def: Def): D
       case 'reference':
         fieldDef.documentName = sanitizeString(fieldDef.documentName)
         break
-      case 'polymorphic_list':
+      case 'list_polymorphic':
         fieldDef.of.forEach(sanitizeListItemDef)
         break
       case 'list':

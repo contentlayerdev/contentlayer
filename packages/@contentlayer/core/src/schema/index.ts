@@ -9,20 +9,6 @@ export type TypeDefExtensions = {
   stackbit?: StackbitExtension.TypeExtension
 }
 
-export type Markdown = {
-  /** Raw Markdown source */
-  raw: string
-  /** Generated HTML based on Markdown source */
-  html: string
-}
-
-export type MDX = {
-  /** Raw MDX source */
-  raw: string
-  /** Prebundled via mdx-bundler */
-  code: string
-}
-
 export type DocumentTypeDefMap = Record<string, DocumentTypeDef>
 export type NestedTypeDefMap = Record<string, NestedTypeDef>
 
@@ -52,8 +38,8 @@ export type NestedTypeDef = {
   extensions: TypeDefExtensions
 }
 
-export type UnnamedNestedTypeDef = {
-  readonly _tag: 'UnnamedNestedTypeDef'
+export type NestedUnnamedTypeDef = {
+  readonly _tag: 'NestedUnnamedTypeDef'
   fieldDefs: FieldDef[]
   extensions: TypeDefExtensions
 }

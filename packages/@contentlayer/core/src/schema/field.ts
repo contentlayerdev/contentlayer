@@ -1,27 +1,29 @@
-import type { UnnamedNestedTypeDef } from '.'
+import type { NestedUnnamedTypeDef } from '.'
 
 export type FieldDefType = FieldDef['type']
 
 export type FieldDef =
   | ListFieldDef
-  | PolymorphicListFieldDef
+  | ListPolymorphicFieldDef
   | StringFieldDef
   | NumberFieldDef
   | BooleanFieldDef
   | JSONFieldDef
-  | SlugFieldDef
+  // | SlugFieldDef
   | DateFieldDef
   | MarkdownFieldDef
   | MDXFieldDef
-  | TextFieldDef
-  | ImageFieldDef
-  | UrlFieldDef
-  | NestedFieldDef
-  | UnnamedNestedFieldDef
-  | ReferenceFieldDef
+  // | TextFieldDef
+  // | ImageFieldDef
+  // | UrlFieldDef
   | EnumFieldDef
+  | NestedFieldDef
+  | NestedPolymorphicFieldDef
+  | NestedUnnamedFieldDef
+  | ReferenceFieldDef
+  | ReferencePolymorphicFieldDef
 
-export interface FieldBase {
+export interface FieldDefBase {
   /** Field name should contain only alphanumeric characters, underscore and a hyphen [A-Za-z0-9_]. Must start with a letter. Must not end with an underscore or a hyphen. */
   name: string
   // /** Should be short enough as some CMS's have restrictions on its length. Some CMS require label to be unique. */
@@ -34,7 +36,7 @@ export interface FieldBase {
   required: boolean | undefined
 }
 
-export interface ListFieldDef extends FieldBase {
+export interface ListFieldDef extends FieldDefBase {
   type: 'list'
   default: any[] | undefined
   // TODO support polymorphic definitions
@@ -43,16 +45,16 @@ export interface ListFieldDef extends FieldBase {
 
 export const isListFieldDef = (_: FieldDef): _ is ListFieldDef => _.type === 'list'
 
-export interface PolymorphicListFieldDef extends FieldBase {
-  type: 'polymorphic_list'
+export interface ListPolymorphicFieldDef extends FieldDefBase {
+  type: 'list_polymorphic'
   default: any[] | undefined
   of: ListFieldDefItem.Item[]
-  /** Field needed to distiguish list data items at run time */
+  /** Field needed to distinguish list data items at run time */
   typeField: string
 }
 
 export namespace ListFieldDefItem {
-  export type Item = ItemString | ItemEnum | ItemBoolean | ItemNested | ItemUnamedNested | ItemReference
+  export type Item = ItemString | ItemEnum | ItemBoolean | ItemNested | ItemNestedUnnamed | ItemReference
 
   type BaseItem = {
     // labelField: string | undefined
@@ -65,83 +67,83 @@ export namespace ListFieldDefItem {
     type: 'nested'
     nestedTypeName: string
   }
-  export type ItemUnamedNested = BaseItem & {
-    type: 'unnamed_nested'
-    typeDef: UnnamedNestedTypeDef
+  export type ItemNestedUnnamed = BaseItem & {
+    type: 'nested_unnamed'
+    typeDef: NestedUnnamedTypeDef
   }
 
   export type ItemReference = BaseItem & {
-    type: 'document'
+    type: 'reference'
     documentName: string
   }
 
   export const isDefItemNested = (_: Item): _ is ItemNested => _.type === 'nested'
 }
 
-export type StringFieldDef = FieldBase & {
+export type StringFieldDef = FieldDefBase & {
   type: 'string'
   default: string | undefined
 }
 
-export type NumberFieldDef = FieldBase & {
+export type NumberFieldDef = FieldDefBase & {
   type: 'number'
   default: number | undefined
 }
 
-export type BooleanFieldDef = FieldBase & {
+export type BooleanFieldDef = FieldDefBase & {
   type: 'boolean'
   default: boolean | undefined
 }
 
-export type JSONFieldDef = FieldBase & {
+export type JSONFieldDef = FieldDefBase & {
   type: 'json'
   default: any | undefined
 }
 
 // TODO why is this field type needed?
-export type SlugFieldDef = FieldBase & {
+export type SlugFieldDef = FieldDefBase & {
   type: 'slug'
   default: string | undefined
 }
 
-export type DateFieldDef = FieldBase & {
+export type DateFieldDef = FieldDefBase & {
   type: 'date'
   default: string | undefined
 }
 
-export type MarkdownFieldDef = FieldBase & {
+export type MarkdownFieldDef = FieldDefBase & {
   type: 'markdown'
   default: string | undefined
 }
 
-export type MDXFieldDef = FieldBase & {
+export type MDXFieldDef = FieldDefBase & {
   type: 'mdx'
   default: string | undefined
 }
 
 // why is this field type needed?
-export type TextFieldDef = FieldBase & {
+export type TextFieldDef = FieldDefBase & {
   type: 'text'
   default: string | undefined
 }
 
-export type ImageFieldDef = FieldBase & {
+export type ImageFieldDef = FieldDefBase & {
   type: 'image'
   default: string | undefined
 }
 
-export type UrlFieldDef = FieldBase & {
+export type UrlFieldDef = FieldDefBase & {
   type: 'url'
   default: string | undefined
 }
 
-export type EnumFieldDef = FieldBase & {
+export type EnumFieldDef = FieldDefBase & {
   type: 'enum'
   default: string | undefined
   options: string[]
 }
 
-export type NestedFieldDef = FieldBase & {
+export type NestedFieldDef = FieldDefBase & {
   type: 'nested'
   default: any | undefined
   /** References entry in NestedDefMap */
@@ -150,16 +152,36 @@ export type NestedFieldDef = FieldBase & {
 
 export const isNestedFieldDef = (_: FieldDef): _ is NestedFieldDef => _.type === 'nested'
 
-export type UnnamedNestedFieldDef = FieldBase & {
-  type: 'unnamed_nested'
+export type NestedPolymorphicFieldDef = FieldDefBase & {
+  type: 'nested_polymorphic'
   default: any | undefined
-  typeDef: UnnamedNestedTypeDef
+  /** References entries in NestedDefMap */
+  nestedTypeNames: string[]
+  /** Field needed to distinguish list data items at run time */
+  typeField: string
 }
 
-export const isUnamedNestedFieldDef = (_: FieldDef): _ is UnnamedNestedFieldDef => _.type === 'unnamed_nested'
+export const isNestedPolymorphicFieldDef = (_: FieldDef): _ is NestedPolymorphicFieldDef =>
+  _.type === 'nested_polymorphic'
 
-export type ReferenceFieldDef = FieldBase & {
-  type: 'document'
+export type NestedUnnamedFieldDef = FieldDefBase & {
+  type: 'nested_unnamed'
+  default: any | undefined
+  typeDef: NestedUnnamedTypeDef
+}
+
+export const isNestedUnnamedFieldDef = (_: FieldDef): _ is NestedUnnamedFieldDef => _.type === 'nested_unnamed'
+
+export type ReferenceFieldDef = FieldDefBase & {
+  type: 'reference'
   default: string | undefined
   documentTypeName: string
+}
+
+export type ReferencePolymorphicFieldDef = FieldDefBase & {
+  type: 'reference_polymorphic'
+  default: string | undefined
+  documentTypeNames: string[]
+  /** Field needed to distinguish list data items at run time */
+  typeField: string
 }

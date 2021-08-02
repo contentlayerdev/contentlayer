@@ -1,22 +1,18 @@
-import { defineEmbedded } from 'contentlayer/source-local/schema'
+import { defineNestedType } from 'contentlayer/source-local/schema'
 
-export const SEO = defineEmbedded(() => ({
+export const SEO = defineNestedType(() => ({
   name: 'SEO',
-  label: 'Page meta data',
   fields: {
     title: {
       type: 'string',
-      label: 'Title',
       description: 'The page title that goes into the <title> tag',
     },
     description: {
       type: 'string',
-      label: 'Description',
       description: 'The page description that goes into the <meta name="description"> tag',
     },
     robots: {
       type: 'list',
-      label: 'Robots',
       description: 'The items that go into the <meta name="robots"> tag',
       of: {
         type: 'enum',
@@ -25,22 +21,32 @@ export const SEO = defineEmbedded(() => ({
     },
     extra: {
       type: 'list',
-      label: 'Extra',
       description: 'Additional definition for specific meta tags such as open-graph, twitter, etc.',
-      of: {
-        type: 'inline_embedded',
-        labelField: 'name',
-        fields: {
-          name: { type: 'string', label: 'Name' },
-          value: { type: 'string', label: 'Value' },
-          keyName: {
-            type: 'string',
-            label: 'Key Name',
-            default: 'name',
-          },
-          relativeUrl: { type: 'boolean', label: 'Relative Url' },
-        },
+      of: Extra,
+    },
+  },
+  extensions: {
+    stackbit: {
+      label: 'Page meta data',
+      fields: {
+        title: { label: 'Title' },
+        description: { label: 'Description' },
+        robots: { label: 'Robots' },
+        extra: { label: 'Extra' },
       },
     },
+  },
+}))
+
+const Extra = defineNestedType(() => ({
+  fields: {
+    name: { type: 'string', label: 'Name' },
+    value: { type: 'string', label: 'Value' },
+    keyName: {
+      type: 'string',
+      label: 'Key Name',
+      default: 'name',
+    },
+    relativeUrl: { type: 'boolean', label: 'Relative Url' },
   },
 }))

@@ -34,11 +34,18 @@ export const fetchAllDocuments = (async ({
   }
 
   const documents = await Promise.all(
-    Object.values(schemaDef.documentDefMap).flatMap((documentDef) =>
+    Object.values(schemaDef.documentTypeDefMap).flatMap((documentTypeDef) =>
       allEntries
-        .filter((_) => schemaOverrides.documentTypes[_.sys.contentType.sys.id]?.defName === documentDef.name)
+        .filter((_) => schemaOverrides.documentTypes[_.sys.contentType.sys.id]?.defName === documentTypeDef.name)
         .map((documentEntry) =>
-          makeCacheItem({ documentEntry, allEntries, allAssets, documentDef, schemaDef, schemaOverrides }),
+          makeCacheItem({
+            documentEntry,
+            allEntries,
+            allAssets,
+            documentDef: documentTypeDef,
+            schemaDef,
+            schemaOverrides,
+          }),
         ),
     ),
   )
@@ -200,7 +207,7 @@ const getDataForFieldDef = async ({
       const url = asset.fields.file['en-US'].url
       // starts with `//`
       return `https:${url}`
-    case 'polymorphic_list':
+    case 'list_polymorphic':
     case 'list':
       return promiseMap(rawFieldData as any[], (rawItemData) =>
         getDataForListItem({ rawItemData, allEntries, allAssets, fieldDef, schemaDef, schemaOverrides }),
@@ -242,7 +249,7 @@ const getDataForListItem = async ({
   rawItemData: any
   allEntries: Contentful.Entry[]
   allAssets: Contentful.Asset[]
-  fieldDef: Core.ListFieldDef | Core.PolymorphicListFieldDef
+  fieldDef: Core.ListFieldDef | Core.ListPolymorphicFieldDef
   schemaDef: Core.SchemaDef
   schemaOverrides: SchemaOverrides.Normalized.SchemaOverrides
 }): Promise<any> => {

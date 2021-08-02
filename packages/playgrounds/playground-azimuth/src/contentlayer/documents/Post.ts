@@ -1,4 +1,4 @@
-import { defineDocumentType } from 'contentlayer/source-local/schema'
+import { defineDocumentType } from 'contentlayer/source-local'
 
 import { SEO } from '../nested/SEO'
 import { urlFromFilePath } from '../utils'
@@ -22,7 +22,8 @@ export const Post = defineDocumentType(() => ({
       required: true,
     },
     author: {
-      ...Person,
+      type: 'reference',
+      of: Person,
       description: 'Post author',
     },
     excerpt: {
@@ -30,7 +31,7 @@ export const Post = defineDocumentType(() => ({
       description: 'The excerpt of the post displayed in the blog feed',
     },
     image: {
-      type: 'image',
+      type: 'string',
       description: 'The image shown below the title',
     },
     image_alt: {
@@ -38,14 +39,14 @@ export const Post = defineDocumentType(() => ({
       description: 'The alt text of the featured image',
     },
     thumb_image: {
-      type: 'image',
+      type: 'string',
       description: 'The image shown in the blog feed',
     },
     thumb_image_alt: {
       type: 'string',
       description: 'The alt text of the blog feed image',
     },
-    seo: SEO,
+    seo: { type: 'nested', of: SEO },
   },
   computedFields: {
     url_path: {

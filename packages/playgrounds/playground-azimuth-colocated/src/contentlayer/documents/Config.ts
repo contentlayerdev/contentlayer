@@ -99,7 +99,7 @@ const Footer = defineEmbedded(() => ({
   labelField: 'content',
   fields: {
     sections: {
-      type: 'polymorphic_list',
+      type: 'list_polymorphic',
       label: 'Sections',
       description: 'Footer sections',
       of: [FooterForm, FooterNav, FooterText].map((object) => ({ type: 'object', object })),

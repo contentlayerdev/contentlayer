@@ -2,7 +2,7 @@ import type { GetDocumentTypeGen } from '@contentlayer/core'
 
 import type { FieldDefType } from '.'
 
-export type ComputedField<DocumentTypeName extends string> = {
+export type ComputedField<DocumentTypeName extends string = string> = {
   description?: string
   type: FieldDefType
   resolve: ComputedFieldResolver<DocumentTypeName>
