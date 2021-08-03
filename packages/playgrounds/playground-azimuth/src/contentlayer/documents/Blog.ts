@@ -6,7 +6,7 @@ import { urlFromFilePath } from '../utils'
 export const Blog = defineDocumentType(() => ({
   name: 'Blog',
   filePathPattern: `pages/blog.md`,
-  contentType: 'no-content',
+  bodyType: 'none',
   isSingleton: true,
   fields: {
     title: {

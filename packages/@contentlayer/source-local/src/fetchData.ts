@@ -20,6 +20,7 @@ import * as path from 'path'
 import { match } from 'ts-pattern'
 
 import type { Flags } from '.'
+import type { DocumentBodyType } from './schema'
 import type { FilePathPatternMap, RawDocumentData } from './types'
 
 export const fetchAllDocuments = (async ({
@@ -67,11 +68,11 @@ export const fetchAllDocuments = (async ({
 type RawContent = RawContentMarkdown | RawContentMDX | RawContentJSON | RawContentYAML
 type RawContentMarkdown = {
   readonly kind: 'markdown'
-  data: Record<string, any> & { content?: string }
+  data: Record<string, any> & { body?: string }
 }
 type RawContentMDX = {
   readonly kind: 'mdx'
-  data: Record<string, any> & { content?: string }
+  data: Record<string, any> & { body?: string }
 }
 type RawContentJSON = {
   readonly kind: 'json'
@@ -135,7 +136,7 @@ export const makeCacheItemFromFilePath = (async ({
   }
 
   const documentTypeDef = schemaDef.documentTypeDefMap[documentDefName]
-  const includeContent = documentTypeDef.fieldDefs.some((_) => _.name === 'content')
+  const includeBody = documentTypeDef.fieldDefs.some((_) => _.name === 'body' && _.isSystemField)
 
   const fileContent = await fs.readFile(fullFilePath, 'utf-8')
   const filePathExtension = relativeFilePath.toLowerCase().split('.').pop()
@@ -143,18 +144,18 @@ export const makeCacheItemFromFilePath = (async ({
   const rawContent = match<string | undefined, RawContent>(filePathExtension)
     .with('md', () => {
       const markdown = matter(fileContent)
-      const content = includeContent ? { content: markdown.content } : {}
+      const body = includeBody ? { body: markdown.content } : {}
       return {
         kind: 'markdown',
-        data: { ...markdown.data, ...content },
+        data: { ...markdown.data, ...body },
       }
     })
     .with('mdx', () => {
       const markdown = matter(fileContent)
-      const content = includeContent ? { content: markdown.content } : {}
+      const body = includeBody ? { body: markdown.content } : {}
       return {
         kind: 'mdx',
-        data: { ...markdown.data, ...content },
+        data: { ...markdown.data, ...body },
       }
     })
     .with('json', () => ({ kind: 'json', data: JSON.parse(fileContent) }))
@@ -215,7 +216,7 @@ const checkSchema = ({
 
   // make sure all required fields are present
   const requiredFieldsWithoutDefaultValue = documentTypeDef.fieldDefs.filter(
-    (_) => _.required && _.default === undefined,
+    (_) => _.isRequired && _.default === undefined,
   )
   const misingRequiredFields = requiredFieldsWithoutDefaultValue.filter(
     (fieldDef) => !existingDataFieldKeys.includes(fieldDef.name),
@@ -288,11 +289,16 @@ const makeDocument = async ({
     (fieldDef) => fieldDef.name,
   )
 
+  const bodyType: DocumentBodyType = match(rawContent.kind)
+    .with('markdown', () => 'markdown' as const)
+    .with('mdx', () => 'mdx' as const)
+    .otherwise(() => 'none' as const)
+
   const _raw: RawDocumentData = {
     sourceFilePath: relativeFilePath,
     sourceFileName: path.basename(relativeFilePath),
     sourceFileDir: path.dirname(relativeFilePath),
-    fileType: rawContent.kind,
+    bodyType,
     flattenedPath: getFlattenedPath(relativeFilePath),
   }
 
@@ -364,7 +370,7 @@ const getDataForFieldDef = async ({
       return fieldDef.default
     }
 
-    if (fieldDef.required) {
+    if (fieldDef.isRequired) {
       console.error(`Inconsistent data found: ${fieldDef}`)
     }
     return undefined

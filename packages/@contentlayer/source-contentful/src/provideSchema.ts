@@ -124,10 +124,11 @@ const toFieldDef = ({
     name: fieldOverrides?.name ?? field.id,
     // label: field.name,
     // hidden: field.omitted,
-    required: field.required,
+    isRequired: field.required,
     // const: undefined,
     default: undefined,
     description: undefined,
+    isSystemField: false,
   }
 
   if (fieldOverrides?.type) {
@@ -148,15 +149,19 @@ const toFieldDef = ({
     case 'RichText':
       return { ...fieldBase, type: 'markdown' }
     case 'Link':
-      if (field.linkType === 'Entry') {
-        const typeName = field.validations![0].linkContentType![0]
-        if (isDocument({ schemaOverrides, contentTypeId: typeName })) {
-          return { ...fieldBase, type: 'reference', documentTypeName: typeName }
-        } else {
-          return { ...fieldBase, type: 'nested', nestedTypeName: typeName }
-        }
-      } else {
-        return { ...fieldBase, type: 'string' }
+      switch (field.linkType) {
+        case 'Entry':
+          const typeName = field.validations![0].linkContentType![0]
+          if (isDocument({ schemaOverrides, contentTypeId: typeName })) {
+            return { ...fieldBase, type: 'reference', documentTypeName: typeName }
+          } else {
+            return { ...fieldBase, type: 'nested', nestedTypeName: typeName }
+          }
+        case 'Asset':
+          // e.g. for images
+          return { ...fieldBase, type: 'string' }
+        default:
+          casesHandled(field)
       }
     case 'Location':
     case 'Object':
@@ -208,7 +213,7 @@ const toListFieldDefItem = ({
   schemaOverrides: SchemaOverrides.Normalized.SchemaOverrides
 }): Core.ListFieldDefItem.Item => {
   if (isDocument({ schemaOverrides, contentTypeId: typeName })) {
-    return { type: 'reference', documentName: typeName }
+    return { type: 'reference', documentTypeName: typeName }
   } else {
     return { type: 'nested', nestedTypeName: typeName }
   }

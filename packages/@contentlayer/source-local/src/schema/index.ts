@@ -9,7 +9,7 @@ export type SchemaDef = {
   documentDefs: DocumentTypeDef[]
 }
 
-export type DocumentContentType = 'markdown' | 'mdx' | 'no-content'
+export type DocumentBodyType = 'markdown' | 'mdx' | 'none'
 
 export type TypeExtensions<DefName extends string = string> = {
   stackbit?: LocalSchema.TypeExtension<DefName>
@@ -39,7 +39,7 @@ export type DocumentTypeDef<DefName extends string = string> = {
   /** Path is relative to the `contentDirPath` config */
   filePathPattern: string // | ((doc: Document) => string)
   /** Default is `markdown` */
-  contentType?: DocumentContentType
+  bodyType?: DocumentBodyType
   isSingleton?: boolean
 
   extensions?: TypeExtensions<DefName>

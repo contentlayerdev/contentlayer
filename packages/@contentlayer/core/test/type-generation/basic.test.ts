@@ -4,7 +4,7 @@ import { renderTypes } from '../../src/generation/generate-types'
 
 test.todo('generate-types')
 
-const TestPost = defineDocumentType(() => ({
+const TestPost = defineDocumentType<any>(() => ({
   name: 'TestPost',
   filePathPattern: `**/*.md`,
   fields: {

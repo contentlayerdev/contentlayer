@@ -152,7 +152,7 @@ const renderRawType = ({ sourcePluginType }: { sourcePluginType: SourcePluginTyp
 
 const renderFieldDef = (field: FieldDef): string => {
   return `${field.description ? `  /** ${field.description} */\n` : ''}  ${field.name}: ${renderFieldType(field)}${
-    field.required ? '' : ' | undefined'
+    field.isRequired ? '' : ' | undefined'
   }`
 }
 

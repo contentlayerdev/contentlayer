@@ -84,7 +84,7 @@ const fieldDefToStackbitField = ({
 }): Stackbit.Field => {
   const commonField: Stackbit.FieldCommonProps = {
     name: fieldDef.name,
-    required: fieldDef.required,
+    required: fieldDef.isRequired,
     const: fieldExtension?.const,
     default: fieldDef.default,
     description: fieldDef.description,
@@ -136,7 +136,7 @@ const listFieldDefToStackbitFieldListItems = (
   fieldDef: Core.ListFieldDef | Core.ListPolymorphicFieldDef,
 ): Stackbit.FieldListItems => {
   const getModelName = (item: Core.ListFieldDefItem.ItemNested | Core.ListFieldDefItem.ItemReference) =>
-    item.type === 'reference' ? item.documentName : item.nestedTypeName
+    item.type === 'reference' ? item.documentTypeName : item.nestedTypeName
 
   if (fieldDef.type === 'list' && (fieldDef.of.type === 'reference' || fieldDef.of.type === 'nested')) {
     return {

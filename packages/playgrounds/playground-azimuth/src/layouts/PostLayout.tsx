@@ -23,7 +23,7 @@ export const PostLayout: FC<{
               <img src={withPrefix(post.image)} alt={post.image_alt ?? ''} />
             </div>
           )}
-          <div className="post-content" dangerouslySetInnerHTML={{ __html: post.content.html }} />
+          <div className="post-content" dangerouslySetInnerHTML={{ __html: post.body.html }} />
           {/* <div className="post-content">{markdownify(doc.content)}</div> */}
           <BlogPostFooter post={post} dateType="long" />
         </article>

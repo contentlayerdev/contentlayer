@@ -20,32 +20,34 @@ export const makeCoreSchema = ((schemaDef: LocalSchema.SchemaDef): Core.SchemaDe
 
     const fieldDefs = getFieldDefEntries(documentDef.fields).map(fieldDefEntryToCoreFieldDef)
 
-    if (fieldDefs.some((_) => _.name === 'content')) {
-      // NOTE maybe we should later allow overriding the "content" field
+    if (fieldDefs.some((_) => _.name === 'body')) {
+      // NOTE maybe we should later allow overriding the "body" field
       throw new Error(
-        `You cannot override the "content" field in a document definition. Please use the "contentType" field instead.`,
+        `You cannot override the "body" field in a document definition. Please use the "contentType" field instead.`,
       )
     }
 
-    // add default content markdown field if not explicitly provided
-    if (documentDef.contentType === undefined || documentDef.contentType === 'markdown') {
+    // add default body markdown field if not explicitly provided
+    if (documentDef.bodyType === undefined || documentDef.bodyType === 'markdown') {
       fieldDefs.push({
         type: 'markdown',
-        name: 'content',
-        description: 'Markdown file content',
+        name: 'body',
+        description: 'Markdown file body',
         default: undefined,
-        required: true,
+        isRequired: true,
+        isSystemField: true,
       })
     }
 
-    // add default content MDX field if not explicitly provided
-    if (documentDef.contentType === 'mdx') {
+    // add default body MDX field if not explicitly provided
+    if (documentDef.bodyType === 'mdx') {
       fieldDefs.push({
         type: 'mdx',
-        name: 'content',
-        description: 'MDX file content',
+        name: 'body',
+        description: 'MDX file body',
         default: undefined,
-        required: true,
+        isRequired: true,
+        isSystemField: true,
       })
     }
 
@@ -126,8 +128,10 @@ type FieldDefEntry = [fieldName: string, fieldDef: LocalSchema.FieldDef]
 
 const fieldDefEntryToCoreFieldDef = ([name, fieldDef]: FieldDefEntry): Core.FieldDef => {
   const baseFields: Core.FieldDefBase = {
-    ...pick(fieldDef, ['type', 'default', 'description', 'required']),
+    ...pick(fieldDef, ['type', 'default', 'description']),
     name,
+    isRequired: fieldDef.required ?? false,
+    isSystemField: false,
   }
   switch (fieldDef.type) {
     case 'list':
@@ -192,8 +196,10 @@ const fieldDefEntryToCoreFieldDef = ([name, fieldDef]: FieldDefEntry): Core.Fiel
       // case 'url':
       return {
         // needs to pick again since fieldDef.type has been
-        ...pick(fieldDef, ['type', 'default', 'description', 'required']),
+        ...pick(fieldDef, ['type', 'default', 'description']),
+        isRequired: fieldDef.required ?? false,
         name,
+        isSystemField: false,
       }
     default:
       casesHandled(fieldDef)
@@ -225,7 +231,7 @@ const fieldListItemsToCoreFieldListDefItems = (
     case 'document':
       return {
         type: 'reference',
-        documentName: listFieldDefItem.def().name,
+        documentTypeName: listFieldDefItem.def().name,
       }
     default:
       casesHandled(listFieldDefItem)

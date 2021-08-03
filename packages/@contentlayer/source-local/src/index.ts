@@ -15,7 +15,7 @@ export * from './types'
 export * from './schema'
 
 type Args = {
-  documentTypes: DocumentType<any>[] | Record<string, DocumentType<any>>
+  documentTypes: DocumentType[] | Record<string, DocumentType>
   /**
    * Path to the root directory that contains all content. Every content file path will be relative
    * to this directory. This includes:
@@ -61,9 +61,8 @@ export const fromLocalContent: MakeSourcePlugin = async (argsOrArgsThunk) => {
     extensions: extensions ?? {},
     provideSchema: () => makeCoreSchema({ documentDefs: documentTypeDefs }),
     fetchData: ({ watch }) => {
-      const filePathPatternMap = documentTypeDefs.reduce(
-        (acc, documentDef) => ({ ...acc, [documentDef.name]: documentDef.filePathPattern }),
-        {} as FilePathPatternMap,
+      const filePathPatternMap: FilePathPatternMap = Object.fromEntries(
+        documentTypeDefs.map((documentDef) => [documentDef.name, documentDef.filePathPattern]),
       )
       const flags: Flags = { onExtraData, onMissingOrIncompatibleData }
 

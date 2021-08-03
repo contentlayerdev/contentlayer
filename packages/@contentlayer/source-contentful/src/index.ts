@@ -32,6 +32,7 @@ export const makeSourcePlugin: MakeSourcePlugin = ({
   schemaOverrides = {},
 }) => ({
   type: 'contentful',
+  extensions: {},
   provideSchema: async () => {
     const environment = await getEnvironment({ accessToken, spaceId, environmentId })
     return provideSchema({ environment, schemaOverrides })

@@ -33,7 +33,9 @@ export interface FieldDefBase {
   /**
    * Default: false
    */
-  required: boolean | undefined
+  isRequired: boolean
+
+  isSystemField: boolean
 }
 
 export interface ListFieldDef extends FieldDefBase {
@@ -74,7 +76,7 @@ export namespace ListFieldDefItem {
 
   export type ItemReference = BaseItem & {
     type: 'reference'
-    documentName: string
+    documentTypeName: string
   }
 
   export const isDefItemNested = (_: Item): _ is ItemNested => _.type === 'nested'

@@ -30,11 +30,11 @@ export const fetchData = async ({
 
   const documents = entries
     // Ignores documents that are not explicitly defined in the schema (e.g. assets which are accessed via URLs instead)
-    .filter((_) => _._type in schemaDef.documentDefMap)
+    .filter((_) => _._type in schemaDef.documentTypeDefMap)
     .map((rawDocumentData) =>
       makeDocument({
         rawDocumentData,
-        documentDef: schemaDef.documentDefMap[rawDocumentData._type],
+        documentTypeDef: schemaDef.documentTypeDefMap[rawDocumentData._type],
         schemaDef,
         imageUrlBuilder,
       }),
@@ -50,19 +50,19 @@ export const fetchData = async ({
 
 const makeDocument = ({
   rawDocumentData,
-  documentDef,
+  documentTypeDef,
   schemaDef,
   imageUrlBuilder,
 }: {
   rawDocumentData: Sanity.DataDocument
-  documentDef: Core.DocumentDef
+  documentTypeDef: Core.DocumentTypeDef
   schemaDef: Core.SchemaDef
   imageUrlBuilder: ImageUrlBuilder
 }): Core.Document => {
   const raw = Object.fromEntries(Object.entries(rawDocumentData).filter(([key]) => key.startsWith('_')))
-  const doc: Core.Document = { _typeName: documentDef.name, _id: rawDocumentData._id, _raw: raw }
+  const doc: Core.Document = { _typeName: documentTypeDef.name, _id: rawDocumentData._id, _raw: raw }
 
-  documentDef.fieldDefs.forEach((fieldDef) => {
+  documentTypeDef.fieldDefs.forEach((fieldDef) => {
     doc[fieldDef.name] = getDataForFieldDef({
       fieldDef,
       rawFieldData: rawDocumentData[fieldDef.name],
@@ -74,7 +74,7 @@ const makeDocument = ({
   return doc
 }
 
-const makeObject = ({
+const makeNestedDocument = ({
   rawObjectData,
   fieldDefs,
   typeName,
@@ -87,9 +87,9 @@ const makeObject = ({
   typeName: string
   schemaDef: Core.SchemaDef
   imageUrlBuilder: ImageUrlBuilder
-}): Core.Object => {
+}): Core.NestedDocument => {
   const raw = Object.fromEntries(Object.entries(rawObjectData).filter(([key]) => key.startsWith('_')))
-  const obj: Core.Object = { _typeName: typeName, _raw: raw }
+  const obj: Core.NestedDocument = { _typeName: typeName, _raw: raw }
 
   fieldDefs.forEach((fieldDef) => {
     obj[fieldDef.name] = getDataForFieldDef({
@@ -115,7 +115,7 @@ const getDataForFieldDef = ({
   imageUrlBuilder: ImageUrlBuilder
 }): any => {
   if (rawFieldData === undefined) {
-    if (fieldDef.required) {
+    if (fieldDef.isRequired) {
       console.error(`Inconsistent data found: ${fieldDef}`)
     }
 
@@ -123,27 +123,28 @@ const getDataForFieldDef = ({
   }
 
   switch (fieldDef.type) {
-    case 'object':
-      const objectDef = schemaDef.objectDefMap[fieldDef.objectName]
-      return makeObject({
+    case 'nested':
+      const objectDef = schemaDef.nestedTypeDefMap[fieldDef.nestedTypeName]
+      return makeNestedDocument({
         rawObjectData: rawFieldData,
         fieldDefs: objectDef.fieldDefs,
         typeName: objectDef.name,
         schemaDef,
         imageUrlBuilder,
       })
-    case 'inline_embedded':
-      return makeObject({
+    case 'nested_unnamed':
+      return makeNestedDocument({
         rawObjectData: rawFieldData,
-        fieldDefs: fieldDef.fieldDefs,
-        typeName: 'inline_embedded',
+        fieldDefs: fieldDef.typeDef.fieldDefs,
+        typeName: '__UNNAMED__',
         schemaDef,
         imageUrlBuilder,
       })
     case 'reference':
       return rawFieldData._ref
-    case 'image':
-      return imageUrlBuilder.image(rawFieldData).url()
+    // TODO images are currently broken
+    // case 'image':
+    //   return imageUrlBuilder.image(rawFieldData).url()
     case 'list_polymorphic':
     case 'list':
       return (rawFieldData as any[]).map((rawItemData) =>
@@ -170,22 +171,22 @@ const getDataForListItem = ({
   }
 
   // polymorphic list case
-  if (rawItemData._type in schemaDef.objectDefMap) {
-    const objectDef = schemaDef.objectDefMap[rawItemData._type]
-    return makeObject({
+  if (rawItemData._type in schemaDef.nestedTypeDefMap) {
+    const nestedTypeDef = schemaDef.nestedTypeDefMap[rawItemData._type]
+    return makeNestedDocument({
       rawObjectData: rawItemData,
-      fieldDefs: objectDef.fieldDefs,
-      typeName: objectDef.name,
+      fieldDefs: nestedTypeDef.fieldDefs,
+      typeName: nestedTypeDef.name,
       schemaDef,
       imageUrlBuilder,
     })
   }
 
-  if (fieldDef.type === 'list' && fieldDef.of.type === 'inline_embedded') {
-    return makeObject({
+  if (fieldDef.type === 'list' && fieldDef.of.type === 'nested_unnamed') {
+    return makeNestedDocument({
       rawObjectData: rawItemData,
-      fieldDefs: fieldDef.of.fieldDefs,
-      typeName: 'inline_embedded',
+      fieldDefs: fieldDef.of.typeDef.fieldDefs,
+      typeName: '__UNNAMED__',
       schemaDef,
       imageUrlBuilder,
     })

@@ -11,6 +11,7 @@ type MakeSourcePlugin = (_: { studioDirPath: string; preview?: boolean }) => Sou
 
 export const makeSourcePlugin: MakeSourcePlugin = ({ studioDirPath }) => ({
   type: 'sanity',
+  extensions: {},
   provideSchema: () => provideSchema(studioDirPath),
   fetchData: ({ watch }) => {
     const updates$ = watch ? getUpdateEvents(studioDirPath).pipe(startWith(0)) : of(0)
