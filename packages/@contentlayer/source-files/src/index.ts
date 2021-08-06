@@ -1,20 +1,20 @@
-import type { Cache, Options, SchemaDef, SourcePlugin, StackbitExtension } from '@contentlayer/core'
-import { loadPreviousCacheFromDisk, writeCacheToDisk } from '@contentlayer/core'
-import { casesHandled } from '@contentlayer/utils'
+import * as core from '@contentlayer/core'
+import * as utils from '@contentlayer/utils'
 import * as chokidar from 'chokidar'
 import type { Observable } from 'rxjs'
 import { defer, fromEvent, of } from 'rxjs'
 import { map, mergeMap, startWith, tap } from 'rxjs/operators'
 
-import { fetchAllDocuments, getDocumentDefNameWithRelativeFilePathArray, makeCacheItemFromFilePath } from './fetchData'
+import { fetchAllDocuments, makeCacheItemFromFilePath } from './fetchData'
 import { makeCoreSchema } from './provideSchema'
-import type { DocumentModel, Thunk } from './schema'
-import type { FilePathPatternMap } from './types'
+import type { DocumentType, Thunk } from './schema'
+import type { FilePathPatternMap, PluginOptions } from './types'
 
 export * from './types'
+export * from './schema'
 
 type Args = {
-  schema: DocumentModel[] | Record<string, DocumentModel>
+  documentTypes: DocumentType[] | Record<string, DocumentType>
   /**
    * Path to the root directory that contains all content. Every content file path will be relative
    * to this directory. This includes:
@@ -23,9 +23,9 @@ type Args = {
    */
   contentDirPath: string
   extensions?: {
-    stackbit?: StackbitExtension.Config
+    stackbit?: core.StackbitExtension.Config
   }
-} & Options &
+} & PluginOptions &
   Partial<Flags>
 
 export type Flags = {
@@ -40,36 +40,48 @@ export type Flags = {
   onMissingOrIncompatibleData: 'skip' | 'fail' | 'skip-ignore'
 }
 
-type MakeSourcePlugin = (_: Args | Thunk<Args> | Thunk<Promise<Args>>) => Promise<SourcePlugin>
+type MakeSourcePlugin = (_: Args | Thunk<Args> | Thunk<Promise<Args>>) => Promise<core.SourcePlugin>
 
-export const fromLocalContent: MakeSourcePlugin = async (argsOrArgsThunk) => {
+export const makeSource: MakeSourcePlugin = async (argsOrArgsThunk) => {
   const {
     contentDirPath,
-    schema: documentModels,
+    documentTypes,
     onMissingOrIncompatibleData = 'skip',
     onExtraData = 'warn',
     extensions,
-    ...options
+    ...pluginOptions
   } = typeof argsOrArgsThunk === 'function' ? await argsOrArgsThunk() : argsOrArgsThunk
-  const documentDefs = (Array.isArray(documentModels) ? documentModels : Object.values(documentModels)).map((_) =>
+  const documentTypeDefs = (Array.isArray(documentTypes) ? documentTypes : Object.values(documentTypes)).map((_) =>
     _.def(),
   )
+  const schemaDef = { documentTypeDefs }
+
+  const options = {
+    markdown: pluginOptions.markdown,
+    mdx: pluginOptions.mdx,
+    fieldOptions: {
+      bodyFieldName: pluginOptions.fieldOptions?.bodyFieldName ?? 'body',
+      typeFieldName: pluginOptions.fieldOptions?.typeFieldName ?? 'type',
+    },
+  }
 
   return {
     type: 'local',
     extensions: extensions ?? {},
-    provideSchema: () => makeCoreSchema({ documentDefs }),
+    options,
+    provideSchema: () => makeCoreSchema({ schemaDef, options }),
     fetchData: ({ watch }) => {
-      const filePathPatternMap = documentDefs.reduce(
-        (acc, documentDef) => ({ ...acc, [documentDef.name]: documentDef.filePathPattern }),
-        {} as FilePathPatternMap,
+      const filePathPatternMap: FilePathPatternMap = Object.fromEntries(
+        documentTypeDefs
+          .filter((_) => _.filePathPattern)
+          .map((documentDef) => [documentDef.filePathPattern, documentDef.name]),
       )
       const flags: Flags = { onExtraData, onMissingOrIncompatibleData }
 
-      const schemaDef = makeCoreSchema({ documentDefs })
+      const coreSchemaDef = makeCoreSchema({ schemaDef, options })
       const initEvent: CustomUpdateEventInit = { _tag: 'init' }
 
-      let cache: Cache | undefined = undefined
+      let cache: core.Cache | undefined = undefined
 
       const updates$: Observable<CustomUpdateEvent> = watch
         ? defer(
@@ -100,7 +112,7 @@ export const fromLocalContent: MakeSourcePlugin = async (argsOrArgsThunk) => {
             // init cache from persisted cache
             mergeMap(async (event) => {
               if (!cache) {
-                cache = await loadPreviousCacheFromDisk({ schemaHash: schemaDef.hash })
+                cache = await core.loadPreviousCacheFromDisk({ schemaHash: coreSchemaDef.hash })
               }
               return event
             }),
@@ -108,7 +120,7 @@ export const fromLocalContent: MakeSourcePlugin = async (argsOrArgsThunk) => {
               switch (event._tag) {
                 case 'init':
                   return fetchAllDocuments({
-                    schemaDef,
+                    coreSchemaDef,
                     filePathPatternMap,
                     contentDirPath,
                     flags,
@@ -126,12 +138,12 @@ export const fromLocalContent: MakeSourcePlugin = async (argsOrArgsThunk) => {
                     cache: cache!,
                     event,
                     flags,
-                    schemaDef,
+                    coreSchemaDef,
                     options,
                   })
                 }
                 default:
-                  casesHandled(event)
+                  utils.casesHandled(event)
               }
             }),
           )
@@ -139,7 +151,7 @@ export const fromLocalContent: MakeSourcePlugin = async (argsOrArgsThunk) => {
           .pipe(
             tap(async (cache_) => {
               cache = cache_
-              await writeCacheToDisk({ cache, schemaHash: schemaDef.hash })
+              await core.writeCacheToDisk({ cache, schemaHash: coreSchemaDef.hash })
             }),
           )
       )
@@ -153,39 +165,23 @@ const updateCacheEntry = async ({
   cache,
   event,
   flags,
-  schemaDef,
+  coreSchemaDef,
   options,
 }: {
   contentDirPath: string
   filePathPatternMap: FilePathPatternMap
-  cache: Cache
+  cache: core.Cache
   event: CustomUpdateEventFileUpdated
   flags: Flags
-  schemaDef: SchemaDef
-  options: Options
-}): Promise<Cache> => {
-  // TODO re-implement with better glob identity matching
-  const documentDefNameWithFilePathArray = await getDocumentDefNameWithRelativeFilePathArray({
+  coreSchemaDef: core.SchemaDef
+  options: core.PluginOptions
+}): Promise<core.Cache> => {
+  const cacheItem = await makeCacheItemFromFilePath({
+    relativeFilePath: event.relativeFilePath,
     contentDirPath,
     filePathPatternMap,
-  })
-  const documentDefName = documentDefNameWithFilePathArray.find(
-    (_) => _.relativeFilePath === event.relativeFilePath,
-  )?.documentDefName
-
-  if (!documentDefName) {
-    console.log(
-      `Tried to update cache. No matching document def found called ${documentDefName} for file ${event.relativeFilePath}`,
-    )
-    return cache
-  }
-
-  const cacheItem = await makeCacheItemFromFilePath({
-    contentDirPath,
-    documentDefName,
-    relativeFilePath: event.relativeFilePath,
     flags,
-    schemaDef,
+    coreSchemaDef,
     options,
     previousCache: cache,
   })
@@ -208,7 +204,7 @@ const chokidarAllEventToCustomUpdateEvent = ([eventName, relativeFilePath]: Chok
     case 'addDir':
       return { _tag: 'init' }
     default:
-      casesHandled(eventName)
+      utils.casesHandled(eventName)
   }
 }
 

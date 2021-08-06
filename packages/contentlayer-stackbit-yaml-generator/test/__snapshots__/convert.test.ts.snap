@@ -2,9 +2,9 @@
 
 exports[`convert azimuth schema 1`] = `
 Object {
-  "documentDefMap": Object {
+  "documentTypeDefMap": Object {
     "Blog": Object {
-      "_tag": "DocumentDef",
+      "_tag": "DocumentTypeDef",
       "computedFields": Array [
         Object {
           "description": "The URL path of this page relative to site root. For example, the site root page would be \\"/\\", and post page would be \\"posts/new-post/\\"",
@@ -14,95 +14,113 @@ Object {
         },
       ],
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fields": Object {
+            "title": Object {
+              "label": "Title",
+            },
+          },
+          "file": "blog.md",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The title of the page",
-          "hidden": undefined,
-          "label": "Title",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "title",
-          "required": true,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "seo",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "seo",
-          "objectName": "SEO",
-          "required": undefined,
-          "type": "object",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "Default markdown file content",
-          "hidden": undefined,
-          "label": "Markdown content",
-          "name": "content",
-          "required": undefined,
-          "type": "markdown",
+          "nestedTypeName": "SEO",
+          "type": "nested",
         },
       ],
       "isSingleton": true,
-      "label": "Blog",
-      "labelField": undefined,
       "name": "Blog",
     },
     "Config": Object {
-      "_tag": "DocumentDef",
+      "_tag": "DocumentTypeDef",
       "computedFields": Array [],
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fields": Object {
+            "base_font": Object {
+              "label": "Font",
+            },
+            "domain": Object {
+              "label": "Domain",
+            },
+            "favicon": Object {
+              "label": "Favicon",
+            },
+            "footer": Object {
+              "label": "Footer Configuration",
+            },
+            "header": Object {
+              "label": "Header Configuration",
+            },
+            "palette": Object {
+              "label": "Color Palette",
+            },
+            "path_prefix": Object {
+              "hidden": true,
+              "label": "Base URL",
+            },
+            "title": Object {
+              "label": "Title",
+            },
+          },
+          "file": "config.json",
+          "label": "Site Configuration",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "Site title",
-          "hidden": undefined,
-          "label": "Title",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "title",
-          "required": true,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The base URL of this site. Useful for sites hosted under specific path, e.g.: https://www.example.com/my-site/",
-          "hidden": true,
-          "label": "Base URL",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "path_prefix",
-          "required": true,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The domain of your site, including the protocol, e.g. https://mysite.com/",
-          "hidden": undefined,
-          "label": "Domain",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "domain",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "A square icon that represents your website",
-          "hidden": undefined,
-          "label": "Favicon",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "favicon",
-          "required": undefined,
-          "type": "image",
+          "type": "string",
         },
         Object {
-          "const": undefined,
           "default": "blue",
           "description": "The color palette of the site",
-          "hidden": undefined,
-          "label": "Color Palette",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "palette",
           "options": Array [
             "blue",
@@ -111,54 +129,45 @@ Object {
             "orange",
             "purple",
           ],
-          "required": true,
           "type": "enum",
         },
         Object {
-          "const": undefined,
           "default": "nunito-sans",
           "description": undefined,
-          "hidden": undefined,
-          "label": "Font",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "base_font",
           "options": Array [
             "fira-sans",
             "nunito-sans",
             "system-sans",
           ],
-          "required": true,
           "type": "enum",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Header Configuration",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "header",
-          "objectName": "Header",
-          "required": true,
-          "type": "object",
+          "nestedTypeName": "Header",
+          "type": "nested",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Footer Configuration",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "footer",
-          "objectName": "Footer",
-          "required": true,
-          "type": "object",
+          "nestedTypeName": "Footer",
+          "type": "nested",
         },
       ],
       "isSingleton": true,
-      "label": "Site Configuration",
-      "labelField": undefined,
       "name": "Config",
     },
     "Landing": Object {
-      "_tag": "DocumentDef",
+      "_tag": "DocumentTypeDef",
       "computedFields": Array [
         Object {
           "description": "The URL path of this page relative to site root. For example, the site root page would be \\"/\\", and post page would be \\"posts/new-post/\\"",
@@ -168,104 +177,96 @@ Object {
         },
       ],
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fields": Object {
+            "sections": Object {
+              "label": "Sections",
+            },
+            "title": Object {
+              "label": "Title",
+            },
+          },
+          "label": "Landing Page",
+          "match": Array [
+            "contact.md",
+            "features.md",
+            "index.md",
+            "pricing.md",
+          ],
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The title of the page",
-          "hidden": undefined,
-          "label": "Title",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "title",
-          "required": true,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "Page sections",
-          "hidden": undefined,
-          "label": "Sections",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "sections",
           "of": Array [
             Object {
-              "labelField": "title",
-              "objectName": "SectionContent",
-              "type": "object",
+              "nestedTypeName": "SectionContent",
+              "type": "nested",
             },
             Object {
-              "labelField": "title",
-              "objectName": "SectionCta",
-              "type": "object",
+              "nestedTypeName": "SectionCta",
+              "type": "nested",
             },
             Object {
-              "labelField": "title",
-              "objectName": "SectionFaq",
-              "type": "object",
+              "nestedTypeName": "SectionFaq",
+              "type": "nested",
             },
             Object {
-              "labelField": "title",
-              "objectName": "SectionFeatures",
-              "type": "object",
+              "nestedTypeName": "SectionFeatures",
+              "type": "nested",
             },
             Object {
-              "labelField": "title",
-              "objectName": "SectionHero",
-              "type": "object",
+              "nestedTypeName": "SectionHero",
+              "type": "nested",
             },
             Object {
-              "labelField": "title",
-              "objectName": "SectionPosts",
-              "type": "object",
+              "nestedTypeName": "SectionPosts",
+              "type": "nested",
             },
             Object {
-              "labelField": "title",
-              "objectName": "SectionPricing",
-              "type": "object",
+              "nestedTypeName": "SectionPricing",
+              "type": "nested",
             },
             Object {
-              "labelField": "title",
-              "objectName": "SectionReviews",
-              "type": "object",
+              "nestedTypeName": "SectionReviews",
+              "type": "nested",
             },
             Object {
-              "labelField": "title",
-              "objectName": "SectionContact",
-              "type": "object",
+              "nestedTypeName": "SectionContact",
+              "type": "nested",
             },
           ],
-          "required": undefined,
-          "type": "polymorphic_list",
+          "type": "list_polymorphic",
           "typeField": "type",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "seo",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "seo",
-          "objectName": "SEO",
-          "required": undefined,
-          "type": "object",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "Default markdown file content",
-          "hidden": undefined,
-          "label": "Markdown content",
-          "name": "content",
-          "required": undefined,
-          "type": "markdown",
+          "nestedTypeName": "SEO",
+          "type": "nested",
         },
       ],
       "isSingleton": false,
-      "label": "Landing Page",
-      "labelField": undefined,
       "name": "Landing",
     },
     "Page": Object {
-      "_tag": "DocumentDef",
+      "_tag": "DocumentTypeDef",
       "computedFields": Array [
         Object {
           "description": "The URL path of this page relative to site root. For example, the site root page would be \\"/\\", and post page would be \\"posts/new-post/\\"",
@@ -275,127 +276,119 @@ Object {
         },
       ],
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "match": Array [
+            "about.md",
+            "privacy-policy.md",
+            "signup.md",
+            "style-guide.md",
+            "terms-of-service.md",
+          ],
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The title of the page",
-          "hidden": undefined,
-          "label": "Title",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "title",
-          "required": true,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The text shown below the page title",
-          "hidden": undefined,
-          "label": "Subtitle",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "subtitle",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The image shown below the page title",
-          "hidden": undefined,
-          "label": "Image",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "image",
-          "required": undefined,
-          "type": "image",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The alt text of the image",
-          "hidden": undefined,
-          "label": "Image Alt Text",
-          "name": "image_alt",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
-          "description": undefined,
-          "hidden": undefined,
-          "label": "seo",
-          "name": "seo",
-          "objectName": "SEO",
-          "required": undefined,
-          "type": "object",
+          "description": "The alt text of the image",
+          "isRequired": false,
+          "isSystemField": false,
+          "name": "image_alt",
+          "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
-          "description": "Default markdown file content",
-          "hidden": undefined,
-          "label": "Markdown content",
-          "name": "content",
-          "required": undefined,
+          "description": undefined,
+          "isRequired": false,
+          "isSystemField": false,
+          "name": "seo",
+          "nestedTypeName": "SEO",
+          "type": "nested",
+        },
+        Object {
+          "default": undefined,
+          "description": "Markdown file body",
+          "isRequired": true,
+          "isSystemField": true,
+          "name": "body",
           "type": "markdown",
         },
       ],
       "isSingleton": false,
-      "label": "Page",
-      "labelField": undefined,
       "name": "Page",
     },
     "Person": Object {
-      "_tag": "DocumentDef",
+      "_tag": "DocumentTypeDef",
       "computedFields": Array [],
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "folder": "authors",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": undefined,
+          "isRequired": false,
+          "isSystemField": false,
           "name": "first_name",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": undefined,
+          "isRequired": false,
+          "isSystemField": false,
           "name": "last_name",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": undefined,
+          "isRequired": false,
+          "isSystemField": false,
           "name": "bio",
-          "required": undefined,
           "type": "markdown",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": undefined,
+          "isRequired": false,
+          "isSystemField": false,
           "name": "photo",
-          "required": undefined,
-          "type": "image",
+          "type": "string",
         },
       ],
       "isSingleton": false,
-      "label": "Person",
-      "labelField": undefined,
       "name": "Person",
     },
     "Post": Object {
-      "_tag": "DocumentDef",
+      "_tag": "DocumentTypeDef",
       "computedFields": Array [
         Object {
           "description": "The URL path of this page relative to site root. For example, the site root page would be \\"/\\", and post page would be \\"posts/new-post/\\"",
@@ -405,183 +398,212 @@ Object {
         },
       ],
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fields": Object {
+            "date": Object {
+              "label": "Date",
+            },
+            "excerpt": Object {
+              "label": "Excerpt",
+            },
+            "image": Object {
+              "label": "Image",
+            },
+            "image_alt": Object {
+              "label": "Image alt text (single post)",
+            },
+            "subtitle": Object {
+              "label": "Subtitle",
+            },
+            "thumb_image": Object {
+              "label": "Image (blog feed)",
+            },
+            "thumb_image_alt": Object {
+              "label": "Image alt text (blog feed)",
+            },
+            "title": Object {
+              "label": "Title",
+            },
+          },
+          "match": "blog/**.md",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The title of the post",
-          "hidden": undefined,
-          "label": "Title",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "title",
-          "required": true,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The text shown just below the title or the featured image",
-          "hidden": undefined,
-          "label": "Subtitle",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "subtitle",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Date",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "date",
-          "required": true,
           "type": "date",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "Post author",
-          "documentName": "Person",
-          "hidden": undefined,
-          "label": "author",
+          "documentTypeName": "Person",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "author",
-          "required": undefined,
           "type": "reference",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The excerpt of the post displayed in the blog feed",
-          "hidden": undefined,
-          "label": "Excerpt",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "excerpt",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The image shown below the title",
-          "hidden": undefined,
-          "label": "Image (single post)",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "image",
-          "required": undefined,
-          "type": "image",
+          "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The alt text of the featured image",
-          "hidden": undefined,
-          "label": "Image alt text (single post)",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "image_alt",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The image shown in the blog feed",
-          "hidden": undefined,
-          "label": "Image (blog feed)",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "thumb_image",
-          "required": undefined,
-          "type": "image",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The alt text of the blog feed image",
-          "hidden": undefined,
-          "label": "Image alt text (blog feed)",
-          "name": "thumb_image_alt",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
-          "description": undefined,
-          "hidden": undefined,
-          "label": "seo",
-          "name": "seo",
-          "objectName": "SEO",
-          "required": undefined,
-          "type": "object",
+          "description": "The alt text of the blog feed image",
+          "isRequired": false,
+          "isSystemField": false,
+          "name": "thumb_image_alt",
+          "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
-          "description": "Default markdown file content",
-          "hidden": undefined,
-          "label": "Markdown content",
-          "name": "content",
-          "required": undefined,
+          "description": undefined,
+          "isRequired": false,
+          "isSystemField": false,
+          "name": "seo",
+          "nestedTypeName": "SEO",
+          "type": "nested",
+        },
+        Object {
+          "default": undefined,
+          "description": "Markdown file body",
+          "isRequired": true,
+          "isSystemField": true,
+          "name": "body",
           "type": "markdown",
         },
       ],
       "isSingleton": false,
-      "label": "Post",
-      "labelField": undefined,
       "name": "Post",
     },
   },
-  "hash": "8b324cd6b4ad24dcba5eeb0252a32b81",
-  "objectDefMap": Object {
+  "hash": "1d34dd70dcdf24b02e2a31c5759e07ca",
+  "nestedTypeDefMap": Object {
     "Action": Object {
-      "_tag": "ObjectDef",
+      "_tag": "NestedTypeDef",
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fields": Object {
+            "has_icon": Object {
+              "label": "Show icon",
+            },
+            "icon": Object {
+              "label": "Icon",
+            },
+            "icon_position": Object {
+              "label": "Icon position",
+            },
+            "label": Object {
+              "label": "Label",
+            },
+            "new_window": Object {
+              "label": "Open in new window",
+            },
+            "no_follow": Object {
+              "label": "No follow",
+            },
+            "style": Object {
+              "label": "Style",
+            },
+            "url": Object {
+              "label": "URL",
+            },
+          },
+          "labelField": "label",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Label",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "label",
-          "required": true,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "URL",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "url",
-          "required": true,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": "link",
           "description": undefined,
-          "hidden": undefined,
-          "label": "Style",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "style",
           "options": Array [
             "link",
             "primary",
             "secondary",
           ],
-          "required": undefined,
           "type": "enum",
         },
         Object {
-          "const": undefined,
           "default": false,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Show icon",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "has_icon",
-          "required": undefined,
           "type": "boolean",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Icon",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "icon",
           "options": Array [
             "arrow-left",
@@ -595,445 +617,521 @@ Object {
             "vimeo",
             "youtube",
           ],
-          "required": undefined,
           "type": "enum",
         },
         Object {
-          "const": undefined,
           "default": "left",
           "description": "The position of the icon relative to text",
-          "hidden": undefined,
-          "label": "Icon position",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "icon_position",
           "options": Array [
             "left",
             "right",
           ],
-          "required": undefined,
           "type": "enum",
         },
         Object {
-          "const": undefined,
           "default": false,
           "description": "Should the link open a new tab",
-          "hidden": undefined,
-          "label": "Open in new window",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "new_window",
-          "required": undefined,
           "type": "boolean",
         },
         Object {
-          "const": undefined,
           "default": false,
           "description": "Add rel=\\"nofollow\\" attribute to the link",
-          "hidden": undefined,
-          "label": "No follow",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "no_follow",
-          "required": undefined,
           "type": "boolean",
         },
       ],
-      "label": "Action",
-      "labelField": "title",
       "name": "Action",
     },
     "FaqItem": Object {
-      "_tag": "ObjectDef",
+      "_tag": "NestedTypeDef",
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fields": Object {
+            "answer": Object {
+              "label": "Answer",
+            },
+            "question": Object {
+              "label": "Question",
+            },
+          },
+          "label": "FAQ Item",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Question",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "question",
-          "required": undefined,
-          "type": "text",
+          "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Answer",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "answer",
-          "required": undefined,
           "type": "markdown",
         },
       ],
-      "label": "FAQ Item",
-      "labelField": undefined,
       "name": "FaqItem",
     },
     "FeatureItem": Object {
-      "_tag": "ObjectDef",
+      "_tag": "NestedTypeDef",
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fields": Object {
+            "actions": Object {
+              "label": "Action Buttons",
+            },
+            "content": Object {
+              "label": "Content",
+            },
+            "image": Object {
+              "control": Object {
+                "options": Object {},
+                "type": "image-gallery",
+              },
+              "label": "Image",
+            },
+            "image_alt": Object {
+              "label": "Image Alt Text",
+            },
+            "title": Object {
+              "label": "Title",
+            },
+          },
+          "label": "Feature Item",
+          "labelField": "title",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Title",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "title",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "Feature description",
-          "hidden": undefined,
-          "label": "Content",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "content",
-          "required": undefined,
           "type": "markdown",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "Feature image",
-          "hidden": undefined,
-          "label": "Image",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "image",
-          "required": undefined,
-          "type": "image",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The alt text of the feature image",
-          "hidden": undefined,
-          "label": "Image Alt Text",
-          "name": "image_alt",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
+          "default": undefined,
+          "description": "The alt text of the feature image",
+          "isRequired": false,
+          "isSystemField": false,
+          "name": "image_alt",
+          "type": "string",
+        },
+        Object {
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Action Buttons",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "actions",
           "of": Object {
-            "labelField": undefined,
-            "objectName": "Action",
-            "type": "object",
+            "nestedTypeName": "Action",
+            "type": "nested",
           },
-          "required": undefined,
           "type": "list",
         },
       ],
-      "label": "Feature Item",
-      "labelField": "title",
       "name": "FeatureItem",
     },
     "Footer": Object {
-      "_tag": "ObjectDef",
+      "_tag": "NestedTypeDef",
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fields": Object {
+            "content": Object {
+              "label": "Footer Content",
+            },
+            "has_nav": Object {
+              "label": "Enable Horizontal Navigation",
+            },
+            "links": Object {
+              "label": "Links",
+            },
+            "nav_links": Object {
+              "label": "Horizontal Navigation Links",
+            },
+            "sections": Object {
+              "label": "Sections",
+            },
+          },
+          "label": "Footer Configuration",
+          "labelField": "content",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "Footer sections",
-          "hidden": undefined,
-          "label": "Sections",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "sections",
           "of": Array [
             Object {
-              "labelField": undefined,
-              "objectName": "FooterForm",
-              "type": "object",
+              "nestedTypeName": "FooterForm",
+              "type": "nested",
             },
             Object {
-              "labelField": undefined,
-              "objectName": "FooterNav",
-              "type": "object",
+              "nestedTypeName": "FooterNav",
+              "type": "nested",
             },
             Object {
-              "labelField": undefined,
-              "objectName": "FooterText",
-              "type": "object",
+              "nestedTypeName": "FooterText",
+              "type": "nested",
             },
           ],
-          "required": undefined,
-          "type": "polymorphic_list",
+          "type": "list_polymorphic",
           "typeField": "type",
         },
         Object {
-          "const": undefined,
           "default": true,
           "description": "Display the horizontal navigation menu bar in the footer",
-          "hidden": undefined,
-          "label": "Enable Horizontal Navigation",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "has_nav",
-          "required": undefined,
           "type": "boolean",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "List of horizontal navigation links",
-          "hidden": undefined,
-          "label": "Horizontal Navigation Links",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "nav_links",
           "of": Object {
-            "labelField": undefined,
-            "objectName": "Action",
-            "type": "object",
+            "nestedTypeName": "Action",
+            "type": "nested",
           },
-          "required": undefined,
           "type": "list",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The copyright text displayed in the footer",
-          "hidden": undefined,
-          "label": "Footer Content",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "content",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "A list of links displayed in the footer",
-          "hidden": undefined,
-          "label": "Links",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "links",
           "of": Object {
-            "labelField": undefined,
-            "objectName": "Action",
-            "type": "object",
+            "nestedTypeName": "Action",
+            "type": "nested",
           },
-          "required": undefined,
           "type": "list",
         },
       ],
-      "label": "Footer Configuration",
-      "labelField": "content",
       "name": "Footer",
     },
     "FooterForm": Object {
-      "_tag": "ObjectDef",
+      "_tag": "NestedTypeDef",
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fields": Object {
+            "content": Object {
+              "label": "Content",
+            },
+            "form_action": Object {
+              "label": "Form Action",
+            },
+            "form_fields": Object {
+              "label": "Form Fields",
+            },
+            "form_id": Object {
+              "label": "Form ID",
+            },
+            "hide_labels": Object {
+              "label": "Hide Labels",
+            },
+            "submit_label": Object {
+              "label": "Submit Button Label",
+            },
+            "title": Object {
+              "label": "Title",
+            },
+            "type": Object {
+              "label": "Section type",
+            },
+          },
+          "label": "Footer Form",
+          "labelField": "title",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The title of the section",
-          "hidden": undefined,
-          "label": "Title",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "title",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "Needed for contentlayer for polymorphic list types",
-          "hidden": undefined,
-          "label": "Section type",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "type",
-          "required": true,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The content of the section, appears above the form",
-          "hidden": undefined,
-          "label": "Content",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "content",
-          "required": undefined,
           "type": "markdown",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "A unique identifier of the form, must not contain whitespace",
-          "hidden": undefined,
-          "label": "Form ID",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "form_id",
-          "required": true,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The path of your custom \\"success\\" page, if you want to replace the default success message.",
-          "hidden": undefined,
-          "label": "Form Action",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "form_action",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": false,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Hide labels of the form fields?",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "hide_labels",
-          "required": undefined,
           "type": "boolean",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Form Fields",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "form_fields",
           "of": Object {
-            "labelField": undefined,
-            "objectName": "FormField",
-            "type": "object",
+            "nestedTypeName": "FormField",
+            "type": "nested",
           },
-          "required": undefined,
           "type": "list",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Submit Button Label",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "submit_label",
-          "required": true,
           "type": "string",
         },
       ],
-      "label": "Footer Form",
-      "labelField": "title",
       "name": "FooterForm",
     },
     "FooterNav": Object {
-      "_tag": "ObjectDef",
+      "_tag": "NestedTypeDef",
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fields": Object {
+            "nav_links": Object {
+              "label": "Vertical Navigation Links",
+            },
+            "title": Object {
+              "label": "Title",
+            },
+            "type": Object {
+              "label": "Section type",
+            },
+          },
+          "label": "Vertical Navigation",
+          "labelField": "title",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The title of the section",
-          "hidden": undefined,
-          "label": "Title",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "title",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "Needed for contentlayer for polymorphic list types",
-          "hidden": undefined,
-          "label": "Section type",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "type",
-          "required": true,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "List of vertical navigation links",
-          "hidden": undefined,
-          "label": "Vertical Navigation Links",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "nav_links",
           "of": Object {
-            "labelField": undefined,
-            "objectName": "Action",
-            "type": "object",
+            "nestedTypeName": "Action",
+            "type": "nested",
           },
-          "required": undefined,
           "type": "list",
         },
       ],
-      "label": "Vertical Navigation",
-      "labelField": "title",
       "name": "FooterNav",
     },
     "FooterText": Object {
-      "_tag": "ObjectDef",
+      "_tag": "NestedTypeDef",
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fields": Object {
+            "content": Object {
+              "label": "Content",
+            },
+            "image": Object {
+              "label": "Image",
+            },
+            "image_alt": Object {
+              "label": "Image Alt Text",
+            },
+            "image_url": Object {
+              "label": "Image URL",
+            },
+            "title": Object {
+              "label": "Title",
+            },
+            "type": Object {
+              "label": "Section type",
+            },
+          },
+          "label": "Text",
+          "labelField": "title",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The title of the section",
-          "hidden": undefined,
-          "label": "Title",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "title",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "Needed for contentlayer for polymorphic list types",
-          "hidden": undefined,
-          "label": "Section type",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "type",
-          "required": true,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The image displayed in the section",
-          "hidden": undefined,
-          "label": "Image",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "image",
-          "required": undefined,
-          "type": "image",
+          "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The alt text of the image",
-          "hidden": undefined,
-          "label": "Image Alt Text",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "image_alt",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The url of the image",
-          "hidden": undefined,
-          "label": "Image URL",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "image_url",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The text content of the section",
-          "hidden": undefined,
-          "label": "Content",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "content",
-          "required": undefined,
           "type": "markdown",
         },
       ],
-      "label": "Text",
-      "labelField": "title",
       "name": "FooterText",
     },
     "FormField": Object {
-      "_tag": "ObjectDef",
+      "_tag": "NestedTypeDef",
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fields": Object {
+            "default_value": Object {
+              "label": "Placeholder text or default value",
+            },
+            "input_type": Object {
+              "label": "Type",
+            },
+            "is_required": Object {
+              "label": "Is the field required?",
+            },
+            "label": Object {
+              "label": "Label",
+            },
+            "name": Object {
+              "label": "Name",
+            },
+            "options": Object {
+              "label": "Options",
+            },
+          },
+          "label": "Form Field",
+          "labelField": "name",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "Type of the form field",
-          "hidden": undefined,
-          "label": "Type",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "input_type",
           "options": Array [
             "text",
@@ -1044,278 +1142,305 @@ Object {
             "checkbox",
             "select",
           ],
-          "required": true,
           "type": "enum",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The name of the field, submitted with the form",
-          "hidden": undefined,
-          "label": "Name",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "name",
-          "required": true,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The caption of the field, shown above the field input",
-          "hidden": undefined,
-          "label": "Label",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "label",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The placeholder for textual field types or default option for select field",
-          "hidden": undefined,
-          "label": "Placeholder text or default value",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "default_value",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The list of options for select field",
-          "hidden": undefined,
-          "label": "Options",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "options",
           "of": Object {
-            "labelField": undefined,
             "type": "string",
           },
-          "required": undefined,
           "type": "list",
         },
         Object {
-          "const": undefined,
           "default": false,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Is the field required?",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "is_required",
-          "required": undefined,
           "type": "boolean",
         },
       ],
-      "label": "Form Field",
-      "labelField": "name",
       "name": "FormField",
     },
     "Header": Object {
-      "_tag": "ObjectDef",
+      "_tag": "NestedTypeDef",
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fields": Object {
+            "has_nav": Object {
+              "label": "Enable Navigation",
+            },
+            "logo_img": Object {
+              "label": "Logo",
+            },
+            "logo_img_alt": Object {
+              "label": "Logo Alt Text",
+            },
+            "nav_links": Object {
+              "label": "Navigation Links",
+            },
+          },
+          "label": "Header Configuration",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The logo image displayed in the header (if no logo added, the site title is displayed instead)",
-          "hidden": undefined,
-          "label": "Logo",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "logo_img",
-          "required": undefined,
-          "type": "image",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The alt text of the logo image",
-          "hidden": undefined,
-          "label": "Logo Alt Text",
-          "name": "logo_img_alt",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
+          "default": undefined,
+          "description": "The alt text of the logo image",
+          "isRequired": false,
+          "isSystemField": false,
+          "name": "logo_img_alt",
+          "type": "string",
+        },
+        Object {
           "default": true,
           "description": "Display the navigation menu bar in the header",
-          "hidden": undefined,
-          "label": "Enable Navigation",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "has_nav",
-          "required": undefined,
           "type": "boolean",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "List of navigation links",
-          "hidden": undefined,
-          "label": "Navigation Links",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "nav_links",
           "of": Object {
-            "labelField": undefined,
-            "objectName": "Action",
-            "type": "object",
+            "nestedTypeName": "Action",
+            "type": "nested",
           },
-          "required": undefined,
           "type": "list",
         },
       ],
-      "label": "Header Configuration",
-      "labelField": undefined,
       "name": "Header",
     },
     "PricingPlan": Object {
-      "_tag": "ObjectDef",
+      "_tag": "NestedTypeDef",
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fields": Object {
+            "actions": Object {
+              "label": "Action Buttons",
+            },
+            "details": Object {
+              "label": "Details",
+            },
+            "highlight": Object {
+              "label": "Highlight",
+            },
+            "price": Object {
+              "label": "Price",
+            },
+            "subtitle": Object {
+              "label": "Subtitle",
+            },
+            "title": Object {
+              "label": "Title",
+            },
+          },
+          "label": "Pricing Plan",
+          "labelField": "title",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Title",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "title",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Subtitle",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "subtitle",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Price",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "price",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Details",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "details",
-          "required": undefined,
           "type": "markdown",
         },
         Object {
-          "const": undefined,
           "default": false,
           "description": "Make the plan stand out by adding a distinctive style",
-          "hidden": undefined,
-          "label": "Highlight",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "highlight",
-          "required": undefined,
           "type": "boolean",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Action Buttons",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "actions",
           "of": Object {
-            "labelField": undefined,
-            "objectName": "Action",
-            "type": "object",
+            "nestedTypeName": "Action",
+            "type": "nested",
           },
-          "required": undefined,
           "type": "list",
         },
       ],
-      "label": "Pricing Plan",
-      "labelField": "title",
       "name": "PricingPlan",
     },
     "ReviewItem": Object {
-      "_tag": "ObjectDef",
+      "_tag": "NestedTypeDef",
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fields": Object {
+            "author": Object {
+              "label": "Author",
+            },
+            "avatar": Object {
+              "label": "Author Image",
+            },
+            "avatar_alt": Object {
+              "label": "Author Image Alt Text",
+            },
+            "content": Object {
+              "label": "Content",
+            },
+          },
+          "label": "Review Item",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Author",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "author",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Author Image",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "avatar",
-          "required": undefined,
-          "type": "image",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": undefined,
-          "hidden": undefined,
-          "label": "Author Image Alt Text",
-          "name": "avatar_alt",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Content",
+          "isRequired": false,
+          "isSystemField": false,
+          "name": "avatar_alt",
+          "type": "string",
+        },
+        Object {
+          "default": undefined,
+          "description": undefined,
+          "isRequired": false,
+          "isSystemField": false,
           "name": "content",
-          "required": undefined,
-          "type": "text",
+          "type": "string",
         },
       ],
-      "label": "Review Item",
-      "labelField": "title",
       "name": "ReviewItem",
     },
     "SEO": Object {
-      "_tag": "ObjectDef",
+      "_tag": "NestedTypeDef",
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fields": Object {
+            "description": Object {
+              "label": "Description",
+            },
+            "extra": Object {
+              "label": "Extra",
+            },
+            "robots": Object {
+              "label": "Robots",
+            },
+            "title": Object {
+              "label": "Title",
+            },
+          },
+          "label": "Page meta data",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The page title that goes into the <title> tag",
-          "hidden": undefined,
-          "label": "Title",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "title",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The page description that goes into the <meta name=\\"description\\"> tag",
-          "hidden": undefined,
-          "label": "Description",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "description",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The items that go into the <meta name=\\"robots\\"> tag",
-          "hidden": undefined,
-          "label": "Robots",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "robots",
           "of": Object {
-            "labelField": undefined,
             "options": Array [
               "all",
               "index",
@@ -1328,817 +1453,936 @@ Object {
             ],
             "type": "enum",
           },
-          "required": undefined,
           "type": "list",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "Additional definition for specific meta tags such as open-graph, twitter, etc.",
-          "hidden": undefined,
-          "label": "Extra",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "extra",
           "of": Object {
-            "fieldDefs": Array [
-              Object {
-                "const": undefined,
-                "default": undefined,
-                "description": undefined,
-                "hidden": undefined,
-                "label": "Name",
-                "name": "name",
-                "required": undefined,
-                "type": "string",
-              },
-              Object {
-                "const": undefined,
-                "default": undefined,
-                "description": undefined,
-                "hidden": undefined,
-                "label": "Value",
-                "name": "value",
-                "required": undefined,
-                "type": "string",
-              },
-              Object {
-                "const": undefined,
-                "default": "name",
-                "description": undefined,
-                "hidden": undefined,
-                "label": "Key Name",
-                "name": "keyName",
-                "required": undefined,
-                "type": "string",
-              },
-              Object {
-                "const": undefined,
-                "default": undefined,
-                "description": undefined,
-                "hidden": undefined,
-                "label": "Relative Url",
-                "name": "relativeUrl",
-                "required": undefined,
-                "type": "boolean",
-              },
-            ],
-            "labelField": "name",
-            "type": "inline_object",
+            "type": "nested_unnamed",
+            "typeDef": Object {
+              "_tag": "NestedUnnamedTypeDef",
+              "extensions": Object {},
+              "fieldDefs": Array [
+                Object {
+                  "default": undefined,
+                  "description": undefined,
+                  "isRequired": false,
+                  "isSystemField": false,
+                  "name": "name",
+                  "type": "string",
+                },
+                Object {
+                  "default": undefined,
+                  "description": undefined,
+                  "isRequired": false,
+                  "isSystemField": false,
+                  "name": "value",
+                  "type": "string",
+                },
+                Object {
+                  "default": "name",
+                  "description": undefined,
+                  "isRequired": false,
+                  "isSystemField": false,
+                  "name": "keyName",
+                  "type": "string",
+                },
+                Object {
+                  "default": undefined,
+                  "description": undefined,
+                  "isRequired": false,
+                  "isSystemField": false,
+                  "name": "relativeUrl",
+                  "type": "boolean",
+                },
+              ],
+            },
           },
-          "required": undefined,
           "type": "list",
         },
       ],
-      "label": "Page meta data",
-      "labelField": undefined,
       "name": "SEO",
     },
     "SectionContact": Object {
-      "_tag": "ObjectDef",
+      "_tag": "NestedTypeDef",
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fields": Object {
+            "background": Object {
+              "label": "Background",
+            },
+            "content": Object {
+              "label": "Content",
+            },
+            "form_action": Object {
+              "label": "Form Action",
+            },
+            "form_fields": Object {
+              "label": "Form Fields",
+            },
+            "form_id": Object {
+              "label": "Form ID",
+            },
+            "hide_labels": Object {
+              "label": "Hide labels of the form fields?",
+            },
+            "section_id": Object {
+              "label": "Section ID",
+            },
+            "submit_label": Object {
+              "label": "Submit Button Label",
+            },
+            "subtitle": Object {
+              "label": "Subtitle",
+            },
+            "title": Object {
+              "label": "Title",
+            },
+            "type": Object {
+              "label": "Section type",
+            },
+          },
+          "label": "Contact Section",
+          "labelField": "title",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "A unique identifier of the section, must not contain whitespace",
-          "hidden": undefined,
-          "label": "Section ID",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "section_id",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The title of the section",
-          "hidden": undefined,
-          "label": "Title",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "title",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "Needed for contentlayer for polymorphic list types",
-          "hidden": undefined,
-          "label": "Section type",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "type",
-          "required": true,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The text shown below the title",
-          "hidden": undefined,
-          "label": "Subtitle",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "subtitle",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "the content of the section, appears above the form",
-          "hidden": undefined,
-          "label": "Content",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "content",
-          "required": undefined,
           "type": "markdown",
         },
         Object {
-          "const": undefined,
           "default": "gray",
           "description": "The background of the section",
-          "hidden": undefined,
-          "label": "Background",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "background",
           "options": Array [
             "gray",
             "white",
           ],
-          "required": undefined,
           "type": "enum",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "A unique identifier of the form, must not contain whitespace",
-          "hidden": undefined,
-          "label": "Form ID",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "form_id",
-          "required": true,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The path of your custom \\"success\\" page, if you want to replace the default success message.",
-          "hidden": undefined,
-          "label": "Form Action",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "form_action",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": false,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Hide labels of the form fields?",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "hide_labels",
-          "required": undefined,
           "type": "boolean",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Form Fields",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "form_fields",
           "of": Object {
-            "labelField": undefined,
-            "objectName": "FormField",
-            "type": "object",
+            "nestedTypeName": "FormField",
+            "type": "nested",
           },
-          "required": undefined,
           "type": "list",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Submit Button Label",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "submit_label",
-          "required": true,
           "type": "string",
         },
       ],
-      "label": "Contact Section",
-      "labelField": "title",
       "name": "SectionContact",
     },
     "SectionContent": Object {
-      "_tag": "ObjectDef",
+      "_tag": "NestedTypeDef",
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fieldGroups": Array [
+            Object {
+              "label": "Content",
+              "name": "content",
+            },
+            Object {
+              "label": "Design",
+              "name": "design",
+            },
+          ],
+          "fields": Object {
+            "actions": Object {
+              "label": "Action Buttons",
+            },
+            "background": Object {
+              "control": Object {
+                "options": Object {},
+                "type": "image-gallery",
+              },
+              "group": "design",
+              "label": "Background",
+            },
+            "content": Object {
+              "group": "content",
+              "label": "Content",
+            },
+            "image": Object {
+              "control": Object {
+                "options": Object {},
+                "type": "image-gallery",
+              },
+              "group": "content",
+              "label": "Image",
+            },
+            "image_alt": Object {
+              "group": "content",
+              "label": "Image Alt Text",
+            },
+            "section_id": Object {
+              "label": "Section ID",
+            },
+            "title": Object {
+              "label": "Title",
+            },
+            "type": Object {
+              "label": "Section type",
+            },
+          },
+          "label": "Content Section",
+          "labelField": "title",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "A unique identifier of the section, must not contain whitespace",
-          "hidden": undefined,
-          "label": "Section ID",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "section_id",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The title of the section",
-          "hidden": undefined,
-          "label": "Title",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "title",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "Needed for contentlayer for polymorphic list types",
-          "hidden": undefined,
-          "label": "Section type",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "type",
-          "required": true,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The text content of the section",
-          "hidden": undefined,
-          "label": "Content",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "content",
-          "required": undefined,
           "type": "markdown",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The image of the section",
-          "hidden": undefined,
-          "label": "Image",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "image",
-          "required": undefined,
-          "type": "image",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The alt text of the section image",
-          "hidden": undefined,
-          "label": "Image Alt Text",
-          "name": "image_alt",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
+          "default": undefined,
+          "description": "The alt text of the section image",
+          "isRequired": false,
+          "isSystemField": false,
+          "name": "image_alt",
+          "type": "string",
+        },
+        Object {
           "default": "gray",
           "description": "The background of the section",
-          "hidden": undefined,
-          "label": "Background",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "background",
           "options": Array [
             "gray",
             "white",
           ],
-          "required": undefined,
           "type": "enum",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Action Buttons",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "actions",
           "of": Object {
-            "labelField": undefined,
-            "objectName": "Action",
-            "type": "object",
+            "nestedTypeName": "Action",
+            "type": "nested",
           },
-          "required": undefined,
           "type": "list",
         },
       ],
-      "label": "Content Section",
-      "labelField": "title",
       "name": "SectionContent",
     },
     "SectionCta": Object {
-      "_tag": "ObjectDef",
+      "_tag": "NestedTypeDef",
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fields": Object {
+            "actions": Object {
+              "label": "Action Buttons",
+            },
+            "section_id": Object {
+              "label": "Section ID",
+            },
+            "subtitle": Object {
+              "label": "Subtitle",
+            },
+            "title": Object {
+              "label": "Title",
+            },
+            "type": Object {
+              "label": "Section type",
+            },
+          },
+          "label": "Call to Action Section",
+          "labelField": "title",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "A unique identifier of the section, must not contain whitespace",
-          "hidden": undefined,
-          "label": "Section ID",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "section_id",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The title of the section",
-          "hidden": undefined,
-          "label": "Title",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "title",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "Needed for contentlayer for polymorphic list types",
-          "hidden": undefined,
-          "label": "Section type",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "type",
-          "required": true,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The subtitle of the section",
-          "hidden": undefined,
-          "label": "Subtitle",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "subtitle",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Action Buttons",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "actions",
           "of": Object {
-            "labelField": undefined,
-            "objectName": "Action",
-            "type": "object",
+            "nestedTypeName": "Action",
+            "type": "nested",
           },
-          "required": undefined,
           "type": "list",
         },
       ],
-      "label": "Call to Action Section",
-      "labelField": "title",
       "name": "SectionCta",
     },
     "SectionFaq": Object {
-      "_tag": "ObjectDef",
+      "_tag": "NestedTypeDef",
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fields": Object {
+            "background": Object {
+              "label": "Background",
+            },
+            "faq_items": Object {
+              "label": "FAQ Items",
+            },
+            "section_id": Object {
+              "label": "Section ID",
+            },
+            "subtitle": Object {
+              "label": "Subtitle",
+            },
+            "title": Object {
+              "label": "Title",
+            },
+            "type": Object {
+              "label": "Section type",
+            },
+          },
+          "label": "Contact Section",
+          "labelField": "title",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "A unique identifier of the section, must not contain whitespace",
-          "hidden": undefined,
-          "label": "Section ID",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "section_id",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The title of the section",
-          "hidden": undefined,
-          "label": "Title",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "title",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "Needed for contentlayer for polymorphic list types",
-          "hidden": undefined,
-          "label": "Section type",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "type",
-          "required": true,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The subtitle of the section",
-          "hidden": undefined,
-          "label": "Subtitle",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "subtitle",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": "gray",
           "description": "The background of the section",
-          "hidden": undefined,
-          "label": "Background",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "background",
           "options": Array [
             "gray",
             "white",
           ],
-          "required": undefined,
           "type": "enum",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "FAQ Items",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "faq_items",
           "of": Object {
-            "labelField": undefined,
-            "objectName": "FaqItem",
-            "type": "object",
+            "nestedTypeName": "FaqItem",
+            "type": "nested",
           },
-          "required": undefined,
           "type": "list",
         },
       ],
-      "label": "FAQ Section",
-      "labelField": "title",
       "name": "SectionFaq",
     },
     "SectionFeatures": Object {
-      "_tag": "ObjectDef",
+      "_tag": "NestedTypeDef",
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fields": Object {
+            "background": Object {
+              "label": "Background",
+            },
+            "features": Object {
+              "label": "Features",
+            },
+            "section_id": Object {
+              "label": "Section ID",
+            },
+            "subtitle": Object {
+              "label": "Subtitle",
+            },
+            "title": Object {
+              "label": "Title",
+            },
+            "type": Object {
+              "label": "Section type",
+            },
+          },
+          "label": "Features Section",
+          "labelField": "title",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "A unique identifier of the section, must not contain whitespace",
-          "hidden": undefined,
-          "label": "Section ID",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "section_id",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The title of the section",
-          "hidden": undefined,
-          "label": "Title",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "title",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "Needed for contentlayer for polymorphic list types",
-          "hidden": undefined,
-          "label": "Section type",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "type",
-          "required": true,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The subtitle of the section",
-          "hidden": undefined,
-          "label": "Subtitle",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "subtitle",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": "gray",
           "description": "The background of the section",
-          "hidden": undefined,
-          "label": "Background",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "background",
           "options": Array [
             "gray",
             "white",
           ],
-          "required": undefined,
           "type": "enum",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Features",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "features",
           "of": Object {
-            "labelField": undefined,
-            "objectName": "FeatureItem",
-            "type": "object",
+            "nestedTypeName": "FeatureItem",
+            "type": "nested",
           },
-          "required": undefined,
           "type": "list",
         },
       ],
-      "label": "Features Section",
-      "labelField": "title",
       "name": "SectionFeatures",
     },
     "SectionHero": Object {
-      "_tag": "ObjectDef",
+      "_tag": "NestedTypeDef",
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fields": Object {
+            "actions": Object {
+              "label": "Action Buttons",
+            },
+            "content": Object {
+              "label": "Content",
+            },
+            "image": Object {
+              "control": Object {
+                "options": Object {},
+                "type": "image-gallery",
+              },
+              "label": "Image",
+            },
+            "image_alt": Object {
+              "label": "Image Alt Text",
+            },
+            "section_id": Object {
+              "label": "Section ID",
+            },
+            "title": Object {
+              "label": "Title",
+            },
+            "type": Object {
+              "label": "Section type",
+            },
+          },
+          "label": "Hero Section",
+          "labelField": "title",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "A unique identifier of the section, must not contain whitespace",
-          "hidden": undefined,
-          "label": "Section ID",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "section_id",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The title of the section",
-          "hidden": undefined,
-          "label": "Title",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "title",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "Needed for contentlayer for polymorphic list types",
-          "hidden": undefined,
-          "label": "Section type",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "type",
-          "required": true,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The text content of the section",
-          "hidden": undefined,
-          "label": "Content",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "content",
-          "required": undefined,
           "type": "markdown",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The image of the section",
-          "hidden": undefined,
-          "label": "Image",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "image",
-          "required": undefined,
-          "type": "image",
-        },
-        Object {
-          "const": undefined,
-          "default": undefined,
-          "description": "The alt text of the section image",
-          "hidden": undefined,
-          "label": "Image Alt Text",
-          "name": "image_alt",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
+          "default": undefined,
+          "description": "The alt text of the section image",
+          "isRequired": false,
+          "isSystemField": false,
+          "name": "image_alt",
+          "type": "string",
+        },
+        Object {
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Action Buttons",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "actions",
           "of": Object {
-            "labelField": undefined,
-            "objectName": "Action",
-            "type": "object",
+            "nestedTypeName": "Action",
+            "type": "nested",
           },
-          "required": undefined,
           "type": "list",
         },
       ],
-      "label": "Hero Section",
-      "labelField": "title",
       "name": "SectionHero",
     },
     "SectionPosts": Object {
-      "_tag": "ObjectDef",
+      "_tag": "NestedTypeDef",
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fields": Object {
+            "background": Object {
+              "label": "Background",
+            },
+            "section_id": Object {
+              "label": "Section ID",
+            },
+            "subtitle": Object {
+              "label": "Subtitle",
+            },
+            "title": Object {
+              "label": "Title",
+            },
+            "type": Object {
+              "label": "Section type",
+            },
+          },
+          "label": "Posts List",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "A unique identifier of the section, must not contain whitespace",
-          "hidden": undefined,
-          "label": "Section ID",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "section_id",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The title of the section",
-          "hidden": undefined,
-          "label": "Title",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "title",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "Needed for contentlayer for polymorphic list types",
-          "hidden": undefined,
-          "label": "Section type",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "type",
-          "required": true,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The subtitle of the section",
-          "hidden": undefined,
-          "label": "Subtitle",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "subtitle",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": "gray",
           "description": "The background of the section",
-          "hidden": undefined,
-          "label": "Background",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "background",
           "options": Array [
             "gray",
             "white",
           ],
-          "required": undefined,
           "type": "enum",
         },
       ],
-      "label": "Posts List",
-      "labelField": undefined,
       "name": "SectionPosts",
     },
     "SectionPricing": Object {
-      "_tag": "ObjectDef",
+      "_tag": "NestedTypeDef",
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fields": Object {
+            "background": Object {
+              "label": "Background",
+            },
+            "pricing_plans": Object {
+              "label": "Pricing Plans",
+            },
+            "section_id": Object {
+              "label": "Section ID",
+            },
+            "subtitle": Object {
+              "label": "Subtitle",
+            },
+            "title": Object {
+              "label": "Title",
+            },
+            "type": Object {
+              "label": "Section type",
+            },
+          },
+          "label": "Pricing Section",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "A unique identifier of the section, must not contain whitespace",
-          "hidden": undefined,
-          "label": "Section ID",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "section_id",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The title of the section",
-          "hidden": undefined,
-          "label": "Title",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "title",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "Needed for contentlayer for polymorphic list types",
-          "hidden": undefined,
-          "label": "Section type",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "type",
-          "required": true,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The subtitle of the section",
-          "hidden": undefined,
-          "label": "Subtitle",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "subtitle",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": "gray",
           "description": "The background of the section",
-          "hidden": undefined,
-          "label": "Background",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "background",
           "options": Array [
             "gray",
             "white",
           ],
-          "required": undefined,
           "type": "enum",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Pricing Plans",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "pricing_plans",
           "of": Object {
-            "labelField": undefined,
-            "objectName": "PricingPlan",
-            "type": "object",
+            "nestedTypeName": "PricingPlan",
+            "type": "nested",
           },
-          "required": undefined,
           "type": "list",
         },
       ],
-      "label": "Pricing Section",
-      "labelField": undefined,
       "name": "SectionPricing",
     },
     "SectionReviews": Object {
-      "_tag": "ObjectDef",
+      "_tag": "NestedTypeDef",
       "description": undefined,
+      "extensions": Object {
+        "stackbit": Object {
+          "fields": Object {
+            "background": Object {
+              "label": "Background",
+            },
+            "reviews": Object {
+              "label": "Reviews",
+            },
+            "section_id": Object {
+              "label": "Section ID",
+            },
+            "subtitle": Object {
+              "label": "Subtitle",
+            },
+            "title": Object {
+              "label": "Title",
+            },
+            "type": Object {
+              "label": "Section type",
+            },
+          },
+          "label": "Reviews Section",
+        },
+      },
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "A unique identifier of the section, must not contain whitespace",
-          "hidden": undefined,
-          "label": "Section ID",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "section_id",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The title of the section",
-          "hidden": undefined,
-          "label": "Title",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "title",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "Needed for contentlayer for polymorphic list types",
-          "hidden": undefined,
-          "label": "Section type",
+          "isRequired": true,
+          "isSystemField": false,
           "name": "type",
-          "required": true,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The subtitle of the section",
-          "hidden": undefined,
-          "label": "Subtitle",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "subtitle",
-          "required": undefined,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": "gray",
           "description": "The background of the section",
-          "hidden": undefined,
-          "label": "Background",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "background",
           "options": Array [
             "gray",
             "white",
           ],
-          "required": undefined,
           "type": "enum",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": undefined,
-          "hidden": undefined,
-          "label": "Reviews",
+          "isRequired": false,
+          "isSystemField": false,
           "name": "reviews",
           "of": Object {
-            "labelField": undefined,
-            "objectName": "ReviewItem",
-            "type": "object",
+            "nestedTypeName": "ReviewItem",
+            "type": "nested",
           },
-          "required": undefined,
           "type": "list",
         },
       ],
-      "label": "Reviews Section",
-      "labelField": undefined,
       "name": "SectionReviews",
     },
   },
@@ -2163,16 +2407,20 @@ models:
         label: Title
         type: string
       - name: seo
-        required: null
+        required: false
         const: null
         default: null
         description: null
         hidden: null
-        label: seo
+        label: null
         type: model
         models:
           - SEO
+    match: null
+    folder: null
+    file: blog.md
     type: page
+    singleInstance: true
   Landing:
     label: Landing Page
     labelField: null
@@ -2187,7 +2435,7 @@ models:
         label: Title
         type: string
       - name: sections
-        required: null
+        required: false
         const: null
         default: null
         description: Page sections
@@ -2207,16 +2455,24 @@ models:
             - SectionReviews
             - SectionContact
       - name: seo
-        required: null
+        required: false
         const: null
         default: null
         description: null
         hidden: null
-        label: seo
+        label: null
         type: model
         models:
           - SEO
+    match:
+      - contact.md
+      - features.md
+      - index.md
+      - pricing.md
+    folder: null
+    file: null
     type: page
+    singleInstance: false
   Page:
     label: Page
     labelField: null
@@ -2228,43 +2484,60 @@ models:
         default: null
         description: The title of the page
         hidden: null
-        label: Title
+        label: null
         type: string
       - name: subtitle
-        required: null
+        required: false
         const: null
         default: null
         description: The text shown below the page title
         hidden: null
-        label: Subtitle
+        label: null
         type: string
       - name: image
-        required: null
+        required: false
         const: null
         default: null
         description: The image shown below the page title
         hidden: null
-        label: Image
-        type: image
+        label: null
+        type: string
       - name: image_alt
-        required: null
+        required: false
         const: null
         default: null
         description: The alt text of the image
         hidden: null
-        label: Image Alt Text
+        label: null
         type: string
       - name: seo
-        required: null
+        required: false
         const: null
         default: null
         description: null
         hidden: null
-        label: seo
+        label: null
         type: model
         models:
           - SEO
+      - name: body
+        required: true
+        const: null
+        default: null
+        description: Markdown file body
+        hidden: null
+        label: null
+        type: markdown
+    match:
+      - about.md
+      - privacy-policy.md
+      - signup.md
+      - style-guide.md
+      - terms-of-service.md
+    folder: null
+    file: null
     type: page
+    singleInstance: false
   Post:
     label: Post
     labelField: null
@@ -2279,7 +2552,7 @@ models:
         label: Title
         type: string
       - name: subtitle
-        required: null
+        required: false
         const: null
         default: null
         description: The text shown just below the title or the featured image
@@ -2295,17 +2568,17 @@ models:
         label: Date
         type: date
       - name: author
-        required: null
+        required: false
         const: null
         default: null
         description: Post author
         hidden: null
-        label: author
+        label: null
         type: reference
         models:
           - Person
       - name: excerpt
-        required: null
+        required: false
         const: null
         default: null
         description: The excerpt of the post displayed in the blog feed
@@ -2313,15 +2586,15 @@ models:
         label: Excerpt
         type: string
       - name: image
-        required: null
+        required: false
         const: null
         default: null
         description: The image shown below the title
         hidden: null
-        label: Image (single post)
-        type: image
+        label: Image
+        type: string
       - name: image_alt
-        required: null
+        required: false
         const: null
         default: null
         description: The alt text of the featured image
@@ -2329,15 +2602,15 @@ models:
         label: Image alt text (single post)
         type: string
       - name: thumb_image
-        required: null
+        required: false
         const: null
         default: null
         description: The image shown in the blog feed
         hidden: null
         label: Image (blog feed)
-        type: image
+        type: string
       - name: thumb_image_alt
-        required: null
+        required: false
         const: null
         default: null
         description: The alt text of the blog feed image
@@ -2345,16 +2618,28 @@ models:
         label: Image alt text (blog feed)
         type: string
       - name: seo
-        required: null
+        required: false
         const: null
         default: null
         description: null
         hidden: null
-        label: seo
+        label: null
         type: model
         models:
           - SEO
+      - name: body
+        required: true
+        const: null
+        default: null
+        description: Markdown file body
+        hidden: null
+        label: null
+        type: markdown
+    match: blog/**.md
+    folder: null
+    file: null
     type: page
+    singleInstance: false
   Config:
     label: Site Configuration
     labelField: null
@@ -2378,7 +2663,7 @@ models:
         label: Base URL
         type: string
       - name: domain
-        required: null
+        required: false
         const: null
         default: null
         description: The domain of your site, including the protocol, e.g.
@@ -2387,13 +2672,13 @@ models:
         label: Domain
         type: string
       - name: favicon
-        required: null
+        required: false
         const: null
         default: null
         description: A square icon that represents your website
         hidden: null
         label: Favicon
-        type: image
+        type: string
       - name: palette
         required: true
         const: null
@@ -2440,14 +2725,18 @@ models:
         type: model
         models:
           - Footer
+    match: null
+    folder: null
+    file: config.json
     type: data
+    singleInstance: true
   Person:
     label: Person
     labelField: null
     description: null
     fields:
       - name: first_name
-        required: null
+        required: false
         const: null
         default: null
         description: null
@@ -2455,7 +2744,7 @@ models:
         label: null
         type: string
       - name: last_name
-        required: null
+        required: false
         const: null
         default: null
         description: null
@@ -2463,7 +2752,7 @@ models:
         label: null
         type: string
       - name: bio
-        required: null
+        required: false
         const: null
         default: null
         description: null
@@ -2471,21 +2760,25 @@ models:
         label: null
         type: markdown
       - name: photo
-        required: null
+        required: false
         const: null
         default: null
         description: null
         hidden: null
         label: null
-        type: image
+        type: string
+    match: null
+    folder: authors
+    file: null
     type: data
+    singleInstance: false
   SEO:
     label: Page meta data
     labelField: null
     description: null
     fields:
       - name: title
-        required: null
+        required: false
         const: null
         default: null
         description: The page title that goes into the <title> tag
@@ -2493,7 +2786,7 @@ models:
         label: Title
         type: string
       - name: description
-        required: null
+        required: false
         const: null
         default: null
         description: The page description that goes into the <meta name=\\"description\\"> tag
@@ -2501,7 +2794,7 @@ models:
         label: Description
         type: string
       - name: robots
-        required: null
+        required: false
         const: null
         default: null
         description: The items that go into the <meta name=\\"robots\\"> tag
@@ -2520,7 +2813,7 @@ models:
             - notranslate
             - none
       - name: extra
-        required: null
+        required: false
         const: null
         default: null
         description: Additional definition for specific meta tags such as open-graph,
@@ -2532,37 +2825,40 @@ models:
           type: object
           fields:
             - name: name
-              required: null
+              required: false
               const: null
               default: null
               description: null
               hidden: null
-              label: Name
+              label: null
               type: string
             - name: value
-              required: null
+              required: false
               const: null
               default: null
               description: null
               hidden: null
-              label: Value
+              label: null
               type: string
             - name: keyName
-              required: null
+              required: false
               const: null
               default: name
               description: null
               hidden: null
-              label: Key Name
+              label: null
               type: string
             - name: relativeUrl
-              required: null
+              required: false
               const: null
               default: null
               description: null
               hidden: null
-              label: Relative Url
+              label: null
               type: boolean
+    match: null
+    folder: null
+    file: null
     type: object
   Header:
     label: Header Configuration
@@ -2570,16 +2866,16 @@ models:
     description: null
     fields:
       - name: logo_img
-        required: null
+        required: false
         const: null
         default: null
         description: The logo image displayed in the header (if no logo added, the site
           title is displayed instead)
         hidden: null
         label: Logo
-        type: image
+        type: string
       - name: logo_img_alt
-        required: null
+        required: false
         const: null
         default: null
         description: The alt text of the logo image
@@ -2587,7 +2883,7 @@ models:
         label: Logo Alt Text
         type: string
       - name: has_nav
-        required: null
+        required: false
         const: null
         default: true
         description: Display the navigation menu bar in the header
@@ -2595,7 +2891,7 @@ models:
         label: Enable Navigation
         type: boolean
       - name: nav_links
-        required: null
+        required: false
         const: null
         default: null
         description: List of navigation links
@@ -2606,10 +2902,13 @@ models:
           type: model
           models:
             - Action
+    match: null
+    folder: null
+    file: null
     type: object
   Action:
     label: Action
-    labelField: title
+    labelField: label
     description: null
     fields:
       - name: label
@@ -2629,7 +2928,7 @@ models:
         label: URL
         type: string
       - name: style
-        required: null
+        required: false
         const: null
         default: link
         description: null
@@ -2641,7 +2940,7 @@ models:
           - primary
           - secondary
       - name: has_icon
-        required: null
+        required: false
         const: null
         default: false
         description: null
@@ -2649,7 +2948,7 @@ models:
         label: Show icon
         type: boolean
       - name: icon
-        required: null
+        required: false
         const: null
         default: null
         description: null
@@ -2668,7 +2967,7 @@ models:
           - vimeo
           - youtube
       - name: icon_position
-        required: null
+        required: false
         const: null
         default: left
         description: The position of the icon relative to text
@@ -2679,7 +2978,7 @@ models:
           - left
           - right
       - name: new_window
-        required: null
+        required: false
         const: null
         default: false
         description: Should the link open a new tab
@@ -2687,13 +2986,16 @@ models:
         label: Open in new window
         type: boolean
       - name: no_follow
-        required: null
+        required: false
         const: null
         default: false
         description: Add rel=\\"nofollow\\" attribute to the link
         hidden: null
         label: No follow
         type: boolean
+    match: null
+    folder: null
+    file: null
     type: object
   Footer:
     label: Footer Configuration
@@ -2701,7 +3003,7 @@ models:
     description: null
     fields:
       - name: sections
-        required: null
+        required: false
         const: null
         default: null
         description: Footer sections
@@ -2715,7 +3017,7 @@ models:
             - FooterNav
             - FooterText
       - name: has_nav
-        required: null
+        required: false
         const: null
         default: true
         description: Display the horizontal navigation menu bar in the footer
@@ -2723,7 +3025,7 @@ models:
         label: Enable Horizontal Navigation
         type: boolean
       - name: nav_links
-        required: null
+        required: false
         const: null
         default: null
         description: List of horizontal navigation links
@@ -2735,7 +3037,7 @@ models:
           models:
             - Action
       - name: content
-        required: null
+        required: false
         const: null
         default: null
         description: The copyright text displayed in the footer
@@ -2743,7 +3045,7 @@ models:
         label: Footer Content
         type: string
       - name: links
-        required: null
+        required: false
         const: null
         default: null
         description: A list of links displayed in the footer
@@ -2754,6 +3056,9 @@ models:
           type: model
           models:
             - Action
+    match: null
+    folder: null
+    file: null
     type: object
   FooterForm:
     label: Footer Form
@@ -2761,7 +3066,7 @@ models:
     description: null
     fields:
       - name: title
-        required: null
+        required: false
         const: null
         default: null
         description: The title of the section
@@ -2777,7 +3082,7 @@ models:
         label: Section type
         type: string
       - name: content
-        required: null
+        required: false
         const: null
         default: null
         description: The content of the section, appears above the form
@@ -2793,7 +3098,7 @@ models:
         label: Form ID
         type: string
       - name: form_action
-        required: null
+        required: false
         const: null
         default: null
         description: The path of your custom \\"success\\" page, if you want to replace the
@@ -2802,15 +3107,15 @@ models:
         label: Form Action
         type: string
       - name: hide_labels
-        required: null
+        required: false
         const: null
         default: false
         description: null
         hidden: null
-        label: Hide labels of the form fields?
+        label: Hide Labels
         type: boolean
       - name: form_fields
-        required: null
+        required: false
         const: null
         default: null
         description: null
@@ -2829,6 +3134,9 @@ models:
         hidden: null
         label: Submit Button Label
         type: string
+    match: null
+    folder: null
+    file: null
     type: object
   FormField:
     label: Form Field
@@ -2860,7 +3168,7 @@ models:
         label: Name
         type: string
       - name: label
-        required: null
+        required: false
         const: null
         default: null
         description: The caption of the field, shown above the field input
@@ -2868,7 +3176,7 @@ models:
         label: Label
         type: string
       - name: default_value
-        required: null
+        required: false
         const: null
         default: null
         description: The placeholder for textual field types or default option for
@@ -2877,7 +3185,7 @@ models:
         label: Placeholder text or default value
         type: string
       - name: options
-        required: null
+        required: false
         const: null
         default: null
         description: The list of options for select field
@@ -2887,13 +3195,16 @@ models:
         items:
           type: string
       - name: is_required
-        required: null
+        required: false
         const: null
         default: false
         description: null
         hidden: null
         label: Is the field required?
         type: boolean
+    match: null
+    folder: null
+    file: null
     type: object
   FooterNav:
     label: Vertical Navigation
@@ -2901,7 +3212,7 @@ models:
     description: null
     fields:
       - name: title
-        required: null
+        required: false
         const: null
         default: null
         description: The title of the section
@@ -2917,7 +3228,7 @@ models:
         label: Section type
         type: string
       - name: nav_links
-        required: null
+        required: false
         const: null
         default: null
         description: List of vertical navigation links
@@ -2928,6 +3239,9 @@ models:
           type: model
           models:
             - Action
+    match: null
+    folder: null
+    file: null
     type: object
   FooterText:
     label: Text
@@ -2935,7 +3249,7 @@ models:
     description: null
     fields:
       - name: title
-        required: null
+        required: false
         const: null
         default: null
         description: The title of the section
@@ -2951,15 +3265,15 @@ models:
         label: Section type
         type: string
       - name: image
-        required: null
+        required: false
         const: null
         default: null
         description: The image displayed in the section
         hidden: null
         label: Image
-        type: image
+        type: string
       - name: image_alt
-        required: null
+        required: false
         const: null
         default: null
         description: The alt text of the image
@@ -2967,7 +3281,7 @@ models:
         label: Image Alt Text
         type: string
       - name: image_url
-        required: null
+        required: false
         const: null
         default: null
         description: The url of the image
@@ -2975,13 +3289,16 @@ models:
         label: Image URL
         type: string
       - name: content
-        required: null
+        required: false
         const: null
         default: null
         description: The text content of the section
         hidden: null
         label: Content
         type: markdown
+    match: null
+    folder: null
+    file: null
     type: object
   SectionContent:
     label: Content Section
@@ -2989,7 +3306,7 @@ models:
     description: null
     fields:
       - name: section_id
-        required: null
+        required: false
         const: null
         default: null
         description: A unique identifier of the section, must not contain whitespace
@@ -2997,7 +3314,7 @@ models:
         label: Section ID
         type: string
       - name: title
-        required: null
+        required: false
         const: null
         default: null
         description: The title of the section
@@ -3013,7 +3330,7 @@ models:
         label: Section type
         type: string
       - name: content
-        required: null
+        required: false
         const: null
         default: null
         description: The text content of the section
@@ -3021,15 +3338,15 @@ models:
         label: Content
         type: markdown
       - name: image
-        required: null
+        required: false
         const: null
         default: null
         description: The image of the section
         hidden: null
         label: Image
-        type: image
+        type: string
       - name: image_alt
-        required: null
+        required: false
         const: null
         default: null
         description: The alt text of the section image
@@ -3037,7 +3354,7 @@ models:
         label: Image Alt Text
         type: string
       - name: background
-        required: null
+        required: false
         const: null
         default: gray
         description: The background of the section
@@ -3048,7 +3365,7 @@ models:
           - gray
           - white
       - name: actions
-        required: null
+        required: false
         const: null
         default: null
         description: null
@@ -3059,6 +3376,9 @@ models:
           type: model
           models:
             - Action
+    match: null
+    folder: null
+    file: null
     type: object
   SectionCta:
     label: Call to Action Section
@@ -3066,7 +3386,7 @@ models:
     description: null
     fields:
       - name: section_id
-        required: null
+        required: false
         const: null
         default: null
         description: A unique identifier of the section, must not contain whitespace
@@ -3074,7 +3394,7 @@ models:
         label: Section ID
         type: string
       - name: title
-        required: null
+        required: false
         const: null
         default: null
         description: The title of the section
@@ -3090,7 +3410,7 @@ models:
         label: Section type
         type: string
       - name: subtitle
-        required: null
+        required: false
         const: null
         default: null
         description: The subtitle of the section
@@ -3098,7 +3418,7 @@ models:
         label: Subtitle
         type: string
       - name: actions
-        required: null
+        required: false
         const: null
         default: null
         description: null
@@ -3109,14 +3429,17 @@ models:
           type: model
           models:
             - Action
+    match: null
+    folder: null
+    file: null
     type: object
   SectionFaq:
-    label: FAQ Section
+    label: Contact Section
     labelField: title
     description: null
     fields:
       - name: section_id
-        required: null
+        required: false
         const: null
         default: null
         description: A unique identifier of the section, must not contain whitespace
@@ -3124,7 +3447,7 @@ models:
         label: Section ID
         type: string
       - name: title
-        required: null
+        required: false
         const: null
         default: null
         description: The title of the section
@@ -3140,7 +3463,7 @@ models:
         label: Section type
         type: string
       - name: subtitle
-        required: null
+        required: false
         const: null
         default: null
         description: The subtitle of the section
@@ -3148,7 +3471,7 @@ models:
         label: Subtitle
         type: string
       - name: background
-        required: null
+        required: false
         const: null
         default: gray
         description: The background of the section
@@ -3159,7 +3482,7 @@ models:
           - gray
           - white
       - name: faq_items
-        required: null
+        required: false
         const: null
         default: null
         description: null
@@ -3170,6 +3493,9 @@ models:
           type: model
           models:
             - FaqItem
+    match: null
+    folder: null
+    file: null
     type: object
   FaqItem:
     label: FAQ Item
@@ -3177,21 +3503,24 @@ models:
     description: null
     fields:
       - name: question
-        required: null
+        required: false
         const: null
         default: null
         description: null
         hidden: null
         label: Question
-        type: text
+        type: string
       - name: answer
-        required: null
+        required: false
         const: null
         default: null
         description: null
         hidden: null
         label: Answer
         type: markdown
+    match: null
+    folder: null
+    file: null
     type: object
   SectionFeatures:
     label: Features Section
@@ -3199,7 +3528,7 @@ models:
     description: null
     fields:
       - name: section_id
-        required: null
+        required: false
         const: null
         default: null
         description: A unique identifier of the section, must not contain whitespace
@@ -3207,7 +3536,7 @@ models:
         label: Section ID
         type: string
       - name: title
-        required: null
+        required: false
         const: null
         default: null
         description: The title of the section
@@ -3223,7 +3552,7 @@ models:
         label: Section type
         type: string
       - name: subtitle
-        required: null
+        required: false
         const: null
         default: null
         description: The subtitle of the section
@@ -3231,7 +3560,7 @@ models:
         label: Subtitle
         type: string
       - name: background
-        required: null
+        required: false
         const: null
         default: gray
         description: The background of the section
@@ -3242,7 +3571,7 @@ models:
           - gray
           - white
       - name: features
-        required: null
+        required: false
         const: null
         default: null
         description: null
@@ -3253,6 +3582,9 @@ models:
           type: model
           models:
             - FeatureItem
+    match: null
+    folder: null
+    file: null
     type: object
   FeatureItem:
     label: Feature Item
@@ -3260,7 +3592,7 @@ models:
     description: null
     fields:
       - name: title
-        required: null
+        required: false
         const: null
         default: null
         description: null
@@ -3268,7 +3600,7 @@ models:
         label: Title
         type: string
       - name: content
-        required: null
+        required: false
         const: null
         default: null
         description: Feature description
@@ -3276,15 +3608,15 @@ models:
         label: Content
         type: markdown
       - name: image
-        required: null
+        required: false
         const: null
         default: null
         description: Feature image
         hidden: null
         label: Image
-        type: image
+        type: string
       - name: image_alt
-        required: null
+        required: false
         const: null
         default: null
         description: The alt text of the feature image
@@ -3292,7 +3624,7 @@ models:
         label: Image Alt Text
         type: string
       - name: actions
-        required: null
+        required: false
         const: null
         default: null
         description: null
@@ -3303,6 +3635,9 @@ models:
           type: model
           models:
             - Action
+    match: null
+    folder: null
+    file: null
     type: object
   SectionHero:
     label: Hero Section
@@ -3310,7 +3645,7 @@ models:
     description: null
     fields:
       - name: section_id
-        required: null
+        required: false
         const: null
         default: null
         description: A unique identifier of the section, must not contain whitespace
@@ -3318,7 +3653,7 @@ models:
         label: Section ID
         type: string
       - name: title
-        required: null
+        required: false
         const: null
         default: null
         description: The title of the section
@@ -3334,7 +3669,7 @@ models:
         label: Section type
         type: string
       - name: content
-        required: null
+        required: false
         const: null
         default: null
         description: The text content of the section
@@ -3342,15 +3677,15 @@ models:
         label: Content
         type: markdown
       - name: image
-        required: null
+        required: false
         const: null
         default: null
         description: The image of the section
         hidden: null
         label: Image
-        type: image
+        type: string
       - name: image_alt
-        required: null
+        required: false
         const: null
         default: null
         description: The alt text of the section image
@@ -3358,7 +3693,7 @@ models:
         label: Image Alt Text
         type: string
       - name: actions
-        required: null
+        required: false
         const: null
         default: null
         description: null
@@ -3369,6 +3704,9 @@ models:
           type: model
           models:
             - Action
+    match: null
+    folder: null
+    file: null
     type: object
   SectionPosts:
     label: Posts List
@@ -3376,7 +3714,7 @@ models:
     description: null
     fields:
       - name: section_id
-        required: null
+        required: false
         const: null
         default: null
         description: A unique identifier of the section, must not contain whitespace
@@ -3384,7 +3722,7 @@ models:
         label: Section ID
         type: string
       - name: title
-        required: null
+        required: false
         const: null
         default: null
         description: The title of the section
@@ -3400,7 +3738,7 @@ models:
         label: Section type
         type: string
       - name: subtitle
-        required: null
+        required: false
         const: null
         default: null
         description: The subtitle of the section
@@ -3408,7 +3746,7 @@ models:
         label: Subtitle
         type: string
       - name: background
-        required: null
+        required: false
         const: null
         default: gray
         description: The background of the section
@@ -3418,6 +3756,9 @@ models:
         options:
           - gray
           - white
+    match: null
+    folder: null
+    file: null
     type: object
   SectionPricing:
     label: Pricing Section
@@ -3425,7 +3766,7 @@ models:
     description: null
     fields:
       - name: section_id
-        required: null
+        required: false
         const: null
         default: null
         description: A unique identifier of the section, must not contain whitespace
@@ -3433,7 +3774,7 @@ models:
         label: Section ID
         type: string
       - name: title
-        required: null
+        required: false
         const: null
         default: null
         description: The title of the section
@@ -3449,7 +3790,7 @@ models:
         label: Section type
         type: string
       - name: subtitle
-        required: null
+        required: false
         const: null
         default: null
         description: The subtitle of the section
@@ -3457,7 +3798,7 @@ models:
         label: Subtitle
         type: string
       - name: background
-        required: null
+        required: false
         const: null
         default: gray
         description: The background of the section
@@ -3468,7 +3809,7 @@ models:
           - gray
           - white
       - name: pricing_plans
-        required: null
+        required: false
         const: null
         default: null
         description: null
@@ -3479,6 +3820,9 @@ models:
           type: model
           models:
             - PricingPlan
+    match: null
+    folder: null
+    file: null
     type: object
   PricingPlan:
     label: Pricing Plan
@@ -3486,7 +3830,7 @@ models:
     description: null
     fields:
       - name: title
-        required: null
+        required: false
         const: null
         default: null
         description: null
@@ -3494,7 +3838,7 @@ models:
         label: Title
         type: string
       - name: subtitle
-        required: null
+        required: false
         const: null
         default: null
         description: null
@@ -3502,7 +3846,7 @@ models:
         label: Subtitle
         type: string
       - name: price
-        required: null
+        required: false
         const: null
         default: null
         description: null
@@ -3510,7 +3854,7 @@ models:
         label: Price
         type: string
       - name: details
-        required: null
+        required: false
         const: null
         default: null
         description: null
@@ -3518,7 +3862,7 @@ models:
         label: Details
         type: markdown
       - name: highlight
-        required: null
+        required: false
         const: null
         default: false
         description: Make the plan stand out by adding a distinctive style
@@ -3526,7 +3870,7 @@ models:
         label: Highlight
         type: boolean
       - name: actions
-        required: null
+        required: false
         const: null
         default: null
         description: null
@@ -3537,6 +3881,9 @@ models:
           type: model
           models:
             - Action
+    match: null
+    folder: null
+    file: null
     type: object
   SectionReviews:
     label: Reviews Section
@@ -3544,7 +3891,7 @@ models:
     description: null
     fields:
       - name: section_id
-        required: null
+        required: false
         const: null
         default: null
         description: A unique identifier of the section, must not contain whitespace
@@ -3552,7 +3899,7 @@ models:
         label: Section ID
         type: string
       - name: title
-        required: null
+        required: false
         const: null
         default: null
         description: The title of the section
@@ -3568,7 +3915,7 @@ models:
         label: Section type
         type: string
       - name: subtitle
-        required: null
+        required: false
         const: null
         default: null
         description: The subtitle of the section
@@ -3576,7 +3923,7 @@ models:
         label: Subtitle
         type: string
       - name: background
-        required: null
+        required: false
         const: null
         default: gray
         description: The background of the section
@@ -3587,7 +3934,7 @@ models:
           - gray
           - white
       - name: reviews
-        required: null
+        required: false
         const: null
         default: null
         description: null
@@ -3598,14 +3945,17 @@ models:
           type: model
           models:
             - ReviewItem
+    match: null
+    folder: null
+    file: null
     type: object
   ReviewItem:
     label: Review Item
-    labelField: title
+    labelField: null
     description: null
     fields:
       - name: author
-        required: null
+        required: false
         const: null
         default: null
         description: null
@@ -3613,15 +3963,15 @@ models:
         label: Author
         type: string
       - name: avatar
-        required: null
+        required: false
         const: null
         default: null
         description: null
         hidden: null
         label: Author Image
-        type: image
+        type: string
       - name: avatar_alt
-        required: null
+        required: false
         const: null
         default: null
         description: null
@@ -3629,13 +3979,16 @@ models:
         label: Author Image Alt Text
         type: string
       - name: content
-        required: null
+        required: false
         const: null
         default: null
         description: null
         hidden: null
         label: Content
-        type: text
+        type: string
+    match: null
+    folder: null
+    file: null
     type: object
   SectionContact:
     label: Contact Section
@@ -3643,7 +3996,7 @@ models:
     description: null
     fields:
       - name: section_id
-        required: null
+        required: false
         const: null
         default: null
         description: A unique identifier of the section, must not contain whitespace
@@ -3651,7 +4004,7 @@ models:
         label: Section ID
         type: string
       - name: title
-        required: null
+        required: false
         const: null
         default: null
         description: The title of the section
@@ -3667,7 +4020,7 @@ models:
         label: Section type
         type: string
       - name: subtitle
-        required: null
+        required: false
         const: null
         default: null
         description: The text shown below the title
@@ -3675,7 +4028,7 @@ models:
         label: Subtitle
         type: string
       - name: content
-        required: null
+        required: false
         const: null
         default: null
         description: the content of the section, appears above the form
@@ -3683,7 +4036,7 @@ models:
         label: Content
         type: markdown
       - name: background
-        required: null
+        required: false
         const: null
         default: gray
         description: The background of the section
@@ -3702,7 +4055,7 @@ models:
         label: Form ID
         type: string
       - name: form_action
-        required: null
+        required: false
         const: null
         default: null
         description: The path of your custom \\"success\\" page, if you want to replace the
@@ -3711,7 +4064,7 @@ models:
         label: Form Action
         type: string
       - name: hide_labels
-        required: null
+        required: false
         const: null
         default: false
         description: null
@@ -3719,7 +4072,7 @@ models:
         label: Hide labels of the form fields?
         type: boolean
       - name: form_fields
-        required: null
+        required: false
         const: null
         default: null
         description: null
@@ -3738,15 +4091,20 @@ models:
         hidden: null
         label: Submit Button Label
         type: string
+    match: null
+    folder: null
+    file: null
     type: object
+pagesDir: null
+dataDir: null
 "
 `;
 
 exports[`convert blog schema 1`] = `
 Object {
-  "documentDefMap": Object {
+  "documentTypeDefMap": Object {
     "Post": Object {
-      "_tag": "DocumentDef",
+      "_tag": "DocumentTypeDef",
       "computedFields": Array [
         Object {
           "description": undefined,
@@ -3756,46 +4114,39 @@ Object {
         },
       ],
       "description": undefined,
+      "extensions": Object {},
       "fieldDefs": Array [
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The title of the post",
-          "hidden": undefined,
-          "label": undefined,
+          "isRequired": true,
+          "isSystemField": false,
           "name": "title",
-          "required": true,
           "type": "string",
         },
         Object {
-          "const": undefined,
           "default": undefined,
           "description": "The date of the post",
-          "hidden": undefined,
-          "label": undefined,
+          "isRequired": true,
+          "isSystemField": false,
           "name": "date",
-          "required": true,
           "type": "date",
         },
         Object {
-          "const": undefined,
           "default": undefined,
-          "description": "Default markdown file content",
-          "hidden": undefined,
-          "label": "Markdown content",
-          "name": "content",
-          "required": undefined,
+          "description": "Markdown file body",
+          "isRequired": true,
+          "isSystemField": true,
+          "name": "body",
           "type": "markdown",
         },
       ],
       "isSingleton": false,
-      "label": "Post",
-      "labelField": undefined,
       "name": "Post",
     },
   },
-  "hash": "9e5925e70ff731e1df3d41d9da2da0ee",
-  "objectDefMap": Object {},
+  "hash": "fa70ab3012a9d1b82e5c0618ab6c9859",
+  "nestedTypeDefMap": Object {},
 }
 `;
 
@@ -3824,6 +4175,20 @@ models:
         hidden: null
         label: null
         type: date
+      - name: body
+        required: true
+        const: null
+        default: null
+        description: Markdown file body
+        hidden: null
+        label: null
+        type: markdown
+    match: null
+    folder: null
+    file: null
     type: data
+    singleInstance: false
+pagesDir: null
+dataDir: null
 "
 `;

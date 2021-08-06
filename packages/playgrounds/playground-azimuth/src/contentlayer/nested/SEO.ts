@@ -1,6 +1,6 @@
-import { defineObject } from 'contentlayer/source-local/schema'
+import { defineNestedType } from 'contentlayer/source-files'
 
-export const SEO = defineObject(() => ({
+export const SEO = defineNestedType(() => ({
   name: 'SEO',
   fields: {
     title: {
@@ -22,20 +22,7 @@ export const SEO = defineObject(() => ({
     extra: {
       type: 'list',
       description: 'Additional definition for specific meta tags such as open-graph, twitter, etc.',
-      of: {
-        type: 'inline_object',
-        labelField: 'name',
-        fields: {
-          name: { type: 'string', label: 'Name' },
-          value: { type: 'string', label: 'Value' },
-          keyName: {
-            type: 'string',
-            label: 'Key Name',
-            default: 'name',
-          },
-          relativeUrl: { type: 'boolean', label: 'Relative Url' },
-        },
-      },
+      of: Extra,
     },
   },
   extensions: {
@@ -48,5 +35,18 @@ export const SEO = defineObject(() => ({
         extra: { label: 'Extra' },
       },
     },
+  },
+}))
+
+const Extra = defineNestedType(() => ({
+  fields: {
+    name: { type: 'string', label: 'Name' },
+    value: { type: 'string', label: 'Value' },
+    keyName: {
+      type: 'string',
+      label: 'Key Name',
+      default: 'name',
+    },
+    relativeUrl: { type: 'boolean', label: 'Relative Url' },
   },
 }))

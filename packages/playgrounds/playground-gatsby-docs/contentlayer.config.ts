@@ -1,7 +1,6 @@
 import rehypeShiki from '@leafac/rehype-shiki'
-import { fromLocalContent } from 'contentlayer/source-local'
-import type { FieldDef } from 'contentlayer/source-local/schema'
-import { defineDocument } from 'contentlayer/source-local/schema'
+import type { FieldDef } from 'contentlayer/source-files'
+import { defineDocumentType, makeSource } from 'contentlayer/source-files'
 import * as path from 'path'
 import * as shiki from 'shiki'
 
@@ -12,31 +11,31 @@ const fields: Record<string, FieldDef> = {
   },
 }
 
-const Reference = defineDocument(() => ({
+const Reference = defineDocumentType(() => ({
   name: 'Reference',
   filePathPattern: 'docs/reference/**/*.md',
   fields,
 }))
 
-const HowTo = defineDocument(() => ({
+const HowTo = defineDocumentType(() => ({
   name: 'HowTo',
   filePathPattern: 'docs/how-to/**/*.md',
   fields,
 }))
 
-const Conceptual = defineDocument(() => ({
+const Conceptual = defineDocumentType(() => ({
   name: 'Conceptual',
   filePathPattern: 'docs/conceptual/**/*.md',
   fields,
 }))
 
-const Tutorial = defineDocument(() => ({
+const Tutorial = defineDocumentType(() => ({
   name: 'Tutorial',
   filePathPattern: 'tutorial/**/*.md',
   fields,
 }))
 
-export default fromLocalContent(async () => {
+export default makeSource(async () => {
   const shikiPath = (dir: string) => path.join(require.resolve('shiki'), '..', '..', dir, path.sep)
   const highlighter = await shiki.getHighlighter({
     paths: { languages: shikiPath('languages'), themes: shikiPath('themes') },
@@ -45,7 +44,7 @@ export default fromLocalContent(async () => {
 
   return {
     contentDirPath: path.join(process.cwd(), 'gatsby', 'docs'),
-    schema: [Reference, HowTo, Conceptual, Tutorial],
+    documentTypes: [Reference, HowTo, Conceptual, Tutorial],
     onExtraData: 'ignore',
     onMissingOrIncompatibleData: 'skip',
     markdown: {

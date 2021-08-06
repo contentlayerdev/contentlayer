@@ -1,15 +1,15 @@
 {
   "name": "contentlayer",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "bin": "./dist/cli/index.js",
   "exports": {
-    "./source-local": {
-      "import": "./dist/esm/source-local/index.js",
-      "require": "./dist/cjs/source-local/index.js"
+    "./source-files": {
+      "import": "./dist/esm/source-files/index.js",
+      "require": "./dist/cjs/source-files/index.js"
     },
-    "./source-local/schema": {
-      "import": "./dist/esm/source-local/schema/index.js",
-      "require": "./dist/cjs/source-local/schema/index.js"
+    "./source-files/schema": {
+      "import": "./dist/esm/source-files/schema/index.js",
+      "require": "./dist/cjs/source-files/schema/index.js"
     },
     "./client": {
       "import": "./dist/esm/client/index.js",
@@ -31,11 +31,11 @@
   "_typesVersions": "Not needed anymore once this issue is closed https://github.com/microsoft/TypeScript/issues/33079",
   "typesVersions": {
     "*": {
-      "source-local": [
-        "./dist/types/source-local"
+      "source-files": [
+        "./dist/types/source-files"
       ],
-      "source-local/schema": [
-        "./dist/types/source-local/schema"
+      "source-files/schema": [
+        "./dist/types/source-files/schema"
       ],
       "client": [
         "./dist/types/client"
@@ -60,7 +60,7 @@
     "@contentlayer/cli": "workspace:*",
     "@contentlayer/client": "workspace:*",
     "@contentlayer/core": "workspace:*",
-    "@contentlayer/source-local": "workspace:*",
+    "@contentlayer/source-files": "workspace:*",
     "@contentlayer/utils": "workspace:*"
   },
   "devDependencies": {

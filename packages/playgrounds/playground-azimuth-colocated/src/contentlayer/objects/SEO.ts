@@ -1,6 +1,6 @@
-import { defineObject } from 'contentlayer/source-local/schema'
+import { defineEmbedded } from 'contentlayer/source-files/schema'
 
-export const SEOModel = defineObject(() => ({
+export const SEOModel = defineEmbedded(() => ({
   name: 'SEO',
   label: 'Page meta data',
   fields: {
@@ -28,7 +28,7 @@ export const SEOModel = defineObject(() => ({
       label: 'Extra',
       description: 'Additional definition for specific meta tags such as open-graph, twitter, etc.',
       of: {
-        type: 'inline_object',
+        type: 'inline_embedded',
         labelField: 'name',
         fields: {
           name: { type: 'string', label: 'Name' },

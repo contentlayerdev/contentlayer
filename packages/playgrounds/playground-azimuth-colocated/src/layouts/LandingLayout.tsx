@@ -1,4 +1,4 @@
-import { defineDocument } from 'contentlayer/source-local/schema'
+import { defineDocument } from 'contentlayer/source-files/schema'
 import type { FC } from 'react'
 import React from 'react'
 
@@ -59,7 +59,7 @@ export const LandingModel = defineDocument(() => ({
       required: true,
     },
     sections: {
-      type: 'polymorphic_list',
+      type: 'list_polymorphic',
       label: 'Sections',
       description: 'Page sections',
       of: [

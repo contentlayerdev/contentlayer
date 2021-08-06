@@ -11,7 +11,7 @@ export namespace StackbitExtension {
   }
 
   /** Extends a document or object defintion with Stackbit specific properties */
-  export type ModelExtension<DefName extends string = string> = {
+  export type TypeExtension<DefName extends string = string> = {
     fieldGroups?: FieldGroup[]
     fields?: Partial<Record<KnownFieldNames<DefName>, FieldExtension>> | Record<string, FieldExtension>
     /** the name of the field that will be used as a title of an object */
@@ -36,6 +36,8 @@ export namespace StackbitExtension {
     /** @default "content" */
     control?: Control
   }
+
+  // TODO enum labels
 
   export type Control = ControlImageGallery | ControlColorPallete
 

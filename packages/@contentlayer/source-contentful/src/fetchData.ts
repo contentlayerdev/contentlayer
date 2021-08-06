@@ -24,8 +24,8 @@ export const fetchAllDocuments = (async ({
     schemaOverrides: schemaOverrides_,
   })
 
+  // Needs to be done sequencially, because of Contentful's API rate limiting
   const allEntries = await getAllEntries(environment)
-
   const allAssets = await getAllAssets(environment)
 
   if (process.env['CL_DEBUG']) {
@@ -33,12 +33,27 @@ export const fetchAllDocuments = (async ({
     ;(await import('fs')).writeFileSync('.tmp.entries.json', JSON.stringify(allEntries, null, 2))
   }
 
+  const isEntryADocument = ({
+    entry,
+    documentTypeDef,
+  }: {
+    entry: Contentful.Entry
+    documentTypeDef: Core.DocumentTypeDef
+  }) => schemaOverrides.documentTypes[entry.sys.contentType.sys.id]?.defName === documentTypeDef.name
+
   const documents = await Promise.all(
-    Object.values(schemaDef.documentDefMap).flatMap((documentDef) =>
+    Object.values(schemaDef.documentTypeDefMap).flatMap((documentTypeDef) =>
       allEntries
-        .filter((_) => schemaOverrides.documentTypes[_.sys.contentType.sys.id]?.defName === documentDef.name)
+        .filter((entry) => isEntryADocument({ entry, documentTypeDef }))
         .map((documentEntry) =>
-          makeCacheItem({ documentEntry, allEntries, allAssets, documentDef, schemaDef, schemaOverrides }),
+          makeCacheItem({
+            documentEntry,
+            allEntries,
+            allAssets,
+            documentTypeDef,
+            schemaDef,
+            schemaOverrides,
+          }),
         ),
     ),
   )
@@ -82,19 +97,19 @@ const makeCacheItem = async ({
   documentEntry,
   allEntries,
   allAssets,
-  documentDef,
+  documentTypeDef,
   schemaDef,
   schemaOverrides,
 }: {
   documentEntry: Contentful.Entry
   allEntries: Contentful.Entry[]
   allAssets: Contentful.Asset[]
-  documentDef: Core.DocumentDef
+  documentTypeDef: Core.DocumentTypeDef
   schemaDef: Core.SchemaDef
   schemaOverrides: SchemaOverrides.Normalized.SchemaOverrides
 }): Promise<Core.CacheItem> => {
   const docValues = await promiseMapToDict(
-    documentDef.fieldDefs,
+    documentTypeDef.fieldDefs,
     (fieldDef) =>
       getDataForFieldDef({
         fieldDef,
@@ -108,14 +123,19 @@ const makeCacheItem = async ({
   )
 
   const raw = { sys: documentEntry.sys, metadata: documentEntry.metadata }
-  const document: Core.Document = { _typeName: documentDef.name, _id: documentEntry.sys.id, _raw: raw, ...docValues }
+  const document: Core.Document = {
+    _typeName: documentTypeDef.name,
+    _id: documentEntry.sys.id,
+    _raw: raw,
+    ...docValues,
+  }
 
   const documentHash = documentEntry.sys.updatedAt
 
   return { document, documentHash }
 }
 
-const makeObject = async ({
+const makeNestedDocument = async ({
   entryId,
   allEntries,
   allAssets,
@@ -127,12 +147,12 @@ const makeObject = async ({
   entryId: string
   allEntries: Contentful.Entry[]
   allAssets: Contentful.Asset[]
-  /** Passing `FieldDef[]` here instead of `ObjectDef` in order to also support `inline_object` */
+  /** Passing `FieldDef[]` here instead of `ObjectDef` in order to also support `inline_embedded` */
   fieldDefs: Core.FieldDef[]
   typeName: string
   schemaDef: Core.SchemaDef
   schemaOverrides: SchemaOverrides.Normalized.SchemaOverrides
-}): Promise<Core.Object> => {
+}): Promise<Core.NestedDocument> => {
   const objectEntry = allEntries.find((_) => _.sys.id === entryId)!
   const raw = { sys: objectEntry.sys, metadata: objectEntry.metadata }
 
@@ -150,7 +170,7 @@ const makeObject = async ({
     (fieldDef) => fieldDef.name,
   )
 
-  const obj: Core.Object = { _typeName: typeName, _raw: raw, ...objValues }
+  const obj: Core.NestedDocument = { _typeName: typeName, _raw: raw, ...objValues }
 
   return obj
 }
@@ -171,7 +191,7 @@ const getDataForFieldDef = async ({
   schemaOverrides: SchemaOverrides.Normalized.SchemaOverrides
 }): Promise<any> => {
   if (rawFieldData === undefined) {
-    if (fieldDef.required) {
+    if (fieldDef.isRequired) {
       console.error(`Inconsistent data found: ${fieldDef}`)
     }
 
@@ -179,28 +199,26 @@ const getDataForFieldDef = async ({
   }
 
   switch (fieldDef.type) {
-    case 'object':
-      const objectDefName = schemaOverrides.objectTypes[fieldDef.objectName].defName
-      const objectDef = schemaDef.objectDefMap[objectDefName]
-      return makeObject({
+    case 'nested':
+      const nestedTypeDefName = schemaOverrides.objectTypes[fieldDef.nestedTypeName].defName
+      const nestedTypeDef = schemaDef.nestedTypeDefMap[nestedTypeDefName]
+      return makeNestedDocument({
         entryId: rawFieldData.sys.id,
         allEntries,
         allAssets,
-        fieldDefs: objectDef.fieldDefs,
-        typeName: objectDef.name,
+        fieldDefs: nestedTypeDef.fieldDefs,
+        typeName: nestedTypeDefName,
         schemaDef,
         schemaOverrides,
       })
-    case 'inline_object':
+    case 'nested_polymorphic':
+    case 'nested_unnamed':
       throw new Error(`Doesn't exist in Contentful`)
     case 'reference':
       return rawFieldData.sys.id
-    case 'image':
-      const asset = allAssets.find((_) => _.sys.id === rawFieldData.sys.id)!
-      const url = asset.fields.file['en-US'].url
-      // starts with `//`
-      return `https:${url}`
-    case 'polymorphic_list':
+    case 'reference_polymorphic':
+      throw new Error(`Doesn't exist in Contentful`)
+    case 'list_polymorphic':
     case 'list':
       return promiseMap(rawFieldData as any[], (rawItemData) =>
         getDataForListItem({ rawItemData, allEntries, allAssets, fieldDef, schemaDef, schemaOverrides }),
@@ -217,19 +235,28 @@ const getDataForFieldDef = async ({
         raw: rawFieldData,
         code: await bundleMDX(rawFieldData),
       }
-    case 'boolean':
     case 'string':
+      // e.g. for images
+      if (rawFieldDataIsAsset(rawFieldData)) {
+        const asset = allAssets.find((_) => _.sys.id === rawFieldData.sys.id)!
+        const url = asset.fields.file['en-US'].url
+        // starts with `//`
+        return `https:${url}`
+      }
+      return rawFieldData
+    case 'boolean':
     case 'number':
     case 'json':
-    case 'slug':
-    case 'text':
-    case 'url':
     case 'enum':
       return rawFieldData
     default:
       casesHandled(fieldDef)
   }
 }
+
+type ContentfulAssetEntry = { sys: { type: 'Link'; linkType: 'Asset'; id: string } }
+const rawFieldDataIsAsset = (rawFieldData: any): rawFieldData is ContentfulAssetEntry =>
+  rawFieldData.sys?.type === 'Link' && rawFieldData.sys?.linkType === 'Asset'
 
 const getDataForListItem = async ({
   rawItemData,
@@ -242,7 +269,7 @@ const getDataForListItem = async ({
   rawItemData: any
   allEntries: Contentful.Entry[]
   allAssets: Contentful.Asset[]
-  fieldDef: Core.ListFieldDef | Core.PolymorphicListFieldDef
+  fieldDef: Core.ListFieldDef | Core.ListPolymorphicFieldDef
   schemaDef: Core.SchemaDef
   schemaOverrides: SchemaOverrides.Normalized.SchemaOverrides
 }): Promise<any> => {
@@ -254,25 +281,25 @@ const getDataForListItem = async ({
     // if (rawItemData.sys?.id && rawItemData.sys.id in schemaDef.objectDefMap) {
     const entry = allEntries.find((_) => _.sys.id === rawItemData.sys.id)!
     const typeName = schemaOverrides.objectTypes[entry.sys.contentType.sys.id].defName
-    const objectDef = schemaDef.objectDefMap[typeName]
-    return makeObject({
+    const nestedTypeDef = schemaDef.nestedTypeDefMap[typeName]
+    return makeNestedDocument({
       entryId: rawItemData.sys.id,
       allEntries,
       allAssets,
-      fieldDefs: objectDef.fieldDefs,
+      fieldDefs: nestedTypeDef.fieldDefs,
       typeName,
       schemaDef,
       schemaOverrides,
     })
   }
 
-  if (fieldDef.type === 'list' && fieldDef.of.type === 'inline_object') {
-    return makeObject({
+  if (fieldDef.type === 'list' && fieldDef.of.type === 'nested_unnamed') {
+    return makeNestedDocument({
       entryId: rawItemData.sys.id,
       allEntries,
       allAssets,
-      fieldDefs: fieldDef.of.fieldDefs,
-      typeName: 'inline_object',
+      fieldDefs: fieldDef.of.typeDef.fieldDefs,
+      typeName: 'inline_embedded',
       schemaDef,
       schemaOverrides,
     })

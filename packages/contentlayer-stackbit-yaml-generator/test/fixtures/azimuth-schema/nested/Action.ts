@@ -1,33 +1,27 @@
-import { defineObject } from 'contentlayer/source-local/schema'
+import { defineNestedType } from 'contentlayer/source-files'
 
-export const Action = defineObject(() => ({
+export const Action = defineNestedType(() => ({
   name: 'Action',
-  labelField: 'label',
   fields: {
     label: {
       type: 'string',
-      label: 'Label',
       required: true,
     },
     url: {
       type: 'string',
-      label: 'URL',
       required: true,
     },
     style: {
       type: 'enum',
-      label: 'Style',
       options: ['link', 'primary', 'secondary'],
       default: 'link',
     },
     has_icon: {
       type: 'boolean',
-      label: 'Show icon',
       default: false,
     },
     icon: {
       type: 'enum',
-      label: 'Icon',
       options: [
         'arrow-left',
         'arrow-right',
@@ -43,22 +37,34 @@ export const Action = defineObject(() => ({
     },
     icon_position: {
       type: 'enum',
-      label: 'Icon position',
       options: ['left', 'right'],
       default: 'left',
       description: 'The position of the icon relative to text',
     },
     new_window: {
       type: 'boolean',
-      label: 'Open in new window',
       default: false,
       description: 'Should the link open a new tab',
     },
     no_follow: {
       type: 'boolean',
-      label: 'No follow',
       default: false,
       description: 'Add rel="nofollow" attribute to the link',
+    },
+  },
+  extensions: {
+    stackbit: {
+      labelField: 'label',
+      fields: {
+        label: { label: 'Label' },
+        url: { label: 'URL' },
+        style: { label: 'Style' },
+        has_icon: { label: 'Show icon' },
+        icon: { label: 'Icon' },
+        icon_position: { label: 'Icon position' },
+        new_window: { label: 'Open in new window' },
+        no_follow: { label: 'No follow' },
+      },
     },
   },
 }))

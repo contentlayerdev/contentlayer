@@ -6,14 +6,14 @@ describe('convert', () => {
   it('azimuth schema', async () => {
     const coreSchema = await fixtures.makeAzimuthSchema()
     expect(coreSchema).toMatchSnapshot()
-    const stackbitConfig = toYamlString(convertSchema(coreSchema))
+    const stackbitConfig = toYamlString(convertSchema(coreSchema, {}))
     expect(stackbitConfig).toMatchSnapshot()
   })
 
   it('blog schema', async () => {
     const coreSchema = await fixtures.makeBlogSchema()
     expect(coreSchema).toMatchSnapshot()
-    const stackbitConfig = toYamlString(convertSchema(coreSchema))
+    const stackbitConfig = toYamlString(convertSchema(coreSchema, {}))
     expect(stackbitConfig).toMatchSnapshot()
   })
 })

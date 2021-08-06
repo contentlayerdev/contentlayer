@@ -1,13 +1,14 @@
-import { defineDocument, defineObject } from 'contentlayer/source-local/schema'
+import { defineDocumentType, defineNestedType } from 'contentlayer/source-files'
 
-import { Action } from '../objects/Action'
-import { FormField } from '../objects/FormField'
-import { SEO } from '../objects/SEO'
+import { Action } from '../nested/Action'
+import { FormField } from '../nested/FormField'
+import { SEO } from '../nested/SEO'
 import { urlFromFilePath } from '../utils'
 
-export const Landing = defineDocument(() => ({
+export const Landing = defineDocumentType(() => ({
   name: 'Landing',
-  filePathPattern: 'pages/{contact,features,index,pricing}.md',
+  // filePathPattern: 'pages/{contact,features,index,pricing}.md',
+  bodyType: 'none',
   fields: {
     title: {
       type: 'string',
@@ -15,7 +16,7 @@ export const Landing = defineDocument(() => ({
       required: true,
     },
     sections: {
-      type: 'polymorphic_list',
+      type: 'list',
       description: 'Page sections',
       of: [
         SectionContent,
@@ -30,7 +31,7 @@ export const Landing = defineDocument(() => ({
       ],
       typeField: 'type',
     },
-    seo: SEO,
+    seo: { type: 'nested', of: SEO },
   },
   computedFields: {
     url_path: {
@@ -61,20 +62,14 @@ const sectionBaseFields = {
     type: 'string',
     description: 'The title of the section',
   },
-  type: {
-    type: 'string',
-    required: true,
-    description: 'Needed for contentlayer for polymorphic list types',
-  },
 } as const
 
 const sectionBaseFieldsExtension = {
   section_id: { label: 'Section ID' },
   title: { label: 'Title' },
-  type: { label: 'Section type' },
 } as const
 
-const SectionContent = defineObject(() => ({
+const SectionContent = defineNestedType(() => ({
   name: 'SectionContent',
   fields: {
     ...sectionBaseFields,
@@ -83,7 +78,7 @@ const SectionContent = defineObject(() => ({
       description: 'The text content of the section',
     },
     image: {
-      type: 'image',
+      type: 'string',
       description: 'The image of the section',
     },
     image_alt: {
@@ -121,7 +116,7 @@ const SectionContent = defineObject(() => ({
   },
 }))
 
-const SectionCta = defineObject(() => ({
+const SectionCta = defineNestedType(() => ({
   name: 'SectionCta',
   fields: {
     ...sectionBaseFields,
@@ -147,7 +142,7 @@ const SectionCta = defineObject(() => ({
   },
 }))
 
-const SectionHero = defineObject(() => ({
+const SectionHero = defineNestedType(() => ({
   name: 'SectionHero',
   fields: {
     ...sectionBaseFields,
@@ -156,7 +151,7 @@ const SectionHero = defineObject(() => ({
       description: 'The text content of the section',
     },
     image: {
-      type: 'image',
+      type: 'string',
       description: 'The image of the section',
     },
     image_alt: {
@@ -183,7 +178,7 @@ const SectionHero = defineObject(() => ({
   },
 }))
 
-const SectionFeatures = defineObject(() => ({
+const SectionFeatures = defineNestedType(() => ({
   name: 'SectionFeatures',
   fields: {
     ...sectionBaseFields,
@@ -216,7 +211,7 @@ const SectionFeatures = defineObject(() => ({
   },
 }))
 
-const FeatureItem = defineObject(() => ({
+const FeatureItem = defineNestedType(() => ({
   name: 'FeatureItem',
   fields: {
     title: { type: 'string' },
@@ -225,7 +220,7 @@ const FeatureItem = defineObject(() => ({
       description: 'Feature description',
     },
     image: {
-      type: 'image',
+      type: 'string',
       description: 'Feature image',
     },
     image_alt: {
@@ -252,7 +247,7 @@ const FeatureItem = defineObject(() => ({
   },
 }))
 
-const SectionContact = defineObject(() => ({
+const SectionContact = defineNestedType(() => ({
   name: 'SectionContact',
   fields: {
     ...sectionBaseFields,
@@ -311,7 +306,7 @@ const SectionContact = defineObject(() => ({
   },
 }))
 
-const SectionFaq = defineObject(() => ({
+const SectionFaq = defineNestedType(() => ({
   name: 'SectionFaq',
   label: 'FAQ Section',
   labelField: 'title',
@@ -346,10 +341,10 @@ const SectionFaq = defineObject(() => ({
   },
 }))
 
-const FaqItem = defineObject(() => ({
+const FaqItem = defineNestedType(() => ({
   name: 'FaqItem',
   fields: {
-    question: { type: 'text' },
+    question: { type: 'string' },
     answer: { type: 'markdown' },
   },
   extensions: {
@@ -363,7 +358,7 @@ const FaqItem = defineObject(() => ({
   },
 }))
 
-const SectionPosts = defineObject(() => ({
+const SectionPosts = defineNestedType(() => ({
   name: 'SectionPosts',
   fields: {
     ...sectionBaseFields,
@@ -390,7 +385,7 @@ const SectionPosts = defineObject(() => ({
   },
 }))
 
-const SectionPricing = defineObject(() => ({
+const SectionPricing = defineNestedType(() => ({
   name: 'SectionPricing',
   fields: {
     ...sectionBaseFields,
@@ -422,7 +417,7 @@ const SectionPricing = defineObject(() => ({
   },
 }))
 
-const PricingPlan = defineObject(() => ({
+const PricingPlan = defineNestedType(() => ({
   name: 'PricingPlan',
   fields: {
     title: {
@@ -463,7 +458,7 @@ const PricingPlan = defineObject(() => ({
   },
 }))
 
-const SectionReviews = defineObject(() => ({
+const SectionReviews = defineNestedType(() => ({
   name: 'SectionReviews',
   fields: {
     ...sectionBaseFields,
@@ -495,13 +490,13 @@ const SectionReviews = defineObject(() => ({
   },
 }))
 
-const ReviewItem = defineObject(() => ({
+const ReviewItem = defineNestedType(() => ({
   name: 'ReviewItem',
   fields: {
     author: { type: 'string' },
-    avatar: { type: 'image' },
+    avatar: { type: 'string' },
     avatar_alt: { type: 'string' },
-    content: { type: 'text' },
+    content: { type: 'string' },
   },
   extensions: {
     stackbit: {

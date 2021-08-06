@@ -1,6 +1,6 @@
-import { defineObject } from 'contentlayer/source-local/schema'
+import { defineNestedType } from 'contentlayer/source-files'
 
-export const Action = defineObject(() => ({
+export const Action = defineNestedType(() => ({
   name: 'Action',
   fields: {
     label: {

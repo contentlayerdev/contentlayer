@@ -1,5 +1,4 @@
-import * as Core from '@contentlayer/core'
-import { hashObject } from '@contentlayer/core'
+import * as core from '@contentlayer/core'
 import { casesHandled, partition, traceAsyncFn } from '@contentlayer/utils'
 
 import type * as SchemaOverrides from './schemaOverrides'
@@ -9,10 +8,12 @@ import type { Contentful } from './types'
 export const provideSchema = (async ({
   environment,
   schemaOverrides: schemaOverrides_,
+  options,
 }: {
   environment: Contentful.Environment
   schemaOverrides: SchemaOverrides.Input.SchemaOverrides
-}): Promise<Core.SchemaDef> => {
+  options: core.PluginOptions
+}): Promise<core.SchemaDef> => {
   const contentTypes = await environment.getContentTypes()
 
   const schemaOverrides = normalizeSchemaOverrides({
@@ -26,21 +27,29 @@ export const provideSchema = (async ({
     isDocument({ schemaOverrides, contentTypeId: _.sys.id }),
   )
 
-  const documentDefs = documentContentTypes.map((contentType) => toDocumentDef({ contentType, schemaOverrides }))
-  const documentDefMap = documentDefs.reduce((acc, documentDef) => ({ ...acc, [documentDef.name]: documentDef }), {})
-  const objectDefs = objectContentTypes.map((contentType) => toObjectDef({ contentType, schemaOverrides }))
-  const objectDefMap = objectDefs.reduce((acc, documentDef) => ({ ...acc, [documentDef.name]: documentDef }), {})
+  const documentTypeDefs = documentContentTypes.map((contentType) =>
+    toDocumentTypeDef({ contentType, schemaOverrides }),
+  )
+  const documentTypeDefMap = documentTypeDefs.reduce(
+    (acc, documentDef) => ({ ...acc, [documentDef.name]: documentDef }),
+    {},
+  )
+  const nestedTypeDefs = objectContentTypes.map((contentType) => toNestedTypeDef({ contentType, schemaOverrides }))
+  const nestedTypeDefMap = nestedTypeDefs.reduce(
+    (acc, documentDef) => ({ ...acc, [documentDef.name]: documentDef }),
+    {},
+  )
 
-  const defs = { documentDefMap, objectDefMap }
-  const hash = hashObject(defs)
+  const defs = { documentTypeDefMap, nestedTypeDefMap }
+  const hash = core.hashObject({ defs, options })
 
   if (process.env['CL_DEBUG']) {
     ;(await import('fs')).writeFileSync('.tmp.schema.json', JSON.stringify(defs, null, 2))
   }
 
-  const coreSchemaDef = { ...defs, hash }
+  const coreSchemaDef: core.SchemaDef = { ...defs, hash }
 
-  Core.validateSchema(coreSchemaDef)
+  core.validateSchema(coreSchemaDef)
 
   return coreSchemaDef
 })['|>'](traceAsyncFn('@contentlayer/source-contentlayer/provideSchema:provideSchema', ['schemaOverrides']))
@@ -53,17 +62,17 @@ const isDocument = ({
   schemaOverrides: SchemaOverrides.Normalized.SchemaOverrides
 }): boolean => schemaOverrides.documentTypes[contentTypeId] !== undefined
 
-const toDocumentDef = ({
+const toDocumentTypeDef = ({
   contentType,
   schemaOverrides,
 }: {
   contentType: Contentful.ContentType
   schemaOverrides: SchemaOverrides.Normalized.SchemaOverrides
-}): Core.DocumentDef => {
+}): core.DocumentTypeDef => {
   return {
-    _tag: 'DocumentDef',
+    _tag: 'DocumentTypeDef',
     name: schemaOverrides.documentTypes[contentType.sys.id].defName,
-    label: contentType.name,
+    // label: contentType.name,
     fieldDefs: contentType.fields.map((field: any) =>
       toFieldDef({
         field,
@@ -73,23 +82,23 @@ const toDocumentDef = ({
     ),
     computedFields: [],
     description: contentType.description,
-    labelField: contentType.displayField,
+    // labelField: contentType.displayField,
     isSingleton: schemaOverrides.documentTypes[contentType.sys.id].isSingleton,
     extensions: {},
   }
 }
 
-const toObjectDef = ({
+const toNestedTypeDef = ({
   contentType,
   schemaOverrides,
 }: {
   contentType: Contentful.ContentType
   schemaOverrides: SchemaOverrides.Normalized.SchemaOverrides
-}): Core.ObjectDef => {
+}): core.NestedTypeDef => {
   return {
-    _tag: 'ObjectDef',
+    _tag: 'NestedTypeDef',
     name: schemaOverrides.objectTypes[contentType.sys.id].defName,
-    label: contentType.name,
+    // label: contentType.name,
     fieldDefs: contentType.fields.map((field: any) =>
       toFieldDef({
         field,
@@ -98,7 +107,7 @@ const toObjectDef = ({
       }),
     ),
     description: contentType.description,
-    labelField: contentType.displayField,
+    // labelField: contentType.displayField,
     extensions: {},
   }
 }
@@ -111,15 +120,16 @@ const toFieldDef = ({
   field: Contentful.ContentFields & Contentful.FieldType
   schemaOverrides: SchemaOverrides.Normalized.SchemaOverrides
   fieldOverrides: SchemaOverrides.Normalized.FieldOverrideItem | undefined
-}): Core.FieldDef => {
-  const fieldBase: Core.FieldBase & { default?: any } = {
+}): core.FieldDef => {
+  const fieldBase: core.FieldDefBase & { default?: any } = {
     name: fieldOverrides?.name ?? field.id,
-    label: field.name,
-    hidden: field.omitted,
-    required: field.required,
-    const: undefined,
+    // label: field.name,
+    // hidden: field.omitted,
+    isRequired: field.required,
+    // const: undefined,
     default: undefined,
     description: undefined,
+    isSystemField: false,
   }
 
   if (fieldOverrides?.type) {
@@ -140,15 +150,19 @@ const toFieldDef = ({
     case 'RichText':
       return { ...fieldBase, type: 'markdown' }
     case 'Link':
-      if (field.linkType === 'Entry') {
-        const typeName = field.validations![0].linkContentType![0]
-        if (isDocument({ schemaOverrides, contentTypeId: typeName })) {
-          return { ...fieldBase, type: 'reference', documentName: typeName }
-        } else {
-          return { ...fieldBase, type: 'object', objectName: typeName }
-        }
-      } else {
-        return { ...fieldBase, type: 'image' }
+      switch (field.linkType) {
+        case 'Entry':
+          const typeName = field.validations![0].linkContentType![0]
+          if (isDocument({ schemaOverrides, contentTypeId: typeName })) {
+            return { ...fieldBase, type: 'reference', documentTypeName: typeName }
+          } else {
+            return { ...fieldBase, type: 'nested', nestedTypeName: typeName }
+          }
+        case 'Asset':
+          // e.g. for images
+          return { ...fieldBase, type: 'string' }
+        default:
+          casesHandled(field)
       }
     case 'Location':
     case 'Object':
@@ -164,7 +178,7 @@ const toFieldDef = ({
         } else {
           return {
             ...fieldBase,
-            type: 'polymorphic_list',
+            type: 'list_polymorphic',
             of: field.items.validations![0].linkContentType!.map((typeName) =>
               toListFieldDefItem({ typeName, schemaOverrides }),
             ),
@@ -183,7 +197,7 @@ const toFieldDef = ({
           return {
             ...fieldBase,
             type: 'list',
-            of: { type: 'string', labelField: undefined },
+            of: { type: 'string' },
           }
         }
       }
@@ -198,10 +212,10 @@ const toListFieldDefItem = ({
 }: {
   typeName: string
   schemaOverrides: SchemaOverrides.Normalized.SchemaOverrides
-}): Core.ListFieldDefItem => {
+}): core.ListFieldDefItem.Item => {
   if (isDocument({ schemaOverrides, contentTypeId: typeName })) {
-    return { type: 'reference', documentName: typeName, labelField: undefined }
+    return { type: 'reference', documentTypeName: typeName }
   } else {
-    return { type: 'object', objectName: typeName, labelField: undefined }
+    return { type: 'nested', nestedTypeName: typeName }
   }
 }

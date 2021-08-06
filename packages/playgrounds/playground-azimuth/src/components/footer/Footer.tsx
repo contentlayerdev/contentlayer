@@ -15,7 +15,7 @@ export const Footer: FC<{ config: types.Config }> = ({ config }) => (
         <div className="inner">
           <div className="grid footer-widgets">
             {config.footer.sections.map((section, index) => {
-              switch (section._typeName) {
+              switch (section.type) {
                 case 'FooterForm':
                   return <FooterForm key={index} section={section} />
                 case 'FooterNav':

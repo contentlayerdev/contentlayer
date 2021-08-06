@@ -1,9 +1,9 @@
-import { defineDocument } from 'contentlayer/source-local/schema'
+import { defineDocumentType } from 'contentlayer/source-files'
 
-import { SEO } from '../objects/SEO'
+import { SEO } from '../nested/SEO'
 import { urlFromFilePath } from '../utils'
 
-export const Page = defineDocument(() => ({
+export const Page = defineDocumentType(() => ({
   name: 'Page',
   filePathPattern: 'pages/{about,privacy-policy,signup,style-guide,terms-of-service}.md',
   fields: {
@@ -19,7 +19,7 @@ export const Page = defineDocument(() => ({
       description: 'The text shown below the page title',
     },
     image: {
-      type: 'image',
+      type: 'string',
       label: 'Image',
       description: 'The image shown below the page title',
     },
@@ -28,7 +28,7 @@ export const Page = defineDocument(() => ({
       label: 'Image Alt Text',
       description: 'The alt text of the image',
     },
-    seo: SEO,
+    seo: { type: 'nested', of: SEO },
   },
   computedFields: {
     url_path: {

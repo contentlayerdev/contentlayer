@@ -1,5 +1,5 @@
-export * from './commands/generate-dotpkg'
-export * from './commands/generate-types'
+export * from './generation/generate-dotpkg'
+export * from './generation/generate-types'
 export * from './config'
 export * from './cache'
 export * from './data'

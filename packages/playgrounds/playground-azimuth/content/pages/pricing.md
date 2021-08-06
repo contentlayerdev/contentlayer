@@ -1,4 +1,5 @@
 ---
+type: Landing
 title: Pricing
 sections:
   - section_id: pricing

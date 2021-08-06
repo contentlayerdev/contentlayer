@@ -1,12 +1,17 @@
 const getSanitySchema = require('@sanity/core/lib/actions/graphql/getSanitySchema')
-import * as Core from '@contentlayer/core'
-import { hashObject } from '@contentlayer/core'
-import { pick } from '@contentlayer/utils'
+import * as core from '@contentlayer/core'
+import { pattern, pick } from '@contentlayer/utils'
 import type Schema from '@sanity/schema'
 
 import type * as Sanity from './sanity-types'
 
-export const provideSchema = async (studioDirPath: string): Promise<Core.SchemaDef> => {
+export const provideSchema = async ({
+  studioDirPath,
+  options,
+}: {
+  studioDirPath: string
+  options: core.PluginOptions
+}): Promise<core.SchemaDef> => {
   const schema: Schema = getSanitySchema(studioDirPath)
   const types = schema._original.types
 
@@ -15,27 +20,27 @@ export const provideSchema = async (studioDirPath: string): Promise<Core.SchemaD
   const documentTypes = types
     .filter((_): _ is Sanity.DocumentType => _.type === 'document')
     .filter((_) => !_.name.startsWith('sanity.'))
-  const objectTypes = types.filter((_): _ is Sanity.ObjectType => _.type === 'object')
+  const nestedTypes = types.filter((_): _ is Sanity.ObjectType => _.type === 'object')
 
-  const objectTypeNames = objectTypes.map((_) => _.name)
+  const nestedTypeNames = nestedTypes.map((_) => _.name)
 
-  const documentDefMap: Core.DocumentDefMap = documentTypes
-    .map(sanityDocumentTypeToCoreDocumentDef(objectTypeNames))
+  const documentTypeDefMap: core.DocumentTypeDefMap = documentTypes
+    .map(sanityDocumentTypeToCoreDocumentDef(nestedTypeNames))
     .map(sanitizeDef)
     .reduce((acc, _) => ({ ...acc, [_.name]: _ }), {})
 
-  const usedObjectTypes = collectUsedObjectTypes({ documentTypes, objectTypes })
-  const objectDefMap: Core.ObjectDefMap = usedObjectTypes
-    .map(sanityObjectTypeToCoreObjectDef(objectTypeNames))
+  const usedObjectTypes = collectUsedObjectTypes({ documentTypes, nestedTypes })
+  const nestedTypeDefMap: core.NestedTypeDefMap = usedObjectTypes
+    .map(sanityObjectTypeToCoreObjectDef(nestedTypeNames))
     .map(sanitizeDef)
     .reduce((acc, _) => ({ ...acc, [_.name]: _ }), {})
 
-  const defs = { documentDefMap, objectDefMap }
-  const hash = hashObject(defs)
+  const defs = { documentTypeDefMap, nestedTypeDefMap }
+  const hash = core.hashObject({ defs, options })
 
   const coreSchemaDef = { ...defs, hash }
 
-  Core.validateSchema(coreSchemaDef)
+  core.validateSchema(coreSchemaDef)
 
   return coreSchemaDef
 }
@@ -45,12 +50,12 @@ export const provideSchema = async (studioDirPath: string): Promise<Core.SchemaD
  */
 const collectUsedObjectTypes = ({
   documentTypes,
-  objectTypes,
+  nestedTypes,
 }: {
   documentTypes: Sanity.DocumentType[]
-  objectTypes: Sanity.ObjectType[]
+  nestedTypes: Sanity.ObjectType[]
 }): Sanity.ObjectType[] => {
-  const objectTypeMap: { [typeName: string]: Sanity.ObjectType } = objectTypes.reduce(
+  const sanityObjectTypeMap: { [typeName: string]: Sanity.ObjectType } = nestedTypes.reduce(
     (acc, _) => ({ ...acc, [_.name]: _ }),
     {},
   )
@@ -72,8 +77,8 @@ const collectUsedObjectTypes = ({
       case 'array':
         return field.of.map(traverseArrayOf)
       default:
-        if (field.type in objectTypeMap) {
-          traverseObjectType(objectTypeMap[field.type])
+        if (field.type in sanityObjectTypeMap) {
+          traverseObjectType(sanityObjectTypeMap[field.type])
         }
     }
   }
@@ -83,28 +88,28 @@ const collectUsedObjectTypes = ({
       case 'object':
         return arrayOf.fields.forEach(traverseField)
       default:
-        if (arrayOf.type in objectTypeMap) {
-          traverseObjectType(objectTypeMap[arrayOf.type])
+        if (arrayOf.type in sanityObjectTypeMap) {
+          traverseObjectType(sanityObjectTypeMap[arrayOf.type])
         }
     }
   }
 
   documentTypes.flatMap((_) => _.fields).forEach(traverseField)
 
-  return Object.keys(visitedObjectTypes).map((_) => objectTypeMap[_])
+  return Object.keys(visitedObjectTypes).map((_) => sanityObjectTypeMap[_])
 }
 
 const sanityDocumentTypeToCoreDocumentDef =
   (objectTypeNames: string[]) =>
-  (documentType: Sanity.DocumentType): Core.DocumentDef => {
-    const previewSelectValues = Object.values(documentType.preview?.select ?? {})
+  (documentType: Sanity.DocumentType): core.DocumentTypeDef => {
+    // const previewSelectValues = Object.values(documentType.preview?.select ?? {})
     return {
-      _tag: 'DocumentDef',
+      _tag: 'DocumentTypeDef',
       name: documentType.name,
-      label: documentType.title ?? '',
+      // label: documentType.title ?? '',
       description: undefined,
       isSingleton: false,
-      labelField: previewSelectValues.length > 0 ? previewSelectValues[0] : undefined,
+      // labelField: previewSelectValues.length > 0 ? previewSelectValues[0] : undefined,
       fieldDefs: documentType.fields.map(sanityFieldToCoreFieldDef(objectTypeNames)),
       computedFields: [],
       extensions: {},
@@ -113,14 +118,14 @@ const sanityDocumentTypeToCoreDocumentDef =
 
 const sanityObjectTypeToCoreObjectDef =
   (objectTypeNames: string[]) =>
-  (objectType: Sanity.ObjectType): Core.ObjectDef => {
+  (objectType: Sanity.ObjectType): core.NestedTypeDef => {
     return {
-      _tag: 'ObjectDef',
+      _tag: 'NestedTypeDef',
       name: objectType.name,
-      label: objectType.title ?? '',
+      // label: objectType.title ?? '',
       description: objectType.description,
       fieldDefs: objectType.fields.map(sanityFieldToCoreFieldDef(objectTypeNames)),
-      labelField: undefined,
+      // labelField: undefined,
       extensions: {},
     }
   }
@@ -137,65 +142,69 @@ const sanityMockRule = new Proxy<Sanity.RuleType>({} as any, {
 
 const sanityFieldToCoreFieldDef =
   (objectTypeNames: string[]) =>
-  (field: Sanity.Field): Core.FieldDef => {
-    const required = field.validation?.(sanityMockRule) as boolean | undefined
-    const baseFields = { ...pick(field, ['description', 'name']), required }
+  (field: Sanity.Field): core.FieldDef => {
+    const isRequired = field.validation?.(sanityMockRule) as boolean | undefined
+    const baseFields = { ...pick(field, ['description', 'name']), isRequired, isSystemField: false }
     switch (field.type) {
       case 'reference':
-        return <Core.ReferenceFieldDef>{
+        return <core.ReferenceFieldDef>{
           ...baseFields,
           type: 'reference',
           // TODO support polymorphic references
-          documentName: field.to[0].type,
+          documentTypeName: field.to[0].type,
         }
       case 'array':
         // special handling for enum array
         if ((field.options as any)?.list) {
-          return <Core.ListFieldDef>{
+          return <core.ListFieldDef>{
             ...baseFields,
             type: 'list',
-            of: <Core.ListFieldItemEnum>{ type: 'enum', options: (field.options as any).list },
+            of: <core.ListFieldDefItem.ItemEnum>{ type: 'enum', options: (field.options as any).list },
           }
         }
 
         if (field.of.length === 1) {
-          return <Core.ListFieldDef>{
+          return <core.ListFieldDef>{
             ...baseFields,
             type: 'list',
             of: sanityArrayOfToCoreFieldListDefItem(objectTypeNames)(field.of[0]),
           }
         }
 
-        return <Core.PolymorphicListFieldDef>{
+        return <core.ListPolymorphicFieldDef>{
           ...baseFields,
-          type: 'polymorphic_list',
+          type: 'list_polymorphic',
           of: field.of.map(sanityArrayOfToCoreFieldListDefItem(objectTypeNames)),
           typeField: '_type',
         }
       case 'object':
-        return <Core.InlineObjectFieldDef>{
+        return <core.NestedUnnamedFieldDef>{
           ...baseFields,
-          type: 'inline_object',
-          fieldDefs: field.fields.map(sanityFieldToCoreFieldDef(objectTypeNames)),
+          type: 'nested_unnamed',
+          typeDef: {
+            _tag: 'NestedUnnamedTypeDef',
+            fieldDefs: field.fields.map(sanityFieldToCoreFieldDef(objectTypeNames)),
+            extensions: {},
+          },
         }
       case 'date':
       case 'datetime': {
-        return <Core.DateFieldDef>{
+        return <core.DateFieldDef>{
           ...baseFields,
           type: 'date',
-          label: field.title,
-          hidden: field.hidden,
+          // label: field.title,
+          // hidden: field.hidden,
         }
       }
       case 'string': {
         // special handling for enum
         if (field.options?.list) {
-          return <Core.EnumFieldDef>{
+          return <core.EnumFieldDef>{
             ...baseFields,
             type: 'enum',
             options: field.options.list,
-            label: field.title,
-            hidden: field.hidden,
+            // label: field.title,
+            // hidden: field.hidden,
           }
         }
       }
@@ -206,29 +215,28 @@ const sanityFieldToCoreFieldDef =
       case 'boolean':
       case 'number':
       case 'text': {
-        type FieldDef =
-          | Core.MarkdownFieldDef
-          | Core.UrlFieldDef
-          | Core.ImageFieldDef
-          | Core.SlugFieldDef
-          | Core.BooleanFieldDef
-          | Core.NumberFieldDef
-          | Core.StringFieldDef
-          | Core.TextFieldDef
+        type FieldDef = core.MarkdownFieldDef | core.BooleanFieldDef | core.NumberFieldDef | core.StringFieldDef
+        const type = pattern
+          .match(field.type)
+          .when(
+            (_) => _ === 'boolean' || _ === 'markdown' || _ === 'number',
+            (_) => _,
+          )
+          .otherwise(() => 'string' as const)
         return <FieldDef>{
           ...baseFields,
-          type: field.type,
-          label: field.title,
-          hidden: field.hidden,
+          type,
+          // label: field.title,
+          // hidden: field.hidden,
         }
       }
       case 'block':
       default: {
         if (objectTypeNames.includes(field.type)) {
-          return <Core.ObjectFieldDef>{
+          return <core.NestedFieldDef>{
             ...baseFields,
-            type: 'object',
-            objectName: field.type,
+            type: 'nested',
+            nestedTypeName: field.type,
           }
         }
 
@@ -239,24 +247,28 @@ const sanityFieldToCoreFieldDef =
 
 const sanityArrayOfToCoreFieldListDefItem =
   (objectTypeNames: string[]) =>
-  (arrayOf: Sanity.ArrayOf): Core.ListFieldDefItem => {
+  (arrayOf: Sanity.ArrayOf): core.ListFieldDefItem.Item => {
     switch (arrayOf.type) {
       case 'string':
-        return <Core.ListFieldItemString>{ type: 'string' }
+        return <core.ListFieldDefItem.ItemString>{ type: 'string' }
       case 'reference':
-        return <Core.ListFieldItemReference>{
+        return <core.ListFieldDefItem.ItemReference>{
           type: 'reference',
           // TODO support polymorphic references
-          documentName: arrayOf.to[0].type,
+          documentTypeName: arrayOf.to[0].type,
         }
       case 'object':
-        return <Core.ListFieldItemInlineObject>{
-          type: 'inline_object',
-          fieldDefs: arrayOf.fields.map(sanityFieldToCoreFieldDef(objectTypeNames)),
+        return <core.ListFieldDefItem.ItemNestedUnnamed>{
+          type: 'nested_unnamed',
+          typeDef: {
+            _tag: 'NestedUnnamedTypeDef',
+            fieldDefs: arrayOf.fields.map(sanityFieldToCoreFieldDef(objectTypeNames)),
+            extensions: {},
+          },
         }
       default:
         if (objectTypeNames.includes(arrayOf.type)) {
-          return <Core.ListFieldItemObject>{ type: 'object', objectName: arrayOf.type }
+          return <core.ListFieldDefItem.ItemNested>{ type: 'nested', nestedTypeName: arrayOf.type }
         }
 
         throw new Error(`Case not implemented ${arrayOf.type}`)
@@ -266,18 +278,18 @@ const sanityArrayOfToCoreFieldListDefItem =
 const sanitizeString = (_: string): string => _.replace(/\./g, '_')
 
 /** Sanitizes the schema definition (e.g. replace "." with "_" in type names) */
-const sanitizeDef = <Def extends Core.ObjectDef | Core.DocumentDef>(def: Def): Def => {
+const sanitizeDef = <TypeDef extends core.NestedTypeDef | core.DocumentTypeDef>(def: TypeDef): TypeDef => {
   def.name = sanitizeString(def.name)
   def.fieldDefs.forEach((fieldDef) => {
     fieldDef.name = sanitizeString(fieldDef.name)
     switch (fieldDef.type) {
-      case 'object':
-        fieldDef.objectName = sanitizeString(fieldDef.objectName)
+      case 'nested':
+        fieldDef.nestedTypeName = sanitizeString(fieldDef.nestedTypeName)
         break
       case 'reference':
-        fieldDef.documentName = sanitizeString(fieldDef.documentName)
+        fieldDef.documentTypeName = sanitizeString(fieldDef.documentTypeName)
         break
-      case 'polymorphic_list':
+      case 'list_polymorphic':
         fieldDef.of.forEach(sanitizeListItemDef)
         break
       case 'list':
@@ -289,13 +301,13 @@ const sanitizeDef = <Def extends Core.ObjectDef | Core.DocumentDef>(def: Def): D
   return def
 }
 
-const sanitizeListItemDef = (item: Core.ListFieldDefItem): void => {
+const sanitizeListItemDef = (item: core.ListFieldDefItem.Item): void => {
   switch (item.type) {
-    case 'object':
-      item.objectName = sanitizeString(item.objectName)
+    case 'nested':
+      item.nestedTypeName = sanitizeString(item.nestedTypeName)
       break
     case 'reference':
-      item.documentName = sanitizeString(item.documentName)
+      item.documentTypeName = sanitizeString(item.documentTypeName)
       break
   }
 }

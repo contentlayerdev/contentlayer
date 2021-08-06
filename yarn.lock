@@ -1501,9 +1501,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@contentlayer/source-local@workspace:*, @contentlayer/source-local@workspace:packages/@contentlayer/source-local":
+"@contentlayer/source-files@workspace:*, @contentlayer/source-files@workspace:packages/@contentlayer/source-files":
   version: 0.0.0-use.local
-  resolution: "@contentlayer/source-local@workspace:packages/@contentlayer/source-local"
+  resolution: "@contentlayer/source-files@workspace:packages/@contentlayer/source-files"
   dependencies:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/utils": "workspace:*"
@@ -1515,6 +1515,7 @@ __metadata:
     minimatch: ^3.0.4
     rxjs: ^7.1.0
     ts-pattern: ^3.2.1
+    unified: ^9.2.1
   languageName: unknown
   linkType: soft
 
@@ -6432,7 +6433,7 @@ __metadata:
     "@contentlayer/cli": "workspace:*"
     "@contentlayer/client": "workspace:*"
     "@contentlayer/core": "workspace:*"
-    "@contentlayer/source-local": "workspace:*"
+    "@contentlayer/source-files": "workspace:*"
     "@contentlayer/utils": "workspace:*"
     esbuild: ^0.12.14
     typescript: ^4.3.5

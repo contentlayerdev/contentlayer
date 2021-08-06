@@ -1,6 +1,6 @@
 {
-  "name": "@contentlayer/source-local",
-  "version": "0.0.19",
+  "name": "@contentlayer/source-files",
+  "version": "0.0.20",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "exports": {
@@ -36,6 +36,7 @@
     "js-yaml": "^4.1.0",
     "minimatch": "^3.0.4",
     "rxjs": "^7.1.0",
-    "ts-pattern": "^3.2.1"
+    "ts-pattern": "^3.2.1",
+    "unified": "^9.2.1"
   }
 }

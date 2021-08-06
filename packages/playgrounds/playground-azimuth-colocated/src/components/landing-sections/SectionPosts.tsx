@@ -1,4 +1,4 @@
-import { defineObject } from 'contentlayer/source-local/schema'
+import { defineEmbedded } from 'contentlayer/source-files/schema'
 import type { FC } from 'react'
 import React from 'react'
 
@@ -49,7 +49,7 @@ export const SectionPosts: FC<{ section: types.SectionPosts; posts: types.Post[]
   )
 }
 
-export const SectionPostsModel = defineObject(() => ({
+export const SectionPostsModel = defineEmbedded(() => ({
   name: 'SectionPosts',
   label: 'Posts List',
   fields: {

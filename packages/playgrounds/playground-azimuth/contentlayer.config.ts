@@ -1,11 +1,10 @@
-import { fromLocalContent } from 'contentlayer/source-local'
-import * as path from 'path'
+import { makeSource } from 'contentlayer/source-files'
 
-import * as schema from './src/contentlayer'
+import * as documentTypes from './src/contentlayer'
 
-export default fromLocalContent({
-  contentDirPath: path.join(process.cwd(), 'content'),
-  schema,
+export default makeSource({
+  contentDirPath: 'content',
+  documentTypes,
   extensions: {
     stackbit: {
       pagesDir: 'content/pages',

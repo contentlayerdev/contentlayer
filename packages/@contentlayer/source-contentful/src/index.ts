@@ -7,11 +7,11 @@ import { mergeMap, startWith } from 'rxjs/operators'
 import { fetchAllDocuments } from './fetchData'
 import { provideSchema } from './provideSchema'
 import type * as SchemaOverrides from './schemaOverrides'
-import type { Contentful } from './types'
+import type { Contentful, PluginOptions } from './types'
 
 export type { RawDocumentData } from './types'
 
-type MakeSourcePlugin = (_: {
+type Args = {
   accessToken: string
   spaceId: string
   environmentId?: string
@@ -23,32 +23,47 @@ type MakeSourcePlugin = (_: {
    * In case a type name has be re-mapped using `typeNameMapping` please use your choosen type name
    */
   schemaOverrides?: SchemaOverrides.Input.SchemaOverrides
-}) => SourcePlugin
+} & PluginOptions
+
+type MakeSourcePlugin = (_: Args) => SourcePlugin
 
 export const makeSourcePlugin: MakeSourcePlugin = ({
   accessToken,
   spaceId,
   environmentId = 'master',
   schemaOverrides = {},
-}) => ({
-  type: 'contentful',
-  provideSchema: async () => {
-    const environment = await getEnvironment({ accessToken, spaceId, environmentId })
-    return provideSchema({ environment, schemaOverrides })
-  },
-  fetchData: ({ watch }) => {
-    const updates$ = watch ? getUpdateEvents().pipe(startWith(0)) : of(0)
-    const data$ = from(getEnvironment({ accessToken, spaceId, environmentId })).pipe(
-      mergeMap(async (environment) => ({
-        environment,
-        schemaDef: await provideSchema({ environment, schemaOverrides }),
-      })),
-      mergeMap(({ environment, schemaDef }) => fetchAllDocuments({ schemaDef, environment, schemaOverrides })),
-    )
+  ...pluginOptions
+}) => {
+  const options = {
+    markdown: undefined,
+    mdx: undefined,
+    fieldOptions: {
+      bodyFieldName: pluginOptions.fieldOptions?.bodyFieldName ?? 'body',
+      typeFieldName: pluginOptions.fieldOptions?.typeFieldName ?? 'type',
+    },
+  }
+  return {
+    type: 'contentful',
+    extensions: {},
+    options,
+    provideSchema: async () => {
+      const environment = await getEnvironment({ accessToken, spaceId, environmentId })
+      return provideSchema({ environment, schemaOverrides, options })
+    },
+    fetchData: ({ watch }) => {
+      const updates$ = watch ? getUpdateEvents().pipe(startWith(0)) : of(0)
+      const data$ = from(getEnvironment({ accessToken, spaceId, environmentId })).pipe(
+        mergeMap(async (environment) => ({
+          environment,
+          schemaDef: await provideSchema({ environment, schemaOverrides, options }),
+        })),
+        mergeMap(({ environment, schemaDef }) => fetchAllDocuments({ schemaDef, environment, schemaOverrides })),
+      )
 
-    return updates$.pipe(mergeMap(() => data$))
-  },
-})
+      return updates$.pipe(mergeMap(() => data$))
+    },
+  }
+}
 
 const getEnvironment = async ({
   accessToken,

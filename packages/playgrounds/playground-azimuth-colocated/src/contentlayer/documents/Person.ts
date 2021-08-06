@@ -1,4 +1,4 @@
-import { defineDocument } from 'contentlayer/source-local/schema'
+import { defineDocument } from 'contentlayer/source-files/schema'
 
 export const Person = defineDocument(() => ({
   name: 'Person',
