@@ -1,4 +1,4 @@
-import { defineDocumentType, fromLocalContent } from 'contentlayer/source-local'
+import { defineDocumentType, makeSource } from 'contentlayer/source-files'
 
 import { renderTypes } from '../../src/generation/generate-types'
 
@@ -27,7 +27,7 @@ const TestPost = defineDocumentType<any>(() => ({
 // TODO rewrite test for gendotpkg
 describe('generate-types', () => {
   test('simple schema', async () => {
-    const sourcePlugin = await fromLocalContent({ documentTypes: [TestPost], contentDirPath: '' })
+    const sourcePlugin = await makeSource({ documentTypes: [TestPost], contentDirPath: '' })
     const schemaDef = await sourcePlugin.provideSchema()
     const typeSource = renderTypes({ schemaDef, sourcePluginType: 'local' })
     expect(typeSource).toMatchSnapshot()

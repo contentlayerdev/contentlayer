@@ -1,5 +1,4 @@
-import * as Core from '@contentlayer/core'
-import { hashObject } from '@contentlayer/core'
+import * as core from '@contentlayer/core'
 import { casesHandled, partition, traceAsyncFn } from '@contentlayer/utils'
 
 import type * as SchemaOverrides from './schemaOverrides'
@@ -9,10 +8,12 @@ import type { Contentful } from './types'
 export const provideSchema = (async ({
   environment,
   schemaOverrides: schemaOverrides_,
+  options,
 }: {
   environment: Contentful.Environment
   schemaOverrides: SchemaOverrides.Input.SchemaOverrides
-}): Promise<Core.SchemaDef> => {
+  options: core.PluginOptions
+}): Promise<core.SchemaDef> => {
   const contentTypes = await environment.getContentTypes()
 
   const schemaOverrides = normalizeSchemaOverrides({
@@ -40,15 +41,15 @@ export const provideSchema = (async ({
   )
 
   const defs = { documentTypeDefMap, nestedTypeDefMap }
-  const hash = hashObject(defs)
+  const hash = core.hashObject({ defs, options })
 
   if (process.env['CL_DEBUG']) {
     ;(await import('fs')).writeFileSync('.tmp.schema.json', JSON.stringify(defs, null, 2))
   }
 
-  const coreSchemaDef: Core.SchemaDef = { ...defs, hash }
+  const coreSchemaDef: core.SchemaDef = { ...defs, hash }
 
-  Core.validateSchema(coreSchemaDef)
+  core.validateSchema(coreSchemaDef)
 
   return coreSchemaDef
 })['|>'](traceAsyncFn('@contentlayer/source-contentlayer/provideSchema:provideSchema', ['schemaOverrides']))
@@ -67,7 +68,7 @@ const toDocumentTypeDef = ({
 }: {
   contentType: Contentful.ContentType
   schemaOverrides: SchemaOverrides.Normalized.SchemaOverrides
-}): Core.DocumentTypeDef => {
+}): core.DocumentTypeDef => {
   return {
     _tag: 'DocumentTypeDef',
     name: schemaOverrides.documentTypes[contentType.sys.id].defName,
@@ -93,7 +94,7 @@ const toNestedTypeDef = ({
 }: {
   contentType: Contentful.ContentType
   schemaOverrides: SchemaOverrides.Normalized.SchemaOverrides
-}): Core.NestedTypeDef => {
+}): core.NestedTypeDef => {
   return {
     _tag: 'NestedTypeDef',
     name: schemaOverrides.objectTypes[contentType.sys.id].defName,
@@ -119,8 +120,8 @@ const toFieldDef = ({
   field: Contentful.ContentFields & Contentful.FieldType
   schemaOverrides: SchemaOverrides.Normalized.SchemaOverrides
   fieldOverrides: SchemaOverrides.Normalized.FieldOverrideItem | undefined
-}): Core.FieldDef => {
-  const fieldBase: Core.FieldDefBase & { default?: any } = {
+}): core.FieldDef => {
+  const fieldBase: core.FieldDefBase & { default?: any } = {
     name: fieldOverrides?.name ?? field.id,
     // label: field.name,
     // hidden: field.omitted,
@@ -211,7 +212,7 @@ const toListFieldDefItem = ({
 }: {
   typeName: string
   schemaOverrides: SchemaOverrides.Normalized.SchemaOverrides
-}): Core.ListFieldDefItem.Item => {
+}): core.ListFieldDefItem.Item => {
   if (isDocument({ schemaOverrides, contentTypeId: typeName })) {
     return { type: 'reference', documentTypeName: typeName }
   } else {

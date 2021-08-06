@@ -1,4 +1,4 @@
-import { defineDocumentType } from 'contentlayer/source-local'
+import { defineDocumentType } from 'contentlayer/source-files'
 
 export const Person = defineDocumentType(() => ({
   name: 'Person',

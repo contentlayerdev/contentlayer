@@ -69,7 +69,7 @@ const callEsbuild = ({
           // 'contentlayer/*',
           // '@contentlayer/*',
 
-          // needed to make chokidar work on OSX (in source-local)
+          // needed to make chokidar work on OSX (in source-files)
           'fsevents',
 
           // needed for shiki

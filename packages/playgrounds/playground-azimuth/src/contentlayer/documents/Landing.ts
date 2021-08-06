@@ -1,4 +1,4 @@
-import { defineDocumentType, defineNestedType } from 'contentlayer/source-local'
+import { defineDocumentType, defineNestedType } from 'contentlayer/source-files'
 
 import { Action } from '../nested/Action'
 import { FormField } from '../nested/FormField'
@@ -7,7 +7,7 @@ import { urlFromFilePath } from '../utils'
 
 export const Landing = defineDocumentType(() => ({
   name: 'Landing',
-  filePathPattern: 'pages/{contact,features,index,pricing}.md',
+  // filePathPattern: 'pages/{contact,features,index,pricing}.md',
   bodyType: 'none',
   fields: {
     title: {
@@ -62,17 +62,11 @@ const sectionBaseFields = {
     type: 'string',
     description: 'The title of the section',
   },
-  type: {
-    type: 'string',
-    required: true,
-    description: 'Needed for contentlayer for polymorphic list types',
-  },
 } as const
 
 const sectionBaseFieldsExtension = {
   section_id: { label: 'Section ID' },
   title: { label: 'Title' },
-  type: { label: 'Section type' },
 } as const
 
 const SectionContent = defineNestedType(() => ({

@@ -1,4 +1,5 @@
 ---
+type: Landing
 title: Contact
 sections:
   - section_id: contact

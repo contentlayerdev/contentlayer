@@ -20,7 +20,7 @@ export const LandingLayout: FC<{
 }> = ({ landing, config, posts }) => (
   <Layout doc={landing} config={config}>
     {landing.sections?.map((section, index) => {
-      switch (section._typeName) {
+      switch (section.type) {
         case 'SectionContact':
           return <SectionContact key={index} section={section} />
         case 'SectionContent':

@@ -1,4 +1,5 @@
 ---
+type: Landing
 title: Home
 sections:
   - section_id: hero

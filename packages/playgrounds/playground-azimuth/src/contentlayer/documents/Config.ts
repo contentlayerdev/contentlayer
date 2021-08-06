@@ -1,11 +1,11 @@
-import { defineDocumentType, defineNestedType } from 'contentlayer/source-local'
+import { defineDocumentType, defineNestedType } from 'contentlayer/source-files'
 
 import { Action } from '../nested/Action'
 import { FormField } from '../nested/FormField'
 
 export const Config = defineDocumentType(() => ({
   name: 'Config',
-  filePathPattern: 'data/config.json',
+  // filePathPattern: 'data/config.json',
   bodyType: 'none',
   isSingleton: true,
   fields: {

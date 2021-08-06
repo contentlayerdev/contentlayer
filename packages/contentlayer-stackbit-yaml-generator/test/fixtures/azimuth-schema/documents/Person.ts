@@ -1,14 +1,14 @@
-import { defineDocumentType } from 'contentlayer/source-local/schema'
+import { defineDocumentType } from 'contentlayer/source-files'
 
 export const Person = defineDocumentType(() => ({
   name: 'Person',
   filePathPattern: 'data/authors/*.yaml',
-  fileType: 'yaml',
+  bodyType: 'none',
   fields: {
     first_name: { type: 'string' },
     last_name: { type: 'string' },
     bio: { type: 'markdown' },
-    photo: { type: 'image' },
+    photo: { type: 'string' },
   },
   extensions: {
     stackbit: { folder: 'authors' },

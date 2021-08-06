@@ -1,16 +1,15 @@
-import type * as Core from '@contentlayer/core'
-import type { PluginExtensions, StackbitExtension } from '@contentlayer/core'
-import { casesHandled, partition } from '@contentlayer/utils'
+import type * as core from '@contentlayer/core'
+import * as utils from '@contentlayer/utils'
 import type * as Stackbit from '@stackbit/sdk'
 
 export const convertSchema = (
-  { documentTypeDefMap, nestedTypeDefMap }: Core.SchemaDef,
-  extensions: PluginExtensions,
+  { documentTypeDefMap, nestedTypeDefMap }: core.SchemaDef,
+  extensions: core.PluginExtensions,
 ): Stackbit.YamlConfig => {
   // TODO this needs to be more dynamic/configurable
   const urlPathFieldName = 'url_path'
   const documentTypeDefs = Object.values(documentTypeDefMap)
-  const [pageDocumentDefs, dataDocumentDefs] = partition(
+  const [pageDocumentDefs, dataDocumentDefs] = utils.partition(
     documentTypeDefs,
     (_) =>
       _.fieldDefs.some((_) => _.name === urlPathFieldName) || _.computedFields.some((_) => _.name === urlPathFieldName),
@@ -33,7 +32,7 @@ const documentOrObjectDefToStackbitYamlModel = ({
   def,
   type,
 }: {
-  def: Core.DocumentTypeDef | Core.NestedTypeDef
+  def: core.DocumentTypeDef | core.NestedTypeDef
   type: Stackbit.YamlModel['type']
   urlPathFieldName: string
 }): { model: Stackbit.YamlModel; name: string } => {
@@ -79,8 +78,8 @@ const fieldDefToStackbitField = ({
   fieldDef,
   fieldExtension,
 }: {
-  fieldDef: Core.FieldDef
-  fieldExtension: StackbitExtension.FieldExtension | undefined
+  fieldDef: core.FieldDef
+  fieldExtension: core.StackbitExtension.FieldExtension | undefined
 }): Stackbit.Field => {
   const commonField: Stackbit.FieldCommonProps = {
     name: fieldDef.name,
@@ -128,14 +127,14 @@ const fieldDefToStackbitField = ({
     case 'mdx':
       throw new Error(`MDX isn't supported yet`)
     default:
-      casesHandled(fieldDef)
+      utils.casesHandled(fieldDef)
   }
 }
 
 const listFieldDefToStackbitFieldListItems = (
-  fieldDef: Core.ListFieldDef | Core.ListPolymorphicFieldDef,
+  fieldDef: core.ListFieldDef | core.ListPolymorphicFieldDef,
 ): Stackbit.FieldListItems => {
-  const getModelName = (item: Core.ListFieldDefItem.ItemNested | Core.ListFieldDefItem.ItemReference) =>
+  const getModelName = (item: core.ListFieldDefItem.ItemNested | core.ListFieldDefItem.ItemReference) =>
     item.type === 'reference' ? item.documentTypeName : item.nestedTypeName
 
   if (fieldDef.type === 'list' && (fieldDef.of.type === 'reference' || fieldDef.of.type === 'nested')) {
@@ -156,7 +155,7 @@ const listFieldDefToStackbitFieldListItems = (
   if (
     fieldDef.type === 'list_polymorphic' &&
     fieldDef.of.every(
-      (_): _ is Core.ListFieldDefItem.ItemReference | Core.ListFieldDefItem.ItemNested =>
+      (_): _ is core.ListFieldDefItem.ItemReference | core.ListFieldDefItem.ItemNested =>
         _.type === 'reference' || _.type === 'nested',
     )
   ) {
@@ -184,7 +183,7 @@ const listFieldDefToStackbitFieldListItems = (
       case 'reference':
         throw new Error('Case handled above')
       default:
-        casesHandled(fieldDef.of)
+        utils.casesHandled(fieldDef.of)
     }
   }
 
@@ -196,5 +195,5 @@ const not =
   (...args: Parameters<Fn>) =>
     !fn(...args)
 
-const isContentMarkdownFieldDef = (fieldDef: Core.FieldDef) =>
+const isContentMarkdownFieldDef = (fieldDef: core.FieldDef) =>
   fieldDef.name === 'content' && fieldDef.type === 'markdown'

@@ -1,4 +1,4 @@
-import { defineDocument } from 'contentlayer/source-local/schema'
+import { defineDocument } from 'contentlayer/source-files/schema'
 import type { FC } from 'react'
 import React from 'react'
 

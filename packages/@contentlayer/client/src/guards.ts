@@ -31,9 +31,10 @@ function is<N extends TypeNameOneOrMany>(typeName: N): (_: any) => _ is TypeForT
 function is<N extends TypeNameOneOrMany>(typeName: N, _?: any): any {
   if (_) {
     if (Array.isArray(typeName)) {
-      return typeName.some((typeName_) => _?._typeName === typeName_)
+      // TODO make type field name dynamic (probably will require to code-gen the guard function)
+      return typeName.some((typeName_) => _?.type === typeName_)
     } else {
-      return typeName === _?._typeName
+      return typeName === _?.type
     }
   } else {
     return (_: any) => is(typeName, _)

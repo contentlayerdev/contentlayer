@@ -1,4 +1,4 @@
-import { defineDocument, defineEmbedded } from 'contentlayer/source-local/schema'
+import { defineDocument, defineEmbedded } from 'contentlayer/source-files/schema'
 
 import { ActionModel } from '../../components/Action'
 import { FormFieldModel } from '../../components/FormField'

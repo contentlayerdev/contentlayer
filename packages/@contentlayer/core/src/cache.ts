@@ -17,7 +17,7 @@ export type CacheItem = {
   document: Document
   /**
    * The `documentHash` is used to determine if a document has changed and it's value-generation is implemented
-   * by a given plugin (e.g. based on the last-edit date in source-local)
+   * by a given plugin (e.g. based on the last-edit date in source-files)
    */
   documentHash: string
 }

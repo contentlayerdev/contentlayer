@@ -1,4 +1,4 @@
-import type { StackbitExtension as LocalSchema } from '@contentlayer/core'
+import type * as core from '@contentlayer/core'
 
 import type { ComputedField } from './computed-field'
 import type { FieldDef, FieldDefWithName } from './field'
@@ -6,13 +6,13 @@ import type { FieldDef, FieldDefWithName } from './field'
 export * from './field'
 
 export type SchemaDef = {
-  documentDefs: DocumentTypeDef[]
+  documentTypeDefs: DocumentTypeDef[]
 }
 
 export type DocumentBodyType = 'markdown' | 'mdx' | 'none'
 
 export type TypeExtensions<DefName extends string = string> = {
-  stackbit?: LocalSchema.TypeExtension<DefName>
+  stackbit?: core.StackbitExtension.TypeExtension<DefName>
 }
 
 export type FieldDefs = Record<string, FieldDef> | FieldDefWithName[]
@@ -37,7 +37,7 @@ export type DocumentTypeDef<DefName extends string = string> = {
   computedFields?: Record<string, ComputedField<DefName>>
 
   /** Path is relative to the `contentDirPath` config */
-  filePathPattern: string // | ((doc: Document) => string)
+  filePathPattern?: string // | ((doc: Document) => string)
   /** Default is `markdown` */
   bodyType?: DocumentBodyType
   isSingleton?: boolean

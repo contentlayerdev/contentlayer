@@ -27,7 +27,7 @@ Contentlayer transforms content (e.g. Markdown or CMS content) into data you can
 - Create `contentlayer.config.ts` file. Example
 
 ```ts
-import { defineDocument, fromLocalContent } from 'contentlayer/source-local'
+import { defineDocument, fromLocalContent } from 'contentlayer/source-files'
 import highlight from 'rehype-highlight'
 
 export const Post = defineDocument(() => ({

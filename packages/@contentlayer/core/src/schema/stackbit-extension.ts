@@ -37,6 +37,8 @@ export namespace StackbitExtension {
     control?: Control
   }
 
+  // TODO enum labels
+
   export type Control = ControlImageGallery | ControlColorPallete
 
   export type ControlImageGallery = {

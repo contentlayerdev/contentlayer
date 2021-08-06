@@ -1,4 +1,4 @@
-import { defineDocumentType, defineNestedType } from 'contentlayer/source-local/schema'
+import { defineDocumentType, defineNestedType } from 'contentlayer/source-files'
 
 import { Action } from '../nested/Action'
 import { FormField } from '../nested/FormField'
@@ -6,7 +6,7 @@ import { FormField } from '../nested/FormField'
 export const Config = defineDocumentType(() => ({
   name: 'Config',
   filePathPattern: 'data/config.json',
-  fileType: 'json',
+  bodyType: 'none',
   isSingleton: true,
   fields: {
     title: {
@@ -25,7 +25,7 @@ export const Config = defineDocumentType(() => ({
       description: 'The domain of your site, including the protocol, e.g. https://mysite.com/',
     },
     favicon: {
-      type: 'image',
+      type: 'string',
       description: 'A square icon that represents your website',
     },
     palette: {
@@ -41,10 +41,10 @@ export const Config = defineDocumentType(() => ({
       default: 'nunito-sans',
       required: true,
     },
-    header: { ...Header, required: true },
+    header: { type: 'nested', of: Header, required: true },
     // header: schema.embedded({ model: Header, required: true }),
     // header: { type: 'embedded', model: Header, required: true },
-    footer: { ...Footer, required: true },
+    footer: { type: 'nested', of: Footer, required: true },
   },
   extensions: {
     stackbit: {
@@ -68,7 +68,7 @@ const Header = defineNestedType(() => ({
   name: 'Header',
   fields: {
     logo_img: {
-      type: 'image',
+      type: 'string',
       description: 'The logo image displayed in the header (if no logo added, the site title is displayed instead)',
     },
     logo_img_alt: {
@@ -240,7 +240,7 @@ const FooterText = defineNestedType(() => ({
   fields: {
     ...footerSectionBaseFields,
     image: {
-      type: 'image',
+      type: 'string',
       description: 'The image displayed in the section',
     },
     image_alt: {

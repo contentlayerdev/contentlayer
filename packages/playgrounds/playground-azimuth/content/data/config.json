@@ -1,4 +1,5 @@
 {
+  "type": "Config",
   "title": "Azimuth",
   "path_prefix": "/",
   "base_font": "nunito-sans",

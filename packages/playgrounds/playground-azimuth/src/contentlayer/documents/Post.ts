@@ -1,4 +1,4 @@
-import { defineDocumentType } from 'contentlayer/source-local'
+import { defineDocumentType } from 'contentlayer/source-files'
 
 import { SEO } from '../nested/SEO'
 import { urlFromFilePath } from '../utils'

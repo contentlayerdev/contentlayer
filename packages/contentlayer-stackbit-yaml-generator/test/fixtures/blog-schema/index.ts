@@ -1,4 +1,4 @@
-import { defineDocumentType } from 'contentlayer/source-local/schema'
+import { defineDocumentType } from 'contentlayer/source-files'
 
 export const post = defineDocumentType(() => ({
   name: 'Post',

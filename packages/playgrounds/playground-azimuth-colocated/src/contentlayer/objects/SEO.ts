@@ -1,4 +1,4 @@
-import { defineEmbedded } from 'contentlayer/source-local/schema'
+import { defineEmbedded } from 'contentlayer/source-files/schema'
 
 export const SEOModel = defineEmbedded(() => ({
   name: 'SEO',

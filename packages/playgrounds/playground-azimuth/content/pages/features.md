@@ -1,4 +1,5 @@
 ---
+type: Landing
 title: Features
 sections:
   - section_id: features

@@ -1,4 +1,4 @@
-import { defineNestedType } from 'contentlayer/source-local/schema'
+import { defineNestedType } from 'contentlayer/source-files'
 
 export const FormField = defineNestedType(() => ({
   name: 'FormField',

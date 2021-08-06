@@ -1,4 +1,4 @@
-import { defineEmbedded } from 'contentlayer/source-local/schema'
+import { defineEmbedded } from 'contentlayer/source-files/schema'
 import type { FC } from 'react'
 import React from 'react'
 
