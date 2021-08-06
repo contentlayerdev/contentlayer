@@ -76,7 +76,7 @@ const callEsbuild = ({
           'onigasm',
           'shiki',
         ],
-        target: 'es6',
+        target: 'es2018',
         format: 'cjs',
         // needed in case models are colocated with React components
         jsx: 'transform',
