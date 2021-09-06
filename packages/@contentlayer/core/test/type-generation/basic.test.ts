@@ -29,7 +29,17 @@ describe('generate-types', () => {
   test('simple schema', async () => {
     const sourcePlugin = await makeSource({ documentTypes: [TestPost], contentDirPath: '' })
     const schemaDef = await sourcePlugin.provideSchema()
-    const typeSource = renderTypes({ schemaDef, sourcePluginType: 'local' })
+    const typeSource = renderTypes({
+      schemaDef,
+      generationOptions: {
+        sourcePluginType: 'local',
+        options: {
+          fieldOptions: { bodyFieldName: 'body', typeFieldName: 'type' },
+          markdown: undefined,
+          mdx: undefined,
+        },
+      },
+    })
     expect(typeSource).toMatchSnapshot()
   })
 })
