@@ -2,7 +2,7 @@ import '@contentlayer/tracing-node'
 
 import { generateDotpkg, getConfig, getConfigWatch } from '@contentlayer/core'
 import { tapSkipFirst } from '@contentlayer/utils'
-import type { NextConfig } from 'next/dist/next-server/server/config'
+import type { NextConfig } from 'next'
 import { firstValueFrom } from 'rxjs'
 import { switchMap, tap } from 'rxjs/operators'
 

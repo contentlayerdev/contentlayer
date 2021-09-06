@@ -6,9 +6,20 @@
   },
   "include": ["./src"],
   "references": [
-    { "path": "../@contentlayer/client" },
-    { "path": "../@contentlayer/core" },
-    { "path": "../@contentlayer/cli" },
-    { "path": "../@contentlayer/source-files" }
+    {
+      "path": "../@contentlayer/cli"
+    },
+    {
+      "path": "../@contentlayer/client"
+    },
+    {
+      "path": "../@contentlayer/source-files"
+    },
+    {
+      "path": "../@contentlayer/utils"
+    },
+    {
+      "path": "../@contentlayer/core"
+    }
   ]
 }

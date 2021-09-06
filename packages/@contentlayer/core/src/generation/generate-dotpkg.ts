@@ -130,7 +130,7 @@ const makePackageJson = (): string => {
 const mkdir = async (dirPath: string) => {
   try {
     await fs.mkdir(dirPath, { recursive: true })
-  } catch (e) {
+  } catch (e: any) {
     if (e.code !== 'EEXIST') {
       throw e
     }

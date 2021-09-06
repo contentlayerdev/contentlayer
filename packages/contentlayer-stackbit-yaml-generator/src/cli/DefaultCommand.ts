@@ -33,7 +33,7 @@ export class DefaultCommand extends Command {
   async execute() {
     try {
       await this.executeSafe()
-    } catch (e) {
+    } catch (e: any) {
       console.error(e)
       throw e
     }

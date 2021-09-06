@@ -48,7 +48,7 @@ export const traceFn =
 
         try {
           return fn(...args)
-        } catch (e) {
+        } catch (e: any) {
           span.setStatus({ code: SpanStatusCode.ERROR, message: e.toString() })
           throw e
         } finally {

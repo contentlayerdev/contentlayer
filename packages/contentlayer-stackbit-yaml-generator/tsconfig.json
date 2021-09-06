@@ -5,5 +5,15 @@
     "outDir": "./dist/types"
   },
   "include": ["./src"],
-  "references": [{ "path": "../@contentlayer/utils" }, { "path": "../contentlayer" }]
+  "references": [
+    {
+      "path": "../@contentlayer/utils"
+    },
+    {
+      "path": "../contentlayer"
+    },
+    {
+      "path": "../@contentlayer/core"
+    }
+  ]
 }

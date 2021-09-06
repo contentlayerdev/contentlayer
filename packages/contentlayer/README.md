@@ -66,3 +66,11 @@ git clone --recurse-submodules git://github.com/schickling/contentlayer.git
 yarn install
 yarn build
 ```
+
+## Monorepo
+
+### Checkout submodules
+
+```sh
+git submodule update --init --recursive
+```

@@ -8,7 +8,11 @@
   },
   "include": ["./src"],
   "references": [
-    { "path": "../@contentlayer/core/tsconfig.json" },
-    { "path": "../@contentlayer/tracing-node/tsconfig.json" }
+    {
+      "path": "../@contentlayer/tracing-node"
+    },
+    {
+      "path": "../@contentlayer/core"
+    }
   ]
 }

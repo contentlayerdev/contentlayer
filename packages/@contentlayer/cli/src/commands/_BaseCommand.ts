@@ -22,7 +22,7 @@ export abstract class BaseCommand extends Command {
       }
 
       await this.executeSafe()
-    } catch (e) {
+    } catch (e: any) {
       console.error(e)
     }
   }

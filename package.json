@@ -37,8 +37,8 @@
     "jest": "^27.0.4",
     "prettier": "^2.3.2",
     "ts-jest": "^27.0.3",
-    "ts-node": "^10.0.0",
-    "typescript": "^4.3.5"
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.2"
   },
   "resolutions": {
     "esbuild": "0.12.8",
@@ -47,5 +47,6 @@
     "contentlayer-stackbit-yaml-generator": "workspace:*",
     "next-contentlayer": "workspace:*",
     "rxjs": "^7.1.0"
-  }
+  },
+  "packageManager": "yarn@3.0.2"
 }

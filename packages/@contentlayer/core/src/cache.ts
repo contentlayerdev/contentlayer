@@ -27,7 +27,7 @@ export const loadPreviousCacheFromDisk = async ({ schemaHash }: { schemaHash: st
   try {
     const file = await fs.readFile(filePath, 'utf8')
     return JSON.parse(file)
-  } catch (e) {
+  } catch (e: any) {
     return undefined
   }
 }
