@@ -13,16 +13,16 @@
       "require": "./dist/cjs/node/index.js"
     }
   },
-  "types": "./dist/types/index.d.ts",
+  "types": "./dist/esm/index.d.ts",
   "typesVersions": {
     "*": {
       "node": [
-        "./dist/types/node"
+        "./dist/esm/node"
       ]
     }
   },
   "scripts": {
-    "prepack": "yarn build",
+    "_prepack": "yarn build",
     "dev": "rm -rf dist && tsc --watch",
     "build": "(run g:build:lib & run g:build:types) && echo Build complete"
   },

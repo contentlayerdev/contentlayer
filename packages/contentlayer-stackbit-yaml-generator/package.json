@@ -4,11 +4,11 @@
   "bin": "./dist/cli/index.js",
   "main": "./dist/cjs/lib/index.js",
   "module": "./dist/esm/lib/index.js",
-  "types": "./dist/types/lib/index.d.ts",
+  "types": "./dist/esm/lib/index.d.ts",
   "scripts": {
-    "prepack": "yarn build",
-    "build": "(yarn workspaces foreach -vpR -j=6 run g:build:lib & run g:build:types) && yarn build:cli && echo Build complete",
-    "build:cli": "rm -rf dist/cli && esbuild --bundle src/cli/index.ts --outfile=dist/cli/index.js --platform=node --sourcemap --external:esbuild && chmod +x ./dist/index.js"
+    "_prepack": "yarn build",
+    "build": "run g:build && echo Build complete",
+    "_build:cli": "rm -rf dist/cli && esbuild --bundle src/cli/index.ts --outfile=dist/cli/index.js --platform=node --sourcemap --external:esbuild && chmod +x ./dist/index.js"
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*",

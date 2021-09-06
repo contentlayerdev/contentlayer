@@ -5,7 +5,7 @@ import { Builtins, Cli } from 'clipanion'
 import { BuildCommand } from './commands/BuildCommand'
 import { DevCommand } from './commands/DevCommand'
 
-const packageJson = require('../package.json')
+const packageJson = require('../../package.json')
 
 export const run = async () => {
   const [node, app, ...args] = process.argv

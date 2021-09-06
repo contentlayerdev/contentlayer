@@ -3,10 +3,10 @@
   "version": "0.0.22",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
-  "types": "./dist/types/index.d.ts",
+  "types": "./dist/esm/index.d.ts",
   "sideEffects": true,
   "scripts": {
-    "prepack": "yarn build",
+    "_prepack": "yarn build",
     "build": "(run g:build:lib & run g:build:types) && echo Build complete"
   },
   "dependencies": {

@@ -13,18 +13,18 @@
       "require": "./dist/cjs/schema/index.js"
     }
   },
-  "types": "./dist/types/index.d.ts",
+  "types": "./dist/esm/index.d.ts",
   "typesVersions": {
     "*": {
       "schema": [
-        "./dist/types/schema"
+        "./dist/esm/schema"
       ]
     }
   },
   "scripts": {
-    "prepack": "yarn build",
+    "_prepack": "yarn build",
     "dev": "rm -rf dist && tsc --watch",
-    "build": "(yarn workspaces foreach -vpR -j=6 run g:build:lib & run g:build:types) && echo Build complete"
+    "build": "run g:build && echo Build complete"
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*",
@@ -38,5 +38,10 @@
     "rxjs": "^7.1.0",
     "ts-pattern": "^3.2.1",
     "unified": "^9.2.1"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.1",
+    "@types/minimatch": "^3.0.4",
+    "@types/node": "^15.12.0"
   }
 }

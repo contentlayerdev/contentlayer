@@ -2,19 +2,21 @@
   "compilerOptions": {
     "composite": true,
     "declaration": true,
-    "emitDeclarationOnly": true,
     "declarationMap": true,
     "incremental": true,
     "isolatedModules": true,
     "esModuleInterop": true,
     "lib": ["ES2020", "DOM"],
-    "module": "ES2020",
     "moduleResolution": "node",
     "sourceMap": true,
+    "skipLibCheck": true,
     "strict": true,
     "target": "ES2020",
     "paths": {
+      "@contentlayer/utils/*": ["./packages/@contentlayer/utils/src/*"],
+      "@contentlayer/source-files/*": ["./packages/@contentlayer/source-files/src/*"],
       "@contentlayer/*": ["./packages/@contentlayer/*/src"],
+      "contentlayer/*": ["./packages/contentlayer/src/*"],
       "contentlayer": ["./pacakges/contentlayer/src"]
     }
   }

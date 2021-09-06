@@ -1,18 +1,13 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     // needed for Next.js imports
     "allowSyntheticDefaultImports": true,
+    "module": "ES2020",
     "rootDir": "./src",
-    "outDir": "./dist/types"
+    "outDir": "./dist/esm",
+    "tsBuildInfoFile": "./dist/.tsbuildinfo.esm.json"
   },
   "include": ["./src"],
-  "references": [
-    {
-      "path": "../@contentlayer/tracing-node"
-    },
-    {
-      "path": "../@contentlayer/core"
-    }
-  ]
+  "references": [{ "path": "../@contentlayer/tracing-node" }, { "path": "../@contentlayer/core" }]
 }

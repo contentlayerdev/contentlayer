@@ -102,12 +102,37 @@
       }
     },
     {
-      "label": "tsc-background",
+      "label": "dev:ts",
+      "problemMatcher": [],
+      "dependsOn": ["dev:ts:esm", "dev:ts:cjs"]
+    },
+    {
+      "label": "dev:ts:esm",
       "type": "shell",
-      "command": "./node_modules/typescript/bin/tsc",
-      "args": ["--noEmit", "--watch"],
+      "command": "yarn dev:ts:esm",
       "problemMatcher": ["$tsc-watch"],
-      "isBackground": true
+      "isBackground": true,
+      "presentation": {
+        "focus": false,
+        "panel": "shared",
+        "group": "dev",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "dev:ts:cjs",
+      "type": "shell",
+      "command": "yarn dev:ts:cjs",
+      "problemMatcher": ["$tsc-watch"],
+      "isBackground": true,
+      "presentation": {
+        "focus": false,
+        "panel": "shared",
+        "group": "dev",
+        "showReuseMessage": true,
+        "clear": false
+      }
     }
   ]
 }

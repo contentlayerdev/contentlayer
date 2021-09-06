@@ -1,10 +1,13 @@
 {
-  "extends": "../../../tsconfig.json",
+  "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
     // Needed for `inflection`
     "allowSyntheticDefaultImports": true,
+    "module": "ES2020",
     "rootDir": "./src",
-    "outDir": "./dist/types"
+    "outDir": "./dist/esm",
+    "tsBuildInfoFile": "./dist/.tsbuildinfo.esm.json"
   },
-  "include": ["./src"]
+  "include": ["./src"],
+  "references": []
 }

@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "outDir": "./dist/cjs",
+    "tsBuildInfoFile": "./dist/.tsbuildinfo.cjs.json"
+  },
+  "references": [
+    { "path": "../@contentlayer/cli/tsconfig.cjs.json" },
+    { "path": "../@contentlayer/client/tsconfig.cjs.json" },
+    { "path": "../@contentlayer/source-files/tsconfig.cjs.json" },
+    { "path": "../@contentlayer/utils/tsconfig.cjs.json" },
+    { "path": "../@contentlayer/core/tsconfig.cjs.json" }
+  ]
+}

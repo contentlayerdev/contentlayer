@@ -15,16 +15,16 @@
   "typesVersions": {
     "*": {
       ".": [
-        "./dist/types/index"
+        "./dist/esm/index"
       ],
       "hooks": [
-        "./dist/types/hooks"
+        "./dist/esm/hooks"
       ]
     }
   },
   "scripts": {
-    "prepack": "yarn build",
-    "build": "(yarn workspaces foreach -vpR -j=6 run g:build:lib & run g:build:types) && echo Build complete"
+    "_prepack": "yarn build",
+    "build": "run g:build && echo Build complete"
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*",

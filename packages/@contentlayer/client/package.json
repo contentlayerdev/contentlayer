@@ -3,11 +3,11 @@
   "version": "0.0.22",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
-  "types": "./dist/types/index.d.ts",
+  "types": "./dist/esm/index.d.ts",
   "scripts": {
-    "prepack": "yarn build",
+    "_prepack": "yarn build",
     "dev": "rm -rf dist && tsc --watch",
-    "build": "(yarn workspaces foreach -vpR -j=6 run g:build:lib & run g:build:types) && echo Build complete"
+    "build": "run g:build && echo Build complete"
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*"

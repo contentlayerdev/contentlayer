@@ -3,7 +3,7 @@
   "version": "0.0.2-18",
   "bin": "./dist/index.js",
   "scripts": {
-    "prepack": "yarn build",
+    "_prepack": "yarn build",
     "build": "yarn build:cli && yarn build:lib",
     "build:cli": "rm -rf dist && esbuild --bundle src/index.ts --outfile=dist/index.js --platform=node --sourcemap --external:esbuild --external:next && chmod +x ./dist/index.js"
   },

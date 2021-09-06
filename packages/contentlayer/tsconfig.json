@@ -1,25 +1,17 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "module": "ES2020",
     "rootDir": "./src",
-    "outDir": "./dist/types"
+    "outDir": "./dist/esm",
+    "tsBuildInfoFile": "./dist/.tsbuildinfo.esm.json"
   },
   "include": ["./src"],
   "references": [
-    {
-      "path": "../@contentlayer/cli"
-    },
-    {
-      "path": "../@contentlayer/client"
-    },
-    {
-      "path": "../@contentlayer/source-files"
-    },
-    {
-      "path": "../@contentlayer/utils"
-    },
-    {
-      "path": "../@contentlayer/core"
-    }
+    { "path": "../@contentlayer/cli" },
+    { "path": "../@contentlayer/client" },
+    { "path": "../@contentlayer/source-files" },
+    { "path": "../@contentlayer/utils" },
+    { "path": "../@contentlayer/core" }
   ]
 }

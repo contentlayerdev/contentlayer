@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {},
+  "include": [],
+  "references": [
+    { "path": "./packages/@contentlayer/cli" },
+    { "path": "./packages/@contentlayer/core" },
+    { "path": "./packages/@contentlayer/source-contentful" },
+    { "path": "./packages/@contentlayer/source-files" },
+    { "path": "./packages/@contentlayer/source-sanity" },
+    { "path": "./packages/@contentlayer/tracing-node" },
+    { "path": "./packages/@contentlayer/utils" },
+    { "path": "./packages/contentlayer" },
+    { "path": "./packages/contentlayer-stackbit-yaml-generator" },
+    { "path": "./packages/next-contentlayer" }
+  ]
+}

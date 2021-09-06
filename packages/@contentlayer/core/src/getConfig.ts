@@ -65,6 +65,9 @@ const callEsbuild = ({
           // needed for source-sanity
           '@sanity/core/lib/actions/graphql/getSanitySchema',
 
+          // NOTE needed since we don't bundle the contentlayer CLI. we should fix this soon.
+          'js-yaml',
+
           // contentlayer
           // 'contentlayer/*',
           // '@contentlayer/*',

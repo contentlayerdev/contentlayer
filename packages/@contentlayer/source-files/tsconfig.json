@@ -1,8 +1,10 @@
 {
-  "extends": "../../../tsconfig.json",
+  "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
+    "module": "ES2020",
     "rootDir": "./src",
-    "outDir": "./dist/types"
+    "outDir": "./dist/esm",
+    "tsBuildInfoFile": "./dist/.tsbuildinfo.esm.json"
   },
   "include": ["./src"],
   "references": [{ "path": "../utils" }, { "path": "../core" }]

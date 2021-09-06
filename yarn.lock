@@ -1444,8 +1444,6 @@ __metadata:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/tracing-node": "workspace:*"
     "@contentlayer/utils": "workspace:*"
-    "@types/js-yaml": ^4.0.1
-    "@types/minimatch": ^3.0.4
     "@types/node": ^15.12.0
     clipanion: ^3.0.0-rc.12
     rxjs: ^7.1.0
@@ -1506,6 +1504,9 @@ __metadata:
   dependencies:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/utils": "workspace:*"
+    "@types/js-yaml": ^4.0.1
+    "@types/minimatch": ^3.0.4
+    "@types/node": ^15.12.0
     chokidar: ^3.5.2
     glob: ^7.1.7
     glob-promise: ^4.1.0
@@ -6518,7 +6519,7 @@ __metadata:
     esbuild: ^0.12.14
     typescript: ^4.4.2
   bin:
-    contentlayer: ./dist/cli/index.js
+    contentlayer: ./dist/cjs/cli/index.js
   languageName: unknown
   linkType: soft
 
