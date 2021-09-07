@@ -1444,6 +1444,8 @@ __metadata:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/tracing-node": "workspace:*"
     "@contentlayer/utils": "workspace:*"
+    "@effect-ts/core": ^0.43.7
+    "@effect-ts/otel": ^0.5.0
     "@types/node": ^15.12.0
     clipanion: ^3.0.0-rc.12
     rxjs: ^7.1.0
@@ -1464,6 +1466,8 @@ __metadata:
   resolution: "@contentlayer/core@workspace:packages/@contentlayer/core"
   dependencies:
     "@contentlayer/utils": "workspace:*"
+    "@effect-ts/core": ^0.43.7
+    "@effect-ts/otel": ^0.5.0
     "@types/source-map-support": ^0.5.3
     camel-case: ^4.1.2
     esbuild: 0.11.x || 0.12.x
@@ -1553,7 +1557,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@contentlayer/utils@workspace:packages/@contentlayer/utils"
   dependencies:
+    "@effect-ts/core": ^0.43.7
+    "@effect-ts/otel": ^0.5.0
+    "@effect-ts/otel-node": ^0.5.0
+    "@opentelemetry/exporter-collector": ^0.24.0
+    "@opentelemetry/resources": ^0.24.0
+    "@opentelemetry/semantic-conventions": ^0.24.0
     "@types/inflection": ^1
+    chokidar: ^3.5.2
     inflection: ^1.13.1
     rxjs: ^7.1.0
     ts-pattern: ^3.2.1
@@ -1573,6 +1584,53 @@ __metadata:
   dependencies:
     "@cspotcode/source-map-consumer": 0.8.0
   checksum: da9fb4f6404ebd210537bfa8b2821a747407bf422d2d3d46f29bf85c7c3a68a126de1a9ec41398d57ca116c3bef56d58c2fb4def0800630b1ec82533ad2447c2
+  languageName: node
+  linkType: hard
+
+"@effect-ts/core@npm:^0.43.7":
+  version: 0.43.7
+  resolution: "@effect-ts/core@npm:0.43.7"
+  dependencies:
+    "@effect-ts/system": ^0.40.7
+  checksum: 196019d3dbf733c29cba1d3f16e1a867b85ec3f88ed716497fefb1d60e075d1af5b5158f7645b1ec0efb7fbb087e9664712d48ebad9d945a5e71dfe84246da77
+  languageName: node
+  linkType: hard
+
+"@effect-ts/otel-node@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "@effect-ts/otel-node@npm:0.5.0"
+  dependencies:
+    "@effect-ts/otel": ^0.5.0
+  peerDependencies:
+    "@effect-ts/core": ^0.40.8
+    "@opentelemetry/node": ^0.21.0
+  checksum: 8cc6d5030539080995fe435180b085ee8680af4d2985029e10c937880edbd6ab83c801af5e1a5345b09e64a5426a0ff518f154abfb1fa8fb3656ec6b5c38bb54
+  languageName: node
+  linkType: hard
+
+"@effect-ts/otel@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "@effect-ts/otel@npm:0.5.0"
+  peerDependencies:
+    "@effect-ts/core": ^0.40.8
+    "@opentelemetry/api": ^0.21.0
+    "@opentelemetry/core": ^0.21.0
+    "@opentelemetry/tracing": ^0.21.0
+  checksum: 56442a661090e2d465512c88a2e84d092d9de347f8297ae722bba7441cef90fd8026ef4bbe9dce70590697b5dfa92baf63b6fa772758c012dbad64b035aab22b
+  languageName: node
+  linkType: hard
+
+"@effect-ts/system@npm:^0.40.7":
+  version: 0.40.7
+  resolution: "@effect-ts/system@npm:0.40.7"
+  checksum: 1647bb8e3e63e6afe4b76bf38c6ed94b4a692bb285543c14878e9cf84bb584c98382fc9cb3f28f6da0fa8f17b55e6ef8070186087ae7d787b684149ce31b9fb4
+  languageName: node
+  linkType: hard
+
+"@effect-ts/tracing-plugin@npm:^0.14.6":
+  version: 0.14.6
+  resolution: "@effect-ts/tracing-plugin@npm:0.14.6"
+  checksum: 010cbc6779748a66eb341dba876419f6aff1f65ff8bf913c4d0890c71b05e31b53c066d1b68152f7c26c831b58c817d94cadbed46ca02bea23f7b7488b092dd6
   languageName: node
   linkType: hard
 
@@ -2289,6 +2347,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@opentelemetry/api-metrics@npm:0.24.0":
+  version: 0.24.0
+  resolution: "@opentelemetry/api-metrics@npm:0.24.0"
+  peerDependencies:
+    "@opentelemetry/api": ^1.0.1
+  checksum: 447b173a22269ae1045e6db1ff48027a8be6d83c6e156427c388080169867b01c758e7a83ae9a321174bb2e450a221c8cf9e9fa3c5ef471ee070c9ab0e6395aa
+  languageName: node
+  linkType: hard
+
 "@opentelemetry/api@npm:^1.0.1":
   version: 1.0.3
   resolution: "@opentelemetry/api@npm:1.0.3"
@@ -2317,6 +2384,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@opentelemetry/core@npm:0.24.0":
+  version: 0.24.0
+  resolution: "@opentelemetry/core@npm:0.24.0"
+  dependencies:
+    "@opentelemetry/semantic-conventions": 0.24.0
+    semver: ^7.1.3
+  peerDependencies:
+    "@opentelemetry/api": ^1.0.1
+  checksum: 388693eef05f3135bb881e4b8107799ca517186fb24aeb54ba3b65961376ae2e22f1970d583e716463578cecd5f0dceb085bdc84dae8751330bebd0098e9a97f
+  languageName: node
+  linkType: hard
+
 "@opentelemetry/exporter-collector@npm:^0.22.0":
   version: 0.22.0
   resolution: "@opentelemetry/exporter-collector@npm:0.22.0"
@@ -2329,6 +2408,21 @@ __metadata:
   peerDependencies:
     "@opentelemetry/api": ^1.0.0
   checksum: 9c113eea5588353ec4232217fe9e7b5d9add12d51a802e04f29d458ce0c713f25654e6577e04547031115567c71ba61070eb3ab1966cea1eddef786d3fa6c121
+  languageName: node
+  linkType: hard
+
+"@opentelemetry/exporter-collector@npm:^0.24.0":
+  version: 0.24.0
+  resolution: "@opentelemetry/exporter-collector@npm:0.24.0"
+  dependencies:
+    "@opentelemetry/api-metrics": 0.24.0
+    "@opentelemetry/core": 0.24.0
+    "@opentelemetry/metrics": 0.24.0
+    "@opentelemetry/resources": 0.24.0
+    "@opentelemetry/tracing": 0.24.0
+  peerDependencies:
+    "@opentelemetry/api": ^1.0.1
+  checksum: 7fa989b61314c13ec1b37a29a2013f05c94181cf0749f79989efc45ba96a7ef21929fa68c5fbccf1b9d6e9b07c32ab96c4861faadf3b69490b18053251412152
   languageName: node
   linkType: hard
 
@@ -2371,6 +2465,20 @@ __metadata:
   peerDependencies:
     "@opentelemetry/api": ^1.0.0
   checksum: cc69dc8f49f4e686d8c6d1644baf0edf7e4a131f362908f6879b10b9b95a6ca8343de4554d19a16e5cbb787b2c97067c0a709d3e2b5c21c0a0edfb141cc386dd
+  languageName: node
+  linkType: hard
+
+"@opentelemetry/metrics@npm:0.24.0":
+  version: 0.24.0
+  resolution: "@opentelemetry/metrics@npm:0.24.0"
+  dependencies:
+    "@opentelemetry/api-metrics": 0.24.0
+    "@opentelemetry/core": 0.24.0
+    "@opentelemetry/resources": 0.24.0
+    lodash.merge: ^4.6.2
+  peerDependencies:
+    "@opentelemetry/api": ^1.0.1
+  checksum: b55eb8f5463b859cd819fe9993b2ada03d7a459747e9c11816373e4cc28398869687160067a59476856ddd9d926ad9f196ce26a942b9072f3facac929cb1aa63
   languageName: node
   linkType: hard
 
@@ -2424,10 +2532,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@opentelemetry/resources@npm:0.24.0, @opentelemetry/resources@npm:^0.24.0":
+  version: 0.24.0
+  resolution: "@opentelemetry/resources@npm:0.24.0"
+  dependencies:
+    "@opentelemetry/core": 0.24.0
+    "@opentelemetry/semantic-conventions": 0.24.0
+  peerDependencies:
+    "@opentelemetry/api": ^1.0.1
+  checksum: 37e6ea95d369d2da58a7fd6ff1782db2a6ffe85c60ba104623039f5cd22925cd4a0e6945857d13b4ea28a851131ba33976cb24d36c0f81a9292fcad75618038a
+  languageName: node
+  linkType: hard
+
 "@opentelemetry/semantic-conventions@npm:0.22.0, @opentelemetry/semantic-conventions@npm:^0.22.0":
   version: 0.22.0
   resolution: "@opentelemetry/semantic-conventions@npm:0.22.0"
   checksum: 50c553d6205dde2e37c2caa03214535b9ba4eb3aafc4428194c56dad3d271f88dd996f7693c6c9dfd3d9d23deecffc4ca36705434ab59a60b0757a05b6527a04
+  languageName: node
+  linkType: hard
+
+"@opentelemetry/semantic-conventions@npm:0.24.0, @opentelemetry/semantic-conventions@npm:^0.24.0":
+  version: 0.24.0
+  resolution: "@opentelemetry/semantic-conventions@npm:0.24.0"
+  checksum: 56e0e817a048ea6fcf28d5193b59ca5ed3b57bfb62bb1386be774d898951351c97afd9b41e6821858cbe5599c9ce3514ec64407e09fe73ccedaa7c90d358e5e7
   languageName: node
   linkType: hard
 
@@ -2442,6 +2569,20 @@ __metadata:
   peerDependencies:
     "@opentelemetry/api": ^1.0.0
   checksum: ec849d1656eb9ce8169a5e67de5464106546684648873829883b249caf3f5d0f74f801d249adceacc8488aa31644d6ee2c6f48c5fa5612174c85aec25501b2a6
+  languageName: node
+  linkType: hard
+
+"@opentelemetry/tracing@npm:0.24.0":
+  version: 0.24.0
+  resolution: "@opentelemetry/tracing@npm:0.24.0"
+  dependencies:
+    "@opentelemetry/core": 0.24.0
+    "@opentelemetry/resources": 0.24.0
+    "@opentelemetry/semantic-conventions": 0.24.0
+    lodash.merge: ^4.6.2
+  peerDependencies:
+    "@opentelemetry/api": ^1.0.1
+  checksum: e691e1f44115f06b1c6039dcb144fd58efc819f440ad77588c68f7b9f32d6f10b22c58c0b05cfeb215178338aa506189bce7767f08e3d4d522774af227472845
   languageName: node
   linkType: hard
 
@@ -6473,19 +6614,20 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "contentlayer-monorepo@workspace:."
   dependencies:
+    "@effect-ts/tracing-plugin": ^0.14.6
     "@types/jest": ^26.0.23
     "@types/prettier": ^2
     "@typescript-eslint/eslint-plugin": ^4.28.1
     "@typescript-eslint/parser": ^4.28.1
-    esbuild: ^0.12.14
     eslint: ^7.21.0
     eslint-config-prettier: ^8.3.0
+    eslint-plugin-import: ^2.24.2
     eslint-plugin-react-hooks: ^4.2.0
     eslint-plugin-simple-import-sort: ^7.0.0
     jest: ^27.0.4
     prettier: ^2.3.2
     ts-jest: ^27.0.3
-    ts-node: ^10.2.1
+    ts-patch: ^1.4.4
     typescript: ^4.4.2
   languageName: unknown
   linkType: soft
@@ -6496,10 +6638,13 @@ __metadata:
   dependencies:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/utils": "workspace:*"
+    "@effect-ts/core": ^0.43.7
+    "@effect-ts/otel": ^0.5.0
     "@stackbit/sdk": ^0.1.15
     clipanion: ^3.0.0-rc.12
     contentlayer: "workspace:*"
     esbuild: ^0.12.14
+    typanion: 3.3.2
     typescript: ^4.4.2
     yaml: ^1.10.2
   bin:
@@ -8151,7 +8296,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import@npm:^2.22.1":
+"eslint-plugin-import@npm:^2.22.1, eslint-plugin-import@npm:^2.24.2":
   version: 2.24.2
   resolution: "eslint-plugin-import@npm:2.24.2"
   dependencies:
@@ -9544,7 +9689,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"glob@npm:7.1.7, glob@npm:^7.1.1, glob@npm:^7.1.2, glob@npm:^7.1.3, glob@npm:^7.1.4, glob@npm:^7.1.6, glob@npm:^7.1.7, glob@npm:~7.1.6":
+"glob@npm:7.1.7, glob@npm:^7.0.0, glob@npm:^7.1.1, glob@npm:^7.1.2, glob@npm:^7.1.3, glob@npm:^7.1.4, glob@npm:^7.1.6, glob@npm:^7.1.7, glob@npm:~7.1.6":
   version: 7.1.7
   resolution: "glob@npm:7.1.7"
   dependencies:
@@ -9555,6 +9700,17 @@ fsevents@^1.2.7:
     once: ^1.3.0
     path-is-absolute: ^1.0.0
   checksum: b61f48973bbdcf5159997b0874a2165db572b368b931135832599875919c237fc05c12984e38fe828e69aa8a921eb0e8a4997266211c517c9cfaae8a93988bb8
+  languageName: node
+  linkType: hard
+
+"global-prefix@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "global-prefix@npm:3.0.0"
+  dependencies:
+    ini: ^1.3.5
+    kind-of: ^6.0.2
+    which: ^1.3.1
+  checksum: 8a82fc1d6f22c45484a4e34656cc91bf021a03e03213b0035098d605bfc612d7141f1e14a21097e8a0413b4884afd5b260df0b6a25605ce9d722e11f1df2881d
   languageName: node
   linkType: hard
 
@@ -10429,6 +10585,13 @@ fsevents@^1.2.7:
   version: 2.0.3
   resolution: "inherits@npm:2.0.3"
   checksum: 78cb8d7d850d20a5e9a7f3620db31483aa00ad5f722ce03a55b110e5a723539b3716a3b463e2b96ce3fe286f33afc7c131fa2f91407528ba80cea98a7545d4c0
+  languageName: node
+  linkType: hard
+
+"ini@npm:^1.3.5":
+  version: 1.3.8
+  resolution: "ini@npm:1.3.8"
+  checksum: dfd98b0ca3a4fc1e323e38a6c8eb8936e31a97a918d3b377649ea15bdb15d481207a0dda1021efbd86b464cae29a0d33c1d7dcaf6c5672bee17fa849bc50a1b3
   languageName: node
   linkType: hard
 
@@ -13892,6 +14055,9 @@ fsevents@^1.2.7:
   dependencies:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/tracing-node": "workspace:*"
+    "@contentlayer/utils": "workspace:*"
+    "@effect-ts/core": ^0.43.7
+    "@effect-ts/otel": ^0.5.0
     next: ^11.1.2
     rxjs: ^7.1.0
     typescript: ^4.4.2
@@ -15072,7 +15238,6 @@ fsevents@^1.2.7:
     react-html-parser: ^2.0.2
     react-script-tag: ^1.1.2
     sass: ^1.32.7
-    ts-node: ^10.2.1
     typescript: ^4.4.2
   languageName: unknown
   linkType: soft
@@ -15097,7 +15262,6 @@ fsevents@^1.2.7:
     react-html-parser: ^2.0.2
     react-script-tag: ^1.1.2
     sass: ^1.32.7
-    ts-node: ^10.2.1
     typescript: ^4.4.2
   languageName: unknown
   linkType: soft
@@ -15162,7 +15326,6 @@ fsevents@^1.2.7:
     react-html-parser: ^2.0.2
     react-script-tag: ^1.1.2
     sass: ^1.32.7
-    ts-node: ^10.2.1
     typescript: ^4.4.2
   languageName: unknown
   linkType: soft
@@ -17171,6 +17334,15 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"rechoir@npm:^0.6.2":
+  version: 0.6.2
+  resolution: "rechoir@npm:0.6.2"
+  dependencies:
+    resolve: ^1.1.6
+  checksum: fe76bf9c21875ac16e235defedd7cbd34f333c02a92546142b7911a0f7c7059d2e16f441fe6fb9ae203f459c05a31b2bcf26202896d89e390eda7514d5d2702b
+  languageName: node
+  linkType: hard
+
 "redeyed@npm:~2.1.0":
   version: 2.1.1
   resolution: "redeyed@npm:2.1.1"
@@ -17616,7 +17788,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"resolve@^1.1.7, resolve@^1.10.0, resolve@^1.12.0, resolve@^1.14.2, resolve@^1.17.0, resolve@^1.19.0, resolve@^1.20.0, resolve@^1.3.3":
+"resolve@^1.1.6, resolve@^1.1.7, resolve@^1.10.0, resolve@^1.12.0, resolve@^1.14.2, resolve@^1.17.0, resolve@^1.19.0, resolve@^1.20.0, resolve@^1.3.3":
   version: 1.20.0
   resolution: "resolve@npm:1.20.0"
   dependencies:
@@ -17636,7 +17808,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@^1.1.7#~builtin<compat/resolve>, resolve@patch:resolve@^1.10.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.12.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.14.2#~builtin<compat/resolve>, resolve@patch:resolve@^1.17.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.19.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.20.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.3.3#~builtin<compat/resolve>":
+"resolve@patch:resolve@^1.1.6#~builtin<compat/resolve>, resolve@patch:resolve@^1.1.7#~builtin<compat/resolve>, resolve@patch:resolve@^1.10.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.12.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.14.2#~builtin<compat/resolve>, resolve@patch:resolve@^1.17.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.19.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.20.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.3.3#~builtin<compat/resolve>":
   version: 1.20.0
   resolution: "resolve@patch:resolve@npm%3A1.20.0#~builtin<compat/resolve>::version=1.20.0&hash=00b1ff"
   dependencies:
@@ -18201,6 +18373,19 @@ resolve@^2.0.0-next.3:
   version: 1.7.2
   resolution: "shell-quote@npm:1.7.2"
   checksum: efad426fb25d8a54d06363f1f45774aa9e195f62f14fa696d542b44bfe418ab41206448b63af18d726c62e099e66d9a3f4f44858b9ea2ce4b794b41b802672d1
+  languageName: node
+  linkType: hard
+
+"shelljs@npm:^0.8.4":
+  version: 0.8.4
+  resolution: "shelljs@npm:0.8.4"
+  dependencies:
+    glob: ^7.0.0
+    interpret: ^1.0.0
+    rechoir: ^0.6.2
+  bin:
+    shjs: bin/shjs
+  checksum: 27f83206ef6a4f5b74a493726c3e6b4c3e07a9c2aac94c5e692d800a61353c18a8234967bd8523b1346abe718beb563843687fb57f466529ba06db3cae6f0bb3
   languageName: node
   linkType: hard
 
@@ -19564,6 +19749,25 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"ts-patch@npm:^1.4.4":
+  version: 1.4.4
+  resolution: "ts-patch@npm:1.4.4"
+  dependencies:
+    chalk: ^4.1.0
+    glob: ^7.1.7
+    global-prefix: ^3.0.0
+    minimist: ^1.2.5
+    resolve: ^1.20.0
+    shelljs: ^0.8.4
+    strip-ansi: ^6.0.0
+  peerDependencies:
+    typescript: ">2.7.0"
+  bin:
+    ts-patch: bin/cli.js
+  checksum: 527c30b891594c83466f7dc200912f816b4dc71a10dba2fbd964ce98287e52f580460d0962e4fa8751e0b8ec2b45b019eb52a4e4c31b05c988f2447d790eb07f
+  languageName: node
+  linkType: hard
+
 "ts-pattern@npm:^3.2.1":
   version: 3.2.5
   resolution: "ts-pattern@npm:3.2.5"
@@ -19655,7 +19859,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"typanion@npm:^3.3.1":
+"typanion@npm:3.3.2, typanion@npm:^3.3.1":
   version: 3.3.2
   resolution: "typanion@npm:3.3.2"
   checksum: e7621409eb56cac3145ba3955702682627d4018a8f31b1c8355d354a93b86f7cea339583b211a4dbf7576847dd04aacad4af6912f3c42542e573b9c325e6093c
@@ -20861,7 +21065,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"which@npm:^1.2.9":
+"which@npm:^1.2.9, which@npm:^1.3.1":
   version: 1.3.1
   resolution: "which@npm:1.3.1"
   dependencies:

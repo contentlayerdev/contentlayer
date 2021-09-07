@@ -12,6 +12,7 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2020",
+    "plugins": [{ "transform": "@effect-ts/tracing-plugin" }],
     "paths": {
       "@contentlayer/utils/*": ["./packages/@contentlayer/utils/src/*"],
       "@contentlayer/source-files/*": ["./packages/@contentlayer/source-files/src/*"],

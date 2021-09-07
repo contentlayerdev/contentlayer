@@ -1,3 +1,4 @@
+import '@effect-ts/core/Tracing/Enable'
 import '@contentlayer/tracing-node'
 
 import { Builtins, Cli } from 'clipanion'

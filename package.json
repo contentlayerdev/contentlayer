@@ -8,6 +8,7 @@
     "./packages/playgrounds/playground-azimuth-sanity/*"
   ],
   "scripts": {
+    "postinstall": "ts-patch install && ts-patch --persist",
     "test": "jest",
     "build": "run build:ts:esm & run build:ts:cjs",
     "build:ts:esm": "tsc --build tsconfig.all-esm.json",
@@ -27,19 +28,20 @@
     "g:build:cjs": "cd $INIT_CWD && tsc --build tsconfig.cjs.json"
   },
   "devDependencies": {
+    "@effect-ts/tracing-plugin": "^0.14.6",
     "@types/jest": "^26.0.23",
     "@types/prettier": "^2",
     "@typescript-eslint/eslint-plugin": "^4.28.1",
     "@typescript-eslint/parser": "^4.28.1",
-    "esbuild": "^0.12.14",
     "eslint": "^7.21.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "jest": "^27.0.4",
     "prettier": "^2.3.2",
     "ts-jest": "^27.0.3",
-    "ts-node": "^10.2.1",
+    "ts-patch": "^1.4.4",
     "typescript": "^4.4.2"
   },
   "resolutions": {

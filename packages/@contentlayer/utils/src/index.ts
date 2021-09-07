@@ -6,6 +6,7 @@ export * from './promise'
 export * from './rxjs'
 export * from './pipe'
 export * from './flow'
+export * from './tracing-effect'
 
 import './global'
 

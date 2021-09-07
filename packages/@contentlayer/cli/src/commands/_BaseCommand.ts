@@ -1,4 +1,9 @@
 import { getArtifactsDir } from '@contentlayer/core'
+import { JaegerNodeTracing } from '@contentlayer/utils'
+import { pipe } from '@effect-ts/core'
+import * as T from '@effect-ts/core/Effect'
+import { pretty } from '@effect-ts/core/Effect/Cause'
+import type * as OT from '@effect-ts/otel'
 import { Command, Option } from 'clipanion'
 import { promises as fs } from 'fs'
 import * as t from 'typanion'
@@ -21,11 +26,16 @@ export abstract class BaseCommand extends Command {
         console.log('Cache cleared successfully')
       }
 
-      await this.executeSafe()
+      await pipe(
+        this.executeSafe(),
+        T.provideSomeLayer(JaegerNodeTracing('contentlayer-cli')),
+        T.tapCause((cause) => T.die(pretty(cause))),
+        T.runPromise,
+      )
     } catch (e: any) {
       console.error(e)
     }
   }
 
-  abstract executeSafe(): Promise<void>
+  abstract executeSafe(): T.Effect<OT.HasTracer, unknown, void>
 }
