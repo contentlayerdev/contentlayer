@@ -1,11 +1,11 @@
 import { Tagged } from '@effect-ts/core/Case'
 import * as T from '@effect-ts/core/Effect'
 import * as Ex from '@effect-ts/core/Effect/Exit'
-import * as S from '@effect-ts/core/Effect/Experimental/Stream'
 import * as H from '@effect-ts/core/Effect/Hub'
 import * as M from '@effect-ts/core/Effect/Managed'
 import * as Q from '@effect-ts/core/Effect/Queue'
 import * as Ref from '@effect-ts/core/Effect/Ref'
+import * as S from '@effect-ts/core/Effect/Stream'
 import { pipe } from '@effect-ts/core/Function'
 import * as O from '@effect-ts/core/Option'
 import * as OT from '@effect-ts/otel'
@@ -72,7 +72,7 @@ class ConcreteEsbuildWatcher implements EsbuildWatcher {
 
   subscribe: M.Managed<unknown, never, S.Stream<unknown, EsbuildError, esbuild.BuildResult>> = pipe(
     H.subscribe(this.fsEventsHub),
-    M.chain((_) => M.ensuringFirst_(M.succeed(S.fromQueue()(_)), Q.shutdown(_))),
+    M.chain((_) => M.ensuringFirst_(M.succeed(S.fromQueue(_)), Q.shutdown(_))),
     M.map(S.flattenExit),
   )
 }

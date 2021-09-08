@@ -4,7 +4,7 @@ import { pipe } from '@effect-ts/core'
 import { Tagged } from '@effect-ts/core/Case'
 import * as Chunk from '@effect-ts/core/Collections/Immutable/Chunk'
 import * as T from '@effect-ts/core/Effect'
-import * as S from '@effect-ts/core/Effect/Experimental/Stream'
+import * as S from '@effect-ts/core/Effect/Stream'
 import * as OT from '@effect-ts/otel'
 import type * as esbuild from 'esbuild'
 import { promises as fs } from 'fs'
@@ -27,7 +27,8 @@ export const getConfig = ({
     getConfigWatch({ configPath, cwd }),
     S.take(1),
     S.runCollect,
-    T.map(Chunk.unsafeHead),
+    // T.map(Chunk.unsafeHead),
+    T.map((_) => _[0]!),
     OT.withSpan('@contentlayer/core/getConfig:getConfig', { attributes: { configPath, cwd } }),
   )
 
@@ -66,8 +67,10 @@ export const getConfigWatch = ({
             'js-yaml',
 
             // contentlayer
-            // 'contentlayer/*',
-            // '@contentlayer/*',
+            'contentlayer/*',
+            '@contentlayer/*',
+            '@effect-ts/*',
+            'highlight.js',
 
             // needed to make chokidar work on OSX (in source-files)
             'fsevents',
@@ -84,7 +87,7 @@ export const getConfigWatch = ({
           logLevel: 'silent',
           plugins: [contentlayerGenPlugin()],
         }),
-        S.mapEff((result) => getConfigFromResultEff({ result, configPath, outfilePath })),
+        S.mapM((result) => getConfigFromResultEff({ result, configPath, outfilePath })),
       ),
     ),
   )

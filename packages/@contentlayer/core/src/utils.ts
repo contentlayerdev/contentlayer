@@ -1,3 +1,8 @@
+import type { MkdirError } from '@contentlayer/utils/node'
+import { mkdirp } from '@contentlayer/utils/node'
+import { pipe } from '@effect-ts/core'
+import * as T from '@effect-ts/core/Effect'
+import type * as OT from '@effect-ts/otel'
 import * as crypto from 'crypto'
 import { promises as fs } from 'fs'
 import * as path from 'path'
@@ -11,6 +16,12 @@ export const makeArtifactsDir = async (): Promise<string> => {
 }
 
 export const getArtifactsDir = (): string => path.join('node_modules', '.contentlayer')
+
+// TODO make `cwd` configurable
+export const makeArtifactsDirEff: T.Effect<OT.HasTracer, MkdirError, string> = pipe(
+  T.succeed(getArtifactsDir()),
+  T.tap(mkdirp),
+)
 
 // From https://gist.github.com/un33k/db8f0f804d50f671be7ca6663bef1969
 export const hashObject = (object: any): string => {
