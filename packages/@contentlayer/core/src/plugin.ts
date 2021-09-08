@@ -1,5 +1,6 @@
 import type * as T from '@effect-ts/core/Effect'
 import type * as S from '@effect-ts/core/Effect/Stream'
+import type * as OT from '@effect-ts/otel'
 import type { Observable } from 'rxjs'
 import type { LiteralUnion } from 'type-fest'
 import type * as unified from 'unified'
@@ -52,4 +53,4 @@ export type SourcePlugin = {
 export type ProvideSchemaFn = () => SchemaDef | Promise<SchemaDef>
 export type ProvideSchemaEff = T.Effect<unknown, never, SchemaDef>
 export type FetchDataFn = (_: { watch?: boolean }) => Observable<Cache>
-export type FetchDataEff = (_: { watch?: boolean }) => S.Stream<unknown, Error, Cache>
+export type FetchDataEff = (_: { watch?: boolean }) => S.Stream<OT.HasTracer, any, Cache>

@@ -1,5 +1,6 @@
 import { pipe } from '@effect-ts/core'
 import * as Chunk from '@effect-ts/core/Collections/Immutable/Chunk'
+import * as Tuple from '@effect-ts/core/Collections/Immutable/Tuple'
 import * as T from '@effect-ts/core/Effect'
 import * as S from '@effect-ts/core/Effect/Stream'
 
@@ -21,4 +22,21 @@ export const streamTapSkipFirst =
       S.zipWithIndex,
       S.tap(({ tuple: [val, index] }) => (index === 0 ? T.succeed(null) : f(val))),
       S.map(({ tuple: [val] }) => val),
+    )
+
+export const forEachParDict =
+  <A, R, E, B>({
+    mapKey,
+    mapValue,
+  }: {
+    mapKey: (a: A) => T.Effect<R, E, string>
+    mapValue: (a: A) => T.Effect<R, E, B>
+  }) =>
+  (as: Iterable<A>): T.Effect<R, E, Record<string, B>> =>
+    pipe(
+      as,
+      T.forEach((a) => T.tuplePar(mapKey(a), mapValue(a))),
+      T.map(Chunk.map(Tuple.toNative)),
+      T.map(Chunk.toArray),
+      T.map(Object.fromEntries),
     )

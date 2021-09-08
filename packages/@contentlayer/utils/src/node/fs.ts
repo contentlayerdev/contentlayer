@@ -2,6 +2,7 @@ import { pipe } from '@effect-ts/core'
 import { Tagged } from '@effect-ts/core/Case'
 import * as T from '@effect-ts/core/Effect'
 import * as OT from '@effect-ts/otel'
+import type { Stats } from 'fs'
 import { promises as fs } from 'fs'
 import type { JsonValue } from 'type-fest'
 
@@ -14,27 +15,44 @@ export const fileOrDirExists = async (filePath: string): Promise<boolean> => {
   }
 }
 
-export const fileOrDirExistsEff = (filePath: string): T.Effect<unknown, never, boolean> => {
+export const fileOrDirExistsEff = (filePath: string): T.Effect<unknown, ReadFileError, boolean> => {
   return pipe(
-    T.tryPromise(async () => {
-      const stat = await fs.stat(filePath)
-      return stat.isFile() || stat.isDirectory()
-    }),
-    T.catchAll(() => T.succeed(false)),
+    stat(filePath),
+    T.map((stat_) => stat_.isFile() || stat_.isDirectory()),
+    T.catchTag('FileNotFoundError', () => T.succeed(false)),
   )
 }
 
-export const readFile = (filePath: string): T.Effect<OT.HasTracer, ReadFileError, string> =>
+export const stat = (filePath: string): T.Effect<unknown, FileNotFoundError | ReadFileError, Stats> => {
+  return T.tryCatchPromise(
+    async () => fs.stat(filePath),
+    (error: any) => {
+      if (error.code === 'ENOENT') {
+        return new FileNotFoundError({ filePath })
+      } else {
+        return new ReadFileError({ filePath, error })
+      }
+    },
+  )
+}
+
+export const readFile = (filePath: string): T.Effect<OT.HasTracer, ReadFileError | FileNotFoundError, string> =>
   OT.withSpan('readFile', { attributes: { filePath } })(
     T.tryCatchPromise(
       () => fs.readFile(filePath, 'utf8'),
-      (error) => new ReadFileError({ filePath, error }),
+      (error: any) => {
+        if (error.code === 'ENOENT') {
+          return new FileNotFoundError({ filePath })
+        } else {
+          return new ReadFileError({ filePath, error })
+        }
+      },
     ),
   )
 
 export const readFileJson = <T extends JsonValue = JsonValue>(
   filePath: string,
-): T.Effect<OT.HasTracer, ReadFileError | JsonParseError, T> =>
+): T.Effect<OT.HasTracer, ReadFileError | FileNotFoundError | JsonParseError, T> =>
   pipe(
     readFile(filePath),
     T.chain((str) =>
@@ -76,9 +94,11 @@ export const mkdirp = (dirPath: string): T.Effect<OT.HasTracer, MkdirError, void
     ),
   )
 
+export class FileNotFoundError extends Tagged('FileNotFoundError')<{ readonly filePath: string }> {}
 export class ReadFileError extends Tagged('ReadFileError')<{ readonly filePath: string; readonly error: unknown }> {}
 export class WriteFileError extends Tagged('WriteFileError')<{ readonly filePath: string; readonly error: unknown }> {}
 export class MkdirError extends Tagged('MkdirError')<{ readonly dirPath: string; readonly error: unknown }> {}
+export class UnknownFSError extends Tagged('UnknownFSError')<{ readonly error: unknown }> {}
 
 export class JsonParseError extends Tagged('JsonParseError')<{ readonly str: string; readonly error: unknown }> {}
 export class JsonStringifyError extends Tagged('JsonStringifyError')<{ readonly error: unknown }> {}

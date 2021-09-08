@@ -1,3 +1,8 @@
+import type { JsonParseError, ReadFileError } from '@contentlayer/utils/node'
+import { readFileJson } from '@contentlayer/utils/node'
+import { pipe } from '@effect-ts/core'
+import * as T from '@effect-ts/core/Effect'
+import type * as OT from '@effect-ts/otel'
 import { promises as fs } from 'fs'
 import * as path from 'path'
 
@@ -20,6 +25,18 @@ export type CacheItem = {
    * by a given plugin (e.g. based on the last-edit date in source-files)
    */
   documentHash: string
+}
+
+export const loadPreviousCacheFromDiskEff = ({
+  schemaHash,
+}: {
+  schemaHash: string
+}): T.Effect<OT.HasTracer, ReadFileError | JsonParseError, Cache | undefined> => {
+  const filePath = path.join(getArtifactsDir(), 'cache', `${schemaHash}.json`)
+  return pipe(
+    readFileJson<Cache>(filePath),
+    T.catchTag('FileNotFoundError', () => T.succeed(undefined)),
+  )
 }
 
 export const loadPreviousCacheFromDisk = async ({ schemaHash }: { schemaHash: string }): Promise<Cache | undefined> => {

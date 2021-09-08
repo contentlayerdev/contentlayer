@@ -12,6 +12,7 @@ export * from './tracing-effect'
 import './global'
 
 export * as pattern from 'ts-pattern'
+import { Tagged } from '@effect-ts/core/Case'
 import * as inflection from 'inflection'
 export { inflection }
 
@@ -58,3 +59,5 @@ export const unwrapThunk = <T>(_: T | (() => T)): T => {
     return _
   }
 }
+
+export class RawError extends Tagged('RawError')<{ readonly error: unknown }> {}

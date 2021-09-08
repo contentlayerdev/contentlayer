@@ -71,19 +71,19 @@ const toDocumentTypeDef = ({
 }): core.DocumentTypeDef => {
   return {
     _tag: 'DocumentTypeDef',
-    name: schemaOverrides.documentTypes[contentType.sys.id].defName,
+    name: schemaOverrides.documentTypes[contentType.sys.id]!.defName,
     // label: contentType.name,
     fieldDefs: contentType.fields.map((field: any) =>
       toFieldDef({
         field,
         schemaOverrides,
-        fieldOverrides: schemaOverrides.documentTypes[contentType.sys.id].fields[field.id],
+        fieldOverrides: schemaOverrides.documentTypes[contentType.sys.id]!.fields[field.id],
       }),
     ),
     computedFields: [],
     description: contentType.description,
     // labelField: contentType.displayField,
-    isSingleton: schemaOverrides.documentTypes[contentType.sys.id].isSingleton,
+    isSingleton: schemaOverrides.documentTypes[contentType.sys.id]!.isSingleton,
     extensions: {},
   }
 }
@@ -97,13 +97,13 @@ const toNestedTypeDef = ({
 }): core.NestedTypeDef => {
   return {
     _tag: 'NestedTypeDef',
-    name: schemaOverrides.objectTypes[contentType.sys.id].defName,
+    name: schemaOverrides.objectTypes[contentType.sys.id]!.defName,
     // label: contentType.name,
     fieldDefs: contentType.fields.map((field: any) =>
       toFieldDef({
         field,
         schemaOverrides,
-        fieldOverrides: schemaOverrides.objectTypes[contentType.sys.id].fields[field.id],
+        fieldOverrides: schemaOverrides.objectTypes[contentType.sys.id]!.fields[field.id],
       }),
     ),
     description: contentType.description,
@@ -152,7 +152,7 @@ const toFieldDef = ({
     case 'Link':
       switch (field.linkType) {
         case 'Entry':
-          const typeName = field.validations![0].linkContentType![0]
+          const typeName = field.validations![0]!.linkContentType![0]!
           if (isDocument({ schemaOverrides, contentTypeId: typeName })) {
             return { ...fieldBase, type: 'reference', documentTypeName: typeName }
           } else {
@@ -169,17 +169,17 @@ const toFieldDef = ({
       return { ...fieldBase, type: 'json' }
     case 'Array':
       if (field.items.type === 'Link') {
-        if (field.items.validations![0].linkContentType!.length === 1) {
+        if (field.items.validations![0]!.linkContentType!.length === 1) {
           return {
             ...fieldBase,
             type: 'list',
-            of: toListFieldDefItem({ typeName: field.items.validations![0].linkContentType![0], schemaOverrides }),
+            of: toListFieldDefItem({ typeName: field.items.validations![0]!.linkContentType![0]!, schemaOverrides }),
           }
         } else {
           return {
             ...fieldBase,
             type: 'list_polymorphic',
-            of: field.items.validations![0].linkContentType!.map((typeName) =>
+            of: field.items.validations![0]!.linkContentType!.map((typeName) =>
               toListFieldDefItem({ typeName, schemaOverrides }),
             ),
             // TODO support dot syntax or array syntax
@@ -187,11 +187,11 @@ const toFieldDef = ({
           }
         }
       } else {
-        if (field.items.validations && field.items.validations.length > 0 && field.items.validations[0].in) {
+        if (field.items.validations && field.items.validations.length > 0 && field.items.validations[0]!.in) {
           return {
             ...fieldBase,
             type: 'enum',
-            options: field.items.validations![0].in,
+            options: field.items.validations![0]!.in,
           }
         } else {
           return {

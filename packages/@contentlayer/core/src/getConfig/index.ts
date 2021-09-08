@@ -1,4 +1,5 @@
 import { traceAsyncFn } from '@contentlayer/utils'
+import type { ReadFileError } from '@contentlayer/utils/node'
 import { fileOrDirExistsEff } from '@contentlayer/utils/node'
 import { pipe } from '@effect-ts/core'
 import { Tagged } from '@effect-ts/core/Case'
@@ -22,7 +23,7 @@ export const getConfig = ({
 }: {
   configPath?: string
   cwd: string
-}): T.Effect<OT.HasTracer, EsbuildError | Error | NoConfigFoundError, SourcePlugin> =>
+}): T.Effect<OT.HasTracer, EsbuildError | Error | NoConfigFoundError | ReadFileError, SourcePlugin> =>
   pipe(
     getConfigWatch({ configPath, cwd }),
     S.take(1),
@@ -39,7 +40,7 @@ export const getConfigWatch = ({
 }: {
   configPath?: string
   cwd: string
-}): S.Stream<OT.HasTracer, EsbuildError | Error | NoConfigFoundError, SourcePlugin> => {
+}): S.Stream<OT.HasTracer, EsbuildError | Error | NoConfigFoundError | ReadFileError, SourcePlugin> => {
   const resolveParams = pipe(
     T.structPar({
       __: ensureEsbuildBinEff(),
@@ -130,7 +131,7 @@ const resolveConfigPath = ({
 }: {
   configPath?: string
   cwd: string
-}): T.Effect<unknown, NoConfigFoundError, string> =>
+}): T.Effect<unknown, NoConfigFoundError | ReadFileError, string> =>
   T.gen(function* ($) {
     if (configPath) {
       if (path.isAbsolute(configPath)) {

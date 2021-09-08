@@ -1,7 +1,5 @@
 import type * as Core from '@contentlayer/core'
-import type { Cache, Markdown, MDX } from '@contentlayer/core'
-import { bundleMDX } from '@contentlayer/core'
-import { markdownToHtml } from '@contentlayer/core'
+import { bundleMDX, markdownToHtml } from '@contentlayer/core'
 import { casesHandled, promiseMap, promiseMapToDict, traceAsyncFn } from '@contentlayer/utils'
 
 import type * as SchemaOverrides from './schemaOverrides'
@@ -16,7 +14,7 @@ export const fetchAllDocuments = (async ({
   schemaDef: Core.SchemaDef
   environment: Contentful.Environment
   schemaOverrides: SchemaOverrides.Input.SchemaOverrides
-}): Promise<Cache> => {
+}): Promise<Core.Cache> => {
   const contentTypes = await environment.getContentTypes()
 
   const schemaOverrides = normalizeSchemaOverrides({
@@ -200,8 +198,8 @@ const getDataForFieldDef = async ({
 
   switch (fieldDef.type) {
     case 'nested':
-      const nestedTypeDefName = schemaOverrides.objectTypes[fieldDef.nestedTypeName].defName
-      const nestedTypeDef = schemaDef.nestedTypeDefMap[nestedTypeDefName]
+      const nestedTypeDefName = schemaOverrides.objectTypes[fieldDef.nestedTypeName]!.defName
+      const nestedTypeDef = schemaDef.nestedTypeDefMap[nestedTypeDefName]!
       return makeNestedDocument({
         entryId: rawFieldData.sys.id,
         allEntries,
@@ -226,12 +224,12 @@ const getDataForFieldDef = async ({
     case 'date':
       return new Date(rawFieldData)
     case 'markdown':
-      return <Markdown>{
+      return <Core.Markdown>{
         raw: rawFieldData,
         html: await markdownToHtml({ mdString: rawFieldData /*, options: options?.markdown */ }),
       }
     case 'mdx':
-      return <MDX>{
+      return <Core.MDX>{
         raw: rawFieldData,
         code: await bundleMDX(rawFieldData),
       }
@@ -239,7 +237,7 @@ const getDataForFieldDef = async ({
       // e.g. for images
       if (rawFieldDataIsAsset(rawFieldData)) {
         const asset = allAssets.find((_) => _.sys.id === rawFieldData.sys.id)!
-        const url = asset.fields.file['en-US'].url
+        const url = asset.fields.file['en-US']!.url
         // starts with `//`
         return `https:${url}`
       }
@@ -280,8 +278,8 @@ const getDataForListItem = async ({
   if (rawItemData.sys?.id) {
     // if (rawItemData.sys?.id && rawItemData.sys.id in schemaDef.objectDefMap) {
     const entry = allEntries.find((_) => _.sys.id === rawItemData.sys.id)!
-    const typeName = schemaOverrides.objectTypes[entry.sys.contentType.sys.id].defName
-    const nestedTypeDef = schemaDef.nestedTypeDefMap[typeName]
+    const typeName = schemaOverrides.objectTypes[entry.sys.contentType.sys.id]!.defName
+    const nestedTypeDef = schemaDef.nestedTypeDefMap[typeName]!
     return makeNestedDocument({
       entryId: rawItemData.sys.id,
       allEntries,
