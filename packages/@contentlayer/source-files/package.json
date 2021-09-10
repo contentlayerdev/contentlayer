@@ -40,6 +40,7 @@
     "unified": "^9.2.1"
   },
   "devDependencies": {
+    "@scripts/jest": "workspace:*",
     "@types/js-yaml": "^4.0.1",
     "@types/minimatch": "^3.0.4",
     "@types/node": "^15.12.0"

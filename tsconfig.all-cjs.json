@@ -3,6 +3,7 @@
   "compilerOptions": {},
   "include": [],
   "references": [
+    { "path": "./packages/@scripts/jest/tsconfig.json" },
     { "path": "./packages/@contentlayer/cli/tsconfig.cjs.json" },
     { "path": "./packages/@contentlayer/core/tsconfig.cjs.json" },
     { "path": "./packages/@contentlayer/source-contentful/tsconfig.cjs.json" },

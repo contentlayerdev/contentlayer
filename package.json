@@ -3,6 +3,7 @@
   "private": true,
   "workspaces": [
     "./packages/@contentlayer/*",
+    "./packages/@scripts/*",
     "./packages/*",
     "./packages/playgrounds/*",
     "./packages/playgrounds/playground-azimuth-sanity/*"
@@ -40,7 +41,6 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "jest": "^27.0.4",
     "prettier": "^2.3.2",
-    "ts-jest": "^27.0.3",
     "ts-patch": "^1.4.4",
     "typescript": "^4.4.2"
   },

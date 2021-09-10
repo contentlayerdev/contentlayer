@@ -1,3 +1,4 @@
+import { T } from '@contentlayer/utils/effect'
 import type { DocumentType } from 'contentlayer/source-files'
 import { makeSource } from 'contentlayer/source-files'
 
@@ -8,4 +9,4 @@ export const makeAzimuthSchema = () => makeSchema(azimuth)
 export const makeBlogSchema = () => makeSchema(blog)
 
 const makeSchema = (documentTypes: Record<string, DocumentType<any>>) =>
-  makeSource({ documentTypes, contentDirPath: '' }).then((_) => _.provideSchema())
+  makeSource({ documentTypes, contentDirPath: '' }).then((_) => T.runPromise(_.provideSchemaEff!))

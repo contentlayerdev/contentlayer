@@ -1,6 +1,8 @@
-import { defineDocumentType, makeSource } from 'contentlayer/source-files'
+import { renderTypes } from '@contentlayer/core'
+import { pipe, T } from '@contentlayer/utils/effect'
 
-import { renderTypes } from '../../src/generation/generate-types'
+import { makeSource } from '../..'
+import { defineDocumentType } from '../../schema/defs'
 
 test.todo('generate-types')
 
@@ -26,9 +28,12 @@ const TestPost = defineDocumentType<any>(() => ({
 
 // TODO rewrite test for gendotpkg
 describe('generate-types', () => {
-  test('simple schema', async () => {
-    const sourcePlugin = await makeSource({ documentTypes: [TestPost], contentDirPath: '' })
-    const schemaDef = await sourcePlugin.provideSchema()
+  it('simple schema', async () => {
+    const schemaDef = await pipe(
+      T.tryPromise(() => makeSource({ documentTypes: [TestPost], contentDirPath: '' })),
+      T.chain((source) => source.provideSchemaEff!),
+      T.runPromise,
+    )
     const typeSource = renderTypes({
       schemaDef,
       generationOptions: {

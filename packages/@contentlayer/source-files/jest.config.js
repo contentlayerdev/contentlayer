@@ -1,6 +1,6 @@
 /** @type { import('@jest/types').Config.InitialOptions } */
 module.exports = {
-  displayName: 'contentlayer-stackbit-yaml-generator',
+  displayName: 'source-files',
   testEnvironment: 'node',
   testRegex: 'dist/cjs/.*spec.js',
   snapshotResolver: '<rootDir>/dist/cjs/__test__/__scripts__/snapshotResolver.js',
