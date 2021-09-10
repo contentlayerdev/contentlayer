@@ -1,13 +1,8 @@
-import '@contentlayer/tracing-node'
-import '@effect-ts/core/Tracing/Enable'
+import '@contentlayer/utils/effect/Tracing/Enable'
 
 import { generateDotpkg, generateDotpkgStream, getConfig, getConfigWatch } from '@contentlayer/core'
-import { effectUtils, JaegerNodeTracing } from '@contentlayer/utils'
-import { pipe } from '@effect-ts/core'
-import * as T from '@effect-ts/core/Effect'
-import { pretty } from '@effect-ts/core/Effect/Cause'
-import * as S from '@effect-ts/core/Effect/Stream'
-import * as OT from '@effect-ts/otel'
+import { JaegerNodeTracing } from '@contentlayer/utils'
+import { E, OT, pipe, pretty, S, T } from '@contentlayer/utils/effect'
 import type { NextConfig } from 'next'
 
 import { createOpenPromise } from './utils'
@@ -68,12 +63,15 @@ const runContentlayerDev = async ({ onGeneration }: { onGeneration: () => void }
 
   await pipe(
     getConfigWatch({ cwd: process.cwd() }),
-    effectUtils.streamTapSkipFirst(() =>
-      effectUtils.log(`Contentlayer config change detected. Updating type definitions and data...`),
+    S.tapSkipFirstRight(() => T.log(`Contentlayer config change detected. Updating type definitions and data...`)),
+    S.chainSwitchMapEitherRight((source) => generateDotpkgStream({ source })),
+    S.tap(
+      E.fold(
+        (error) => T.log(error),
+        () => T.log(`Generated node_modules/.contentlayer`),
+      ),
     ),
-    S.chainParSwitch(1, (source) => generateDotpkgStream({ source })),
-    S.tap(() => effectUtils.log(`Generated node_modules/.contentlayer`)),
-    S.tap(() => T.succeedWith(onGeneration)),
+    S.tapRight(() => T.succeedWith(onGeneration)),
     S.runDrain,
     T.provideSomeLayer(JaegerNodeTracing('next-contentlayer')),
     T.tapCause((cause) => T.die(pretty(cause))),
@@ -88,8 +86,8 @@ const runContentlayerBuild = async () => {
   await pipe(
     getConfig({ cwd: process.cwd() }),
     T.chain((source) => generateDotpkg({ source })),
-    T.tap(() => effectUtils.log(`Generated node_modules/.contentlayer`)),
-    OT.withSpan('@contentlayer/cli/commands/BuildCommand:executeSafe'),
+    T.tap(() => T.log(`Generated node_modules/.contentlayer`)),
+    OT.withSpan('next-contentlayer:runContentlayerBuild'),
     T.provideSomeLayer(JaegerNodeTracing('next-contentlayer')),
     T.tapCause((cause) => T.die(pretty(cause))),
     T.runPromise,

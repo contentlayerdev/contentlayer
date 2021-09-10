@@ -5,6 +5,7 @@ import * as M from '@effect-ts/core/Effect/Managed'
 import * as Q from '@effect-ts/core/Effect/Queue'
 import * as Ref from '@effect-ts/core/Effect/Ref'
 import * as S from '@effect-ts/core/Effect/Stream'
+import * as E from '@effect-ts/core/Either'
 import { pipe } from '@effect-ts/core/Function'
 import * as O from '@effect-ts/core/Option'
 import * as Chokidar from 'chokidar'
@@ -54,7 +55,7 @@ abstract class FileWatcherInternal extends FileWatcher {
 
   abstract shutdown(): T.UIO<void>
 
-  abstract subscribe(): M.Managed<unknown, never, S.Stream<unknown, FileWatcherError, FileSystemEvent>>
+  abstract subscribe(): M.Managed<unknown, never, S.Stream<unknown, never, E.Either<FileWatcherError, FileSystemEvent>>>
 
   abstract add(paths: readonly string[]): T.UIO<void>
 
@@ -78,7 +79,7 @@ class ConcreteFileWatcher extends FileWatcherInternal {
 
   constructor(
     public instance: Ref.Ref<Chokidar.FSWatcher>,
-    private fsEventsHub: H.Hub<Ex.Exit<FileWatcherError, FileSystemEvent>>,
+    private fsEventsHub: H.Hub<Ex.Exit<never, E.Either<FileWatcherError, FileSystemEvent>>>,
     public readonly paths: readonly string[] | string,
     public readonly options?: Chokidar.WatchOptions,
   ) {
@@ -128,26 +129,30 @@ class ConcreteFileWatcher extends FileWatcherInternal {
             T.run(
               H.publish_(
                 this.fsEventsHub,
-                Ex.fail(new FileWatcherError('Error occured while watch path ${}', O.some(error))),
+                Ex.succeed(E.left(new FileWatcherError('Error occured while watch path ${}', O.some(error)))),
               ),
             )
           })
           _.on('all', (eventName, path, stats) => {
             switch (eventName) {
               case 'add':
-                T.run(H.publish_(this.fsEventsHub, Ex.succeed(new FileAdded(path, O.fromNullable(stats)))))
+                T.run(H.publish_(this.fsEventsHub, Ex.succeed(E.right(new FileAdded(path, O.fromNullable(stats))))))
                 break
               case 'unlink':
-                T.run(H.publish_(this.fsEventsHub, Ex.succeed(new FileRemoved(path, O.fromNullable(stats)))))
+                T.run(H.publish_(this.fsEventsHub, Ex.succeed(E.right(new FileRemoved(path, O.fromNullable(stats))))))
                 break
               case 'change':
-                T.run(H.publish_(this.fsEventsHub, Ex.succeed(new FileChanged(path, O.fromNullable(stats)))))
+                T.run(H.publish_(this.fsEventsHub, Ex.succeed(E.right(new FileChanged(path, O.fromNullable(stats))))))
                 break
               case 'addDir':
-                T.run(H.publish_(this.fsEventsHub, Ex.succeed(new DirectoryAdded(path, O.fromNullable(stats)))))
+                T.run(
+                  H.publish_(this.fsEventsHub, Ex.succeed(E.right(new DirectoryAdded(path, O.fromNullable(stats))))),
+                )
                 break
               case 'unlinkDir':
-                T.run(H.publish_(this.fsEventsHub, Ex.succeed(new DirectoryRemoved(path, O.fromNullable(stats)))))
+                T.run(
+                  H.publish_(this.fsEventsHub, Ex.succeed(E.right(new DirectoryRemoved(path, O.fromNullable(stats))))),
+                )
                 break
             }
           })
@@ -156,7 +161,7 @@ class ConcreteFileWatcher extends FileWatcherInternal {
     )
   }
 
-  subscribe(): M.Managed<unknown, never, S.Stream<unknown, FileWatcherError, FileSystemEvent>> {
+  subscribe(): M.Managed<unknown, never, S.Stream<unknown, never, E.Either<FileWatcherError, FileSystemEvent>>> {
     return pipe(
       H.subscribe(this.fsEventsHub),
       M.chain((_) => M.ensuringFirst_(M.succeed(S.fromQueue(_)), Q.shutdown(_))),
@@ -171,7 +176,7 @@ function concrete(fileWatcher: FileWatcher): asserts fileWatcher is ConcreteFile
 
 export function makeUnsafe(paths: readonly string[] | string, options?: Chokidar.WatchOptions): FileWatcher {
   const instance = Ref.unsafeMakeRef<Chokidar.FSWatcher>(Chokidar.watch(paths, options))
-  const hub = H.unsafeMakeUnbounded<Ex.Exit<FileWatcherError, FileSystemEvent>>()
+  const hub = H.unsafeMakeUnbounded<Ex.Exit<never, E.Either<FileWatcherError, FileSystemEvent>>>()
 
   return new ConcreteFileWatcher(instance, hub, paths, options)
 }
@@ -188,7 +193,7 @@ export function makeUnsafe(paths: readonly string[] | string, options?: Chokidar
 //     // T.chain((_) => Ref.makeRef<Chokidar.FSWatcher>(_)),
 //     // Ref.makeRef<Chokidar.FSWatcher>(x),
 //     T.tap((_) => T.succeedWith(() => console.log({ ref: _ }))),
-//     T.zip(H.makeUnbounded<Ex.Exit<FileWatcherError, FileSystemEvent>>()),
+//     T.zip(H.makeUnbounded<Ex.Exit<never, E.Either<FileWatcherError, FileSystemEvent>>>()),
 //     T.chain(({ tuple: [instance, hub] }) => {
 //       console.log({ instance, hub })
 
@@ -202,12 +207,12 @@ export function makeUnsafe(paths: readonly string[] | string, options?: Chokidar
 export function make(
   paths: readonly string[] | string,
   options?: Chokidar.WatchOptions,
-): T.Effect<unknown, Error, FileWatcher> {
+): T.Effect<unknown, never, FileWatcher> {
   return pipe(
     T.succeedWith(() => Chokidar.watch(paths, options)),
     // T.tap(() => T.succeedWith(() => console.log('start make'))),
     T.chain((_) => Ref.makeRef<Chokidar.FSWatcher>(_)),
-    T.zip(H.makeUnbounded<Ex.Exit<FileWatcherError, FileSystemEvent>>()),
+    T.zip(H.makeUnbounded<Ex.Exit<never, E.Either<FileWatcherError, FileSystemEvent>>>()),
     // T.tap(() => T.fail(new Error('test'))),
     T.chain(({ tuple: [instance, hub] }) =>
       T.succeedWith(() => new ConcreteFileWatcher(instance, hub, paths, options)),
@@ -219,18 +224,18 @@ export function make(
 // export const makeAndSubscribe = (
 //   paths: readonly string[] | string,
 //   options?: Chokidar.WatchOptions,
-// ): S.Stream<unknown, FileWatcherError, FileSystemEvent> =>
+// ): S.Stream<unknown, never, E.Either<FileWatcherError, FileSystemEvent>> =>
 //   pipe(M.make_(make(paths, options), shutdown), M.chain(subscribe), S.unwrapManaged)
 
 export const makeAndSubscribe = (
   paths: readonly string[] | string,
   options?: Chokidar.WatchOptions,
-): S.Stream<unknown, FileWatcherError | Error, FileSystemEvent> =>
+): S.Stream<unknown, never, E.Either<FileWatcherError | Error, FileSystemEvent>> =>
   pipe(M.make_(make(paths, options), shutdown), M.chain(subscribe), S.unwrapManaged)
 
 export function subscribe(
   self: FileWatcher,
-): M.Managed<unknown, never, S.Stream<unknown, FileWatcherError, FileSystemEvent>> {
+): M.Managed<unknown, never, S.Stream<unknown, never, E.Either<FileWatcherError, FileSystemEvent>>> {
   concrete(self)
 
   return self.subscribe()

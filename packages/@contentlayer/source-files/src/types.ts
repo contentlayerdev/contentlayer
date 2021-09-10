@@ -1,6 +1,6 @@
 import type * as unified from 'unified'
 
-import type { DocumentBodyType } from './schema'
+import type { DocumentBodyType } from './schema/defs'
 
 type DocumentDefName = string
 type FilePathPattern = string
@@ -37,4 +37,29 @@ export type FieldOptions = {
    * @default "type"
    */
   typeFieldName?: string
+}
+
+export type Flags = {
+  /**
+   * Whether to skip, fail or ignore when encountering document files which can't be mapped
+   * to a document type.
+   *
+   * @default 'skip-warn'
+   */
+  onUnknownDocuments: 'skip-warn' | 'skip-ignore' | 'fail'
+
+  /**
+   * Whether to print warning meassages if a document has field values
+   * which are not definied in the document definition
+   *
+   * @default 'warn'
+   */
+  onExtraFieldData: 'warn' | 'ignore' | 'fail'
+
+  /**
+   * Whether to skip, fail or ignore when encountering missing or incompatible data
+   *
+   * @default 'skip-warn'
+   */
+  onMissingOrIncompatibleData: 'skip-warn' | 'skip-ignore' | 'fail'
 }

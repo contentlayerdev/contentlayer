@@ -1,11 +1,10 @@
 import * as core from '@contentlayer/core'
 import * as utils from '@contentlayer/utils'
-import { pipe } from '@effect-ts/core'
-import * as T from '@effect-ts/core/Effect'
+import { T } from '@contentlayer/utils/effect'
 import * as path from 'path'
 
 import { InvalidDataDuringMappingError } from '../errors'
-import type { DocumentBodyType } from '../schema'
+import type { DocumentBodyType } from '../schema/defs'
 import type { RawDocumentData } from '../types'
 import type { RawContent, RawContentMarkdown, RawContentMDX } from './types'
 
@@ -22,18 +21,16 @@ export const makeDocumentEff = ({
   relativeFilePath: string
   options: core.PluginOptions
 }): T.Effect<unknown, InvalidDataDuringMappingError, core.Document> =>
-  pipe(
-    T.tryCatchPromise(
-      () =>
-        makeDocument({
-          rawContent,
-          documentTypeDef,
-          coreSchemaDef,
-          relativeFilePath,
-          options,
-        }),
-      (error: any) => new InvalidDataDuringMappingError({ documentFilePath: relativeFilePath, message: error.message }),
-    ),
+  T.tryCatchPromise(
+    () =>
+      makeDocument({
+        rawContent,
+        documentTypeDef,
+        coreSchemaDef,
+        relativeFilePath,
+        options,
+      }),
+    (error: any) => new InvalidDataDuringMappingError({ documentFilePath: relativeFilePath, message: error.message }),
   )
 
 const makeDocument = async ({

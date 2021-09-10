@@ -34,7 +34,7 @@ export type DocumentTypeDef<DefName extends string = string> = {
    */
   fields: FieldDefs
 
-  computedFields?: Record<string, ComputedField<DefName>>
+  computedFields?: ComputedFields<DefName>
 
   /** Path is relative to the `contentDirPath` config */
   filePathPattern?: string // | ((doc: Document) => string)
@@ -44,6 +44,8 @@ export type DocumentTypeDef<DefName extends string = string> = {
 
   extensions?: TypeExtensions<DefName>
 }
+
+export type ComputedFields<DefName extends string = string> = Record<string, ComputedField<DefName>>
 
 export type NestedTypeDef<DefName extends string = string> = {
   // type: 'NestedTypeDef'

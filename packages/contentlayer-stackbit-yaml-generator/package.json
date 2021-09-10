@@ -13,8 +13,6 @@
   "dependencies": {
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
-    "@effect-ts/core": "^0.43.7",
-    "@effect-ts/otel": "^0.5.0",
     "@stackbit/sdk": "^0.1.15",
     "clipanion": "^3.0.0-rc.12",
     "typanion": "3.3.2",

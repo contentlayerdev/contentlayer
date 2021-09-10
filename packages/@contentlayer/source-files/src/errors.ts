@@ -1,6 +1,6 @@
 import type * as core from '@contentlayer/core'
+import { Tagged } from '@contentlayer/utils/effect'
 import type { FileNotFoundError, ReadFileError, UnknownFSError } from '@contentlayer/utils/node'
-import { Tagged } from '@effect-ts/core/Case'
 
 export {}
 
@@ -66,3 +66,11 @@ export type FetchDataError =
   | ComputedValueError
   | UnsupportedFileExtension
   | InvalidDataError
+
+export type SchemaError = DuplicateBodyFieldError
+
+export class DuplicateBodyFieldError extends Tagged('DuplicateBodyFieldError')<{
+  readonly bodyFieldName: string
+}> {
+  toString = () => `You cannot override the "${this.bodyFieldName}" field in a document definition.`
+}

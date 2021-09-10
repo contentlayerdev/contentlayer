@@ -1,16 +1,16 @@
 import * as utils from '@contentlayer/utils'
-import type { JsonParseError, MkdirError, ReadFileError } from '@contentlayer/utils/node'
+import type { E } from '@contentlayer/utils/effect'
+import { OT, pipe, S, T } from '@contentlayer/utils/effect'
+import * as node from '@contentlayer/utils/node'
 import { fileOrDirExists } from '@contentlayer/utils/node'
-import { pipe } from '@effect-ts/core'
-import * as T from '@effect-ts/core/Effect'
-import * as S from '@effect-ts/core/Effect/Stream'
-import * as OT from '@effect-ts/otel'
 import { camelCase } from 'camel-case'
 import { promises as fs, watch } from 'fs'
 import * as path from 'path'
 import type { PackageJson } from 'type-fest'
 
+import type { SourceFetchDataError } from '..'
 import type { Cache } from '../cache'
+import type { SourceProvideSchemaError } from '../errors'
 import type { PluginOptions, SourcePlugin, SourcePluginType } from '../plugin'
 import type { DocumentTypeDef, SchemaDef } from '../schema'
 import { makeArtifactsDirEff } from '../utils'
@@ -30,16 +30,26 @@ export type GenerationOptions = {
   options: PluginOptions
 }
 
+type GenerateDotpkgError =
+  | node.UnknownFSError
+  | node.MkdirError
+  | node.ReadFileError
+  | node.JsonParseError
+  | SourceProvideSchemaError
+  | SourceFetchDataError
+
 export const generateDotpkg = ({
   source,
 }: {
   source: SourcePlugin
-}): T.Effect<OT.HasTracer, Error | MkdirError | ReadFileError | JsonParseError, void> =>
+}): T.Effect<OT.HasTracer, GenerateDotpkgError, void> =>
   pipe(
     generateDotpkgStream({ source }),
     S.take(1),
-    S.runDrain,
-    OT.withSpan('@contentlayer/core/generation:generateDotpkgSingle', { attributes: {} }),
+    S.runCollect,
+    T.map((_) => _[0]!),
+    T.rightOrFail,
+    OT.withSpan('@contentlayer/core/generation:generateDotpkg', { attributes: {} }),
   )
 
 // TODO make sure unused old generated files are removed
@@ -47,7 +57,7 @@ export const generateDotpkgStream = ({
   source,
 }: {
   source: SourcePlugin
-}): S.Stream<OT.HasTracer, Error | MkdirError | ReadFileError | JsonParseError, void> => {
+}): S.Stream<OT.HasTracer, never, E.Either<GenerateDotpkgError, void>> => {
   const writtenFilesCache = {}
   const generationOptions = { sourcePluginType: source.type, options: source.options }
   const resolveParams = pipe(
@@ -58,13 +68,19 @@ export const generateDotpkgStream = ({
       //   tap((artifactsDir) => watchData && errorIfArtifactsDirIsDeleted({ artifactsDir }))
       // ),
     }),
+    T.either,
   )
 
-  const dataStream = source.fetchDataEff!({ watch: true })
-
   return pipe(
-    S.zipWithLatest(S.fromEffect(resolveParams), dataStream)((params, cache) => ({ ...params, cache })),
-    S.mapM((params) => writeFilesForCacheEff({ ...params, generationOptions, writtenFilesCache })),
+    S.fromEffect(resolveParams),
+    S.chainMapEitherRight((params) =>
+      pipe(
+        source.fetchDataEff!,
+        S.mapEffectEitherRight((cache) =>
+          writeFilesForCacheEff({ ...params, cache, generationOptions, writtenFilesCache }),
+        ),
+      ),
+    ),
   )
 }
 
@@ -74,14 +90,16 @@ const writeFilesForCacheEff = (params: {
   targetPath: string
   generationOptions: GenerationOptions
   writtenFilesCache: WrittenFilesCache
-}): T.Effect<OT.HasTracer, Error, void> =>
-  T.tryCatchPromise(
-    () => writeFilesForCache(params),
-    (e) => e as Error,
-  )['|>'](
+}): T.Effect<OT.HasTracer, never, E.Either<node.UnknownFSError, void>> =>
+  pipe(
+    T.tryCatchPromise(
+      () => writeFilesForCache(params),
+      (error) => new node.UnknownFSError({ error }),
+    ),
     OT.withSpan('@contentlayer/core/generation:writeFilesForCacheEff', {
       attributes: { targetPath: params.targetPath },
     }),
+    T.either,
   )
 
 const writeFilesForCache = (async ({

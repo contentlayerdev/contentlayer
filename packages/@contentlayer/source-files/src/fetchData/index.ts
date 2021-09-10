@@ -1,236 +1,172 @@
-import type * as core from '@contentlayer/core'
+import * as core from '@contentlayer/core'
+import { SourceFetchDataError, writeCacheToDisk } from '@contentlayer/core'
 import * as utils from '@contentlayer/utils'
-import type { FileNotFoundError, ReadFileError } from '@contentlayer/utils/node'
-import { fs, UnknownFSError } from '@contentlayer/utils/node'
-import { Chunk, pipe } from '@effect-ts/core'
-import * as T from '@effect-ts/core/Effect'
-import * as OT from '@effect-ts/otel'
-import { promise as glob } from 'glob-promise'
-import matter from 'gray-matter'
-import * as yaml from 'js-yaml'
-import * as os from 'os'
-import * as path from 'path'
+import type { E, OT } from '@contentlayer/utils/effect'
+import { pipe, S, T } from '@contentlayer/utils/effect'
+import * as Node from '@contentlayer/utils/node'
 
-import type { Flags } from '..'
-import type { CouldNotDetermineDocumentTypeError, FetchDataError, InvalidDataError } from '../errors'
-import { ComputedValueError, UnsupportedFileExtension } from '../errors'
-import type { FilePathPatternMap } from '../types'
-import { makeDocumentEff } from './mapping'
-import type { RawContent } from './types'
-import { validateDocumentData } from './validate'
+import type { FetchDataError } from '../errors'
+import type * as LocalSchema from '../schema/defs'
+import { makeCoreSchema } from '../schema/provideSchema'
+import type { FilePathPatternMap, Flags } from '../types'
+import { fetchAllDocuments, makeCacheItemFromFilePath } from './fetchAllDocuments'
 
-export const fetchAllDocuments = ({
-  coreSchemaDef,
-  filePathPatternMap,
-  contentDirPath,
+export const fetchData = ({
+  schemaDef,
   flags,
   options,
-  previousCache,
-}: {
-  coreSchemaDef: core.SchemaDef
-  filePathPatternMap: FilePathPatternMap
-  contentDirPath: string
-  flags: Flags
-  options: core.PluginOptions
-  previousCache: core.Cache | undefined
-}): T.Effect<OT.HasTracer, FetchDataError, core.Cache> =>
-  T.gen(function* ($) {
-    const allRelativeFilePaths = yield* $(getAllRelativeFilePaths({ contentDirPath }))
-
-    const concurrencyLimit = os.cpus().length
-
-    const documents = yield* $(
-      pipe(
-        allRelativeFilePaths,
-        T.forEachParN(concurrencyLimit, (relativeFilePath) =>
-          makeCacheItemFromFilePathEff({
-            relativeFilePath,
-            filePathPatternMap,
-            coreSchemaDef: coreSchemaDef,
-            contentDirPath,
-            flags,
-            options,
-            previousCache,
-          }),
-        ),
-        T.map(Chunk.filter(utils.isNotUndefined)),
-        T.map(Chunk.toArray),
-      ),
-    )
-
-    const cacheItemsMap = Object.fromEntries(documents.map((_) => [_.document._id, _]))
-
-    return { cacheItemsMap }
-  })['|>'](OT.withSpan('@contentlayer/source-local/fetchData:fetchAllDocuments', { attributes: {} }))
-
-export const makeCacheItemFromFilePathEff = ({
-  relativeFilePath,
-  filePathPatternMap,
-  coreSchemaDef,
   contentDirPath,
-  flags,
-  options,
-  previousCache,
 }: {
-  relativeFilePath: string
-  filePathPatternMap: FilePathPatternMap
-  coreSchemaDef: core.SchemaDef
-  contentDirPath: string
+  schemaDef: LocalSchema.SchemaDef
   flags: Flags
   options: core.PluginOptions
-  previousCache: core.Cache | undefined
-}): T.Effect<OT.HasTracer, FetchDataError, core.CacheItem | undefined> =>
-  pipe(
-    T.gen(function* ($) {
-      const fullFilePath = path.join(contentDirPath, relativeFilePath)
-
-      const documentHash = yield* $(
-        pipe(
-          fs.stat(fullFilePath),
-          T.map((_) => _.mtime.getTime().toString()),
-        ),
-      )
-
-      // return previous cache item if it exists
-      if (
-        previousCache &&
-        previousCache.cacheItemsMap[relativeFilePath] &&
-        previousCache.cacheItemsMap[relativeFilePath]!.documentHash === documentHash
-      ) {
-        return previousCache.cacheItemsMap[relativeFilePath]
-      }
-
-      const rawContent = yield* $(getRawContent({ fullFilePath, relativeFilePath }))
-
-      const { documentTypeDef } = yield* $(
-        validateDocumentData({
-          rawContent,
-          relativeFilePath,
-          coreSchemaDef,
-          filePathPatternMap,
-          flags,
-          options,
-        }),
-      )
-
-      const document = yield* $(
-        makeDocumentEff({
-          documentTypeDef,
-          rawContent,
-          coreSchemaDef,
-          relativeFilePath,
-          options,
-        }),
-      )
-
-      const computedValues = yield* $(getComputedValues({ documentDef: documentTypeDef, doc: document }))
-      if (computedValues) {
-        Object.entries(computedValues).forEach(([fieldName, value]) => {
-          document[fieldName] = value
-        })
-      }
-
-      return { document, documentHash }
-    }),
-    T.catchTag('CouldNotDetermineDocumentTypeError', handleUnknownDocuments(flags)),
-    T.catchTag('NoSuchDocumentTypeError', handleInvalidDataError(flags)),
-    T.catchTag('MissingRequiredFieldsError', handleInvalidDataError(flags)),
-    T.catchTag('InvalidDataDuringMappingError', handleInvalidDataError(flags)),
-    OT.withSpan('@contentlayer/source-local/fetchData:makeDocumentFromFilePath'),
+  contentDirPath: string
+}): S.Stream<OT.HasTracer, never, E.Either<SourceFetchDataError, core.Cache>> => {
+  const filePathPatternMap: FilePathPatternMap = Object.fromEntries(
+    schemaDef.documentTypeDefs
+      .filter((_) => _.filePathPattern)
+      .map((documentDef) => [documentDef.filePathPattern, documentDef.name]),
   )
 
-const handleInvalidDataError =
-  (flags: Flags) =>
-  <E extends InvalidDataError>(error: E): T.Effect<unknown, E, undefined> => {
-    switch (flags.onMissingOrIncompatibleData) {
-      case 'skip-warn':
-        console.log(`Skipping document. Reason: ${error.toString()}`)
-        return T.succeed(undefined)
-      case 'skip-ignore':
-        return T.succeed(undefined)
-      case 'fail':
-        return T.fail(error)
-    }
-  }
+  const initEvent: CustomUpdateEventInit = { _tag: 'init' }
 
-const handleUnknownDocuments =
-  (flags: Flags) =>
-  <E extends CouldNotDetermineDocumentTypeError>(error: E): T.Effect<unknown, E, undefined> => {
-    switch (flags.onUnknownDocuments) {
-      case 'skip-warn':
-        console.log(`Skipping document. Reason: ${error.toString()}`)
-        return T.succeed(undefined)
-      case 'skip-ignore':
-        return T.succeed(undefined)
-      case 'fail':
-        return T.fail(error)
-    }
-  }
+  const updateStream = pipe(
+    Node.FSWatch.makeAndSubscribe('.', {
+      cwd: contentDirPath,
+      ignoreInitial: true,
+      // Unfortunately needed in order to avoid race conditions
+      awaitWriteFinish: { stabilityThreshold: 50, pollInterval: 10 },
+    }),
+    S.mapEitherRight(chokidarAllEventToCustomUpdateEvent),
+  )
 
-const getRawContent = ({
-  fullFilePath,
-  relativeFilePath,
-}: {
-  fullFilePath: string
-  relativeFilePath: string
-}): T.Effect<OT.HasTracer, UnsupportedFileExtension | FileNotFoundError | ReadFileError, RawContent> =>
-  T.gen(function* ($) {
-    const fileContent = yield* $(fs.readFile(fullFilePath))
-    const filePathExtension = relativeFilePath.toLowerCase().split('.').pop()!
-
-    switch (filePathExtension) {
-      case 'md': {
-        const markdown = matter(fileContent)
-        return { kind: 'markdown' as const, fields: markdown.data, body: markdown.content }
-      }
-      case 'mdx': {
-        const markdown = matter(fileContent)
-        return { kind: 'mdx' as const, fields: markdown.data, body: markdown.content }
-      }
-      case 'json':
-        return { kind: 'json' as const, fields: JSON.parse(fileContent) }
-      case 'yaml':
-      case 'yml':
-        return { kind: 'yaml' as const, fields: yaml.load(fileContent) as any }
-      default:
-        return yield* $(
-          T.fail(new UnsupportedFileExtension({ extension: filePathExtension, filePath: relativeFilePath })),
-        )
-    }
-  })['|>'](OT.withSpan('@contentlayer/source-local/fetchData:getRawContent'))
-
-const getComputedValues = ({
-  doc,
-  documentDef,
-}: {
-  documentDef: core.DocumentTypeDef
-  doc: core.Document
-}): T.Effect<unknown, ComputedValueError, undefined | Record<string, any>> => {
-  if (documentDef.computedFields === undefined) {
-    return T.succeed(undefined)
-  }
+  const resolveParams = pipe(
+    T.gen(function* ($) {
+      const coreSchemaDef = yield* $(makeCoreSchema({ schemaDef, options }))
+      const cache = yield* $(core.loadPreviousCacheFromDisk({ schemaHash: coreSchemaDef.hash }))
+      return { coreSchemaDef, cache }
+    }),
+    T.either,
+  )
 
   return pipe(
-    documentDef.computedFields,
-    utils.effectUtils.forEachParDict({
-      mapKey: (field) => T.succeed(field.name),
-      mapValue: (field) =>
-        T.tryCatchPromise(
-          async () => field.resolve(doc),
-          (error) => new ComputedValueError({ error }),
+    S.fromEffect(resolveParams),
+    S.chainSwitchMapEitherRight(({ cache, coreSchemaDef }) =>
+      pipe(
+        updateStream,
+        S.tapRight((e) =>
+          T.succeedWith(
+            () =>
+              (e._tag === 'updated' || e._tag === 'deleted') &&
+              console.log(`Watch event "${e._tag}": ${e.relativeFilePath}`),
+          ),
         ),
-    }),
+        S.startWithRight(initEvent),
+        S.mapEffectEitherRight((event) =>
+          pipe(
+            event,
+            T.matchTag({
+              init: () =>
+                fetchAllDocuments({
+                  coreSchemaDef,
+                  filePathPatternMap,
+                  contentDirPath,
+                  flags,
+                  options,
+                  previousCache: cache,
+                }),
+              deleted: (event) =>
+                T.succeedWith(() => {
+                  delete cache!.cacheItemsMap[event.relativeFilePath]
+                  return cache!
+                }),
+              updated: (event) =>
+                updateCacheEntry({
+                  contentDirPath,
+                  filePathPatternMap,
+                  cache: cache!,
+                  event,
+                  flags,
+                  coreSchemaDef,
+                  options,
+                }),
+            }),
+            T.either,
+          ),
+        ),
+        // update local and persisted cache
+        S.tapRight((cache_) => T.succeedWith(() => (cache = cache_))),
+        S.tapRightEither((cache_) => writeCacheToDisk({ cache: cache_, schemaHash: coreSchemaDef.hash })),
+      ),
+    ),
+    S.mapEitherLeft((error) => new SourceFetchDataError({ error })),
   )
 }
 
-const getAllRelativeFilePaths = ({
+const updateCacheEntry = ({
   contentDirPath,
+  filePathPatternMap,
+  cache,
+  event,
+  flags,
+  coreSchemaDef,
+  options,
 }: {
   contentDirPath: string
-}): T.Effect<unknown, UnknownFSError, string[]> => {
-  const filePathPattern = '**/*.{md,mdx,json,yaml,yml}'
-  return T.tryCatchPromise(
-    () => glob(filePathPattern, { cwd: contentDirPath }),
-    (error) => new UnknownFSError({ error }),
-  )
+  filePathPatternMap: FilePathPatternMap
+  cache: core.Cache
+  event: CustomUpdateEventFileUpdated
+  flags: Flags
+  coreSchemaDef: core.SchemaDef
+  options: core.PluginOptions
+}): T.Effect<OT.HasTracer, FetchDataError, core.Cache> =>
+  T.gen(function* ($) {
+    const cacheItem = yield* $(
+      makeCacheItemFromFilePath({
+        relativeFilePath: event.relativeFilePath,
+        contentDirPath,
+        filePathPatternMap,
+        flags,
+        coreSchemaDef,
+        options,
+        previousCache: cache,
+      }),
+    )
+
+    if (cacheItem) {
+      cache!.cacheItemsMap[event.relativeFilePath] = cacheItem
+    }
+
+    return cache
+  })
+
+const chokidarAllEventToCustomUpdateEvent = (event: Node.FSWatch.FileSystemEvent): CustomUpdateEvent => {
+  switch (event._tag) {
+    case 'FileAdded':
+    case 'FileChanged':
+      return { _tag: 'updated', relativeFilePath: event.path }
+    case 'FileRemoved':
+      return { _tag: 'deleted', relativeFilePath: event.path }
+    case 'DirectoryRemoved':
+    case 'DirectoryAdded':
+      return { _tag: 'init' }
+    default:
+      utils.casesHandled(event)
+  }
+}
+
+type CustomUpdateEvent = CustomUpdateEventFileUpdated | CustomUpdateEventFileDeleted | CustomUpdateEventInit
+
+type CustomUpdateEventFileUpdated = {
+  readonly _tag: 'updated'
+  relativeFilePath: string
+}
+
+type CustomUpdateEventFileDeleted = {
+  readonly _tag: 'deleted'
+  relativeFilePath: string
+}
+
+type CustomUpdateEventInit = {
+  readonly _tag: 'init'
 }

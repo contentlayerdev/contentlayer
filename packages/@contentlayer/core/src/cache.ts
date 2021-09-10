@@ -1,9 +1,6 @@
-import type { JsonParseError, ReadFileError } from '@contentlayer/utils/node'
-import { readFileJson } from '@contentlayer/utils/node'
-import { pipe } from '@effect-ts/core'
-import * as T from '@effect-ts/core/Effect'
-import type * as OT from '@effect-ts/otel'
-import { promises as fs } from 'fs'
+import type { E } from '@contentlayer/utils/effect'
+import { OT, pipe, T } from '@contentlayer/utils/effect'
+import * as node from '@contentlayer/utils/node'
 import * as path from 'path'
 
 import type { Document } from './data'
@@ -27,32 +24,32 @@ export type CacheItem = {
   documentHash: string
 }
 
-export const loadPreviousCacheFromDiskEff = ({
+export const loadPreviousCacheFromDisk = ({
   schemaHash,
 }: {
   schemaHash: string
-}): T.Effect<OT.HasTracer, ReadFileError | JsonParseError, Cache | undefined> => {
+}): T.Effect<OT.HasTracer, node.ReadFileError | node.JsonParseError, Cache | undefined> => {
   const filePath = path.join(getArtifactsDir(), 'cache', `${schemaHash}.json`)
   return pipe(
-    readFileJson<Cache>(filePath),
+    node.readFileJson<Cache>(filePath),
     T.catchTag('FileNotFoundError', () => T.succeed(undefined)),
+    OT.withSpan('@contentlayer/core/cache:loadPreviousCacheFromDisk', { attributes: { schemaHash } }),
   )
 }
 
-export const loadPreviousCacheFromDisk = async ({ schemaHash }: { schemaHash: string }): Promise<Cache | undefined> => {
-  const filePath = path.join(getArtifactsDir(), 'cache', `${schemaHash}.json`)
-  try {
-    const file = await fs.readFile(filePath, 'utf8')
-    return JSON.parse(file)
-  } catch (e: any) {
-    return undefined
-  }
-}
-
-export const writeCacheToDisk = async ({ cache, schemaHash }: { cache: Cache; schemaHash: string }): Promise<void> => {
+export const writeCacheToDisk = ({
+  cache,
+  schemaHash,
+}: {
+  cache: Cache
+  schemaHash: string
+}): T.Effect<OT.HasTracer, never, E.Either<node.WriteFileError | node.MkdirError | node.JsonStringifyError, void>> => {
   const cacheDirPath = path.join(getArtifactsDir(), 'cache')
   const filePath = path.join(cacheDirPath, `${schemaHash}.json`)
 
-  await fs.mkdir(cacheDirPath, { recursive: true })
-  await fs.writeFile(filePath, JSON.stringify(cache), 'utf8')
+  return pipe(
+    node.mkdirp(cacheDirPath),
+    T.chain(() => node.writeFileJson({ filePath, content: cache })),
+    T.either,
+  )
 }

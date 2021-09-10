@@ -8,7 +8,6 @@
     { "path": "./packages/@contentlayer/source-contentful/tsconfig.cjs.json" },
     { "path": "./packages/@contentlayer/source-files/tsconfig.cjs.json" },
     { "path": "./packages/@contentlayer/source-sanity/tsconfig.cjs.json" },
-    { "path": "./packages/@contentlayer/tracing-node/tsconfig.cjs.json" },
     { "path": "./packages/@contentlayer/utils/tsconfig.cjs.json" },
     { "path": "./packages/contentlayer/tsconfig.cjs.json" },
     { "path": "./packages/contentlayer-stackbit-yaml-generator/tsconfig.cjs.json" },

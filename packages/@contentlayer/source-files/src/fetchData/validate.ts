@@ -1,5 +1,5 @@
 import type * as core from '@contentlayer/core'
-import * as Sync from '@effect-ts/core/Sync'
+import { Sync } from '@contentlayer/utils/effect'
 import minimatch from 'minimatch'
 
 import type { FilePathPatternMap, Flags } from '..'
