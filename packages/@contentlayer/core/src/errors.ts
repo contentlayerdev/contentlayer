@@ -21,9 +21,13 @@ export class ConfigNoDefaultExportError extends Tagged('ConfigNoDefaultExportErr
 }> {}
 
 export class SourceFetchDataError extends Tagged('SourceFetchDataError')<{
-  readonly error: unknown
-}> {}
+  readonly error: any
+}> {
+  toString = () => `SourceFetchDataError: ${this.error.toString()}`
+}
 
 export class SourceProvideSchemaError extends Tagged('SourceProvideSchemaError')<{
-  readonly error: unknown
-}> {}
+  readonly error: any
+}> {
+  toString = () => `SourceProvideSchemaError: ${this.error.toString()}`
+}

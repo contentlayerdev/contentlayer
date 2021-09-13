@@ -1,3 +1,5 @@
+// ets_tracing: off
+
 import { Chunk, Effect as T, Either as E, pipe } from '@effect-ts/core'
 import * as Tuple from '@effect-ts/core/Collections/Immutable/Tuple'
 
@@ -8,8 +10,17 @@ export const log = (...args: any[]) =>
     console.log(...args)
   })
 
-export const rightOrFail = <R, E1, EE1, A>(effect: T.Effect<R, E1, E.Either<EE1, A>>): T.Effect<R, E1 | EE1, A> =>
-  T.chain_(effect, E.fold(T.fail, T.succeed))
+export const rightOrFail = <R, E1, EE1, A>(
+  effect: T.Effect<R, E1, E.Either<EE1, A>>,
+  __trace?: string,
+): T.Effect<R, E1 | EE1, A> =>
+  T.chain_(
+    effect,
+    E.fold(
+      (x) => T.fail(x, __trace),
+      (x) => T.succeed(x, __trace),
+    ),
+  )
 
 export const forEachParDict =
   <A, R, E, B>({

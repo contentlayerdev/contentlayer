@@ -3,7 +3,6 @@ export * from './guards'
 export * from './object'
 export * from './tracing'
 export * from './promise'
-export * from './rxjs'
 export * from './flow'
 export * from './tracing-effect'
 

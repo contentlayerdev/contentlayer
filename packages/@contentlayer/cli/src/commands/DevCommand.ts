@@ -17,7 +17,7 @@ export class DevCommand extends BaseCommand {
     S.chainSwitchMapEitherRight((source) => generateDotpkgStream({ source })),
     S.tap(
       E.fold(
-        (error) => T.log(error),
+        (error) => T.log(error.toString()),
         () => T.log(`Generated node_modules/.contentlayer`),
       ),
     ),

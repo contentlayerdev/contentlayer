@@ -17,6 +17,10 @@ export abstract class BaseCommand extends Command {
     description: 'Whether to clear the cache before running the command',
   })
 
+  verbose = Option.Boolean('--verbose', false, {
+    description: 'More verbose logging and error stack traces',
+  })
+
   async execute() {
     try {
       if (this.clearCache) {
@@ -27,11 +31,11 @@ export abstract class BaseCommand extends Command {
       await pipe(
         this.executeSafe,
         T.provideSomeLayer(JaegerNodeTracing('contentlayer-cli')),
-        T.tapCause((cause) => T.die(pretty(cause))),
+        T.tapCause((cause) => (this.verbose ? T.die(pretty(cause)) : T.unit)),
         T.runPromise,
       )
     } catch (e: any) {
-      console.error(e)
+      console.error(e.toString())
     }
   }
 

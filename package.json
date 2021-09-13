@@ -42,7 +42,7 @@
     "jest": "^27.0.4",
     "prettier": "^2.3.2",
     "ts-patch": "^1.4.4",
-    "typescript": "^4.4.2"
+    "typescript": "^4.4.3"
   },
   "resolutions": {
     "esbuild": "0.12.8",

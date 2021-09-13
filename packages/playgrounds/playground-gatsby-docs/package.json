@@ -19,6 +19,6 @@
     "eslint-config-next": "^11.0.1",
     "next-contentlayer": "workspace:*",
     "shiki": "^0.9.4",
-    "typescript": "^4.4.2"
+    "typescript": "^4.4.3"
   }
 }

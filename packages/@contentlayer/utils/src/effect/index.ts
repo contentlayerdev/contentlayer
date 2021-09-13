@@ -15,6 +15,8 @@ export * as Tp from '@effect-ts/core/Collections/Immutable/Tuple'
 
 export * as Chunk from '@effect-ts/core/Collections/Immutable/Chunk'
 
+export * as Cause from '@effect-ts/core/Effect/Cause'
+
 export * as Clock from '@effect-ts/core/Effect/Clock'
 
 export * as Either from '@effect-ts/core/Either'

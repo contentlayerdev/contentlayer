@@ -64,12 +64,13 @@ export const generateDotpkgStream = ({
     T.structPar({
       schemaDef: source.provideSchemaEff!,
       targetPath: makeArtifactsDirEff,
-      // .pipe(
-      //   tap((artifactsDir) => watchData && errorIfArtifactsDirIsDeleted({ artifactsDir }))
-      // ),
     }),
     T.either,
   )
+
+  // .pipe(
+  //   tap((artifactsDir) => watchData && errorIfArtifactsDirIsDeleted({ artifactsDir }))
+  // ),
 
   return pipe(
     S.fromEffect(resolveParams),

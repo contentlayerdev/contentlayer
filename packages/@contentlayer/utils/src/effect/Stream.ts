@@ -89,7 +89,7 @@ export const mapEffectEitherRight =
     return S.mapM_(
       stream,
       E.fold(
-        (_left) => stream as any,
+        (left) => T.succeed(E.leftW<E1 | E2, A2>(left)),
         (right) => mapRight(right),
       ),
     )

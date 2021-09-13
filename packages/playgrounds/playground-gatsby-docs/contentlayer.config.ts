@@ -46,8 +46,8 @@ export default makeSource(async () => {
     contentDirPath: path.join(process.cwd(), 'gatsby', 'docs'),
     documentTypes: [Reference, HowTo, Conceptual, Tutorial],
     onExtraFieldData: 'ignore',
-    onMissingOrIncompatibleData: 'skip-ignore',
-    onUnknownDocuments: 'skip-ignore',
+    onMissingOrIncompatibleData: 'fail',
+    onUnknownDocuments: 'skip-warn',
     markdown: {
       rehypePlugins: [[rehypeShiki, { highlighter }]],
     },

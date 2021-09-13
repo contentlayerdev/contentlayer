@@ -3454,7 +3454,7 @@ __metadata:
   resolution: "@scripts/jest@workspace:packages/@scripts/jest"
   dependencies:
     enhanced-resolve: ^5.8.2
-    typescript: ^4.4.2
+    typescript: ^4.4.3
   languageName: unknown
   linkType: soft
 
@@ -6545,7 +6545,7 @@ __metadata:
     jest: ^27.0.4
     prettier: ^2.3.2
     ts-patch: ^1.4.4
-    typescript: ^4.4.2
+    typescript: ^4.4.3
   languageName: unknown
   linkType: soft
 
@@ -6560,7 +6560,7 @@ __metadata:
     contentlayer: "workspace:*"
     esbuild: ^0.12.14
     typanion: 3.3.2
-    typescript: ^4.4.2
+    typescript: ^4.4.3
     yaml: ^1.10.2
   bin:
     contentlayer-stackbit-yaml-generator: ./dist/cli/index.js
@@ -6577,7 +6577,7 @@ __metadata:
     "@contentlayer/source-files": "workspace:*"
     "@contentlayer/utils": "workspace:*"
     esbuild: ^0.12.14
-    typescript: ^4.4.2
+    typescript: ^4.4.3
   bin:
     contentlayer: ./dist/cjs/cli/index.js
   languageName: unknown
@@ -13975,7 +13975,7 @@ fsevents@^1.2.7:
     "@contentlayer/utils": "workspace:*"
     next: ^11.1.2
     rxjs: ^7.1.0
-    typescript: ^4.4.2
+    typescript: ^4.4.3
   peerDependencies:
     next: ^11
   languageName: unknown
@@ -13988,7 +13988,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"next@npm:^11.0.1, next@npm:^11.1.2":
+"next@npm:^11.1.2":
   version: 11.1.2
   resolution: "next@npm:11.1.2"
   dependencies:
@@ -15153,7 +15153,7 @@ fsevents@^1.2.7:
     react-html-parser: ^2.0.2
     react-script-tag: ^1.1.2
     sass: ^1.32.7
-    typescript: ^4.4.2
+    typescript: ^4.4.3
   languageName: unknown
   linkType: soft
 
@@ -15177,7 +15177,7 @@ fsevents@^1.2.7:
     react-html-parser: ^2.0.2
     react-script-tag: ^1.1.2
     sass: ^1.32.7
-    typescript: ^4.4.2
+    typescript: ^4.4.3
   languageName: unknown
   linkType: soft
 
@@ -15218,7 +15218,7 @@ fsevents@^1.2.7:
     react-html-parser: ^2.0.2
     react-script-tag: ^1.1.2
     sass: ^1.32.7
-    typescript: ^4.4.2
+    typescript: ^4.4.3
   languageName: unknown
   linkType: soft
 
@@ -15241,7 +15241,7 @@ fsevents@^1.2.7:
     react-html-parser: ^2.0.2
     react-script-tag: ^1.1.2
     sass: ^1.32.7
-    typescript: ^4.4.2
+    typescript: ^4.4.3
   languageName: unknown
   linkType: soft
 
@@ -15258,7 +15258,7 @@ fsevents@^1.2.7:
     react: 17.0.2
     react-dom: 17.0.2
     rehype-highlight: ^4.1.0
-    typescript: ^4.4.2
+    typescript: ^4.4.3
   languageName: unknown
   linkType: soft
 
@@ -15276,7 +15276,7 @@ fsevents@^1.2.7:
     react: ^17.0.2
     react-dom: ^17.0.2
     shiki: ^0.9.4
-    typescript: ^4.4.2
+    typescript: ^4.4.3
   languageName: unknown
   linkType: soft
 
@@ -15304,12 +15304,12 @@ fsevents@^1.2.7:
     contentlayer: latest
     contentlayer-stackbit-yaml-generator: latest
     date-fns: ^2.22.1
-    next: ^11.0.1
+    next: ^11.1.2
     next-contentlayer: latest
     react: 17.0.2
     react-dom: 17.0.2
     rehype-highlight: ^4.1.0
-    typescript: ^4.4.2
+    typescript: ^4.4.3
   languageName: unknown
   linkType: soft
 
@@ -19853,23 +19853,23 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-typescript@^4.4.2:
-  version: 4.4.2
-  resolution: "typescript@npm:4.4.2"
+typescript@^4.4.3:
+  version: 4.4.3
+  resolution: "typescript@npm:4.4.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 194e08e9d1971d667d6fd1a0554616b7022312a2319d70e81a64e502a265992061ee7817ed9a69b52bbabe7a9b85e7938cb8c11c433e40a516b277f8c4dacd51
+  checksum: 05823f21796d450531a7e4ab299715d38fd9ded0e4ce7400876053f4b5166ca3dde7a68cecfe72d9086039f03c0b6edba36516fb10ed83c5837d9600532ea4c2
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.4.2#~builtin<compat/typescript>":
-  version: 4.4.2
-  resolution: "typescript@patch:typescript@npm%3A4.4.2#~builtin<compat/typescript>::version=4.4.2&hash=32657b"
+"typescript@patch:typescript@^4.4.3#~builtin<compat/typescript>":
+  version: 4.4.3
+  resolution: "typescript@patch:typescript@npm%3A4.4.3#~builtin<compat/typescript>::version=4.4.3&hash=32657b"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 3109ae25705746996007161cdd3271857db4f40356b894e34d4cabc216bf9e251f53e0bb6e48df2450b5e3fd948dcbee716a616a4ad4cf7251292025e6163cb1
+  checksum: 28ab98313afab46788ff41014fdb5932430ada6e03cf9e92ac47f406526a2cac1ae2894834e7da61e46b7429318e9c47f45ba8de323332f0cb9af99b72ebae74
   languageName: node
   linkType: hard
 
