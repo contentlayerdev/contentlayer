@@ -1,4 +1,4 @@
-import { traceAsyncFn } from '@contentlayer/utils'
+import { OT, pipe, T, Tagged } from '@contentlayer/utils/effect'
 import type { parse as parseWasmType } from 'markdown-wasm'
 import html from 'rehype-stringify'
 import markdown from 'remark-parse'
@@ -8,37 +8,44 @@ import unified from 'unified'
 
 import type { MarkdownOptions } from './plugin'
 
-export const markdownToHtml = (async ({
+export const markdownToHtml = ({
   mdString,
   options,
 }: {
   mdString: string
   options?: MarkdownOptions
-}): Promise<string> => {
-  // const matterResult = matter(mdString)
+}): T.Effect<OT.HasTracer, MarkdownError, string> =>
+  pipe(
+    T.gen(function* ($) {
+      // const matterResult = matter(mdString)
 
-  // Use remark to convert markdown into HTML string
-  // const processedContent = await remark().use(html).process(matterResult.content)
+      // Use remark to convert markdown into HTML string
+      // const processedContent = await remark().use(html).process(matterResult.content)
 
-  if (process.env['CL_FAST_MARKDOWN']) {
-    return parseWasm(mdString)
-  }
+      if (process.env['CL_FAST_MARKDOWN']) {
+        return parseWasm(mdString)
+      }
 
-  const builder = unified().use(markdown)
+      const builder = unified().use(markdown)
 
-  if (options?.remarkPlugins) {
-    builder.use(options.remarkPlugins)
-  }
+      if (options?.remarkPlugins) {
+        builder.use(options.remarkPlugins)
+      }
 
-  builder.use(remark2rehype)
+      builder.use(remark2rehype)
 
-  if (options?.rehypePlugins) {
-    builder.use(options.rehypePlugins)
-  }
+      if (options?.rehypePlugins) {
+        builder.use(options.rehypePlugins)
+      }
 
-  builder.use(html)
+      builder.use(html)
 
-  const res = await builder.process(mdString)
+      const res = yield* $(T.tryPromise(() => builder.process(mdString)))
 
-  return res.toString()
-})['|>'](traceAsyncFn('@contentlayer/core/markdown:markdownToHtml', ['options']))
+      return res.toString()
+    }),
+    T.mapError((error) => new MarkdownError({ error })),
+    OT.withSpan('@contentlayer/core/markdown:markdownToHtml'),
+  )
+
+export class MarkdownError extends Tagged('MarkdownError')<{ readonly error: unknown }> {}

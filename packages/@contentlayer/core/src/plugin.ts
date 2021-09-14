@@ -1,5 +1,5 @@
-import type { E, OT, S, T } from '@contentlayer/utils/effect'
-import type { Observable } from 'rxjs'
+import type { Thunk } from '@contentlayer/utils'
+import type { Clock, E, Has, OT, S, T } from '@contentlayer/utils/effect'
 import type { LiteralUnion } from 'type-fest'
 import type * as unified from 'unified'
 
@@ -43,16 +43,51 @@ export type FieldOptions = {
 
 export type SourcePlugin = {
   type: SourcePluginType
-  provideSchema: ProvideSchemaFn
-  provideSchemaEff?: ProvideSchemaEff
-  fetchData: FetchDataFn
-  fetchDataEff?: FetchDataEff
+  provideSchema: ProvideSchema
+  fetchData: FetchData
 } & {
   options: PluginOptions
   extensions: PluginExtensions
 }
 
-export type ProvideSchemaFn = () => SchemaDef | Promise<SchemaDef>
-export type ProvideSchemaEff = T.Effect<unknown, SourceProvideSchemaError, SchemaDef>
-export type FetchDataFn = (_: { watch?: boolean }) => Observable<Cache>
-export type FetchDataEff = S.Stream<OT.HasTracer, never, E.Either<SourceFetchDataError, Cache>>
+export type ProvideSchema = T.Effect<OT.HasTracer, SourceProvideSchemaError, SchemaDef>
+export type FetchData = (_: {
+  schemaDef: SchemaDef
+}) => S.Stream<OT.HasTracer & Has<Clock.Clock>, never, E.Either<SourceFetchDataError | SourceProvideSchemaError, Cache>>
+
+// export type MakeSourcePlugin = (
+//   _: Args | Thunk<Args> | Thunk<Promise<Args>>,
+// ) => Promise<core.SourcePlugin>
+
+export type MakeSourcePlugin<TArgs extends PartialArgs> = (
+  _: TArgs | Thunk<TArgs> | Thunk<Promise<TArgs>>,
+) => Promise<SourcePlugin>
+
+export type PartialArgs = {
+  markdown?: MarkdownOptions | undefined
+  mdx?: MarkdownOptions | undefined
+  fieldOptions?: Partial<FieldOptions>
+  extensions?: PluginExtensions
+}
+
+export const processArgs = async <TArgs extends PartialArgs>(
+  argsOrArgsThunk: TArgs | Thunk<TArgs> | Thunk<Promise<TArgs>>,
+): Promise<{
+  extensions: PluginExtensions
+  options: PluginOptions
+  restArgs: Omit<TArgs, 'extensions' | 'fieldOptions' | 'markdown' | 'mdx'>
+}> => {
+  const { extensions, fieldOptions, markdown, mdx, ...restArgs } =
+    typeof argsOrArgsThunk === 'function' ? await argsOrArgsThunk() : argsOrArgsThunk
+
+  const options: PluginOptions = {
+    markdown: markdown,
+    mdx: mdx,
+    fieldOptions: {
+      bodyFieldName: fieldOptions?.bodyFieldName ?? 'body',
+      typeFieldName: fieldOptions?.typeFieldName ?? 'type',
+    },
+  }
+
+  return { extensions: extensions ?? {}, options, restArgs }
+}

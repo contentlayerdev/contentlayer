@@ -1,4 +1,4 @@
-import type { SourcePlugin } from '@contentlayer/core'
+import * as core from '@contentlayer/core'
 import type { MutationEvent } from '@sanity/client'
 import { defer, from, Observable, of } from 'rxjs'
 import { mergeMap, startWith } from 'rxjs/operators'
@@ -13,29 +13,25 @@ type Args = {
   preview?: boolean
 } & PluginOptions
 
-type MakeSourcePlugin = (_: Args) => SourcePlugin
+export const makeSourcePlugin: core.MakeSourcePlugin<Args> = async (args) => {
+  const {
+    extensions,
+    options,
+    restArgs: { studioDirPath },
+  } = await core.processArgs(args)
 
-export const makeSourcePlugin: MakeSourcePlugin = ({ studioDirPath, ...pluginOptions }) => {
-  const options = {
-    markdown: undefined,
-    mdx: undefined,
-    fieldOptions: {
-      bodyFieldName: pluginOptions.fieldOptions?.bodyFieldName ?? 'body',
-      typeFieldName: pluginOptions.fieldOptions?.typeFieldName ?? 'type',
-    },
-  }
   return {
     type: 'sanity',
-    extensions: {},
+    extensions,
     options,
-    provideSchema: () => provideSchema({ studioDirPath, options }),
-    fetchData: ({ watch }) => {
+    provideSchema: provideSchema({ studioDirPath, options }) as any,
+    fetchData: ({ watch }: any) => {
       const updates$ = watch ? getUpdateEvents(studioDirPath).pipe(startWith(0)) : of(0)
       const data$ = from(provideSchema({ studioDirPath, options })).pipe(
         mergeMap((schemaDef) => fetchData({ schemaDef, studioDirPath })),
       )
 
-      return updates$.pipe(mergeMap(() => data$))
+      return updates$.pipe(mergeMap(() => data$)) as any
     },
   }
 }

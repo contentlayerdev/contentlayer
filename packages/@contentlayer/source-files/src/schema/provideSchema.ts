@@ -7,17 +7,17 @@ import { DuplicateBodyFieldError } from '../errors'
 import * as LocalSchema from './defs'
 
 export const makeCoreSchema = ({
-  schemaDef,
+  documentTypeDefs,
   options,
 }: {
-  schemaDef: LocalSchema.SchemaDef
+  documentTypeDefs: LocalSchema.DocumentTypeDef[]
   options: core.PluginOptions
 }): Sync.Sync<unknown, SchemaError, core.SchemaDef> =>
   Sync.gen(function* ($) {
     const coreDocumentTypeDefMap: core.DocumentTypeDefMap = {}
     const coreNestedTypeDefMap: core.NestedTypeDefMap = {}
 
-    for (const documentDef of schemaDef.documentTypeDefs) {
+    for (const documentDef of documentTypeDefs) {
       validateDefName({ defName: documentDef.name })
 
       const fieldDefs = getFieldDefEntries(documentDef.fields).map(fieldDefEntryToCoreFieldDef)
@@ -68,7 +68,7 @@ export const makeCoreSchema = ({
       coreDocumentTypeDefMap[documentDef.name] = coreDocumentDef
     }
 
-    const nestedDefs = collectNestedDefs(schemaDef.documentTypeDefs)
+    const nestedDefs = collectNestedDefs(documentTypeDefs)
     for (const nestedDef of nestedDefs) {
       validateDefName({ defName: nestedDef.name })
 
@@ -91,7 +91,6 @@ export const makeCoreSchema = ({
 
     return coreSchemaDef
   })
-//)['|>'](utils.traceFn('@contentlayer/source-local:makeCoreSchema', ['schemaDef', 'options']))
 
 const validateDefName = ({ defName }: { defName: string }): void => {
   const firstChar = defName.charAt(0)

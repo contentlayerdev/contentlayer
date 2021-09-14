@@ -3,7 +3,7 @@ export * from './guards'
 export * from './object'
 export * from './tracing'
 export * from './promise'
-export * from './flow'
+export * from './hash'
 export * from './tracing-effect'
 
 import './global'
@@ -48,6 +48,8 @@ export const partition = <T>(arr: T[], isLeft: (_: T) => boolean): [T[], T[]] =>
 export function casesHandled(x: never): never {
   throw new Error(`A case was not handled for value: ${JSON.stringify(x)}`)
 }
+
+export type Thunk<T> = () => T
 
 export const unwrapThunk = <T>(_: T | (() => T)): T => {
   if (typeof _ === 'function') {

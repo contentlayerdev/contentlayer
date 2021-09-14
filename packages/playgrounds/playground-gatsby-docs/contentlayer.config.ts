@@ -1,5 +1,5 @@
 import rehypeShiki from '@leafac/rehype-shiki'
-import type { FieldDef } from 'contentlayer/source-files'
+import { FieldDef, makeSource } from 'contentlayer/source-files'
 import { defineDocumentType, makeSource } from 'contentlayer/source-files'
 import * as path from 'path'
 import * as shiki from 'shiki'

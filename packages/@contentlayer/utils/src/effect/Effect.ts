@@ -38,3 +38,21 @@ export const forEachParDict =
       T.map(Chunk.toArray),
       T.map(Object.fromEntries),
     )
+
+export const forEachParDict_ = <A, R, E, B>(
+  as: Iterable<A>,
+  {
+    mapKey,
+    mapValue,
+  }: {
+    mapKey: (a: A) => T.Effect<R, E, string>
+    mapValue: (a: A) => T.Effect<R, E, B>
+  },
+): T.Effect<R, E, Record<string, B>> =>
+  pipe(
+    as,
+    T.forEach((a) => T.tuplePar(mapKey(a), mapValue(a))),
+    T.map(Chunk.map(Tuple.toNative)),
+    T.map(Chunk.toArray),
+    T.map(Object.fromEntries),
+  )

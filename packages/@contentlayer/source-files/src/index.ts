@@ -1,5 +1,5 @@
 import type * as core from '@contentlayer/core'
-import { SourceProvideSchemaError } from '@contentlayer/core'
+import { processArgs, SourceProvideSchemaError } from '@contentlayer/core'
 import { pipe, Sync } from '@contentlayer/utils/effect'
 
 import { fetchData } from './fetchData'
@@ -27,47 +27,34 @@ export type Args = {
 } & PluginOptions &
   Partial<Flags>
 
-export type MakeSourcePlugin = (
-  _: Args | LocalSchema.Thunk<Args> | LocalSchema.Thunk<Promise<Args>>,
-) => Promise<core.SourcePlugin>
-
-export const makeSource: MakeSourcePlugin = async (argsOrArgsThunk) => {
+export const makeSource: core.MakeSourcePlugin<Args> = async (args) => {
   const {
-    documentTypes,
-    contentDirPath,
-    onUnknownDocuments = 'skip-warn',
-    onMissingOrIncompatibleData = 'skip-warn',
-    onExtraFieldData = 'warn',
+    options,
     extensions,
-    ...pluginOptions
-  } = typeof argsOrArgsThunk === 'function' ? await argsOrArgsThunk() : argsOrArgsThunk
+    restArgs: {
+      documentTypes,
+      contentDirPath,
+      onUnknownDocuments = 'skip-warn',
+      onMissingOrIncompatibleData = 'skip-warn',
+      onExtraFieldData = 'warn',
+    },
+  } = await processArgs(args)
+
+  const flags: Flags = { onUnknownDocuments, onExtraFieldData, onMissingOrIncompatibleData }
 
   const documentTypeDefs = (Array.isArray(documentTypes) ? documentTypes : Object.values(documentTypes)).map((_) =>
     _.def(),
   )
-  const schemaDef = { documentTypeDefs }
-
-  const options = {
-    markdown: pluginOptions.markdown,
-    mdx: pluginOptions.mdx,
-    fieldOptions: {
-      bodyFieldName: pluginOptions.fieldOptions?.bodyFieldName ?? 'body',
-      typeFieldName: pluginOptions.fieldOptions?.typeFieldName ?? 'type',
-    },
-  }
-
-  const flags: Flags = { onUnknownDocuments, onExtraFieldData, onMissingOrIncompatibleData }
 
   return {
     type: 'local',
     extensions: extensions ?? {},
     options,
-    provideSchema: null as any,
-    provideSchemaEff: pipe(
-      makeCoreSchema({ schemaDef, options }),
+    provideSchema: pipe(
+      makeCoreSchema({ documentTypeDefs, options }),
       Sync.mapError((error) => new SourceProvideSchemaError({ error })),
     ),
-    fetchData: null as any,
-    fetchDataEff: fetchData({ schemaDef, flags, options, contentDirPath }),
+    fetchData: ({ schemaDef }) =>
+      fetchData({ coreSchemaDef: schemaDef, documentTypeDefs, flags, options, contentDirPath }),
   }
 }

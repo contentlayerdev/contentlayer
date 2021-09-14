@@ -48,10 +48,10 @@ export class DefaultCommand extends Command {
   executeSafe = (): T.Effect<OT.HasTracer, unknown, void> =>
     pipe(
       getConfig({ configPath: this.configPath, cwd: process.cwd() }),
-      T.chain((source) =>
+      T.chain((source) => T.struct({ source: T.succeed(source), schema: source.provideSchema })),
+      T.chain(({ schema, source }) =>
         T.tryCatchPromise(
           async () => {
-            const schema = await source.provideSchema()
             let stackbitConfig = convertSchema(schema, source.extensions)
             recRemoveUndefinedValues(stackbitConfig)
 

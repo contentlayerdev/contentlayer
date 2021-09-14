@@ -98,7 +98,10 @@ export class FileNotFoundError extends Tagged('FileNotFoundError')<{ readonly fi
 export class ReadFileError extends Tagged('ReadFileError')<{ readonly filePath: string; readonly error: unknown }> {}
 export class WriteFileError extends Tagged('WriteFileError')<{ readonly filePath: string; readonly error: unknown }> {}
 export class MkdirError extends Tagged('MkdirError')<{ readonly dirPath: string; readonly error: unknown }> {}
-export class UnknownFSError extends Tagged('UnknownFSError')<{ readonly error: unknown }> {}
+
+export class UnknownFSError extends Tagged('UnknownFSError')<{ readonly error: any }> {
+  toString = () => `UnknownFSError: ${this.error.toString()} ${this.error.stack}`
+}
 
 export class JsonParseError extends Tagged('JsonParseError')<{ readonly str: string; readonly error: unknown }> {}
 export class JsonStringifyError extends Tagged('JsonStringifyError')<{ readonly error: unknown }> {}

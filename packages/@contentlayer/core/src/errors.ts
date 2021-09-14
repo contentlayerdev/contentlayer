@@ -23,11 +23,18 @@ export class ConfigNoDefaultExportError extends Tagged('ConfigNoDefaultExportErr
 export class SourceFetchDataError extends Tagged('SourceFetchDataError')<{
   readonly error: any
 }> {
-  toString = () => `SourceFetchDataError: ${this.error.toString()}`
+  toString = () => `SourceFetchDataError: ${errorToString(this.error)}`
 }
 
 export class SourceProvideSchemaError extends Tagged('SourceProvideSchemaError')<{
   readonly error: any
 }> {
-  toString = () => `SourceProvideSchemaError: ${this.error.toString()}`
+  toString = () => `SourceProvideSchemaError: ${errorToString(this.error)}`
+}
+
+export const errorToString = (error: any) => {
+  const str = error.toString()
+  if (str !== '[object Object]') return str + '\n' + error.stack
+
+  return JSON.stringify(error, null, 2)
 }

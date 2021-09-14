@@ -13,7 +13,7 @@ import type { Flags } from '..'
 import type { CouldNotDetermineDocumentTypeError, FetchDataError, InvalidDataError } from '../errors'
 import { ComputedValueError, UnsupportedFileExtension } from '../errors'
 import type { FilePathPatternMap } from '../types'
-import { makeDocumentEff } from './mapping'
+import { makeDocument } from './mapping'
 import type { RawContent } from './types'
 import { validateDocumentData } from './validate'
 
@@ -32,33 +32,36 @@ export const fetchAllDocuments = ({
   options: core.PluginOptions
   previousCache: core.Cache | undefined
 }): T.Effect<OT.HasTracer, FetchDataError, core.Cache> =>
-  T.gen(function* ($) {
-    const allRelativeFilePaths = yield* $(getAllRelativeFilePaths({ contentDirPath }))
+  pipe(
+    T.gen(function* ($) {
+      const allRelativeFilePaths = yield* $(getAllRelativeFilePaths({ contentDirPath }))
 
-    const concurrencyLimit = os.cpus().length
+      const concurrencyLimit = os.cpus().length
 
-    const documents = yield* $(
-      pipe(
-        allRelativeFilePaths,
-        T.forEachParN(concurrencyLimit, (relativeFilePath) =>
-          makeCacheItemFromFilePath({
-            relativeFilePath,
-            filePathPatternMap,
-            coreSchemaDef: coreSchemaDef,
-            contentDirPath,
-            flags,
-            options,
-            previousCache,
-          }),
+      const documents = yield* $(
+        pipe(
+          allRelativeFilePaths,
+          T.forEachParN(concurrencyLimit, (relativeFilePath) =>
+            makeCacheItemFromFilePath({
+              relativeFilePath,
+              filePathPatternMap,
+              coreSchemaDef: coreSchemaDef,
+              contentDirPath,
+              flags,
+              options,
+              previousCache,
+            }),
+          ),
+          T.map(Chunk.filter(utils.isNotUndefined)),
         ),
-        T.map(Chunk.filter(utils.isNotUndefined)),
-      ),
-    )
+      )
 
-    const cacheItemsMap = Object.fromEntries(Chunk.map_(documents, (_) => [_.document._id, _]))
+      const cacheItemsMap = Object.fromEntries(Chunk.map_(documents, (_) => [_.document._id, _]))
 
-    return { cacheItemsMap }
-  })['|>'](OT.withSpan('@contentlayer/source-local/fetchData:fetchAllDocuments', { attributes: { contentDirPath } }))
+      return { cacheItemsMap }
+    }),
+    OT.withSpan('@contentlayer/source-local/fetchData:fetchAllDocuments', { attributes: { contentDirPath } }),
+  )
 
 export const makeCacheItemFromFilePath = ({
   relativeFilePath,
@@ -111,7 +114,7 @@ export const makeCacheItemFromFilePath = ({
       )
 
       const document = yield* $(
-        makeDocumentEff({
+        makeDocument({
           documentTypeDef,
           rawContent,
           coreSchemaDef,
@@ -171,30 +174,33 @@ const processRawContent = ({
   fullFilePath: string
   relativeFilePath: string
 }): T.Effect<OT.HasTracer, UnsupportedFileExtension | FileNotFoundError | ReadFileError, RawContent> =>
-  T.gen(function* ($) {
-    const fileContent = yield* $(fs.readFile(fullFilePath))
-    const filePathExtension = relativeFilePath.toLowerCase().split('.').pop()!
+  pipe(
+    T.gen(function* ($) {
+      const fileContent = yield* $(fs.readFile(fullFilePath))
+      const filePathExtension = relativeFilePath.toLowerCase().split('.').pop()!
 
-    switch (filePathExtension) {
-      case 'md': {
-        const markdown = matter(fileContent)
-        return { kind: 'markdown' as const, fields: markdown.data, body: markdown.content }
+      switch (filePathExtension) {
+        case 'md': {
+          const markdown = matter(fileContent)
+          return { kind: 'markdown' as const, fields: markdown.data, body: markdown.content }
+        }
+        case 'mdx': {
+          const markdown = matter(fileContent)
+          return { kind: 'mdx' as const, fields: markdown.data, body: markdown.content }
+        }
+        case 'json':
+          return { kind: 'json' as const, fields: JSON.parse(fileContent) }
+        case 'yaml':
+        case 'yml':
+          return { kind: 'yaml' as const, fields: yaml.load(fileContent) as any }
+        default:
+          return yield* $(
+            T.fail(new UnsupportedFileExtension({ extension: filePathExtension, filePath: relativeFilePath })),
+          )
       }
-      case 'mdx': {
-        const markdown = matter(fileContent)
-        return { kind: 'mdx' as const, fields: markdown.data, body: markdown.content }
-      }
-      case 'json':
-        return { kind: 'json' as const, fields: JSON.parse(fileContent) }
-      case 'yaml':
-      case 'yml':
-        return { kind: 'yaml' as const, fields: yaml.load(fileContent) as any }
-      default:
-        return yield* $(
-          T.fail(new UnsupportedFileExtension({ extension: filePathExtension, filePath: relativeFilePath })),
-        )
-    }
-  })['|>'](OT.withSpan('@contentlayer/source-local/fetchData:getRawContent'))
+    }),
+    OT.withSpan('@contentlayer/source-local/fetchData:getRawContent'),
+  )
 
 const getComputedValues = ({
   doc,

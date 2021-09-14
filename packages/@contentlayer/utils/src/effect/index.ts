@@ -1,4 +1,4 @@
-export { pipe } from '@effect-ts/core'
+export { pipe, flow } from '@effect-ts/core/Function'
 export { Tagged } from '@effect-ts/core/Case'
 export type { Has } from '@effect-ts/core/Has'
 export { pretty } from '@effect-ts/core/Effect/Cause'
@@ -18,6 +18,9 @@ export * as Chunk from '@effect-ts/core/Collections/Immutable/Chunk'
 export * as Cause from '@effect-ts/core/Effect/Cause'
 
 export * as Clock from '@effect-ts/core/Effect/Clock'
+
+export * as Schedule from '@effect-ts/core/Effect/Schedule'
+export * as SC from '@effect-ts/core/Effect/Schedule'
 
 export * as Either from '@effect-ts/core/Either'
 export * as E from '@effect-ts/core/Either'

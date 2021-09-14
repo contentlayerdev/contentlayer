@@ -1,4 +1,5 @@
 import type * as core from '@contentlayer/core'
+import type { Thunk } from '@contentlayer/utils'
 
 import type { ComputedField } from './computed-field'
 import type { FieldDef, FieldDefWithName } from './field'
@@ -76,8 +77,6 @@ export const isNestedUnnamedTypeDef = (_: NestedTypeDef | NestedUnnamedTypeDef):
 //   // | 'model'
 //   /** Reference to document */
 //   | 'reference'
-
-export type Thunk<T> = () => T
 
 export type NestedType<DefName extends string = string> = {
   type: 'nested'

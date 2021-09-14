@@ -1,17 +1,15 @@
-import type { SourcePlugin } from '@contentlayer/core'
-import { createClient } from 'contentful-management'
-import type { Observable } from 'rxjs'
-import { from, interval, of } from 'rxjs'
-import { mergeMap, startWith } from 'rxjs/operators'
+import type * as core from '@contentlayer/core'
+import { processArgs } from '@contentlayer/core'
+import { pipe, S, SC, T } from '@contentlayer/utils/effect'
 
 import { fetchAllDocuments } from './fetchData'
 import { provideSchema } from './provideSchema'
 import type * as SchemaOverrides from './schemaOverrides'
-import type { Contentful, PluginOptions } from './types'
+import type { PluginOptions } from './types'
 
 export type { RawDocumentData } from './types'
 
-type Args = {
+export type Args = {
   accessToken: string
   spaceId: string
   environmentId?: string
@@ -23,61 +21,30 @@ type Args = {
    * In case a type name has be re-mapped using `typeNameMapping` please use your choosen type name
    */
   schemaOverrides?: SchemaOverrides.Input.SchemaOverrides
-} & PluginOptions
+}
 
-type MakeSourcePlugin = (_: Args) => SourcePlugin
+export const makeSourcePlugin: core.MakeSourcePlugin<Args & PluginOptions> = async (args) => {
+  const {
+    options,
+    extensions,
+    restArgs: { accessToken, spaceId, environmentId = 'master', schemaOverrides = {} },
+  } = await processArgs(args)
 
-export const makeSourcePlugin: MakeSourcePlugin = ({
-  accessToken,
-  spaceId,
-  environmentId = 'master',
-  schemaOverrides = {},
-  ...pluginOptions
-}) => {
-  const options = {
-    markdown: undefined,
-    mdx: undefined,
-    fieldOptions: {
-      bodyFieldName: pluginOptions.fieldOptions?.bodyFieldName ?? 'body',
-      typeFieldName: pluginOptions.fieldOptions?.typeFieldName ?? 'type',
-    },
-  }
   return {
     type: 'contentful',
-    extensions: {},
+    extensions,
     options,
-    provideSchema: async () => {
-      const environment = await getEnvironment({ accessToken, spaceId, environmentId })
-      return provideSchema({ environment, schemaOverrides, options })
-    },
-    fetchData: ({ watch }) => {
-      const updates$ = watch ? getUpdateEvents().pipe(startWith(0)) : of(0)
-      const data$ = from(getEnvironment({ accessToken, spaceId, environmentId })).pipe(
-        mergeMap(async (environment) => ({
-          environment,
-          schemaDef: await provideSchema({ environment, schemaOverrides, options }),
-        })),
-        mergeMap(({ environment, schemaDef }) => fetchAllDocuments({ schemaDef, environment, schemaOverrides })),
-      )
-
-      return updates$.pipe(mergeMap(() => data$))
-    },
+    provideSchema: provideSchema({ accessToken, spaceId, environmentId, options, schemaOverrides }),
+    fetchData: ({ schemaDef }) =>
+      pipe(
+        S.fromEffect(
+          pipe(
+            fetchAllDocuments({ accessToken, spaceId, environmentId, schemaDef, schemaOverrides, options }),
+            T.either,
+          ),
+        ),
+        // TODO remove polling and implement "properly"
+        S.repeat(SC.spaced(5_000)),
+      ),
   }
 }
-
-const getEnvironment = async ({
-  accessToken,
-  spaceId,
-  environmentId,
-}: {
-  accessToken: string
-  spaceId: string
-  environmentId: string
-}): Promise<Contentful.Environment> => {
-  const client = createClient({ accessToken })
-  const space = await client.getSpace(spaceId)
-  return space.getEnvironment(environmentId)
-}
-
-// TODO remove polling and implement "properly"
-const getUpdateEvents = (): Observable<any> => interval(5_000)

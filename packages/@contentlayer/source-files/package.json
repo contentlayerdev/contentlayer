@@ -35,7 +35,6 @@
     "gray-matter": "^4.0.3",
     "js-yaml": "^4.1.0",
     "minimatch": "^3.0.4",
-    "rxjs": "^7.1.0",
     "ts-pattern": "^3.2.1",
     "unified": "^9.2.1"
   },

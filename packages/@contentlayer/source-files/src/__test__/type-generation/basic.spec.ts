@@ -1,4 +1,5 @@
 import { renderTypes } from '@contentlayer/core'
+import { JaegerNodeTracing } from '@contentlayer/utils'
 import { pipe, T } from '@contentlayer/utils/effect'
 
 import { makeSource } from '../..'
@@ -31,7 +32,8 @@ describe('generate-types', () => {
   it('simple schema', async () => {
     const schemaDef = await pipe(
       T.tryPromise(() => makeSource({ documentTypes: [TestPost], contentDirPath: '' })),
-      T.chain((source) => source.provideSchemaEff!),
+      T.chain((source) => source.provideSchema),
+      T.provideSomeLayer(JaegerNodeTracing('contentlayer-cli')),
       T.runPromise,
     )
     const typeSource = renderTypes({

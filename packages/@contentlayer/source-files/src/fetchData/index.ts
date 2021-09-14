@@ -7,23 +7,24 @@ import * as Node from '@contentlayer/utils/node'
 
 import type { FetchDataError } from '../errors'
 import type * as LocalSchema from '../schema/defs'
-import { makeCoreSchema } from '../schema/provideSchema'
 import type { FilePathPatternMap, Flags } from '../types'
 import { fetchAllDocuments, makeCacheItemFromFilePath } from './fetchAllDocuments'
 
 export const fetchData = ({
-  schemaDef,
+  coreSchemaDef,
+  documentTypeDefs,
   flags,
   options,
   contentDirPath,
 }: {
-  schemaDef: LocalSchema.SchemaDef
+  coreSchemaDef: core.SchemaDef
+  documentTypeDefs: LocalSchema.DocumentTypeDef[]
   flags: Flags
   options: core.PluginOptions
   contentDirPath: string
 }): S.Stream<OT.HasTracer, never, E.Either<SourceFetchDataError, core.Cache>> => {
   const filePathPatternMap: FilePathPatternMap = Object.fromEntries(
-    schemaDef.documentTypeDefs
+    documentTypeDefs
       .filter((_) => _.filePathPattern)
       .map((documentDef) => [documentDef.filePathPattern, documentDef.name]),
   )
@@ -40,18 +41,11 @@ export const fetchData = ({
     S.mapEitherRight(chokidarAllEventToCustomUpdateEvent),
   )
 
-  const resolveParams = pipe(
-    T.gen(function* ($) {
-      const coreSchemaDef = yield* $(makeCoreSchema({ schemaDef, options }))
-      const cache = yield* $(core.loadPreviousCacheFromDisk({ schemaHash: coreSchemaDef.hash }))
-      return { coreSchemaDef, cache }
-    }),
-    T.either,
-  )
+  const resolveParams = pipe(core.loadPreviousCacheFromDisk({ schemaHash: coreSchemaDef.hash }), T.either)
 
   return pipe(
     S.fromEffect(resolveParams),
-    S.chainSwitchMapEitherRight(({ cache, coreSchemaDef }) =>
+    S.chainSwitchMapEitherRight((cache) =>
       pipe(
         updateStream,
         S.tapRight((e) =>

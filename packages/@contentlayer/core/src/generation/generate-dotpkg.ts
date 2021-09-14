@@ -1,10 +1,9 @@
 import * as utils from '@contentlayer/utils'
-import type { E } from '@contentlayer/utils/effect'
-import { OT, pipe, S, T } from '@contentlayer/utils/effect'
+import type { Clock, E, Has } from '@contentlayer/utils/effect'
+import { flow, OT, pipe, S, T } from '@contentlayer/utils/effect'
 import * as node from '@contentlayer/utils/node'
-import { fileOrDirExists } from '@contentlayer/utils/node'
 import { camelCase } from 'camel-case'
-import { promises as fs, watch } from 'fs'
+import { promises as fs } from 'fs'
 import * as path from 'path'
 import type { PackageJson } from 'type-fest'
 
@@ -42,7 +41,7 @@ export const generateDotpkg = ({
   source,
 }: {
   source: SourcePlugin
-}): T.Effect<OT.HasTracer, GenerateDotpkgError, void> =>
+}): T.Effect<OT.HasTracer & Has<Clock.Clock>, GenerateDotpkgError, void> =>
   pipe(
     generateDotpkgStream({ source }),
     S.take(1),
@@ -57,12 +56,12 @@ export const generateDotpkgStream = ({
   source,
 }: {
   source: SourcePlugin
-}): S.Stream<OT.HasTracer, never, E.Either<GenerateDotpkgError, void>> => {
+}): S.Stream<OT.HasTracer & Has<Clock.Clock>, never, E.Either<GenerateDotpkgError, void>> => {
   const writtenFilesCache = {}
   const generationOptions = { sourcePluginType: source.type, options: source.options }
   const resolveParams = pipe(
     T.structPar({
-      schemaDef: source.provideSchemaEff!,
+      schemaDef: source.provideSchema,
       targetPath: makeArtifactsDirEff,
     }),
     T.either,
@@ -74,18 +73,18 @@ export const generateDotpkgStream = ({
 
   return pipe(
     S.fromEffect(resolveParams),
-    S.chainMapEitherRight((params) =>
+    S.chainMapEitherRight(({ schemaDef, targetPath }) =>
       pipe(
-        source.fetchDataEff!,
+        source.fetchData({ schemaDef }),
         S.mapEffectEitherRight((cache) =>
-          writeFilesForCacheEff({ ...params, cache, generationOptions, writtenFilesCache }),
+          writeFilesForCache({ schemaDef, targetPath, cache, generationOptions, writtenFilesCache }),
         ),
       ),
     ),
   )
 }
 
-const writeFilesForCacheEff = (params: {
+const writeFilesForCache = (params: {
   schemaDef: SchemaDef
   cache: Cache
   targetPath: string
@@ -94,16 +93,16 @@ const writeFilesForCacheEff = (params: {
 }): T.Effect<OT.HasTracer, never, E.Either<node.UnknownFSError, void>> =>
   pipe(
     T.tryCatchPromise(
-      () => writeFilesForCache(params),
+      () => writeFilesForCache_(params),
       (error) => new node.UnknownFSError({ error }),
     ),
-    OT.withSpan('@contentlayer/core/generation:writeFilesForCacheEff', {
+    OT.withSpan('@contentlayer/core/generation:writeFilesForCache', {
       attributes: { targetPath: params.targetPath },
     }),
     T.either,
   )
 
-const writeFilesForCache = (async ({
+const writeFilesForCache_ = async ({
   cache,
   schemaDef,
   targetPath,
@@ -120,7 +119,9 @@ const writeFilesForCache = (async ({
 
   if (process.env['CL_DEBUG']) {
     // NOTE cache directory already exists because `source.fetchData` has already created it
+    await fs.mkdir(withPrefix('cache'), { recursive: true })
     await fs.writeFile(withPrefix('cache', 'schema.json'), JSON.stringify(schemaDef, null, 2))
+    await fs.writeFile(withPrefix('cache', 'data-cache.json'), JSON.stringify(cache, null, 2))
   }
 
   const allCacheItems = Object.values(cache.cacheItemsMap)
@@ -160,9 +161,7 @@ const writeFilesForCache = (async ({
     ...dataBarrelFiles.map(writeFile),
     ...dataJsonFiles.map(writeFile),
   ])
-})['|>'](
-  utils.traceAsyncFn('@contentlayer/core/commands/generate-dotpkg:writeFilesForCache', (_) => utils.omit(_, ['cache'])),
-)
+}
 
 const makePackageJson = (): string => {
   const packageJson: PackageJson & { typesVersions: any } = {
@@ -212,7 +211,8 @@ const writeFileWithWrittenFilesCache =
     content: string
     documentHash?: string
   }): Promise<void> => {
-    if (documentHash !== undefined && writtenFilesCache[filePath] === documentHash) {
+    const fileIsUpToDate = documentHash !== undefined && writtenFilesCache[filePath] === documentHash
+    if (fileIsUpToDate) {
       return
     }
 
@@ -233,7 +233,7 @@ export { default as ${dataVariableName} } from './${docDef.name}/${idToFileName(
 `
   }
 
-  const makeVariableName = utils.flow(idToFileName, (_) => camelCase(_, { stripRegexp: /[^A-Z0-9\_]/gi }))
+  const makeVariableName = flow(idToFileName, (_) => camelCase(_, { stripRegexp: /[^A-Z0-9\_]/gi }))
 
   const docImports = documentIds
     .map((_) => `import ${makeVariableName(_)} from './${docDef.name}/${idToFileName(_)}.json'`)
@@ -328,11 +328,11 @@ const leftPadWithUnderscoreIfStartsWithNumber = (str: string): string => {
   return str
 }
 
-const errorIfArtifactsDirIsDeleted = ({ artifactsDir }: { artifactsDir: string }) => {
-  watch(artifactsDir, async (event) => {
-    if (event === 'rename' && !(await fileOrDirExists(artifactsDir))) {
-      console.error(`Seems like the target directory (${artifactsDir}) was deleted. Please restart the command.`)
-      process.exit(1)
-    }
-  })
-}
+// const errorIfArtifactsDirIsDeleted = ({ artifactsDir }: { artifactsDir: string }) => {
+//   watch(artifactsDir, async (event) => {
+//     if (event === 'rename' && !(await fileOrDirExists(artifactsDir))) {
+//       console.error(`Seems like the target directory (${artifactsDir}) was deleted. Please restart the command.`)
+//       process.exit(1)
+//     }
+//   })
+// }
