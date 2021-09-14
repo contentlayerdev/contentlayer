@@ -1,6 +1,6 @@
 import type { E } from '@contentlayer/utils/effect'
 import { Chunk, OT, pipe, S, T } from '@contentlayer/utils/effect'
-import { fileOrDirExistsEff, fs } from '@contentlayer/utils/node'
+import { fileOrDirExists, fs } from '@contentlayer/utils/node'
 import * as path from 'path'
 import pkgUp from 'pkg-up'
 
@@ -100,7 +100,7 @@ export const getConfigWatch = ({
 /** Fix esbuild binary path if not found (e.g. in local development setup) */
 const ensureEsbuildBin: T.Effect<OT.HasTracer, fs.ReadFileError | fs.UnknownFSError, void> = T.gen(function* ($) {
   const esbuildBinPath = path.join(__dirname, '..', 'bin', 'esbuild')
-  const esbuildBinExists = yield* $(fs.fileOrDirExistsEff(esbuildBinPath))
+  const esbuildBinExists = yield* $(fs.fileOrDirExists(esbuildBinPath))
 
   if (!esbuildBinExists) {
     const esbuildPackageJsonPath = yield* $(pkgUpEff({ cwd: path.dirname(require.resolve('esbuild')) }))
@@ -131,7 +131,7 @@ const resolveConfigPath = ({
     }
 
     const defaultFilePaths = [path.join(cwd, 'contentlayer.config.ts'), path.join(cwd, 'contentlayer.config.js')]
-    const foundDefaultFiles = yield* $(pipe(defaultFilePaths, T.forEachPar(fileOrDirExistsEff), T.map(Chunk.toArray)))
+    const foundDefaultFiles = yield* $(pipe(defaultFilePaths, T.forEachPar(fileOrDirExists), T.map(Chunk.toArray)))
     const foundDefaultFile = defaultFilePaths[foundDefaultFiles.findIndex((_) => _)]
     if (foundDefaultFile) {
       return foundDefaultFile

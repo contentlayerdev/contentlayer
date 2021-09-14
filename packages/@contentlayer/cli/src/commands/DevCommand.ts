@@ -1,10 +1,22 @@
 import { generateDotpkgStream, getConfigWatch } from '@contentlayer/core'
 import { E, pipe, S, T } from '@contentlayer/utils/effect'
+import type { Usage } from 'clipanion'
 
 import { BaseCommand } from './_BaseCommand'
 
 export class DevCommand extends BaseCommand {
   static paths = [['dev']]
+
+  static usage: Usage = {
+    description: `Same as "contentlayer build" but with watch mode`,
+    details: `
+      TODO: Longer description 
+    `,
+    examples: [
+      [`Simple run`, `$0 dev`],
+      [`Clear cache before run`, `$0 dev --clearCache`],
+    ],
+  }
 
   executeSafe = pipe(
     S.suspend(() =>

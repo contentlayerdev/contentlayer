@@ -6,16 +6,7 @@ import type { Stats } from 'fs'
 import { promises as fs } from 'fs'
 import type { JsonValue } from 'type-fest'
 
-export const fileOrDirExists = async (filePath: string): Promise<boolean> => {
-  try {
-    const stat = await fs.stat(filePath)
-    return stat.isFile() || stat.isDirectory()
-  } catch (e: any) {
-    return false
-  }
-}
-
-export const fileOrDirExistsEff = (filePath: string): T.Effect<unknown, ReadFileError, boolean> => {
+export const fileOrDirExists = (filePath: string): T.Effect<unknown, ReadFileError, boolean> => {
   return pipe(
     stat(filePath),
     T.map((stat_) => stat_.isFile() || stat_.isDirectory()),

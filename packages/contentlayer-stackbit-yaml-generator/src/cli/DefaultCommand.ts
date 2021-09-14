@@ -1,7 +1,6 @@
 import { getConfig } from '@contentlayer/core'
 import { JaegerNodeTracing, recRemoveUndefinedValues } from '@contentlayer/utils'
 import { OT, pipe, pretty, T } from '@contentlayer/utils/effect'
-import { fileOrDirExists } from '@contentlayer/utils/node'
 import { Command, Option } from 'clipanion'
 import { promises as fs } from 'fs'
 import * as path from 'path'
@@ -89,4 +88,13 @@ const getTransform = async (transformPath: string): Promise<undefined | Transfor
   }
 
   return transform
+}
+
+const fileOrDirExists = async (filePath: string): Promise<boolean> => {
+  try {
+    const stat = await fs.stat(filePath)
+    return stat.isFile() || stat.isDirectory()
+  } catch (e: any) {
+    return false
+  }
 }
