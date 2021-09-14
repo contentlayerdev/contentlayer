@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/source-files",
-  "version": "0.0.22",
+  "version": "0.0.23-dev.8",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "exports": {

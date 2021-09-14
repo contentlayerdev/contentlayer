@@ -6,8 +6,6 @@ export * from './promise'
 export * from './hash'
 export * from './tracing-effect'
 
-import './global'
-
 export * as pattern from 'ts-pattern'
 import { Tagged } from '@effect-ts/core/Case'
 import * as inflection from 'inflection'
