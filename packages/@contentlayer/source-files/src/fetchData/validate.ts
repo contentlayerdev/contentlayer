@@ -1,10 +1,14 @@
 import type * as core from '@contentlayer/core'
-import { Sync } from '@contentlayer/utils/effect'
+import { These } from '@contentlayer/utils/effect'
 import minimatch from 'minimatch'
 
 import type { FilePathPatternMap, Flags } from '..'
-import type { InvalidDataError } from '../errors'
-import { CouldNotDetermineDocumentTypeError, MissingRequiredFieldsError, NoSuchDocumentTypeError } from '../errors'
+import {
+  CouldNotDetermineDocumentTypeError,
+  ExtraFieldDataError,
+  MissingRequiredFieldsError,
+  NoSuchDocumentTypeError,
+} from '../errors'
 import type { RawContent } from './types'
 
 export const validateDocumentData = ({
@@ -22,70 +26,77 @@ export const validateDocumentData = ({
   filePathPatternMap: FilePathPatternMap
   flags: Flags
   options: core.PluginOptions
-}): Sync.Sync<unknown, InvalidDataError, { documentTypeDef: core.DocumentTypeDef }> =>
-  Sync.gen(function* ($) {
-    const documentDefName = getDocumentDefName({ rawContent, filePathPatternMap, relativeFilePath, options })
+}): These.These<
+  CouldNotDetermineDocumentTypeError | NoSuchDocumentTypeError | MissingRequiredFieldsError | ExtraFieldDataError,
+  { documentTypeDef: core.DocumentTypeDef }
+> => {
+  const documentDefName = getDocumentDefName({ rawContent, filePathPatternMap, relativeFilePath, options })
 
-    if (documentDefName === undefined) {
-      const typeFieldName = options.fieldOptions.typeFieldName
-      return yield* $(
-        Sync.fail(new CouldNotDetermineDocumentTypeError({ documentFilePath: relativeFilePath, typeFieldName })),
-      )
-    }
+  if (documentDefName === undefined) {
+    const typeFieldName = options.fieldOptions.typeFieldName
+    return These.fail(new CouldNotDetermineDocumentTypeError({ documentFilePath: relativeFilePath, typeFieldName }))
+  }
 
-    const documentTypeDef = coreSchemaDef.documentTypeDefMap[documentDefName]
+  const documentTypeDef = coreSchemaDef.documentTypeDefMap[documentDefName]
 
-    if (documentTypeDef === undefined) {
-      return yield* $(Sync.fail(new NoSuchDocumentTypeError({ documentTypeName: documentDefName })))
-    }
-
-    const existingDataFieldKeys = Object.keys(rawContent.fields)
-
-    // make sure all required fields are present
-    const requiredFieldsWithoutDefaultValue = documentTypeDef.fieldDefs.filter(
-      (_) => _.isRequired && _.default === undefined && _.isSystemField === false,
+  if (documentTypeDef === undefined) {
+    return These.fail(
+      new NoSuchDocumentTypeError({ documentTypeName: documentDefName, documentFilePath: relativeFilePath }),
     )
-    const misingRequiredFieldDefs = requiredFieldsWithoutDefaultValue.filter(
-      (fieldDef) => !existingDataFieldKeys.includes(fieldDef.name),
+  }
+
+  const existingDataFieldKeys = Object.keys(rawContent.fields)
+
+  // make sure all required fields are present
+  const requiredFieldsWithoutDefaultValue = documentTypeDef.fieldDefs.filter(
+    (_) => _.isRequired && _.default === undefined && _.isSystemField === false,
+  )
+  const misingRequiredFieldDefs = requiredFieldsWithoutDefaultValue.filter(
+    (fieldDef) => !existingDataFieldKeys.includes(fieldDef.name),
+  )
+  if (misingRequiredFieldDefs.length > 0) {
+    return These.fail(
+      new MissingRequiredFieldsError({
+        documentFilePath: relativeFilePath,
+        documentTypeName: documentTypeDef.name,
+        fieldDefsWithMissingData: misingRequiredFieldDefs,
+      }),
     )
-    if (misingRequiredFieldDefs.length > 0) {
-      return yield* $(
-        Sync.fail(
-          new MissingRequiredFieldsError({
-            documentFilePath: relativeFilePath,
-            documentTypeName: documentTypeDef.name,
-            fieldDefsWithMissingData: misingRequiredFieldDefs,
-          }),
-        ),
-      )
-    }
+  }
 
-    // TODO validate whether data has correct type
+  // TODO validate whether data has correct type
 
-    // warn about data fields not defined in the schema
-    if (flags.onExtraFieldData === 'warn') {
-      const typeFieldName = options.fieldOptions.typeFieldName
-      // add the type name field to the list of existing data fields
-      const schemaFieldNames = documentTypeDef.fieldDefs.map((_) => _.name).concat([typeFieldName])
-      const extraFieldKeys = existingDataFieldKeys.filter((fieldKey) => !schemaFieldNames.includes(fieldKey))
-      if (extraFieldKeys.length > 0) {
-        console.log(`\
-Warning: Document (type: "${
-          documentTypeDef.name
-        }") contained fields that are not defined in schema for "${relativeFilePath}".
+  // warn about data fields not defined in the schema
+  if (flags.onExtraFieldData === 'warn' || flags.onExtraFieldData === 'fail') {
+    const typeFieldName = options.fieldOptions.typeFieldName
+    // NOTE we also need to add the system-level type name field to the list of existing data fields
+    const schemaFieldNames = documentTypeDef.fieldDefs.map((_) => _.name).concat([typeFieldName])
+    const extraFieldEntries = existingDataFieldKeys
+      .filter((fieldKey) => !schemaFieldNames.includes(fieldKey))
+      .map((fieldKey) => [fieldKey, rawContent.fields[fieldKey]] as const)
 
-Extra fields:
-${extraFieldKeys.map((key) => `  ${key}: ${JSON.stringify(rawContent.fields[key])}`).join('\n')}
-`)
+    if (extraFieldEntries.length > 0) {
+      const extraFieldDataError = new ExtraFieldDataError({
+        documentFilePath: relativeFilePath,
+        extraFieldEntries,
+        documentTypeName: documentTypeDef.name,
+      })
+
+      if (flags.onExtraFieldData === 'fail') {
+        return These.fail(extraFieldDataError)
+      } else {
+        return These.warn({ documentTypeDef }, extraFieldDataError)
+        // console.warn(extraFieldDataError)
       }
-
-      // TODO fail case
     }
 
-    // TODO validate nesteds
+    // TODO fail case
+  }
 
-    return { documentTypeDef }
-  })
+  // TODO validate nesteds
+
+  return These.succeed({ documentTypeDef })
+}
 
 const getDocumentDefName = ({
   rawContent,

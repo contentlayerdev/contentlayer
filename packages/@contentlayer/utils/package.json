@@ -53,6 +53,7 @@
     "chokidar": "^3.5.2",
     "hash-wasm": "^4.9.0",
     "inflection": "^1.13.1",
+    "oo-ascii-tree": "^1.34.0",
     "ts-pattern": "^3.2.1",
     "type-fest": "^1.2.1"
   },

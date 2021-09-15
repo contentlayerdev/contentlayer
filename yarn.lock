@@ -1501,10 +1501,12 @@ __metadata:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/utils": "workspace:*"
     "@scripts/jest": "workspace:*"
+    "@types/faker": ^5
     "@types/js-yaml": ^4.0.1
     "@types/minimatch": ^3.0.4
     "@types/node": ^15.12.0
     chokidar: ^3.5.2
+    faker: ^5.5.3
     glob: ^7.1.7
     glob-promise: ^4.1.0
     gray-matter: ^4.0.3
@@ -1547,6 +1549,7 @@ __metadata:
     chokidar: ^3.5.2
     hash-wasm: ^4.9.0
     inflection: ^1.13.1
+    oo-ascii-tree: ^1.34.0
     ts-pattern: ^3.2.1
     type-fest: ^1.2.1
   languageName: unknown
@@ -3673,6 +3676,13 @@ __metadata:
   version: 0.0.46
   resolution: "@types/estree@npm:0.0.46"
   checksum: 620f7549c8cf99fe1c91a943a42ae2684c18f6007dc1bd6a439a2bf3204022ab746ffb3be5244c70d43a822beeb3c948216be1a69cb25e79005daeca4ebe5722
+  languageName: node
+  linkType: hard
+
+"@types/faker@npm:^5":
+  version: 5.5.8
+  resolution: "@types/faker@npm:5.5.8"
+  checksum: eb642cac279cbaca46001d301284d51f4b9ca90f48b4b8edb9bbf4335edf70e0216ad921690edb2feec6502eb1bc9ed1fe3e3a27efc49f168ece88acfe2e68ac
   languageName: node
   linkType: hard
 
@@ -8798,6 +8808,13 @@ __metadata:
   version: 1.4.0
   resolution: "extsprintf@npm:1.4.0"
   checksum: 184dc8a413eb4b1ff16bdce797340e7ded4d28511d56a1c9afa5a95bcff6ace154063823eaf0206dbbb0d14059d74f382a15c34b7c0636fa74a7e681295eb67e
+  languageName: node
+  linkType: hard
+
+"faker@npm:^5.5.3":
+  version: 5.5.3
+  resolution: "faker@npm:5.5.3"
+  checksum: 684fd64c8d3897e54248f95b4f6319f75d97691b8500cd13adf4af2c28f9204f766c1d1aaa6b41338f0beaaa87256c3132f8708a1a8f189d122b92f6b98081c3
   languageName: node
   linkType: hard
 
@@ -14515,6 +14532,13 @@ fsevents@^1.2.7:
   dependencies:
     lru-cache: ^5.1.1
   checksum: 97aedde610ef561f05853609d6a5b720ec1e123f867bdac1b38b5aeb3bc90ed60209678c75a5f0f9821aa793c720b6d17aabfb956e26ab115ee9b81d6e56bdf7
+  languageName: node
+  linkType: hard
+
+"oo-ascii-tree@npm:^1.34.0":
+  version: 1.34.0
+  resolution: "oo-ascii-tree@npm:1.34.0"
+  checksum: d1a0b3826c5ecbdd3fb985fb77b53733f7ac6144df46961e471fb301de325e4d0559adc13a575e6ff87a8c5bb02524291089681a0847468760a146c8dfd5545d
   languageName: node
   linkType: hard
 

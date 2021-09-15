@@ -6,6 +6,7 @@ export * from './promise'
 export * from './hash'
 export * from './tracing-effect'
 
+export { AsciiTree } from 'oo-ascii-tree'
 export * as pattern from 'ts-pattern'
 import { Tagged } from '@effect-ts/core/Case'
 import * as inflection from 'inflection'
@@ -38,6 +39,8 @@ export const partition = <T>(arr: T[], isLeft: (_: T) => boolean): [T[], T[]] =>
     [[], []] as [T[], T[]],
   )
 }
+
+export const capitalizeFirstLetter = (str: string): string => str.charAt(0).toUpperCase() + str.slice(1)
 
 /**
  * Use this to make assertion at end of if-else chain that all members of a

@@ -1,6 +1,5 @@
 import type * as core from '@contentlayer/core'
-import * as utils from '@contentlayer/utils'
-import { Chunk, OT, pipe, T } from '@contentlayer/utils/effect'
+import { Chunk, OT, pipe, T, These } from '@contentlayer/utils/effect'
 import type { FileNotFoundError, ReadFileError } from '@contentlayer/utils/node'
 import { fs, UnknownFSError } from '@contentlayer/utils/node'
 import { promise as glob } from 'glob-promise'
@@ -10,8 +9,9 @@ import * as os from 'os'
 import * as path from 'path'
 
 import type { Flags } from '..'
-import type { CouldNotDetermineDocumentTypeError, FetchDataError, InvalidDataError } from '../errors'
+import type { FetchDataError } from '../errors'
 import { ComputedValueError, UnsupportedFileExtension } from '../errors'
+import { FetchDataAggregateError } from '../errors/aggregate'
 import type { FilePathPatternMap } from '../types'
 import { makeDocument } from './mapping'
 import type { RawContent } from './types'
@@ -24,6 +24,7 @@ export const fetchAllDocuments = ({
   flags,
   options,
   previousCache,
+  verbose,
 }: {
   coreSchemaDef: core.SchemaDef
   filePathPatternMap: FilePathPatternMap
@@ -31,6 +32,7 @@ export const fetchAllDocuments = ({
   flags: Flags
   options: core.PluginOptions
   previousCache: core.Cache | undefined
+  verbose: boolean
 }): T.Effect<OT.HasTracer, FetchDataError, core.Cache> =>
   pipe(
     T.gen(function* ($) {
@@ -38,7 +40,7 @@ export const fetchAllDocuments = ({
 
       const concurrencyLimit = os.cpus().length
 
-      const documents = yield* $(
+      const { left: dataErrors, right: documents } = yield* $(
         pipe(
           allRelativeFilePaths,
           T.forEachParN(concurrencyLimit, (relativeFilePath) =>
@@ -52,9 +54,20 @@ export const fetchAllDocuments = ({
               previousCache,
             }),
           ),
-          T.map(Chunk.filter(utils.isNotUndefined)),
+          T.map(Chunk.partitionThese),
         ),
       )
+
+      const aggregateError = new FetchDataAggregateError({
+        errors: Chunk.toArray(dataErrors),
+        documentCount: allRelativeFilePaths.length,
+        options,
+        flags,
+        schemaDef: coreSchemaDef,
+        verbose,
+      })
+
+      console.log(aggregateError.toString())
 
       const cacheItemsMap = Object.fromEntries(Chunk.map_(documents, (_) => [_.document._id, _]))
 
@@ -79,7 +92,7 @@ export const makeCacheItemFromFilePath = ({
   flags: Flags
   options: core.PluginOptions
   previousCache: core.Cache | undefined
-}): T.Effect<OT.HasTracer, FetchDataError, core.CacheItem | undefined> =>
+}): T.Effect<OT.HasTracer, never, These.These<FetchDataError, core.CacheItem>> =>
   pipe(
     T.gen(function* ($) {
       const fullFilePath = path.join(contentDirPath, relativeFilePath)
@@ -97,20 +110,25 @@ export const makeCacheItemFromFilePath = ({
         previousCache.cacheItemsMap[relativeFilePath] &&
         previousCache.cacheItemsMap[relativeFilePath]!.documentHash === documentHash
       ) {
-        return previousCache.cacheItemsMap[relativeFilePath]
+        return These.succeed(previousCache.cacheItemsMap[relativeFilePath]!)
       }
 
       const rawContent = yield* $(processRawContent({ fullFilePath, relativeFilePath }))
 
-      const { documentTypeDef } = yield* $(
-        validateDocumentData({
-          rawContent,
-          relativeFilePath,
-          coreSchemaDef,
-          filePathPatternMap,
-          flags,
-          options,
-        }),
+      const {
+        tuple: [{ documentTypeDef }, warnings],
+      } = yield* $(
+        pipe(
+          validateDocumentData({
+            rawContent,
+            relativeFilePath,
+            coreSchemaDef,
+            filePathPatternMap,
+            flags,
+            options,
+          }),
+          These.toEffect,
+        ),
       )
 
       const document = yield* $(
@@ -130,42 +148,11 @@ export const makeCacheItemFromFilePath = ({
         })
       }
 
-      return { document, documentHash }
+      return These.warnOption({ document, documentHash }, warnings)
     }),
-    T.catchTag('CouldNotDetermineDocumentTypeError', handleUnknownDocuments(flags)),
-    T.catchTag('NoSuchDocumentTypeError', handleInvalidDataError(flags)),
-    T.catchTag('MissingRequiredFieldsError', handleInvalidDataError(flags)),
-    T.catchTag('InvalidDataDuringMappingError', handleInvalidDataError(flags)),
     OT.withSpan('@contentlayer/source-local/fetchData:makeDocumentFromFilePath'),
+    These.effectThese,
   )
-
-const handleInvalidDataError =
-  (flags: Flags) =>
-  <E extends InvalidDataError>(error: E): T.Effect<unknown, E, undefined> => {
-    switch (flags.onMissingOrIncompatibleData) {
-      case 'skip-warn':
-        console.log(`Skipping document. Reason: ${error.toString()}`)
-        return T.succeed(undefined)
-      case 'skip-ignore':
-        return T.succeed(undefined)
-      case 'fail':
-        return T.fail(error)
-    }
-  }
-
-const handleUnknownDocuments =
-  (flags: Flags) =>
-  <E extends CouldNotDetermineDocumentTypeError>(error: E): T.Effect<unknown, E, undefined> => {
-    switch (flags.onUnknownDocuments) {
-      case 'skip-warn':
-        console.log(`Skipping document. Reason: ${error.toString()}`)
-        return T.succeed(undefined)
-      case 'skip-ignore':
-        return T.succeed(undefined)
-      case 'fail':
-        return T.fail(error)
-    }
-  }
 
 const processRawContent = ({
   fullFilePath,

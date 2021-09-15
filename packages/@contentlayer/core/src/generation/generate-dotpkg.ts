@@ -39,11 +39,13 @@ type GenerateDotpkgError =
 
 export const generateDotpkg = ({
   source,
+  verbose,
 }: {
   source: SourcePlugin
+  verbose: boolean
 }): T.Effect<OT.HasTracer & Has<Clock.Clock>, GenerateDotpkgError, void> =>
   pipe(
-    generateDotpkgStream({ source }),
+    generateDotpkgStream({ source, verbose }),
     S.take(1),
     S.runCollect,
     T.map((_) => _[0]!),
@@ -54,8 +56,10 @@ export const generateDotpkg = ({
 // TODO make sure unused old generated files are removed
 export const generateDotpkgStream = ({
   source,
+  verbose,
 }: {
   source: SourcePlugin
+  verbose: boolean
 }): S.Stream<OT.HasTracer & Has<Clock.Clock>, never, E.Either<GenerateDotpkgError, void>> => {
   const writtenFilesCache = {}
   const generationOptions = { sourcePluginType: source.type, options: source.options }
@@ -75,7 +79,7 @@ export const generateDotpkgStream = ({
     S.fromEffect(resolveParams),
     S.chainMapEitherRight(({ schemaDef, targetPath }) =>
       pipe(
-        source.fetchData({ schemaDef }),
+        source.fetchData({ schemaDef, verbose }),
         S.mapEffectEitherRight((cache) =>
           writeFilesForCache({ schemaDef, targetPath, cache, generationOptions, writtenFilesCache }),
         ),

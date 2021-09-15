@@ -53,6 +53,7 @@ export type SourcePlugin = {
 export type ProvideSchema = T.Effect<OT.HasTracer, SourceProvideSchemaError, SchemaDef>
 export type FetchData = (_: {
   schemaDef: SchemaDef
+  verbose: boolean
 }) => S.Stream<OT.HasTracer & Has<Clock.Clock>, never, E.Either<SourceFetchDataError | SourceProvideSchemaError, Cache>>
 
 // export type MakeSourcePlugin = (

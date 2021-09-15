@@ -64,7 +64,7 @@ const runContentlayerDev = async ({ onGeneration }: { onGeneration: () => void }
   await pipe(
     getConfigWatch({ cwd: process.cwd() }),
     S.tapSkipFirstRight(() => T.log(`Contentlayer config change detected. Updating type definitions and data...`)),
-    S.chainSwitchMapEitherRight((source) => generateDotpkgStream({ source })),
+    S.chainSwitchMapEitherRight((source) => generateDotpkgStream({ source, verbose: false })),
     S.tap(
       E.fold(
         (error) => T.log(error.toString()),
@@ -85,7 +85,7 @@ const runContentlayerBuild = async () => {
 
   await pipe(
     getConfig({ cwd: process.cwd() }),
-    T.chain((source) => generateDotpkg({ source })),
+    T.chain((source) => generateDotpkg({ source, verbose: false })),
     T.tap(() => T.log(`Generated node_modules/.contentlayer`)),
     OT.withSpan('next-contentlayer:runContentlayerBuild'),
     T.provideSomeLayer(JaegerNodeTracing('next-contentlayer')),

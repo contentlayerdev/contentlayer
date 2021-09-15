@@ -26,7 +26,7 @@ export class DevCommand extends BaseCommand {
       }),
     ),
     S.tapSkipFirstRight(() => T.log(`Contentlayer config change detected. Updating type definitions and data...`)),
-    S.chainSwitchMapEitherRight((source) => generateDotpkgStream({ source })),
+    S.chainSwitchMapEitherRight((source) => generateDotpkgStream({ source, verbose: this.verbose })),
     S.tap(
       E.fold(
         (error) => T.log(error.toString()),

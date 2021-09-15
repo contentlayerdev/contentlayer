@@ -13,7 +13,9 @@ export * as Sync from '@effect-ts/core/Sync'
 export * as Tuple from '@effect-ts/core/Collections/Immutable/Tuple'
 export * as Tp from '@effect-ts/core/Collections/Immutable/Tuple'
 
-export * as Chunk from '@effect-ts/core/Collections/Immutable/Chunk'
+export * as These from './These'
+
+export * as Chunk from './Chunk'
 
 export * as Cause from '@effect-ts/core/Effect/Cause'
 

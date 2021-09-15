@@ -2,7 +2,7 @@ import * as core from '@contentlayer/core'
 import { SourceFetchDataError, writeCacheToDisk } from '@contentlayer/core'
 import * as utils from '@contentlayer/utils'
 import type { E, OT } from '@contentlayer/utils/effect'
-import { pipe, S, T } from '@contentlayer/utils/effect'
+import { pipe, S, T, These } from '@contentlayer/utils/effect'
 import * as Node from '@contentlayer/utils/node'
 
 import type { FetchDataError } from '../errors'
@@ -16,12 +16,14 @@ export const fetchData = ({
   flags,
   options,
   contentDirPath,
+  verbose,
 }: {
   coreSchemaDef: core.SchemaDef
   documentTypeDefs: LocalSchema.DocumentTypeDef[]
   flags: Flags
   options: core.PluginOptions
   contentDirPath: string
+  verbose: boolean
 }): S.Stream<OT.HasTracer, never, E.Either<SourceFetchDataError, core.Cache>> => {
   const filePathPatternMap: FilePathPatternMap = Object.fromEntries(
     documentTypeDefs
@@ -68,6 +70,7 @@ export const fetchData = ({
                   flags,
                   options,
                   previousCache: cache,
+                  verbose,
                 }),
               deleted: (event) =>
                 T.succeedWith(() => {
@@ -116,15 +119,18 @@ const updateCacheEntry = ({
 }): T.Effect<OT.HasTracer, FetchDataError, core.Cache> =>
   T.gen(function* ($) {
     const cacheItem = yield* $(
-      makeCacheItemFromFilePath({
-        relativeFilePath: event.relativeFilePath,
-        contentDirPath,
-        filePathPatternMap,
-        flags,
-        coreSchemaDef,
-        options,
-        previousCache: cache,
-      }),
+      pipe(
+        makeCacheItemFromFilePath({
+          relativeFilePath: event.relativeFilePath,
+          contentDirPath,
+          filePathPatternMap,
+          flags,
+          coreSchemaDef,
+          options,
+          previousCache: cache,
+        }),
+        These.effectUnwrapValue,
+      ),
     )
 
     if (cacheItem) {

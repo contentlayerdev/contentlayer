@@ -20,7 +20,7 @@ export class BuildCommand extends BaseCommand {
 
   executeSafe = pipe(
     T.suspend(() => getConfig({ configPath: this.configPath, cwd: process.cwd() })),
-    T.chain((source) => generateDotpkg({ source })),
+    T.chain((source) => generateDotpkg({ source, verbose: this.verbose })),
     T.tap(() => T.succeedWith(() => console.log(`Generated node_modules/.contentlayer`))),
     OT.withSpan('@contentlayer/cli/commands/BuildCommand:executeSafe', { attributes: { cwd: process.cwd() } }),
   )

@@ -5,8 +5,6 @@ import { pipe, T } from '@contentlayer/utils/effect'
 import { makeSource } from '../..'
 import { defineDocumentType } from '../../schema/defs'
 
-test.todo('generate-types')
-
 const TestPost = defineDocumentType<any>(() => ({
   name: 'TestPost',
   filePathPattern: `**/*.md`,

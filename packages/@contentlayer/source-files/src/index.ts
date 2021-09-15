@@ -54,7 +54,7 @@ export const makeSource: core.MakeSourcePlugin<Args> = async (args) => {
       makeCoreSchema({ documentTypeDefs, options }),
       Sync.mapError((error) => new SourceProvideSchemaError({ error })),
     ),
-    fetchData: ({ schemaDef }) =>
-      fetchData({ coreSchemaDef: schemaDef, documentTypeDefs, flags, options, contentDirPath }),
+    fetchData: ({ schemaDef, verbose }) =>
+      fetchData({ coreSchemaDef: schemaDef, documentTypeDefs, flags, options, contentDirPath, verbose }),
   }
 }
