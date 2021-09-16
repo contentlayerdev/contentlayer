@@ -38,3 +38,5 @@ export const errorToString = (error: any) => {
 
   return JSON.stringify(error, null, 2)
 }
+
+export class HandledFetchDataError extends Tagged('HandledFetchDataError')<{}> {}

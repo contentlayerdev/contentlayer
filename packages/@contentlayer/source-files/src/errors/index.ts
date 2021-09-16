@@ -1,111 +1,169 @@
 import type * as core from '@contentlayer/core'
+import { errorToString } from '@contentlayer/core'
 import { Tagged } from '@contentlayer/utils/effect'
-import type { FileNotFoundError, ReadFileError, UnknownFSError } from '@contentlayer/utils/node'
 
-export class ComputedValueError extends Tagged('ComputedValueError')<{ readonly error: unknown }> {
-  toString = () => `ComputedValueError: ${this.error}`
-}
+import { handleFetchDataErrors } from './aggregate'
 
-export type RenderHeadline = (_: {
-  documentCount: number
-  options: core.PluginOptions
-  schemaDef: core.SchemaDef
-}) => string
+export namespace FetchDataError {
+  export type FetchDataError =
+    | ComputedValueError
+    | UnsupportedFileExtension
+    | NoSuchDocumentTypeError
+    | CouldNotDetermineDocumentTypeError
+    | MissingRequiredFieldsError
+    | ExtraFieldDataError
+    | UnexpectedError
 
-export class UnsupportedFileExtension extends Tagged('UnsupportedFileExtension')<{
-  readonly extension: string
-  readonly filePath: string
-}> {
-  toString = () => `Unsupported file extension "${this.extension}" for ${this.filePath}`
-}
+  interface AggregatableError {
+    renderHeadline: RenderHeadline
+    renderLine: () => string
+    kind: InvalidDataErrorKind
+  }
 
-export class CouldNotDetermineDocumentTypeError extends Tagged('CouldNotDetermineDocumentTypeError')<{
-  readonly documentFilePath: string
-  readonly typeFieldName: string
-}> {
-  static renderHeadline: RenderHeadline = ({ documentCount, options, schemaDef }) => {
-    const validTypeNames = Object.keys(schemaDef.documentTypeDefMap).join(', ')
-    return `\
+  export const handleErrors = handleFetchDataErrors
+
+  type RenderHeadline = (_: { documentCount: number; options: core.PluginOptions; schemaDef: core.SchemaDef }) => string
+
+  type InvalidDataErrorKind = 'UnknownDocument' | 'ExtraFieldData' | 'MissingOrIncompatibleData' | 'Unexpected'
+
+  export class ComputedValueError
+    extends Tagged('ComputedValueError')<{
+      readonly error: unknown
+      readonly documentFilePath: string
+    }>
+    implements AggregatableError
+  {
+    kind: InvalidDataErrorKind = 'MissingOrIncompatibleData'
+
+    renderHeadline: RenderHeadline = ({ documentCount }) =>
+      `Error during computed field exection for ${documentCount} documents.`
+
+    renderLine = () => `"${this.documentFilePath}" failed with ${errorToString(this.error)}`
+  }
+
+  export class UnsupportedFileExtension
+    extends Tagged('UnsupportedFileExtension')<{
+      readonly extension: string
+      readonly filePath: string
+    }>
+    implements AggregatableError
+  {
+    kind: InvalidDataErrorKind = 'MissingOrIncompatibleData'
+    renderHeadline: RenderHeadline = ({ documentCount }) =>
+      `Found unsupported file extensions for ${documentCount} documents`
+
+    renderLine = () => `"${this.filePath}" uses "${this.extension}"`
+  }
+
+  export class CouldNotDetermineDocumentTypeError
+    extends Tagged('CouldNotDetermineDocumentTypeError')<{
+      readonly documentFilePath: string
+      readonly typeFieldName: string
+    }>
+    implements AggregatableError
+  {
+    kind: InvalidDataErrorKind = 'UnknownDocument'
+    renderHeadline: RenderHeadline = ({ documentCount, options, schemaDef }) => {
+      const validTypeNames = Object.keys(schemaDef.documentTypeDefMap).join(', ')
+      return `\
 Couldn't determine the document type for ${documentCount} documents.
 
 Please either define a filePathPattern for the given document type definition \
 or provide a valid value for the type field (i.e. the field "${options.fieldOptions.typeFieldName}" needs to be \
 one of the following document type names: ${validTypeNames}).`
+    }
+
+    renderLine = () => `${this.documentFilePath}`
   }
 
-  renderLine = () => `${this.documentFilePath}`
-}
-
-export class NoSuchDocumentTypeError extends Tagged('NoSuchDocumentTypeError')<{
-  readonly documentTypeName: string
-  readonly documentFilePath: string
-}> {
-  static renderHeadline: RenderHeadline = ({ documentCount, schemaDef }) => {
-    const validTypeNames = Object.keys(schemaDef.documentTypeDefMap).join(', ')
-    return `\
+  export class NoSuchDocumentTypeError
+    extends Tagged('NoSuchDocumentTypeError')<{
+      readonly documentTypeName: string
+      readonly documentFilePath: string
+    }>
+    implements AggregatableError
+  {
+    kind: InvalidDataErrorKind = 'MissingOrIncompatibleData'
+    renderHeadline: RenderHeadline = ({ documentCount, schemaDef }) => {
+      const validTypeNames = Object.keys(schemaDef.documentTypeDefMap).join(', ')
+      return `\
 Couldn't find document type definitions provided by name for ${documentCount} documents.
 
-Please use one of the following document type names: ${validTypeNames}.`
-  }
-
-  renderLine = () => `${this.documentFilePath} (Used type name: "${this.documentTypeName}")`
-}
-
-export class MissingRequiredFieldsError extends Tagged('MissingRequiredFieldsError')<{
-  readonly documentFilePath: string
-  readonly documentTypeName: string
-  readonly fieldDefsWithMissingData: core.FieldDef[]
-}> {
-  toString = () => {
-    const misingRequiredFieldsStr = this.fieldDefsWithMissingData
-      .map((fieldDef, i) => `     ${i + 1}) ${fieldDef.name}: ${fieldDef.type}`)
-      .join('\n')
-
-    return `\
-Missing required fields (type: "${this.documentTypeName}") for "${this.documentFilePath}".
-  Missing fields:
-${misingRequiredFieldsStr}`
-  }
-}
-
-export class ExtraFieldDataError extends Tagged('ExtraFieldDataError')<{
-  readonly documentFilePath: string
-  readonly documentTypeName: string
-  readonly extraFieldEntries: readonly (readonly [fieldKey: string, fieldValue: any])[]
-}> {
-  toString = () => {
-    return `\
-Warning: Document (type: "${this.documentTypeName}") contained fields that are not defined in schema for "${
-      this.documentFilePath
-    }".
-
-Extra fields:
-${this.extraFieldEntries.map(([key, value]) => `  ${key}: ${JSON.stringify(value)}`).join('\n')}
+Please use one of the following document type names: ${validTypeNames}.\
 `
+    }
+
+    renderLine = () => `${this.documentFilePath} (Used type name: "${this.documentTypeName}")`
+  }
+
+  export class MissingRequiredFieldsError
+    extends Tagged('MissingRequiredFieldsError')<{
+      readonly documentFilePath: string
+      readonly documentTypeName: string
+      readonly fieldDefsWithMissingData: core.FieldDef[]
+    }>
+    implements AggregatableError
+  {
+    kind: InvalidDataErrorKind = 'MissingOrIncompatibleData'
+
+    renderHeadline: RenderHeadline = ({ documentCount }) => `Missing required fields for ${documentCount} documents`
+
+    renderLine = () => {
+      const misingRequiredFieldsStr = this.fieldDefsWithMissingData
+        .map((fieldDef) => `  • ${fieldDef.name}: ${fieldDef.type}`)
+        .join('\n')
+
+      return `\
+"${this.documentFilePath}" is missing the following required fields:
+${misingRequiredFieldsStr}\
+`
+    }
+  }
+
+  export class ExtraFieldDataError
+    extends Tagged('ExtraFieldDataError')<{
+      readonly documentFilePath: string
+      readonly documentTypeName: string
+      readonly extraFieldEntries: readonly (readonly [fieldKey: string, fieldValue: any])[]
+    }>
+    implements AggregatableError
+  {
+    kind: InvalidDataErrorKind = 'ExtraFieldData'
+
+    renderHeadline: RenderHeadline = ({ documentCount }) => `\
+  ${documentCount} documents contain field data which isn't defined in the document type definition`
+
+    renderLine = () => {
+      const extraFields = this.extraFieldEntries
+        .map(([key, value]) => `  • ${key}: ${JSON.stringify(value)}`)
+        .join('\n')
+      return `"${this.documentFilePath}" of type "${this.documentTypeName}" has the following extra fields:
+${extraFields} `
+    }
+  }
+
+  export class UnexpectedError
+    extends Tagged('UnexpectedError')<{
+      readonly documentFilePath: string
+      readonly error: unknown
+    }>
+    implements AggregatableError
+  {
+    kind: InvalidDataErrorKind = 'Unexpected'
+
+    renderHeadline: RenderHeadline = ({ documentCount }) => `\
+Encountered unexpected errors while processing of ${documentCount} documents.\
+This is possibly a bug in Contentlayer. Please open an issue.`
+
+    renderLine = () => `"${this.documentFilePath}": ${errorToString(this.error)}`
   }
 }
 
 export class InvalidDataDuringMappingError extends Tagged('InvalidDataDuringMappingError')<{
-  readonly documentFilePath: string
   readonly message: string
 }> {
-  toString = () => `ComputedValueError: ${this.message}`
+  toString = () => `Found inconsistent data. ${this.message}`
 }
-
-export type InvalidDataError =
-  | NoSuchDocumentTypeError
-  | CouldNotDetermineDocumentTypeError
-  | MissingRequiredFieldsError
-  | InvalidDataDuringMappingError
-  | ExtraFieldDataError
-
-export type FetchDataError =
-  | ReadFileError
-  | UnknownFSError
-  | FileNotFoundError
-  | ComputedValueError
-  | UnsupportedFileExtension
-  | InvalidDataError
 
 export type SchemaError = DuplicateBodyFieldError
 

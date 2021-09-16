@@ -1,111 +1,164 @@
-import type * as core from '@contentlayer/core'
+import * as core from '@contentlayer/core'
 import { AsciiTree } from '@contentlayer/utils'
-import { Tagged } from '@contentlayer/utils/effect'
+import { T } from '@contentlayer/utils/effect'
 
 import type { Flags } from '../types'
-import type { FetchDataError, RenderHeadline } from '.'
+import type { FetchDataError } from '.'
 
-export class FetchDataAggregateError extends Tagged('FetchDataAggregateError')<{
-  readonly errors: readonly FetchDataError[]
-  readonly documentCount: number
-  readonly options: core.PluginOptions
-  readonly flags: Flags
-  readonly schemaDef: core.SchemaDef
-  readonly verbose?: boolean
-}> {
-  toString = () => {
-    const shouldFail = this.shouldFail()
-    const keyMessage = `Found problems in ${this.errors.length} of ${this.documentCount} documents.`
-    const topMessage = shouldFail ? `Error: ${keyMessage}` : `${keyMessage} Skipping those documents.`
-    const asciiTree = new AsciiTree(topMessage + '\n')
+export const handleFetchDataErrors = ({
+  errors,
+  documentCount,
+  options,
+  flags,
+  schemaDef,
+  verbose,
+}: {
+  errors: readonly FetchDataError.FetchDataError[]
+  documentCount: number
+  options: core.PluginOptions
+  flags: Flags
+  schemaDef: core.SchemaDef
+  verbose?: boolean
+}): T.Effect<unknown, never, void> =>
+  T.gen(function* ($) {
+    const filteredErrors = filterErrorsByFlags({ errors, flags })
 
-    const uniqueErrorTags = Array.from(new Set(this.errors.map((e) => e._tag)))
+    if (filteredErrors.length === 0) return
 
-    for (const tag of uniqueErrorTags) {
-      const filteredErrors = this.errors.filter((e) => e._tag === tag)
+    const shouldFail = failOrSkip({ errors: filteredErrors, flags }) === 'fail'
 
-      let str = ''
+    const errorMessage = aggregateFetchDataErrors({
+      documentCount,
+      errors: filteredErrors,
+      options,
+      shouldFail,
+      schemaDef,
+      verbose,
+    })
 
-      const renderHeadline = (filteredErrors[0]!.constructor as any).renderHeadline as RenderHeadline | undefined
-      const hasRenderLine = filteredErrors.every((_: any) => typeof _.renderLine === 'function')
+    yield* $(T.log(errorMessage))
 
-      if (hasRenderLine && renderHeadline) {
-        const errorPrintLimit = this.verbose ? filteredErrors.length : 20
-        const remainingErrorCount = Math.max(filteredErrors.length - errorPrintLimit, 0)
-        str += renderHeadline({
-          documentCount: filteredErrors.length,
-          options: this.options,
-          schemaDef: this.schemaDef,
-        })
-
-        str += '\n\n'
-
-        str += filteredErrors
-          .splice(0, errorPrintLimit)
-          .map((_: any) => `• ${_.renderLine()}`)
-          .join('\n')
-
-        if (remainingErrorCount > 0) {
-          str += '\n'
-          str += `• ... ${remainingErrorCount} more documents (Use the --verbose CLI option to show all documents)`
-        }
-        str += '\n'
-      } else {
-        str += filteredErrors.map((e) => e.toString()).join('\n')
-        str += '\n'
-      }
-
-      asciiTree.add(new AsciiTree(str))
+    if (shouldFail) {
+      yield* $(T.die(new core.HandledFetchDataError()))
     }
+  })
 
-    // let str = ''
-    // const unknownDocumentErrors = this.errors.filter(
-    //   (_): _ is CouldNotDetermineDocumentTypeError => _._tag === 'CouldNotDetermineDocumentTypeError',
-    // )
-    // const errorPrintLimit = this.verbose ? unknownDocumentErrors.length : 20
-    // const remainingErrorCount = Math.max(unknownDocumentErrors.length - errorPrintLimit, 0)
-    // // str += symbol + ' '
-    // str += CouldNotDetermineDocumentTypeError.renderHeadline({
-    //   documentCount: unknownDocumentErrors.length,
-    //   options: this.options,
-    //   schemaDef: this.schemaDef,
-    // })
-    // str += '\n'
-    // str += unknownDocumentErrors
-    //   .splice(0, errorPrintLimit)
-    //   .map((_) => indentBy2(_.renderLine()))
-    //   .join('\n')
-    // if (remainingErrorCount > 0) {
-    //   str += '\n'
-    //   str += indentBy2(`+ ${remainingErrorCount} more documents (Use the --verbose CLI option to show all documents)`)
-    // }
+export const testOnly_aggregateFetchDataErrors = ({
+  errors,
+  documentCount,
+  options,
+  flags,
+  schemaDef,
+  verbose,
+}: {
+  errors: readonly FetchDataError.FetchDataError[]
+  documentCount: number
+  options: core.PluginOptions
+  flags: Flags
+  schemaDef: core.SchemaDef
+  verbose?: boolean
+}): string | null => {
+  const filteredErrors = filterErrorsByFlags({ errors, flags })
 
-    // asciiTree.add(new AsciiTree(str))
+  if (filteredErrors.length === 0) return null
 
-    return asciiTree.toString()
-  }
+  const shouldFail = failOrSkip({ errors: filteredErrors, flags }) === 'fail'
 
-  private shouldFail = (): boolean => {
-    const hasExtraFieldData = this.errors.some((_) => _._tag === 'ExtraFieldDataError')
-    if (hasExtraFieldData && this.flags.onExtraFieldData === 'fail') {
-      return true
-    }
-
-    const hasUnknownDocuments = this.errors.some((_) => _._tag === 'CouldNotDetermineDocumentTypeError')
-    if (hasUnknownDocuments && this.flags.onUnknownDocuments === 'fail') {
-      return true
-    }
-
-    const hasMissingOrIncompatibleData = this.errors.some(
-      (_) =>
-        _._tag === 'MissingRequiredFieldsError' ||
-        _._tag === 'InvalidDataDuringMappingError' ||
-        _._tag === 'NoSuchDocumentTypeError',
-    )
-    if (hasMissingOrIncompatibleData && this.flags.onMissingOrIncompatibleData === 'fail') {
-      return true
-    }
-
-    return false
-  }
+  return aggregateFetchDataErrors({
+    documentCount,
+    errors: filteredErrors,
+    options,
+    shouldFail,
+    schemaDef,
+    verbose,
+  })
 }
+
+const aggregateFetchDataErrors = ({
+  errors,
+  documentCount,
+  options,
+  shouldFail,
+  schemaDef,
+  verbose,
+}: {
+  errors: readonly FetchDataError.FetchDataError[]
+  documentCount: number
+  options: core.PluginOptions
+  shouldFail: boolean
+  schemaDef: core.SchemaDef
+  verbose?: boolean
+}): string => {
+  const keyMessage = `Found problems in ${errors.length} of ${documentCount} documents.`
+  const topMessage = shouldFail ? `Error: ${keyMessage}` : `${keyMessage} Skipping those documents.`
+  const asciiTree = new AsciiTree(topMessage + '\n')
+
+  const uniqueErrorTags = Array.from(new Set(errors.map((e) => e._tag)))
+
+  for (const tag of uniqueErrorTags) {
+    const taggedErrors = errors.filter((e) => e._tag === tag)
+
+    let str = ''
+
+    const errorPrintLimit = verbose ? taggedErrors.length : 20
+    const remainingErrorCount = Math.max(taggedErrors.length - errorPrintLimit, 0)
+    str += taggedErrors[0]!.renderHeadline({
+      documentCount: taggedErrors.length,
+      options,
+      schemaDef,
+    })
+
+    str += '\n\n'
+
+    str += taggedErrors
+      .splice(0, errorPrintLimit)
+      .map((_: any) => `• ${_.renderLine()}`)
+      .join('\n')
+
+    if (remainingErrorCount > 0) {
+      str += '\n'
+      str += `• ... ${remainingErrorCount} more documents (Use the --verbose CLI option to show all documents)`
+    }
+    str += '\n'
+
+    asciiTree.add(new AsciiTree(str))
+  }
+
+  return asciiTree.toString()
+}
+
+const failOrSkip = ({
+  errors,
+  flags,
+}: {
+  errors: readonly FetchDataError.FetchDataError[]
+  flags: Flags
+}): 'fail' | 'skip' => {
+  if (errors.some((_) => _.kind === 'ExtraFieldData') && flags.onExtraFieldData === 'fail') {
+    return 'fail'
+  }
+
+  if (errors.some((_) => _.kind === 'UnknownDocument') && flags.onUnknownDocuments === 'fail') {
+    return 'fail'
+  }
+
+  if (errors.some((_) => _.kind === 'MissingOrIncompatibleData') && flags.onMissingOrIncompatibleData === 'fail') {
+    return 'fail'
+  }
+
+  return errors.some((_) => _.kind === 'Unexpected') ? 'fail' : 'skip'
+}
+
+const filterErrorsByFlags = ({
+  errors,
+  flags,
+}: {
+  errors: readonly FetchDataError.FetchDataError[]
+  flags: Flags
+}): readonly FetchDataError.FetchDataError[] =>
+  errors.filter((e) => {
+    if (e.kind === 'ExtraFieldData' && flags.onExtraFieldData === 'ignore') return false
+    if (e.kind === 'UnknownDocument' && flags.onUnknownDocuments === 'skip-ignore') return false
+    if (e.kind === 'MissingOrIncompatibleData' && flags.onMissingOrIncompatibleData === 'skip-ignore') return false
+    return true
+  })

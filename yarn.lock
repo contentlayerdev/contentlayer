@@ -13999,6 +13999,7 @@ fsevents@^1.2.7:
     typescript: ^4.4.3
   peerDependencies:
     next: ^11
+    react: "*"
   languageName: unknown
   linkType: soft
 

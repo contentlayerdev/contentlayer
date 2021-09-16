@@ -6,22 +6,22 @@ import type { Stats } from 'fs'
 import { promises as fs } from 'fs'
 import type { JsonValue } from 'type-fest'
 
-export const fileOrDirExists = (filePath: string): T.Effect<unknown, ReadFileError, boolean> => {
+export const fileOrDirExists = (filePath: string): T.Effect<unknown, StatError, boolean> => {
   return pipe(
     stat(filePath),
     T.map((stat_) => stat_.isFile() || stat_.isDirectory()),
-    T.catchTag('FileNotFoundError', () => T.succeed(false)),
+    T.catchTag('node.fs.FileNotFoundError', () => T.succeed(false)),
   )
 }
 
-export const stat = (filePath: string): T.Effect<unknown, FileNotFoundError | ReadFileError, Stats> => {
+export const stat = (filePath: string): T.Effect<unknown, FileNotFoundError | StatError, Stats> => {
   return T.tryCatchPromise(
     async () => fs.stat(filePath),
     (error: any) => {
       if (error.code === 'ENOENT') {
         return new FileNotFoundError({ filePath })
       } else {
-        return new ReadFileError({ filePath, error })
+        return new StatError({ filePath, error })
       }
     },
   )
@@ -85,14 +85,29 @@ export const mkdirp = (dirPath: string): T.Effect<OT.HasTracer, MkdirError, void
     ),
   )
 
-export class FileNotFoundError extends Tagged('FileNotFoundError')<{ readonly filePath: string }> {}
-export class ReadFileError extends Tagged('ReadFileError')<{ readonly filePath: string; readonly error: unknown }> {}
-export class WriteFileError extends Tagged('WriteFileError')<{ readonly filePath: string; readonly error: unknown }> {}
-export class MkdirError extends Tagged('MkdirError')<{ readonly dirPath: string; readonly error: unknown }> {}
+export class FileNotFoundError extends Tagged('node.fs.FileNotFoundError')<{ readonly filePath: string }> {}
 
-export class UnknownFSError extends Tagged('UnknownFSError')<{ readonly error: any }> {
+export class ReadFileError extends Tagged('node.fs.ReadFileError')<{
+  readonly filePath: string
+  readonly error: unknown
+}> {}
+
+export class StatError extends Tagged('node.fs.StatError')<{ readonly filePath: string; readonly error: unknown }> {}
+
+export class WriteFileError extends Tagged('node.fs.WriteFileError')<{
+  readonly filePath: string
+  readonly error: unknown
+}> {}
+
+export class MkdirError extends Tagged('node.fs.MkdirError')<{ readonly dirPath: string; readonly error: unknown }> {}
+
+export class UnknownFSError extends Tagged('node.fs.UnknownFSError')<{ readonly error: any }> {
   toString = () => `UnknownFSError: ${this.error.toString()} ${this.error.stack}`
 }
 
-export class JsonParseError extends Tagged('JsonParseError')<{ readonly str: string; readonly error: unknown }> {}
-export class JsonStringifyError extends Tagged('JsonStringifyError')<{ readonly error: unknown }> {}
+export class JsonParseError extends Tagged('node.fs.JsonParseError')<{
+  readonly str: string
+  readonly error: unknown
+}> {}
+
+export class JsonStringifyError extends Tagged('node.fs.JsonStringifyError')<{ readonly error: unknown }> {}

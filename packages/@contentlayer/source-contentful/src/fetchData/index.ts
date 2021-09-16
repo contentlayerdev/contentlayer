@@ -1,7 +1,7 @@
 import type * as Core from '@contentlayer/core'
 import { SourceFetchDataError } from '@contentlayer/core'
 import { Chunk, OT, pipe, T } from '@contentlayer/utils/effect'
-import * as node from '@contentlayer/utils/node'
+import { fs } from '@contentlayer/utils/node'
 import * as os from 'os'
 
 import { environmentGetAssets, environmentGetContentTypes, environmentGetEntries, getEnvironment } from '../contentful'
@@ -42,8 +42,8 @@ export const fetchAllDocuments = ({
 
       if (process.env['CL_DEBUG']) {
         yield* $(OT.addAttribute('schemaOverrides', JSON.stringify(schemaOverrides)))
-        yield* $(node.writeFileJson({ filePath: '.tmp.assets.json', content: allAssets as any }))
-        yield* $(node.writeFileJson({ filePath: '.tmp.entries.json', content: allEntries as any }))
+        yield* $(fs.writeFileJson({ filePath: '.tmp.assets.json', content: allAssets as any }))
+        yield* $(fs.writeFileJson({ filePath: '.tmp.entries.json', content: allEntries as any }))
       }
 
       const isEntryADocument = ({

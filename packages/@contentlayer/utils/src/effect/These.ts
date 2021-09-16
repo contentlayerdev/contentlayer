@@ -4,10 +4,9 @@
 
 import { pipe } from '@effect-ts/core'
 import * as Tp from '@effect-ts/core/Collections/Immutable/Tuple'
-import * as T from '@effect-ts/core/Effect'
 import { _A, _E } from '@effect-ts/core/Effect'
-import * as E from '@effect-ts/core/Either'
-import * as O from '@effect-ts/core/Option'
+
+import { E, O, T } from '.'
 
 export class These<E, A> {
   readonly [_E]: () => E;
@@ -100,6 +99,10 @@ export function result<E, A>(self: These<E, A>): E.Either<E, Tp.Tuple<[A, O.Opti
   return self.either
 }
 
+export const errorOrWaning = <E, A>(self: These<E, A>): O.Option<E> => {
+  return E.fold_(self.either, O.some, (tp) => tp.get(1))
+}
+
 export const toEffect = <E, A>(self: These<E, A>): T.Effect<unknown, E, Tp.Tuple<[A, O.Option<E>]>> => {
   return pipe(result(self), E.fold(T.fail, T.succeed))
 }
@@ -110,6 +113,41 @@ export const effectUnwrapValue = <T, E1, E2, A>(effect: T.Effect<T, E1, These<E2
     T.chain((these) => E.fold_(these.either, T.fail, ({ tuple: [a] }) => T.succeed(a))),
   )
 }
+
+export const effectTapNonFailure =
+  <T1, T2, E1, E2, TE2, A>(tapFn: (a: A) => T.Effect<T1, E1, any>) =>
+  (effect: T.Effect<T2, E2, These<TE2, A>>): T.Effect<T1 & T2, E1 | E2, These<TE2, A>> => {
+    return T.tap_(effect, (these) =>
+      pipe(
+        result(these),
+        E.fold(
+          () => T.unit,
+          (tp) => tapFn(tp.get(0)),
+        ),
+      ),
+    )
+  }
+
+export const effectTapErrorOrWarning =
+  <T1, T2, E1, E2, TE2, A>(tapFn: (te2: TE2) => T.Effect<T1, E1, any>) =>
+  (effect: T.Effect<T2, E2, These<TE2, A>>): T.Effect<T1 & T2, E1 | E2, These<TE2, A>> => {
+    return T.tap_(effect, (these) =>
+      pipe(
+        errorOrWaning(these),
+        O.fold(
+          () => T.unit,
+          (e) => tapFn(e),
+        ),
+      ),
+    )
+  }
+
+// export const effectValueOrElse = <T, E1, E2, A>(effect: T.Effect<T, E1, These<E2, A>>): T.Effect<T, E1 | E2, A> => {
+//   return pipe(
+//     effect,
+//     T.chain((these) => E.fold_(these.either, T.fail, ({ tuple: [a] }) => T.succeed(a))),
+//   )
+// }
 
 export const effectThese = <T, E1, E2, A>(
   effect: T.Effect<T, E1, These<E2, A>>,

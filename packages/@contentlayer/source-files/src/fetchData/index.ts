@@ -3,9 +3,9 @@ import { SourceFetchDataError, writeCacheToDisk } from '@contentlayer/core'
 import * as utils from '@contentlayer/utils'
 import type { E, OT } from '@contentlayer/utils/effect'
 import { pipe, S, T, These } from '@contentlayer/utils/effect'
-import * as Node from '@contentlayer/utils/node'
+import { FSWatch } from '@contentlayer/utils/node'
 
-import type { FetchDataError } from '../errors'
+import { FetchDataError } from '../errors'
 import type * as LocalSchema from '../schema/defs'
 import type { FilePathPatternMap, Flags } from '../types'
 import { fetchAllDocuments, makeCacheItemFromFilePath } from './fetchAllDocuments'
@@ -34,7 +34,7 @@ export const fetchData = ({
   const initEvent: CustomUpdateEventInit = { _tag: 'init' }
 
   const updateStream = pipe(
-    Node.FSWatch.makeAndSubscribe('.', {
+    FSWatch.makeAndSubscribe('.', {
       cwd: contentDirPath,
       ignoreInitial: true,
       // Unfortunately needed in order to avoid race conditions
@@ -116,31 +116,42 @@ const updateCacheEntry = ({
   flags: Flags
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
-}): T.Effect<OT.HasTracer, FetchDataError, core.Cache> =>
+}): T.Effect<OT.HasTracer, never, core.Cache> =>
   T.gen(function* ($) {
-    const cacheItem = yield* $(
+    yield* $(
       pipe(
         makeCacheItemFromFilePath({
           relativeFilePath: event.relativeFilePath,
           contentDirPath,
           filePathPatternMap,
-          flags,
           coreSchemaDef,
           options,
           previousCache: cache,
         }),
-        These.effectUnwrapValue,
+        These.effectTapNonFailure((cacheItem) =>
+          T.succeedWith(() => {
+            cache!.cacheItemsMap[event.relativeFilePath] = cacheItem
+          }),
+        ),
+        These.effectTapErrorOrWarning((errorOrWarning) =>
+          T.succeedWith(() => {
+            FetchDataError.handleErrors({
+              errors: [errorOrWarning],
+              documentCount: 1,
+              flags,
+              options,
+              schemaDef: coreSchemaDef,
+              verbose: false,
+            })
+          }),
+        ),
       ),
     )
-
-    if (cacheItem) {
-      cache!.cacheItemsMap[event.relativeFilePath] = cacheItem
-    }
 
     return cache
   })
 
-const chokidarAllEventToCustomUpdateEvent = (event: Node.FSWatch.FileSystemEvent): CustomUpdateEvent => {
+const chokidarAllEventToCustomUpdateEvent = (event: FSWatch.FileSystemEvent): CustomUpdateEvent => {
   switch (event._tag) {
     case 'FileAdded':
     case 'FileChanged':

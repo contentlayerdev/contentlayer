@@ -1,5 +1,5 @@
 import rehypeShiki from '@leafac/rehype-shiki'
-import { FieldDef, makeSource } from 'contentlayer/source-files'
+import type { FieldDef } from 'contentlayer/source-files'
 import { defineDocumentType, makeSource } from 'contentlayer/source-files'
 import * as path from 'path'
 import * as shiki from 'shiki'
@@ -45,9 +45,7 @@ export default makeSource(async () => {
   return {
     contentDirPath: path.join(process.cwd(), 'gatsby', 'docs'),
     documentTypes: [Reference, HowTo, Conceptual, Tutorial],
-    onExtraFieldData: 'ignore',
-    onMissingOrIncompatibleData: 'fail',
-    onUnknownDocuments: 'skip-warn',
+    onUnknownDocuments: 'skip-ignore',
     markdown: {
       rehypePlugins: [[rehypeShiki, { highlighter }]],
     },

@@ -1,6 +1,6 @@
 import type * as core from '@contentlayer/core'
 
-import { FetchDataAggregateError } from '../../errors/aggregate'
+import { testOnly_aggregateFetchDataErrors as aggregateFetchDataErrors } from '../../errors/aggregate'
 import type { Flags } from '../../types'
 import { makeErrors, makeSchemaDef } from './utils'
 
@@ -13,14 +13,14 @@ const options: core.PluginOptions = {
 }
 const flags: Flags = {
   onExtraFieldData: 'warn',
-  onMissingOrIncompatibleData: 'skip-ignore',
-  onUnknownDocuments: 'fail',
+  onMissingOrIncompatibleData: 'skip-warn',
+  onUnknownDocuments: 'skip-warn',
 }
 const schemaDef = makeSchemaDef()
 
 describe('CouldNotDetermineDocumentTypeError', () => {
-  it('4 errors', () => {
-    const aggregateError = new FetchDataAggregateError({
+  it('should print 4 errors', () => {
+    const errorString = aggregateFetchDataErrors({
       errors: makeErrors({ CouldNotDetermineDocumentTypeError: 4 }),
       options,
       flags,
@@ -28,8 +28,8 @@ describe('CouldNotDetermineDocumentTypeError', () => {
       documentCount: 42,
     })
 
-    expect(aggregateError.toString()).toMatchInlineSnapshot(`
-"Error: Found problems in 4 of 42 documents.
+    expect(errorString).toMatchInlineSnapshot(`
+"Found problems in 4 of 42 documents. Skipping those documents.
 
  └── Couldn't determine the document type for 4 documents.
      
@@ -44,8 +44,8 @@ describe('CouldNotDetermineDocumentTypeError', () => {
 `)
   })
 
-  it('24 errors - truncated', () => {
-    const aggregateError = new FetchDataAggregateError({
+  it('should print 24 errors - truncated', () => {
+    const errorString = aggregateFetchDataErrors({
       errors: makeErrors({ CouldNotDetermineDocumentTypeError: 24 }),
       options,
       flags,
@@ -53,8 +53,8 @@ describe('CouldNotDetermineDocumentTypeError', () => {
       documentCount: 81,
     })
 
-    expect(aggregateError.toString()).toMatchInlineSnapshot(`
-"Error: Found problems in 24 of 81 documents.
+    expect(errorString).toMatchInlineSnapshot(`
+"Found problems in 24 of 81 documents. Skipping those documents.
 
  └── Couldn't determine the document type for 24 documents.
      
@@ -85,20 +85,19 @@ describe('CouldNotDetermineDocumentTypeError', () => {
 "
 `)
   })
-})
 
-it('24 errors - full', () => {
-  const aggregateError = new FetchDataAggregateError({
-    errors: makeErrors({ CouldNotDetermineDocumentTypeError: 24 }),
-    options,
-    flags,
-    schemaDef,
-    documentCount: 81,
-    verbose: true,
-  })
+  it('should print 24 errors - full', () => {
+    const errorString = aggregateFetchDataErrors({
+      errors: makeErrors({ CouldNotDetermineDocumentTypeError: 24 }),
+      options,
+      flags,
+      schemaDef,
+      documentCount: 81,
+      verbose: true,
+    })
 
-  expect(aggregateError.toString()).toMatchInlineSnapshot(`
-"Error: Found problems in 24 of 81 documents.
+    expect(errorString).toMatchInlineSnapshot(`
+"Found problems in 24 of 81 documents. Skipping those documents.
 
  └── Couldn't determine the document type for 24 documents.
      
@@ -131,11 +130,114 @@ it('24 errors - full', () => {
      
 "
 `)
+  })
+
+  it('should ignore the errors', () => {
+    const errorString = aggregateFetchDataErrors({
+      errors: makeErrors({ CouldNotDetermineDocumentTypeError: 24 }),
+      options,
+      flags: { ...flags, onUnknownDocuments: 'skip-ignore' },
+      schemaDef,
+      documentCount: 81,
+      verbose: true,
+    })
+
+    expect(errorString).toMatchInlineSnapshot(`null`)
+  })
+})
+
+describe('MissingRequiredFieldsError', () => {
+  it('should print 4 errors', () => {
+    const errorString = aggregateFetchDataErrors({
+      errors: makeErrors({ MissingRequiredFieldsError: 4 }),
+      options,
+      flags,
+      schemaDef,
+      documentCount: 42,
+    })
+
+    expect(errorString).toMatchInlineSnapshot(`
+"Found problems in 4 of 42 documents. Skipping those documents.
+
+ └── Missing required fields for 4 documents
+     
+     • \\"docs/port_quality_focused_monitor.md\\" is missing the following required fields:
+       • someField: string
+     • \\"docs/administrator_missouri_synergize.md\\" is missing the following required fields:
+       • someField: string
+     • \\"docs/help_desk_soap_deposit.md\\" is missing the following required fields:
+       • someField: string
+     • \\"docs/poland.md\\" is missing the following required fields:
+       • someField: string
+     
+"
+`)
+  })
+
+  it('should print 24 errors - truncated', () => {
+    const errorString = aggregateFetchDataErrors({
+      errors: makeErrors({ MissingRequiredFieldsError: 24 }),
+      options,
+      flags,
+      schemaDef,
+      documentCount: 81,
+    })
+
+    expect(errorString).toMatchInlineSnapshot(`
+"Found problems in 24 of 81 documents. Skipping those documents.
+
+ └── Missing required fields for 24 documents
+     
+     • \\"docs/port_quality_focused_monitor.md\\" is missing the following required fields:
+       • someField: string
+     • \\"docs/administrator_missouri_synergize.md\\" is missing the following required fields:
+       • someField: string
+     • \\"docs/help_desk_soap_deposit.md\\" is missing the following required fields:
+       • someField: string
+     • \\"docs/poland.md\\" is missing the following required fields:
+       • someField: string
+     • \\"docs/solution_monitor.md\\" is missing the following required fields:
+       • someField: string
+     • \\"docs/e_services_dynamic_focused.md\\" is missing the following required fields:
+       • someField: string
+     • \\"docs/licensed_grocery_avon.md\\" is missing the following required fields:
+       • someField: string
+     • \\"docs/district.md\\" is missing the following required fields:
+       • someField: string
+     • \\"docs/optimization_plaza_plastic.md\\" is missing the following required fields:
+       • someField: string
+     • \\"docs/vatu_configurable.md\\" is missing the following required fields:
+       • someField: string
+     • \\"docs/open_architected_auto_stream.md\\" is missing the following required fields:
+       • someField: string
+     • \\"docs/italy.md\\" is missing the following required fields:
+       • someField: string
+     • \\"docs/killer.md\\" is missing the following required fields:
+       • someField: string
+     • \\"docs/agp_radial_tennessee.md\\" is missing the following required fields:
+       • someField: string
+     • \\"docs/sudan_incredible_future.md\\" is missing the following required fields:
+       • someField: string
+     • \\"docs/hawaii_timor_leste.md\\" is missing the following required fields:
+       • someField: string
+     • \\"docs/matrix_pike_montana.md\\" is missing the following required fields:
+       • someField: string
+     • \\"docs/synthesize.md\\" is missing the following required fields:
+       • someField: string
+     • \\"docs/of_maroon.md\\" is missing the following required fields:
+       • someField: string
+     • \\"docs/calculating_integrate_function.md\\" is missing the following required fields:
+       • someField: string
+     • ... 4 more documents (Use the --verbose CLI option to show all documents)
+     
+"
+`)
+  })
 })
 
 describe('mix of different errors', () => {
   it('some', () => {
-    const aggregateError = new FetchDataAggregateError({
+    const errorString = aggregateFetchDataErrors({
       errors: makeErrors({ CouldNotDetermineDocumentTypeError: 4, NoSuchDocumentTypeError: 2 }),
       options,
       flags,
@@ -143,8 +245,8 @@ describe('mix of different errors', () => {
       documentCount: 42,
     })
 
-    expect(aggregateError.toString()).toMatchInlineSnapshot(`
-"Error: Found problems in 6 of 42 documents.
+    expect(errorString).toMatchInlineSnapshot(`
+"Found problems in 6 of 42 documents. Skipping those documents.
 
  ├── Couldn't determine the document type for 4 documents.
  │   
@@ -167,12 +269,13 @@ describe('mix of different errors', () => {
   })
 
   it('other', () => {
-    const aggregateError = new FetchDataAggregateError({
+    const errorString = aggregateFetchDataErrors({
       errors: makeErrors({
         CouldNotDetermineDocumentTypeError: 4,
         NoSuchDocumentTypeError: 2,
         ComputedValueError: 1,
-        InvalidDataDuringMappingError: 2,
+        UnexpectedError: 2,
+        MissingRequiredFieldsError: 3,
       }),
       options,
       flags,
@@ -180,8 +283,8 @@ describe('mix of different errors', () => {
       documentCount: 42,
     })
 
-    expect(aggregateError.toString()).toMatchInlineSnapshot(`
-"Error: Found problems in 9 of 42 documents.
+    expect(errorString).toMatchInlineSnapshot(`
+"Error: Found problems in 12 of 42 documents.
 
  ├── Couldn't determine the document type for 4 documents.
  │   
@@ -199,10 +302,56 @@ describe('mix of different errors', () => {
  │   • docs/card_table.md (Used type name: \\"Bandwidth\\")
  │   • docs/firewall_withdrawal.md (Used type name: \\"Sensor\\")
  │   
- ├── ComputedValueError: Some problem happened: We need to calculate the virtual SSL matrix!
- │   ComputedValueError: Some problem happened: If we reboot the application, we can get to the FTP circuit through the redundant SCSI feed!
+ ├── Encountered unexpected errors while processing of 2 documents.This is possibly a bug in Contentlayer. Please open an issue.
  │   
- └── ComputedValueError: Error: Some problem happened: Use the online XML hard drive, then you can copy the bluetooth bandwidth!
+ │   • \\"docs/pixel_system_withdrawal.md\\": Error: Some problem happened: We need to calculate the virtual SSL matrix!
+ │   Error: Some problem happened: We need to calculate the virtual SSL matrix!
+ │       at /home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:54:16
+ │       at doNTimes (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:106:5)
+ │       at makeErrors (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:49:3)
+ │       at Object.<anonymous> (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/errors.spec.ts:273:15)
+ │       at Promise.then.completed (/home/schickling/code/contentlayer/node_modules/jest-circus/build/utils.js:390:28)
+ │       at new Promise (<anonymous>)
+ │       at callAsyncCircusFn (/home/schickling/code/contentlayer/node_modules/jest-circus/build/utils.js:315:10)
+ │       at _callCircusTest (/home/schickling/code/contentlayer/node_modules/jest-circus/build/run.js:218:40)
+ │       at processTicksAndRejections (internal/process/task_queues.js:95:5)
+ │       at _runTest (/home/schickling/code/contentlayer/node_modules/jest-circus/build/run.js:155:3)
+ │   • \\"docs/licensed_grocery_avon.md\\": Error: Some problem happened: If we reboot the application, we can get to the FTP circuit through the redundant SCSI feed!
+ │   Error: Some problem happened: If we reboot the application, we can get to the FTP circuit through the redundant SCSI feed!
+ │       at /home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:54:16
+ │       at doNTimes (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:106:5)
+ │       at makeErrors (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:49:3)
+ │       at Object.<anonymous> (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/errors.spec.ts:273:15)
+ │       at Promise.then.completed (/home/schickling/code/contentlayer/node_modules/jest-circus/build/utils.js:390:28)
+ │       at new Promise (<anonymous>)
+ │       at callAsyncCircusFn (/home/schickling/code/contentlayer/node_modules/jest-circus/build/utils.js:315:10)
+ │       at _callCircusTest (/home/schickling/code/contentlayer/node_modules/jest-circus/build/run.js:218:40)
+ │       at processTicksAndRejections (internal/process/task_queues.js:95:5)
+ │       at _runTest (/home/schickling/code/contentlayer/node_modules/jest-circus/build/run.js:155:3)
+ │   
+ ├── Error during computed field exection for 1 documents.
+ │   
+ │   • \\"docs/berkshire_colorado.md\\" failed with Error: Some problem happened: Try to reboot the XML feed, maybe it will compress the redundant bus!
+ │   Error: Some problem happened: Try to reboot the XML feed, maybe it will compress the redundant bus!
+ │       at /home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:61:19
+ │       at doNTimes (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:106:5)
+ │       at makeErrors (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:59:3)
+ │       at Object.<anonymous> (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/errors.spec.ts:273:15)
+ │       at Promise.then.completed (/home/schickling/code/contentlayer/node_modules/jest-circus/build/utils.js:390:28)
+ │       at new Promise (<anonymous>)
+ │       at callAsyncCircusFn (/home/schickling/code/contentlayer/node_modules/jest-circus/build/utils.js:315:10)
+ │       at _callCircusTest (/home/schickling/code/contentlayer/node_modules/jest-circus/build/run.js:218:40)
+ │       at processTicksAndRejections (internal/process/task_queues.js:95:5)
+ │       at _runTest (/home/schickling/code/contentlayer/node_modules/jest-circus/build/run.js:155:3)
+ │   
+ └── Missing required fields for 3 documents
+     
+     • \\"docs/berkshire.md\\" is missing the following required fields:
+       • someField: string
+     • \\"docs/e_commerce_granite.md\\" is missing the following required fields:
+       • someField: string
+     • \\"docs/intermediate_clicks_and_mortar.md\\" is missing the following required fields:
+       • someField: string
      
 "
 `)

@@ -1,6 +1,6 @@
 import type { E } from '@contentlayer/utils/effect'
 import { Chunk, OT, pipe, S, T } from '@contentlayer/utils/effect'
-import { fileOrDirExists, fs } from '@contentlayer/utils/node'
+import { fs } from '@contentlayer/utils/node'
 import * as path from 'path'
 import pkgUp from 'pkg-up'
 
@@ -11,7 +11,7 @@ import * as esbuild from './esbuild'
 type GetConfigError =
   | esbuild.EsbuildError
   | NoConfigFoundError
-  | fs.ReadFileError
+  | fs.StatError
   | fs.UnknownFSError
   | fs.MkdirError
   | ConfigReadError
@@ -98,7 +98,7 @@ export const getConfigWatch = ({
 }
 
 /** Fix esbuild binary path if not found (e.g. in local development setup) */
-const ensureEsbuildBin: T.Effect<OT.HasTracer, fs.ReadFileError | fs.UnknownFSError, void> = T.gen(function* ($) {
+const ensureEsbuildBin: T.Effect<OT.HasTracer, fs.StatError | fs.UnknownFSError, void> = T.gen(function* ($) {
   const esbuildBinPath = path.join(__dirname, '..', 'bin', 'esbuild')
   const esbuildBinExists = yield* $(fs.fileOrDirExists(esbuildBinPath))
 
@@ -120,7 +120,7 @@ const resolveConfigPath = ({
 }: {
   configPath?: string
   cwd: string
-}): T.Effect<unknown, NoConfigFoundError | fs.ReadFileError, string> =>
+}): T.Effect<unknown, NoConfigFoundError | fs.StatError, string> =>
   T.gen(function* ($) {
     if (configPath) {
       if (path.isAbsolute(configPath)) {
@@ -131,7 +131,7 @@ const resolveConfigPath = ({
     }
 
     const defaultFilePaths = [path.join(cwd, 'contentlayer.config.ts'), path.join(cwd, 'contentlayer.config.js')]
-    const foundDefaultFiles = yield* $(pipe(defaultFilePaths, T.forEachPar(fileOrDirExists), T.map(Chunk.toArray)))
+    const foundDefaultFiles = yield* $(pipe(defaultFilePaths, T.forEachPar(fs.fileOrDirExists), T.map(Chunk.toArray)))
     const foundDefaultFile = defaultFilePaths[foundDefaultFiles.findIndex((_) => _)]
     if (foundDefaultFile) {
       return foundDefaultFile

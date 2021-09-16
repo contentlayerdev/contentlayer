@@ -1,6 +1,6 @@
 import type { E } from '@contentlayer/utils/effect'
 import { OT, pipe, T } from '@contentlayer/utils/effect'
-import * as node from '@contentlayer/utils/node'
+import { fs } from '@contentlayer/utils/node'
 import * as path from 'path'
 
 import type { Document } from './data'
@@ -28,11 +28,11 @@ export const loadPreviousCacheFromDisk = ({
   schemaHash,
 }: {
   schemaHash: string
-}): T.Effect<OT.HasTracer, node.ReadFileError | node.JsonParseError, Cache | undefined> => {
+}): T.Effect<OT.HasTracer, fs.ReadFileError | fs.JsonParseError, Cache | undefined> => {
   const filePath = path.join(getArtifactsDir(), 'cache', `${schemaHash}.json`)
   return pipe(
-    node.readFileJson<Cache>(filePath),
-    T.catchTag('FileNotFoundError', () => T.succeed(undefined)),
+    fs.readFileJson<Cache>(filePath),
+    T.catchTag('node.fs.FileNotFoundError', () => T.succeed(undefined)),
     OT.withSpan('@contentlayer/core/cache:loadPreviousCacheFromDisk', { attributes: { schemaHash } }),
   )
 }
@@ -43,13 +43,13 @@ export const writeCacheToDisk = ({
 }: {
   cache: Cache
   schemaHash: string
-}): T.Effect<OT.HasTracer, never, E.Either<node.WriteFileError | node.MkdirError | node.JsonStringifyError, void>> => {
+}): T.Effect<OT.HasTracer, never, E.Either<fs.WriteFileError | fs.MkdirError | fs.JsonStringifyError, void>> => {
   const cacheDirPath = path.join(getArtifactsDir(), 'cache')
   const filePath = path.join(cacheDirPath, `${schemaHash}.json`)
 
   return pipe(
-    node.mkdirp(cacheDirPath),
-    T.chain(() => node.writeFileJson({ filePath, content: cache })),
+    fs.mkdirp(cacheDirPath),
+    T.chain(() => fs.writeFileJson({ filePath, content: cache })),
     T.either,
   )
 }

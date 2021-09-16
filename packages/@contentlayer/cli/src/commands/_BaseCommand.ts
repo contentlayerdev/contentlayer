@@ -35,7 +35,10 @@ export abstract class BaseCommand extends Command {
         T.runPromise,
       )
     } catch (e: any) {
-      console.error(e.toString())
+      if (e._tag !== 'HandledFetchDataError') {
+        console.error(e.toString())
+      }
+      process.exit(1)
     }
   }
 

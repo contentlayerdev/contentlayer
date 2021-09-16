@@ -12,6 +12,7 @@
     "skipLibCheck": true,
     "strict": true,
     "noUncheckedIndexedAccess": true,
+    "noErrorTruncation": true,
     "target": "ES2020",
     "plugins": [{ "transform": "@effect-ts/tracing-plugin" }],
     "paths": {

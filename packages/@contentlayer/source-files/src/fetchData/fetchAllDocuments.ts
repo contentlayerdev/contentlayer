@@ -1,7 +1,6 @@
 import type * as core from '@contentlayer/core'
 import { Chunk, OT, pipe, T, These } from '@contentlayer/utils/effect'
-import type { FileNotFoundError, ReadFileError } from '@contentlayer/utils/node'
-import { fs, UnknownFSError } from '@contentlayer/utils/node'
+import { fs } from '@contentlayer/utils/node'
 import { promise as glob } from 'glob-promise'
 import matter from 'gray-matter'
 import * as yaml from 'js-yaml'
@@ -9,9 +8,7 @@ import * as os from 'os'
 import * as path from 'path'
 
 import type { Flags } from '..'
-import type { FetchDataError } from '../errors'
-import { ComputedValueError, UnsupportedFileExtension } from '../errors'
-import { FetchDataAggregateError } from '../errors/aggregate'
+import { FetchDataError } from '../errors'
 import type { FilePathPatternMap } from '../types'
 import { makeDocument } from './mapping'
 import type { RawContent } from './types'
@@ -33,7 +30,7 @@ export const fetchAllDocuments = ({
   options: core.PluginOptions
   previousCache: core.Cache | undefined
   verbose: boolean
-}): T.Effect<OT.HasTracer, FetchDataError, core.Cache> =>
+}): T.Effect<OT.HasTracer, fs.UnknownFSError, core.Cache> =>
   pipe(
     T.gen(function* ($) {
       const allRelativeFilePaths = yield* $(getAllRelativeFilePaths({ contentDirPath }))
@@ -49,7 +46,6 @@ export const fetchAllDocuments = ({
               filePathPatternMap,
               coreSchemaDef: coreSchemaDef,
               contentDirPath,
-              flags,
               options,
               previousCache,
             }),
@@ -58,16 +54,16 @@ export const fetchAllDocuments = ({
         ),
       )
 
-      const aggregateError = new FetchDataAggregateError({
-        errors: Chunk.toArray(dataErrors),
-        documentCount: allRelativeFilePaths.length,
-        options,
-        flags,
-        schemaDef: coreSchemaDef,
-        verbose,
-      })
-
-      console.log(aggregateError.toString())
+      yield* $(
+        FetchDataError.handleErrors({
+          errors: Chunk.toArray(dataErrors),
+          documentCount: allRelativeFilePaths.length,
+          flags,
+          options,
+          schemaDef: coreSchemaDef,
+          verbose,
+        }),
+      )
 
       const cacheItemsMap = Object.fromEntries(Chunk.map_(documents, (_) => [_.document._id, _]))
 
@@ -81,7 +77,6 @@ export const makeCacheItemFromFilePath = ({
   filePathPatternMap,
   coreSchemaDef,
   contentDirPath,
-  flags,
   options,
   previousCache,
 }: {
@@ -89,10 +84,9 @@ export const makeCacheItemFromFilePath = ({
   filePathPatternMap: FilePathPatternMap
   coreSchemaDef: core.SchemaDef
   contentDirPath: string
-  flags: Flags
   options: core.PluginOptions
   previousCache: core.Cache | undefined
-}): T.Effect<OT.HasTracer, never, These.These<FetchDataError, core.CacheItem>> =>
+}): T.Effect<OT.HasTracer, never, These.These<FetchDataError.FetchDataError, core.CacheItem>> =>
   pipe(
     T.gen(function* ($) {
       const fullFilePath = path.join(contentDirPath, relativeFilePath)
@@ -124,7 +118,6 @@ export const makeCacheItemFromFilePath = ({
             relativeFilePath,
             coreSchemaDef,
             filePathPatternMap,
-            flags,
             options,
           }),
           These.toEffect,
@@ -141,7 +134,9 @@ export const makeCacheItemFromFilePath = ({
         }),
       )
 
-      const computedValues = yield* $(getComputedValues({ documentDef: documentTypeDef, doc: document }))
+      const computedValues = yield* $(
+        getComputedValues({ documentDef: documentTypeDef, doc: document, documentFilePath: relativeFilePath }),
+      )
       if (computedValues) {
         Object.entries(computedValues).forEach(([fieldName, value]) => {
           document[fieldName] = value
@@ -151,6 +146,17 @@ export const makeCacheItemFromFilePath = ({
       return These.warnOption({ document, documentHash }, warnings)
     }),
     OT.withSpan('@contentlayer/source-local/fetchData:makeDocumentFromFilePath'),
+    T.mapError((error) => {
+      if (
+        error._tag === 'node.fs.StatError' ||
+        error._tag === 'node.fs.ReadFileError' ||
+        error._tag === 'node.fs.FileNotFoundError'
+      ) {
+        return new FetchDataError.UnexpectedError({ error, documentFilePath: relativeFilePath })
+      } else {
+        return error
+      }
+    }),
     These.effectThese,
   )
 
@@ -160,7 +166,11 @@ const processRawContent = ({
 }: {
   fullFilePath: string
   relativeFilePath: string
-}): T.Effect<OT.HasTracer, UnsupportedFileExtension | FileNotFoundError | ReadFileError, RawContent> =>
+}): T.Effect<
+  OT.HasTracer,
+  FetchDataError.UnsupportedFileExtension | fs.FileNotFoundError | fs.ReadFileError,
+  RawContent
+> =>
   pipe(
     T.gen(function* ($) {
       const fileContent = yield* $(fs.readFile(fullFilePath))
@@ -182,7 +192,9 @@ const processRawContent = ({
           return { kind: 'yaml' as const, fields: yaml.load(fileContent) as any }
         default:
           return yield* $(
-            T.fail(new UnsupportedFileExtension({ extension: filePathExtension, filePath: relativeFilePath })),
+            T.fail(
+              new FetchDataError.UnsupportedFileExtension({ extension: filePathExtension, filePath: relativeFilePath }),
+            ),
           )
       }
     }),
@@ -192,10 +204,12 @@ const processRawContent = ({
 const getComputedValues = ({
   doc,
   documentDef,
+  documentFilePath,
 }: {
   documentDef: core.DocumentTypeDef
   doc: core.Document
-}): T.Effect<unknown, ComputedValueError, undefined | Record<string, any>> => {
+  documentFilePath: string
+}): T.Effect<unknown, FetchDataError.ComputedValueError, undefined | Record<string, any>> => {
   if (documentDef.computedFields === undefined) {
     return T.succeed(undefined)
   }
@@ -207,7 +221,7 @@ const getComputedValues = ({
       mapValue: (field) =>
         T.tryCatchPromise(
           async () => field.resolve(doc),
-          (error) => new ComputedValueError({ error }),
+          (error) => new FetchDataError.ComputedValueError({ error, documentFilePath }),
         ),
     }),
   )
@@ -217,10 +231,10 @@ const getAllRelativeFilePaths = ({
   contentDirPath,
 }: {
   contentDirPath: string
-}): T.Effect<unknown, UnknownFSError, string[]> => {
+}): T.Effect<unknown, fs.UnknownFSError, string[]> => {
   const filePathPattern = '**/*.{md,mdx,json,yaml,yml}'
   return T.tryCatchPromise(
     () => glob(filePathPattern, { cwd: contentDirPath }),
-    (error) => new UnknownFSError({ error }),
+    (error) => new fs.UnknownFSError({ error }),
   )
 }

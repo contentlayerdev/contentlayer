@@ -1,22 +1,22 @@
 import type * as core from '@contentlayer/core'
-import { These } from '@contentlayer/utils/effect'
+import { O, These } from '@contentlayer/utils/effect'
 import minimatch from 'minimatch'
 
-import type { FilePathPatternMap, Flags } from '..'
-import {
-  CouldNotDetermineDocumentTypeError,
-  ExtraFieldDataError,
-  MissingRequiredFieldsError,
-  NoSuchDocumentTypeError,
-} from '../errors'
+import type { FilePathPatternMap } from '..'
+import { FetchDataError } from '../errors'
 import type { RawContent } from './types'
+
+type ValidateDocumentDataError =
+  | FetchDataError.CouldNotDetermineDocumentTypeError
+  | FetchDataError.NoSuchDocumentTypeError
+  | FetchDataError.MissingRequiredFieldsError
+  | FetchDataError.ExtraFieldDataError
 
 export const validateDocumentData = ({
   coreSchemaDef,
   rawContent,
   relativeFilePath,
   filePathPatternMap,
-  flags,
   options,
 }: {
   coreSchemaDef: core.SchemaDef
@@ -24,24 +24,25 @@ export const validateDocumentData = ({
   /** relativeFilePath just needed for better error handling */
   relativeFilePath: string
   filePathPatternMap: FilePathPatternMap
-  flags: Flags
   options: core.PluginOptions
-}): These.These<
-  CouldNotDetermineDocumentTypeError | NoSuchDocumentTypeError | MissingRequiredFieldsError | ExtraFieldDataError,
-  { documentTypeDef: core.DocumentTypeDef }
-> => {
+}): These.These<ValidateDocumentDataError, { documentTypeDef: core.DocumentTypeDef }> => {
   const documentDefName = getDocumentDefName({ rawContent, filePathPatternMap, relativeFilePath, options })
 
   if (documentDefName === undefined) {
     const typeFieldName = options.fieldOptions.typeFieldName
-    return These.fail(new CouldNotDetermineDocumentTypeError({ documentFilePath: relativeFilePath, typeFieldName }))
+    return These.fail(
+      new FetchDataError.CouldNotDetermineDocumentTypeError({ documentFilePath: relativeFilePath, typeFieldName }),
+    )
   }
 
   const documentTypeDef = coreSchemaDef.documentTypeDefMap[documentDefName]
 
   if (documentTypeDef === undefined) {
     return These.fail(
-      new NoSuchDocumentTypeError({ documentTypeName: documentDefName, documentFilePath: relativeFilePath }),
+      new FetchDataError.NoSuchDocumentTypeError({
+        documentTypeName: documentDefName,
+        documentFilePath: relativeFilePath,
+      }),
     )
   }
 
@@ -56,7 +57,7 @@ export const validateDocumentData = ({
   )
   if (misingRequiredFieldDefs.length > 0) {
     return These.fail(
-      new MissingRequiredFieldsError({
+      new FetchDataError.MissingRequiredFieldsError({
         documentFilePath: relativeFilePath,
         documentTypeName: documentTypeDef.name,
         fieldDefsWithMissingData: misingRequiredFieldDefs,
@@ -64,38 +65,30 @@ export const validateDocumentData = ({
     )
   }
 
-  // TODO validate whether data has correct type
+  let warningOption: O.Option<ValidateDocumentDataError> = O.none
 
   // warn about data fields not defined in the schema
-  if (flags.onExtraFieldData === 'warn' || flags.onExtraFieldData === 'fail') {
-    const typeFieldName = options.fieldOptions.typeFieldName
-    // NOTE we also need to add the system-level type name field to the list of existing data fields
-    const schemaFieldNames = documentTypeDef.fieldDefs.map((_) => _.name).concat([typeFieldName])
-    const extraFieldEntries = existingDataFieldKeys
-      .filter((fieldKey) => !schemaFieldNames.includes(fieldKey))
-      .map((fieldKey) => [fieldKey, rawContent.fields[fieldKey]] as const)
+  const typeFieldName = options.fieldOptions.typeFieldName
+  // NOTE we also need to add the system-level type name field to the list of existing data fields
+  const schemaFieldNames = documentTypeDef.fieldDefs.map((_) => _.name).concat([typeFieldName])
+  const extraFieldEntries = existingDataFieldKeys
+    .filter((fieldKey) => !schemaFieldNames.includes(fieldKey))
+    .map((fieldKey) => [fieldKey, rawContent.fields[fieldKey]] as const)
 
-    if (extraFieldEntries.length > 0) {
-      const extraFieldDataError = new ExtraFieldDataError({
-        documentFilePath: relativeFilePath,
-        extraFieldEntries,
-        documentTypeName: documentTypeDef.name,
-      })
+  if (extraFieldEntries.length > 0) {
+    const extraFieldDataError = new FetchDataError.ExtraFieldDataError({
+      documentFilePath: relativeFilePath,
+      extraFieldEntries,
+      documentTypeName: documentTypeDef.name,
+    })
 
-      if (flags.onExtraFieldData === 'fail') {
-        return These.fail(extraFieldDataError)
-      } else {
-        return These.warn({ documentTypeDef }, extraFieldDataError)
-        // console.warn(extraFieldDataError)
-      }
-    }
-
-    // TODO fail case
+    warningOption = O.some(extraFieldDataError)
   }
 
+  // TODO validate whether data has correct type (probably via zod)
   // TODO validate nesteds
 
-  return These.succeed({ documentTypeDef })
+  return These.warnOption({ documentTypeDef }, warningOption)
 }
 
 const getDocumentDefName = ({

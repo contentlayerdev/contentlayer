@@ -4,7 +4,7 @@
     "node": true,
     "es6": true
   },
-  "ignorePatterns": ["packages/_archive/*", "**/dist/*"],
+  "ignorePatterns": ["packages/_archive/*", "packages/playgrounds/*", "**/dist/*"],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint", "simple-import-sort", "import"],
   "extends": ["plugin:react-hooks/recommended", "plugin:@typescript-eslint/recommended", "prettier"],

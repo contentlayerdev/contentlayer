@@ -1,25 +1,15 @@
 import type { OT } from '@contentlayer/utils/effect'
 import { pipe, T } from '@contentlayer/utils/effect'
-import type { MkdirError } from '@contentlayer/utils/node'
-import { mkdirp } from '@contentlayer/utils/node'
+import { fs } from '@contentlayer/utils/node'
 import * as crypto from 'crypto'
-import { promises as fs } from 'fs'
 import * as path from 'path'
-
-// TODO make `cwd` configurable
-export const makeArtifactsDir = async (): Promise<string> => {
-  const artifactsDirPath = getArtifactsDir()
-  await fs.mkdir(artifactsDirPath, { recursive: true })
-
-  return artifactsDirPath
-}
 
 export const getArtifactsDir = (): string => path.join('node_modules', '.contentlayer')
 
 // TODO make `cwd` configurable
-export const makeArtifactsDirEff: T.Effect<OT.HasTracer, MkdirError, string> = pipe(
+export const makeArtifactsDir: T.Effect<OT.HasTracer, fs.MkdirError, string> = pipe(
   T.succeed(getArtifactsDir()),
-  T.tap(mkdirp),
+  T.tap(fs.mkdirp),
 )
 
 // From https://gist.github.com/un33k/db8f0f804d50f671be7ca6663bef1969

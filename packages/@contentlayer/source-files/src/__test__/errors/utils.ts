@@ -3,13 +3,7 @@ import { capitalizeFirstLetter } from '@contentlayer/utils'
 import faker from 'faker'
 import * as path from 'path'
 
-import type { FetchDataError } from '../../errors'
-import {
-  ComputedValueError,
-  CouldNotDetermineDocumentTypeError,
-  InvalidDataDuringMappingError,
-  NoSuchDocumentTypeError,
-} from '../../errors'
+import { FetchDataError } from '../../errors'
 
 export const makeSchemaDef = (): core.SchemaDef => {
   const TypeA: core.DocumentTypeDef = {
@@ -34,34 +28,73 @@ export const makeSchemaDef = (): core.SchemaDef => {
   return schemaDef
 }
 
-export const makeErrors = (countRecord: Partial<Record<FetchDataError['_tag'], number>>): FetchDataError[] => {
-  const errors: FetchDataError[] = []
+export const makeErrors = (
+  countRecord: Partial<Record<FetchDataError.FetchDataError['_tag'], number>>,
+): FetchDataError.FetchDataError[] => {
+  const errors: FetchDataError.FetchDataError[] = []
 
   faker.seed(123)
 
   doNTimes(countRecord.CouldNotDetermineDocumentTypeError, () => {
     const documentFilePath = path.join('docs', faker.system.commonFileName('md'))
-    errors.push(new CouldNotDetermineDocumentTypeError({ typeFieldName: 'type', documentFilePath }))
+    errors.push(new FetchDataError.CouldNotDetermineDocumentTypeError({ typeFieldName: 'type', documentFilePath }))
   })
 
   doNTimes(countRecord.NoSuchDocumentTypeError, () => {
     const documentFilePath = path.join('docs', faker.system.commonFileName('md'))
     const documentTypeName = capitalizeFirstLetter(faker.hacker.noun())
-    errors.push(new NoSuchDocumentTypeError({ documentFilePath, documentTypeName }))
+    errors.push(new FetchDataError.NoSuchDocumentTypeError({ documentFilePath, documentTypeName }))
   })
 
-  doNTimes(countRecord.InvalidDataDuringMappingError, () => {
+  doNTimes(countRecord.UnexpectedError, () => {
     const documentFilePath = path.join('docs', faker.system.commonFileName('md'))
     errors.push(
-      new InvalidDataDuringMappingError({
+      new FetchDataError.UnexpectedError({
         documentFilePath,
-        message: `Some problem happened: ${faker.hacker.phrase()}`,
+        error: new Error(`Some problem happened: ${faker.hacker.phrase()}`),
       }),
     )
   })
 
   doNTimes(countRecord.ComputedValueError, () => {
-    errors.push(new ComputedValueError({ error: new Error(`Some problem happened: ${faker.hacker.phrase()}`) }))
+    const documentFilePath = path.join('docs', faker.system.commonFileName('md'))
+    const error = new Error(`Some problem happened: ${faker.hacker.phrase()}`)
+    errors.push(new FetchDataError.ComputedValueError({ documentFilePath, error }))
+  })
+
+  doNTimes(countRecord.ExtraFieldDataError, () => {
+    const documentFilePath = path.join('docs', faker.system.commonFileName('md'))
+    const documentTypeName = capitalizeFirstLetter(faker.hacker.noun())
+    errors.push(
+      new FetchDataError.ExtraFieldDataError({
+        documentFilePath,
+        documentTypeName,
+        extraFieldEntries: [
+          ['someKey', 'someVal'],
+          ['someOtherKey', 42],
+        ],
+      }),
+    )
+  })
+
+  doNTimes(countRecord.MissingRequiredFieldsError, () => {
+    const documentFilePath = path.join('docs', faker.system.commonFileName('md'))
+    const documentTypeName = capitalizeFirstLetter(faker.hacker.noun())
+    const fieldDef: core.FieldDef = {
+      type: 'string',
+      name: 'someField',
+      default: undefined,
+      description: undefined,
+      isRequired: true,
+      isSystemField: false,
+    }
+    errors.push(
+      new FetchDataError.MissingRequiredFieldsError({
+        documentFilePath,
+        documentTypeName,
+        fieldDefsWithMissingData: [fieldDef],
+      }),
+    )
   })
 
   return errors

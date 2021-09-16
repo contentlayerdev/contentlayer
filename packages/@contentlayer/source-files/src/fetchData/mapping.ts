@@ -5,37 +5,10 @@ import type { OT } from '@contentlayer/utils/effect'
 import { pipe, T } from '@contentlayer/utils/effect'
 import * as path from 'path'
 
-import { InvalidDataDuringMappingError } from '../errors'
+import { FetchDataError, InvalidDataDuringMappingError } from '../errors'
 import type { DocumentBodyType } from '../schema/defs'
 import type { RawDocumentData } from '../types'
 import type { RawContent, RawContentMarkdown, RawContentMDX } from './types'
-
-type MakeDocumentError = MarkdownError | MDXError | InvalidDataDuringMappingError
-
-// export const makeDocumentEff = ({
-//   rawContent,
-//   documentTypeDef,
-//   coreSchemaDef,
-//   relativeFilePath,
-//   options,
-// }: {
-//   rawContent: RawContent
-//   documentTypeDef: core.DocumentTypeDef
-//   coreSchemaDef: core.SchemaDef
-//   relativeFilePath: string
-//   options: core.PluginOptions
-// }): T.Effect<unknown, InvalidDataDuringMappingError, core.Document> =>
-//   T.tryCatchPromise(
-//     () =>
-//       makeDocument({
-//         rawContent,
-//         documentTypeDef,
-//         coreSchemaDef,
-//         relativeFilePath,
-//         options,
-//       }),
-//     (error: any) => new InvalidDataDuringMappingError({ documentFilePath: relativeFilePath, message: error.message }),
-//   )
 
 export const makeDocument = ({
   rawContent,
@@ -49,7 +22,7 @@ export const makeDocument = ({
   coreSchemaDef: core.SchemaDef
   relativeFilePath: string
   options: core.PluginOptions
-}): T.Effect<OT.HasTracer, InvalidDataDuringMappingError, core.Document> =>
+}): T.Effect<OT.HasTracer, FetchDataError.UnexpectedError, core.Document> =>
   pipe(
     T.gen(function* ($) {
       const { bodyFieldName, typeFieldName } = options.fieldOptions
@@ -98,10 +71,10 @@ export const makeDocument = ({
 
       return doc
     }),
-    T.mapError(
-      (error: any) => new InvalidDataDuringMappingError({ documentFilePath: relativeFilePath, message: error.message }),
-    ),
+    T.mapError((error) => new FetchDataError.UnexpectedError({ error, documentFilePath: relativeFilePath })),
   )
+
+type MakeDocumentInternalError = MarkdownError | MDXError | InvalidDataDuringMappingError
 
 const rawContentHasBody = (_: RawContent): _ is RawContentMarkdown | RawContentMDX =>
   'body' in _ && _.body !== undefined
@@ -131,7 +104,7 @@ const makeNestedDocument = ({
   typeName: string
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
-}): T.Effect<OT.HasTracer, MakeDocumentError, core.NestedDocument> =>
+}): T.Effect<OT.HasTracer, MakeDocumentInternalError, core.NestedDocument> =>
   T.gen(function* ($) {
     const objValues = yield* $(
       T.forEachParDict_(fieldDefs, {
@@ -162,7 +135,7 @@ const getDataForFieldDef = ({
   rawFieldData: any
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
-}): T.Effect<OT.HasTracer, MakeDocumentError, any> =>
+}): T.Effect<OT.HasTracer, MakeDocumentInternalError, any> =>
   T.gen(function* ($) {
     if (rawFieldData === undefined) {
       if (fieldDef.default !== undefined) {
@@ -203,8 +176,10 @@ const getDataForFieldDef = ({
 
         if (!fieldDef.nestedTypeNames.includes(typeName)) {
           const validTypeNames = fieldDef.nestedTypeNames.map((_) => `"${_}"`).join(', ')
-          throw new Error(
-            `Invalid "${fieldDef.typeField}" value found: "${typeName}" for field "${fieldDef.name}". Valid values: ${validTypeNames}`,
+          return T.fail(
+            new InvalidDataDuringMappingError({
+              message: `Invalid "${fieldDef.typeField}" value found: "${typeName}" for field "${fieldDef.name}". Valid values: ${validTypeNames}`,
+            }),
           )
         }
 
@@ -263,7 +238,7 @@ const getDataForListItem = ({
   fieldDef: core.ListFieldDef | core.ListPolymorphicFieldDef
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
-}): T.Effect<OT.HasTracer, MakeDocumentError, any> => {
+}): T.Effect<OT.HasTracer, MakeDocumentInternalError, any> => {
   if (typeof rawItemData === 'string') {
     return T.succeed(rawItemData)
   }
@@ -277,9 +252,13 @@ const getDataForListItem = ({
         .map((_) => _.nestedTypeName)
         .join(', ')
 
-      throw new Error(`\
+      return T.fail(
+        new InvalidDataDuringMappingError({
+          message: `\
 Invalid value "${nestedTypeName}" for type field "${fieldDef.typeField}" for field "${fieldDef.name}".
-Needs to be one of the following values: ${valueTypeValues}`)
+Needs to be one of the following values: ${valueTypeValues}`,
+        }),
+      )
     }
     return makeNestedDocument({
       rawObjectData: rawItemData,
