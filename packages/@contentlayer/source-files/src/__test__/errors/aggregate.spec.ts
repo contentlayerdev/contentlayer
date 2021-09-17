@@ -305,44 +305,11 @@ describe('mix of different errors', () => {
  ├── Encountered unexpected errors while processing of 2 documents.This is possibly a bug in Contentlayer. Please open an issue.
  │   
  │   • \\"docs/pixel_system_withdrawal.md\\": Error: Some problem happened: We need to calculate the virtual SSL matrix!
- │   Error: Some problem happened: We need to calculate the virtual SSL matrix!
- │       at /home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:54:16
- │       at doNTimes (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:106:5)
- │       at makeErrors (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:49:3)
- │       at Object.<anonymous> (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/aggregate.spec.ts:273:15)
- │       at Promise.then.completed (/home/schickling/code/contentlayer/node_modules/jest-circus/build/utils.js:390:28)
- │       at new Promise (<anonymous>)
- │       at callAsyncCircusFn (/home/schickling/code/contentlayer/node_modules/jest-circus/build/utils.js:315:10)
- │       at _callCircusTest (/home/schickling/code/contentlayer/node_modules/jest-circus/build/run.js:218:40)
- │       at processTicksAndRejections (internal/process/task_queues.js:95:5)
- │       at _runTest (/home/schickling/code/contentlayer/node_modules/jest-circus/build/run.js:155:3)
  │   • \\"docs/licensed_grocery_avon.md\\": Error: Some problem happened: If we reboot the application, we can get to the FTP circuit through the redundant SCSI feed!
- │   Error: Some problem happened: If we reboot the application, we can get to the FTP circuit through the redundant SCSI feed!
- │       at /home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:54:16
- │       at doNTimes (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:106:5)
- │       at makeErrors (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:49:3)
- │       at Object.<anonymous> (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/aggregate.spec.ts:273:15)
- │       at Promise.then.completed (/home/schickling/code/contentlayer/node_modules/jest-circus/build/utils.js:390:28)
- │       at new Promise (<anonymous>)
- │       at callAsyncCircusFn (/home/schickling/code/contentlayer/node_modules/jest-circus/build/utils.js:315:10)
- │       at _callCircusTest (/home/schickling/code/contentlayer/node_modules/jest-circus/build/run.js:218:40)
- │       at processTicksAndRejections (internal/process/task_queues.js:95:5)
- │       at _runTest (/home/schickling/code/contentlayer/node_modules/jest-circus/build/run.js:155:3)
  │   
  ├── Error during computed field exection for 1 documents.
  │   
  │   • \\"docs/berkshire_colorado.md\\" failed with Error: Some problem happened: Try to reboot the XML feed, maybe it will compress the redundant bus!
- │   Error: Some problem happened: Try to reboot the XML feed, maybe it will compress the redundant bus!
- │       at /home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:61:19
- │       at doNTimes (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:106:5)
- │       at makeErrors (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:59:3)
- │       at Object.<anonymous> (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/aggregate.spec.ts:273:15)
- │       at Promise.then.completed (/home/schickling/code/contentlayer/node_modules/jest-circus/build/utils.js:390:28)
- │       at new Promise (<anonymous>)
- │       at callAsyncCircusFn (/home/schickling/code/contentlayer/node_modules/jest-circus/build/utils.js:315:10)
- │       at _callCircusTest (/home/schickling/code/contentlayer/node_modules/jest-circus/build/run.js:218:40)
- │       at processTicksAndRejections (internal/process/task_queues.js:95:5)
- │       at _runTest (/home/schickling/code/contentlayer/node_modules/jest-circus/build/run.js:155:3)
  │   
  └── Missing required fields for 3 documents
      

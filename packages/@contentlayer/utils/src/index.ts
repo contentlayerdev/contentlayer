@@ -41,10 +41,12 @@ export const partition = <T>(arr: T[], isLeft: (_: T) => boolean): [T[], T[]] =>
 }
 
 export const errorToString = (error: any) => {
+  const stack = process.env.CL_DEBUG ? error.stack : undefined
   const str = error.toString()
-  if (str !== '[object Object]') return str + '\n' + error.stack
+  const stackStr = stack ? `\n${stack}` : ''
+  if (str !== '[object Object]') return str + stackStr
 
-  return JSON.stringify(error, null, 2)
+  return JSON.stringify({ ...error, stack }, null, 2)
 }
 
 export const capitalizeFirstLetter = (str: string): string => str.charAt(0).toUpperCase() + str.slice(1)
