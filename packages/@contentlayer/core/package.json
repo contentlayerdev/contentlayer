@@ -28,11 +28,11 @@
     "rehype-stringify": "^8.0.0",
     "remark-parse": "^9.0.0",
     "remark-rehype": "^8.1.0",
-    "source-map-support": "^0.5.19",
+    "source-map-support": "^0.5.20",
     "type-fest": "^1.2.1",
     "unified": "^9.2.1"
   },
   "devDependencies": {
-    "@types/source-map-support": "^0.5.3"
+    "@types/source-map-support": "^0.5.4"
   }
 }

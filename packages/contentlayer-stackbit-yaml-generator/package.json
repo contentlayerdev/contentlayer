@@ -15,7 +15,7 @@
     "@contentlayer/utils": "workspace:*",
     "@stackbit/sdk": "^0.1.15",
     "clipanion": "^3.0.0-rc.12",
-    "typanion": "3.3.2",
+    "typanion": "3.4.1",
     "yaml": "^1.10.2"
   },
   "devDependencies": {

@@ -12,7 +12,7 @@
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
     "clipanion": "^3.0.0-rc.12",
-    "typanion": "^3.3.1"
+    "typanion": "^3.4.1"
   },
   "devDependencies": {
     "@types/node": "^15.12.0"
