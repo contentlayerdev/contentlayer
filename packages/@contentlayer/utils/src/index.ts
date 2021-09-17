@@ -40,6 +40,13 @@ export const partition = <T>(arr: T[], isLeft: (_: T) => boolean): [T[], T[]] =>
   )
 }
 
+export const errorToString = (error: any) => {
+  const str = error.toString()
+  if (str !== '[object Object]') return str + '\n' + error.stack
+
+  return JSON.stringify(error, null, 2)
+}
+
 export const capitalizeFirstLetter = (str: string): string => str.charAt(0).toUpperCase() + str.slice(1)
 
 /**

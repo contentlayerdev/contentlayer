@@ -1,5 +1,4 @@
-import type * as Core from '@contentlayer/core'
-import { bundleMDX, markdownToHtml } from '@contentlayer/core'
+import * as core from '@contentlayer/core'
 import type { HashError } from '@contentlayer/utils'
 import { casesHandled, hashObject } from '@contentlayer/utils'
 import type { OT } from '@contentlayer/utils/effect'
@@ -8,7 +7,7 @@ import { T } from '@contentlayer/utils/effect'
 import type * as SchemaOverrides from '../schemaOverrides'
 import type { Contentful } from '../types'
 
-type MakeDocumentError = Core.MarkdownError | Core.MDXError | HashError
+type MakeDocumentError = core.MarkdownError | core.MDXError | HashError
 
 export const makeCacheItem = ({
   documentEntry,
@@ -22,11 +21,11 @@ export const makeCacheItem = ({
   documentEntry: Contentful.Entry
   allEntries: Contentful.Entry[]
   allAssets: Contentful.Asset[]
-  documentTypeDef: Core.DocumentTypeDef
-  schemaDef: Core.SchemaDef
+  documentTypeDef: core.DocumentTypeDef
+  schemaDef: core.SchemaDef
   schemaOverrides: SchemaOverrides.Normalized.SchemaOverrides
-  options: Core.PluginOptions
-}): T.Effect<OT.HasTracer, MakeDocumentError, Core.CacheItem> =>
+  options: core.PluginOptions
+}): T.Effect<OT.HasTracer, MakeDocumentError, core.DataCache.CacheItem> =>
   T.gen(function* ($) {
     // TODO also handle custom body field name
     const { typeFieldName } = options.fieldOptions
@@ -47,7 +46,7 @@ export const makeCacheItem = ({
     )
 
     const raw = { sys: documentEntry.sys, metadata: documentEntry.metadata }
-    const document: Core.Document = {
+    const document: core.Document = {
       ...docValues,
       [typeFieldName]: documentTypeDef.name,
       _id: documentEntry.sys.id,
@@ -57,7 +56,7 @@ export const makeCacheItem = ({
     // Can't use e.g. `documentEntry.sys.updatedAt` here because it's not including changes to nested documents.
     const documentHash = yield* $(hashObject(document))
 
-    return { document, documentHash }
+    return { document, documentHash, hasWarnings: false }
   })
 
 const makeNestedDocument = ({
@@ -74,12 +73,12 @@ const makeNestedDocument = ({
   allEntries: Contentful.Entry[]
   allAssets: Contentful.Asset[]
   /** Passing `FieldDef[]` here instead of `ObjectDef` in order to also support `inline_embedded` */
-  fieldDefs: Core.FieldDef[]
+  fieldDefs: core.FieldDef[]
   typeName: string
-  schemaDef: Core.SchemaDef
+  schemaDef: core.SchemaDef
   schemaOverrides: SchemaOverrides.Normalized.SchemaOverrides
-  options: Core.PluginOptions
-}): T.Effect<OT.HasTracer, MakeDocumentError, Core.NestedDocument> =>
+  options: core.PluginOptions
+}): T.Effect<OT.HasTracer, MakeDocumentError, core.NestedDocument> =>
   T.gen(function* ($) {
     const { typeFieldName } = options.fieldOptions
     const objectEntry = allEntries.find((_) => _.sys.id === entryId)!
@@ -101,7 +100,7 @@ const makeNestedDocument = ({
       }),
     )
 
-    const obj: Core.NestedDocument = {
+    const obj: core.NestedDocument = {
       ...objValues,
       [typeFieldName]: typeName,
       _raw: raw,
@@ -119,13 +118,13 @@ const getDataForFieldDef = ({
   schemaOverrides,
   options,
 }: {
-  fieldDef: Core.FieldDef
+  fieldDef: core.FieldDef
   rawFieldData: any
   allEntries: Contentful.Entry[]
   allAssets: Contentful.Asset[]
-  schemaDef: Core.SchemaDef
+  schemaDef: core.SchemaDef
   schemaOverrides: SchemaOverrides.Normalized.SchemaOverrides
-  options: Core.PluginOptions
+  options: core.PluginOptions
 }): T.Effect<OT.HasTracer, MakeDocumentError, any> =>
   T.gen(function* ($) {
     if (rawFieldData === undefined) {
@@ -176,11 +175,11 @@ const getDataForFieldDef = ({
       case 'date':
         return new Date(rawFieldData)
       case 'markdown':
-        const html = yield* $(markdownToHtml({ mdString: rawFieldData, options: options?.markdown }))
-        return <Core.Markdown>{ raw: rawFieldData, html }
+        const html = yield* $(core.markdownToHtml({ mdString: rawFieldData, options: options?.markdown }))
+        return <core.Markdown>{ raw: rawFieldData, html }
       case 'mdx':
-        const code = yield* $(bundleMDX({ mdxString: rawFieldData, options: options?.mdx }))
-        return <Core.MDX>{ raw: rawFieldData, code }
+        const code = yield* $(core.bundleMDX({ mdxString: rawFieldData, options: options?.mdx }))
+        return <core.MDX>{ raw: rawFieldData, code }
       case 'string':
         // e.g. for images
         if (rawFieldDataIsAsset(rawFieldData)) {
@@ -216,10 +215,10 @@ const getDataForListItem = ({
   rawItemData: any
   allEntries: Contentful.Entry[]
   allAssets: Contentful.Asset[]
-  fieldDef: Core.ListFieldDef | Core.ListPolymorphicFieldDef
-  schemaDef: Core.SchemaDef
+  fieldDef: core.ListFieldDef | core.ListPolymorphicFieldDef
+  schemaDef: core.SchemaDef
   schemaOverrides: SchemaOverrides.Normalized.SchemaOverrides
-  options: Core.PluginOptions
+  options: core.PluginOptions
 }): T.Effect<OT.HasTracer, MakeDocumentError, any> => {
   if (typeof rawItemData === 'string') {
     return T.succeed(rawItemData)

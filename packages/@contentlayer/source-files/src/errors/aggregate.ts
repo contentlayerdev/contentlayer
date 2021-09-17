@@ -90,7 +90,7 @@ const aggregateFetchDataErrors = ({
   verbose?: boolean
 }): string => {
   const keyMessage = `Found problems in ${errors.length} of ${documentCount} documents.`
-  const topMessage = shouldFail ? `Error: ${keyMessage}` : `${keyMessage} Skipping those documents.`
+  const topMessage = shouldFail ? `Error: ${keyMessage}` : `Warning: ${keyMessage} Skipping those documents.`
   const asciiTree = new AsciiTree(topMessage + '\n')
 
   const uniqueErrorTags = Array.from(new Set(errors.map((e) => e._tag)))

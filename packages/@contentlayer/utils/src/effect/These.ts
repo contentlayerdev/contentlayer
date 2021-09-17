@@ -114,7 +114,7 @@ export const effectUnwrapValue = <T, E1, E2, A>(effect: T.Effect<T, E1, These<E2
   )
 }
 
-export const effectTapNonFailure =
+export const effectTapSuccess =
   <T1, T2, E1, E2, TE2, A>(tapFn: (a: A) => T.Effect<T1, E1, any>) =>
   (effect: T.Effect<T2, E2, These<TE2, A>>): T.Effect<T1 & T2, E1 | E2, These<TE2, A>> => {
     return T.tap_(effect, (these) =>

@@ -1,13 +1,31 @@
 import rehypeShiki from '@leafac/rehype-shiki'
-import type { FieldDef } from 'contentlayer/source-files'
-import { defineDocumentType, makeSource } from 'contentlayer/source-files'
+import { defineDocumentType, makeSource, defineNestedType, FieldDef } from 'contentlayer/source-files'
 import * as path from 'path'
 import * as shiki from 'shiki'
+
+const Example = defineNestedType(() => ({
+  name: 'Example',
+  fields: {
+    label: { type: 'string' },
+    href: { type: 'string' },
+  },
+}))
 
 const fields: Record<string, FieldDef> = {
   title: {
     type: 'string',
     required: true,
+  },
+  tableOfContentsDepth: { type: 'number' },
+  date: { type: 'string' },
+  version: { type: 'string' },
+  canonicalLink: { type: 'string' },
+  apiCalls: { type: 'string' },
+  contentsHeading: { type: 'string' },
+  description: { type: 'string' },
+  examples: {
+    type: 'list',
+    of: Example,
   },
 }
 

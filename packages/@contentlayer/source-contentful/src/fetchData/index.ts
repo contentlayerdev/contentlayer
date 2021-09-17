@@ -1,5 +1,4 @@
-import type * as Core from '@contentlayer/core'
-import { SourceFetchDataError } from '@contentlayer/core'
+import * as core from '@contentlayer/core'
 import { Chunk, OT, pipe, T } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
 import * as os from 'os'
@@ -22,10 +21,10 @@ export const fetchAllDocuments = ({
   accessToken: string
   spaceId: string
   environmentId: string
-  schemaDef: Core.SchemaDef
+  schemaDef: core.SchemaDef
   schemaOverrides: SchemaOverrides.Input.SchemaOverrides
-  options: Core.PluginOptions
-}): T.Effect<OT.HasTracer, SourceFetchDataError, Core.Cache> =>
+  options: core.PluginOptions
+}): T.Effect<OT.HasTracer, core.SourceFetchDataError, core.DataCache.Cache> =>
   pipe(
     T.gen(function* ($) {
       const environment = yield* $(getEnvironment({ accessToken, spaceId, environmentId }))
@@ -51,7 +50,7 @@ export const fetchAllDocuments = ({
         documentTypeDef,
       }: {
         entry: Contentful.Entry
-        documentTypeDef: Core.DocumentTypeDef
+        documentTypeDef: core.DocumentTypeDef
       }) => schemaOverrides.documentTypes[entry.sys.contentType.sys.id]?.defName === documentTypeDef.name
 
       const documentEntriesWithDocumentTypeDef = Object.values(schemaDef.documentTypeDefMap).flatMap(
@@ -90,7 +89,7 @@ export const fetchAllDocuments = ({
     OT.withSpan('@contentlayer/source-contentlayer/fetchData:fetchAllDocuments', {
       attributes: { schemaDef: JSON.stringify(schemaDef), schemaOverrides_: JSON.stringify(schemaOverrides_) },
     }),
-    T.mapError((error) => new SourceFetchDataError({ error })),
+    T.mapError((error) => new core.SourceFetchDataError({ error })),
   )
 
 const getAllEntries = (

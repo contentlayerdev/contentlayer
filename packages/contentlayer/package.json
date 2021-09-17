@@ -1,6 +1,6 @@
 {
   "name": "contentlayer",
-  "version": "0.0.23-dev.8",
+  "version": "0.0.23-dev.12",
   "bin": "./dist/cjs/cli/index.js",
   "exports": {
     "./source-files": {

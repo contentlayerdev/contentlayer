@@ -1,5 +1,5 @@
 import type * as core from '@contentlayer/core'
-import { Chunk, OT, pipe, T, These } from '@contentlayer/utils/effect'
+import { Chunk, O, OT, pipe, T, These } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
 import { promise as glob } from 'glob-promise'
 import matter from 'gray-matter'
@@ -28,9 +28,9 @@ export const fetchAllDocuments = ({
   contentDirPath: string
   flags: Flags
   options: core.PluginOptions
-  previousCache: core.Cache | undefined
+  previousCache: core.DataCache.Cache | undefined
   verbose: boolean
-}): T.Effect<OT.HasTracer, fs.UnknownFSError, core.Cache> =>
+}): T.Effect<OT.HasTracer, fs.UnknownFSError, core.DataCache.Cache> =>
   pipe(
     T.gen(function* ($) {
       const allRelativeFilePaths = yield* $(getAllRelativeFilePaths({ contentDirPath }))
@@ -85,8 +85,8 @@ export const makeCacheItemFromFilePath = ({
   coreSchemaDef: core.SchemaDef
   contentDirPath: string
   options: core.PluginOptions
-  previousCache: core.Cache | undefined
-}): T.Effect<OT.HasTracer, never, These.These<FetchDataError.FetchDataError, core.CacheItem>> =>
+  previousCache: core.DataCache.Cache | undefined
+}): T.Effect<OT.HasTracer, never, These.These<FetchDataError.FetchDataError, core.DataCache.CacheItem>> =>
   pipe(
     T.gen(function* ($) {
       const fullFilePath = path.join(contentDirPath, relativeFilePath)
@@ -102,7 +102,8 @@ export const makeCacheItemFromFilePath = ({
       if (
         previousCache &&
         previousCache.cacheItemsMap[relativeFilePath] &&
-        previousCache.cacheItemsMap[relativeFilePath]!.documentHash === documentHash
+        previousCache.cacheItemsMap[relativeFilePath]!.documentHash === documentHash &&
+        previousCache.cacheItemsMap[relativeFilePath]!.hasWarnings === false
       ) {
         return These.succeed(previousCache.cacheItemsMap[relativeFilePath]!)
       }
@@ -135,7 +136,7 @@ export const makeCacheItemFromFilePath = ({
       )
 
       const computedValues = yield* $(
-        getComputedValues({ documentDef: documentTypeDef, doc: document, documentFilePath: relativeFilePath }),
+        getComputedValues({ documentTypeDef, document, documentFilePath: relativeFilePath }),
       )
       if (computedValues) {
         Object.entries(computedValues).forEach(([fieldName, value]) => {
@@ -143,7 +144,7 @@ export const makeCacheItemFromFilePath = ({
         })
       }
 
-      return These.warnOption({ document, documentHash }, warnings)
+      return These.warnOption({ document, documentHash, hasWarnings: O.isSome(warnings) }, warnings)
     }),
     OT.withSpan('@contentlayer/source-local/fetchData:makeDocumentFromFilePath'),
     T.mapError((error) => {
@@ -202,25 +203,25 @@ const processRawContent = ({
   )
 
 const getComputedValues = ({
-  doc,
-  documentDef,
+  document,
+  documentTypeDef,
   documentFilePath,
 }: {
-  documentDef: core.DocumentTypeDef
-  doc: core.Document
+  documentTypeDef: core.DocumentTypeDef
+  document: core.Document
   documentFilePath: string
 }): T.Effect<unknown, FetchDataError.ComputedValueError, undefined | Record<string, any>> => {
-  if (documentDef.computedFields === undefined) {
+  if (documentTypeDef.computedFields === undefined) {
     return T.succeed(undefined)
   }
 
   return pipe(
-    documentDef.computedFields,
+    documentTypeDef.computedFields,
     T.forEachParDict({
       mapKey: (field) => T.succeed(field.name),
       mapValue: (field) =>
         T.tryCatchPromise(
-          async () => field.resolve(doc),
+          async () => field.resolve(document),
           (error) => new FetchDataError.ComputedValueError({ error, documentFilePath }),
         ),
     }),

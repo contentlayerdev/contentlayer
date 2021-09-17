@@ -29,7 +29,7 @@ describe('CouldNotDetermineDocumentTypeError', () => {
     })
 
     expect(errorString).toMatchInlineSnapshot(`
-"Found problems in 4 of 42 documents. Skipping those documents.
+"Warning: Found problems in 4 of 42 documents. Skipping those documents.
 
  └── Couldn't determine the document type for 4 documents.
      
@@ -54,7 +54,7 @@ describe('CouldNotDetermineDocumentTypeError', () => {
     })
 
     expect(errorString).toMatchInlineSnapshot(`
-"Found problems in 24 of 81 documents. Skipping those documents.
+"Warning: Found problems in 24 of 81 documents. Skipping those documents.
 
  └── Couldn't determine the document type for 24 documents.
      
@@ -97,7 +97,7 @@ describe('CouldNotDetermineDocumentTypeError', () => {
     })
 
     expect(errorString).toMatchInlineSnapshot(`
-"Found problems in 24 of 81 documents. Skipping those documents.
+"Warning: Found problems in 24 of 81 documents. Skipping those documents.
 
  └── Couldn't determine the document type for 24 documents.
      
@@ -157,7 +157,7 @@ describe('MissingRequiredFieldsError', () => {
     })
 
     expect(errorString).toMatchInlineSnapshot(`
-"Found problems in 4 of 42 documents. Skipping those documents.
+"Warning: Found problems in 4 of 42 documents. Skipping those documents.
 
  └── Missing required fields for 4 documents
      
@@ -184,7 +184,7 @@ describe('MissingRequiredFieldsError', () => {
     })
 
     expect(errorString).toMatchInlineSnapshot(`
-"Found problems in 24 of 81 documents. Skipping those documents.
+"Warning: Found problems in 24 of 81 documents. Skipping those documents.
 
  └── Missing required fields for 24 documents
      
@@ -246,7 +246,7 @@ describe('mix of different errors', () => {
     })
 
     expect(errorString).toMatchInlineSnapshot(`
-"Found problems in 6 of 42 documents. Skipping those documents.
+"Warning: Found problems in 6 of 42 documents. Skipping those documents.
 
  ├── Couldn't determine the document type for 4 documents.
  │   
@@ -309,7 +309,7 @@ describe('mix of different errors', () => {
  │       at /home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:54:16
  │       at doNTimes (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:106:5)
  │       at makeErrors (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:49:3)
- │       at Object.<anonymous> (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/errors.spec.ts:273:15)
+ │       at Object.<anonymous> (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/aggregate.spec.ts:273:15)
  │       at Promise.then.completed (/home/schickling/code/contentlayer/node_modules/jest-circus/build/utils.js:390:28)
  │       at new Promise (<anonymous>)
  │       at callAsyncCircusFn (/home/schickling/code/contentlayer/node_modules/jest-circus/build/utils.js:315:10)
@@ -321,7 +321,7 @@ describe('mix of different errors', () => {
  │       at /home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:54:16
  │       at doNTimes (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:106:5)
  │       at makeErrors (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:49:3)
- │       at Object.<anonymous> (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/errors.spec.ts:273:15)
+ │       at Object.<anonymous> (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/aggregate.spec.ts:273:15)
  │       at Promise.then.completed (/home/schickling/code/contentlayer/node_modules/jest-circus/build/utils.js:390:28)
  │       at new Promise (<anonymous>)
  │       at callAsyncCircusFn (/home/schickling/code/contentlayer/node_modules/jest-circus/build/utils.js:315:10)
@@ -336,7 +336,7 @@ describe('mix of different errors', () => {
  │       at /home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:61:19
  │       at doNTimes (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:106:5)
  │       at makeErrors (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/utils.ts:59:3)
- │       at Object.<anonymous> (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/errors.spec.ts:273:15)
+ │       at Object.<anonymous> (/home/schickling/code/contentlayer/packages/@contentlayer/source-files/src/__test__/errors/aggregate.spec.ts:273:15)
  │       at Promise.then.completed (/home/schickling/code/contentlayer/node_modules/jest-circus/build/utils.js:390:28)
  │       at new Promise (<anonymous>)
  │       at callAsyncCircusFn (/home/schickling/code/contentlayer/node_modules/jest-circus/build/utils.js:315:10)

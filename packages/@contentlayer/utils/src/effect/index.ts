@@ -1,3 +1,6 @@
+import type { Clock } from '@effect-ts/core/Effect/Clock'
+import type { Has } from '@effect-ts/core/Has'
+
 export { pipe, flow } from '@effect-ts/core/Function'
 export { Tagged } from '@effect-ts/core/Case'
 export type { Has } from '@effect-ts/core/Has'
@@ -20,6 +23,7 @@ export * as Chunk from './Chunk'
 export * as Cause from '@effect-ts/core/Effect/Cause'
 
 export * as Clock from '@effect-ts/core/Effect/Clock'
+export type HasClock = Has<Clock>
 
 export * as Schedule from '@effect-ts/core/Effect/Schedule'
 export * as SC from '@effect-ts/core/Effect/Schedule'

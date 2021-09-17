@@ -1,4 +1,4 @@
-import { generateDotpkg, getConfig } from '@contentlayer/core'
+import * as core from '@contentlayer/core'
 import { OT, pipe, T } from '@contentlayer/utils/effect'
 import type { Usage } from 'clipanion'
 
@@ -19,9 +19,9 @@ export class BuildCommand extends BaseCommand {
   }
 
   executeSafe = pipe(
-    T.suspend(() => getConfig({ configPath: this.configPath, cwd: process.cwd() })),
-    T.chain((source) => generateDotpkg({ source, verbose: this.verbose })),
-    T.tap(() => T.succeedWith(() => console.log(`Generated node_modules/.contentlayer`))),
+    T.suspend(() => core.getConfig({ configPath: this.configPath, cwd: process.cwd() })),
+    T.chain((source) => core.generateDotpkg({ source, verbose: this.verbose, cwd: process.cwd() })),
+    T.tap(core.logGenerateInfo),
     OT.withSpan('@contentlayer/cli/commands/BuildCommand:executeSafe', { attributes: { cwd: process.cwd() } }),
   )
 }

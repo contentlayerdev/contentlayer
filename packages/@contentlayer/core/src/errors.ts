@@ -1,3 +1,4 @@
+import { errorToString } from '@contentlayer/utils'
 import { Tagged } from '@contentlayer/utils/effect'
 
 export class NoConfigFoundError extends Tagged('NoConfigFoundError')<{
@@ -13,7 +14,9 @@ export class NoConfigFoundError extends Tagged('NoConfigFoundError')<{
 export class ConfigReadError extends Tagged('ConfigReadError')<{
   readonly configPath: string
   readonly error: unknown
-}> {}
+}> {
+  toString = () => `ConfigReadError (${this.configPath}): ${errorToString(this.error)}`
+}
 
 export class ConfigNoDefaultExportError extends Tagged('ConfigNoDefaultExportError')<{
   readonly configPath: string
@@ -30,13 +33,6 @@ export class SourceProvideSchemaError extends Tagged('SourceProvideSchemaError')
   readonly error: any
 }> {
   toString = () => `SourceProvideSchemaError: ${errorToString(this.error)}`
-}
-
-export const errorToString = (error: any) => {
-  const str = error.toString()
-  if (str !== '[object Object]') return str + '\n' + error.stack
-
-  return JSON.stringify(error, null, 2)
 }
 
 export class HandledFetchDataError extends Tagged('HandledFetchDataError')<{}> {}

@@ -1,5 +1,4 @@
 import * as core from '@contentlayer/core'
-import { SourceFetchDataError, writeCacheToDisk } from '@contentlayer/core'
 import * as utils from '@contentlayer/utils'
 import type { E, OT } from '@contentlayer/utils/effect'
 import { pipe, S, T, These } from '@contentlayer/utils/effect'
@@ -17,6 +16,7 @@ export const fetchData = ({
   options,
   contentDirPath,
   verbose,
+  cwd,
 }: {
   coreSchemaDef: core.SchemaDef
   documentTypeDefs: LocalSchema.DocumentTypeDef[]
@@ -24,7 +24,8 @@ export const fetchData = ({
   options: core.PluginOptions
   contentDirPath: string
   verbose: boolean
-}): S.Stream<OT.HasTracer, never, E.Either<SourceFetchDataError, core.Cache>> => {
+  cwd: string
+}): S.Stream<OT.HasTracer, never, E.Either<core.SourceFetchDataError, core.DataCache.Cache>> => {
   const filePathPatternMap: FilePathPatternMap = Object.fromEntries(
     documentTypeDefs
       .filter((_) => _.filePathPattern)
@@ -33,7 +34,7 @@ export const fetchData = ({
 
   const initEvent: CustomUpdateEventInit = { _tag: 'init' }
 
-  const updateStream = pipe(
+  const fileUpdatesStream = pipe(
     FSWatch.makeAndSubscribe('.', {
       cwd: contentDirPath,
       ignoreInitial: true,
@@ -43,18 +44,20 @@ export const fetchData = ({
     S.mapEitherRight(chokidarAllEventToCustomUpdateEvent),
   )
 
-  const resolveParams = pipe(core.loadPreviousCacheFromDisk({ schemaHash: coreSchemaDef.hash }), T.either)
+  const resolveParams = pipe(
+    core.DataCache.loadPreviousCacheFromDisk({ schemaHash: coreSchemaDef.hash, cwd }),
+    T.either,
+  )
 
   return pipe(
     S.fromEffect(resolveParams),
     S.chainSwitchMapEitherRight((cache) =>
       pipe(
-        updateStream,
+        fileUpdatesStream,
         S.tapRight((e) =>
           T.succeedWith(
             () =>
-              (e._tag === 'updated' || e._tag === 'deleted') &&
-              console.log(`Watch event "${e._tag}": ${e.relativeFilePath}`),
+              (e._tag === 'updated' || e._tag === 'deleted') && console.log(`File ${e._tag}: ${e.relativeFilePath}`),
           ),
         ),
         S.startWithRight(initEvent),
@@ -93,10 +96,12 @@ export const fetchData = ({
         ),
         // update local and persisted cache
         S.tapRight((cache_) => T.succeedWith(() => (cache = cache_))),
-        S.tapRightEither((cache_) => writeCacheToDisk({ cache: cache_, schemaHash: coreSchemaDef.hash })),
+        S.tapRightEither((cache_) =>
+          core.DataCache.writeCacheToDisk({ cache: cache_, schemaHash: coreSchemaDef.hash, cwd }),
+        ),
       ),
     ),
-    S.mapEitherLeft((error) => new SourceFetchDataError({ error })),
+    S.mapEitherLeft((error) => new core.SourceFetchDataError({ error })),
   )
 }
 
@@ -111,12 +116,12 @@ const updateCacheEntry = ({
 }: {
   contentDirPath: string
   filePathPatternMap: FilePathPatternMap
-  cache: core.Cache
+  cache: core.DataCache.Cache
   event: CustomUpdateEventFileUpdated
   flags: Flags
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
-}): T.Effect<OT.HasTracer, never, core.Cache> =>
+}): T.Effect<OT.HasTracer, never, core.DataCache.Cache> =>
   T.gen(function* ($) {
     yield* $(
       pipe(
@@ -128,21 +133,19 @@ const updateCacheEntry = ({
           options,
           previousCache: cache,
         }),
-        These.effectTapNonFailure((cacheItem) =>
+        These.effectTapSuccess((cacheItem) =>
           T.succeedWith(() => {
             cache!.cacheItemsMap[event.relativeFilePath] = cacheItem
           }),
         ),
         These.effectTapErrorOrWarning((errorOrWarning) =>
-          T.succeedWith(() => {
-            FetchDataError.handleErrors({
-              errors: [errorOrWarning],
-              documentCount: 1,
-              flags,
-              options,
-              schemaDef: coreSchemaDef,
-              verbose: false,
-            })
+          FetchDataError.handleErrors({
+            errors: [errorOrWarning],
+            documentCount: 1,
+            flags,
+            options,
+            schemaDef: coreSchemaDef,
+            verbose: false,
           }),
         ),
       ),

@@ -1,6 +1,6 @@
-import { getArtifactsDir } from '@contentlayer/core'
-import { JaegerNodeTracing } from '@contentlayer/utils'
-import type { Clock, Has, OT } from '@contentlayer/utils/effect'
+import * as core from '@contentlayer/core'
+import { errorToString, JaegerNodeTracing } from '@contentlayer/utils'
+import type { HasClock, OT } from '@contentlayer/utils/effect'
 import { pipe, pretty, T } from '@contentlayer/utils/effect'
 import { Command, Option } from 'clipanion'
 import { promises as fs } from 'fs'
@@ -24,7 +24,7 @@ export abstract class BaseCommand extends Command {
   async execute() {
     try {
       if (this.clearCache) {
-        await fs.rm(getArtifactsDir(), { recursive: true })
+        await fs.rm(core.ArtifactsDir.getDirPath({ cwd: process.cwd() }), { recursive: true })
         console.log('Cache cleared successfully')
       }
 
@@ -36,11 +36,11 @@ export abstract class BaseCommand extends Command {
       )
     } catch (e: any) {
       if (e._tag !== 'HandledFetchDataError') {
-        console.error(e.toString())
+        console.error(errorToString(e))
       }
       process.exit(1)
     }
   }
 
-  abstract executeSafe: T.Effect<OT.HasTracer & Has<Clock.Clock>, unknown, void>
+  abstract executeSafe: T.Effect<OT.HasTracer & HasClock, unknown, void>
 }

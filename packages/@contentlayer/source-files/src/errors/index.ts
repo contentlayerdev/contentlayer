@@ -1,5 +1,5 @@
 import type * as core from '@contentlayer/core'
-import { errorToString } from '@contentlayer/core'
+import { errorToString } from '@contentlayer/utils'
 import { Tagged } from '@contentlayer/utils/effect'
 
 import { handleFetchDataErrors } from './aggregate'

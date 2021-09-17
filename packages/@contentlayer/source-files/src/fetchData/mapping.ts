@@ -79,17 +79,14 @@ type MakeDocumentInternalError = MarkdownError | MDXError | InvalidDataDuringMap
 const rawContentHasBody = (_: RawContent): _ is RawContentMarkdown | RawContentMDX =>
   'body' in _ && _.body !== undefined
 
-const getFlattenedPath = (relativeFilePath: string): string => {
-  return (
-    relativeFilePath
-      // remove extension
-      .split('.')
-      .slice(0, -1)
-      .join('.')
-      // remove tailing `/index`
-      .replace(/\/index$/, '')
-  )
-}
+export const getFlattenedPath = (relativeFilePath: string): string =>
+  relativeFilePath
+    // remove extension
+    .split('.')
+    .slice(0, -1)
+    .join('.')
+    // remove tailing `/index` or `index`
+    .replace(/\/?index$/, '')
 
 const makeNestedDocument = ({
   rawObjectData,

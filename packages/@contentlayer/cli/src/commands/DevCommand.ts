@@ -1,4 +1,5 @@
-import { generateDotpkgStream, getConfigWatch } from '@contentlayer/core'
+import * as core from '@contentlayer/core'
+import { errorToString } from '@contentlayer/utils'
 import { E, pipe, S, T } from '@contentlayer/utils/effect'
 import type { Usage } from 'clipanion'
 
@@ -20,19 +21,16 @@ export class DevCommand extends BaseCommand {
 
   executeSafe = pipe(
     S.suspend(() =>
-      getConfigWatch({
+      core.getConfigWatch({
         configPath: this.configPath,
         cwd: process.cwd(),
       }),
     ),
     S.tapSkipFirstRight(() => T.log(`Contentlayer config change detected. Updating type definitions and data...`)),
-    S.chainSwitchMapEitherRight((source) => generateDotpkgStream({ source, verbose: this.verbose })),
-    S.tap(
-      E.fold(
-        (error) => T.log(error.toString()),
-        () => T.log(`Generated node_modules/.contentlayer`),
-      ),
+    S.chainSwitchMapEitherRight((source) =>
+      core.generateDotpkgStream({ source, verbose: this.verbose, cwd: process.cwd() }),
     ),
+    S.tap(E.fold((error) => T.log(errorToString(error)), core.logGenerateInfo)),
     S.runDrain,
   )
 }

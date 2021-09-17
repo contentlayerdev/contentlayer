@@ -6,6 +6,8 @@ import type { Stats } from 'fs'
 import { promises as fs } from 'fs'
 import type { JsonValue } from 'type-fest'
 
+import { errorToString } from '..'
+
 export const fileOrDirExists = (filePath: string): T.Effect<unknown, StatError, boolean> => {
   return pipe(
     stat(filePath),
@@ -102,7 +104,7 @@ export class WriteFileError extends Tagged('node.fs.WriteFileError')<{
 export class MkdirError extends Tagged('node.fs.MkdirError')<{ readonly dirPath: string; readonly error: unknown }> {}
 
 export class UnknownFSError extends Tagged('node.fs.UnknownFSError')<{ readonly error: any }> {
-  toString = () => `UnknownFSError: ${this.error.toString()} ${this.error.stack}`
+  toString = () => `UnknownFSError: ${errorToString(this.error)} ${this.error.stack}`
 }
 
 export class JsonParseError extends Tagged('node.fs.JsonParseError')<{

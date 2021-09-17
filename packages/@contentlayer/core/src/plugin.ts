@@ -1,9 +1,9 @@
 import type { Thunk } from '@contentlayer/utils'
-import type { Clock, E, Has, OT, S, T } from '@contentlayer/utils/effect'
+import type { E, HasClock, OT, S, T } from '@contentlayer/utils/effect'
 import type { LiteralUnion } from 'type-fest'
 import type * as unified from 'unified'
 
-import type { Cache } from './cache'
+import type { DataCache } from './DataCache'
 import type { SourceFetchDataError, SourceProvideSchemaError } from './errors'
 import type { SchemaDef, StackbitExtension } from './schema'
 
@@ -54,7 +54,12 @@ export type ProvideSchema = T.Effect<OT.HasTracer, SourceProvideSchemaError, Sch
 export type FetchData = (_: {
   schemaDef: SchemaDef
   verbose: boolean
-}) => S.Stream<OT.HasTracer & Has<Clock.Clock>, never, E.Either<SourceFetchDataError | SourceProvideSchemaError, Cache>>
+  cwd: string
+}) => S.Stream<
+  OT.HasTracer & HasClock,
+  never,
+  E.Either<SourceFetchDataError | SourceProvideSchemaError, DataCache.Cache>
+>
 
 // export type MakeSourcePlugin = (
 //   _: Args | Thunk<Args> | Thunk<Promise<Args>>,

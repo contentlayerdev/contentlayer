@@ -4,6 +4,7 @@ import { fs } from '@contentlayer/utils/node'
 import * as path from 'path'
 import pkgUp from 'pkg-up'
 
+import { ArtifactsDir } from '..'
 import { ConfigNoDefaultExportError, ConfigReadError, NoConfigFoundError } from '../errors'
 import type { SourcePlugin } from '../plugin'
 import * as esbuild from './esbuild'
@@ -17,7 +18,6 @@ type GetConfigError =
   | ConfigReadError
   | ConfigNoDefaultExportError
 
-// TODO rename to getSource
 export const getConfig = ({
   configPath,
   cwd,
@@ -34,7 +34,6 @@ export const getConfig = ({
     OT.withSpan('@contentlayer/core/getConfig:getConfig', { attributes: { configPath, cwd } }),
   )
 
-// TODO rename to getSourceWatch
 export const getConfigWatch = ({
   configPath: configPath_,
   cwd,
@@ -47,13 +46,12 @@ export const getConfigWatch = ({
       __: ensureEsbuildBin,
       configPath: resolveConfigPath({ configPath: configPath_, cwd }),
     }),
-    T.chain(({ configPath }) => makeTmpDirAndResolveEntryPoint({ cwd, configPath })),
+    T.chainMergeObject(() => makeTmpDirAndResolveEntryPoint({ cwd })),
     T.either,
   )
 
   return pipe(
     S.fromEffect(resolveParams),
-    // S.tap(effectUtils.log),
     S.chainMapEitherRight(({ configPath, outfilePath }) =>
       pipe(
         esbuild.makeAndSubscribe({
@@ -140,17 +138,11 @@ const resolveConfigPath = ({
     return yield* $(T.fail(new NoConfigFoundError({ cwd, configPath })))
   })
 
-const makeTmpDirAndResolveEntryPoint = ({ cwd, configPath }: { cwd: string; configPath: string }) =>
-  T.gen(function* ($) {
-    const packageJsonPath = yield* $(pkgUpEff({ cwd }))
-    const packageDir = path.join(packageJsonPath!, '..')
-    // `tmpDir` needs to be in package directory for `require` statements to work
-    const tmpDir = path.join(packageDir, 'node_modules', '.tmp', 'contentlayer', 'config')
-    yield* $(fs.mkdirp(tmpDir))
-    const outfilePath = path.join(tmpDir, 'config.js')
-
-    return { outfilePath, tmpDir, configPath }
-  })
+const makeTmpDirAndResolveEntryPoint = ({ cwd }: { cwd: string }) =>
+  pipe(
+    ArtifactsDir.mkdirCache({ cwd }),
+    T.map((cacheDir) => ({ outfilePath: path.join(cacheDir, 'compiled-contentlayer-config.js') })),
+  )
 
 const getConfigFromResult = ({
   result,
@@ -170,8 +162,9 @@ const getConfigFromResult = ({
             /Import \".*\" will always be undefined because the file \"contentlayer-gen:.contentlayer\/(data|types)\" has no exports/,
           ) === null,
       )
+
       if (unknownWarnings.length > 0) {
-        console.error(`Esbuild warnings:`)
+        console.error(`Contentlayer esbuild warnings:`)
         console.error(unknownWarnings)
       }
 

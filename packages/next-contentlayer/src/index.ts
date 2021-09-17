@@ -1,7 +1,8 @@
 import '@contentlayer/utils/effect/Tracing/Enable'
 
-import { generateDotpkg, generateDotpkgStream, getConfig, getConfigWatch } from '@contentlayer/core'
-import { JaegerNodeTracing } from '@contentlayer/utils'
+import * as core from '@contentlayer/core'
+import { errorToString, JaegerNodeTracing } from '@contentlayer/utils'
+import type { HasClock } from '@contentlayer/utils/effect'
 import { E, OT, pipe, pretty, S, T } from '@contentlayer/utils/effect'
 import type { NextConfig } from 'next'
 
@@ -61,21 +62,16 @@ const runContentlayerDev = async ({ onGeneration }: { onGeneration: () => void }
   if (contentlayerInitialized) return
   contentlayerInitialized = true
 
+  const cwd = process.cwd()
+
   await pipe(
-    getConfigWatch({ cwd: process.cwd() }),
+    core.getConfigWatch({ cwd }),
     S.tapSkipFirstRight(() => T.log(`Contentlayer config change detected. Updating type definitions and data...`)),
-    S.chainSwitchMapEitherRight((source) => generateDotpkgStream({ source, verbose: false })),
-    S.tap(
-      E.fold(
-        (error) => T.log(error.toString()),
-        () => T.log(`Generated node_modules/.contentlayer`),
-      ),
-    ),
+    S.chainSwitchMapEitherRight((source) => core.generateDotpkgStream({ source, verbose: false, cwd })),
+    S.tap(E.fold((error) => T.log(errorToString(error)), core.logGenerateInfo)),
     S.tapRight(() => T.succeedWith(onGeneration)),
     S.runDrain,
-    T.provideSomeLayer(JaegerNodeTracing('next-contentlayer')),
-    T.tapCause((cause) => T.die(pretty(cause))),
-    T.runPromise,
+    runMainEffect,
   )
 }
 
@@ -83,13 +79,29 @@ const runContentlayerBuild = async () => {
   if (contentlayerInitialized) return
   contentlayerInitialized = true
 
+  const cwd = process.cwd()
+
   await pipe(
-    getConfig({ cwd: process.cwd() }),
-    T.chain((source) => generateDotpkg({ source, verbose: false })),
-    T.tap(() => T.log(`Generated node_modules/.contentlayer`)),
+    core.getConfig({ cwd: process.cwd() }),
+    T.chain((source) => core.generateDotpkg({ source, verbose: false, cwd })),
+    T.tap(core.logGenerateInfo),
     OT.withSpan('next-contentlayer:runContentlayerBuild'),
-    T.provideSomeLayer(JaegerNodeTracing('next-contentlayer')),
-    T.tapCause((cause) => T.die(pretty(cause))),
-    T.runPromise,
+    runMainEffect,
   )
+}
+
+const runMainEffect = async (effect: T.Effect<OT.HasTracer & HasClock, unknown, unknown>) => {
+  try {
+    await pipe(
+      effect,
+      T.provideSomeLayer(JaegerNodeTracing('next-contentlayer')),
+      T.tapCause((cause) => (process.env.CL_DEBUG ? T.die(pretty(cause)) : T.unit)),
+      T.runPromise,
+    )
+  } catch (e: any) {
+    if (e._tag !== 'HandledFetchDataError') {
+      console.error(errorToString(e))
+    }
+    process.exit(1)
+  }
 }

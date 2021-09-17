@@ -1,16 +1,4 @@
-import type { OT } from '@contentlayer/utils/effect'
-import { pipe, T } from '@contentlayer/utils/effect'
-import { fs } from '@contentlayer/utils/node'
 import * as crypto from 'crypto'
-import * as path from 'path'
-
-export const getArtifactsDir = (): string => path.join('node_modules', '.contentlayer')
-
-// TODO make `cwd` configurable
-export const makeArtifactsDir: T.Effect<OT.HasTracer, fs.MkdirError, string> = pipe(
-  T.succeed(getArtifactsDir()),
-  T.tap(fs.mkdirp),
-)
 
 // From https://gist.github.com/un33k/db8f0f804d50f671be7ca6663bef1969
 export const hashObject = (object: any): string => {

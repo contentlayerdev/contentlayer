@@ -13,7 +13,7 @@ export const fetchData = async ({
 }: {
   studioDirPath: string
   schemaDef: Core.SchemaDef
-}): Promise<Core.Cache> => {
+}): Promise<Core.DataCache.Cache> => {
   const client = await getSanityClient(studioDirPath)
 
   const imageUrlBuilder = SantityImageUrlBuilder(client)

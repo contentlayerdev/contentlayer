@@ -1,9 +1,13 @@
 {
   "name": "@contentlayer/utils",
-  "version": "0.0.23-dev.8",
+  "version": "0.0.23-dev.12",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "exports": {
+    "./package.json": {
+      "import": "./package.json",
+      "require": "./package.json"
+    },
     ".": {
       "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.js"
@@ -24,6 +28,9 @@
   "types": "./dist/esm/index.d.ts",
   "typesVersions": {
     "*": {
+      "package.json": [
+        "./package.json"
+      ],
       "effect": [
         "./dist/esm/effect"
       ],
