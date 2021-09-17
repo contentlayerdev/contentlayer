@@ -23,7 +23,7 @@ export const PageLayout: FC<{
             </div>
           )}
           {/* TODO type properly */}
-          <div className="post-content">{markdownify(page.content)}</div>
+          <div className="post-content">{markdownify(page.body.raw)}</div>
         </article>
       </div>
     </div>
