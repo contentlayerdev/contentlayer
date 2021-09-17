@@ -1,0 +1,15 @@
+{
+  "name": "@scripts/jest",
+  "private": true,
+  "sideEffects": "false",
+  "exports": {
+    "./resolver": "./dist/resolver.js",
+    "./snapshotResolver": "./dist/snapshotResolver.js"
+  },
+  "dependencies": {
+    "enhanced-resolve": "^5.8.2"
+  },
+  "devDependencies": {
+    "typescript": "^4.4.3"
+  }
+}

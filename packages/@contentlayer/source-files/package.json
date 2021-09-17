@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/source-files",
-  "version": "0.0.22",
+  "version": "0.0.23-dev.12",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "exports": {
@@ -8,9 +8,9 @@
       "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.js"
     },
-    "./schema": {
-      "import": "./dist/esm/schema/index.js",
-      "require": "./dist/cjs/schema/index.js"
+    "./schema/defs": {
+      "import": "./dist/esm/schema/defs/index.js",
+      "require": "./dist/cjs/schema/defs/index.js"
     }
   },
   "types": "./dist/esm/index.d.ts",
@@ -35,13 +35,15 @@
     "gray-matter": "^4.0.3",
     "js-yaml": "^4.1.0",
     "minimatch": "^3.0.4",
-    "rxjs": "^7.1.0",
     "ts-pattern": "^3.2.1",
     "unified": "^9.2.1"
   },
   "devDependencies": {
+    "@scripts/jest": "workspace:*",
+    "@types/faker": "^5",
     "@types/js-yaml": "^4.0.1",
     "@types/minimatch": "^3.0.4",
-    "@types/node": "^15.12.0"
+    "@types/node": "^15.12.0",
+    "faker": "^5.5.3"
   }
 }

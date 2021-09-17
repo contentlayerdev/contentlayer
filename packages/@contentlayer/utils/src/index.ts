@@ -3,13 +3,12 @@ export * from './guards'
 export * from './object'
 export * from './tracing'
 export * from './promise'
-export * from './rxjs'
-export * from './pipe'
-export * from './flow'
+export * from './hash'
+export * from './tracing-effect'
 
-import './global'
-
+export { AsciiTree } from 'oo-ascii-tree'
 export * as pattern from 'ts-pattern'
+import { Tagged } from '@effect-ts/core/Case'
 import * as inflection from 'inflection'
 export { inflection }
 
@@ -41,6 +40,17 @@ export const partition = <T>(arr: T[], isLeft: (_: T) => boolean): [T[], T[]] =>
   )
 }
 
+export const errorToString = (error: any) => {
+  const stack = process.env.CL_DEBUG ? error.stack : undefined
+  const str = error.toString()
+  const stackStr = stack ? `\n${stack}` : ''
+  if (str !== '[object Object]') return str + stackStr
+
+  return JSON.stringify({ ...error, stack }, null, 2)
+}
+
+export const capitalizeFirstLetter = (str: string): string => str.charAt(0).toUpperCase() + str.slice(1)
+
 /**
  * Use this to make assertion at end of if-else chain that all members of a
  * union have been accounted for.
@@ -49,6 +59,8 @@ export function casesHandled(x: never): never {
   throw new Error(`A case was not handled for value: ${JSON.stringify(x)}`)
 }
 
+export type Thunk<T> = () => T
+
 export const unwrapThunk = <T>(_: T | (() => T)): T => {
   if (typeof _ === 'function') {
     return (_ as any)()
@@ -56,3 +68,5 @@ export const unwrapThunk = <T>(_: T | (() => T)): T => {
     return _
   }
 }
+
+export class RawError extends Tagged('RawError')<{ readonly error: unknown }> {}

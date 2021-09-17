@@ -13,7 +13,7 @@ export default makeSourcePlugin({
       person: 'Person',
       config: { defName: 'Config', isSingleton: true },
     },
-    objectTypes: {
+    nestedTypes: {
       section_faq: 'SectionFaq',
       section_hero: 'SectionHero',
       section_contact: 'SectionContact',

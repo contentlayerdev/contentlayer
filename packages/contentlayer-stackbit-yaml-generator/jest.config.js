@@ -1,6 +1,8 @@
-/** @typedef { import('ts-jest/dist/types') } */
 /** @type { import('@jest/types').Config.InitialOptions } */
 module.exports = {
-  preset: 'ts-jest',
+  displayName: 'contentlayer-stackbit-yaml-generator',
   testEnvironment: 'node',
+  testRegex: 'dist/cjs/.*spec.js',
+  snapshotResolver: '<rootDir>/dist/cjs/__test__/__scripts__/snapshotResolver.js',
+  resolver: '<rootDir>/dist/cjs/__test__/__scripts__/resolver.js',
 }

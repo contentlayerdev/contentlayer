@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/source-sanity",
-  "version": "0.0.22",
+  "version": "0.0.23-dev.12",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*",
+    "@contentlayer/utils": "workspace:*",
     "@sanity/client": "^2.10.5",
     "@sanity/core": "^2.10.5",
     "@sanity/image-url": "^0.140.22",

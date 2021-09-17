@@ -7,5 +7,5 @@
     "tsBuildInfoFile": "./dist/.tsbuildinfo.esm.json"
   },
   "include": ["./src"],
-  "references": [{ "path": "../tracing-node" }, { "path": "../utils" }, { "path": "../core" }]
+  "references": [{ "path": "../utils" }, { "path": "../core" }]
 }

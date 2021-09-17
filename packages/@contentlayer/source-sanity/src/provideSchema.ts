@@ -78,7 +78,7 @@ const collectUsedObjectTypes = ({
         return field.of.map(traverseArrayOf)
       default:
         if (field.type in sanityObjectTypeMap) {
-          traverseObjectType(sanityObjectTypeMap[field.type])
+          traverseObjectType(sanityObjectTypeMap[field.type]!)
         }
     }
   }
@@ -89,14 +89,14 @@ const collectUsedObjectTypes = ({
         return arrayOf.fields.forEach(traverseField)
       default:
         if (arrayOf.type in sanityObjectTypeMap) {
-          traverseObjectType(sanityObjectTypeMap[arrayOf.type])
+          traverseObjectType(sanityObjectTypeMap[arrayOf.type]!)
         }
     }
   }
 
   documentTypes.flatMap((_) => _.fields).forEach(traverseField)
 
-  return Object.keys(visitedObjectTypes).map((_) => sanityObjectTypeMap[_])
+  return Object.keys(visitedObjectTypes).map((_) => sanityObjectTypeMap[_]!)
 }
 
 const sanityDocumentTypeToCoreDocumentDef =
@@ -151,7 +151,7 @@ const sanityFieldToCoreFieldDef =
           ...baseFields,
           type: 'reference',
           // TODO support polymorphic references
-          documentTypeName: field.to[0].type,
+          documentTypeName: field.to[0]!.type,
         }
       case 'array':
         // special handling for enum array
@@ -255,7 +255,7 @@ const sanityArrayOfToCoreFieldListDefItem =
         return <core.ListFieldDefItem.ItemReference>{
           type: 'reference',
           // TODO support polymorphic references
-          documentTypeName: arrayOf.to[0].type,
+          documentTypeName: arrayOf.to[0]!.type,
         }
       case 'object':
         return <core.ListFieldDefItem.ItemNestedUnnamed>{

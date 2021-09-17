@@ -1,22 +1,36 @@
-import { generateDotpkg, getConfigWatch } from '@contentlayer/core'
-import { tapSkipFirst } from '@contentlayer/utils'
-import { switchMap, tap } from 'rxjs/operators'
+import * as core from '@contentlayer/core'
+import { errorToString } from '@contentlayer/utils'
+import { E, pipe, S, T } from '@contentlayer/utils/effect'
+import type { Usage } from 'clipanion'
 
 import { BaseCommand } from './_BaseCommand'
 
 export class DevCommand extends BaseCommand {
   static paths = [['dev']]
 
-  async executeSafe() {
-    getConfigWatch({
-      configPath: this.configPath,
-      cwd: process.cwd(),
-    })
-      .pipe(
-        tapSkipFirst(() => console.log(`Contentlayer config change detected. Updating type definitions and data...`)),
-        switchMap((source) => generateDotpkg({ source, watchData: true })),
-        tap(() => console.log(`Generated node_modules/.contentlayer`)),
-      )
-      .subscribe()
+  static usage: Usage = {
+    description: `Same as "contentlayer build" but with watch mode`,
+    details: `
+      TODO: Longer description 
+    `,
+    examples: [
+      [`Simple run`, `$0 dev`],
+      [`Clear cache before run`, `$0 dev --clearCache`],
+    ],
   }
+
+  executeSafe = pipe(
+    S.suspend(() =>
+      core.getConfigWatch({
+        configPath: this.configPath,
+        cwd: process.cwd(),
+      }),
+    ),
+    S.tapSkipFirstRight(() => T.log(`Contentlayer config change detected. Updating type definitions and data...`)),
+    S.chainSwitchMapEitherRight((source) =>
+      core.generateDotpkgStream({ source, verbose: this.verbose, cwd: process.cwd() }),
+    ),
+    S.tap(E.fold((error) => T.log(errorToString(error)), core.logGenerateInfo)),
+    S.runDrain,
+  )
 }

@@ -1,5 +1,5 @@
-import type { Cache } from './cache'
 import type { Document, NestedDocument } from './data'
+import type { DataCache } from './DataCache'
 
 export type GetDocumentTypeMapGen = ContentlayerGen extends { documentTypeMap: infer T } ? T : Record<string, Document>
 export type GetDocumentTypeGen<Name extends string> = Name extends keyof GetDocumentTypeMapGen
@@ -28,6 +28,6 @@ declare global {
   interface ContentlayerGen {}
 }
 
-export type CacheGen = Omit<Cache, 'documents'> & { documents: DocumentGen[] }
+export type CacheGen = Omit<DataCache.Cache, 'documents'> & { documents: DocumentGen[] }
 
 export type DocumentGen = GetDocumentTypesGen

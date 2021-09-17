@@ -1,0 +1,17 @@
+{
+  "Pipe Operator |": {
+    "prefix": "|",
+    "body": ["[\"|>\"]($0)"],
+    "description": "Pipe Operator"
+  },
+  "Gen Function": {
+    "prefix": "gen",
+    "body": ["function* ($) {}"],
+    "description": "Generator FUnction with $ input"
+  },
+  "Gen Yield *": {
+    "prefix": "!",
+    "body": ["yield* $($0)"],
+    "description": "Yield generator calling $()"
+  }
+}

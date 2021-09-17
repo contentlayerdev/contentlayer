@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/core",
-  "version": "0.0.22",
+  "version": "0.0.23-dev.12",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
@@ -28,12 +28,11 @@
     "rehype-stringify": "^8.0.0",
     "remark-parse": "^9.0.0",
     "remark-rehype": "^8.1.0",
-    "rxjs": "^7.1.0",
-    "source-map-support": "^0.5.19",
+    "source-map-support": "^0.5.20",
     "type-fest": "^1.2.1",
     "unified": "^9.2.1"
   },
   "devDependencies": {
-    "@types/source-map-support": "^0.5.3"
+    "@types/source-map-support": "^0.5.4"
   }
 }

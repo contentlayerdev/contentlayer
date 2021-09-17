@@ -18,5 +18,6 @@
   "prettier.printWidth": 120,
   "prettier.semi": false,
   // needed to keep task starting fast (https://github.com/microsoft/vscode/issues/63055#issuecomment-438957634)
-  "typescript.tsc.autoDetect": "off"
+  "typescript.tsc.autoDetect": "off",
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

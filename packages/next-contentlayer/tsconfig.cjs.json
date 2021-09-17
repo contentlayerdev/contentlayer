@@ -6,7 +6,7 @@
     "tsBuildInfoFile": "./dist/.tsbuildinfo.cjs.json"
   },
   "references": [
-    { "path": "../@contentlayer/tracing-node/tsconfig.cjs.json" },
+    { "path": "../@contentlayer/utils/tsconfig.cjs.json" },
     { "path": "../@contentlayer/core/tsconfig.cjs.json" }
   ]
 }

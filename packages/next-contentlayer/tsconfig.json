@@ -9,5 +9,5 @@
     "tsBuildInfoFile": "./dist/.tsbuildinfo.esm.json"
   },
   "include": ["./src"],
-  "references": [{ "path": "../@contentlayer/tracing-node" }, { "path": "../@contentlayer/core" }]
+  "references": [{ "path": "../@contentlayer/utils" }, { "path": "../@contentlayer/core" }]
 }

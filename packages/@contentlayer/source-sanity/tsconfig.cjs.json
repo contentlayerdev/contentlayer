@@ -5,5 +5,5 @@
     "outDir": "./dist/cjs",
     "tsBuildInfoFile": "./dist/.tsbuildinfo.cjs.json"
   },
-  "references": [{ "path": "../core/tsconfig.cjs.json" }]
+  "references": [{ "path": "../core/tsconfig.cjs.json" }, { "path": "../utils/tsconfig.cjs.json" }]
 }

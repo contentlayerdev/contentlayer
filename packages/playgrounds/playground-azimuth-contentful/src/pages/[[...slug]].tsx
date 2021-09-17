@@ -32,7 +32,7 @@ export const getStaticProps = defineStaticProps(async (context) => {
 const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ doc, config, posts }) => {
   useLiveReload()
 
-  switch (doc._typeName) {
+  switch (doc.type) {
     case 'Landing':
       return <LandingLayout landing={doc} config={config} posts={posts} />
     case 'Page':

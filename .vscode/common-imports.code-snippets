@@ -1,0 +1,92 @@
+{
+  "Effect": {
+    "prefix": "+T",
+    "body": ["import * as T from \"@effect-ts/core/Effect\""],
+    "description": "Effect as T"
+  },
+  "Array": {
+    "prefix": "+A",
+    "body": ["import * as A from \"@effect-ts/core/Collections/Immutable/Array\""],
+    "description": "Array as A"
+  },
+  "Managed": {
+    "prefix": "+M",
+    "body": ["import * as M from \"@effect-ts/core/Effect/Managed\""],
+    "description": "Managed as M"
+  },
+  "Layer": {
+    "prefix": "+L",
+    "body": ["import * as L from \"@effect-ts/core/Effect/Layer\""],
+    "description": "Layer as L"
+  },
+  "Ref": {
+    "prefix": "+Ref",
+    "body": ["import * as Ref from \"@effect-ts/core/Effect/Ref\""],
+    "description": "Ref"
+  },
+  "RefM": {
+    "prefix": "+RefM",
+    "body": ["import * as RefM from \"@effect-ts/core/Effect/RefM\""],
+    "description": "RefM"
+  },
+  "Prelude": {
+    "prefix": "+P",
+    "body": ["import * as P from \"@effect-ts/core/Prelude\""],
+    "description": "Prelude as NA"
+  },
+  "DSL": {
+    "prefix": "+DSL",
+    "body": ["import * as DSL from \"@effect-ts/core/Prelude/DSL\""],
+    "description": "Prelude DSL as DSL"
+  },
+  "Queue": {
+    "prefix": "+Q",
+    "body": ["import * as Q from \"@effect-ts/core/Effect/Queue\""],
+    "description": "Queue as Q"
+  },
+  "Semaphore": {
+    "prefix": "+Q",
+    "body": ["import * as Sem from \"@effect-ts/core/Effect/Semaphore\""],
+    "description": "Semaphore as Sem"
+  },
+  "Stream": {
+    "prefix": "+S",
+    "body": ["import * as S from \"@effect-ts/core/Effect/Stream\""],
+    "description": "Semaphore as S"
+  },
+  "Either": {
+    "prefix": "+E",
+    "body": ["import * as E from \"@effect-ts/core/Either\""],
+    "description": "Either as E"
+  },
+  "Exit": {
+    "prefix": "+Ex",
+    "body": ["import * as Ex from \"@effect-ts/core/Effect/Exit\""],
+    "description": "Exit as Ex"
+  },
+  "Cause": {
+    "prefix": "+C",
+    "body": ["import * as C from \"@effect-ts/core/Effect/Cause\""],
+    "description": "Cause as C"
+  },
+  "Option": {
+    "prefix": "+O",
+    "body": ["import * as O from \"@effect-ts/core/Option\""],
+    "description": "Option as O"
+  },
+  "Fiber": {
+    "prefix": "+F",
+    "body": ["import * as F from \"@effect-ts/core/Effect/Fiber\""],
+    "description": "Fiber as F"
+  },
+  "Tuple": {
+    "prefix": "+Tp",
+    "body": ["import * as Tp from \"@effect-ts/system/Collections/Immutable/Tuple\""],
+    "description": "Tuple as Tp"
+  },
+  "Otel": {
+    "prefix": "+OT",
+    "body": ["import * as OT from \"@effect-ts/otel\""],
+    "description": "Otel as OT"
+  }
+}

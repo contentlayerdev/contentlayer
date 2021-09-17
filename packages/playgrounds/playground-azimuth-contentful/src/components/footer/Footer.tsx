@@ -15,12 +15,12 @@ export const Footer: FC<{ config: Config }> = ({ config }) => (
         <div className="inner">
           <div className="grid footer-widgets">
             {config.footer.sections.map((section, index) => {
-              switch (section._typeName) {
-                case 'footer_form':
+              switch (section.type) {
+                case 'FooterForm':
                   return <FooterForm key={index} section={section} />
-                case 'footer_nav':
+                case 'FooterNav':
                   return <FooterNav key={index} section={section} />
-                case 'footer_text':
+                case 'FooterText':
                   return <FooterText key={index} section={section} />
               }
             })}

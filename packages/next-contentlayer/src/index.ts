@@ -1,10 +1,10 @@
-import '@contentlayer/tracing-node'
+import '@contentlayer/utils/effect/Tracing/Enable'
 
-import { generateDotpkg, getConfig, getConfigWatch } from '@contentlayer/core'
-import { tapSkipFirst } from '@contentlayer/utils'
+import * as core from '@contentlayer/core'
+import { errorToString, JaegerNodeTracing } from '@contentlayer/utils'
+import type { HasClock } from '@contentlayer/utils/effect'
+import { E, OT, pipe, pretty, S, T } from '@contentlayer/utils/effect'
 import type { NextConfig } from 'next'
-import { firstValueFrom } from 'rxjs'
-import { switchMap, tap } from 'rxjs/operators'
 
 import { createOpenPromise } from './utils'
 
@@ -22,12 +22,7 @@ export const withContentlayer =
     const isBuild = process.argv.includes('build')
 
     if (isNextDev) {
-      runContentlayerDev({
-        onGeneration: () => {
-          console.log(`Generated node_modules/.contentlayer`)
-          initialGenerationCompletedOpenPromise.resolve()
-        },
-      })
+      runContentlayerDev({ onGeneration: () => initialGenerationCompletedOpenPromise.resolve() })
     }
 
     return {
@@ -63,24 +58,50 @@ export const withContentlayer =
 /** Seems like the next.config.js export function might be executed multiple times, so we need to make sure we only run it once */
 let contentlayerInitialized = false
 
-const runContentlayerDev = ({ onGeneration }: { onGeneration: () => void }) => {
+const runContentlayerDev = async ({ onGeneration }: { onGeneration: () => void }) => {
   if (contentlayerInitialized) return
   contentlayerInitialized = true
 
-  getConfigWatch({ cwd: process.cwd() })
-    .pipe(
-      tapSkipFirst(() => console.log(`Contentlayer config change detected. Updating type definitions and data...`)),
-      switchMap((source) => generateDotpkg({ source, watchData: true })),
-      tap(onGeneration),
-    )
-    .subscribe()
+  const cwd = process.cwd()
+
+  await pipe(
+    core.getConfigWatch({ cwd }),
+    S.tapSkipFirstRight(() => T.log(`Contentlayer config change detected. Updating type definitions and data...`)),
+    S.chainSwitchMapEitherRight((source) => core.generateDotpkgStream({ source, verbose: false, cwd })),
+    S.tap(E.fold((error) => T.log(errorToString(error)), core.logGenerateInfo)),
+    S.tapRight(() => T.succeedWith(onGeneration)),
+    S.runDrain,
+    runMainEffect,
+  )
 }
 
 const runContentlayerBuild = async () => {
   if (contentlayerInitialized) return
   contentlayerInitialized = true
 
-  const source = await getConfig({ cwd: process.cwd() })
-  await firstValueFrom(generateDotpkg({ source, watchData: false }))
-  console.log(`Generated node_modules/.contentlayer`)
+  const cwd = process.cwd()
+
+  await pipe(
+    core.getConfig({ cwd: process.cwd() }),
+    T.chain((source) => core.generateDotpkg({ source, verbose: false, cwd })),
+    T.tap(core.logGenerateInfo),
+    OT.withSpan('next-contentlayer:runContentlayerBuild'),
+    runMainEffect,
+  )
+}
+
+const runMainEffect = async (effect: T.Effect<OT.HasTracer & HasClock, unknown, unknown>) => {
+  try {
+    await pipe(
+      effect,
+      T.provideSomeLayer(JaegerNodeTracing('next-contentlayer')),
+      T.tapCause((cause) => (process.env.CL_DEBUG ? T.die(pretty(cause)) : T.unit)),
+      T.runPromise,
+    )
+  } catch (e: any) {
+    if (e._tag !== 'HandledFetchDataError') {
+      console.error(errorToString(e))
+    }
+    process.exit(1)
+  }
 }

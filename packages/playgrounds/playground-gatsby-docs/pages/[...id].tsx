@@ -21,7 +21,7 @@ const Page: FC<{ doc: DocumentTypes }> = ({ doc }) => (
     <Head>
       <title>{doc.title}</title>
     </Head>
-    <div dangerouslySetInnerHTML={{ __html: doc.content!.html }} />
+    <div dangerouslySetInnerHTML={{ __html: doc.body.html }} />
   </>
 )
 

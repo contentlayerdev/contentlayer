@@ -8,7 +8,7 @@ export const derefDocumentOrThrow = (documentDefMap: DocumentTypeDefMap, documen
     )
   }
 
-  return documentDefMap[documentDefName]
+  return documentDefMap[documentDefName]!
 }
 
 export const derefEmbeddedOrThrow = (nestedTypeDefMap: NestedTypeDefMap, nestedTypeDefName: string): NestedTypeDef => {
@@ -18,5 +18,5 @@ export const derefEmbeddedOrThrow = (nestedTypeDefMap: NestedTypeDefMap, nestedT
     )
   }
 
-  return nestedTypeDefMap[nestedTypeDefName]
+  return nestedTypeDefMap[nestedTypeDefName]!
 }

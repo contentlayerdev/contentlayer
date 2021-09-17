@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/source-contentful",
-  "version": "0.0.22",
+  "version": "0.0.23-dev.12",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
@@ -15,7 +15,6 @@
   "dependencies": {
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
-    "contentful-management": "7.22.4",
-    "rxjs": "^7.1.0"
+    "contentful-management": "7.22.4"
   }
 }

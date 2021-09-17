@@ -11,5 +11,5 @@
     "tsBuildInfoFile": "./dist/.tsbuildinfo.esm.json"
   },
   "include": ["./src"],
-  "references": [{ "path": "../core" }]
+  "references": [{ "path": "../core" }, { "path": "../utils" }]
 }

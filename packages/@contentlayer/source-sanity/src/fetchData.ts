@@ -2,7 +2,6 @@
 const SantityImageUrlBuilder = require('@sanity/image-url')
 // import SantityImageUrlBuilder from '@sanity/image-url'
 import type * as Core from '@contentlayer/core'
-import type { Cache } from '@contentlayer/core'
 import type { ImageUrlBuilder } from '@sanity/image-url/lib/types/builder'
 
 import { getSanityClient } from './sanity-client'
@@ -14,7 +13,7 @@ export const fetchData = async ({
 }: {
   studioDirPath: string
   schemaDef: Core.SchemaDef
-}): Promise<Cache> => {
+}): Promise<Core.DataCache.Cache> => {
   const client = await getSanityClient(studioDirPath)
 
   const imageUrlBuilder = SantityImageUrlBuilder(client)
@@ -34,7 +33,7 @@ export const fetchData = async ({
     .map((rawDocumentData) =>
       makeDocument({
         rawDocumentData,
-        documentTypeDef: schemaDef.documentTypeDefMap[rawDocumentData._type],
+        documentTypeDef: schemaDef.documentTypeDefMap[rawDocumentData._type]!,
         schemaDef,
         imageUrlBuilder,
       }),
@@ -124,7 +123,7 @@ const getDataForFieldDef = ({
 
   switch (fieldDef.type) {
     case 'nested':
-      const objectDef = schemaDef.nestedTypeDefMap[fieldDef.nestedTypeName]
+      const objectDef = schemaDef.nestedTypeDefMap[fieldDef.nestedTypeName]!
       return makeNestedDocument({
         rawObjectData: rawFieldData,
         fieldDefs: objectDef.fieldDefs,
@@ -172,7 +171,7 @@ const getDataForListItem = ({
 
   // polymorphic list case
   if (rawItemData._type in schemaDef.nestedTypeDefMap) {
-    const nestedTypeDef = schemaDef.nestedTypeDefMap[rawItemData._type]
+    const nestedTypeDef = schemaDef.nestedTypeDefMap[rawItemData._type]!
     return makeNestedDocument({
       rawObjectData: rawItemData,
       fieldDefs: nestedTypeDef.fieldDefs,

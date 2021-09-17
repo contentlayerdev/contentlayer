@@ -1,16 +1,4 @@
 import * as crypto from 'crypto'
-import { promises as fs } from 'fs'
-import * as path from 'path'
-
-// TODO make `cwd` configurable
-export const makeArtifactsDir = async (): Promise<string> => {
-  const artifactsDirPath = getArtifactsDir()
-  await fs.mkdir(artifactsDirPath, { recursive: true })
-
-  return artifactsDirPath
-}
-
-export const getArtifactsDir = (): string => path.join('node_modules', '.contentlayer')
 
 // From https://gist.github.com/un33k/db8f0f804d50f671be7ca6663bef1969
 export const hashObject = (object: any): string => {
