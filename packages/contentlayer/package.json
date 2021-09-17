@@ -52,7 +52,7 @@
     }
   },
   "scripts": {
-    "postinstall": "node ./dist/cjs/cli/index.js postinstall",
+    "postinstall": "node ./dist/cjs/cli/index.js postinstall || echo 'No Contentlayer build found.'",
     "_prepack": "yarn build",
     "build": "run g:build && echo Build complete",
     "_build:cli": "rm -rf dist/cli && esbuild --bundle ./src/cli/index.ts --outfile=./dist/cli/index.js --platform=node --target=node12 --sourcemap --external:esbuild && chmod +x ./dist/cli/index.js"
