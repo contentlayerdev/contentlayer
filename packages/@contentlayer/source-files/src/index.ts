@@ -2,13 +2,13 @@ import type * as core from '@contentlayer/core'
 import { processArgs, SourceProvideSchemaError } from '@contentlayer/core'
 import { pipe, Sync } from '@contentlayer/utils/effect'
 
-import { fetchData } from './fetchData'
-import type * as LocalSchema from './schema/defs'
-import { makeCoreSchema } from './schema/provideSchema'
-import type { Flags, PluginOptions } from './types'
+import { fetchData } from './fetchData/index.js'
+import type * as LocalSchema from './schema/defs/index.js'
+import { makeCoreSchema } from './schema/provideSchema.js'
+import type { Flags, PluginOptions } from './types.js'
 
-export * from './types'
-export * from './schema/defs'
+export * from './types.js'
+export * from './schema/defs/index.js'
 
 export type Args = {
   // Note `<any>` generic parameter is needed here to avoid a consumer-side type error related to computed fields

@@ -4,10 +4,10 @@ import type { E, OT } from '@contentlayer/utils/effect'
 import { pipe, S, T, These } from '@contentlayer/utils/effect'
 import { FSWatch } from '@contentlayer/utils/node'
 
-import { FetchDataError } from '../errors'
-import type * as LocalSchema from '../schema/defs'
-import type { FilePathPatternMap, Flags } from '../types'
-import { fetchAllDocuments, makeCacheItemFromFilePath } from './fetchAllDocuments'
+import { FetchDataError } from '../errors/index.js'
+import type * as LocalSchema from '../schema/defs/index.js'
+import type { FilePathPatternMap, Flags } from '../types.js'
+import { fetchAllDocuments, makeCacheItemFromFilePath } from './fetchAllDocuments.js'
 
 export const fetchData = ({
   coreSchemaDef,
@@ -57,7 +57,7 @@ export const fetchData = ({
         S.tapRight((e) =>
           T.succeedWith(
             () =>
-              (e._tag === 'updated' || e._tag === 'deleted') && console.log(`File ${e._tag}: ${e.relativeFilePath}`),
+              (e._tag === 'updated' || e._tag === 'deleted') && console.log(`\nFile ${e._tag}: ${e.relativeFilePath}`),
           ),
         ),
         S.startWithRight(initEvent),

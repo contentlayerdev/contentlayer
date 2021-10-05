@@ -1,13 +1,11 @@
 {
   "name": "@contentlayer/client",
-  "version": "0.0.23-dev.12",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/esm/index.d.ts",
+  "version": "0.0.25",
+  "type": "module",
+  "exports": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "_prepack": "yarn build",
-    "dev": "rm -rf dist && tsc --watch",
-    "build": "run g:build && echo Build complete"
+    "test": "echo No tests yet"
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*"

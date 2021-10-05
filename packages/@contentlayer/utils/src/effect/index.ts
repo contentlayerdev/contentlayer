@@ -6,19 +6,19 @@ export { Tagged } from '@effect-ts/core/Case'
 export type { Has } from '@effect-ts/core/Has'
 export { pretty } from '@effect-ts/core/Effect/Cause'
 
-export * as Stream from './Stream'
-export * as S from './Stream'
-export * as Effect from './Effect'
-export * as T from './Effect'
+export * as Stream from './Stream.js'
+export * as S from './Stream.js'
+export * as Effect from './Effect.js'
+export * as T from './Effect.js'
 
 export * as Sync from '@effect-ts/core/Sync'
 
 export * as Tuple from '@effect-ts/core/Collections/Immutable/Tuple'
 export * as Tp from '@effect-ts/core/Collections/Immutable/Tuple'
 
-export * as These from './These'
+export * as These from './These.js'
 
-export * as Chunk from './Chunk'
+export * as Chunk from './Chunk.js'
 
 export * as Cause from '@effect-ts/core/Effect/Cause'
 

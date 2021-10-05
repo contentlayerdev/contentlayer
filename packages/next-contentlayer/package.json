@@ -1,15 +1,16 @@
 {
   "name": "next-contentlayer",
-  "version": "0.0.23-dev.12",
-  "main": "./dist/cjs/index.js",
+  "version": "0.0.25",
+  "type": "module",
+  "main": "./dist/cjs/index.cjs",
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js"
+      "require": "./dist/cjs/index.cjs"
     },
     "./hooks": {
-      "import": "./dist/esm/hooks.js",
-      "require": "./dist/cjs/hooks.js"
+      "import": "./dist/esm/hooks/index.js",
+      "require": "./dist/cjs/hooks/index.js"
     }
   },
   "typesVersions": {
@@ -18,13 +19,12 @@
         "./dist/esm/index"
       ],
       "hooks": [
-        "./dist/esm/hooks"
+        "./dist/esm/hooks/index"
       ]
     }
   },
   "scripts": {
-    "_prepack": "yarn build",
-    "build": "run g:build && echo Build complete"
+    "prepack": "sed '/^import /d' dist/cjs/index.js > dist/cjs/index.cjs"
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*",

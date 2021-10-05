@@ -2,12 +2,12 @@ import type * as core from '@contentlayer/core'
 import { processArgs } from '@contentlayer/core'
 import { pipe, S, SC, T } from '@contentlayer/utils/effect'
 
-import { fetchAllDocuments } from './fetchData'
-import { provideSchema } from './provideSchema'
-import type * as SchemaOverrides from './schemaOverrides'
-import type { PluginOptions } from './types'
+import { fetchAllDocuments } from './fetchData/index.js'
+import { provideSchema } from './provideSchema.js'
+import type * as SchemaOverrides from './schemaOverrides.js'
+import type { PluginOptions } from './types.js'
 
-export type { RawDocumentData } from './types'
+export type { RawDocumentData } from './types.js'
 
 export type Args = {
   accessToken: string

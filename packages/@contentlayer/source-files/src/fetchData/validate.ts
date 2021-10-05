@@ -2,9 +2,9 @@ import type * as core from '@contentlayer/core'
 import { O, These } from '@contentlayer/utils/effect'
 import minimatch from 'minimatch'
 
-import type { FilePathPatternMap } from '..'
-import { FetchDataError } from '../errors'
-import type { RawContent } from './types'
+import { FetchDataError } from '../errors/index.js'
+import type { FilePathPatternMap } from '../index.js'
+import type { RawContent } from './types.js'
 
 type ValidateDocumentDataError =
   | FetchDataError.CouldNotDetermineDocumentTypeError

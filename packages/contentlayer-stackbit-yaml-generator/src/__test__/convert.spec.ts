@@ -1,19 +1,19 @@
-import { convertSchema } from '../cli/convert'
-import { toYamlString } from '../cli/utils'
-import * as fixtures from './fixtures'
+import t from 'tap'
 
-describe('convert', () => {
-  it('azimuth schema', async () => {
-    const coreSchema = await fixtures.makeAzimuthSchema()
-    expect(coreSchema).toMatchSnapshot()
-    const stackbitConfig = toYamlString(convertSchema(coreSchema, {}))
-    expect(stackbitConfig).toMatchSnapshot()
-  })
+import { convertSchema } from '../cli/convert.js'
+import { toYamlString } from '../cli/utils.js'
+import * as fixtures from './fixtures/index.js'
 
-  it('blog schema', async () => {
-    const coreSchema = await fixtures.makeBlogSchema()
-    expect(coreSchema).toMatchSnapshot()
-    const stackbitConfig = toYamlString(convertSchema(coreSchema, {}))
-    expect(stackbitConfig).toMatchSnapshot()
-  })
+t.test('azimuth schema', async (t) => {
+  const coreSchema = await fixtures.makeAzimuthSchema()
+  t.matchSnapshot(coreSchema)
+  const stackbitConfig = toYamlString(convertSchema(coreSchema, {}))
+  t.matchSnapshot(stackbitConfig)
+})
+
+t.test('blog schema', async (t) => {
+  const coreSchema = await fixtures.makeBlogSchema()
+  t.matchSnapshot(coreSchema)
+  const stackbitConfig = toYamlString(convertSchema(coreSchema, {}))
+  t.matchSnapshot(stackbitConfig)
 })

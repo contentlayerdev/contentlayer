@@ -1,7 +1,7 @@
 import { xxhash64 } from 'hash-wasm'
 import type { JsonValue } from 'type-fest'
 
-import { T, Tagged } from './effect'
+import { T, Tagged } from './effect/index.js'
 
 export const hashObject = (obj: JsonValue): T.Effect<unknown, HashError, string> => {
   return T.tryCatchPromise(

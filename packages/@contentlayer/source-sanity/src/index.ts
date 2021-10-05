@@ -3,10 +3,10 @@ import type { MutationEvent } from '@sanity/client'
 import { defer, from, Observable, of } from 'rxjs'
 import { mergeMap, startWith } from 'rxjs/operators'
 
-import { fetchData } from './fetchData'
-import { provideSchema } from './provideSchema'
-import { getSanityClient } from './sanity-client'
-import type { PluginOptions } from './types'
+import { fetchData } from './fetchData.js'
+import { provideSchema } from './provideSchema.js'
+import { getSanityClient } from './sanity-client.js'
+import type { PluginOptions } from './types.js'
 
 type Args = {
   studioDirPath: string

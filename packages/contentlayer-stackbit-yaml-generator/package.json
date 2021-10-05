@@ -1,26 +1,26 @@
 {
   "name": "contentlayer-stackbit-yaml-generator",
-  "version": "0.0.23-dev.12",
+  "version": "0.0.25",
+  "type": "module",
   "bin": "./dist/cli/index.js",
-  "main": "./dist/cjs/lib/index.js",
-  "module": "./dist/esm/lib/index.js",
-  "types": "./dist/esm/lib/index.d.ts",
+  "exports": "./dist/lib/index.js",
+  "types": "./dist/lib/index.d.ts",
   "scripts": {
-    "_prepack": "yarn build",
-    "build": "run g:build && echo Build complete",
-    "_build:cli": "rm -rf dist/cli && esbuild --bundle src/cli/index.ts --outfile=dist/cli/index.js --platform=node --sourcemap --external:esbuild && chmod +x ./dist/index.js"
+    "test": "tap"
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
     "@stackbit/sdk": "^0.1.15",
-    "clipanion": "^3.0.0-rc.12",
-    "typanion": "3.4.1",
+    "clipanion": "^3.2.0-rc.3",
+    "typanion": "3.5.0",
     "yaml": "^1.10.2"
   },
   "devDependencies": {
+    "@types/tap": "^15.0.5",
     "contentlayer": "workspace:*",
-    "esbuild": "^0.12.14",
+    "esbuild": "^0.12.28",
+    "tap": "^15.0.10",
     "typescript": "^4.4.3"
   }
 }

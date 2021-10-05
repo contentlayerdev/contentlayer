@@ -1,5 +1,5 @@
-export * from './pick'
-export * from './omit'
+export * from './pick.js'
+export * from './omit.js'
 
 type ValueOfRecord<R extends Record<any, any>> = R extends Record<any, infer V> ? V : never
 

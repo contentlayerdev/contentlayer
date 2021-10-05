@@ -1,3 +1,4 @@
+import { errorToString } from '@contentlayer/utils'
 import { E, Ex, H, M, O, OT, pipe, Q, Ref, S, T, Tagged } from '@contentlayer/utils/effect'
 import * as esbuild from 'esbuild'
 
@@ -13,7 +14,9 @@ export type Plugin = esbuild.Plugin
 
 export type EsbuildError = UnknownEsbuildError | esbuild.BuildFailure
 
-export class UnknownEsbuildError extends Tagged('UnknownEsbuildError')<{ readonly error: unknown }> {}
+export class UnknownEsbuildError extends Tagged('UnknownEsbuildError')<{ readonly error: unknown }> {
+  toString = () => `UnknownEsbuildError: ${errorToString(this.error)}`
+}
 
 class ConcreteEsbuildWatcher implements EsbuildWatcher {
   readonly [EsbuildWatcherTypeId]: EsbuildWatcherTypeId = EsbuildWatcherTypeId

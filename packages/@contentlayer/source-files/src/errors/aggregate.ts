@@ -2,8 +2,8 @@ import * as core from '@contentlayer/core'
 import { AsciiTree } from '@contentlayer/utils'
 import { T } from '@contentlayer/utils/effect'
 
-import type { Flags } from '../types'
-import type { FetchDataError } from '.'
+import type { Flags } from '../types.js'
+import type { FetchDataError } from './index.js'
 
 export const handleFetchDataErrors = ({
   errors,

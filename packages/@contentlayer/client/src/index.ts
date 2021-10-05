@@ -1,1 +1,1 @@
-export * from './guards'
+export * from './guards.js'

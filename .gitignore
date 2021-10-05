@@ -19,3 +19,7 @@ out
 *.tsbuildinfo
 
 .envrc
+
+.nyc_output
+
+!tap-snapshots/dist/*

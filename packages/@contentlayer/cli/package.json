@@ -1,20 +1,19 @@
 {
   "name": "@contentlayer/cli",
-  "version": "0.0.23-dev.12",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/esm/index.d.ts",
+  "version": "0.0.25",
+  "type": "module",
+  "exports": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "_prepack": "yarn build",
-    "build": "run g:build && echo Build complete"
+    "test": "echo No tests yet"
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
-    "clipanion": "^3.0.0-rc.12",
-    "typanion": "^3.4.1"
+    "clipanion": "^3.2.0-rc.3",
+    "typanion": "^3.5.0"
   },
   "devDependencies": {
-    "@types/node": "^15.12.0"
+    "@types/node": "^16.10.2"
   }
 }

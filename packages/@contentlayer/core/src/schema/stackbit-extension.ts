@@ -1,4 +1,4 @@
-import type { GetFieldNamesForDefinitionGen } from '../gen'
+import type { GetFieldNamesForDefinitionGen } from '../gen.js'
 
 type KnownFieldNames<DefName extends string> = GetFieldNamesForDefinitionGen<DefName>
 

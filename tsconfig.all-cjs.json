@@ -2,16 +2,5 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {},
   "include": [],
-  "references": [
-    { "path": "./packages/@scripts/jest/tsconfig.json" },
-    { "path": "./packages/@contentlayer/cli/tsconfig.cjs.json" },
-    { "path": "./packages/@contentlayer/core/tsconfig.cjs.json" },
-    { "path": "./packages/@contentlayer/source-contentful/tsconfig.cjs.json" },
-    { "path": "./packages/@contentlayer/source-files/tsconfig.cjs.json" },
-    { "path": "./packages/@contentlayer/source-sanity/tsconfig.cjs.json" },
-    { "path": "./packages/@contentlayer/utils/tsconfig.cjs.json" },
-    { "path": "./packages/contentlayer/tsconfig.cjs.json" },
-    { "path": "./packages/contentlayer-stackbit-yaml-generator/tsconfig.cjs.json" },
-    { "path": "./packages/next-contentlayer/tsconfig.cjs.json" }
-  ]
+  "references": [{ "path": "./packages/next-contentlayer/tsconfig.cjs.json" }]
 }

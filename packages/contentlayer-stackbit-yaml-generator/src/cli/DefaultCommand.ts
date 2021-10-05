@@ -6,9 +6,9 @@ import { promises as fs } from 'fs'
 import * as path from 'path'
 import * as t from 'typanion'
 
-import type { Transform } from '../lib'
-import { convertSchema } from './convert'
-import { toYamlString } from './utils'
+import type { Transform } from '../lib/index.js'
+import { convertSchema } from './convert.js'
+import { toYamlString } from './utils.js'
 
 const defaultStackbitYamlPath = () => `${path.join(process.cwd())}/stackbit.yaml`
 const defaultTransformPath = () => `${path.join(process.cwd())}/contentlayer-stackbit-yaml-generator.js`

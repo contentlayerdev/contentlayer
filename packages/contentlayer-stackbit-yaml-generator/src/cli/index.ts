@@ -1,10 +1,8 @@
-#!/usr/bin/env node
-
 import { Builtins, Cli } from 'clipanion'
 
-import { DefaultCommand } from './DefaultCommand'
+import { DefaultCommand } from './DefaultCommand.js'
 
-export const run = () => {
+export const run = async () => {
   const [node, app, ...args] = process.argv
 
   const cli = new Cli({
@@ -16,7 +14,6 @@ export const run = () => {
   cli.register(DefaultCommand)
   cli.register(Builtins.HelpCommand)
   cli.register(Builtins.VersionCommand)
-  cli.runExit(args, Cli.defaultContext)
-}
 
-run()
+  await cli.runExit(args, Cli.defaultContext)
+}

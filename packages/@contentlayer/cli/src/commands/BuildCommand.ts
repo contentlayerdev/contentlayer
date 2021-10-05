@@ -2,7 +2,7 @@ import * as core from '@contentlayer/core'
 import { OT, pipe, T } from '@contentlayer/utils/effect'
 import type { Usage } from 'clipanion'
 
-import { BaseCommand } from './_BaseCommand'
+import { BaseCommand } from './_BaseCommand.js'
 
 export class BuildCommand extends BaseCommand {
   static paths = [['build']]

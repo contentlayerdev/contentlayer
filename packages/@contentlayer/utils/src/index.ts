@@ -1,15 +1,16 @@
-export * from './string'
-export * from './guards'
-export * from './object'
-export * from './tracing'
-export * from './promise'
-export * from './hash'
-export * from './tracing-effect'
+export * from './string.js'
+export * from './guards.js'
+export * from './object/index.js'
+export * from './tracing.js'
+export * from './promise.js'
+export * from './hash.js'
+export * from './tracing-effect/index.js'
 
 export { AsciiTree } from 'oo-ascii-tree'
 export * as pattern from 'ts-pattern'
 import { Tagged } from '@effect-ts/core/Case'
-import * as inflection from 'inflection'
+// inflection is a CJS module, so we need to import it as default export
+import inflection from 'inflection'
 export { inflection }
 
 export const recRemoveUndefinedValues = (val: any): void => {

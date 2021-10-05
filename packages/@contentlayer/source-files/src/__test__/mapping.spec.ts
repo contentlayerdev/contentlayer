@@ -1,11 +1,11 @@
-import { getFlattenedPath } from '../fetchData/mapping'
+import t from 'tap'
 
-describe('getFlattenedPath', () => {
-  it('should flatten path', () => {
-    expect(getFlattenedPath('some/path/doc.md')).toBe('some/path/doc')
-    expect(getFlattenedPath('some/path/index.md')).toBe('some/path')
-    expect(getFlattenedPath('some/index/index.md')).toBe('some/index')
-    expect(getFlattenedPath('index/index.md')).toBe('index')
-    expect(getFlattenedPath('index.md')).toBe('')
-  })
+import { getFlattenedPath } from '../fetchData/mapping.js'
+
+t.test('getFlattenedPath', async (t) => {
+  t.equal(getFlattenedPath('some/path/doc.md'), 'some/path/doc')
+  t.equal(getFlattenedPath('some/path/index.md'), 'some/path')
+  t.equal(getFlattenedPath('some/index/index.md'), 'some/index')
+  t.equal(getFlattenedPath('index/index.md'), 'index')
+  t.equal(getFlattenedPath('index.md'), '')
 })

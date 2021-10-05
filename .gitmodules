@@ -1,7 +1,3 @@
-[submodule "packages/playgrounds/playground-starter"]
-	path = packages/playgrounds/playground-starter
-	url = git@github.com:schickling-test/contentlayer-blog.git
-
-[submodule "packages/playgrounds/playground-gatsby-docs/gatsby"]
-	path = packages/playgrounds/playground-gatsby-docs/gatsby
+[submodule "examples/gatsby-docs/gatsby"]
+	path = examples/gatsby-docs/gatsby
 	url = git@github.com:gatsbyjs/gatsby.git

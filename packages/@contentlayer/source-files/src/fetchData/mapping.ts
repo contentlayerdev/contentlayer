@@ -1,14 +1,14 @@
-import type { MarkdownError, MDXError } from '@contentlayer/core'
+import type { UnexpectedMarkdownError, UnexpectedMDXError } from '@contentlayer/core'
 import * as core from '@contentlayer/core'
 import * as utils from '@contentlayer/utils'
 import type { OT } from '@contentlayer/utils/effect'
 import { pipe, T } from '@contentlayer/utils/effect'
 import * as path from 'path'
 
-import { FetchDataError, InvalidDataDuringMappingError } from '../errors'
-import type { DocumentBodyType } from '../schema/defs'
-import type { RawDocumentData } from '../types'
-import type { RawContent, RawContentMarkdown, RawContentMDX } from './types'
+import { FetchDataError, InvalidDataDuringMappingError } from '../errors/index.js'
+import type { DocumentBodyType } from '../schema/defs/index.js'
+import type { RawDocumentData } from '../types.js'
+import type { RawContent, RawContentMarkdown, RawContentMDX } from './types.js'
 
 export const makeDocument = ({
   rawContent,
@@ -74,7 +74,7 @@ export const makeDocument = ({
     T.mapError((error) => new FetchDataError.UnexpectedError({ error, documentFilePath: relativeFilePath })),
   )
 
-type MakeDocumentInternalError = MarkdownError | MDXError | InvalidDataDuringMappingError
+type MakeDocumentInternalError = UnexpectedMarkdownError | UnexpectedMDXError | InvalidDataDuringMappingError
 
 const rawContentHasBody = (_: RawContent): _ is RawContentMarkdown | RawContentMDX =>
   'body' in _ && _.body !== undefined

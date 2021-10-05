@@ -6,7 +6,7 @@
     "module": "ES2020",
     "rootDir": "./src",
     "outDir": "./dist/esm",
-    "tsBuildInfoFile": "./dist/.tsbuildinfo.esm.json"
+    "tsBuildInfoFile": "./dist/.tsbuildinfo.json"
   },
   "include": ["./src"],
   "references": [{ "path": "../@contentlayer/utils" }, { "path": "../@contentlayer/core" }]

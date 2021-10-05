@@ -3,7 +3,7 @@ import { errorToString } from '@contentlayer/utils'
 import { E, pipe, S, T } from '@contentlayer/utils/effect'
 import type { Usage } from 'clipanion'
 
-import { BaseCommand } from './_BaseCommand'
+import { BaseCommand } from './_BaseCommand.js'
 
 export class DevCommand extends BaseCommand {
   static paths = [['dev']]

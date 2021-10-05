@@ -1,8 +1,8 @@
 import { defineDocumentType } from 'contentlayer/source-files'
 
-import { SEO } from '../nested/SEO'
-import { urlFromFilePath } from '../utils'
-import { Person } from './Person'
+import { SEO } from '../nested/SEO.js'
+import { urlFromFilePath } from '../utils.js'
+import { Person } from './Person.js'
 
 export const Post = defineDocumentType(() => ({
   name: 'Post',

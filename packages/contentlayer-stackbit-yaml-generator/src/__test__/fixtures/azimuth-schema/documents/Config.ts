@@ -1,7 +1,7 @@
 import { defineDocumentType, defineNestedType } from 'contentlayer/source-files'
 
-import { Action } from '../nested/Action'
-import { FormField } from '../nested/FormField'
+import { Action } from '../nested/Action.js'
+import { FormField } from '../nested/FormField.js'
 
 export const Config = defineDocumentType(() => ({
   name: 'Config',
@@ -181,7 +181,8 @@ const FooterForm = defineNestedType(() => ({
     },
     form_action: {
       type: 'string',
-      description: 'The path of your custom "success" page, if you want to replace the default success message.',
+      description:
+        'The path of your custom "success" page, if you want to replace the default success message./index.js',
     },
     hide_labels: {
       type: 'boolean',

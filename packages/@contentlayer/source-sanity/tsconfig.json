@@ -7,8 +7,8 @@
     "lib": ["DOM", "ES2020"],
     "module": "ES2020",
     "rootDir": "./src",
-    "outDir": "./dist/esm",
-    "tsBuildInfoFile": "./dist/.tsbuildinfo.esm.json"
+    "outDir": "./dist",
+    "tsBuildInfoFile": "./dist/.tsbuildinfo.json"
   },
   "include": ["./src"],
   "references": [{ "path": "../core" }, { "path": "../utils" }]
