@@ -1,7 +1,7 @@
 import { renderTypes } from '@contentlayer/core'
 import { JaegerNodeTracing } from '@contentlayer/utils'
 import { pipe, T } from '@contentlayer/utils/effect'
-import { expect, test } from '@playwright/test'
+import t from 'tap'
 
 import { makeSource } from '../../index.js'
 import { defineDocumentType } from '../../schema/defs/index.js'
@@ -27,14 +27,15 @@ const TestPost = defineDocumentType<any>(() => ({
 }))
 
 // TODO rewrite test for gendotpkg
-test.describe('generate-types', () => {
-  test('simple schema', async () => {
+t.test('generate-types', async (t) => {
+  t.test('simple schema', async (t) => {
     const schemaDef = await pipe(
       T.tryPromise(() => makeSource({ documentTypes: [TestPost], contentDirPath: '' })),
       T.chain((source) => source.provideSchema),
       T.provideSomeLayer(JaegerNodeTracing('contentlayer-cli')),
       T.runPromise,
     )
+
     const typeSource = renderTypes({
       schemaDef,
       generationOptions: {
@@ -46,6 +47,7 @@ test.describe('generate-types', () => {
         },
       },
     })
-    expect(typeSource).toMatchSnapshot({ name: 'ok' })
+
+    t.matchSnapshot(typeSource) //.toMatchSnapshot('simple-schema.txt')
   })
 })

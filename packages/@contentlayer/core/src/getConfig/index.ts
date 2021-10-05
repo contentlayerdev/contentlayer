@@ -69,7 +69,7 @@ export const getConfigWatch = ({
           outfile: outfilePath,
           sourcemap: true,
           platform: 'node',
-          target: 'es2018',
+          target: 'es2020',
           format: 'esm',
           // needed in case models are co-located with React components
           jsx: 'transform',

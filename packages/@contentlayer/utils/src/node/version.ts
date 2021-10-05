@@ -11,7 +11,8 @@ import * as fs from './fs.js'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export const getContentlayerVersion = (): T.Effect<OT.HasTracer, GetContentlayerVersionError, string> => {
-  const packageJsonFilePath = path.join(__dirname, '..', '..', '..', 'package.json')
+  // Go two levels up for "dist/node/version.js"
+  const packageJsonFilePath = path.join(__dirname, '..', '..', 'package.json')
 
   return pipe(
     fs.readFileJson(packageJsonFilePath),

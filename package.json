@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "postinstall": "ts-patch install && ts-patch --persist",
-    "test": "jest",
+    "test": "TAP_COLORS=1 yarn workspaces foreach --no-private run test",
     "build": "run build:clean & run build:ts",
     "build:ts": "run build:ts:esm & run build:ts:cjs",
     "build:ts:esm": "tsc --build tsconfig.all-esm.json",
@@ -32,18 +32,15 @@
   },
   "devDependencies": {
     "@effect-ts/tracing-plugin": "^0.14.10",
-    "@playwright/test": "^1.14.1",
-    "@types/jest": "^27.0.1",
+    "@playwright/test": "^1.15.1",
     "@types/prettier": "^2.3.2",
     "@typescript-eslint/eslint-plugin": "^4.31.1",
     "@typescript-eslint/parser": "^4.31.1",
-    "esbuild-jest": "^0.5.0",
     "eslint": "^7.21.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
-    "jest": "^27.2.0",
     "prettier": "^2.4.1",
     "ts-patch": "^1.4.4",
     "typescript": "^4.4.3"

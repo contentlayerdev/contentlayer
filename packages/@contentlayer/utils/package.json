@@ -1,49 +1,44 @@
 {
   "name": "@contentlayer/utils",
-  "version": "0.0.24-dev.9",
+  "version": "0.0.24-dev.11",
   "type": "module",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
   "exports": {
     "./package.json": {
-      "import": "./package.json",
-      "require": "./package.json"
+      "import": "./package.json"
     },
     ".": {
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js"
+      "import": "./dist/index.js"
     },
     "./effect": {
-      "import": "./dist/esm/effect/index.js",
-      "require": "./dist/cjs/effect/index.js"
+      "import": "./dist/effect/index.js"
     },
     "./effect/Tracing/Enable": {
-      "import": "./dist/esm/effect/Tracing/Enable.js",
-      "require": "./dist/cjs/effect/Tracing/Enable.js"
+      "import": "./dist/effect/Tracing/Enable.js"
     },
     "./node": {
-      "import": "./dist/esm/node/index.js",
-      "require": "./dist/cjs/node/index.js"
+      "import": "./dist/node/index.js"
     }
   },
-  "types": "./dist/esm/index.d.ts",
+  "types": "./dist/index.d.ts",
   "typesVersions": {
     "*": {
       "package.json": [
         "./package.json"
       ],
       "effect": [
-        "./dist/esm/effect"
+        "./dist/effect"
       ],
       "effect/Tracing/Enable": [
-        "./dist/esm/effect/Tracing/Enable"
+        "./dist/effect/Tracing/Enable"
       ],
       "node": [
-        "./dist/esm/node"
+        "./dist/node"
       ]
     }
   },
-  "scripts": {},
+  "scripts": {
+    "test": "echo No tests yet"
+  },
   "dependencies": {
     "@effect-ts/core": "^0.44.4",
     "@effect-ts/otel": "next",

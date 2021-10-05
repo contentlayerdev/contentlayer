@@ -1,62 +1,54 @@
 {
   "name": "contentlayer",
-  "version": "0.0.24-dev.9",
+  "version": "0.0.24-dev.11",
+  "bin": "./bin/cli.cjs",
   "type": "module",
-  "bin": "./dist/cjs/cli/index.js",
   "exports": {
     "./source-files": {
-      "import": "./dist/esm/source-files/index.js",
-      "require": "./dist/cjs/source-files/index.js"
+      "import": "./dist/source-files/index.js"
     },
     "./source-files/schema": {
-      "import": "./dist/esm/source-files/schema/index.js",
-      "require": "./dist/cjs/source-files/schema/index.js"
+      "import": "./dist/source-files/schema/index.js"
     },
     "./client": {
-      "import": "./dist/esm/client/index.js",
-      "require": "./dist/cjs/client/index.js"
+      "import": "./dist/client/index.js"
     },
     "./utils": {
-      "import": "./dist/esm/utils/index.js",
-      "require": "./dist/cjs/utils/index.js"
+      "import": "./dist/utils/index.js"
     },
     "./utils/node": {
-      "import": "./dist/esm/utils/node/index.js",
-      "require": "./dist/cjs/utils/node/index.js"
+      "import": "./dist/utils/node/index.js"
     },
     "./core": {
-      "import": "./dist/esm/core/index.js",
-      "require": "./dist/cjs/core/index.js"
+      "import": "./dist/core/index.js"
     }
   },
   "_typesVersions": "Not needed anymore once this issue is closed https://github.com/microsoft/TypeScript/issues/33079",
   "typesVersions": {
     "*": {
       "source-files": [
-        "./dist/esm/source-files"
+        "./dist/source-files"
       ],
       "source-files/schema": [
-        "./dist/esm/source-files/schema"
+        "./dist/source-files/schema"
       ],
       "client": [
-        "./dist/esm/client"
+        "./dist/client"
       ],
       "utils": [
-        "./dist/esm/utils"
+        "./dist/utils"
       ],
       "utils/node": [
-        "./dist/esm/utils/node"
+        "./dist/utils/node"
       ],
       "core": [
-        "./dist/esm/core"
+        "./dist/core"
       ]
     }
   },
   "scripts": {
-    "postinstall": "node ./dist/cjs/cli/index.js postinstall || echo 'No Contentlayer build found.'",
-    "_prepack": "yarn build",
-    "build": "run g:build && echo Build complete",
-    "_build:cli": "rm -rf dist/cli && esbuild --bundle ./src/cli/index.ts --outfile=./dist/cli/index.js --platform=node --target=node12 --sourcemap --external:esbuild && chmod +x ./dist/cli/index.js"
+    "#postinstall": "This is executed in packages that install Contentlayer",
+    "postinstall": "node ./dist/cjs/cli/index.js postinstall || echo 'No Contentlayer build found.'"
   },
   "dependencies": {
     "@contentlayer/cli": "workspace:*",

@@ -3,8 +3,8 @@ import { pipe, T } from '@contentlayer/utils/effect'
 import type { DocumentType } from 'contentlayer/source-files'
 import { makeSource } from 'contentlayer/source-files'
 
-import * as azimuth from './azimuth-schema'
-import * as blog from './blog-schema'
+import * as azimuth from './azimuth-schema/index.js'
+import * as blog from './blog-schema/index.js'
 
 export const makeAzimuthSchema = () => makeSchema(azimuth)
 export const makeBlogSchema = () => makeSchema(blog)

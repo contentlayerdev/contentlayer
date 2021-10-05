@@ -1,13 +1,11 @@
-import { expect, test } from '@playwright/test'
+import t from 'tap'
 
 import { getFlattenedPath } from '../fetchData/mapping.js'
 
-test.describe('getFlattenedPath', () => {
-  test('should flatten path', async () => {
-    expect(getFlattenedPath('some/path/doc.md')).toBe('some/path/doc')
-    expect(getFlattenedPath('some/path/index.md')).toBe('some/path')
-    expect(getFlattenedPath('some/index/index.md')).toBe('some/index')
-    expect(getFlattenedPath('index/index.md')).toBe('index')
-    expect(getFlattenedPath('index.md')).toBe('')
-  })
+t.test('getFlattenedPath', async (t) => {
+  t.equal(getFlattenedPath('some/path/doc.md'), 'some/path/doc')
+  t.equal(getFlattenedPath('some/path/index.md'), 'some/path')
+  t.equal(getFlattenedPath('some/index/index.md'), 'some/index')
+  t.equal(getFlattenedPath('index/index.md'), 'index')
+  t.equal(getFlattenedPath('index.md'), '')
 })

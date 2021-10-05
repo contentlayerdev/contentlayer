@@ -19,3 +19,8 @@ out
 *.tsbuildinfo
 
 .envrc
+
+# playwright
+test-results
+
+.nyc_output

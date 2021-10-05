@@ -1,3 +1,4 @@
+import { errorToString } from '@contentlayer/utils'
 import { OT, pipe, T, Tagged } from '@contentlayer/utils/effect'
 // const parseWasm: typeof parseWasmType = require('markdown-wasm/dist/markdown.node.js').parse
 import { parse as parseWasm } from 'markdown-wasm/dist/markdown.node.js'
@@ -49,4 +50,6 @@ export const markdownToHtml = ({
     OT.withSpan('@contentlayer/core/markdown:markdownToHtml'),
   )
 
-export class UnexpectedMarkdownError extends Tagged('UnexpectedMarkdownError')<{ readonly error: unknown }> {}
+export class UnexpectedMarkdownError extends Tagged('UnexpectedMarkdownError')<{ readonly error: unknown }> {
+  toString = () => `UnexpectedMarkdownError: ${errorToString(this.error)}`
+}
