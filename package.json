@@ -3,10 +3,8 @@
   "private": true,
   "workspaces": [
     "./packages/@contentlayer/*",
-    "./packages/@scripts/*",
     "./packages/*",
-    "./packages/playgrounds/*",
-    "./packages/playgrounds/playground-azimuth-sanity/*"
+    "./examples/*"
   ],
   "scripts": {
     "postinstall": "ts-patch install && ts-patch --persist",
@@ -24,8 +22,8 @@
     "lint:fix": "run lint:eslint:fix & run lint:prettier:fix",
     "lint:eslint:fix": "eslint packages --ext .ts --fix",
     "lint:eslint:check": "eslint packages --ext .ts --max-warnings=0",
-    "lint:prettier:fix": "prettier packages \"!packages/playgrounds/**\" --write",
-    "lint:prettier:check": "prettier packages \"!packages/playgrounds/**\" --check",
+    "lint:prettier:fix": "prettier packages --write",
+    "lint:prettier:check": "prettier packages --check",
     "g:build": "cd $INIT_CWD && (run g:build:esm & run g:build:esm)",
     "g:build:esm": "cd $INIT_CWD && tsc --build tsconfig.json",
     "g:build:cjs": "cd $INIT_CWD && tsc --build tsconfig.cjs.json"

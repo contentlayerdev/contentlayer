@@ -6151,9 +6151,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"contentful-generator@workspace:packages/playgrounds/contentful-generator":
+"contentful-generator@workspace:packages/contentful-generator":
   version: 0.0.0-use.local
-  resolution: "contentful-generator@workspace:packages/playgrounds/contentful-generator"
+  resolution: "contentful-generator@workspace:packages/contentful-generator"
   dependencies:
     contentful-management: 7.22.4
     contentful-migration: ^4.2.3
@@ -14653,9 +14653,9 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"playground-azimuth-colocated@workspace:packages/playgrounds/playground-azimuth-colocated":
+"playground-azimuth-colocated@workspace:examples/playground-azimuth-colocated":
   version: 0.0.0-use.local
-  resolution: "playground-azimuth-colocated@workspace:packages/playgrounds/playground-azimuth-colocated"
+  resolution: "playground-azimuth-colocated@workspace:examples/playground-azimuth-colocated"
   dependencies:
     "@types/react": ^17.0.21
     "@types/react-dom": ^17.0.9
@@ -14676,9 +14676,9 @@ fsevents@^1.2.7:
   languageName: unknown
   linkType: soft
 
-"playground-azimuth-contentful@workspace:packages/playgrounds/playground-azimuth-contentful":
+"playground-azimuth-contentful@workspace:examples/playground-azimuth-contentful":
   version: 0.0.0-use.local
-  resolution: "playground-azimuth-contentful@workspace:packages/playgrounds/playground-azimuth-contentful"
+  resolution: "playground-azimuth-contentful@workspace:examples/playground-azimuth-contentful"
   dependencies:
     "@contentlayer/source-contentful": "workspace:*"
     "@types/react": ^17.0.21
@@ -14700,9 +14700,15 @@ fsevents@^1.2.7:
   languageName: unknown
   linkType: soft
 
-"playground-azimuth-sanity-studio@workspace:packages/playgrounds/playground-azimuth-sanity/studio":
+"playground-azimuth-sanity-2c9f78@workspace:examples/playground-azimuth-sanity":
   version: 0.0.0-use.local
-  resolution: "playground-azimuth-sanity-studio@workspace:packages/playgrounds/playground-azimuth-sanity/studio"
+  resolution: "playground-azimuth-sanity-2c9f78@workspace:examples/playground-azimuth-sanity"
+  languageName: unknown
+  linkType: soft
+
+"playground-azimuth-sanity-studio@workspace:examples/playground-azimuth-sanity/studio":
+  version: 0.0.0-use.local
+  resolution: "playground-azimuth-sanity-studio@workspace:examples/playground-azimuth-sanity/studio"
   dependencies:
     "@sanity/base": ^2.10.5
     "@sanity/color-input": ^2.2.6
@@ -14719,9 +14725,9 @@ fsevents@^1.2.7:
   languageName: unknown
   linkType: soft
 
-"playground-azimuth-sanity-web@workspace:packages/playgrounds/playground-azimuth-sanity/web":
+"playground-azimuth-sanity-web@workspace:examples/playground-azimuth-sanity/web":
   version: 0.0.0-use.local
-  resolution: "playground-azimuth-sanity-web@workspace:packages/playgrounds/playground-azimuth-sanity/web"
+  resolution: "playground-azimuth-sanity-web@workspace:examples/playground-azimuth-sanity/web"
   dependencies:
     "@contentlayer/source-sanity": "workspace:*"
     "@types/react": ^17.0.21
@@ -14741,9 +14747,9 @@ fsevents@^1.2.7:
   languageName: unknown
   linkType: soft
 
-"playground-azimuth@workspace:packages/playgrounds/playground-azimuth":
+"playground-azimuth@workspace:examples/playground-azimuth":
   version: 0.0.0-use.local
-  resolution: "playground-azimuth@workspace:packages/playgrounds/playground-azimuth"
+  resolution: "playground-azimuth@workspace:examples/playground-azimuth"
   dependencies:
     "@types/react": ^17.0.21
     "@types/react-dom": ^17.0.9
@@ -14764,9 +14770,9 @@ fsevents@^1.2.7:
   languageName: unknown
   linkType: soft
 
-"playground-contentful-starter@workspace:packages/playgrounds/playground-contentful-starter":
+"playground-contentful-starter@workspace:examples/playground-contentful-starter":
   version: 0.0.0-use.local
-  resolution: "playground-contentful-starter@workspace:packages/playgrounds/playground-contentful-starter"
+  resolution: "playground-contentful-starter@workspace:examples/playground-contentful-starter"
   dependencies:
     "@types/react": ^17.0.21
     "@types/react-dom": ^17.0.9
@@ -14781,9 +14787,9 @@ fsevents@^1.2.7:
   languageName: unknown
   linkType: soft
 
-"playground-gatsby-docs@workspace:packages/playgrounds/playground-gatsby-docs":
+"playground-gatsby-docs@workspace:examples/playground-gatsby-docs":
   version: 0.0.0-use.local
-  resolution: "playground-gatsby-docs@workspace:packages/playgrounds/playground-gatsby-docs"
+  resolution: "playground-gatsby-docs@workspace:examples/playground-gatsby-docs"
   dependencies:
     "@leafac/rehype-shiki": ^1.3.1
     "@types/react": ^17.0.21
@@ -14799,9 +14805,9 @@ fsevents@^1.2.7:
   languageName: unknown
   linkType: soft
 
-"playground-starter-js@workspace:packages/playgrounds/playground-starter-js":
+"playground-starter-js@workspace:examples/playground-starter-js":
   version: 0.0.0-use.local
-  resolution: "playground-starter-js@workspace:packages/playgrounds/playground-starter-js"
+  resolution: "playground-starter-js@workspace:examples/playground-starter-js"
   dependencies:
     contentlayer: latest
     contentlayer-stackbit-yaml-generator: latest
@@ -14814,9 +14820,9 @@ fsevents@^1.2.7:
   languageName: unknown
   linkType: soft
 
-"playground-starter@workspace:packages/playgrounds/playground-starter":
+"playground-starter@workspace:examples/playground-starter":
   version: 0.0.0-use.local
-  resolution: "playground-starter@workspace:packages/playgrounds/playground-starter"
+  resolution: "playground-starter@workspace:examples/playground-starter"
   dependencies:
     "@types/react": ^17.0.21
     "@types/react-dom": ^17.0.9

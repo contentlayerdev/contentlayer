@@ -2,7 +2,7 @@ import { addMessageListener } from 'next/dist/client/dev/error-overlay/eventsour
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
-// Needed as a work around for https://github.com/vercel/next.js/issues/19230
+/** Needed as a work around for https://github.com/vercel/next.js/issues/19230 */
 export const useLiveReload = () => {
   const router = useRouter()
   useEffect(() => {
