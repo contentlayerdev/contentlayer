@@ -21,3 +21,5 @@ out
 .envrc
 
 .nyc_output
+
+!tap-snapshots/dist/*
