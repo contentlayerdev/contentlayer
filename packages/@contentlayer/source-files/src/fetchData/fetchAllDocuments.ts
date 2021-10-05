@@ -3,16 +3,16 @@ import { Chunk, O, OT, pipe, T, These } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
 import { promise as glob } from 'glob-promise'
 import matter from 'gray-matter'
-import * as yaml from 'js-yaml'
 import * as os from 'os'
 import * as path from 'path'
+import yaml from 'yaml'
 
-import type { Flags } from '..'
-import { FetchDataError } from '../errors'
-import type { FilePathPatternMap } from '../types'
-import { makeDocument } from './mapping'
-import type { RawContent } from './types'
-import { validateDocumentData } from './validate'
+import { FetchDataError } from '../errors/index.js'
+import type { Flags } from '../index.js'
+import type { FilePathPatternMap } from '../types.js'
+import { makeDocument } from './mapping.js'
+import type { RawContent } from './types.js'
+import { validateDocumentData } from './validate.js'
 
 export const fetchAllDocuments = ({
   coreSchemaDef,
@@ -190,7 +190,7 @@ const processRawContent = ({
           return { kind: 'json' as const, fields: JSON.parse(fileContent) }
         case 'yaml':
         case 'yml':
-          return { kind: 'yaml' as const, fields: yaml.load(fileContent) as any }
+          return { kind: 'yaml' as const, fields: yaml.parse(fileContent) }
         default:
           return yield* $(
             T.fail(

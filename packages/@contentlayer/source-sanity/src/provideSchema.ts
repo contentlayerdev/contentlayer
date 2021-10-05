@@ -19,7 +19,7 @@ export const provideSchema = async ({
 
   const documentTypes = types
     .filter((_): _ is Sanity.DocumentType => _.type === 'document')
-    .filter((_) => !_.name.startsWith('sanity.'))
+    .filter((_) => !_.name.startsWith('sanity./index.js'))
   const nestedTypes = types.filter((_): _ is Sanity.ObjectType => _.type === 'object')
 
   const nestedTypeNames = nestedTypes.map((_) => _.name)

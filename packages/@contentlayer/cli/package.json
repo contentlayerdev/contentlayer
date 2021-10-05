@@ -1,6 +1,7 @@
 {
   "name": "@contentlayer/cli",
-  "version": "0.0.23-dev.12",
+  "version": "0.0.24-dev.9",
+  "type": "module",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
@@ -11,10 +12,10 @@
   "dependencies": {
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
-    "clipanion": "^3.0.0-rc.12",
+    "clipanion": "^3.0.1",
     "typanion": "^3.4.1"
   },
   "devDependencies": {
-    "@types/node": "^15.12.0"
+    "@types/node": "^16.9.2"
   }
 }

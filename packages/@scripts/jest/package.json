@@ -1,10 +1,21 @@
 {
   "name": "@scripts/jest",
   "private": true,
+  "type": "module",
   "sideEffects": "false",
   "exports": {
     "./resolver": "./dist/resolver.js",
     "./snapshotResolver": "./dist/snapshotResolver.js"
+  },
+  "typesVersions": {
+    "*": {
+      "resolver": [
+        "./dist/resolver"
+      ],
+      "snapshotResolver": [
+        "./dist/snapshotResolver"
+      ]
+    }
   },
   "dependencies": {
     "enhanced-resolve": "^5.8.2"

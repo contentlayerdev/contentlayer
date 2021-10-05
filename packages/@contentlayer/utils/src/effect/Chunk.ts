@@ -1,7 +1,7 @@
 import { Chunk } from '@effect-ts/core'
 import type { Separated } from '@effect-ts/system/Utils'
 
-import { E, O, These } from '.'
+import { E, O, These } from './index.js'
 
 export * from '@effect-ts/core/Collections/Immutable/Chunk'
 

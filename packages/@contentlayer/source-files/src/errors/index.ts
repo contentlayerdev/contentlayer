@@ -2,7 +2,7 @@ import type * as core from '@contentlayer/core'
 import { errorToString } from '@contentlayer/utils'
 import { Tagged } from '@contentlayer/utils/effect'
 
-import { handleFetchDataErrors } from './aggregate'
+import { handleFetchDataErrors } from './aggregate.js'
 
 export namespace FetchDataError {
   export type FetchDataError =
@@ -152,7 +152,7 @@ ${extraFields} `
     kind: InvalidDataErrorKind = 'Unexpected'
 
     renderHeadline: RenderHeadline = ({ documentCount }) => `\
-Encountered unexpected errors while processing of ${documentCount} documents.\
+Encountered unexpected errors while processing of ${documentCount} documents. \
 This is possibly a bug in Contentlayer. Please open an issue.`
 
     renderLine = () => `"${this.documentFilePath}": ${errorToString(this.error)}`

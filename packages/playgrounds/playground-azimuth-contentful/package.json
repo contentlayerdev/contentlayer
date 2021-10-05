@@ -4,10 +4,10 @@
   "scripts": {
     "_postinstall": "yarn generate && yarn fetch",
     "dev": "next dev",
-    "build": "yarn contentlayer build && next build"
+    "build": "next build"
   },
   "dependencies": {
-    "date-fns": "^2.22.1",
+    "date-fns": "^2.24.0",
     "marked": "^2.0.3",
     "next": "^11.1.2",
     "react": "^17.0.2",
@@ -19,9 +19,9 @@
   },
   "devDependencies": {
     "@contentlayer/source-contentful": "workspace:*",
-    "@types/react": "^17.0.9",
-    "@types/react-dom": "^17.0.6",
-    "@types/react-helmet": "^6.1.1",
+    "@types/react": "^17.0.21",
+    "@types/react-dom": "^17.0.9",
+    "@types/react-helmet": "^6.1.2",
     "contentlayer": "workspace:*",
     "contentlayer-stackbit-yaml-generator": "workspace:*",
     "next-contentlayer": "workspace:*",

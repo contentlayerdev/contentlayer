@@ -1,13 +1,21 @@
 import type { E } from '@contentlayer/utils/effect'
 import { Chunk, OT, pipe, S, T } from '@contentlayer/utils/effect'
+import type { GetContentlayerVersionError } from '@contentlayer/utils/node'
 import { fs } from '@contentlayer/utils/node'
+import { createRequire } from 'module'
 import * as path from 'path'
 import pkgUp from 'pkg-up'
+import { fileURLToPath } from 'url'
 
-import { ArtifactsDir } from '..'
-import { ConfigNoDefaultExportError, ConfigReadError, NoConfigFoundError } from '../errors'
-import type { SourcePlugin } from '../plugin'
-import * as esbuild from './esbuild'
+import { ConfigNoDefaultExportError, ConfigReadError, EsbuildBinNotFoundError, NoConfigFoundError } from '../errors.js'
+import { ArtifactsDir } from '../index.js'
+import type { SourcePlugin } from '../plugin.js'
+import * as esbuild from './esbuild.js'
+
+// https://stackoverflow.com/questions/54977743/do-require-resolve-for-es-modules
+const require = createRequire(import.meta.url)
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 type GetConfigError =
   | esbuild.EsbuildError
@@ -15,8 +23,10 @@ type GetConfigError =
   | fs.StatError
   | fs.UnknownFSError
   | fs.MkdirError
+  | EsbuildBinNotFoundError
   | ConfigReadError
   | ConfigNoDefaultExportError
+  | GetContentlayerVersionError
 
 export const getConfig = ({
   configPath,
@@ -59,35 +69,13 @@ export const getConfigWatch = ({
           outfile: outfilePath,
           sourcemap: true,
           platform: 'node',
-          external: [
-            'esbuild',
-            // TODO make dynamic
-            // needed for source-sanity
-            '@sanity/core/lib/actions/graphql/getSanitySchema',
-
-            // NOTE needed since we don't bundle the contentlayer CLI. we should fix this soon.
-            'js-yaml',
-
-            // contentlayer
-            'contentlayer/*',
-            '@contentlayer/*',
-            '@effect-ts/*',
-            'highlight.js',
-
-            // needed to make chokidar work on OSX (in source-files)
-            'fsevents',
-
-            // needed for shiki
-            'onigasm',
-            'shiki',
-          ],
           target: 'es2018',
-          format: 'cjs',
-          // needed in case models are colocated with React components
+          format: 'esm',
+          // needed in case models are co-located with React components
           jsx: 'transform',
           bundle: true,
           logLevel: 'silent',
-          plugins: [contentlayerGenPlugin()],
+          plugins: [contentlayerGenPlugin(), makeAllPackagesExternalPlugin()],
         }),
         S.mapEffectEitherRight((result) => getConfigFromResult({ result, configPath, outfilePath })),
       ),
@@ -96,21 +84,37 @@ export const getConfigWatch = ({
 }
 
 /** Fix esbuild binary path if not found (e.g. in local development setup) */
-const ensureEsbuildBin: T.Effect<OT.HasTracer, fs.StatError | fs.UnknownFSError, void> = T.gen(function* ($) {
-  const esbuildBinPath = path.join(__dirname, '..', 'bin', 'esbuild')
-  const esbuildBinExists = yield* $(fs.fileOrDirExists(esbuildBinPath))
+const ensureEsbuildBin: T.Effect<OT.HasTracer, fs.StatError | fs.UnknownFSError | EsbuildBinNotFoundError, void> =
+  T.gen(function* ($) {
+    const esbuildBinPath = path.join(__dirname, '..', 'bin', 'esbuild')
+    const esbuildBinExists = yield* $(fs.fileOrDirExists(esbuildBinPath))
 
-  if (!esbuildBinExists) {
-    const esbuildPackageJsonPath = yield* $(pkgUpEff({ cwd: path.dirname(require.resolve('esbuild')) }))
-    const esbuildPackagePath = path.dirname(esbuildPackageJsonPath!)
-    // wrapping in try/catch is needed to surpress esbuild warning about `require`
-    try {
-      const esbuildPackageJson = require(esbuildPackageJsonPath!)
-      const binPath = path.join(esbuildPackagePath, esbuildPackageJson['bin']['esbuild'])
+    if (!esbuildBinExists) {
+      const esbuildPackageJsonPath = yield* $(pkgUpEff({ cwd: path.dirname(require.resolve('esbuild')) }))
+      const esbuildPackagePath = path.dirname(esbuildPackageJsonPath!)
+      const binPath = yield* $(getEsbuildBinPath(esbuildPackagePath))
       process.env['ESBUILD_BINARY_PATH'] = binPath
-    } catch (_) {}
-  }
-})
+    }
+  })
+
+const getEsbuildBinPath = (
+  esbuildPackagePath: string,
+): T.Effect<unknown, fs.StatError | EsbuildBinNotFoundError, string> =>
+  T.gen(function* ($) {
+    // depending on whether Yarn is used or something else, the esbuild binary is located somewhere else
+    const binPathWhenUsingYarn = path.join(esbuildPackagePath, 'esbuild')
+    const binPathWhenNotUsingYarn = path.join(esbuildPackagePath, 'bin', 'esbuild')
+
+    if (yield* $(fs.fileOrDirExists(binPathWhenUsingYarn))) {
+      return binPathWhenUsingYarn
+    }
+
+    if (yield* $(fs.fileOrDirExists(binPathWhenNotUsingYarn))) {
+      return binPathWhenNotUsingYarn
+    }
+
+    return yield* $(T.fail(new EsbuildBinNotFoundError()))
+  })
 
 const resolveConfigPath = ({
   configPath,
@@ -141,7 +145,7 @@ const resolveConfigPath = ({
 const makeTmpDirAndResolveEntryPoint = ({ cwd }: { cwd: string }) =>
   pipe(
     ArtifactsDir.mkdirCache({ cwd }),
-    T.map((cacheDir) => ({ outfilePath: path.join(cacheDir, 'compiled-contentlayer-config.js') })),
+    T.map((cacheDir) => ({ outfilePath: path.join(cacheDir, 'compiled-contentlayer-config.mjs') })),
   )
 
 const getConfigFromResult = ({
@@ -168,15 +172,20 @@ const getConfigFromResult = ({
         console.error(unknownWarnings)
       }
 
-      // Needed in case of re-loading when watching the config file for changes
-      delete require.cache[require.resolve(outfilePath)]
-
       // Needed in order for source maps of dynamic file to work
-      require('source-map-support').install()
+      yield* $(
+        T.tryCatchPromise(
+          async () => (await import('source-map-support')).install(),
+          (error) => new ConfigReadError({ error, configPath }),
+        ),
+      )
+
+      // Needed in case of re-loading when watching the config file for changes
+      const importFresh = async (modulePath: string) => import(`${modulePath}?x=${new Date()}`)
 
       const exports = yield* $(
-        T.tryCatch(
-          () => require(outfilePath),
+        T.tryCatchPromise(
+          () => importFresh(outfilePath),
           (error) => new ConfigReadError({ error, configPath }),
         ),
       )
@@ -220,6 +229,15 @@ const contentlayerGenPlugin = (): esbuild.Plugin => ({
     build.onLoad({ filter: /.*/, namespace: 'contentlayer-gen' }, () => ({
       contents: '// empty',
     }))
+  },
+})
+
+// TODO also take tsconfig.json `paths` mapping into account
+const makeAllPackagesExternalPlugin = (): esbuild.Plugin => ({
+  name: 'make-all-packages-external',
+  setup: (build) => {
+    const filter = /^[^.\/]|^\.[^.\/]|^\.\.[^\/]/ // Must not start with "/" or "./" or "../"
+    build.onResolve({ filter }, (args) => ({ path: args.path, external: true }))
   },
 })
 

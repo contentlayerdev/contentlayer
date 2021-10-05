@@ -1,6 +1,7 @@
 {
   "name": "@contentlayer/core",
-  "version": "0.0.23-dev.12",
+  "version": "0.0.24-dev.9",
+  "type": "module",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
@@ -23,14 +24,14 @@
     "esbuild": "0.11.x || 0.12.x",
     "gray-matter": "^4.0.3",
     "markdown-wasm": "^1.1.2",
-    "mdx-bundler": "^4.1.1",
+    "mdx-bundler": "^6.0.1",
     "pkg-up": "^3.1.0",
-    "rehype-stringify": "^8.0.0",
-    "remark-parse": "^9.0.0",
-    "remark-rehype": "^8.1.0",
+    "rehype-stringify": "^9.0.2",
+    "remark-parse": "^10.0.0",
+    "remark-rehype": "^9.0.0",
     "source-map-support": "^0.5.20",
     "type-fest": "^1.2.1",
-    "unified": "^9.2.1"
+    "unified": "^10.1.0"
   },
   "devDependencies": {
     "@types/source-map-support": "^0.5.4"

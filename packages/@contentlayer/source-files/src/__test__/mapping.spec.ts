@@ -1,7 +1,9 @@
-import { getFlattenedPath } from '../fetchData/mapping'
+import { expect, test } from '@playwright/test'
 
-describe('getFlattenedPath', () => {
-  it('should flatten path', () => {
+import { getFlattenedPath } from '../fetchData/mapping.js'
+
+test.describe('getFlattenedPath', () => {
+  test('should flatten path', async () => {
     expect(getFlattenedPath('some/path/doc.md')).toBe('some/path/doc')
     expect(getFlattenedPath('some/path/index.md')).toBe('some/path')
     expect(getFlattenedPath('some/index/index.md')).toBe('some/index')

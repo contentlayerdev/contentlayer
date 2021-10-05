@@ -3,7 +3,7 @@ import { capitalizeFirstLetter } from '@contentlayer/utils'
 import faker from 'faker'
 import * as path from 'path'
 
-import { FetchDataError } from '../../errors'
+import { FetchDataError } from '../../errors/index.js'
 
 export const makeSchemaDef = (): core.SchemaDef => {
   const TypeA: core.DocumentTypeDef = {

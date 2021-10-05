@@ -3,9 +3,9 @@ import type { E, HasClock, OT, S, T } from '@contentlayer/utils/effect'
 import type { LiteralUnion } from 'type-fest'
 import type * as unified from 'unified'
 
-import type { DataCache } from './DataCache'
-import type { SourceFetchDataError, SourceProvideSchemaError } from './errors'
-import type { SchemaDef, StackbitExtension } from './schema'
+import type { DataCache } from './DataCache.js'
+import type { SourceFetchDataError, SourceProvideSchemaError } from './errors.js'
+import type { SchemaDef, StackbitExtension } from './schema/index.js'
 
 export type SourcePluginType = LiteralUnion<'local' | 'contentful' | 'sanity', string>
 

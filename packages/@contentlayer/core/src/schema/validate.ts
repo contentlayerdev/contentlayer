@@ -1,4 +1,4 @@
-import type { DocumentTypeDef, NestedTypeDef, SchemaDef } from './index'
+import type { DocumentTypeDef, NestedTypeDef, SchemaDef } from './index.js'
 
 export const validateSchema = (schema: SchemaDef): void => {
   Object.values(schema.documentTypeDefMap).forEach((def) => validateDocumentOrObjectDef({ def }))

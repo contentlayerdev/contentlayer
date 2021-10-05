@@ -3,12 +3,17 @@ import { Chunk, OT, pipe, T } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
 import * as os from 'os'
 
-import { environmentGetAssets, environmentGetContentTypes, environmentGetEntries, getEnvironment } from '../contentful'
-import type { UnknownContentfulError } from '../errors'
-import type * as SchemaOverrides from '../schemaOverrides'
-import { normalizeSchemaOverrides } from '../schemaOverrides'
-import type { Contentful } from '../types'
-import { makeCacheItem } from './mapping'
+import {
+  environmentGetAssets,
+  environmentGetContentTypes,
+  environmentGetEntries,
+  getEnvironment,
+} from '../contentful.js'
+import type { UnknownContentfulError } from '../errors.js'
+import type * as SchemaOverrides from '../schemaOverrides.js'
+import { normalizeSchemaOverrides } from '../schemaOverrides.js'
+import type { Contentful } from '../types.js'
+import { makeCacheItem } from './mapping.js'
 
 export const fetchAllDocuments = ({
   accessToken,

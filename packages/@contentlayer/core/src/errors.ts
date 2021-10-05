@@ -36,3 +36,5 @@ export class SourceProvideSchemaError extends Tagged('SourceProvideSchemaError')
 }
 
 export class HandledFetchDataError extends Tagged('HandledFetchDataError')<{}> {}
+
+export class EsbuildBinNotFoundError extends Tagged('EsbuildBinNotFoundError')<{}> {}

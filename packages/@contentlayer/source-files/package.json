@@ -1,6 +1,7 @@
 {
   "name": "@contentlayer/source-files",
-  "version": "0.0.23-dev.12",
+  "version": "0.0.24-dev.9",
+  "type": "module",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "exports": {
@@ -21,11 +22,11 @@
       ]
     }
   },
-  "scripts": {
-    "_prepack": "yarn build",
-    "dev": "rm -rf dist && tsc --watch",
-    "build": "run g:build && echo Build complete"
-  },
+  "files": [
+    "dist",
+    "package.json"
+  ],
+  "scripts": {},
   "dependencies": {
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
@@ -33,17 +34,18 @@
     "glob": "^7.1.7",
     "glob-promise": "^4.1.0",
     "gray-matter": "^4.0.3",
-    "js-yaml": "^4.1.0",
     "minimatch": "^3.0.4",
-    "ts-pattern": "^3.2.1",
-    "unified": "^9.2.1"
+    "ts-pattern": "^3.3.1",
+    "unified": "^10.1.0",
+    "yaml": "^1.10.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.14.1",
     "@scripts/jest": "workspace:*",
-    "@types/faker": "^5",
-    "@types/js-yaml": "^4.0.1",
-    "@types/minimatch": "^3.0.4",
-    "@types/node": "^15.12.0",
+    "@types/faker": "^5.5.8",
+    "@types/minimatch": "^3.0.5",
+    "@types/node": "^16.9.2",
+    "@types/yaml": "^1",
     "faker": "^5.5.3"
   }
 }

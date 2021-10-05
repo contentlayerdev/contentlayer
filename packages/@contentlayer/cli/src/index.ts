@@ -1,21 +1,24 @@
 import '@contentlayer/utils/effect/Tracing/Enable'
 
+import { DummyTracing } from '@contentlayer/utils'
+import { pipe, T } from '@contentlayer/utils/effect'
+import { getContentlayerVersion } from '@contentlayer/utils/node'
 import { Builtins, Cli } from 'clipanion'
 
-import { BuildCommand } from './commands/BuildCommand'
-import { DefaultCommand } from './commands/DefaultCommand'
-import { DevCommand } from './commands/DevCommand'
-import { PostInstallCommand } from './commands/PostInstallCommand'
-
-const packageJson = require('../../package.json')
+import { BuildCommand } from './commands/BuildCommand.js'
+import { DefaultCommand } from './commands/DefaultCommand.js'
+import { DevCommand } from './commands/DevCommand.js'
+import { PostInstallCommand } from './commands/PostInstallCommand.js'
 
 export const run = async () => {
   const [node, app, ...args] = process.argv
 
+  const contentlayerVersion = await pipe(getContentlayerVersion(), T.provide(DummyTracing), T.runPromise)
+
   const cli = new Cli({
     binaryLabel: `Contentlayer CLI`,
     binaryName: process.env['CL_DEBUG'] ? `${node} ${app}` : 'contentlayer',
-    binaryVersion: packageJson.version,
+    binaryVersion: contentlayerVersion,
   })
 
   cli.register(DefaultCommand)

@@ -1,12 +1,12 @@
 import { OT, pipe, T, Tagged } from '@contentlayer/utils/effect'
-import type { parse as parseWasmType } from 'markdown-wasm'
+// const parseWasm: typeof parseWasmType = require('markdown-wasm/dist/markdown.node.js').parse
+import { parse as parseWasm } from 'markdown-wasm/dist/markdown.node.js'
 import html from 'rehype-stringify'
 import markdown from 'remark-parse'
 import remark2rehype from 'remark-rehype'
-const parseWasm: typeof parseWasmType = require('markdown-wasm/dist/markdown.node.js').parse
-import unified from 'unified'
+import { unified } from 'unified'
 
-import type { MarkdownOptions } from './plugin'
+import type { MarkdownOptions } from './plugin.js'
 
 export const markdownToHtml = ({
   mdString,
@@ -14,7 +14,7 @@ export const markdownToHtml = ({
 }: {
   mdString: string
   options?: MarkdownOptions
-}): T.Effect<OT.HasTracer, MarkdownError, string> =>
+}): T.Effect<OT.HasTracer, UnexpectedMarkdownError, string> =>
   pipe(
     T.gen(function* ($) {
       // const matterResult = matter(mdString)
@@ -44,8 +44,9 @@ export const markdownToHtml = ({
 
       return res.toString()
     }),
-    T.mapError((error) => new MarkdownError({ error })),
+    T.catchAllDefect(T.fail),
+    T.mapError((error) => new UnexpectedMarkdownError({ error })),
     OT.withSpan('@contentlayer/core/markdown:markdownToHtml'),
   )
 
-export class MarkdownError extends Tagged('MarkdownError')<{ readonly error: unknown }> {}
+export class UnexpectedMarkdownError extends Tagged('UnexpectedMarkdownError')<{ readonly error: unknown }> {}

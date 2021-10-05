@@ -1,5 +1,5 @@
-import type { Document, NestedDocument } from './data'
-import type { DataCache } from './DataCache'
+import type { Document, NestedDocument } from './data.js'
+import type { DataCache } from './DataCache.js'
 
 export type GetDocumentTypeMapGen = ContentlayerGen extends { documentTypeMap: infer T } ? T : Record<string, Document>
 export type GetDocumentTypeGen<Name extends string> = Name extends keyof GetDocumentTypeMapGen

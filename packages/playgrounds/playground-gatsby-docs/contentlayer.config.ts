@@ -1,6 +1,6 @@
 import rehypeShiki from '@leafac/rehype-shiki'
 import { defineDocumentType, makeSource, defineNestedType, FieldDef } from 'contentlayer/source-files'
-import * as path from 'path'
+// import * as path from 'path'
 import * as shiki from 'shiki'
 
 const Example = defineNestedType(() => ({
@@ -54,18 +54,20 @@ const Tutorial = defineDocumentType(() => ({
 }))
 
 export default makeSource(async () => {
-  const shikiPath = (dir: string) => path.join(require.resolve('shiki'), '..', '..', dir, path.sep)
-  const highlighter = await shiki.getHighlighter({
-    paths: { languages: shikiPath('languages'), themes: shikiPath('themes') },
-    theme: 'github-light',
-  })
+  // TODO re-enable
+  // const shikiPath = (dir: string) => path.join(require.resolve('shiki'), '../index.js', '../index.js', dir, path.sep)
+  // const highlighter = await shiki.getHighlighter({
+  //   paths: { languages: shikiPath('languages'), themes: shikiPath('themes') },
+  //   theme: 'github-light',
+  // })
 
   return {
-    contentDirPath: path.join(process.cwd(), 'gatsby', 'docs'),
+    contentDirPath: 'gatsby/docs',
+    // contentDirPath: path.join(process.cwd(), 'gatsby', 'docs'),
     documentTypes: [Reference, HowTo, Conceptual, Tutorial],
     onUnknownDocuments: 'skip-ignore',
     markdown: {
-      rehypePlugins: [[rehypeShiki, { highlighter }]],
+      // rehypePlugins: [[rehypeShiki as any, { highlighter }]],
     },
   }
 })

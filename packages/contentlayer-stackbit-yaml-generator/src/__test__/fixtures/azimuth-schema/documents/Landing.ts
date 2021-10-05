@@ -1,9 +1,9 @@
 import { defineDocumentType, defineNestedType } from 'contentlayer/source-files'
 
-import { Action } from '../nested/Action'
-import { FormField } from '../nested/FormField'
-import { SEO } from '../nested/SEO'
-import { urlFromFilePath } from '../utils'
+import { Action } from '../nested/Action.js'
+import { FormField } from '../nested/FormField.js'
+import { SEO } from '../nested/SEO.js'
+import { urlFromFilePath } from '../utils.js'
 
 export const Landing = defineDocumentType(() => ({
   name: 'Landing',
@@ -278,7 +278,8 @@ const SectionContact = defineNestedType(() => ({
     },
     form_action: {
       type: 'string',
-      description: 'The path of your custom "success" page, if you want to replace the default success message.',
+      description:
+        'The path of your custom "success" page, if you want to replace the default success message./index.js',
     },
     hide_labels: {
       type: 'boolean',

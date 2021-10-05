@@ -1,10 +1,11 @@
 import type { E } from '@contentlayer/utils/effect'
 import { OT, pipe, T } from '@contentlayer/utils/effect'
+import type { GetContentlayerVersionError } from '@contentlayer/utils/node'
 import { fs } from '@contentlayer/utils/node'
 import * as path from 'path'
 
-import { ArtifactsDir } from './ArtifactsDir'
-import type { Document } from './data'
+import { ArtifactsDir } from './ArtifactsDir.js'
+import type { Document } from './data.js'
 
 export namespace DataCache {
   export type Cache = {
@@ -35,14 +36,21 @@ export namespace DataCache {
   }: {
     schemaHash: string
     cwd: string
-  }): T.Effect<OT.HasTracer, fs.ReadFileError | fs.JsonParseError, Cache | undefined> => {
-    const filePath = path.join(ArtifactsDir.getCacheDirPath({ cwd }), dataCacheFileName(schemaHash))
-    return pipe(
-      fs.readFileJson<Cache>(filePath),
-      T.catchTag('node.fs.FileNotFoundError', () => T.succeed(undefined)),
-      OT.withSpan('@contentlayer/core/cache:loadPreviousCacheFromDisk', { attributes: { schemaHash, filePath } }),
-    )
-  }
+  }): T.Effect<OT.HasTracer, fs.ReadFileError | fs.JsonParseError | GetContentlayerVersionError, Cache | undefined> =>
+    T.gen(function* ($) {
+      const cacheDirPath = yield* $(ArtifactsDir.getCacheDirPath({ cwd }))
+      const filePath = path.join(cacheDirPath, dataCacheFileName(schemaHash))
+
+      const cache = yield* $(
+        pipe(
+          fs.readFileJson<Cache>(filePath),
+          T.catchTag('node.fs.FileNotFoundError', () => T.succeed(undefined)),
+          OT.withSpan('@contentlayer/core/cache:loadPreviousCacheFromDisk', { attributes: { schemaHash, filePath } }),
+        ),
+      )
+
+      return cache
+    })
 
   export const writeCacheToDisk = ({
     cache,
@@ -52,7 +60,11 @@ export namespace DataCache {
     cache: Cache
     schemaHash: string
     cwd: string
-  }): T.Effect<OT.HasTracer, never, E.Either<fs.WriteFileError | fs.MkdirError | fs.JsonStringifyError, void>> =>
+  }): T.Effect<
+    OT.HasTracer,
+    never,
+    E.Either<fs.WriteFileError | fs.MkdirError | fs.JsonStringifyError | GetContentlayerVersionError, void>
+  > =>
     pipe(
       ArtifactsDir.mkdirCache({ cwd }),
       T.chain((cacheDirPath) => {

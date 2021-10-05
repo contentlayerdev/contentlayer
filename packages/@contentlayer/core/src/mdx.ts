@@ -1,8 +1,8 @@
 import { OT, pipe, T, Tagged } from '@contentlayer/utils/effect'
-import { bundleMDX as bundleMDX_ } from 'mdx-bundler'
+import * as mdxBundler from 'mdx-bundler'
 import type { BundleMDXOptions } from 'mdx-bundler/dist/types'
 
-import type { MarkdownOptions } from './plugin'
+import type { MarkdownOptions } from './plugin.js'
 
 export const bundleMDX = ({
   mdxString,
@@ -10,7 +10,7 @@ export const bundleMDX = ({
 }: {
   mdxString: string
   options?: MarkdownOptions
-}): T.Effect<OT.HasTracer, MDXError, string> =>
+}): T.Effect<OT.HasTracer, UnexpectedMDXError, string> =>
   pipe(
     T.gen(function* ($) {
       // TODO should be fixed in `mdx-bundler`
@@ -26,11 +26,17 @@ export const bundleMDX = ({
         },
       }
 
-      const res = yield* $(T.tryPromise(() => bundleMDX_(mdxString, mdxOptions)))
+      const res = yield* $(T.tryPromise(() => mdxBundler.bundleMDX(mdxString, mdxOptions)))
+
+      if (res.errors.length > 0) {
+        return yield* $(T.fail(new UnexpectedMDXError({ error: res.errors })))
+      }
+
       return res.code
     }),
-    T.mapError((error) => new MDXError({ error })),
+    T.catchAllDefect(T.fail),
+    T.mapError((error) => new UnexpectedMDXError({ error })),
     OT.withSpan('@contentlayer/core/markdown:bundleMDX'),
   )
 
-export class MDXError extends Tagged('MDXError')<{ readonly error: unknown }> {}
+export class UnexpectedMDXError extends Tagged('UnexpectedMDXError')<{ readonly error: unknown }> {}

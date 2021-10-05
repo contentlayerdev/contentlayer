@@ -1,2 +1,2 @@
-module.exports = require('@scripts/jest/resolver')
-export {}
+export * from '@scripts/jest/resolver'
+// export {}

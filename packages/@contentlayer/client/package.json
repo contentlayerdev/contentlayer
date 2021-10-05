@@ -1,6 +1,7 @@
 {
   "name": "@contentlayer/client",
-  "version": "0.0.23-dev.12",
+  "version": "0.0.24-dev.9",
+  "type": "module",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",

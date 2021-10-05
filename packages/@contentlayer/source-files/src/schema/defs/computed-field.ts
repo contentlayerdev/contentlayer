@@ -1,6 +1,6 @@
 import type { GetDocumentTypeGen } from '@contentlayer/core'
 
-import type { FieldDefType } from '.'
+import type { FieldDefType } from './index.js'
 
 export type ComputedField<DocumentTypeName extends string = string> = {
   description?: string

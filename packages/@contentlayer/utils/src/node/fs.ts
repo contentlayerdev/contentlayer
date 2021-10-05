@@ -6,7 +6,7 @@ import type { Stats } from 'fs'
 import { promises as fs } from 'fs'
 import type { JsonValue } from 'type-fest'
 
-import { errorToString } from '..'
+import { errorToString } from '../index.js'
 
 export const fileOrDirExists = (filePath: string): T.Effect<unknown, StatError, boolean> => {
   return pipe(

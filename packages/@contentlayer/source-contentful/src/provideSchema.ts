@@ -3,10 +3,10 @@ import { SourceProvideSchemaError } from '@contentlayer/core'
 import { casesHandled, partition } from '@contentlayer/utils'
 import { OT, pipe, T } from '@contentlayer/utils/effect'
 
-import { environmentGetContentTypes, getEnvironment } from './contentful'
-import type * as SchemaOverrides from './schemaOverrides'
-import { normalizeSchemaOverrides } from './schemaOverrides'
-import type { Contentful } from './types'
+import { environmentGetContentTypes, getEnvironment } from './contentful.js'
+import type * as SchemaOverrides from './schemaOverrides.js'
+import { normalizeSchemaOverrides } from './schemaOverrides.js'
+import type { Contentful } from './types.js'
 
 export const provideSchema = ({
   accessToken,

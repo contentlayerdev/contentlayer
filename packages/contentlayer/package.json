@@ -1,6 +1,7 @@
 {
   "name": "contentlayer",
-  "version": "0.0.23-dev.12",
+  "version": "0.0.24-dev.9",
+  "type": "module",
   "bin": "./dist/cjs/cli/index.js",
   "exports": {
     "./source-files": {
@@ -65,7 +66,7 @@
     "@contentlayer/utils": "workspace:*"
   },
   "devDependencies": {
-    "esbuild": "^0.12.14",
+    "esbuild": "^0.12.28",
     "typescript": "^4.4.3"
   }
 }

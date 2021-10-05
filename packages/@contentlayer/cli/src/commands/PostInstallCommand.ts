@@ -3,7 +3,7 @@ import { OT, pipe, T } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
 import * as path from 'path'
 
-import { BaseCommand } from './_BaseCommand'
+import { BaseCommand } from './_BaseCommand.js'
 
 export class PostInstallCommand extends BaseCommand {
   static paths = [['postinstall']]

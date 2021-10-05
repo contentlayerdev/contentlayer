@@ -181,7 +181,8 @@ const FooterForm = defineNestedType(() => ({
     },
     form_action: {
       type: 'string',
-      description: 'The path of your custom "success" page, if you want to replace the default success message.',
+      description:
+        'The path of your custom "success" page, if you want to replace the default success message./index.js',
     },
     hide_labels: {
       type: 'boolean',

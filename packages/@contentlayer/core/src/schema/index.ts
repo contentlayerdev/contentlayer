@@ -1,9 +1,9 @@
-import type { Document } from '../data'
-import type { FieldDef, FieldDefType } from './field'
-import type { StackbitExtension } from './stackbit-extension'
-export * from './field'
-export * from './validate'
-export * from './stackbit-extension'
+import type { Document } from '../data.js'
+import type { FieldDef, FieldDefType } from './field.js'
+import type { StackbitExtension } from './stackbit-extension.js'
+export * from './field.js'
+export * from './validate.js'
+export * from './stackbit-extension.js'
 
 export type TypeDefExtensions = {
   stackbit?: StackbitExtension.TypeExtension

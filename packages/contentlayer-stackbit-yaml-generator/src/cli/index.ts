@@ -2,7 +2,7 @@
 
 import { Builtins, Cli } from 'clipanion'
 
-import { DefaultCommand } from './DefaultCommand'
+import { DefaultCommand } from './DefaultCommand.js'
 
 export const run = () => {
   const [node, app, ...args] = process.argv

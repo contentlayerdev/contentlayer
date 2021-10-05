@@ -6,7 +6,7 @@ import { pipe } from '@effect-ts/core'
 import * as Tp from '@effect-ts/core/Collections/Immutable/Tuple'
 import { _A, _E } from '@effect-ts/core/Effect'
 
-import { E, O, T } from '.'
+import { E, O, T } from './index.js'
 
 export class These<E, A> {
   readonly [_E]: () => E;

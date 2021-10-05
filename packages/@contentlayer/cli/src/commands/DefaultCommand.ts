@@ -1,7 +1,7 @@
 import { OT, pipe, T } from '@contentlayer/utils/effect'
 import { Command } from 'clipanion'
 
-import { BaseCommand } from './_BaseCommand'
+import { BaseCommand } from './_BaseCommand.js'
 
 export class DefaultCommand extends BaseCommand {
   static paths = [Command.Default]

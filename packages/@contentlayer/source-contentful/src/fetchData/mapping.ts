@@ -7,7 +7,7 @@ import { T } from '@contentlayer/utils/effect'
 import type * as SchemaOverrides from '../schemaOverrides'
 import type { Contentful } from '../types'
 
-type MakeDocumentError = core.MarkdownError | core.MDXError | HashError
+type MakeDocumentError = core.UnexpectedMarkdownError | core.UnexpectedMDXError | HashError
 
 export const makeCacheItem = ({
   documentEntry,

@@ -1,6 +1,6 @@
-import { convertSchema } from '../cli/convert'
-import { toYamlString } from '../cli/utils'
-import * as fixtures from './fixtures'
+import { convertSchema } from '../cli/convert.js'
+import { toYamlString } from '../cli/utils.js'
+import * as fixtures from './fixtures/index.js'
 
 describe('convert', () => {
   it('azimuth schema', async () => {
