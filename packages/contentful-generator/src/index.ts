@@ -46,7 +46,7 @@ const resetEnvironment = async () => {
 
 const localized = <T>(val: T) => ({ 'en-US': val })
 
-const richText = ({ numSentences }: { numSentences: number }) => ({
+const _richText = ({ numSentences }: { numSentences: number }) => ({
   content: [
     {
       nodeType: 'paragraph',
