@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/utils",
-  "version": "0.0.24-dev.11",
+  "version": "0.0.24",
   "type": "module",
   "exports": {
     "./package.json": {

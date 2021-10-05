@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/source-contentful",
-  "version": "0.0.24-dev.11",
+  "version": "0.0.24",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
