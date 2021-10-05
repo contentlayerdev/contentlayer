@@ -1323,7 +1323,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.14.0, @babel/runtime@npm:^7.15.3, @babel/runtime@npm:^7.2.0, @babel/runtime@npm:^7.8.4":
+"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.14.0, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.2.0, @babel/runtime@npm:^7.8.4":
   version: 7.15.4
   resolution: "@babel/runtime@npm:7.15.4"
   dependencies:
@@ -1414,9 +1414,9 @@ __metadata:
   dependencies:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/utils": "workspace:*"
-    "@types/node": ^16.9.2
-    clipanion: ^3.0.1
-    typanion: ^3.4.1
+    "@types/node": ^16.10.2
+    clipanion: ^3.2.0-rc.3
+    typanion: ^3.5.0
   languageName: unknown
   linkType: soft
 
@@ -1438,11 +1438,11 @@ __metadata:
     esbuild: 0.11.x || 0.12.x
     gray-matter: ^4.0.3
     markdown-wasm: ^1.1.2
-    mdx-bundler: ^6.0.1
+    mdx-bundler: ^6.0.2
     pkg-up: ^3.1.0
     rehype-stringify: ^9.0.2
     remark-parse: ^10.0.0
-    remark-rehype: ^9.0.0
+    remark-rehype: ^10.0.0
     source-map-support: ^0.5.20
     type-fest: ^1.2.1
     unified: ^10.1.0
@@ -1460,7 +1460,7 @@ __metadata:
   dependencies:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/utils": "workspace:*"
-    "@types/node": ^16.9.2
+    "@types/node": ^16.10.2
     contentful-management: 7.22.4
   languageName: unknown
   linkType: soft
@@ -1474,7 +1474,7 @@ __metadata:
     "@playwright/test": ^1.15.1
     "@types/faker": ^5.5.8
     "@types/minimatch": ^3.0.5
-    "@types/node": ^16.9.2
+    "@types/node": ^16.10.2
     "@types/tap": ^15.0.5
     "@types/yaml": ^1
     chokidar: ^3.5.2
@@ -1484,7 +1484,7 @@ __metadata:
     gray-matter: ^4.0.3
     minimatch: ^3.0.4
     tap: ^15.0.10
-    ts-pattern: ^3.3.1
+    ts-pattern: ^3.3.3
     unified: ^10.1.0
     yaml: ^1.10.2
   languageName: unknown
@@ -1500,7 +1500,7 @@ __metadata:
     "@sanity/core": ^2.10.5
     "@sanity/image-url": ^0.140.22
     "@sanity/schema": ^2.10.0
-    "@types/node": ^16.9.2
+    "@types/node": ^16.10.2
     rxjs: ^7.1.0
   languageName: unknown
   linkType: soft
@@ -1522,8 +1522,8 @@ __metadata:
     chokidar: ^3.5.2
     hash-wasm: ^4.9.0
     inflection: ^1.13.1
-    oo-ascii-tree: ^1.34.0
-    ts-pattern: ^3.3.1
+    oo-ascii-tree: ^1.36.0
+    ts-pattern: ^3.3.3
     type-fest: ^1.2.1
   languageName: unknown
   linkType: soft
@@ -3542,10 +3542,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^16.9.2":
+"@types/node@npm:*":
   version: 16.9.2
   resolution: "@types/node@npm:16.9.2"
   checksum: 204aa883bc93a267f43804af8872e538935369ab905d5ca702d2c17a213339f8df974bb95d21e2e714e8f83f669b185d8526f7c4b5d16adbdb5d96d4f2e75fa9
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^16.10.2":
+  version: 16.10.2
+  resolution: "@types/node@npm:16.10.2"
+  checksum: 83c1c3c68e7500103908c3f16094e458879c840a719c15b6ea577f81fe1f24a1b3473bb6c8e8091fe79a82543ca7639c6b1088fcf80292ec091d1d1c9504a87e
   languageName: node
   linkType: hard
 
@@ -3610,6 +3617,17 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: a590bd2e50e4ec0b1957388e198cf248bac3051e525e036901dea10f7d12203bf1c58350aa899e66494cbf8a60ee56402522273866c29748217f72552bb27d04
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:17.0.20":
+  version: 17.0.20
+  resolution: "@types/react@npm:17.0.20"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: e342bfaa4fe052fc3a445ea49f746f3fd82cfc9c8028eae139a3e0763ead1871f353bd40da2a472f23d2b52544d2781d40e3159c0703e7e2ff08c13f067a3b9c
   languageName: node
   linkType: hard
 
@@ -5738,14 +5756,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clipanion@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "clipanion@npm:3.0.1"
+"clipanion@npm:^3.2.0-rc.3":
+  version: 3.2.0-rc.3
+  resolution: "clipanion@npm:3.2.0-rc.3"
   dependencies:
     typanion: ^3.3.1
   peerDependencies:
     typanion: "*"
-  checksum: 3a4b0c1e7d29a0f3c41860323494114a3533298134761e564b9057fe26ceef929a06da73cc3dfc0000e02c89ad7222984109a60213a212c10ea71ac6cacabc89
+  checksum: 3b202a331b323e5f2fe5ceb6e2282eb69cba87e588e75f009bbb87ea1e64f17f5203067b760549d689d71a966267d8928f805354c68777781083fb3b1a8a4662
   languageName: node
   linkType: hard
 
@@ -6254,11 +6272,11 @@ __metadata:
     "@contentlayer/utils": "workspace:*"
     "@stackbit/sdk": ^0.1.15
     "@types/tap": ^15.0.5
-    clipanion: ^3.0.1
+    clipanion: ^3.2.0-rc.3
     contentlayer: "workspace:*"
     esbuild: ^0.12.28
     tap: ^15.0.10
-    typanion: 3.4.1
+    typanion: 3.5.0
     typescript: ^4.4.3
     yaml: ^1.10.2
   bin:
@@ -12336,12 +12354,12 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"marked@npm:^2.0.3":
-  version: 2.1.3
-  resolution: "marked@npm:2.1.3"
+"marked@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "marked@npm:3.0.4"
   bin:
     marked: bin/marked
-  checksum: 21a5ecd4941bc760aba21dfd97185853ec3b464cf707ad971e3ddb3aeb2f44d0deeb36b0889932afdb6f734975a994d92f18815dd0fabadbd902bdaff997cc5b
+  checksum: fdc6bf48c1997ab5d0edead3748de785a333d7ce29fad7d4ed8e239b736b642c029796380ce39c97d934edd96c5e4cf05dd32116e7f6e80e05ea97b32cef6741
   languageName: node
   linkType: hard
 
@@ -12490,6 +12508,24 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"mdast-util-to-hast@npm:^12.0.0":
+  version: 12.0.0
+  resolution: "mdast-util-to-hast@npm:12.0.0"
+  dependencies:
+    "@types/hast": ^2.0.0
+    "@types/mdast": ^3.0.0
+    "@types/mdurl": ^1.0.0
+    mdast-util-definitions: ^5.0.0
+    mdurl: ^1.0.0
+    micromark-util-sanitize-uri: ^1.0.0
+    unist-builder: ^3.0.0
+    unist-util-generated: ^2.0.0
+    unist-util-position: ^4.0.0
+    unist-util-visit: ^4.0.0
+  checksum: 27ee12d7e7471069e48568b482cf2256a936f0206b1f083c023b5619e07d051d5c63d23f570d40c01b950519a3058e44903a17fd76ee15654957a04d9b8e0a03
+  languageName: node
+  linkType: hard
+
 "mdast-util-to-markdown@npm:^1.0.0":
   version: 1.2.1
   resolution: "mdast-util-to-markdown@npm:1.2.1"
@@ -12533,23 +12569,38 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"mdx-bundler@npm:^6.0.1":
-  version: 6.0.1
-  resolution: "mdx-bundler@npm:6.0.1"
+"mdx-bundler@npm:^6.0.2":
+  version: 6.0.2
+  resolution: "mdx-bundler@npm:6.0.2"
   dependencies:
-    "@babel/runtime": ^7.15.3
+    "@babel/runtime": ^7.15.4
     "@esbuild-plugins/node-resolve": ^0.1.4
     "@fal-works/esbuild-plugin-global-externals": ^2.1.2
     gray-matter: ^4.0.3
     remark-frontmatter: ^4.0.0
     remark-mdx-frontmatter: ^1.0.1
     uuid: ^8.3.2
-    xdm: ^2.0.0
+    xdm: ^2.1.0
   peerDependencies:
-    esbuild: 0.11.x || 0.12.x
-  checksum: 85f0e663a9aa1832b82f4d853567d811b1d4cfad5e8a91a441bd3f61b35ecbf80366c0151bf01fc063259940cfb621bd23998741e0266ce259858604ec1d3622
+    esbuild: 0.11.x || 0.12.x || 0.13.x
+  checksum: 6d2d947a3ad2e5832e12b5491f0c278c6a87bfa621e92973b6e2f210bcbdf364ad59c45b58e22a80964e29edf6afd37316b4e101470072da664823f5fe763660
   languageName: node
   linkType: hard
+
+"mdx@workspace:examples/mdx":
+  version: 0.0.0-use.local
+  resolution: "mdx@workspace:examples/mdx"
+  dependencies:
+    "@types/react": 17.0.20
+    contentlayer: latest
+    mdx-bundler: ^6.0.2
+    next: 11.1.2
+    next-contentlayer: latest
+    react: 17.0.2
+    react-dom: 17.0.2
+    typescript: 4.4.3
+  languageName: unknown
+  linkType: soft
 
 "media-typer@npm:0.3.0":
   version: 0.3.0
@@ -13369,7 +13420,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"next@npm:^11.1.2":
+"next@npm:11.1.2, next@npm:^11.1.2":
   version: 11.1.2
   resolution: "next@npm:11.1.2"
   dependencies:
@@ -13927,10 +13978,10 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"oo-ascii-tree@npm:^1.34.0":
-  version: 1.34.0
-  resolution: "oo-ascii-tree@npm:1.34.0"
-  checksum: d1a0b3826c5ecbdd3fb985fb77b53733f7ac6144df46961e471fb301de325e4d0559adc13a575e6ff87a8c5bb02524291089681a0847468760a146c8dfd5545d
+"oo-ascii-tree@npm:^1.36.0":
+  version: 1.36.0
+  resolution: "oo-ascii-tree@npm:1.36.0"
+  checksum: 46bbdcb0a0475fd93f9ca125f1cee318cbd67cf837acac2a7ea2a53c44776b05693bcd8568d119e5e2e808511fed4f26a9ffe6c1ba8f1b62ae8213634594ab24
   languageName: node
   linkType: hard
 
@@ -14663,7 +14714,7 @@ fsevents@^1.2.7:
     contentlayer: "workspace:*"
     contentlayer-stackbit-yaml-generator: "workspace:*"
     date-fns: ^2.24.0
-    marked: ^2.0.3
+    marked: ^3.0.4
     next: ^11.1.2
     next-contentlayer: "workspace:*"
     react: ^17.0.2
@@ -14687,7 +14738,7 @@ fsevents@^1.2.7:
     contentlayer: "workspace:*"
     contentlayer-stackbit-yaml-generator: "workspace:*"
     date-fns: ^2.24.0
-    marked: ^2.0.3
+    marked: ^3.0.4
     next: ^11.1.2
     next-contentlayer: "workspace:*"
     react: ^17.0.2
@@ -14735,7 +14786,7 @@ fsevents@^1.2.7:
     "@types/react-helmet": ^6.1.2
     contentlayer: "workspace:*"
     date-fns: ^2.24.0
-    marked: ^2.0.3
+    marked: ^3.0.4
     next: ^11.1.2
     react: ^17.0.2
     react-dom: ^17.0.2
@@ -14757,7 +14808,7 @@ fsevents@^1.2.7:
     contentlayer: "workspace:*"
     contentlayer-stackbit-yaml-generator: "workspace:*"
     date-fns: ^2.24.0
-    marked: ^2.0.3
+    marked: ^3.0.4
     next: ^11.1.2
     next-contentlayer: "workspace:*"
     react: ^17.0.2
@@ -14817,24 +14868,6 @@ fsevents@^1.2.7:
     react: 17.0.2
     react-dom: 17.0.2
     rehype-highlight: ^5.0.0
-  languageName: unknown
-  linkType: soft
-
-"playground-starter@workspace:examples/starter":
-  version: 0.0.0-use.local
-  resolution: "playground-starter@workspace:examples/starter"
-  dependencies:
-    "@types/react": ^17.0.21
-    "@types/react-dom": ^17.0.9
-    contentlayer: latest
-    contentlayer-stackbit-yaml-generator: latest
-    date-fns: ^2.24.0
-    next: ^11.1.2
-    next-contentlayer: latest
-    react: 17.0.2
-    react-dom: 17.0.2
-    rehype-highlight: ^5.0.0
-    typescript: ^4.4.3
   languageName: unknown
   linkType: soft
 
@@ -17087,6 +17120,18 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"remark-rehype@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "remark-rehype@npm:10.0.0"
+  dependencies:
+    "@types/hast": ^2.0.0
+    "@types/mdast": ^3.0.0
+    mdast-util-to-hast: ^12.0.0
+    unified: ^10.0.0
+  checksum: ccec620ceafa66e2720ff0146b08b33e33601434bd7ef421a3fbe2f37a5bbcc90598e26808bfcf89417f06357bf6daf5cdaef3f4ad414718c24994886a8de5e5
+  languageName: node
+  linkType: hard
+
 "remark-rehype@npm:^9.0.0":
   version: 9.0.0
   resolution: "remark-rehype@npm:9.0.0"
@@ -18307,6 +18352,24 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"starter@workspace:examples/starter":
+  version: 0.0.0-use.local
+  resolution: "starter@workspace:examples/starter"
+  dependencies:
+    "@types/react": ^17.0.21
+    "@types/react-dom": ^17.0.9
+    contentlayer: latest
+    contentlayer-stackbit-yaml-generator: latest
+    date-fns: ^2.24.0
+    next: ^11.1.2
+    next-contentlayer: latest
+    react: 17.0.2
+    react-dom: 17.0.2
+    rehype-highlight: ^5.0.0
+    typescript: ^4.4.3
+  languageName: unknown
+  linkType: soft
+
 "state-toggle@npm:^1.0.0":
   version: 1.0.3
   resolution: "state-toggle@npm:1.0.3"
@@ -19341,10 +19404,10 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"ts-pattern@npm:^3.3.1":
-  version: 3.3.1
-  resolution: "ts-pattern@npm:3.3.1"
-  checksum: 437eda5510a1b2ce258b2526bcf892da2f0d4756532890b62a892e981b63c9d680af0cfe4eac7bb525422c6d69ccd9a7d967945920f5acb2626b46103147b9d1
+"ts-pattern@npm:^3.3.3":
+  version: 3.3.3
+  resolution: "ts-pattern@npm:3.3.3"
+  checksum: 64c8535fbfc4f56bb9f00c4c4fa5a47471cc4e27c618cb25bc94df3e6f7fdaebff43be0071e117aa1d12ed0fa58ee960895b3311976c64b978559aac228ef0eb
   languageName: node
   linkType: hard
 
@@ -19432,7 +19495,14 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"typanion@npm:3.4.1, typanion@npm:^3.3.1, typanion@npm:^3.4.1":
+"typanion@npm:3.5.0, typanion@npm:^3.5.0":
+  version: 3.5.0
+  resolution: "typanion@npm:3.5.0"
+  checksum: 9d9c7e7ba99f61a9bce3d02c486c264c1071bf946623d43c47b317450e37978bbb5c0dcab0aa31b8eb867a45417bc3ffbef3d1e59a32b92c3b932e4af488c77b
+  languageName: node
+  linkType: hard
+
+"typanion@npm:^3.3.1":
   version: 3.4.1
   resolution: "typanion@npm:3.4.1"
   checksum: e498f03311d2c6766844b027c84f4fedb3991c60bd1ffd50eafa0d68c78c329bb9c96e335ae9c1b913ca97783ae4fcaf037a7f3d7dbf62bd7f0e9798d6597c3c
@@ -19553,7 +19623,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-typescript@^4.4.3:
+"typescript@4.4.3, typescript@^4.4.3":
   version: 4.4.3
   resolution: "typescript@npm:4.4.3"
   bin:
@@ -19563,7 +19633,7 @@ typescript@^4.4.3:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.4.3#~builtin<compat/typescript>":
+"typescript@patch:typescript@4.4.3#~builtin<compat/typescript>, typescript@patch:typescript@^4.4.3#~builtin<compat/typescript>":
   version: 4.4.3
   resolution: "typescript@patch:typescript@npm%3A4.4.3#~builtin<compat/typescript>::version=4.4.3&hash=32657b"
   bin:
@@ -20826,9 +20896,9 @@ typescript@^4.4.3:
   languageName: node
   linkType: hard
 
-"xdm@npm:^2.0.0":
-  version: 2.0.3
-  resolution: "xdm@npm:2.0.3"
+"xdm@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "xdm@npm:2.1.0"
   dependencies:
     "@rollup/pluginutils": ^4.0.0
     "@types/estree-jsx": ^0.0.1
@@ -20855,7 +20925,7 @@ typescript@^4.4.3:
   dependenciesMeta:
     deasync:
       optional: true
-  checksum: 14a7571405892fd9e856387780cfda08fd9bfc253b5b631a4633245345062919c62d759e05073270b2722f99d351eaf6294f63d480976193bf9acc88d95b8fc7
+  checksum: 5a3f2434a5390aaebc66aa7d1a90d582de29c2256c94e542df7476cd5ffac6c160ebcb4f75a1a0593dfd8c6d0e650e1ad18f023a57262e0b3abc89c3e1f5c86e
   languageName: node
   linkType: hard
 

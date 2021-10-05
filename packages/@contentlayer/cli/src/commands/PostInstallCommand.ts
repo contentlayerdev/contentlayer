@@ -15,6 +15,9 @@ export class PostInstallCommand extends BaseCommand {
       const artifactsDirPath = yield* $(ArtifactsDir.mkdir({ cwd }))
 
       yield* $(T.forEachPar_(['data', 'types'], (moduleName) => makeModuleStub({ artifactsDirPath, moduleName })))
+
+      yield* $(createSymlinkForDotpkg({ artifactsDirPath, cwd }))
+      yield* $(addToplevelDotpkgToGitignore(cwd))
     }),
     OT.withSpan('@contentlayer/cli/commands/PostInstallCommand:executeSafe', { attributes: { cwd: process.cwd() } }),
   )
@@ -41,3 +44,33 @@ const moduleStubFile = `\
 
 export {}
 `
+
+const createSymlinkForDotpkg = ({ artifactsDirPath, cwd }: { artifactsDirPath: string; cwd: string }) =>
+  T.gen(function* ($) {
+    const symlinkPath = path.join(cwd, '.contentlayer')
+    // NOTE dir-symlinks are interpreted as dirs by the OS
+    const symlinkExists = yield* $(fs.fileOrDirExists(symlinkPath))
+    if (!symlinkExists) {
+      yield* $(fs.symlink({ symlinkPath, targetPath: artifactsDirPath, type: 'dir' }))
+    }
+  })
+
+const addToplevelDotpkgToGitignore = (cwd: string) =>
+  T.gen(function* ($) {
+    const gitignoreFilePath = path.join(cwd, '.gitignore')
+    const gitignoreExists = yield* $(fs.fileOrDirExists(gitignoreFilePath))
+    if (gitignoreExists) {
+      const gitignoreContent = yield* $(fs.readFile(gitignoreFilePath))
+
+      if (!gitignoreContent.includes('.contentlayer')) {
+        const newGitignoreContent = `\
+${gitignoreContent}
+
+# Contentlayer
+.contentlayer
+`
+
+        yield* $(fs.writeFile(gitignoreFilePath, newGitignoreContent))
+      }
+    }
+  })

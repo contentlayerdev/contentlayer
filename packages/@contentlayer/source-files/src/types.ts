@@ -1,4 +1,4 @@
-import type * as unified from 'unified'
+import type { MarkdownOptions, MDXOptions } from '@contentlayer/core'
 
 import type { DocumentBodyType } from './schema/defs'
 
@@ -17,13 +17,8 @@ export type RawDocumentData = {
 
 export type PluginOptions = {
   markdown?: MarkdownOptions
-  mdx?: MarkdownOptions
+  mdx?: MDXOptions
   fieldOptions?: FieldOptions
-}
-
-export type MarkdownOptions = {
-  remarkPlugins?: unified.Pluggable[]
-  rehypePlugins?: unified.Pluggable[]
 }
 
 export type FieldOptions = {

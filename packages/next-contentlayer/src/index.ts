@@ -24,6 +24,7 @@ module.exports.withContentlayer =
           await runContentlayerBuild()
         } else if (isNextDev && !devServerStarted) {
           devServerStarted = true
+          // TODO also block here until first Contentlayer run is complete
           runContentlayerDev()
         }
 

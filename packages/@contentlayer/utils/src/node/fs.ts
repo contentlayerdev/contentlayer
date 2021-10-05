@@ -8,10 +8,18 @@ import type { JsonValue } from 'type-fest'
 
 import { errorToString } from '../index.js'
 
-export const fileOrDirExists = (filePath: string): T.Effect<unknown, StatError, boolean> => {
+export const fileOrDirExists = (pathLike: string): T.Effect<unknown, StatError, boolean> => {
   return pipe(
-    stat(filePath),
+    stat(pathLike),
     T.map((stat_) => stat_.isFile() || stat_.isDirectory()),
+    T.catchTag('node.fs.FileNotFoundError', () => T.succeed(false)),
+  )
+}
+
+export const symlinkExists = (pathLike: string): T.Effect<unknown, StatError, boolean> => {
+  return pipe(
+    stat(pathLike),
+    T.map((stat_) => stat_.isSymbolicLink()),
     T.catchTag('node.fs.FileNotFoundError', () => T.succeed(false)),
   )
 }
@@ -87,6 +95,24 @@ export const mkdirp = (dirPath: string): T.Effect<OT.HasTracer, MkdirError, void
     ),
   )
 
+export type SymlinkType = 'file' | 'dir' | 'junction'
+
+export const symlink = ({
+  targetPath,
+  symlinkPath,
+  type,
+}: {
+  targetPath: string
+  symlinkPath: string
+  type: SymlinkType
+}): T.Effect<OT.HasTracer, SymlinkError, void> =>
+  OT.withSpan('symlink', { attributes: { targetPath, symlinkPath, type } })(
+    T.tryCatchPromise(
+      () => fs.symlink(targetPath, symlinkPath, type),
+      (error) => new SymlinkError({ targetPath, symlinkPath, type, error }),
+    ),
+  )
+
 export class FileNotFoundError extends Tagged('node.fs.FileNotFoundError')<{ readonly filePath: string }> {}
 
 export class ReadFileError extends Tagged('node.fs.ReadFileError')<{
@@ -102,6 +128,13 @@ export class WriteFileError extends Tagged('node.fs.WriteFileError')<{
 }> {}
 
 export class MkdirError extends Tagged('node.fs.MkdirError')<{ readonly dirPath: string; readonly error: unknown }> {}
+
+export class SymlinkError extends Tagged('node.fs.SymlinkError')<{
+  readonly targetPath: string
+  readonly symlinkPath: string
+  readonly type: SymlinkType
+  readonly error: unknown
+}> {}
 
 export class UnknownFSError extends Tagged('node.fs.UnknownFSError')<{ readonly error: any }> {
   toString = () => `UnknownFSError: ${errorToString(this.error)} ${this.error.stack}`

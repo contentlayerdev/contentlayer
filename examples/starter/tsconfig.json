@@ -18,6 +18,6 @@
     "moduleResolution": "node",
     "isolatedModules": true
   },
-  "include": ["next-env.d.ts", "**/*.tsx", "**/*.ts", "./node_modules/.contentlayer/*", "./node_modules/@types"],
+  "include": ["next-env.d.ts", "**/*.tsx", "**/*.ts"],
   "exclude": ["node_modules"]
 }

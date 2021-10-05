@@ -1,5 +1,6 @@
 import type { Thunk } from '@contentlayer/utils'
 import type { E, HasClock, OT, S, T } from '@contentlayer/utils/effect'
+import type { BundleMDXOptions } from 'mdx-bundler/dist/types'
 import type { LiteralUnion } from 'type-fest'
 import type * as unified from 'unified'
 
@@ -16,7 +17,7 @@ export type PluginExtensions = {
 
 export type PluginOptions = {
   markdown: MarkdownOptions | undefined
-  mdx: MarkdownOptions | undefined
+  mdx: MDXOptions | undefined
   fieldOptions: FieldOptions
 }
 
@@ -24,6 +25,11 @@ export type MarkdownOptions = {
   remarkPlugins?: unified.Pluggable[]
   rehypePlugins?: unified.Pluggable[]
 }
+
+export type MDXOptions = {
+  remarkPlugins?: unified.Pluggable[]
+  rehypePlugins?: unified.Pluggable[]
+} & Omit<BundleMDXOptions, 'xdmOptions'>
 
 export type FieldOptions = {
   // TODO add to Jsdoc that `bodyFieldName` is just about the field name of the generated document type + data.

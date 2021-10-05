@@ -1,6 +1,6 @@
 {
   "name": "contentlayer-stackbit-yaml-generator",
-  "version": "0.0.24",
+  "version": "0.0.25-dev.1",
   "type": "module",
   "bin": "./dist/cli/index.js",
   "exports": "./dist/lib/index.js",
@@ -12,8 +12,8 @@
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
     "@stackbit/sdk": "^0.1.15",
-    "clipanion": "^3.0.1",
-    "typanion": "3.4.1",
+    "clipanion": "^3.2.0-rc.3",
+    "typanion": "3.5.0",
     "yaml": "^1.10.2"
   },
   "devDependencies": {

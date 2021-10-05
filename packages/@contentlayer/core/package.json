@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/core",
-  "version": "0.0.24",
+  "version": "0.0.25-dev.1",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -21,11 +21,11 @@
     "esbuild": "0.11.x || 0.12.x",
     "gray-matter": "^4.0.3",
     "markdown-wasm": "^1.1.2",
-    "mdx-bundler": "^6.0.1",
+    "mdx-bundler": "^6.0.2",
     "pkg-up": "^3.1.0",
     "rehype-stringify": "^9.0.2",
     "remark-parse": "^10.0.0",
-    "remark-rehype": "^9.0.0",
+    "remark-rehype": "^10.0.0",
     "source-map-support": "^0.5.20",
     "type-fest": "^1.2.1",
     "unified": "^10.1.0"

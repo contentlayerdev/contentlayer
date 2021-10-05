@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/source-files",
-  "version": "0.0.24",
+  "version": "0.0.25-dev.1",
   "type": "module",
   "exports": {
     ".": {
@@ -33,7 +33,7 @@
     "glob-promise": "^4.1.0",
     "gray-matter": "^4.0.3",
     "minimatch": "^3.0.4",
-    "ts-pattern": "^3.3.1",
+    "ts-pattern": "^3.3.3",
     "unified": "^10.1.0",
     "yaml": "^1.10.2"
   },
@@ -41,7 +41,7 @@
     "@playwright/test": "^1.15.1",
     "@types/faker": "^5.5.8",
     "@types/minimatch": "^3.0.5",
-    "@types/node": "^16.9.2",
+    "@types/node": "^16.10.2",
     "@types/tap": "^15.0.5",
     "@types/yaml": "^1",
     "faker": "^5.5.3",
