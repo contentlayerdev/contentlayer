@@ -10,11 +10,8 @@
     "postinstall": "ts-patch install && ts-patch --persist",
     "test": "TAP_COLORS=1 yarn workspaces foreach --no-private run test",
     "build": "(run build:clean & run build:ts) && yarn workspace next-contentlayer run prepack",
-    "build:ts": "run build:ts:esm & run build:ts:cjs",
-    "build:ts:esm": "tsc --build tsconfig.all-esm.json",
-    "build:ts:cjs": "tsc --build tsconfig.all-cjs.json",
-    "dev:ts:esm": "run build:ts:esm --watch",
-    "dev:ts:cjs": "run build:ts:cjs --watch",
+    "build:ts": "tsc --build tsconfig.all.json",
+    "dev:ts": "run build:ts --watch",
     "build:clean": "bash -c 'rm -rf packages/*/dist packages/@contentlayer/*/dist'",
     "release:prerelease": "yarn build && yarn workspaces foreach --verbose --topological-dev --no-private exec npm version prerelease --preid=dev && yarn workspaces foreach --verbose --topological-dev --parallel --no-private npm publish --tolerate-republish --tag=dev",
     "release:patch": "yarn build && yarn workspaces foreach --verbose --topological-dev --no-private exec npm version patch && yarn workspaces foreach --verbose --topological-dev --parallel --no-private npm publish --tolerate-republish",
@@ -23,10 +20,7 @@
     "lint:eslint:fix": "eslint packages --ext .ts --fix",
     "lint:eslint:check": "eslint packages --ext .ts --max-warnings=0",
     "lint:prettier:fix": "prettier packages --write",
-    "lint:prettier:check": "prettier packages --check",
-    "g:build": "cd $INIT_CWD && (run g:build:esm & run g:build:esm)",
-    "g:build:esm": "cd $INIT_CWD && tsc --build tsconfig.json",
-    "g:build:cjs": "cd $INIT_CWD && tsc --build tsconfig.cjs.json"
+    "lint:prettier:check": "prettier packages --check"
   },
   "devDependencies": {
     "@effect-ts/tracing-plugin": "^0.14.10",

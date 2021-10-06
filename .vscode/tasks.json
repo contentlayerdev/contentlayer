@@ -103,27 +103,8 @@
     },
     {
       "label": "dev:ts",
-      "problemMatcher": [],
-      "dependsOn": ["dev:ts:esm", "dev:ts:cjs"]
-    },
-    {
-      "label": "dev:ts:esm",
       "type": "shell",
-      "command": "yarn dev:ts:esm",
-      "problemMatcher": ["$tsc-watch"],
-      "isBackground": true,
-      "presentation": {
-        "focus": false,
-        "panel": "shared",
-        "group": "dev",
-        "showReuseMessage": true,
-        "clear": false
-      }
-    },
-    {
-      "label": "dev:ts:cjs",
-      "type": "shell",
-      "command": "yarn dev:ts:cjs",
+      "command": "yarn dev:ts",
       "problemMatcher": ["$tsc-watch"],
       "isBackground": true,
       "presentation": {

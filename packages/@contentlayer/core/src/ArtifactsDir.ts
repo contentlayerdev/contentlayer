@@ -18,7 +18,7 @@ export namespace ArtifactsDir {
   }): T.Effect<OT.HasTracer, GetContentlayerVersionError, string> =>
     pipe(
       getContentlayerVersion(),
-      T.map((contentlayerVersion) => path.join(getDirPath({ cwd }), '.cache', `v-${contentlayerVersion}`)),
+      T.map((contentlayerVersion) => path.join(getDirPath({ cwd }), '.cache', `v${contentlayerVersion}`)),
     )
 
   export const mkdirCache = ({

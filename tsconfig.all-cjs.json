@@ -1,6 +1,0 @@
-{
-  "extends": "./tsconfig.base.json",
-  "compilerOptions": {},
-  "include": [],
-  "references": [{ "path": "./packages/next-contentlayer/tsconfig.cjs.json" }]
-}
