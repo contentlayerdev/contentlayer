@@ -1,8 +1,10 @@
 # Contentlayer
 
-Contentlayer transforms content (e.g. Markdown or CMS content) into data you can easily `import` in your application.
+Contentlayer turns your content into data - making it super easy to `import` MD(X) and CMS content in your Next.js app.
 
-> NOTE: Contentlayer is still under heavy development and shouldn't be used in production yet.
+![](https://images2.imgbox.com/d5/db/LtP3GT3s_o.png)
+
+> NOTE: Contentlayer is still under development.
 
 ## Features
 
@@ -27,10 +29,10 @@ Contentlayer transforms content (e.g. Markdown or CMS content) into data you can
 - Create `contentlayer.config.ts` file. Example
 
 ```ts
-import { defineDocument, fromLocalContent } from 'contentlayer/source-files'
+import { defineDocumentType, makeSource } from 'contentlayer/source-files'
 import highlight from 'rehype-highlight'
 
-export const Post = defineDocument(() => ({
+export const Post = defineDocumentType(() => ({
   name: 'Post',
   filePathPattern: `**/*.md`,
   fields: {
@@ -50,9 +52,9 @@ export const Post = defineDocument(() => ({
   },
 }))
 
-export default fromLocalContent({
+export default makeSource({
   contentDirPath: 'posts',
-  schema: [Post],
+  documentTypes: [Post],
   markdown: { rehypePlugins: [highlight] },
 })
 ```
@@ -62,7 +64,7 @@ export default fromLocalContent({
 ## Developing Contentlayer
 
 ```
-git clone --recurse-submodules git://github.com/schickling/contentlayer.git
+git clone --recurse-submodules git://github.com/contentlayerdev/contentlayer.git
 yarn install
 yarn build
 ```
