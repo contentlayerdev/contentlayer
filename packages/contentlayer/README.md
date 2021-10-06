@@ -1,6 +1,6 @@
 # Contentlayer
 
-Contentlayer turns your content into data - making it super easy to `import` MD(X) and CMS content in your Next.js app.
+Contentlayer turns your content into data - making it super easy to `import` MD(X) and CMS content in your app.
 
 ![](https://images2.imgbox.com/d5/db/LtP3GT3s_o.png)
 
@@ -12,7 +12,9 @@ Contentlayer turns your content into data - making it super easy to `import` MD(
   - [x] Local content (Markdown, MDX, JSON, YAML)
   - [x] Contentful
   - [x] Sanity
-- Simple but powerful schema DSL to design your content model
+- Live-reload on content changes
+- Fast and incremental builds (many times faster than Gatsby in most cases) 
+- Simple but powerful schema DSL to design your content model (validates your content and generates types)
 - Auto-generated TypeScript types based on your content model (e.g. frontmatter)
 
 ### Roadmap
