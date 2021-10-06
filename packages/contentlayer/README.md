@@ -1,6 +1,6 @@
 # Contentlayer
 
-Contentlayer turns your content into data - making it super easy to `import` MD(X) and CMS content in your app.
+Contentlayer turns your content into data - making it super easy to `import` MD(X) and CMS content in your app
 
 ![](https://images2.imgbox.com/d5/db/LtP3GT3s_o.png)
 
