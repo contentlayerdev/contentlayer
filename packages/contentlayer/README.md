@@ -19,10 +19,12 @@ Contentlayer turns your content into data - making it super easy to `import` MD(
 
 ### Roadmap
 
+- Better getting started experience with auto-scaffolding of config file based on existing content files
 - More content sources:
   - [ ] Notion
   - [ ] GraphCMS
-- [ ] Incremental data fetching
+- Stackbit integration
+- [ ] Incremental data fetching for Contentful
 
 ## Usage with Next.js
 
@@ -61,20 +63,10 @@ export default makeSource({
 })
 ```
 
-## Usage via CLI
+## Who is using Contentlayer?
 
-## Developing Contentlayer
+- [ped.ro](https://ped.ro) ([Source](https://github.com/peduarte/ped.ro))
+- [GraphCMS Docs](https://graphcms.com/docs)
 
-```
-git clone --recurse-submodules git://github.com/contentlayerdev/contentlayer.git
-yarn install
-yarn build
-```
+Are you using Contentlayer? Please add yourself to the list above via a PR. 🙏
 
-## Monorepo
-
-### Checkout submodules
-
-```sh
-git submodule update --init --recursive
-```
