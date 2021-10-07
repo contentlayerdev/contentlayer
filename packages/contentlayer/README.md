@@ -11,7 +11,7 @@ Contentlayer turns your content into data - making it super easy to `import` MD(
 - Supported content sources:
   - [x] Local content (Markdown, MDX, JSON, YAML)
   - [x] Contentful
-  - [x] Sanity
+  - [x] Sanity (experimental)
 - Live-reload on content changes
 - Fast and incremental builds (many times faster than Gatsby in most cases)
 - Simple but powerful schema DSL to design your content model (validates your content and generates types)
@@ -19,12 +19,14 @@ Contentlayer turns your content into data - making it super easy to `import` MD(
 
 ### Roadmap
 
-- Better getting started experience with auto-scaffolding of config file based on existing content files
-- More content sources:
+- [ ] Better getting started experience with auto-scaffolding of config file based on existing content files
+- [ ] Stackbit integration
+- [ ] Incremental data fetching for Contentful
+- [ ] More content sources:
   - [ ] Notion
   - [ ] GraphCMS
-- Stackbit integration
-- [ ] Incremental data fetching for Contentful
+  - [ ] ...
+
 
 ## Usage with Next.js
 
