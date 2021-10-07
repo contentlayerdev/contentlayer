@@ -27,6 +27,9 @@ Contentlayer turns your content into data - making it super easy to `import` MD(
   - [ ] GraphCMS
   - [ ] ...
 
+## Documentation
+
+You can find the [full documention for Contentlayer here](https://www.contentlayer.dev/docs).
 
 ## Usage with Next.js
 
