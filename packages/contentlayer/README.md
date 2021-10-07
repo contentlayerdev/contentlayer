@@ -32,7 +32,11 @@ Contentlayer turns your content into data - making it super easy to `import` MD(
 
 ### Install dependencies
 
-- Create `contentlayer.config.ts` file. Example
+```sh
+npm install contentlayer next-contentlayer
+```
+
+### Create `contentlayer.config.ts` file
 
 ```ts
 import { defineDocumentType, makeSource } from 'contentlayer/source-files'
@@ -62,6 +66,16 @@ export default makeSource({
   contentDirPath: 'posts',
   documentTypes: [Post],
   markdown: { rehypePlugins: [highlight] },
+})
+```
+
+### Set up Next.js plugin in `next.config.js` (optional: enables live-reload and build setup)
+
+```js
+const { withContentlayer } = require('next-contentlayer');
+
+module.exports = withContentlayer()({
+  // Your Next.js config...
 })
 ```
 
