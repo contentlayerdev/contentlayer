@@ -11,6 +11,12 @@ git clone --recurse-submodules git://github.com/contentlayerdev/contentlayer.git
 yarn install
 ```
 
+#### Checkout submodules (after cloning)
+
+```sh
+git submodule update --init --recursive
+```
+
 ### Building the source
 
 ```sh
