@@ -6,6 +6,10 @@ import { handleFetchDataErrors } from './aggregate.js'
 
 export namespace FetchDataError {
   export type FetchDataError =
+    | InvalidFrontmatterError
+    | InvalidMarkdownFileError
+    | InvalidYamlFileError
+    | InvalidJsonFileError
     | ComputedValueError
     | UnsupportedFileExtension
     | NoSuchDocumentTypeError
@@ -25,6 +29,63 @@ export namespace FetchDataError {
   type RenderHeadline = (_: { documentCount: number; options: core.PluginOptions; schemaDef: core.SchemaDef }) => string
 
   type InvalidDataErrorKind = 'UnknownDocument' | 'ExtraFieldData' | 'MissingOrIncompatibleData' | 'Unexpected'
+
+  export class InvalidFrontmatterError
+    extends Tagged('InvalidFrontmatterError')<{
+      readonly error: unknown
+      readonly documentFilePath: string
+    }>
+    implements AggregatableError
+  {
+    kind: InvalidDataErrorKind = 'MissingOrIncompatibleData'
+
+    renderHeadline: RenderHeadline = ({ documentCount }) =>
+      `Invalid frontmatter data found for ${documentCount} documents.`
+
+    renderLine = () => `"${this.documentFilePath}" failed with ${errorToString(this.error)}`
+  }
+
+  export class InvalidMarkdownFileError
+    extends Tagged('InvalidMarkdownFileError')<{
+      readonly error: unknown
+      readonly documentFilePath: string
+    }>
+    implements AggregatableError
+  {
+    kind: InvalidDataErrorKind = 'MissingOrIncompatibleData'
+
+    renderHeadline: RenderHeadline = ({ documentCount }) => `Invalid markdown in ${documentCount} documents.`
+
+    renderLine = () => `"${this.documentFilePath}" failed with ${errorToString(this.error)}`
+  }
+
+  export class InvalidYamlFileError
+    extends Tagged('InvalidYamlFileError')<{
+      readonly error: unknown
+      readonly documentFilePath: string
+    }>
+    implements AggregatableError
+  {
+    kind: InvalidDataErrorKind = 'MissingOrIncompatibleData'
+
+    renderHeadline: RenderHeadline = ({ documentCount }) => `Invalid YAML data in ${documentCount} documents.`
+
+    renderLine = () => `"${this.documentFilePath}" failed with ${errorToString(this.error)}`
+  }
+
+  export class InvalidJsonFileError
+    extends Tagged('InvalidJsonFileError')<{
+      readonly error: unknown
+      readonly documentFilePath: string
+    }>
+    implements AggregatableError
+  {
+    kind: InvalidDataErrorKind = 'MissingOrIncompatibleData'
+
+    renderHeadline: RenderHeadline = ({ documentCount }) => `Invalid JSON data in ${documentCount} documents.`
+
+    renderLine = () => `"${this.documentFilePath}" failed with ${errorToString(this.error)}`
+  }
 
   export class ComputedValueError
     extends Tagged('ComputedValueError')<{

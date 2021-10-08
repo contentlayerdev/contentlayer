@@ -110,9 +110,7 @@ export const makeCacheItemFromFilePath = ({
 
       const rawContent = yield* $(processRawContent({ fullFilePath, relativeFilePath }))
 
-      const {
-        tuple: [{ documentTypeDef }, warnings],
-      } = yield* $(
+      const [{ documentTypeDef }, warnings] = yield* $(
         pipe(
           validateDocumentData({
             rawContent,
@@ -122,6 +120,7 @@ export const makeCacheItemFromFilePath = ({
             options,
           }),
           These.toEffect,
+          T.map((_) => _.tuple),
         ),
       )
 
@@ -169,7 +168,13 @@ const processRawContent = ({
   relativeFilePath: string
 }): T.Effect<
   OT.HasTracer,
-  FetchDataError.UnsupportedFileExtension | fs.FileNotFoundError | fs.ReadFileError,
+  | FetchDataError.UnsupportedFileExtension
+  | FetchDataError.InvalidFrontmatterError
+  | FetchDataError.InvalidMarkdownFileError
+  | FetchDataError.InvalidJsonFileError
+  | FetchDataError.InvalidYamlFileError
+  | fs.FileNotFoundError
+  | fs.ReadFileError,
   RawContent
 > =>
   pipe(
@@ -179,18 +184,22 @@ const processRawContent = ({
 
       switch (filePathExtension) {
         case 'md': {
-          const markdown = matter(fileContent)
+          const markdown = yield* $(parseMarkdown({ markdownString: fileContent, documentFilePath: relativeFilePath }))
           return { kind: 'markdown' as const, fields: markdown.data, body: markdown.content }
         }
         case 'mdx': {
-          const markdown = matter(fileContent)
+          const markdown = yield* $(parseMarkdown({ markdownString: fileContent, documentFilePath: relativeFilePath }))
           return { kind: 'mdx' as const, fields: markdown.data, body: markdown.content }
         }
-        case 'json':
-          return { kind: 'json' as const, fields: JSON.parse(fileContent) }
+        case 'json': {
+          const fields = yield* $(parseJson({ jsonString: fileContent, documentFilePath: relativeFilePath }))
+          return { kind: 'json' as const, fields }
+        }
         case 'yaml':
-        case 'yml':
-          return { kind: 'yaml' as const, fields: yaml.parse(fileContent) }
+        case 'yml': {
+          const fields = yield* $(parseYaml({ yamlString: fileContent, documentFilePath: relativeFilePath }))
+          return { kind: 'yaml' as const, fields }
+        }
         default:
           return yield* $(
             T.fail(
@@ -239,3 +248,49 @@ const getAllRelativeFilePaths = ({
     (error) => new fs.UnknownFSError({ error }),
   )
 }
+
+const parseMarkdown = ({
+  markdownString,
+  documentFilePath,
+}: {
+  markdownString: string
+  documentFilePath: string
+}): T.Effect<
+  unknown,
+  FetchDataError.InvalidMarkdownFileError | FetchDataError.InvalidFrontmatterError,
+  matter.GrayMatterFile<string>
+> =>
+  T.tryCatch(
+    () => matter(markdownString),
+    (error: any) => {
+      if (error.name === 'YAMLException') {
+        return new FetchDataError.InvalidFrontmatterError({ error, documentFilePath })
+      } else {
+        return new FetchDataError.InvalidMarkdownFileError({ error, documentFilePath })
+      }
+    },
+  )
+
+const parseJson = ({
+  jsonString,
+  documentFilePath,
+}: {
+  jsonString: string
+  documentFilePath: string
+}): T.Effect<unknown, FetchDataError.InvalidJsonFileError, Record<string, any>> =>
+  T.tryCatch(
+    () => JSON.parse(jsonString),
+    (error) => new FetchDataError.InvalidJsonFileError({ error, documentFilePath }),
+  )
+
+const parseYaml = ({
+  yamlString,
+  documentFilePath,
+}: {
+  yamlString: string
+  documentFilePath: string
+}): T.Effect<unknown, FetchDataError.InvalidYamlFileError, Record<string, any>> =>
+  T.tryCatch(
+    () => yaml.parse(yamlString),
+    (error) => new FetchDataError.InvalidYamlFileError({ error, documentFilePath }),
+  )
