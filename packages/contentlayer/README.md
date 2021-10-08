@@ -64,7 +64,7 @@ export default makeSource({
 ### Set up Next.js plugin in `next.config.js` (optional: enables live-reload and build setup)
 
 ```js
-const { withContentlayer } = require('next-contentlayer');
+const { withContentlayer } = require('next-contentlayer')
 
 module.exports = withContentlayer()({
   // Your Next.js config...
@@ -77,4 +77,3 @@ module.exports = withContentlayer()({
 - [GraphCMS Docs](https://graphcms.com/docs)
 
 Are you using Contentlayer? Please add yourself to the list above via a PR. 🙏
-
