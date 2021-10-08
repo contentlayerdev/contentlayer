@@ -11,7 +11,7 @@ Contentlayer turns your content into data - making it super easy to `import` MD(
 - Supported content sources:
   - [x] Local content (Markdown, MDX, JSON, YAML)
   - [x] Contentful
-  - [x] Sanity
+  - [x] Sanity (experimental)
 - Live-reload on content changes
 - Fast and incremental builds (many times faster than Gatsby in most cases)
 - Simple but powerful schema DSL to design your content model (validates your content and generates types)
@@ -19,16 +19,27 @@ Contentlayer turns your content into data - making it super easy to `import` MD(
 
 ### Roadmap
 
-- More content sources:
+- [ ] Better getting started experience with auto-scaffolding of config file based on existing content files
+- [ ] Stackbit integration
+- [ ] Incremental data fetching for Contentful
+- [ ] More content sources:
   - [ ] Notion
   - [ ] GraphCMS
-- [ ] Incremental data fetching
+  - [ ] ...
+
+## Documentation
+
+You can find the [full documention for Contentlayer here](https://www.contentlayer.dev/docs).
 
 ## Usage with Next.js
 
 ### Install dependencies
 
-- Create `contentlayer.config.ts` file. Example
+```sh
+npm install contentlayer next-contentlayer
+```
+
+### Create `contentlayer.config.ts` file
 
 ```ts
 import { defineDocumentType, makeSource } from 'contentlayer/source-files'
@@ -61,20 +72,20 @@ export default makeSource({
 })
 ```
 
-## Usage via CLI
+### Set up Next.js plugin in `next.config.js` (optional: enables live-reload and build setup)
 
-## Developing Contentlayer
+```js
+const { withContentlayer } = require('next-contentlayer');
 
+module.exports = withContentlayer()({
+  // Your Next.js config...
+})
 ```
-git clone --recurse-submodules git://github.com/contentlayerdev/contentlayer.git
-yarn install
-yarn build
-```
 
-## Monorepo
+## Who is using Contentlayer?
 
-### Checkout submodules
+- [ped.ro](https://ped.ro) ([Source](https://github.com/peduarte/ped.ro))
+- [GraphCMS Docs](https://graphcms.com/docs)
 
-```sh
-git submodule update --init --recursive
-```
+Are you using Contentlayer? Please add yourself to the list above via a PR. 🙏
+
