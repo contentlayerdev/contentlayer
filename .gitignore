@@ -23,3 +23,5 @@ out
 .nyc_output
 
 !tap-snapshots/dist/*
+
+.contentlayer

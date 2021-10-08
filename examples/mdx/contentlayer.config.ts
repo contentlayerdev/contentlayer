@@ -5,9 +5,7 @@ const Doc = defineDocumentType(() => ({
   filePathPattern: '**/*.mdx',
   bodyType: 'mdx',
   fields: {
-    title: {
-      type: 'string',
-    },
+    title: { type: 'string' },
   },
 }))
 
