@@ -1,5 +1,5 @@
-import { addMessageListener } from 'next/dist/client/dev/error-overlay/eventsource'
-import { useRouter } from 'next/router'
+import { addMessageListener } from 'next/dist/client/dev/error-overlay/eventsource.js'
+import { useRouter } from 'next/router.js'
 import { useEffect } from 'react'
 
 /** Needed as a work around for https://github.com/vercel/next.js/issues/19230 */

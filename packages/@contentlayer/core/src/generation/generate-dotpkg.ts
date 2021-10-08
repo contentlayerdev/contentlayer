@@ -147,7 +147,7 @@ const writeFilesForCache_ = async ({
       docDef,
       documentIds: allDocuments.filter((_) => _[typeNameField] === docDef.name).map((_) => _._id),
     }),
-    filePath: withPrefix('data', `${getDataVariableName({ docDef })}.js`),
+    filePath: withPrefix('data', `${getDataVariableName({ docDef })}.mjs`),
   }))
 
   const dataJsonFiles = allCacheItems.map(({ document, documentHash }) => ({
@@ -167,9 +167,9 @@ const writeFilesForCache_ = async ({
       filePath: withPrefix('types', 'index.d.ts'),
       content: renderTypes({ schemaDef, generationOptions }),
     }),
-    writeFile({ filePath: withPrefix('types', 'index.js'), content: makeHelperTypes() }),
+    writeFile({ filePath: withPrefix('types', 'index.mjs'), content: makeHelperTypes() }),
     writeFile({ filePath: withPrefix('data', 'index.d.ts'), content: makeDataTypes({ schemaDef }) }),
-    writeFile({ filePath: withPrefix('data', 'index.js'), content: makeIndexJs({ schemaDef }) }),
+    writeFile({ filePath: withPrefix('data', 'index.mjs'), content: makeIndexJs({ schemaDef }) }),
     ...dataBarrelFiles.map(writeFile),
     ...dataJsonFiles.map(writeFile),
   ])
@@ -183,10 +183,10 @@ const makePackageJson = (): string => {
     version: '0.0.0',
     exports: {
       './data': {
-        import: './data/index.js',
+        import: './data/index.mjs',
       },
       './types': {
-        import: './types/index.js',
+        import: './types/index.mjs',
       },
     },
     typesVersions: {
@@ -266,11 +266,11 @@ const makeIndexJs = ({ schemaDef }: { schemaDef: SchemaDef }): string => {
     (docDef) => [docDef, getDataVariableName({ docDef })] as const,
   )
   const constReexports = dataVariableNames
-    .map(([, dataVariableName]) => `export * from './${dataVariableName}.js'`)
+    .map(([, dataVariableName]) => `export * from './${dataVariableName}.mjs'`)
     .join('\n')
 
   const constImportsForAllDocuments = dataVariableNames
-    .map(([, dataVariableName]) => `import { ${dataVariableName} } from './${dataVariableName}.js'`)
+    .map(([, dataVariableName]) => `import { ${dataVariableName} } from './${dataVariableName}.mjs'`)
     .join('\n')
 
   const allDocuments = dataVariableNames
