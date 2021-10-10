@@ -75,5 +75,6 @@ module.exports = withContentlayer()({
 
 - [ped.ro](https://ped.ro) ([Source](https://github.com/peduarte/ped.ro))
 - [GraphCMS Docs](https://graphcms.com/docs)
+- [leerob.io](https://leerob.io/) ([Source](https://github.com/leerob/leerob.io))
 
 Are you using Contentlayer? Please add yourself to the list above via a PR. 🙏
