@@ -36,7 +36,7 @@ export namespace DataCache {
   }: {
     schemaHash: string
     cwd: string
-  }): T.Effect<OT.HasTracer, fs.ReadFileError | fs.JsonParseError | GetContentlayerVersionError, Cache | undefined> =>
+  }): T.Effect<OT.HasTracer, GetContentlayerVersionError, Cache | undefined> =>
     T.gen(function* ($) {
       const cacheDirPath = yield* $(ArtifactsDir.getCacheDirPath({ cwd }))
       const filePath = path.join(cacheDirPath, dataCacheFileName(schemaHash))
