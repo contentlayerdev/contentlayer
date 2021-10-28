@@ -9,7 +9,7 @@
   "scripts": {
     "postinstall": "ts-patch install && ts-patch --persist",
     "test": "TAP_COLORS=1 yarn workspaces foreach --no-private run test",
-    "build": "(run build:clean & run build:ts) && yarn workspace next-contentlayer run prepack",
+    "build": "run build:clean && run build:ts && yarn workspace next-contentlayer run prepack",
     "build:ts": "tsc --build tsconfig.all.json",
     "dev:ts": "run build:ts --watch",
     "build:clean": "bash -c 'rm -rf packages/*/dist packages/@contentlayer/*/dist'",
