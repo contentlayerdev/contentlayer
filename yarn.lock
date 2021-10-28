@@ -8235,6 +8235,181 @@ __metadata:
   languageName: node
   linkType: hard
 
+"examples-azimuth-colocated@workspace:examples/playground-azimuth-colocated":
+  version: 0.0.0-use.local
+  resolution: "examples-azimuth-colocated@workspace:examples/playground-azimuth-colocated"
+  dependencies:
+    "@types/react": ^17.0.21
+    "@types/react-dom": ^17.0.9
+    "@types/react-helmet": ^6.1.2
+    contentlayer: "workspace:*"
+    contentlayer-stackbit-yaml-generator: "workspace:*"
+    date-fns: ^2.24.0
+    marked: ^3.0.4
+    next: ^11.1.2
+    next-contentlayer: "workspace:*"
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    react-helmet: ^6.1.0
+    react-html-parser: ^2.0.2
+    react-script-tag: ^1.1.2
+    sass: ^1.32.7
+    typescript: ^4.4.3
+  languageName: unknown
+  linkType: soft
+
+"examples-azimuth-contentful@workspace:examples/playground-azimuth-contentful":
+  version: 0.0.0-use.local
+  resolution: "examples-azimuth-contentful@workspace:examples/playground-azimuth-contentful"
+  dependencies:
+    "@contentlayer/source-contentful": "workspace:*"
+    "@types/react": ^17.0.21
+    "@types/react-dom": ^17.0.9
+    "@types/react-helmet": ^6.1.2
+    contentlayer: "workspace:*"
+    contentlayer-stackbit-yaml-generator: "workspace:*"
+    date-fns: ^2.24.0
+    marked: ^3.0.4
+    next: ^11.1.2
+    next-contentlayer: "workspace:*"
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    react-helmet: ^6.1.0
+    react-html-parser: ^2.0.2
+    react-script-tag: ^1.1.2
+    sass: ^1.32.7
+    typescript: ^4.4.3
+  languageName: unknown
+  linkType: soft
+
+"examples-azimuth-sanity-web@workspace:examples/playground-azimuth-sanity/web":
+  version: 0.0.0-use.local
+  resolution: "examples-azimuth-sanity-web@workspace:examples/playground-azimuth-sanity/web"
+  dependencies:
+    "@contentlayer/source-sanity": "workspace:*"
+    "@types/react": ^17.0.21
+    "@types/react-dom": ^17.0.9
+    "@types/react-helmet": ^6.1.2
+    contentlayer: "workspace:*"
+    date-fns: ^2.24.0
+    marked: ^3.0.4
+    next: ^11.1.2
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    react-helmet: ^6.1.0
+    react-html-parser: ^2.0.2
+    react-script-tag: ^1.1.2
+    sass: ^1.32.7
+    typescript: ^4.4.3
+  languageName: unknown
+  linkType: soft
+
+"examples-azimuth@workspace:examples/playground-azimuth":
+  version: 0.0.0-use.local
+  resolution: "examples-azimuth@workspace:examples/playground-azimuth"
+  dependencies:
+    "@types/react": ^17.0.21
+    "@types/react-dom": ^17.0.9
+    "@types/react-helmet": ^6.1.2
+    contentlayer: "workspace:*"
+    contentlayer-stackbit-yaml-generator: "workspace:*"
+    date-fns: ^2.24.0
+    marked: ^3.0.4
+    next: ^11.1.2
+    next-contentlayer: "workspace:*"
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    react-helmet: ^6.1.0
+    react-html-parser: ^2.0.2
+    react-script-tag: ^1.1.2
+    sass: ^1.32.7
+    typescript: ^4.4.3
+  languageName: unknown
+  linkType: soft
+
+"examples-contentful-starter@workspace:examples/playground-contentful-starter":
+  version: 0.0.0-use.local
+  resolution: "examples-contentful-starter@workspace:examples/playground-contentful-starter"
+  dependencies:
+    "@types/react": ^17.0.21
+    "@types/react-dom": ^17.0.9
+    contentlayer: latest
+    date-fns: ^2.24.0
+    next: ^11.1.2
+    next-contentlayer: latest
+    react: 17.0.2
+    react-dom: 17.0.2
+    rehype-highlight: ^5.0.0
+    typescript: ^4.4.3
+  languageName: unknown
+  linkType: soft
+
+"examples-gatsby-docs@workspace:examples/gatsby-docs":
+  version: 0.0.0-use.local
+  resolution: "examples-gatsby-docs@workspace:examples/gatsby-docs"
+  dependencies:
+    "@leafac/rehype-shiki": ^1.3.1
+    "@types/react": ^17.0.21
+    "@types/react-dom": ^17.0.9
+    contentlayer: "workspace:*"
+    eslint-config-next: ^11.0.1
+    next: ^11.1.2
+    next-contentlayer: "workspace:*"
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    shiki: ^0.9.4
+    typescript: ^4.4.3
+  languageName: unknown
+  linkType: soft
+
+"examples-mdx@workspace:examples/mdx":
+  version: 0.0.0-use.local
+  resolution: "examples-mdx@workspace:examples/mdx"
+  dependencies:
+    "@types/react": 17.0.20
+    contentlayer: latest
+    mdx-bundler: ^6.0.2
+    next: 11.1.2
+    next-contentlayer: latest
+    react: 17.0.2
+    react-dom: 17.0.2
+    typescript: 4.4.3
+  languageName: unknown
+  linkType: soft
+
+"examples-starter-js@workspace:examples/starter-js":
+  version: 0.0.0-use.local
+  resolution: "examples-starter-js@workspace:examples/starter-js"
+  dependencies:
+    contentlayer: latest
+    contentlayer-stackbit-yaml-generator: latest
+    date-fns: ^2.24.0
+    next: ^11.1.2
+    next-contentlayer: latest
+    react: 17.0.2
+    react-dom: 17.0.2
+    rehype-highlight: ^5.0.0
+  languageName: unknown
+  linkType: soft
+
+"examples-starter@workspace:examples/starter":
+  version: 0.0.0-use.local
+  resolution: "examples-starter@workspace:examples/starter"
+  dependencies:
+    "@types/react": ^17.0.21
+    "@types/react-dom": ^17.0.9
+    contentlayer: latest
+    contentlayer-stackbit-yaml-generator: latest
+    date-fns: ^2.24.0
+    next: ^11.1.2
+    next-contentlayer: latest
+    react: 17.0.2
+    react-dom: 17.0.2
+    rehype-highlight: ^5.0.0
+    typescript: ^4.4.3
+  languageName: unknown
+  linkType: soft
+
 "execa@npm:^0.7.0":
   version: 0.7.0
   resolution: "execa@npm:0.7.0"
@@ -12587,21 +12762,6 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"mdx@workspace:examples/mdx":
-  version: 0.0.0-use.local
-  resolution: "mdx@workspace:examples/mdx"
-  dependencies:
-    "@types/react": 17.0.20
-    contentlayer: latest
-    mdx-bundler: ^6.0.2
-    next: 11.1.2
-    next-contentlayer: latest
-    react: 17.0.2
-    react-dom: 17.0.2
-    typescript: 4.4.3
-  languageName: unknown
-  linkType: soft
-
 "media-typer@npm:0.3.0":
   version: 0.3.0
   resolution: "media-typer@npm:0.3.0"
@@ -14704,53 +14864,6 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"playground-azimuth-colocated@workspace:examples/playground-azimuth-colocated":
-  version: 0.0.0-use.local
-  resolution: "playground-azimuth-colocated@workspace:examples/playground-azimuth-colocated"
-  dependencies:
-    "@types/react": ^17.0.21
-    "@types/react-dom": ^17.0.9
-    "@types/react-helmet": ^6.1.2
-    contentlayer: "workspace:*"
-    contentlayer-stackbit-yaml-generator: "workspace:*"
-    date-fns: ^2.24.0
-    marked: ^3.0.4
-    next: ^11.1.2
-    next-contentlayer: "workspace:*"
-    react: ^17.0.2
-    react-dom: ^17.0.2
-    react-helmet: ^6.1.0
-    react-html-parser: ^2.0.2
-    react-script-tag: ^1.1.2
-    sass: ^1.32.7
-    typescript: ^4.4.3
-  languageName: unknown
-  linkType: soft
-
-"playground-azimuth-contentful@workspace:examples/playground-azimuth-contentful":
-  version: 0.0.0-use.local
-  resolution: "playground-azimuth-contentful@workspace:examples/playground-azimuth-contentful"
-  dependencies:
-    "@contentlayer/source-contentful": "workspace:*"
-    "@types/react": ^17.0.21
-    "@types/react-dom": ^17.0.9
-    "@types/react-helmet": ^6.1.2
-    contentlayer: "workspace:*"
-    contentlayer-stackbit-yaml-generator: "workspace:*"
-    date-fns: ^2.24.0
-    marked: ^3.0.4
-    next: ^11.1.2
-    next-contentlayer: "workspace:*"
-    react: ^17.0.2
-    react-dom: ^17.0.2
-    react-helmet: ^6.1.0
-    react-html-parser: ^2.0.2
-    react-script-tag: ^1.1.2
-    sass: ^1.32.7
-    typescript: ^4.4.3
-  languageName: unknown
-  linkType: soft
-
 "playground-azimuth-sanity-2c9f78@workspace:examples/playground-azimuth-sanity":
   version: 0.0.0-use.local
   resolution: "playground-azimuth-sanity-2c9f78@workspace:examples/playground-azimuth-sanity"
@@ -14773,101 +14886,6 @@ fsevents@^1.2.7:
     react: ^17.0.2
     react-dom: ^17.0.2
     sanity-plugin-markdown: ^1.0.1
-  languageName: unknown
-  linkType: soft
-
-"playground-azimuth-sanity-web@workspace:examples/playground-azimuth-sanity/web":
-  version: 0.0.0-use.local
-  resolution: "playground-azimuth-sanity-web@workspace:examples/playground-azimuth-sanity/web"
-  dependencies:
-    "@contentlayer/source-sanity": "workspace:*"
-    "@types/react": ^17.0.21
-    "@types/react-dom": ^17.0.9
-    "@types/react-helmet": ^6.1.2
-    contentlayer: "workspace:*"
-    date-fns: ^2.24.0
-    marked: ^3.0.4
-    next: ^11.1.2
-    react: ^17.0.2
-    react-dom: ^17.0.2
-    react-helmet: ^6.1.0
-    react-html-parser: ^2.0.2
-    react-script-tag: ^1.1.2
-    sass: ^1.32.7
-    typescript: ^4.4.3
-  languageName: unknown
-  linkType: soft
-
-"playground-azimuth@workspace:examples/playground-azimuth":
-  version: 0.0.0-use.local
-  resolution: "playground-azimuth@workspace:examples/playground-azimuth"
-  dependencies:
-    "@types/react": ^17.0.21
-    "@types/react-dom": ^17.0.9
-    "@types/react-helmet": ^6.1.2
-    contentlayer: "workspace:*"
-    contentlayer-stackbit-yaml-generator: "workspace:*"
-    date-fns: ^2.24.0
-    marked: ^3.0.4
-    next: ^11.1.2
-    next-contentlayer: "workspace:*"
-    react: ^17.0.2
-    react-dom: ^17.0.2
-    react-helmet: ^6.1.0
-    react-html-parser: ^2.0.2
-    react-script-tag: ^1.1.2
-    sass: ^1.32.7
-    typescript: ^4.4.3
-  languageName: unknown
-  linkType: soft
-
-"playground-contentful-starter@workspace:examples/playground-contentful-starter":
-  version: 0.0.0-use.local
-  resolution: "playground-contentful-starter@workspace:examples/playground-contentful-starter"
-  dependencies:
-    "@types/react": ^17.0.21
-    "@types/react-dom": ^17.0.9
-    contentlayer: latest
-    date-fns: ^2.24.0
-    next: ^11.1.2
-    next-contentlayer: latest
-    react: 17.0.2
-    react-dom: 17.0.2
-    rehype-highlight: ^5.0.0
-    typescript: ^4.4.3
-  languageName: unknown
-  linkType: soft
-
-"playground-gatsby-docs@workspace:examples/gatsby-docs":
-  version: 0.0.0-use.local
-  resolution: "playground-gatsby-docs@workspace:examples/gatsby-docs"
-  dependencies:
-    "@leafac/rehype-shiki": ^1.3.1
-    "@types/react": ^17.0.21
-    "@types/react-dom": ^17.0.9
-    contentlayer: "workspace:*"
-    eslint-config-next: ^11.0.1
-    next: ^11.1.2
-    next-contentlayer: "workspace:*"
-    react: ^17.0.2
-    react-dom: ^17.0.2
-    shiki: ^0.9.4
-    typescript: ^4.4.3
-  languageName: unknown
-  linkType: soft
-
-"playground-starter-js@workspace:examples/starter-js":
-  version: 0.0.0-use.local
-  resolution: "playground-starter-js@workspace:examples/starter-js"
-  dependencies:
-    contentlayer: latest
-    contentlayer-stackbit-yaml-generator: latest
-    date-fns: ^2.24.0
-    next: ^11.1.2
-    next-contentlayer: latest
-    react: 17.0.2
-    react-dom: 17.0.2
-    rehype-highlight: ^5.0.0
   languageName: unknown
   linkType: soft
 
@@ -18351,24 +18369,6 @@ resolve@^2.0.0-next.3:
   checksum: f4fbddfc09121d91e587b60de4beb4941108e967d71ad3a171812dc839b010ca374d064ad0a296295fed13acd103609d99a4224a25b4e67de13cae131f1901ee
   languageName: node
   linkType: hard
-
-"starter@workspace:examples/starter":
-  version: 0.0.0-use.local
-  resolution: "starter@workspace:examples/starter"
-  dependencies:
-    "@types/react": ^17.0.21
-    "@types/react-dom": ^17.0.9
-    contentlayer: latest
-    contentlayer-stackbit-yaml-generator: latest
-    date-fns: ^2.24.0
-    next: ^11.1.2
-    next-contentlayer: latest
-    react: 17.0.2
-    react-dom: 17.0.2
-    rehype-highlight: ^5.0.0
-    typescript: ^4.4.3
-  languageName: unknown
-  linkType: soft
 
 "state-toggle@npm:^1.0.0":
   version: 1.0.3

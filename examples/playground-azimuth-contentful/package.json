@@ -1,5 +1,5 @@
 {
-  "name": "playground-azimuth-contentful",
+  "name": "examples-azimuth-contentful",
   "private": true,
   "scripts": {
     "_postinstall": "yarn generate && yarn fetch",
