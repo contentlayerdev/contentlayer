@@ -1,6 +1,6 @@
 import type * as core from '@contentlayer/core'
 import { processArgs, SourceProvideSchemaError } from '@contentlayer/core'
-import { pipe, Sync } from '@contentlayer/utils/effect'
+import { pipe, T } from '@contentlayer/utils/effect'
 
 import { fetchData } from './fetchData/index.js'
 import type * as LocalSchema from './schema/defs/index.js'
@@ -52,7 +52,7 @@ export const makeSource: core.MakeSourcePlugin<Args> = async (args) => {
     options,
     provideSchema: pipe(
       makeCoreSchema({ documentTypeDefs, options }),
-      Sync.mapError((error) => new SourceProvideSchemaError({ error })),
+      T.mapError((error) => new SourceProvideSchemaError({ error })),
     ),
     fetchData: ({ schemaDef, verbose, cwd }) =>
       fetchData({ coreSchemaDef: schemaDef, documentTypeDefs, flags, options, contentDirPath, verbose, cwd }),
