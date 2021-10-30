@@ -15,7 +15,7 @@ Contentlayer turns your content into data - making it super easy to `import` MD(
 - Live-reload on content changes
 - Fast and incremental builds (many times faster than Gatsby in most cases)
 - Simple but powerful schema DSL to design your content model (validates your content and generates types)
-- Auto-generated TypeScript types based on your content model (e.g. frontmatter)
+- Auto-generated TypeScript types based on your content model (e.g. frontmatter or CMS schema)
 
 ### Roadmap
 
