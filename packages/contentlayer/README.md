@@ -1,8 +1,4 @@
-# Contentlayer
-
-<a aria-label="NPM version" href="https://www.npmjs.com/package/contentlayer">
-  <img alt="" src="https://badgen.net/npm/v/contentlayer">
-</a>
+# Contentlayer [![](https://badgen.net/npm/v/contentlayer)](https://www.npmjs.com/package/contentlayer)
 
 Contentlayer turns your content into data - making it super easy to `import` MD(X) and CMS content in your app
 
