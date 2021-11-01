@@ -1,7 +1,7 @@
 import * as core from '@contentlayer/core'
 import { errorToString, JaegerNodeTracing } from '@contentlayer/utils'
 import type { HasClock, OT } from '@contentlayer/utils/effect'
-import { pipe, pretty, T } from '@contentlayer/utils/effect'
+import { Cause, Ex, pipe, T } from '@contentlayer/utils/effect'
 import { Command, Option } from 'clipanion'
 import { promises as fs } from 'fs'
 import * as t from 'typanion'
@@ -22,24 +22,28 @@ export abstract class BaseCommand extends Command {
   })
 
   async execute() {
-    try {
-      if (this.clearCache) {
-        await fs.rm(core.ArtifactsDir.getDirPath({ cwd: process.cwd() }), { recursive: true })
-        console.log('Cache cleared successfully')
-      }
+    const result = await pipe(
+      T.when(() => this.clearCache)(
+        pipe(
+          T.tryPromise(() => fs.rm(core.ArtifactsDir.getDirPath({ cwd: process.cwd() }), { recursive: true })),
+          T.tap(() => T.succeedWith(() => console.log('Cache cleared successfully'))),
+        ),
+      ),
+      T.chain(() => this.executeSafe),
+      T.provideSomeLayer(JaegerNodeTracing('contentlayer-cli')),
+      (effect) => (this.verbose ? T.catchAllCause_(effect, T.fail) : effect),
+      T.catchAll((e) => {
+        if (Cause.isCause(e)) {
+          return T.die(console.log(errorToString(Cause.pretty(e))))
+        }
+        return T.die(console.log(errorToString(e)))
+      }),
+      T.runPromiseExit,
+    )
 
-      await pipe(
-        this.executeSafe,
-        T.provideSomeLayer(JaegerNodeTracing('contentlayer-cli')),
-        T.tapCause((cause) => (this.verbose ? T.die(pretty(cause)) : T.unit)),
-        T.runPromise,
-      )
-    } catch (e: any) {
-      if (e._tag !== 'HandledFetchDataError') {
-        console.error(errorToString(e))
-      }
+    Ex.getOrElse_(result, () => {
       process.exit(1)
-    }
+    })
   }
 
   abstract executeSafe: T.Effect<OT.HasTracer & HasClock, unknown, void>
