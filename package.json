@@ -23,6 +23,7 @@
     "lint:prettier:check": "prettier packages --check"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.17.0",
     "@effect-ts/tracing-plugin": "^0.14.10",
     "@playwright/test": "^1.15.1",
     "@types/prettier": "^2.3.2",
@@ -34,11 +35,11 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "prettier": "^2.4.1",
-    "ts-patch": "^1.4.4",
-    "typescript": "^4.4.3"
+    "ts-patch": "^1.4.5",
+    "typescript": "^4.4.4"
   },
   "resolutions": {
-    "esbuild": "0.12.8",
+    "esbuild": "0.13.12",
     "contentlayer": "workspace:*",
     "@contentlayer/*": "workspace:*",
     "contentlayer-stackbit-yaml-generator": "workspace:*",
