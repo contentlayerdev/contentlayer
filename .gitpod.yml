@@ -1,0 +1,5 @@
+tasks:
+  - init: yarn install && yarn build && yarn examples:postinstall
+github:
+  prebuilds:
+    addCheck: true

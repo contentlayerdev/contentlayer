@@ -1,5 +1,5 @@
 {
-  "name": "playground-azimuth-sanity-web",
+  "name": "examples-azimuth-sanity-web",
   "private": true,
   "scripts": {
     "dev": "PORT=3001 node dev.js ./contentlayer/contentlayer.ts",

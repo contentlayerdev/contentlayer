@@ -1,5 +1,5 @@
 {
-  "name": "playground-azimuth-colocated",
+  "name": "examples-azimuth-colocated",
   "private": true,
   "scripts": {
     "dev": "next dev",

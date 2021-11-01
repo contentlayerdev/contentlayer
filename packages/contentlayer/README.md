@@ -1,4 +1,4 @@
-# Contentlayer
+# Contentlayer [![](https://badgen.net/npm/v/contentlayer)](https://www.npmjs.com/package/contentlayer)
 
 Contentlayer turns your content into data - making it super easy to `import` MD(X) and CMS content in your app
 
@@ -15,7 +15,7 @@ Contentlayer turns your content into data - making it super easy to `import` MD(
 - Live-reload on content changes
 - Fast and incremental builds (many times faster than Gatsby in most cases)
 - Simple but powerful schema DSL to design your content model (validates your content and generates types)
-- Auto-generated TypeScript types based on your content model (e.g. frontmatter)
+- Auto-generated TypeScript types based on your content model (e.g. frontmatter or CMS schema)
 
 ### Roadmap
 
@@ -75,5 +75,6 @@ module.exports = withContentlayer()({
 
 - [ped.ro](https://ped.ro) ([Source](https://github.com/peduarte/ped.ro))
 - [GraphCMS Docs](https://graphcms.com/docs)
+- [leerob.io](https://leerob.io/) ([Source](https://github.com/leerob/leerob.io))
 
 Are you using Contentlayer? Please add yourself to the list above via a PR. 🙏

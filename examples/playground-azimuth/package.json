@@ -1,5 +1,5 @@
 {
-  "name": "playground-azimuth",
+  "name": "examples-azimuth",
   "private": true,
   "scripts": {
     "dev": "next dev",
