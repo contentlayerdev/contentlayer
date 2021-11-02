@@ -15,12 +15,14 @@ export const makeDocument = ({
   documentTypeDef,
   coreSchemaDef,
   relativeFilePath,
+  contentDirPath,
   options,
 }: {
   rawContent: RawContent
   documentTypeDef: core.DocumentTypeDef
   coreSchemaDef: core.SchemaDef
   relativeFilePath: string
+  contentDirPath: string
   options: core.PluginOptions
 }): T.Effect<
   OT.HasTracer,
@@ -48,6 +50,7 @@ export const makeDocument = ({
               coreSchemaDef,
               options,
               relativeFilePath,
+              contentDirPath,
             }),
           mapKey: (fieldDef) => T.succeed(fieldDef.name),
         }),
@@ -100,6 +103,7 @@ export const getFlattenedPath = (relativeFilePath: string): string =>
     // remove tailing `/index` or `index`
     .replace(/\/?index$/, '')
 
+// TODO aggregate all "global" params into an effect service
 const makeNestedDocument = ({
   rawObjectData,
   fieldDefs,
@@ -107,6 +111,7 @@ const makeNestedDocument = ({
   coreSchemaDef,
   options,
   relativeFilePath,
+  contentDirPath,
 }: {
   rawObjectData: Record<string, any>
   /** Passing `FieldDef[]` here instead of `ObjectDef` in order to also support `inline_nested` */
@@ -115,6 +120,7 @@ const makeNestedDocument = ({
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
   relativeFilePath: string
+  contentDirPath: string
 }): T.Effect<OT.HasTracer, MakeDocumentInternalError, core.NestedDocument> =>
   T.gen(function* ($) {
     const objValues = yield* $(
@@ -126,6 +132,7 @@ const makeNestedDocument = ({
             coreSchemaDef,
             options,
             relativeFilePath,
+            contentDirPath,
           }),
         mapKey: (fieldDef) => T.succeed(fieldDef.name),
       }),
@@ -143,12 +150,14 @@ const getDataForFieldDef = ({
   coreSchemaDef,
   options,
   relativeFilePath,
+  contentDirPath,
 }: {
   fieldDef: core.FieldDef
   rawFieldData: any
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
   relativeFilePath: string
+  contentDirPath: string
 }): T.Effect<OT.HasTracer, MakeDocumentInternalError, any> =>
   T.gen(function* ($) {
     if (rawFieldData === undefined) {
@@ -173,6 +182,7 @@ const getDataForFieldDef = ({
             coreSchemaDef,
             options,
             relativeFilePath,
+            contentDirPath,
           }),
         )
       }
@@ -185,6 +195,7 @@ const getDataForFieldDef = ({
             coreSchemaDef,
             options,
             relativeFilePath,
+            contentDirPath,
           }),
         )
       case 'nested_polymorphic': {
@@ -213,6 +224,7 @@ const getDataForFieldDef = ({
             coreSchemaDef,
             options,
             relativeFilePath,
+            contentDirPath,
           }),
         )
       }
@@ -223,7 +235,7 @@ const getDataForFieldDef = ({
       case 'list':
         return yield* $(
           T.forEachPar_(rawFieldData as any[], (rawItemData) =>
-            getDataForListItem({ rawItemData, fieldDef, coreSchemaDef, options, relativeFilePath }),
+            getDataForListItem({ rawItemData, fieldDef, coreSchemaDef, options, relativeFilePath, contentDirPath }),
           ),
         )
       case 'date':
@@ -232,7 +244,7 @@ const getDataForFieldDef = ({
         const html = yield* $(core.markdownToHtml({ mdString: rawFieldData, options: options?.markdown }))
         return <core.Markdown>{ raw: rawFieldData, html }
       case 'mdx':
-        const code = yield* $(core.bundleMDX({ mdxString: rawFieldData, options: options?.mdx }))
+        const code = yield* $(core.bundleMDX({ mdxString: rawFieldData, options: options?.mdx, contentDirPath }))
         return <core.MDX>{ raw: rawFieldData, code }
       case 'boolean':
       case 'string':
@@ -255,12 +267,14 @@ const getDataForListItem = ({
   coreSchemaDef,
   options,
   relativeFilePath,
+  contentDirPath,
 }: {
   rawItemData: any
   fieldDef: core.ListFieldDef | core.ListPolymorphicFieldDef
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
   relativeFilePath: string
+  contentDirPath: string
 }): T.Effect<OT.HasTracer, MakeDocumentInternalError, any> => {
   if (typeof rawItemData === 'string') {
     return T.succeed(rawItemData)
@@ -290,6 +304,7 @@ const getDataForListItem = ({
       coreSchemaDef,
       options,
       relativeFilePath,
+      contentDirPath,
     })
   }
 
@@ -303,6 +318,7 @@ const getDataForListItem = ({
         coreSchemaDef,
         options,
         relativeFilePath,
+        contentDirPath,
       })
     case 'nested_unnamed':
       return makeNestedDocument({
@@ -312,6 +328,7 @@ const getDataForListItem = ({
         coreSchemaDef,
         options,
         relativeFilePath,
+        contentDirPath,
       })
     case 'boolean':
     case 'enum':

@@ -130,6 +130,7 @@ export const makeCacheItemFromFilePath = ({
           rawContent,
           coreSchemaDef,
           relativeFilePath,
+          contentDirPath,
           options,
         }),
       )

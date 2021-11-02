@@ -2,15 +2,18 @@ import { errorToString } from '@contentlayer/utils'
 import { OT, pipe, T, Tagged } from '@contentlayer/utils/effect'
 import * as mdxBundler from 'mdx-bundler'
 import type { BundleMDXOptions } from 'mdx-bundler/dist/types'
+import * as path from 'path'
 
 import type { MDXOptions } from './plugin.js'
 
 export const bundleMDX = ({
   mdxString,
   options,
+  contentDirPath,
 }: {
   mdxString: string
   options?: MDXOptions
+  contentDirPath: string
 }): T.Effect<OT.HasTracer, UnexpectedMDXError, string> =>
   pipe(
     T.gen(function* ($) {
@@ -18,7 +21,11 @@ export const bundleMDX = ({
       if (mdxString.length === 0) {
         return ''
       }
-      const { rehypePlugins, remarkPlugins, ...restOptions } = options ?? {}
+      const { rehypePlugins, remarkPlugins, cwd: cwd_, ...restOptions } = options ?? {}
+
+      const getCwdFromContentDirPath = () =>
+        path.isAbsolute(contentDirPath) ? contentDirPath : path.join(process.cwd(), contentDirPath)
+      const cwd = cwd_ ?? getCwdFromContentDirPath()
 
       const mdxOptions: BundleMDXOptions = {
         xdmOptions: (opts) => {
@@ -26,6 +33,7 @@ export const bundleMDX = ({
           opts.remarkPlugins = [...(opts.remarkPlugins ?? []), ...(remarkPlugins ?? [])]
           return opts
         },
+        cwd,
         ...restOptions,
       }
 
