@@ -97,6 +97,9 @@ export const mkdirp = (dirPath: string): T.Effect<OT.HasTracer, MkdirError, void
 
 export type SymlinkType = 'file' | 'dir' | 'junction'
 
+/**
+ * NOTE: symlinks are not supported widely on Windows
+ */
 export const symlink = ({
   targetPath,
   symlinkPath,
