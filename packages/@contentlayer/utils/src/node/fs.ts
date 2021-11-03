@@ -95,13 +95,13 @@ export const mkdirp = (dirPath: string): T.Effect<OT.HasTracer, MkdirError, void
     ),
   )
 
-export const rm = (path: string): T.Effect<OT.HasTracer, RmError | FileNotFoundError, void> =>
+export const rm = (path: string): T.Effect<OT.HasTracer, RmError | FileOrDirNotFoundError, void> =>
   OT.withSpan('rm', { attributes: { path } })(
     T.tryCatchPromise(
       () => fs.rm(path, { recursive: true }),
       (error: any) => {
         if (error.code === 'ENOENT') {
-          return new FileNotFoundError({ filePath: path })
+          return new FileOrDirNotFoundError({ path })
         } else {
           return new RmError({ path, error })
         }
@@ -128,6 +128,8 @@ export const symlink = ({
   )
 
 export class FileNotFoundError extends Tagged('node.fs.FileNotFoundError')<{ readonly filePath: string }> {}
+
+export class FileOrDirNotFoundError extends Tagged('node.fs.FileOrDirNotFoundError')<{ readonly path: string }> {}
 
 export class ReadFileError extends Tagged('node.fs.ReadFileError')<{
   readonly filePath: string
