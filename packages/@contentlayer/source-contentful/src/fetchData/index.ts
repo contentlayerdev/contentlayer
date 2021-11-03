@@ -94,7 +94,7 @@ export const fetchAllDocuments = ({
     OT.withSpan('@contentlayer/source-contentlayer/fetchData:fetchAllDocuments', {
       attributes: { schemaDef: JSON.stringify(schemaDef), schemaOverrides_: JSON.stringify(schemaOverrides_) },
     }),
-    T.mapError((error) => new core.SourceFetchDataError({ error })),
+    T.mapError((error) => new core.SourceFetchDataError({ error, alreadyHandled: false })),
   )
 
 const getAllEntries = (

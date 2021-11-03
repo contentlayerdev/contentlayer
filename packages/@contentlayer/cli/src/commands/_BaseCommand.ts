@@ -37,13 +37,23 @@ const runMain = (self: BaseCommand): T.Effect<T.DefaultEnv, never, void> =>
 
     if (result._tag === 'Failure') {
       const failOrCause = Cause.failureOrCause(result.cause)
+      const errorWasManaged = failOrCause._tag === 'Left'
 
       // If failure was a managed error and no `--verbose` flag was provided, print the error message
-      if (failOrCause._tag === 'Left' && !self.verbose) {
-        yield* $(T.log(failOrCause.left))
+      if (errorWasManaged && !self.verbose) {
+        if (!core.isSourceFetchDataError(failOrCause.left) || !failOrCause.left.alreadyHandled) {
+          yield* $(T.log(failOrCause.left))
+        }
       }
       // otherwise for unmanaged errors or with `--verbose` flag provided, print the entire stack trace
       else {
+        if (!errorWasManaged) {
+          yield* $(
+            T.log(`\
+This error shouldn't have happened. Please consider opening a GitHub issue with the stack trace below here:
+https://github.com/contentlayerdev/contentlayer/issues`),
+          )
+        }
         yield* $(T.log(pretty(result.cause)))
       }
 

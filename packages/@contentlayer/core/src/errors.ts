@@ -25,9 +25,13 @@ export class ConfigNoDefaultExportError extends Tagged('ConfigNoDefaultExportErr
 
 export class SourceFetchDataError extends Tagged('SourceFetchDataError')<{
   readonly error: any
+  alreadyHandled: boolean
 }> {
   toString = () => `SourceFetchDataError: ${errorToString(this.error)}`
 }
+
+export const isSourceFetchDataError = (_: any): _ is SourceFetchDataError =>
+  _.hasOwnProperty('_tag') && _._tag === 'SourceFetchDataError'
 
 export class SourceProvideSchemaError extends Tagged('SourceProvideSchemaError')<{
   readonly error: any
@@ -35,6 +39,12 @@ export class SourceProvideSchemaError extends Tagged('SourceProvideSchemaError')
   toString = () => `SourceProvideSchemaError: ${errorToString(this.error)}`
 }
 
+/**
+ * This error is triggered for inconsistent data according to the provided error flags by the user.
+ * The error was already handled (i.e. logged to the console) so it can be ignored in the application entry points.
+ *
+ * NOTE the modeling of this error handling should probably still be improved further.
+ */
 export class HandledFetchDataError extends Tagged('HandledFetchDataError')<{}> {}
 
 export class EsbuildBinNotFoundError extends Tagged('EsbuildBinNotFoundError')<{}> {}
