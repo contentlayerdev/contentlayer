@@ -95,19 +95,20 @@ export const mkdirp = (dirPath: string): T.Effect<OT.HasTracer, MkdirError, void
     ),
   )
 
-export function rm(path: string, params: { force: true }): T.Effect<OT.HasTracer, RmError, void>
+export function rm(path: string, params: { force: true; recursive?: boolean }): T.Effect<OT.HasTracer, RmError, void>
 export function rm(
   path: string,
-  params?: { force: false },
+  params?: { force: false; recursive?: boolean },
 ): T.Effect<OT.HasTracer, RmError | FileOrDirNotFoundError, void>
 
 export function rm(
   path: string,
-  params = { force: false },
+  params: { force?: boolean; recursive?: boolean } = {},
 ): T.Effect<OT.HasTracer, RmError | FileOrDirNotFoundError, void> {
+  const { force = false, recursive = true } = params
   return OT.withSpan('rm', { attributes: { path } })(
     T.tryCatchPromise(
-      () => fs.rm(path, { recursive: true, force: params.force }),
+      () => fs.rm(path, { recursive, force }),
       (error: any) => {
         if (error.code === 'ENOENT') {
           return new FileOrDirNotFoundError({ path })
