@@ -95,10 +95,19 @@ export const mkdirp = (dirPath: string): T.Effect<OT.HasTracer, MkdirError, void
     ),
   )
 
-export const rm = (path: string): T.Effect<OT.HasTracer, RmError | FileOrDirNotFoundError, void> =>
-  OT.withSpan('rm', { attributes: { path } })(
+export function rm(path: string, params: { force: true }): T.Effect<OT.HasTracer, RmError, void>
+export function rm(
+  path: string,
+  params?: { force: false },
+): T.Effect<OT.HasTracer, RmError | FileOrDirNotFoundError, void>
+
+export function rm(
+  path: string,
+  params = { force: false },
+): T.Effect<OT.HasTracer, RmError | FileOrDirNotFoundError, void> {
+  return OT.withSpan('rm', { attributes: { path } })(
     T.tryCatchPromise(
-      () => fs.rm(path, { recursive: true }),
+      () => fs.rm(path, { recursive: true, force: params.force }),
       (error: any) => {
         if (error.code === 'ENOENT') {
           return new FileOrDirNotFoundError({ path })
@@ -108,6 +117,7 @@ export const rm = (path: string): T.Effect<OT.HasTracer, RmError | FileOrDirNotF
       },
     ),
   )
+}
 
 export type SymlinkType = 'file' | 'dir' | 'junction'
 
