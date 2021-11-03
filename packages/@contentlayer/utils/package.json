@@ -40,7 +40,7 @@
     "test": "echo No tests yet"
   },
   "dependencies": {
-    "@effect-ts/core": "^0.44.4",
+    "@effect-ts/core": "^0.45.5",
     "@effect-ts/otel": "next",
     "@effect-ts/otel-node": "next",
     "@opentelemetry/api": "^1.0.3",

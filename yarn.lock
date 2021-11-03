@@ -1711,7 +1711,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@contentlayer/utils@workspace:packages/@contentlayer/utils"
   dependencies:
-    "@effect-ts/core": ^0.44.4
+    "@effect-ts/core": ^0.45.5
     "@effect-ts/otel": next
     "@effect-ts/otel-node": next
     "@opentelemetry/api": ^1.0.3
@@ -1746,12 +1746,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@effect-ts/core@npm:^0.44.4":
-  version: 0.44.15
-  resolution: "@effect-ts/core@npm:0.44.15"
+"@effect-ts/core@npm:^0.45.5":
+  version: 0.45.5
+  resolution: "@effect-ts/core@npm:0.45.5"
   dependencies:
-    "@effect-ts/system": ^0.41.13
-  checksum: 5b15410d11bade432d384cfe7465f64ce7e38fee4ad83ccb85c032b2c57aecec475dabadbc7328db0de92e8b8a53755cc27ccdafb9306a0874de69805e2a3962
+    "@effect-ts/system": ^0.42.5
+  checksum: 10ad5dc3a53a37be7bf6d627af15be13b1d973b260ad407fdf00726e1f852123201fe7b74069a0254ab571c1f7910b88004fef0528e840b769b4c5a1182808ac
   languageName: node
   linkType: hard
 
@@ -1779,14 +1779,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@effect-ts/system@npm:^0.41.13":
-  version: 0.41.13
-  resolution: "@effect-ts/system@npm:0.41.13"
-  checksum: cd26ae8139eae2984798675732227a2a3f38f96b84ee6346ee90e038844680ae4191d885f0e3e4b4c604b00e15aabe85806639154e7965f4efa6f93e5a7978c5
+"@effect-ts/system@npm:^0.42.5":
+  version: 0.42.5
+  resolution: "@effect-ts/system@npm:0.42.5"
+  checksum: fcfd1b728aba45248a51395492d31953987c479ca3d2539d7bec59386df906b2d6d868fdf364b3d65a0cd20614bc7576f8af19cd7787627b75983563e7a6ad11
   languageName: node
   linkType: hard
 
-"@effect-ts/tracing-plugin@npm:^0.14.10":
+"@effect-ts/tracing-plugin@npm:^0.14.18":
   version: 0.14.18
   resolution: "@effect-ts/tracing-plugin@npm:0.14.18"
   checksum: e593113abf0d30877a20570c37a15a5094e2263b55cddde6cd0679e2c43cd35eec7736abe65c1dc1c524f994a0554faed2fc165e29048b6127a4915cbaf4159c
@@ -6624,7 +6624,7 @@ __metadata:
   resolution: "contentlayer-monorepo@workspace:."
   dependencies:
     "@changesets/cli": ^2.17.0
-    "@effect-ts/tracing-plugin": ^0.14.10
+    "@effect-ts/tracing-plugin": ^0.14.18
     "@playwright/test": ^1.15.1
     "@types/prettier": ^2.3.2
     "@typescript-eslint/eslint-plugin": ^4.31.1

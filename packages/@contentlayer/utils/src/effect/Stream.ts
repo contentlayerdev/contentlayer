@@ -41,6 +41,14 @@ export const tapRight =
       S.tap((val) => (E.isLeft(val) ? T.succeed(null) : f(val.right))),
     )
 
+export const tapLeft =
+  <R1, R2, E1, EE1, A1>(f: (e: EE1) => T.Effect<R2, never, unknown>) =>
+  (stream: S.Stream<R1, E1, E.Either<EE1, A1>>): S.Stream<R1 & R2, E1, E.Either<EE1, A1>> =>
+    pipe(
+      stream,
+      S.tap((val) => (E.isLeft(val) ? f(val.left) : T.succeed(null))),
+    )
+
 export const tapRightEither =
   <R1, R2, E1, EE1, EE2, A1>(f: (o: A1) => T.Effect<R2, never, E.Either<EE2, unknown>>) =>
   (stream: S.Stream<R1, E1, E.Either<EE1, A1>>): S.Stream<R1 & R2, E1, E.Either<EE1 | EE2, A1>> =>
@@ -106,18 +114,3 @@ export const mapEitherRight =
   <R1, E1, EE1>(stream: S.Stream<R1, E1, E.Either<EE1, A1>>): S.Stream<R1, E1, E.Either<EE1, A2>> => {
     return S.map_(stream, E.map(mapRight))
   }
-
-export const zipWithLatestEitherRight = <R1X, R1Y, R2, E1X, E1Y, EE1X, EE1Y, A1X, A1Y, A2>(
-  streamX: S.Stream<R1X, E1X, E.Either<EE1X, A1X>>,
-  streamY: S.Stream<R1Y, E1Y, E.Either<EE1Y, A1Y>>,
-  mapRight: (a1X: A1X, a1Y: A1Y) => A2,
-): S.Stream<R1X & R1Y & R2, E1X | E1Y, E.Either<EE1X | EE1Y, A2>> => {
-  return S.zipWithLatest(
-    streamX,
-    streamY,
-  )((x, y) => {
-    if (E.isLeft(x)) return x
-    if (E.isLeft(y)) return y
-    return E.right(mapRight(x.right, y.right))
-  })
-}

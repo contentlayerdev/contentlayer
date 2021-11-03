@@ -1,6 +1,6 @@
 import * as core from '@contentlayer/core'
 import * as utils from '@contentlayer/utils'
-import { Sync } from '@contentlayer/utils/effect'
+import { T } from '@contentlayer/utils/effect'
 
 import type { SchemaError } from '../errors/index.js'
 import { DuplicateBodyFieldError } from '../errors/index.js'
@@ -12,8 +12,8 @@ export const makeCoreSchema = ({
 }: {
   documentTypeDefs: LocalSchema.DocumentTypeDef[]
   options: core.PluginOptions
-}): Sync.Sync<unknown, SchemaError, core.SchemaDef> =>
-  Sync.gen(function* ($) {
+}): T.Effect<unknown, SchemaError, core.SchemaDef> =>
+  T.gen(function* ($) {
     const coreDocumentTypeDefMap: core.DocumentTypeDefMap = {}
     const coreNestedTypeDefMap: core.NestedTypeDefMap = {}
 
@@ -23,7 +23,7 @@ export const makeCoreSchema = ({
       const fieldDefs = getFieldDefEntries(documentDef.fields).map(fieldDefEntryToCoreFieldDef)
 
       if (fieldDefs.some((_) => _.name === options.fieldOptions.bodyFieldName)) {
-        yield* $(Sync.fail(new DuplicateBodyFieldError({ bodyFieldName: options.fieldOptions.bodyFieldName })))
+        yield* $(T.fail(new DuplicateBodyFieldError({ bodyFieldName: options.fieldOptions.bodyFieldName })))
       }
 
       // add default body markdown field if not explicitly provided
