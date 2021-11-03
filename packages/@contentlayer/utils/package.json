@@ -39,6 +39,17 @@
   "scripts": {
     "test": "echo No tests yet"
   },
+  "peerDependenciesMeta": {
+    "@effect-ts/core": {
+      "optional": true
+    },
+    "@effect-ts/otel": {
+      "optional": true
+    },
+    "@effect-ts/otel-node": {
+      "optional": true
+    }
+  },
   "dependencies": {
     "@effect-ts/core": "^0.45.5",
     "@effect-ts/otel": "next",
