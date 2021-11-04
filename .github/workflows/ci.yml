@@ -19,7 +19,8 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-        os: [ubuntu-latest, windows-latest]
+        # Note tests are currently not run in Windows because the path seperator on Windows invalidates the test results 🙈
+        os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: schickling-actions/checkout-and-install@main
@@ -33,14 +34,7 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
-      - uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: yarn
-      - run: yarn install
+      - uses: schickling-actions/checkout-and-install@main
       - run: yarn build
       - run: yarn build
         working-directory: examples/starter
@@ -52,14 +46,7 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
-      - uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: yarn
-      - run: yarn install
+      - uses: schickling-actions/checkout-and-install@main
       - run: yarn build
       - run: yarn build
         working-directory: examples/playground-azimuth
@@ -71,14 +58,7 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
-      - uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: yarn
-      - run: yarn install
+      - uses: schickling-actions/checkout-and-install@main
       - run: yarn build
       - run: yarn build
         working-directory: examples/gatsby-docs
@@ -90,14 +70,7 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
-      - uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: yarn
-      - run: yarn install
+      - uses: schickling-actions/checkout-and-install@main
       - run: yarn build
       - run: yarn build
         working-directory: examples/mdx
