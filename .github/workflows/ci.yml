@@ -12,7 +12,7 @@ jobs:
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: schickling-actions/checkout-and-install
+      - uses: schickling-actions/checkout-and-install@main
       - run: yarn lint:check
 
   test:
@@ -22,7 +22,7 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: schickling-actions/checkout-and-install
+      - uses: schickling-actions/checkout-and-install@main
       - run: yarn build
       - run: yarn test
 
