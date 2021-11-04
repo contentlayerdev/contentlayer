@@ -29,6 +29,7 @@
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
     "chokidar": "^3.5.2",
+    "date-fns-tz": "^1.1.6",
     "glob": "^7.1.7",
     "glob-promise": "^4.1.0",
     "gray-matter": "^4.0.3",

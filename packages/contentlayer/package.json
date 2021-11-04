@@ -3,6 +3,9 @@
   "version": "0.0.28-dev.12",
   "bin": "./bin/cli.cjs",
   "type": "module",
+  "engines": {
+    "node": ">=14"
+  },
   "exports": {
     "./source-files": {
       "import": "./dist/source-files/index.js"

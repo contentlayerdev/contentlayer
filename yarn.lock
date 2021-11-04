@@ -1679,6 +1679,7 @@ __metadata:
     "@types/tap": ^15.0.5
     "@types/yaml": ^1
     chokidar: ^3.5.2
+    date-fns-tz: ^1.1.6
     faker: ^5.5.3
     glob: ^7.1.7
     glob-promise: ^4.1.0
@@ -7316,6 +7317,15 @@ __metadata:
   version: 2.0.0
   resolution: "dataloader@npm:2.0.0"
   checksum: 9f10b9d2e35225b08a72435facfe40c0c124e329f43bd0fe4d67411ee667d12145f7ce63f9b74f73af8556dc6a98bae59147a5cca2171315dc1de509d4db04c0
+  languageName: node
+  linkType: hard
+
+"date-fns-tz@npm:^1.1.6":
+  version: 1.1.6
+  resolution: "date-fns-tz@npm:1.1.6"
+  peerDependencies:
+    date-fns: ">=2.0.0-alpha.13"
+  checksum: cfe4c799372fcb586b7f22d9c31e10df33dabc74452fbd92269ae02bbaed4024636c477b9aac06c521ec78a7391826d5526fedbcefbad2e5de25bcc00c61ad8f
   languageName: node
   linkType: hard
 

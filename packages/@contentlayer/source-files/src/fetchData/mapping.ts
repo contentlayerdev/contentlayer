@@ -3,6 +3,7 @@ import * as core from '@contentlayer/core'
 import * as utils from '@contentlayer/utils'
 import type { OT } from '@contentlayer/utils/effect'
 import { pipe, T } from '@contentlayer/utils/effect'
+import dateFnsTz from 'date-fns-tz'
 import * as path from 'path'
 
 import { FetchDataError } from '../errors/index.js'
@@ -239,7 +240,11 @@ const getDataForFieldDef = ({
           ),
         )
       case 'date':
-        return new Date(rawFieldData)
+        let dateValue = new Date(rawFieldData)
+        if (options.date?.timezone) {
+          dateValue = dateFnsTz.zonedTimeToUtc(dateValue, options.date.timezone)
+        }
+        return dateValue.toISOString()
       case 'markdown':
         const html = yield* $(core.markdownToHtml({ mdString: rawFieldData, options: options?.markdown }))
         return <core.Markdown>{ raw: rawFieldData, html }
@@ -260,6 +265,8 @@ const getDataForFieldDef = ({
         utils.casesHandled(fieldDef)
     }
   })
+
+export const testOnly_getDataForFieldDef = getDataForFieldDef
 
 const getDataForListItem = ({
   rawItemData,

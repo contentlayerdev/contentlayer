@@ -44,6 +44,7 @@ t.test('generate-types', async (t) => {
           fieldOptions: { bodyFieldName: 'body', typeFieldName: 'type' },
           markdown: undefined,
           mdx: undefined,
+          date: undefined,
         },
       },
     })
