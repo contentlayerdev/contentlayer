@@ -1,4 +1,4 @@
-import type { MarkdownOptions, MDXOptions } from '@contentlayer/core'
+import type { DateOptions, MarkdownOptions, MDXOptions } from '@contentlayer/core'
 
 import type { DocumentBodyType } from './schema/defs'
 
@@ -19,6 +19,7 @@ export type PluginOptions = {
   markdown?: MarkdownOptions
   mdx?: MDXOptions
   fieldOptions?: FieldOptions
+  date?: DateOptions
 }
 
 export type FieldOptions = {

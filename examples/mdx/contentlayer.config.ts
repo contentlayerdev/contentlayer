@@ -9,9 +9,7 @@ const Doc = defineDocumentType(() => ({
   },
 }))
 
-const contentLayerConfig = makeSource({
+export default makeSource({
   contentDirPath: 'content',
   documentTypes: [Doc],
 })
-
-export default contentLayerConfig
