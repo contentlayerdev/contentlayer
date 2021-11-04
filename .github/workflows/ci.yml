@@ -30,7 +30,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Support longpaths (needed for Windows)
-        run: git config --system core.longpaths true
+        run: git config --global core.longpaths true
       - uses: actions/checkout@v2
         with:
           submodules: true
