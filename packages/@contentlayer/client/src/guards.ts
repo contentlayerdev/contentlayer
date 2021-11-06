@@ -1,4 +1,4 @@
-import type { GetDocumentTypeMapGen, GetDocumentTypeNamesGen } from '@contentlayer/core'
+import type { Document, GetDocumentTypeMapGen, GetDocumentTypeNamesGen } from '@contentlayer/core'
 
 // type Guards = {
 //   isType: TypeGuards
@@ -21,9 +21,9 @@ import type { GetDocumentTypeMapGen, GetDocumentTypeNamesGen } from '@contentlay
 // const is_ = <P extends GetTypeNamesGen | GetTypeNamesGen[]>(_: any, typeName: P): P extends any[] ? _ is GetTypeMapGen[P] : _ is any => {
 type TypeNameOneOrMany = GetDocumentTypeNamesGen | GetDocumentTypeNamesGen[]
 type TypeForTypeNameOneOrMany<N extends TypeNameOneOrMany> = N extends GetDocumentTypeNamesGen
-  ? GetDocumentTypeMapGen[N]
+  ? GetDocumentTypeMapGen<Document>[N]
   : N extends GetDocumentTypeNamesGen[]
-  ? GetDocumentTypeMapGen[N[number]]
+  ? GetDocumentTypeMapGen<Document>[N[number]]
   : never
 
 function is<N extends TypeNameOneOrMany>(typeName: N, _: any): _ is TypeForTypeNameOneOrMany<N>

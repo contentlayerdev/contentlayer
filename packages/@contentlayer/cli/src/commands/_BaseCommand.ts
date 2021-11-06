@@ -1,8 +1,8 @@
 import * as core from '@contentlayer/core'
 import type { HasClock, OT } from '@contentlayer/utils/effect'
 import { pipe, T } from '@contentlayer/utils/effect'
+import { fs } from '@contentlayer/utils/node'
 import { Command, Option } from 'clipanion'
-import { promises as fs } from 'fs'
 import * as t from 'typanion'
 
 export abstract class BaseCommand extends Command {
@@ -35,7 +35,8 @@ export abstract class BaseCommand extends Command {
 const clearCacheIfNeeded = (shouldClearCache: boolean) =>
   T.gen(function* ($) {
     if (shouldClearCache) {
-      yield* $(T.promise(() => fs.rm(core.ArtifactsDir.getDirPath({ cwd: process.cwd() }), { recursive: true })))
+      const artifactsDir = core.ArtifactsDir.getDirPath({ cwd: process.cwd() })
+      yield* $(fs.rm(artifactsDir, { recursive: true, force: true }))
       yield* $(T.log('Cache cleared successfully'))
     }
   })

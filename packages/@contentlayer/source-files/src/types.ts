@@ -6,6 +6,8 @@ type DocumentDefName = string
 type FilePathPattern = string
 export type FilePathPatternMap = Record<FilePathPattern, DocumentDefName>
 
+export type LocalDocument = Record<string, any> & { _raw: RawDocumentData; _id: string }
+
 export type RawDocumentData = {
   sourceFilePath: string
   sourceFileName: string

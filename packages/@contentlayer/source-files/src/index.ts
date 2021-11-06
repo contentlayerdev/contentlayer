@@ -11,9 +11,7 @@ export * from './types.js'
 export * from './schema/defs/index.js'
 
 export type Args = {
-  // Note `<any>` generic parameter is needed here to avoid a consumer-side type error related to computed fields
-  // This might need further investigation in the future (probably related to co-/contra-variance)
-  documentTypes: LocalSchema.DocumentType<any>[] | Record<string, LocalSchema.DocumentType<any>>
+  documentTypes: LocalSchema.DocumentType[] | Record<string, LocalSchema.DocumentType>
   /**
    * Path to the root directory that contains all content. Every content file path will be relative
    * to this directory. This includes:

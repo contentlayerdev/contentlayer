@@ -330,9 +330,7 @@ const getDataVariableName = ({ docDef }: { docDef: DocumentTypeDef }): string =>
   }
 }
 
-const idToFileName = (id: string): string => {
-  return leftPadWithUnderscoreIfStartsWithNumber(id).replace(/\//g, '__')
-}
+const idToFileName = (id: string): string => leftPadWithUnderscoreIfStartsWithNumber(id).replace(/\//g, '__')
 
 const leftPadWithUnderscoreIfStartsWithNumber = (str: string): string => {
   if (/^[0-9]/.test(str)) {

@@ -6,7 +6,7 @@ import t from 'tap'
 import { makeSource } from '../../index.js'
 import { defineDocumentType } from '../../schema/defs/index.js'
 
-const TestPost = defineDocumentType<any>(() => ({
+const TestPost = defineDocumentType(() => ({
   name: 'TestPost',
   filePathPattern: `**/*.md`,
   fields: {
