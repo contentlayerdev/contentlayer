@@ -36,15 +36,18 @@ export namespace DataCache {
   }: {
     schemaHash: string
     cwd: string
-  }): T.Effect<OT.HasTracer, fs.ReadFileError | fs.JsonParseError | GetContentlayerVersionError, Cache | undefined> =>
+  }): T.Effect<
+    OT.HasTracer,
+    fs.StatError | fs.ReadFileError | fs.JsonParseError | GetContentlayerVersionError,
+    Cache | undefined
+  > =>
     T.gen(function* ($) {
       const cacheDirPath = yield* $(ArtifactsDir.getCacheDirPath({ cwd }))
       const filePath = path.join(cacheDirPath, dataCacheFileName(schemaHash))
 
       const cache = yield* $(
         pipe(
-          fs.readFileJson<Cache>(filePath),
-          T.catchTag('node.fs.FileNotFoundError', () => T.succeed(undefined)),
+          fs.readFileJsonIfExists<Cache>(filePath),
           OT.withSpan('@contentlayer/core/cache:loadPreviousCacheFromDisk', { attributes: { schemaHash, filePath } }),
         ),
       )
