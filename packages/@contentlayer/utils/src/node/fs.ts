@@ -98,7 +98,7 @@ export const mkdirp = (dirPath: string): T.Effect<OT.HasTracer, MkdirError, void
 export function rm(path: string, params: { force: true; recursive?: boolean }): T.Effect<OT.HasTracer, RmError, void>
 export function rm(
   path: string,
-  params?: { force: false; recursive?: boolean },
+  params?: { force?: false; recursive?: boolean },
 ): T.Effect<OT.HasTracer, RmError | FileOrDirNotFoundError, void>
 
 export function rm(
