@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/source-files",
-  "version": "0.0.28-dev.17",
+  "version": "0.0.28-dev.21",
   "type": "module",
   "exports": {
     ".": {
@@ -19,8 +19,8 @@
     }
   },
   "files": [
-    "dist",
-    "package.json"
+    "./dist/**/*.{js,ts,map}",
+    "./package.json"
   ],
   "scripts": {
     "test": "tap"

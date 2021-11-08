@@ -1,9 +1,13 @@
 {
   "name": "@contentlayer/cli",
-  "version": "0.0.28-dev.17",
+  "version": "0.0.28-dev.21",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "./dist/**/*.{js,ts,map}",
+    "./package.json"
+  ],
   "scripts": {
     "test": "echo No tests yet"
   },

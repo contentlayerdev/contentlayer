@@ -1,10 +1,14 @@
 {
   "name": "contentlayer-stackbit-yaml-generator",
-  "version": "0.0.28-dev.17",
+  "version": "0.0.28-dev.21",
   "type": "module",
   "bin": "./dist/cli/index.js",
   "exports": "./dist/lib/index.js",
   "types": "./dist/lib/index.d.ts",
+  "files": [
+    "./dist/**/*.{js,ts,map}",
+    "./package.json"
+  ],
   "scripts": {
     "test": "tap"
   },
