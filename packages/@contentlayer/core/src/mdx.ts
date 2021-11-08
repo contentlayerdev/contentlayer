@@ -24,6 +24,7 @@ export const bundleMDX = ({
       const { rehypePlugins, remarkPlugins, cwd: cwd_, ...restOptions } = options ?? {}
 
       const getCwdFromContentDirPath = () =>
+        // TODO don't use `process.cwd()` but instead `HasCwd`
         path.isAbsolute(contentDirPath) ? contentDirPath : path.join(process.cwd(), contentDirPath)
       const cwd = cwd_ ?? getCwdFromContentDirPath()
 

@@ -12,35 +12,37 @@ import * as Chokidar from 'chokidar'
 import type fs from 'fs'
 
 import { Tagged } from '../effect/index.js'
+import type { UnknownFilePath } from '../file-paths.js'
+import { unknownFilePath } from '../file-paths.js'
 
 export class FileAdded {
   readonly _tag = 'FileAdded'
 
-  constructor(public path: string, public stats: O.Option<fs.Stats>) {}
+  constructor(public path: UnknownFilePath, public stats: O.Option<fs.Stats>) {}
 }
 
 export class FileRemoved {
   readonly _tag = 'FileRemoved'
 
-  constructor(public path: string, public stats: O.Option<fs.Stats>) {}
+  constructor(public path: UnknownFilePath, public stats: O.Option<fs.Stats>) {}
 }
 
 export class FileChanged {
   readonly _tag = 'FileChanged'
 
-  constructor(public path: string, public stats: O.Option<fs.Stats>) {}
+  constructor(public path: UnknownFilePath, public stats: O.Option<fs.Stats>) {}
 }
 
 export class DirectoryAdded {
   readonly _tag = 'DirectoryAdded'
 
-  constructor(public path: string, public stats: O.Option<fs.Stats>) {}
+  constructor(public path: UnknownFilePath, public stats: O.Option<fs.Stats>) {}
 }
 
 export class DirectoryRemoved {
   readonly _tag = 'DirectoryRemoved'
 
-  constructor(public path: string, public stats: O.Option<fs.Stats>) {}
+  constructor(public path: UnknownFilePath, public stats: O.Option<fs.Stats>) {}
 }
 
 export type FileSystemEvent = FileAdded | FileRemoved | FileChanged | DirectoryAdded | DirectoryRemoved
@@ -130,22 +132,43 @@ class ConcreteFileWatcher extends FileWatcherInternal {
           _.on('all', (eventName, path, stats) => {
             switch (eventName) {
               case 'add':
-                T.run(H.publish_(this.fsEventsHub, Ex.succeed(E.right(new FileAdded(path, O.fromNullable(stats))))))
+                T.run(
+                  H.publish_(
+                    this.fsEventsHub,
+                    Ex.succeed(E.right(new FileAdded(unknownFilePath(path), O.fromNullable(stats)))),
+                  ),
+                )
                 break
               case 'unlink':
-                T.run(H.publish_(this.fsEventsHub, Ex.succeed(E.right(new FileRemoved(path, O.fromNullable(stats))))))
+                T.run(
+                  H.publish_(
+                    this.fsEventsHub,
+                    Ex.succeed(E.right(new FileRemoved(unknownFilePath(path), O.fromNullable(stats)))),
+                  ),
+                )
                 break
               case 'change':
-                T.run(H.publish_(this.fsEventsHub, Ex.succeed(E.right(new FileChanged(path, O.fromNullable(stats))))))
+                T.run(
+                  H.publish_(
+                    this.fsEventsHub,
+                    Ex.succeed(E.right(new FileChanged(unknownFilePath(path), O.fromNullable(stats)))),
+                  ),
+                )
                 break
               case 'addDir':
                 T.run(
-                  H.publish_(this.fsEventsHub, Ex.succeed(E.right(new DirectoryAdded(path, O.fromNullable(stats))))),
+                  H.publish_(
+                    this.fsEventsHub,
+                    Ex.succeed(E.right(new DirectoryAdded(unknownFilePath(path), O.fromNullable(stats)))),
+                  ),
                 )
                 break
               case 'unlinkDir':
                 T.run(
-                  H.publish_(this.fsEventsHub, Ex.succeed(E.right(new DirectoryRemoved(path, O.fromNullable(stats))))),
+                  H.publish_(
+                    this.fsEventsHub,
+                    Ex.succeed(E.right(new DirectoryRemoved(unknownFilePath(path), O.fromNullable(stats)))),
+                  ),
                 )
                 break
             }

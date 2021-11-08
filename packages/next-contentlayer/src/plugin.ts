@@ -11,12 +11,10 @@ export const runContentlayerDev = async () => {
   if (contentlayerInitialized) return
   contentlayerInitialized = true
 
-  const cwd = process.cwd()
-
   await pipe(
-    core.getConfigWatch({ cwd }),
+    core.getConfigWatch({}),
     S.tapSkipFirstRight(() => T.log(`Contentlayer config change detected. Updating type definitions and data...`)),
-    S.chainSwitchMapEitherRight((source) => core.generateDotpkgStream({ source, verbose: false, cwd })),
+    S.chainSwitchMapEitherRight((source) => core.generateDotpkgStream({ source, verbose: false })),
     S.tap(E.fold((error) => T.log(errorToString(error)), core.logGenerateInfo)),
     S.runDrain,
     runMain,
@@ -27,11 +25,9 @@ export const runContentlayerBuild = async () => {
   if (contentlayerInitialized) return
   contentlayerInitialized = true
 
-  const cwd = process.cwd()
-
   await pipe(
-    core.getConfig({ cwd: process.cwd() }),
-    T.chain((source) => core.generateDotpkg({ source, verbose: false, cwd })),
+    core.getConfig({}),
+    T.chain((source) => core.generateDotpkg({ source, verbose: false })),
     T.tap(core.logGenerateInfo),
     OT.withSpan('next-contentlayer:runContentlayerBuild'),
     runMain,

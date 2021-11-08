@@ -5,6 +5,7 @@ import { fs } from '@contentlayer/utils/node'
 import * as path from 'path'
 
 import { ArtifactsDir } from './ArtifactsDir.js'
+import type { HasCwd } from './cwd.js'
 import type { Document } from './data.js'
 
 export namespace DataCache {
@@ -32,17 +33,15 @@ export namespace DataCache {
 
   export const loadPreviousCacheFromDisk = ({
     schemaHash,
-    cwd,
   }: {
     schemaHash: string
-    cwd: string
   }): T.Effect<
-    OT.HasTracer,
+    OT.HasTracer & HasCwd,
     fs.StatError | fs.ReadFileError | fs.JsonParseError | GetContentlayerVersionError,
     Cache | undefined
   > =>
     T.gen(function* ($) {
-      const cacheDirPath = yield* $(ArtifactsDir.getCacheDirPath({ cwd }))
+      const cacheDirPath = yield* $(ArtifactsDir.getCacheDirPath)
       const filePath = path.join(cacheDirPath, dataCacheFileName(schemaHash))
 
       const cache = yield* $(
@@ -58,18 +57,16 @@ export namespace DataCache {
   export const writeCacheToDisk = ({
     cache,
     schemaHash,
-    cwd,
   }: {
     cache: Cache
     schemaHash: string
-    cwd: string
   }): T.Effect<
-    OT.HasTracer,
+    OT.HasTracer & HasCwd,
     never,
     E.Either<fs.WriteFileError | fs.MkdirError | fs.JsonStringifyError | GetContentlayerVersionError, void>
   > =>
     pipe(
-      ArtifactsDir.mkdirCache({ cwd }),
+      ArtifactsDir.mkdirCache,
       T.chain((cacheDirPath) => {
         const filePath = path.join(cacheDirPath, dataCacheFileName(schemaHash))
         return fs.writeFileJson({ filePath, content: cache })

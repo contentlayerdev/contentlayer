@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/cli",
-  "version": "0.0.28",
+  "version": "0.0.29-dev.2",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",

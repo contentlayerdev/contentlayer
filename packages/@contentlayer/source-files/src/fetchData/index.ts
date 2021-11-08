@@ -1,5 +1,8 @@
+import type { HasCwd } from '@contentlayer/core'
 import * as core from '@contentlayer/core'
+import type { PosixFilePath } from '@contentlayer/utils'
 import * as utils from '@contentlayer/utils'
+import { unknownToPosixFilePath } from '@contentlayer/utils'
 import type { E, OT } from '@contentlayer/utils/effect'
 import { pipe, S, T, These } from '@contentlayer/utils/effect'
 import { FSWatch } from '@contentlayer/utils/node'
@@ -16,16 +19,14 @@ export const fetchData = ({
   options,
   contentDirPath,
   verbose,
-  cwd,
 }: {
   coreSchemaDef: core.SchemaDef
   documentTypeDefs: LocalSchema.DocumentTypeDef[]
   flags: Flags
   options: core.PluginOptions
-  contentDirPath: string
+  contentDirPath: PosixFilePath
   verbose: boolean
-  cwd: string
-}): S.Stream<OT.HasTracer, never, E.Either<core.SourceFetchDataError, core.DataCache.Cache>> => {
+}): S.Stream<OT.HasTracer & HasCwd, never, E.Either<core.SourceFetchDataError, core.DataCache.Cache>> => {
   const filePathPatternMap: FilePathPatternMap = Object.fromEntries(
     documentTypeDefs
       .filter((_) => _.filePathPattern)
@@ -44,10 +45,7 @@ export const fetchData = ({
     S.mapEitherRight(chokidarAllEventToCustomUpdateEvent),
   )
 
-  const resolveParams = pipe(
-    core.DataCache.loadPreviousCacheFromDisk({ schemaHash: coreSchemaDef.hash, cwd }),
-    T.either,
-  )
+  const resolveParams = pipe(core.DataCache.loadPreviousCacheFromDisk({ schemaHash: coreSchemaDef.hash }), T.either)
 
   return pipe(
     S.fromEffect(resolveParams),
@@ -97,7 +95,7 @@ export const fetchData = ({
         // update local and persisted cache
         S.tapRight((cache_) => T.succeedWith(() => (cache = cache_))),
         S.tapRightEither((cache_) =>
-          core.DataCache.writeCacheToDisk({ cache: cache_, schemaHash: coreSchemaDef.hash, cwd }),
+          core.DataCache.writeCacheToDisk({ cache: cache_, schemaHash: coreSchemaDef.hash }),
         ),
       ),
     ),
@@ -116,7 +114,7 @@ const updateCacheEntry = ({
   coreSchemaDef,
   options,
 }: {
-  contentDirPath: string
+  contentDirPath: PosixFilePath
   filePathPatternMap: FilePathPatternMap
   cache: core.DataCache.Cache
   event: CustomUpdateEventFileUpdated
@@ -160,9 +158,9 @@ const chokidarAllEventToCustomUpdateEvent = (event: FSWatch.FileSystemEvent): Cu
   switch (event._tag) {
     case 'FileAdded':
     case 'FileChanged':
-      return { _tag: 'updated', relativeFilePath: event.path }
+      return { _tag: 'updated', relativeFilePath: unknownToPosixFilePath(event.path) }
     case 'FileRemoved':
-      return { _tag: 'deleted', relativeFilePath: event.path }
+      return { _tag: 'deleted', relativeFilePath: unknownToPosixFilePath(event.path) }
     case 'DirectoryRemoved':
     case 'DirectoryAdded':
       return { _tag: 'init' }
@@ -175,12 +173,12 @@ type CustomUpdateEvent = CustomUpdateEventFileUpdated | CustomUpdateEventFileDel
 
 type CustomUpdateEventFileUpdated = {
   readonly _tag: 'updated'
-  relativeFilePath: string
+  relativeFilePath: PosixFilePath
 }
 
 type CustomUpdateEventFileDeleted = {
   readonly _tag: 'deleted'
-  relativeFilePath: string
+  relativeFilePath: PosixFilePath
 }
 
 type CustomUpdateEventInit = {

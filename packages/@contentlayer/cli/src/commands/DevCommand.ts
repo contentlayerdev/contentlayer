@@ -20,16 +20,9 @@ export class DevCommand extends BaseCommand {
   }
 
   executeSafe = pipe(
-    S.suspend(() =>
-      core.getConfigWatch({
-        configPath: this.configPath,
-        cwd: process.cwd(),
-      }),
-    ),
+    S.suspend(() => core.getConfigWatch({ configPath: this.configPath })),
     S.tapSkipFirstRight(() => T.log(`Contentlayer config change detected. Updating type definitions and data...`)),
-    S.chainSwitchMapEitherRight((source) =>
-      core.generateDotpkgStream({ source, verbose: this.verbose, cwd: process.cwd() }),
-    ),
+    S.chainSwitchMapEitherRight((source) => core.generateDotpkgStream({ source, verbose: this.verbose })),
     S.tap(E.fold((error) => T.log(errorToString(error)), core.logGenerateInfo)),
     S.runDrain,
   )
