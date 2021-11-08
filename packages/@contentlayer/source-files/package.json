@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/source-files",
-  "version": "0.0.28-dev.21",
+  "version": "0.0.28",
   "type": "module",
   "exports": {
     ".": {
