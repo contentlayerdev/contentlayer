@@ -18,6 +18,7 @@ export type PluginExtensions = {
 export type PluginOptions = {
   markdown: MarkdownOptions | undefined
   mdx: MDXOptions | undefined
+  date: DateOptions | undefined
   fieldOptions: FieldOptions
 }
 
@@ -30,6 +31,15 @@ export type MDXOptions = {
   remarkPlugins?: unified.Pluggable[]
   rehypePlugins?: unified.Pluggable[]
 } & Omit<BundleMDXOptions, 'xdmOptions'>
+
+export type DateOptions = {
+  /**
+   * Use provided timezone (e.g. `America/New_York`)
+   *
+   * Based on: https://github.com/marnusw/date-fns-tz#zonedtimetoutc
+   */
+  timezone?: string
+}
 
 export type FieldOptions = {
   // TODO add to Jsdoc that `bodyFieldName` is just about the field name of the generated document type + data.
@@ -78,8 +88,14 @@ export type MakeSourcePlugin<TArgs extends PartialArgs> = (
 export type PartialArgs = {
   markdown?: MarkdownOptions | undefined
   mdx?: MarkdownOptions | undefined
+  date?: DateOptions | undefined
   fieldOptions?: Partial<FieldOptions>
   extensions?: PluginExtensions
+}
+
+export const defaultFieldOptions: FieldOptions = {
+  bodyFieldName: 'body',
+  typeFieldName: 'type',
 }
 
 export const processArgs = async <TArgs extends PartialArgs>(
@@ -87,17 +103,18 @@ export const processArgs = async <TArgs extends PartialArgs>(
 ): Promise<{
   extensions: PluginExtensions
   options: PluginOptions
-  restArgs: Omit<TArgs, 'extensions' | 'fieldOptions' | 'markdown' | 'mdx'>
+  restArgs: Omit<TArgs, 'extensions' | 'fieldOptions' | 'markdown' | 'mdx' | 'date'>
 }> => {
-  const { extensions, fieldOptions, markdown, mdx, ...restArgs } =
+  const { extensions, fieldOptions, markdown, mdx, date, ...restArgs } =
     typeof argsOrArgsThunk === 'function' ? await argsOrArgsThunk() : argsOrArgsThunk
 
   const options: PluginOptions = {
-    markdown: markdown,
-    mdx: mdx,
+    markdown,
+    mdx,
+    date,
     fieldOptions: {
-      bodyFieldName: fieldOptions?.bodyFieldName ?? 'body',
-      typeFieldName: fieldOptions?.typeFieldName ?? 'type',
+      bodyFieldName: fieldOptions?.bodyFieldName ?? defaultFieldOptions.bodyFieldName,
+      typeFieldName: fieldOptions?.typeFieldName ?? defaultFieldOptions.typeFieldName,
     },
   }
 

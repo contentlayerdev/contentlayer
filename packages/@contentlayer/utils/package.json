@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/utils",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "type": "module",
   "exports": {
     "./package.json": {
@@ -36,11 +36,26 @@
       ]
     }
   },
+  "files": [
+    "./dist/**/*.{js,ts,map}",
+    "./package.json"
+  ],
   "scripts": {
     "test": "echo No tests yet"
   },
+  "peerDependenciesMeta": {
+    "@effect-ts/core": {
+      "optional": true
+    },
+    "@effect-ts/otel": {
+      "optional": true
+    },
+    "@effect-ts/otel-node": {
+      "optional": true
+    }
+  },
   "dependencies": {
-    "@effect-ts/core": "^0.44.4",
+    "@effect-ts/core": "^0.45.5",
     "@effect-ts/otel": "next",
     "@effect-ts/otel-node": "next",
     "@opentelemetry/api": "^1.0.3",

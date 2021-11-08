@@ -5,13 +5,11 @@ const Doc = defineDocumentType(() => ({
   filePathPattern: '**/*.mdx',
   bodyType: 'mdx',
   fields: {
-    title: { type: 'string' },
+    title: { type: 'string', required: true },
   },
 }))
 
-const contentLayerConfig = makeSource({
-  contentDirPath: 'docs',
+export default makeSource({
+  contentDirPath: 'content',
   documentTypes: [Doc],
 })
-
-export default contentLayerConfig

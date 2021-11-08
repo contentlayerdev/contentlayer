@@ -30,7 +30,7 @@ export const fetchAllDocuments = ({
   options: core.PluginOptions
   previousCache: core.DataCache.Cache | undefined
   verbose: boolean
-}): T.Effect<OT.HasTracer, fs.UnknownFSError, core.DataCache.Cache> =>
+}): T.Effect<OT.HasTracer, fs.UnknownFSError | core.HandledFetchDataError, core.DataCache.Cache> =>
   pipe(
     T.gen(function* ($) {
       const allRelativeFilePaths = yield* $(getAllRelativeFilePaths({ contentDirPath }))
@@ -130,6 +130,7 @@ export const makeCacheItemFromFilePath = ({
           rawContent,
           coreSchemaDef,
           relativeFilePath,
+          contentDirPath,
           options,
         }),
       )

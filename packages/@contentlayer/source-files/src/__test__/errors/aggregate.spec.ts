@@ -10,6 +10,7 @@ const bodyFieldName = 'body'
 const options: core.PluginOptions = {
   markdown: undefined,
   mdx: undefined,
+  date: undefined,
   fieldOptions: { typeFieldName, bodyFieldName },
 }
 const flags: Flags = {

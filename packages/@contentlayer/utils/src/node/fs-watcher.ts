@@ -11,6 +11,8 @@ import * as O from '@effect-ts/core/Option'
 import * as Chokidar from 'chokidar'
 import type fs from 'fs'
 
+import { Tagged } from '../effect/index.js'
+
 export class FileAdded {
   readonly _tag = 'FileAdded'
 
@@ -65,13 +67,10 @@ abstract class FileWatcherInternal extends FileWatcher {
 export const WatchErrorTypeId = Symbol()
 export type WatchErrorTypeId = typeof WatchErrorTypeId
 
-export class FileWatcherError extends Error {
+export class FileWatcherError extends Tagged('FileWatcherError')<{
+  readonly origin: O.Option<unknown>
+}> {
   readonly [WatchErrorTypeId]: WatchErrorTypeId = WatchErrorTypeId
-
-  constructor(message: string, public origin: O.Option<unknown>) {
-    super(message)
-    this.name = 'WatcherError'
-  }
 }
 
 class ConcreteFileWatcher extends FileWatcherInternal {
@@ -126,12 +125,7 @@ class ConcreteFileWatcher extends FileWatcherInternal {
       T.chain((_) =>
         T.succeedWith(() => {
           _.on('error', (error) => {
-            T.run(
-              H.publish_(
-                this.fsEventsHub,
-                Ex.succeed(E.left(new FileWatcherError('Error occured while watch path ${}', O.some(error)))),
-              ),
-            )
+            T.run(H.publish_(this.fsEventsHub, Ex.succeed(E.left(new FileWatcherError({ origin: O.some(error) })))))
           })
           _.on('all', (eventName, path, stats) => {
             switch (eventName) {
@@ -230,7 +224,7 @@ export function make(
 export const makeAndSubscribe = (
   paths: readonly string[] | string,
   options?: Chokidar.WatchOptions,
-): S.Stream<unknown, never, E.Either<FileWatcherError | Error, FileSystemEvent>> =>
+): S.Stream<unknown, never, E.Either<FileWatcherError, FileSystemEvent>> =>
   pipe(M.make_(make(paths, options), shutdown), M.chain(subscribe), S.unwrapManaged)
 
 export function subscribe(

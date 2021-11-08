@@ -1,16 +1,16 @@
 import { GetStaticPaths, InferGetStaticPropsType } from 'next'
-import { getMDXComponent } from 'mdx-bundler/client'
+import { useMDXComponent } from 'next-contentlayer/hooks'
 
 import { allDocs } from '.contentlayer/data'
-import { useMemo } from 'react'
 import { Button } from '../components/Button'
+import { Doc } from '.contentlayer/types'
 
 const mdxComponents = {
   Button,
 }
 
-const DocPage: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ doc, navInfo }) => {
-  const MDXContent = useMemo(() => getMDXComponent(doc.body.code), [doc.body.code])
+const DocPage: React.FC<StaticProps> = ({ doc, navInfo }) => {
+  const MDXContent = useMDXComponent(doc.body.code)
 
   return (
     <div>
@@ -29,9 +29,14 @@ const DocPage: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ doc
 
 export default DocPage
 
-export const getStaticProps = ({ params: { slug = [] } }) => {
+type StaticProps = {
+  doc: Doc
+  navInfo: { title: string; path: string }[]
+}
+
+export const getStaticProps = ({ params: { slug = [] } }): { props: StaticProps } => {
   const pagePath = slug.join('/')
-  const doc = allDocs.find((doc) => doc._raw.flattenedPath === pagePath)
+  const doc = allDocs.find((doc) => doc._raw.flattenedPath === pagePath)!
 
   const navInfo = allDocs.map((_) => ({ title: _.title, path: `/${_._raw.flattenedPath}` }))
 

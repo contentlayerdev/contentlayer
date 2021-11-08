@@ -1,10 +1,12 @@
-import type { MarkdownOptions, MDXOptions } from '@contentlayer/core'
+import type { DateOptions, MarkdownOptions, MDXOptions } from '@contentlayer/core'
 
 import type { DocumentBodyType } from './schema/defs'
 
 type DocumentDefName = string
 type FilePathPattern = string
 export type FilePathPatternMap = Record<FilePathPattern, DocumentDefName>
+
+export type LocalDocument = Record<string, any> & { _raw: RawDocumentData; _id: string }
 
 export type RawDocumentData = {
   sourceFilePath: string
@@ -19,6 +21,7 @@ export type PluginOptions = {
   markdown?: MarkdownOptions
   mdx?: MDXOptions
   fieldOptions?: FieldOptions
+  date?: DateOptions
 }
 
 export type FieldOptions = {

@@ -3,9 +3,10 @@ import * as core from '@contentlayer/core'
 import * as utils from '@contentlayer/utils'
 import type { OT } from '@contentlayer/utils/effect'
 import { pipe, T } from '@contentlayer/utils/effect'
+import dateFnsTz from 'date-fns-tz'
 import * as path from 'path'
 
-import { FetchDataError, InvalidDataDuringMappingError } from '../errors/index.js'
+import { FetchDataError } from '../errors/index.js'
 import type { DocumentBodyType } from '../schema/defs/index.js'
 import type { RawDocumentData } from '../types.js'
 import type { RawContent, RawContentMarkdown, RawContentMDX } from './types.js'
@@ -15,14 +16,20 @@ export const makeDocument = ({
   documentTypeDef,
   coreSchemaDef,
   relativeFilePath,
+  contentDirPath,
   options,
 }: {
   rawContent: RawContent
   documentTypeDef: core.DocumentTypeDef
   coreSchemaDef: core.SchemaDef
   relativeFilePath: string
+  contentDirPath: string
   options: core.PluginOptions
-}): T.Effect<OT.HasTracer, FetchDataError.UnexpectedError, core.Document> =>
+}): T.Effect<
+  OT.HasTracer,
+  FetchDataError.UnexpectedError | FetchDataError.NoSuchNestedDocumentTypeError,
+  core.Document
+> =>
   pipe(
     T.gen(function* ($) {
       const { bodyFieldName, typeFieldName } = options.fieldOptions
@@ -43,6 +50,8 @@ export const makeDocument = ({
               rawFieldData: rawData[fieldDef.name],
               coreSchemaDef,
               options,
+              relativeFilePath,
+              contentDirPath,
             }),
           mapKey: (fieldDef) => T.succeed(fieldDef.name),
         }),
@@ -71,10 +80,17 @@ export const makeDocument = ({
 
       return doc
     }),
-    T.mapError((error) => new FetchDataError.UnexpectedError({ error, documentFilePath: relativeFilePath })),
+    T.mapError((error) =>
+      error._tag === 'NoSuchNestedDocumentTypeError'
+        ? error
+        : new FetchDataError.UnexpectedError({ error, documentFilePath: relativeFilePath }),
+    ),
   )
 
-type MakeDocumentInternalError = UnexpectedMarkdownError | UnexpectedMDXError | InvalidDataDuringMappingError
+type MakeDocumentInternalError =
+  | UnexpectedMarkdownError
+  | UnexpectedMDXError
+  | FetchDataError.NoSuchNestedDocumentTypeError
 
 const rawContentHasBody = (_: RawContent): _ is RawContentMarkdown | RawContentMDX =>
   'body' in _ && _.body !== undefined
@@ -88,12 +104,15 @@ export const getFlattenedPath = (relativeFilePath: string): string =>
     // remove tailing `/index` or `index`
     .replace(/\/?index$/, '')
 
+// TODO aggregate all "global" params into an effect service
 const makeNestedDocument = ({
   rawObjectData,
   fieldDefs,
   typeName,
   coreSchemaDef,
   options,
+  relativeFilePath,
+  contentDirPath,
 }: {
   rawObjectData: Record<string, any>
   /** Passing `FieldDef[]` here instead of `ObjectDef` in order to also support `inline_nested` */
@@ -101,6 +120,8 @@ const makeNestedDocument = ({
   typeName: string
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
+  relativeFilePath: string
+  contentDirPath: string
 }): T.Effect<OT.HasTracer, MakeDocumentInternalError, core.NestedDocument> =>
   T.gen(function* ($) {
     const objValues = yield* $(
@@ -111,6 +132,8 @@ const makeNestedDocument = ({
             rawFieldData: rawObjectData[fieldDef.name],
             coreSchemaDef,
             options,
+            relativeFilePath,
+            contentDirPath,
           }),
         mapKey: (fieldDef) => T.succeed(fieldDef.name),
       }),
@@ -127,11 +150,15 @@ const getDataForFieldDef = ({
   rawFieldData,
   coreSchemaDef,
   options,
+  relativeFilePath,
+  contentDirPath,
 }: {
   fieldDef: core.FieldDef
   rawFieldData: any
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
+  relativeFilePath: string
+  contentDirPath: string
 }): T.Effect<OT.HasTracer, MakeDocumentInternalError, any> =>
   T.gen(function* ($) {
     if (rawFieldData === undefined) {
@@ -155,6 +182,8 @@ const getDataForFieldDef = ({
             typeName: nestedTypeDef.name,
             coreSchemaDef,
             options,
+            relativeFilePath,
+            contentDirPath,
           }),
         )
       }
@@ -166,17 +195,23 @@ const getDataForFieldDef = ({
             typeName: '__UNNAMED__',
             coreSchemaDef,
             options,
+            relativeFilePath,
+            contentDirPath,
           }),
         )
       case 'nested_polymorphic': {
         const typeName = rawFieldData[fieldDef.typeField]
 
         if (!fieldDef.nestedTypeNames.includes(typeName)) {
-          const validTypeNames = fieldDef.nestedTypeNames.map((_) => `"${_}"`).join(', ')
-          return T.fail(
-            new InvalidDataDuringMappingError({
-              message: `Invalid "${fieldDef.typeField}" value found: "${typeName}" for field "${fieldDef.name}". Valid values: ${validTypeNames}`,
-            }),
+          return yield* $(
+            T.fail(
+              new FetchDataError.NoSuchNestedDocumentTypeError({
+                documentTypeName: typeName,
+                documentFilePath: relativeFilePath,
+                fieldName: fieldDef.name,
+                validNestedTypeNames: fieldDef.nestedTypeNames,
+              }),
+            ),
           )
         }
 
@@ -189,6 +224,8 @@ const getDataForFieldDef = ({
             typeName: nestedTypeDef.name,
             coreSchemaDef,
             options,
+            relativeFilePath,
+            contentDirPath,
           }),
         )
       }
@@ -199,16 +236,20 @@ const getDataForFieldDef = ({
       case 'list':
         return yield* $(
           T.forEachPar_(rawFieldData as any[], (rawItemData) =>
-            getDataForListItem({ rawItemData, fieldDef, coreSchemaDef, options }),
+            getDataForListItem({ rawItemData, fieldDef, coreSchemaDef, options, relativeFilePath, contentDirPath }),
           ),
         )
       case 'date':
-        return new Date(rawFieldData)
+        let dateValue = new Date(rawFieldData)
+        if (options.date?.timezone) {
+          dateValue = dateFnsTz.zonedTimeToUtc(dateValue, options.date.timezone)
+        }
+        return dateValue.toISOString()
       case 'markdown':
         const html = yield* $(core.markdownToHtml({ mdString: rawFieldData, options: options?.markdown }))
         return <core.Markdown>{ raw: rawFieldData, html }
       case 'mdx':
-        const code = yield* $(core.bundleMDX({ mdxString: rawFieldData, options: options?.mdx }))
+        const code = yield* $(core.bundleMDX({ mdxString: rawFieldData, options: options?.mdx, contentDirPath }))
         return <core.MDX>{ raw: rawFieldData, code }
       case 'boolean':
       case 'string':
@@ -225,16 +266,22 @@ const getDataForFieldDef = ({
     }
   })
 
+export const testOnly_getDataForFieldDef = getDataForFieldDef
+
 const getDataForListItem = ({
   rawItemData,
   fieldDef,
   coreSchemaDef,
   options,
+  relativeFilePath,
+  contentDirPath,
 }: {
   rawItemData: any
   fieldDef: core.ListFieldDef | core.ListPolymorphicFieldDef
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
+  relativeFilePath: string
+  contentDirPath: string
 }): T.Effect<OT.HasTracer, MakeDocumentInternalError, any> => {
   if (typeof rawItemData === 'string') {
     return T.succeed(rawItemData)
@@ -244,16 +291,16 @@ const getDataForListItem = ({
     const nestedTypeName = rawItemData[fieldDef.typeField]
     const nestedTypeDef = coreSchemaDef.nestedTypeDefMap[nestedTypeName]
     if (nestedTypeDef === undefined) {
-      const valueTypeValues = fieldDef.of
+      const validNestedTypeNames = fieldDef.of
         .filter((_): _ is core.ListFieldDefItem.ItemNested => _.type === 'nested')
         .map((_) => _.nestedTypeName)
-        .join(', ')
 
       return T.fail(
-        new InvalidDataDuringMappingError({
-          message: `\
-Invalid value "${nestedTypeName}" for type field "${fieldDef.typeField}" for field "${fieldDef.name}".
-Needs to be one of the following values: ${valueTypeValues}`,
+        new FetchDataError.NoSuchNestedDocumentTypeError({
+          documentTypeName: nestedTypeName,
+          documentFilePath: relativeFilePath,
+          fieldName: fieldDef.name,
+          validNestedTypeNames,
         }),
       )
     }
@@ -263,6 +310,8 @@ Needs to be one of the following values: ${valueTypeValues}`,
       typeName: nestedTypeDef.name,
       coreSchemaDef,
       options,
+      relativeFilePath,
+      contentDirPath,
     })
   }
 
@@ -275,6 +324,8 @@ Needs to be one of the following values: ${valueTypeValues}`,
         typeName: nestedTypeDef.name,
         coreSchemaDef,
         options,
+        relativeFilePath,
+        contentDirPath,
       })
     case 'nested_unnamed':
       return makeNestedDocument({
@@ -283,6 +334,8 @@ Needs to be one of the following values: ${valueTypeValues}`,
         typeName: '__UNNAMED__',
         coreSchemaDef,
         options,
+        relativeFilePath,
+        contentDirPath,
       })
     case 'boolean':
     case 'enum':

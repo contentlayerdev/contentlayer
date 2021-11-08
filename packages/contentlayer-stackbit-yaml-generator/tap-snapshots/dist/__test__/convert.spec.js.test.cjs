@@ -14,7 +14,7 @@ Object {
         Object {
           "description": "The URL path of this page relative to site root. For example, the site root page would be \\"/\\", and post page would be \\"posts/new-post/\\"",
           "name": "url_path",
-          "resolve": Function urlFromFilePath(doc),
+          "resolve": Function resolve(_),
           "type": "string",
         },
       ],
@@ -177,7 +177,7 @@ Object {
         Object {
           "description": "The URL path of this page relative to site root. For example, the site root page would be \\"/\\", and post page would be \\"posts/new-post/\\"",
           "name": "url_path",
-          "resolve": Function urlFromFilePath(doc),
+          "resolve": Function resolve(_),
           "type": "string",
         },
       ],
@@ -276,7 +276,7 @@ Object {
         Object {
           "description": "The URL path of this page relative to site root. For example, the site root page would be \\"/\\", and post page would be \\"posts/new-post/\\"",
           "name": "url_path",
-          "resolve": Function urlFromFilePath(doc),
+          "resolve": Function resolve(_),
           "type": "string",
         },
       ],
@@ -398,7 +398,7 @@ Object {
         Object {
           "description": "The URL path of this page relative to site root. For example, the site root page would be \\"/\\", and post page would be \\"posts/new-post/\\"",
           "name": "url_path",
-          "resolve": Function urlFromFilePath(doc),
+          "resolve": Function resolve(_),
           "type": "string",
         },
       ],
@@ -530,7 +530,7 @@ Object {
       "name": "Post",
     },
   },
-  "hash": "83f2630d131ebca2614eb91903c0a950",
+  "hash": "c0c9a128aea49ed99a4619a27c4b897c",
   "nestedTypeDefMap": Object {
     "Action": Object {
       "_tag": "NestedTypeDef",
@@ -4150,7 +4150,7 @@ Object {
       "name": "Post",
     },
   },
-  "hash": "ffc602f3129c6724338bd0ad5d0e6d9f",
+  "hash": "2824104f5ecd3089125232e8b2419842",
   "nestedTypeDefMap": Object {},
 }
 `

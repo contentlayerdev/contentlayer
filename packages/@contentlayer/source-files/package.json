@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/source-files",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "type": "module",
   "exports": {
     ".": {
@@ -19,8 +19,8 @@
     }
   },
   "files": [
-    "dist",
-    "package.json"
+    "./dist/**/*.{js,ts,map}",
+    "./package.json"
   ],
   "scripts": {
     "test": "tap"
@@ -29,6 +29,7 @@
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
     "chokidar": "^3.5.2",
+    "date-fns-tz": "^1.1.6",
     "glob": "^7.1.7",
     "glob-promise": "^4.1.0",
     "gray-matter": "^4.0.3",

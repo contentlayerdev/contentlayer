@@ -13,6 +13,7 @@ export namespace FetchDataError {
     | ComputedValueError
     | UnsupportedFileExtension
     | NoSuchDocumentTypeError
+    | NoSuchNestedDocumentTypeError
     | CouldNotDetermineDocumentTypeError
     | MissingRequiredFieldsError
     | ExtraFieldDataError
@@ -157,6 +158,28 @@ Please use one of the following document type names: ${validTypeNames}.\
     renderLine = () => `${this.documentFilePath} (Used type name: "${this.documentTypeName}")`
   }
 
+  export class NoSuchNestedDocumentTypeError
+    extends Tagged('NoSuchNestedDocumentTypeError')<{
+      readonly documentTypeName: string
+      readonly documentFilePath: string
+      readonly fieldName: string
+      readonly validNestedTypeNames: string[]
+    }>
+    implements AggregatableError
+  {
+    kind: InvalidDataErrorKind = 'MissingOrIncompatibleData'
+    renderHeadline: RenderHeadline = ({ documentCount }) => {
+      return `\
+Couldn't find nested document type definitions provided by name for ${documentCount} documents.\
+`
+    }
+
+    renderLine = () => {
+      const validTypeNames = this.validNestedTypeNames.join(', ')
+      return `${this.documentFilePath} (Used type name "${this.documentTypeName}" for field "${this.fieldName}". Please use one of the following nested document type names: ${validTypeNames}`
+    }
+  }
+
   export class MissingRequiredFieldsError
     extends Tagged('MissingRequiredFieldsError')<{
       readonly documentFilePath: string
@@ -218,12 +241,6 @@ This is possibly a bug in Contentlayer. Please open an issue.`
 
     renderLine = () => `"${this.documentFilePath}": ${errorToString(this.error)}`
   }
-}
-
-export class InvalidDataDuringMappingError extends Tagged('InvalidDataDuringMappingError')<{
-  readonly message: string
-}> {
-  toString = () => `Found inconsistent data. ${this.message}`
 }
 
 export type SchemaError = DuplicateBodyFieldError

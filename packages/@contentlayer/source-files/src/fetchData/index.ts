@@ -101,7 +101,9 @@ export const fetchData = ({
         ),
       ),
     ),
-    S.mapEitherLeft((error) => new core.SourceFetchDataError({ error })),
+    S.mapEitherLeft(
+      (error) => new core.SourceFetchDataError({ error, alreadyHandled: error._tag === 'HandledFetchDataError' }),
+    ),
   )
 }
 
@@ -121,7 +123,7 @@ const updateCacheEntry = ({
   flags: Flags
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
-}): T.Effect<OT.HasTracer, never, core.DataCache.Cache> =>
+}): T.Effect<OT.HasTracer, core.HandledFetchDataError, core.DataCache.Cache> =>
   T.gen(function* ($) {
     yield* $(
       pipe(

@@ -177,8 +177,11 @@ const getDataForFieldDef = ({
       case 'markdown':
         const html = yield* $(core.markdownToHtml({ mdString: rawFieldData, options: options?.markdown }))
         return <core.Markdown>{ raw: rawFieldData, html }
+      // NOTE `mdx` support for Contentful is experimental and not clearly defined
       case 'mdx':
-        const code = yield* $(core.bundleMDX({ mdxString: rawFieldData, options: options?.mdx }))
+        const code = yield* $(
+          core.bundleMDX({ mdxString: rawFieldData, options: options?.mdx, contentDirPath: 'contentful://' }),
+        )
         return <core.MDX>{ raw: rawFieldData, code }
       case 'string':
         // e.g. for images

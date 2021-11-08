@@ -19,7 +19,7 @@ export const handleFetchDataErrors = ({
   flags: Flags
   schemaDef: core.SchemaDef
   verbose?: boolean
-}): T.Effect<unknown, never, void> =>
+}): T.Effect<unknown, core.HandledFetchDataError, void> =>
   T.gen(function* ($) {
     const filteredErrors = filterErrorsByFlags({ errors, flags })
 
@@ -39,7 +39,7 @@ export const handleFetchDataErrors = ({
     yield* $(T.log(errorMessage))
 
     if (shouldFail) {
-      yield* $(T.die(new core.HandledFetchDataError()))
+      yield* $(T.fail(new core.HandledFetchDataError()))
     }
   })
 

@@ -1,16 +1,24 @@
 {
   "name": "@contentlayer/core",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "./dist/**/*.{js,ts,map}",
+    "./package.json"
+  ],
   "scripts": {
     "test": "echo No tests yet"
   },
   "peerDependencies": {
-    "esbuild": "0.11.x || 0.12.x"
+    "date-fns": "2.x",
+    "esbuild": "0.11.x || 0.12.x || 0.13.x"
   },
   "peerDependenciesMeta": {
+    "date-fns": {
+      "optional": true
+    },
     "esbuild": {
       "optional": true
     }
@@ -18,11 +26,11 @@
   "dependencies": {
     "@contentlayer/utils": "workspace:*",
     "camel-case": "^4.1.2",
-    "esbuild": "0.11.x || 0.12.x",
+    "date-fns": "2.x",
+    "esbuild": "0.11.x || 0.12.x || 0.13.x",
     "gray-matter": "^4.0.3",
     "markdown-wasm": "^1.1.2",
     "mdx-bundler": "^6.0.2",
-    "pkg-up": "^3.1.0",
     "rehype-stringify": "^9.0.2",
     "remark-parse": "^10.0.0",
     "remark-rehype": "^10.0.0",

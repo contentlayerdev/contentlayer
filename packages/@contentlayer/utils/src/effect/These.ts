@@ -149,6 +149,7 @@ export const effectTapErrorOrWarning =
 //   )
 // }
 
+/** Wraps the error channel of an Effect<_, _ These> into the These */
 export const effectThese = <T, E1, E2, A>(
   effect: T.Effect<T, E1, These<E2, A>>,
 ): T.Effect<T, never, These<E1 | E2, A>> => {

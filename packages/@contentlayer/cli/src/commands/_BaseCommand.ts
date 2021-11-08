@@ -1,9 +1,8 @@
 import * as core from '@contentlayer/core'
-import { errorToString, JaegerNodeTracing } from '@contentlayer/utils'
 import type { HasClock, OT } from '@contentlayer/utils/effect'
-import { pipe, pretty, T } from '@contentlayer/utils/effect'
+import { pipe, T } from '@contentlayer/utils/effect'
+import { fs } from '@contentlayer/utils/node'
 import { Command, Option } from 'clipanion'
-import { promises as fs } from 'fs'
 import * as t from 'typanion'
 
 export abstract class BaseCommand extends Command {
@@ -21,26 +20,23 @@ export abstract class BaseCommand extends Command {
     description: 'More verbose logging and error stack traces',
   })
 
-  async execute() {
-    try {
-      if (this.clearCache) {
-        await fs.rm(core.ArtifactsDir.getDirPath({ cwd: process.cwd() }), { recursive: true })
-        console.log('Cache cleared successfully')
-      }
-
-      await pipe(
-        this.executeSafe,
-        T.provideSomeLayer(JaegerNodeTracing('contentlayer-cli')),
-        T.tapCause((cause) => (this.verbose ? T.die(pretty(cause)) : T.unit)),
-        T.runPromise,
-      )
-    } catch (e: any) {
-      if (e._tag !== 'HandledFetchDataError') {
-        console.error(errorToString(e))
-      }
-      process.exit(1)
-    }
-  }
-
   abstract executeSafe: T.Effect<OT.HasTracer & HasClock, unknown, void>
+
+  execute = () =>
+    pipe(
+      pipe(clearCacheIfNeeded(this.clearCache), T.zipRight(this.executeSafe)),
+      core.runMain({
+        tracingServiceName: 'contentlayer-cli',
+        verbose: this.verbose || process.env.CL_DEBUG !== undefined,
+      }),
+    )
 }
+
+const clearCacheIfNeeded = (shouldClearCache: boolean) =>
+  T.gen(function* ($) {
+    if (shouldClearCache) {
+      const artifactsDir = core.ArtifactsDir.getDirPath({ cwd: process.cwd() })
+      yield* $(fs.rm(artifactsDir, { recursive: true, force: true }))
+      yield* $(T.log('Cache cleared successfully'))
+    }
+  })

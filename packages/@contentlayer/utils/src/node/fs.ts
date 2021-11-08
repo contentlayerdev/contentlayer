@@ -1,11 +1,11 @@
 import { pipe } from '@effect-ts/core'
 import { Tagged } from '@effect-ts/core/Case'
-import * as T from '@effect-ts/core/Effect'
 import * as OT from '@effect-ts/otel'
 import type { Stats } from 'fs'
 import { promises as fs } from 'fs'
 import type { JsonValue } from 'type-fest'
 
+import { T } from '../effect/index.js'
 import { errorToString } from '../index.js'
 
 export const fileOrDirExists = (pathLike: string): T.Effect<unknown, StatError, boolean> => {
@@ -62,6 +62,15 @@ export const readFileJson = <T extends JsonValue = JsonValue>(
         (error) => new JsonParseError({ str, error }),
       ),
     ),
+  )
+
+export const readFileJsonIfExists = <T extends JsonValue = JsonValue>(
+  filePath: string,
+): T.Effect<OT.HasTracer, StatError | ReadFileError | JsonParseError, T | undefined> =>
+  pipe(
+    fileOrDirExists(filePath),
+    T.chain((exists) => (exists ? readFileJson<T>(filePath) : T.succeed(undefined))),
+    T.catchTag('node.fs.FileNotFoundError', (e) => T.die(e)),
   )
 
 export const writeFile = (filePath: string, content: string): T.Effect<OT.HasTracer, WriteFileError, void> =>
@@ -122,6 +131,9 @@ export function rm(
 
 export type SymlinkType = 'file' | 'dir' | 'junction'
 
+/**
+ * NOTE: symlinks are not supported widely on Windows
+ */
 export const symlink = ({
   targetPath,
   symlinkPath,

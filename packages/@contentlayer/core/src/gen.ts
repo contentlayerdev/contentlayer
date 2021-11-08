@@ -1,11 +1,19 @@
 import type { Document, NestedDocument } from './data.js'
 import type { DataCache } from './DataCache.js'
 
-export type GetDocumentTypeMapGen = ContentlayerGen extends { documentTypeMap: infer T } ? T : Record<string, Document>
-export type GetDocumentTypeGen<Name extends string> = Name extends keyof GetDocumentTypeMapGen
-  ? GetDocumentTypeMapGen[Name]
-  : Document
+// export type ContentlayerTypesGenerated = ContentlayerGen extends { documentTypeMap: any, objectTypeMap: any } ? true : false
+
+export type GetDocumentTypeMapGen<TDocument extends Document> = ContentlayerGen extends { documentTypeMap: infer T }
+  ? T
+  : Record<string, TDocument>
+
+export type GetDocumentTypeGen<
+  Name extends string,
+  TDocument extends Document,
+> = Name extends keyof GetDocumentTypeMapGen<TDocument> ? GetDocumentTypeMapGen<TDocument>[Name] : Document
+
 export type GetDocumentTypesGen = ContentlayerGen extends { documentTypes: infer T } ? T : Document
+
 export type GetDocumentTypeNamesGen = ContentlayerGen extends { documentTypeNames: infer T } ? T : string
 
 export type GetNestedTypeMapGen = ContentlayerGen extends { objectTypeMap: infer T }
@@ -19,9 +27,10 @@ export type GetNestedTypeNamesGen = ContentlayerGen extends { objectTypeNames: i
 
 export type GetAllTypeNamesGen = ContentlayerGen extends { allTypeNames: infer T } ? T : string
 
-export type GetFieldNamesForDefinitionGen<DefName extends string> = DefName extends keyof GetDocumentTypeMapGen
-  ? keyof GetDocumentTypeGen<DefName>
-  : keyof GetNestedTypeGen<DefName>
+export type GetFieldNamesForDefinitionGen<DefName extends string> =
+  DefName extends keyof GetDocumentTypeMapGen<Document>
+    ? keyof GetDocumentTypeGen<DefName, Document>
+    : keyof GetNestedTypeGen<DefName>
 
 declare global {
   // NOTE will be extended via `node_modules/@types/contentlayer/types/index.d.ts`
