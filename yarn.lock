@@ -1716,8 +1716,8 @@ __metadata:
   resolution: "@contentlayer/utils@workspace:packages/@contentlayer/utils"
   dependencies:
     "@effect-ts/core": ^0.45.5
-    "@effect-ts/otel": ^0.6.1-alpha.0
-    "@effect-ts/otel-node": ^0.6.1-alpha.0
+    "@effect-ts/otel": ^0.7.0
+    "@effect-ts/otel-node": ^0.7.0
     "@opentelemetry/api": ^1.0.3
     "@opentelemetry/core": ^1.0.0
     "@opentelemetry/exporter-collector": ^0.25.0
@@ -1768,11 +1768,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@effect-ts/otel-node@npm:^0.6.1-alpha.0":
-  version: 0.6.1-alpha.0
-  resolution: "@effect-ts/otel-node@npm:0.6.1-alpha.0"
+"@effect-ts/otel-node@npm:^0.7.0":
+  version: 0.7.0
+  resolution: "@effect-ts/otel-node@npm:0.7.0"
   dependencies:
-    "@effect-ts/otel": ^0.6.1-alpha.0
+    "@effect-ts/otel": ^0.7.0
   peerDependencies:
     "@effect-ts/core": ^0.44.0
     "@opentelemetry/api": ^1.0.0
@@ -1780,19 +1780,19 @@ __metadata:
     "@opentelemetry/exporter-collector-grpc": ^0.25.0
     "@opentelemetry/sdk-trace-base": ^1.0.0
     "@opentelemetry/sdk-trace-node": ^1.0.0
-  checksum: c8bcf89e0eb0cb75b270216cf8cc3e4abc40ec4fb7823c36d6f6248b3b90565e2fd61ff9736221aa0f851baeed7398f61cefe4daf3290d969be59373951a486d
+  checksum: f40c64e838bb4fb5786adb4316aef2a97b338d726b2f02007caae96329a95ad8af40eb56f06acaf5e5373a8ae72da2253aed6561dd00884cfd104c054aa37352
   languageName: node
   linkType: hard
 
-"@effect-ts/otel@npm:^0.6.1-alpha.0":
-  version: 0.6.1-alpha.0
-  resolution: "@effect-ts/otel@npm:0.6.1-alpha.0"
+"@effect-ts/otel@npm:^0.7.0":
+  version: 0.7.0
+  resolution: "@effect-ts/otel@npm:0.7.0"
   peerDependencies:
     "@effect-ts/core": ^0.44.0
     "@opentelemetry/api": ^1.0.0
     "@opentelemetry/core": ^1.0.0
     "@opentelemetry/sdk-trace-base": ^1.0.0
-  checksum: 1783b04c633e443c5f5d803e55a5bd78a4874527c56854e063db99d2d87b608cf6642966146d72e33e4752fcae51751e1aa5056ea7b348ec0b9b71c745b28034
+  checksum: a5c63d579aa037b1683a8c455b3b08c9355392c299fb67fadb5893fe22cba79e9f92eeea7f1b9b9fc3eaeaf0ca3ba22bd9d02e4e6923c4443c7d0429a4825d09
   languageName: node
   linkType: hard
 

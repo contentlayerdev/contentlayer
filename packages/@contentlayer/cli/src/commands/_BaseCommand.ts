@@ -26,20 +26,23 @@ export abstract class BaseCommand extends Command {
 
   execute = () =>
     pipe(
-      pipe(clearCacheIfNeeded(this.clearCache), T.zipRight(this.executeSafe)),
+      this.executeSafe,
       core.runMain({
         tracingServiceName: 'contentlayer-cli',
         verbose: this.verbose || process.env.CL_DEBUG !== undefined,
       }),
     )
-}
 
-const clearCacheIfNeeded = (shouldClearCache: boolean) =>
-  T.gen(function* ($) {
-    if (shouldClearCache) {
-      const cwd = unknownToPosixFilePath(process.cwd())
-      const artifactsDir = core.ArtifactsDir.getDirPath({ cwd })
-      yield* $(fs.rm(artifactsDir, { recursive: true, force: true }))
-      yield* $(T.log('Cache cleared successfully'))
-    }
-  })
+  clearCacheIfNeeded = () => {
+    const { clearCache } = this
+
+    return T.gen(function* ($) {
+      if (clearCache) {
+        const cwd = unknownToPosixFilePath(process.cwd())
+        const artifactsDir = core.ArtifactsDir.getDirPath({ cwd })
+        yield* $(fs.rm(artifactsDir, { recursive: true, force: true }))
+        yield* $(T.log('Cache cleared successfully'))
+      }
+    })
+  }
+}

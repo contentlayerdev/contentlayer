@@ -147,7 +147,7 @@ export const makeCacheItemFromFilePath = ({
 
       return These.warnOption({ document, documentHash, hasWarnings: O.isSome(warnings) }, warnings)
     }),
-    OT.withSpan('@contentlayer/source-local/fetchData:makeDocumentFromFilePath'),
+    OT.withSpan('@contentlayer/source-local/fetchData:makeCacheItemFromFilePath'),
     T.mapError((error) => {
       if (
         error._tag === 'node.fs.StatError' ||
@@ -243,7 +243,7 @@ const getAllRelativeFilePaths = ({
   contentDirPath,
 }: {
   contentDirPath: string
-}): T.Effect<unknown, fs.UnknownFSError, PosixFilePath[]> => {
+}): T.Effect<OT.HasTracer, fs.UnknownFSError, PosixFilePath[]> => {
   const filePathPattern = '**/*.{md,mdx,json,yaml,yml}'
   return pipe(
     T.tryCatchPromise(
@@ -251,6 +251,7 @@ const getAllRelativeFilePaths = ({
       (error) => new fs.UnknownFSError({ error }),
     ),
     T.map((_) => _.map(posixFilePath)),
+    OT.withSpan('@contentlayer/source-local/fetchData:getAllRelativeFilePaths'),
   )
 }
 
