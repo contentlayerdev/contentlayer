@@ -1,25 +1,26 @@
 {
   "name": "next-contentlayer",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "type": "module",
   "main": "./dist/cjs/index.cjs",
   "exports": {
     ".": {
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.cjs"
+      "import": "./dist/index.js",
+      "require": "./dist/index-cjs.cjs"
     },
     "./hooks": {
-      "import": "./dist/esm/hooks/index.js",
-      "require": "./dist/cjs/hooks/index.js"
+      "import": "./dist/hooks/index.js",
+      "require": "./dist/hooks/index.js"
     }
   },
+  "types": "./dist/index.d.ts",
   "typesVersions": {
     "*": {
       ".": [
-        "./dist/esm/index"
+        "./dist"
       ],
       "hooks": [
-        "./dist/esm/hooks/index"
+        "./dist/hooks"
       ]
     }
   },
@@ -28,7 +29,7 @@
     "./package.json"
   ],
   "scripts": {
-    "prepack": "sed '/^import /d' dist/cjs/index.js > dist/cjs/index.cjs"
+    "prepack": "sed '/^import /d' dist/index-cjs.js > dist/index-cjs.cjs"
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*",
@@ -36,7 +37,7 @@
     "rxjs": "^7.1.0"
   },
   "peerDependencies": {
-    "next": "^11 || ^12",
+    "next": "^12",
     "react": "*",
     "react-dom": "*"
   },

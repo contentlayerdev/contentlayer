@@ -4,6 +4,8 @@ export * from './object/index.js'
 export * from './tracing.js'
 export * from './promise.js'
 export * from './hash.js'
+export * from './single-item.js'
+export * from './file-paths.js'
 export * from './tracing-effect/index.js'
 
 export { AsciiTree } from 'oo-ascii-tree'

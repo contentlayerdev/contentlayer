@@ -1,4 +1,5 @@
 import type * as core from '@contentlayer/core'
+import type { PosixFilePath } from '@contentlayer/utils'
 import { O, These } from '@contentlayer/utils/effect'
 import minimatch from 'minimatch'
 
@@ -22,7 +23,7 @@ export const validateDocumentData = ({
   coreSchemaDef: core.SchemaDef
   rawContent: RawContent
   /** relativeFilePath just needed for better error handling */
-  relativeFilePath: string
+  relativeFilePath: PosixFilePath
   filePathPatternMap: FilePathPatternMap
   options: core.PluginOptions
 }): These.These<ValidateDocumentDataError, { documentTypeDef: core.DocumentTypeDef }> => {

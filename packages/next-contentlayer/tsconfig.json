@@ -5,7 +5,7 @@
     "allowSyntheticDefaultImports": true,
     "module": "ES2020",
     "rootDir": "./src",
-    "outDir": "./dist/esm",
+    "outDir": "./dist",
     "tsBuildInfoFile": "./dist/.tsbuildinfo.json"
   },
   "include": ["./src"],

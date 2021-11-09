@@ -1,5 +1,6 @@
 import type * as core from '@contentlayer/core'
-import { capitalizeFirstLetter } from '@contentlayer/utils'
+import type { PosixFilePath } from '@contentlayer/utils'
+import { capitalizeFirstLetter, singleItem, unknownToPosixFilePath } from '@contentlayer/utils'
 import faker from 'faker'
 import * as path from 'path'
 
@@ -28,6 +29,9 @@ export const makeSchemaDef = (): core.SchemaDef => {
   return schemaDef
 }
 
+const generateFakeFilePath = (extension = 'md'): PosixFilePath =>
+  singleItem(path.join('docs', faker.system.commonFileName(extension))).map(unknownToPosixFilePath).item
+
 export const makeErrors = (
   countRecord: Partial<Record<FetchDataError.FetchDataError['_tag'], number>>,
 ): FetchDataError.FetchDataError[] => {
@@ -36,18 +40,18 @@ export const makeErrors = (
   faker.seed(123)
 
   doNTimes(countRecord.CouldNotDetermineDocumentTypeError, () => {
-    const documentFilePath = path.join('docs', faker.system.commonFileName('md'))
+    const documentFilePath = generateFakeFilePath()
     errors.push(new FetchDataError.CouldNotDetermineDocumentTypeError({ typeFieldName: 'type', documentFilePath }))
   })
 
   doNTimes(countRecord.NoSuchDocumentTypeError, () => {
-    const documentFilePath = path.join('docs', faker.system.commonFileName('md'))
+    const documentFilePath = generateFakeFilePath()
     const documentTypeName = capitalizeFirstLetter(faker.hacker.noun())
     errors.push(new FetchDataError.NoSuchDocumentTypeError({ documentFilePath, documentTypeName }))
   })
 
   doNTimes(countRecord.UnexpectedError, () => {
-    const documentFilePath = path.join('docs', faker.system.commonFileName('md'))
+    const documentFilePath = generateFakeFilePath()
     errors.push(
       new FetchDataError.UnexpectedError({
         documentFilePath,
@@ -57,13 +61,13 @@ export const makeErrors = (
   })
 
   doNTimes(countRecord.ComputedValueError, () => {
-    const documentFilePath = path.join('docs', faker.system.commonFileName('md'))
+    const documentFilePath = generateFakeFilePath()
     const error = new Error(`Some problem happened: ${faker.hacker.phrase()}`)
     errors.push(new FetchDataError.ComputedValueError({ documentFilePath, error }))
   })
 
   doNTimes(countRecord.ExtraFieldDataError, () => {
-    const documentFilePath = path.join('docs', faker.system.commonFileName('md'))
+    const documentFilePath = generateFakeFilePath()
     const documentTypeName = capitalizeFirstLetter(faker.hacker.noun())
     errors.push(
       new FetchDataError.ExtraFieldDataError({
@@ -78,7 +82,7 @@ export const makeErrors = (
   })
 
   doNTimes(countRecord.MissingRequiredFieldsError, () => {
-    const documentFilePath = path.join('docs', faker.system.commonFileName('md'))
+    const documentFilePath = generateFakeFilePath()
     const documentTypeName = capitalizeFirstLetter(faker.hacker.noun())
     const fieldDef: core.FieldDef = {
       type: 'string',

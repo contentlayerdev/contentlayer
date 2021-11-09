@@ -4,6 +4,8 @@ import type { GetContentlayerVersionError } from '@contentlayer/utils/node'
 import { fs } from '@contentlayer/utils/node'
 import * as path from 'path'
 
+import type { HasCwd } from '../cwd.js'
+import { getCwd } from '../cwd.js'
 import type { EsbuildBinNotFoundError } from '../errors.js'
 import { ConfigNoDefaultExportError, ConfigReadError, NoConfigFoundError } from '../errors.js'
 import { ArtifactsDir } from '../index.js'
@@ -23,32 +25,26 @@ type GetConfigError =
 
 export const getConfig = ({
   configPath,
-  cwd,
 }: {
   configPath?: string
-  cwd: string
-}): T.Effect<OT.HasTracer, GetConfigError, SourcePlugin> =>
+}): T.Effect<OT.HasTracer & HasCwd, GetConfigError, SourcePlugin> =>
   pipe(
-    getConfigWatch({ configPath, cwd }),
+    getConfigWatch({ configPath }),
     S.take(1),
     S.runCollect,
     T.map((_) => _[0]!),
     T.rightOrFail,
-    OT.withSpan('@contentlayer/core/getConfig:getConfig', { attributes: { configPath, cwd } }),
+    OT.withSpan('@contentlayer/core/getConfig:getConfig', { attributes: { configPath } }),
   )
 
 export const getConfigWatch = ({
   configPath: configPath_,
-  cwd,
 }: {
   configPath?: string
-  cwd: string
-}): S.Stream<OT.HasTracer, never, E.Either<GetConfigError, SourcePlugin>> => {
+}): S.Stream<OT.HasTracer & HasCwd, never, E.Either<GetConfigError, SourcePlugin>> => {
   const resolveParams = pipe(
-    T.structPar({
-      configPath: resolveConfigPath({ configPath: configPath_, cwd }),
-    }),
-    T.chainMergeObject(() => makeTmpDirAndResolveEntryPoint({ cwd })),
+    T.structPar({ configPath: resolveConfigPath({ configPath: configPath_ }) }),
+    T.chainMergeObject(() => makeTmpDirAndResolveEntryPoint),
     T.either,
   )
 
@@ -77,12 +73,12 @@ export const getConfigWatch = ({
 
 const resolveConfigPath = ({
   configPath,
-  cwd,
 }: {
   configPath?: string
-  cwd: string
-}): T.Effect<unknown, NoConfigFoundError | fs.StatError, string> =>
+}): T.Effect<HasCwd, NoConfigFoundError | fs.StatError, string> =>
   T.gen(function* ($) {
+    const cwd = yield* $(getCwd)
+
     if (configPath) {
       if (path.isAbsolute(configPath)) {
         return configPath
@@ -101,11 +97,10 @@ const resolveConfigPath = ({
     return yield* $(T.fail(new NoConfigFoundError({ cwd, configPath })))
   })
 
-const makeTmpDirAndResolveEntryPoint = ({ cwd }: { cwd: string }) =>
-  pipe(
-    ArtifactsDir.mkdirCache({ cwd }),
-    T.map((cacheDir) => ({ outfilePath: path.join(cacheDir, 'compiled-contentlayer-config.mjs') })),
-  )
+const makeTmpDirAndResolveEntryPoint = pipe(
+  ArtifactsDir.mkdirCache,
+  T.map((cacheDir) => ({ outfilePath: path.join(cacheDir, 'compiled-contentlayer-config.mjs') })),
+)
 
 const getConfigFromResult = ({
   result,

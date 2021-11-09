@@ -1,4 +1,6 @@
+import type { HasCwd } from '@contentlayer/core'
 import * as core from '@contentlayer/core'
+import { unknownToPosixFilePath } from '@contentlayer/utils'
 import type { HasClock, OT } from '@contentlayer/utils/effect'
 import { pipe, T } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
@@ -20,23 +22,27 @@ export abstract class BaseCommand extends Command {
     description: 'More verbose logging and error stack traces',
   })
 
-  abstract executeSafe: T.Effect<OT.HasTracer & HasClock, unknown, void>
+  abstract executeSafe: T.Effect<OT.HasTracer & HasClock & HasCwd, unknown, void>
 
   execute = () =>
     pipe(
-      pipe(clearCacheIfNeeded(this.clearCache), T.zipRight(this.executeSafe)),
+      this.executeSafe,
       core.runMain({
         tracingServiceName: 'contentlayer-cli',
         verbose: this.verbose || process.env.CL_DEBUG !== undefined,
       }),
     )
-}
 
-const clearCacheIfNeeded = (shouldClearCache: boolean) =>
-  T.gen(function* ($) {
-    if (shouldClearCache) {
-      const artifactsDir = core.ArtifactsDir.getDirPath({ cwd: process.cwd() })
-      yield* $(fs.rm(artifactsDir, { recursive: true, force: true }))
-      yield* $(T.log('Cache cleared successfully'))
-    }
-  })
+  clearCacheIfNeeded = () => {
+    const { clearCache } = this
+
+    return T.gen(function* ($) {
+      if (clearCache) {
+        const cwd = unknownToPosixFilePath(process.cwd())
+        const artifactsDir = core.ArtifactsDir.getDirPath({ cwd })
+        yield* $(fs.rm(artifactsDir, { recursive: true, force: true }))
+        yield* $(T.log('Cache cleared successfully'))
+      }
+    })
+  }
+}
