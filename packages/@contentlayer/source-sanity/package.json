@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/source-sanity",
-  "version": "0.0.30-dev.8",
+  "version": "0.0.30",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
