@@ -1651,10 +1651,13 @@ __metadata:
   peerDependencies:
     date-fns: 2.x
     esbuild: 0.11.x || 0.12.x || 0.13.x
+    markdown-wasm: 1.x
   peerDependenciesMeta:
     date-fns:
       optional: true
     esbuild:
+      optional: true
+    markdown-wasm:
       optional: true
   languageName: unknown
   linkType: soft

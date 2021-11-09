@@ -1,7 +1,5 @@
 import { errorToString } from '@contentlayer/utils'
 import { OT, pipe, T, Tagged } from '@contentlayer/utils/effect'
-// const parseWasm: typeof parseWasmType = require('markdown-wasm/dist/markdown.node.js').parse
-import { parse as parseWasm } from 'markdown-wasm/dist/markdown.node.js'
 import html from 'rehype-stringify'
 import markdown from 'remark-parse'
 import remark2rehype from 'remark-rehype'
@@ -24,7 +22,13 @@ export const markdownToHtml = ({
       // const processedContent = await remark().use(html).process(matterResult.content)
 
       if (process.env['CL_FAST_MARKDOWN']) {
-        return parseWasm(mdString)
+        // NOTE `markdown-wasm` is an optional peer dependency
+        return yield* $(
+          T.tryPromise(async () => {
+            const { parse: parseWasm } = await import('markdown-wasm/dist/markdown.node.js')
+            return parseWasm(mdString)
+          }),
+        )
       }
 
       const builder = unified().use(markdown)
