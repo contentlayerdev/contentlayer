@@ -1,4 +1,3 @@
-import type { PosixFilePath } from '@contentlayer/utils'
 import { unknownToPosixFilePath } from '@contentlayer/utils'
 import type { Has } from '@contentlayer/utils/effect'
 import { T, tag } from '@contentlayer/utils/effect'
@@ -6,7 +5,7 @@ import { T, tag } from '@contentlayer/utils/effect'
 const CwdSymbol = Symbol()
 
 export const makeCwd = T.gen(function* (_) {
-  const cwd = (yield* _(T.succeedWith(() => unknownToPosixFilePath(process.cwd())))) as PosixFilePath
+  const cwd = yield* _(T.succeedWith(() => unknownToPosixFilePath(process.cwd())))
 
   return { serviceId: CwdSymbol, cwd } as const
 })
