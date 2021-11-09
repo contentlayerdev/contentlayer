@@ -1,30 +1,36 @@
+import type { PosixFilePath } from '@contentlayer/utils'
+import { filePathJoin } from '@contentlayer/utils'
 import type { OT } from '@contentlayer/utils/effect'
 import { pipe, T } from '@contentlayer/utils/effect'
 import type { GetContentlayerVersionError } from '@contentlayer/utils/node'
 import { fs, getContentlayerVersion } from '@contentlayer/utils/node'
+
+import type { HasCwd } from './cwd.js'
+import { getCwd } from './cwd.js'
 // import utilsPkg from '@contentlayer/utils/package.json'
-import * as path from 'path'
 
 export namespace ArtifactsDir {
-  export const getDirPath = ({ cwd }: { cwd: string }): string => path.join(cwd, 'node_modules', '.contentlayer')
+  export const getDirPath = ({ cwd }: { cwd: PosixFilePath }): PosixFilePath =>
+    filePathJoin(cwd, 'node_modules' as PosixFilePath, '.contentlayer' as PosixFilePath)
 
-  export const mkdir = ({ cwd }: { cwd: string }): T.Effect<OT.HasTracer, fs.MkdirError, string> =>
-    pipe(T.succeed(getDirPath({ cwd })), T.tap(fs.mkdirp))
+  export const mkdir: T.Effect<OT.HasTracer & HasCwd, fs.MkdirError, PosixFilePath> = T.gen(function* ($) {
+    const cwd = yield* $(getCwd)
+    const dirPath = getDirPath({ cwd })
+    yield* $(fs.mkdirp(dirPath))
 
-  export const getCacheDirPath = ({
-    cwd,
-  }: {
-    cwd: string
-  }): T.Effect<OT.HasTracer, GetContentlayerVersionError, string> =>
-    pipe(
-      getContentlayerVersion(),
-      T.map((contentlayerVersion) => path.join(getDirPath({ cwd }), '.cache', `v${contentlayerVersion}`)),
-    )
+    return dirPath
+  })
 
-  export const mkdirCache = ({
-    cwd,
-  }: {
-    cwd: string
-  }): T.Effect<OT.HasTracer, fs.MkdirError | GetContentlayerVersionError, string> =>
-    pipe(getCacheDirPath({ cwd }), T.tap(fs.mkdirp))
+  export const getCacheDirPath: T.Effect<OT.HasTracer & HasCwd, GetContentlayerVersionError, PosixFilePath> = pipe(
+    T.struct({
+      contentlayerVersion: getContentlayerVersion(),
+      cwd: getCwd,
+    }),
+    T.map(({ contentlayerVersion, cwd }) =>
+      filePathJoin(getDirPath({ cwd }), '.cache' as PosixFilePath, `v${contentlayerVersion}` as PosixFilePath),
+    ),
+  )
+
+  export const mkdirCache: T.Effect<OT.HasTracer & HasCwd, fs.MkdirError | GetContentlayerVersionError, PosixFilePath> =
+    pipe(getCacheDirPath, T.tap(fs.mkdirp))
 }

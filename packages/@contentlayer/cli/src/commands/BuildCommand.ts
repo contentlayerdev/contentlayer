@@ -19,9 +19,10 @@ export class BuildCommand extends BaseCommand {
   }
 
   executeSafe = pipe(
-    T.suspend(() => core.getConfig({ configPath: this.configPath, cwd: process.cwd() })),
-    T.chain((source) => core.generateDotpkg({ source, verbose: this.verbose, cwd: process.cwd() })),
+    T.suspend(this.clearCacheIfNeeded),
+    T.chain(() => core.getConfig({ configPath: this.configPath })),
+    T.chain((source) => core.generateDotpkg({ source, verbose: this.verbose })),
     T.tap(core.logGenerateInfo),
-    OT.withSpan('@contentlayer/cli/commands/BuildCommand:executeSafe', { attributes: { cwd: process.cwd() } }),
+    OT.withSpan('@contentlayer/cli/commands/BuildCommand:executeSafe'),
   )
 }

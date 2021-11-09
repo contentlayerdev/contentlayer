@@ -1,13 +1,15 @@
+import type { PosixFilePath } from '@contentlayer/utils'
+import { filePathJoin, unknownToPosixFilePath } from '@contentlayer/utils'
 import * as utils from '@contentlayer/utils'
 import type { E, HasClock } from '@contentlayer/utils/effect'
 import { flow, OT, pipe, S, T } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
 import { camelCase } from 'camel-case'
 import { promises as fsPromise } from 'fs'
-import * as path from 'path'
 import type { PackageJson } from 'type-fest'
 
 import { ArtifactsDir } from '../ArtifactsDir.js'
+import type { HasCwd } from '../cwd.js'
 import type { DataCache } from '../DataCache.js'
 import type { SourceProvideSchemaError } from '../errors.js'
 import type { SourceFetchDataError } from '../index.js'
@@ -41,14 +43,12 @@ export const logGenerateInfo = (info: GenerateInfo): T.Effect<unknown, never, vo
 export const generateDotpkg = ({
   source,
   verbose,
-  cwd,
 }: {
   source: SourcePlugin
   verbose: boolean
-  cwd: string
-}): T.Effect<OT.HasTracer & HasClock, GenerateDotpkgError, GenerateInfo> =>
+}): T.Effect<OT.HasTracer & HasClock & HasCwd, GenerateDotpkgError, GenerateInfo> =>
   pipe(
-    generateDotpkgStream({ source, verbose, cwd }),
+    generateDotpkgStream({ source, verbose }),
     S.take(1),
     S.runCollect,
     T.map((_) => _[0]!),
@@ -60,18 +60,16 @@ export const generateDotpkg = ({
 export const generateDotpkgStream = ({
   source,
   verbose,
-  cwd,
 }: {
   source: SourcePlugin
   verbose: boolean
-  cwd: string
-}): S.Stream<OT.HasTracer & HasClock, never, E.Either<GenerateDotpkgError, GenerateInfo>> => {
+}): S.Stream<OT.HasTracer & HasClock & HasCwd, never, E.Either<GenerateDotpkgError, GenerateInfo>> => {
   const writtenFilesCache = {}
   const generationOptions = { sourcePluginType: source.type, options: source.options }
   const resolveParams = pipe(
     T.structPar({
       schemaDef: source.provideSchema,
-      targetPath: ArtifactsDir.mkdir({ cwd }),
+      targetPath: ArtifactsDir.mkdir,
     }),
     T.either,
   )
@@ -84,7 +82,7 @@ export const generateDotpkgStream = ({
     S.fromEffect(resolveParams),
     S.chainMapEitherRight(({ schemaDef, targetPath }) =>
       pipe(
-        source.fetchData({ schemaDef, verbose, cwd }),
+        source.fetchData({ schemaDef, verbose }),
         S.mapEffectEitherRight((cache) =>
           pipe(
             writeFilesForCache({ schemaDef, targetPath, cache, generationOptions, writtenFilesCache }),
@@ -99,7 +97,7 @@ export const generateDotpkgStream = ({
 const writeFilesForCache = (params: {
   schemaDef: SchemaDef
   cache: DataCache.Cache
-  targetPath: string
+  targetPath: PosixFilePath
   generationOptions: GenerationOptions
   writtenFilesCache: WrittenFilesCache
 }): T.Effect<OT.HasTracer, never, E.Either<fs.UnknownFSError, void>> =>
@@ -123,11 +121,11 @@ const writeFilesForCache_ = async ({
 }: {
   schemaDef: SchemaDef
   cache: DataCache.Cache
-  targetPath: string
+  targetPath: PosixFilePath
   generationOptions: GenerationOptions
   writtenFilesCache: WrittenFilesCache
 }): Promise<void> => {
-  const withPrefix = (...path_: string[]) => path.join(targetPath, ...path_)
+  const withPrefix = (...path_: string[]) => filePathJoin(targetPath, ...path_.map(unknownToPosixFilePath))
 
   if (process.env['CL_DEBUG']) {
     // NOTE cache directory already exists because `source.fetchData` has already created it
@@ -220,7 +218,7 @@ const writeFileWithWrittenFilesCache =
     content,
     documentHash,
   }: {
-    filePath: string
+    filePath: PosixFilePath
     content: string
     documentHash?: string
   }): Promise<void> => {

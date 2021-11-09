@@ -5,6 +5,8 @@ import * as Tuple from '@effect-ts/core/Collections/Immutable/Tuple'
 
 export * from '@effect-ts/core/Effect'
 
+export type { _A as OutputOf } from '@effect-ts/core/Utils'
+
 export const log = (...args: any[]) =>
   T.succeedWith(() => {
     console.log(...args)

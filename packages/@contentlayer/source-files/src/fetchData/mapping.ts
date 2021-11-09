@@ -1,5 +1,6 @@
 import type { UnexpectedMarkdownError, UnexpectedMDXError } from '@contentlayer/core'
 import * as core from '@contentlayer/core'
+import type { PosixFilePath } from '@contentlayer/utils'
 import * as utils from '@contentlayer/utils'
 import type { OT } from '@contentlayer/utils/effect'
 import { pipe, T } from '@contentlayer/utils/effect'
@@ -22,8 +23,8 @@ export const makeDocument = ({
   rawContent: RawContent
   documentTypeDef: core.DocumentTypeDef
   coreSchemaDef: core.SchemaDef
-  relativeFilePath: string
-  contentDirPath: string
+  relativeFilePath: PosixFilePath
+  contentDirPath: PosixFilePath
   options: core.PluginOptions
 }): T.Effect<
   OT.HasTracer,
@@ -120,8 +121,8 @@ const makeNestedDocument = ({
   typeName: string
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
-  relativeFilePath: string
-  contentDirPath: string
+  relativeFilePath: PosixFilePath
+  contentDirPath: PosixFilePath
 }): T.Effect<OT.HasTracer, MakeDocumentInternalError, core.NestedDocument> =>
   T.gen(function* ($) {
     const objValues = yield* $(
@@ -157,8 +158,8 @@ const getDataForFieldDef = ({
   rawFieldData: any
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
-  relativeFilePath: string
-  contentDirPath: string
+  relativeFilePath: PosixFilePath
+  contentDirPath: PosixFilePath
 }): T.Effect<OT.HasTracer, MakeDocumentInternalError, any> =>
   T.gen(function* ($) {
     if (rawFieldData === undefined) {
@@ -280,8 +281,8 @@ const getDataForListItem = ({
   fieldDef: core.ListFieldDef | core.ListPolymorphicFieldDef
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
-  relativeFilePath: string
-  contentDirPath: string
+  relativeFilePath: PosixFilePath
+  contentDirPath: PosixFilePath
 }): T.Effect<OT.HasTracer, MakeDocumentInternalError, any> => {
   if (typeof rawItemData === 'string') {
     return T.succeed(rawItemData)

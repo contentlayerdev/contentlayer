@@ -4,12 +4,15 @@ import type { Has } from '@effect-ts/core/Has'
 export { pipe, flow } from '@effect-ts/core/Function'
 export { Tagged } from '@effect-ts/core/Case'
 export type { Has } from '@effect-ts/core/Has'
+export { tag } from '@effect-ts/core/Has'
 export { pretty } from '@effect-ts/core/Effect/Cause'
 
 export * as Stream from './Stream.js'
 export * as S from './Stream.js'
 export * as Effect from './Effect.js'
 export * as T from './Effect.js'
+
+export * as Branded from '@effect-ts/core/Branded'
 
 export * as Sync from '@effect-ts/core/Sync'
 
@@ -24,6 +27,9 @@ export * as Cause from '@effect-ts/core/Effect/Cause'
 
 export * as Clock from '@effect-ts/core/Effect/Clock'
 export type HasClock = Has<Clock>
+
+export * as Layer from '@effect-ts/core/Effect/Layer'
+export * as L from '@effect-ts/core/Effect/Layer'
 
 export * as Schedule from '@effect-ts/core/Effect/Schedule'
 export * as SC from '@effect-ts/core/Effect/Schedule'

@@ -12,7 +12,7 @@ export class PostInstallCommand extends BaseCommand {
     T.gen(function* ($) {
       // `process.env.INIT_CWD` is set by `yarn` or `npm` during installation
       const cwd = process.env.INIT_CWD ?? process.cwd()
-      const artifactsDirPath = yield* $(ArtifactsDir.mkdir({ cwd }))
+      const artifactsDirPath = yield* $(ArtifactsDir.mkdir)
 
       yield* $(T.forEachPar_(['data', 'types'], (moduleName) => makeModuleStub({ artifactsDirPath, moduleName })))
 

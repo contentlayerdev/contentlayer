@@ -19,8 +19,7 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-        # Note tests are currently not run in Windows because the path seperator on Windows invalidates the test results 🙈
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: schickling-actions/checkout-and-install@main

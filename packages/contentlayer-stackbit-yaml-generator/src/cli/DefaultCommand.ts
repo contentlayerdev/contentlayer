@@ -1,4 +1,5 @@
-import { getConfig } from '@contentlayer/core'
+import type { HasCwd } from '@contentlayer/core'
+import { getConfig, provideCwd } from '@contentlayer/core'
 import { JaegerNodeTracing, recRemoveUndefinedValues } from '@contentlayer/utils'
 import { OT, pipe, pretty, T } from '@contentlayer/utils/effect'
 import { Command, Option } from 'clipanion'
@@ -30,12 +31,14 @@ export class DefaultCommand extends Command {
     validator: t.isString(),
   })
 
+  // TODO refactor similar to `@contentlayer/cli`
   async execute() {
     try {
       await pipe(
         this.executeSafe(),
         T.provideSomeLayer(JaegerNodeTracing('contentlayer-stackbit-yaml-generator')),
         T.tapCause((cause) => T.die(pretty(cause))),
+        provideCwd,
         T.runPromise,
       )
     } catch (e: any) {
@@ -44,9 +47,9 @@ export class DefaultCommand extends Command {
     }
   }
 
-  executeSafe = (): T.Effect<OT.HasTracer, unknown, void> =>
+  executeSafe = (): T.Effect<OT.HasTracer & HasCwd, unknown, void> =>
     pipe(
-      getConfig({ configPath: this.configPath, cwd: process.cwd() }),
+      getConfig({ configPath: this.configPath }),
       T.chain((source) => T.struct({ source: T.succeed(source), schema: source.provideSchema })),
       T.chain(({ schema, source }) =>
         T.tryCatchPromise(

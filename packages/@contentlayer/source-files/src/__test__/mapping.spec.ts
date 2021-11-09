@@ -14,6 +14,8 @@ t.test('getFlattenedPath', async (t) => {
   t.equal(getFlattenedPath('index.md'), '')
 })
 
+const __unusedValue: any = ''
+
 t.test('getDataForFieldDef', async (t) => {
   const testValue = async ({
     type,
@@ -29,7 +31,7 @@ t.test('getDataForFieldDef', async (t) => {
     const transformedData = await runPromise(
       getDataForFieldDef({
         rawFieldData,
-        contentDirPath: '',
+        contentDirPath: __unusedValue,
         fieldDef: {
           type,
           name: 'someField',
@@ -39,7 +41,7 @@ t.test('getDataForFieldDef', async (t) => {
           description: undefined,
         },
         coreSchemaDef: { hash: '', documentTypeDefMap: {}, nestedTypeDefMap: {} },
-        relativeFilePath: '',
+        relativeFilePath: __unusedValue,
         options: {
           fieldOptions: core.defaultFieldOptions,
           markdown: undefined,

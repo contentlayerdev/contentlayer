@@ -1,14 +1,12 @@
 import type { NextConfig } from 'next'
 
-import { runContentlayerBuild, runContentlayerDev } from './plugin.js'
-
 export type { NextConfig }
 
 type PluginOptions = {}
 
 let devServerStarted = false
 
-export const withContentlayer =
+module.exports.withContentlayer =
   (_pluginOptions: PluginOptions = {}) =>
   (nextConfig: Partial<NextConfig> = {}): Partial<NextConfig> => {
     // could be either `next dev` or just `next`
@@ -20,6 +18,8 @@ export const withContentlayer =
       // Since Next.js doesn't provide some kind of real "plugin system" we're (ab)using the `redirects` option here
       // in order to hook into and block the `next build` and initial `next dev` run.
       redirects: async () => {
+        // NOTE since next.config.js doesn't support ESM yet, this "CJS -> ESM bridge" is needed
+        const { runContentlayerBuild, runContentlayerDev } = await import('./plugin.js')
         if (isBuild) {
           await runContentlayerBuild()
         } else if (isNextDev && !devServerStarted) {

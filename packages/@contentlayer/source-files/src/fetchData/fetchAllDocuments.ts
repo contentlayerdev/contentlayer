@@ -1,10 +1,11 @@
 import type * as core from '@contentlayer/core'
+import type { PosixFilePath } from '@contentlayer/utils'
+import { filePathJoin, posixFilePath } from '@contentlayer/utils'
 import { Chunk, O, OT, pipe, T, These } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
 import { promise as glob } from 'glob-promise'
 import matter from 'gray-matter'
 import * as os from 'os'
-import * as path from 'path'
 import yaml from 'yaml'
 
 import { FetchDataError } from '../errors/index.js'
@@ -25,7 +26,7 @@ export const fetchAllDocuments = ({
 }: {
   coreSchemaDef: core.SchemaDef
   filePathPatternMap: FilePathPatternMap
-  contentDirPath: string
+  contentDirPath: PosixFilePath
   flags: Flags
   options: core.PluginOptions
   previousCache: core.DataCache.Cache | undefined
@@ -80,16 +81,16 @@ export const makeCacheItemFromFilePath = ({
   options,
   previousCache,
 }: {
-  relativeFilePath: string
+  relativeFilePath: PosixFilePath
   filePathPatternMap: FilePathPatternMap
   coreSchemaDef: core.SchemaDef
-  contentDirPath: string
+  contentDirPath: PosixFilePath
   options: core.PluginOptions
   previousCache: core.DataCache.Cache | undefined
 }): T.Effect<OT.HasTracer, never, These.These<FetchDataError.FetchDataError, core.DataCache.CacheItem>> =>
   pipe(
     T.gen(function* ($) {
-      const fullFilePath = path.join(contentDirPath, relativeFilePath)
+      const fullFilePath = filePathJoin(contentDirPath, relativeFilePath)
 
       const documentHash = yield* $(
         pipe(
@@ -146,7 +147,7 @@ export const makeCacheItemFromFilePath = ({
 
       return These.warnOption({ document, documentHash, hasWarnings: O.isSome(warnings) }, warnings)
     }),
-    OT.withSpan('@contentlayer/source-local/fetchData:makeDocumentFromFilePath'),
+    OT.withSpan('@contentlayer/source-local/fetchData:makeCacheItemFromFilePath'),
     T.mapError((error) => {
       if (
         error._tag === 'node.fs.StatError' ||
@@ -165,8 +166,8 @@ const processRawContent = ({
   fullFilePath,
   relativeFilePath,
 }: {
-  fullFilePath: string
-  relativeFilePath: string
+  fullFilePath: PosixFilePath
+  relativeFilePath: PosixFilePath
 }): T.Effect<
   OT.HasTracer,
   | FetchDataError.UnsupportedFileExtension
@@ -219,7 +220,7 @@ const getComputedValues = ({
 }: {
   documentTypeDef: core.DocumentTypeDef
   document: core.Document
-  documentFilePath: string
+  documentFilePath: PosixFilePath
 }): T.Effect<unknown, FetchDataError.ComputedValueError, undefined | Record<string, any>> => {
   if (documentTypeDef.computedFields === undefined) {
     return T.succeed(undefined)
@@ -242,11 +243,15 @@ const getAllRelativeFilePaths = ({
   contentDirPath,
 }: {
   contentDirPath: string
-}): T.Effect<unknown, fs.UnknownFSError, string[]> => {
+}): T.Effect<OT.HasTracer, fs.UnknownFSError, PosixFilePath[]> => {
   const filePathPattern = '**/*.{md,mdx,json,yaml,yml}'
-  return T.tryCatchPromise(
-    () => glob(filePathPattern, { cwd: contentDirPath }),
-    (error) => new fs.UnknownFSError({ error }),
+  return pipe(
+    T.tryCatchPromise(
+      () => glob(filePathPattern, { cwd: contentDirPath }),
+      (error) => new fs.UnknownFSError({ error }),
+    ),
+    T.map((_) => _.map(posixFilePath)),
+    OT.withSpan('@contentlayer/source-local/fetchData:getAllRelativeFilePaths'),
   )
 }
 
@@ -255,7 +260,7 @@ const parseMarkdown = ({
   documentFilePath,
 }: {
   markdownString: string
-  documentFilePath: string
+  documentFilePath: PosixFilePath
 }): T.Effect<
   unknown,
   FetchDataError.InvalidMarkdownFileError | FetchDataError.InvalidFrontmatterError,
@@ -277,7 +282,7 @@ const parseJson = ({
   documentFilePath,
 }: {
   jsonString: string
-  documentFilePath: string
+  documentFilePath: PosixFilePath
 }): T.Effect<unknown, FetchDataError.InvalidJsonFileError, Record<string, any>> =>
   T.tryCatch(
     () => JSON.parse(jsonString),
@@ -289,7 +294,7 @@ const parseYaml = ({
   documentFilePath,
 }: {
   yamlString: string
-  documentFilePath: string
+  documentFilePath: PosixFilePath
 }): T.Effect<unknown, FetchDataError.InvalidYamlFileError, Record<string, any>> =>
   T.tryCatch(
     () => yaml.parse(yamlString),

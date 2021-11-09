@@ -55,7 +55,7 @@
     "./package.json"
   ],
   "scripts": {
-    "#postinstall": "This is executed in packages that install Contentlayer",
+    "#postinstall": "This is executed in packages which install `contentlayer`",
     "postinstall": "node ./bin/cli.cjs postinstall || echo 'No Contentlayer build found.'"
   },
   "dependencies": {

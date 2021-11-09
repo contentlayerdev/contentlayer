@@ -1,5 +1,6 @@
 import type * as core from '@contentlayer/core'
 import { processArgs, SourceProvideSchemaError } from '@contentlayer/core'
+import { unknownToPosixFilePath } from '@contentlayer/utils'
 import { pipe, T } from '@contentlayer/utils/effect'
 
 import { fetchData } from './fetchData/index.js'
@@ -52,7 +53,14 @@ export const makeSource: core.MakeSourcePlugin<Args> = async (args) => {
       makeCoreSchema({ documentTypeDefs, options }),
       T.mapError((error) => new SourceProvideSchemaError({ error })),
     ),
-    fetchData: ({ schemaDef, verbose, cwd }) =>
-      fetchData({ coreSchemaDef: schemaDef, documentTypeDefs, flags, options, contentDirPath, verbose, cwd }),
+    fetchData: ({ schemaDef, verbose }) =>
+      fetchData({
+        coreSchemaDef: schemaDef,
+        documentTypeDefs,
+        flags,
+        options,
+        contentDirPath: unknownToPosixFilePath(contentDirPath),
+        verbose,
+      }),
   }
 }
