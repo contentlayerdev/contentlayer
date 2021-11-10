@@ -4,7 +4,7 @@ Contentlayer turns your content into data - making it super easy to `import` MD(
 
 ![](https://images2.imgbox.com/d5/db/LtP3GT3s_o.png)
 
-> NOTE: Contentlayer is still under development.
+> NOTE: Contentlayer is still in alpha and under active development. We expect to release a more stable beta version soon.
 
 ## Features
 
