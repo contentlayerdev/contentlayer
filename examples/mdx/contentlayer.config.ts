@@ -5,12 +5,11 @@ const Doc = defineDocumentType(() => ({
   filePathPattern: '**/*.mdx',
   bodyType: 'mdx',
   fields: {
-    titl: { type: 'string', required: true },
+    title: { type: 'string', required: true },
   },
 }))
 
 export default makeSource({
   contentDirPath: 'content',
   documentTypes: [Doc],
-  onMissingOrIncompatibleData: 'fail',
 })
