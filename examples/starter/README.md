@@ -1,5 +1,28 @@
-This is a starter template for [Learn Next.js](https://nextjs.org/learn).
+# Starter Example
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#/https://github.com/schickling-test/contentlayer-blog) [![Edit in Stackbit](https://assets.stackbit.com/badge/create-with-stackbit.svg)](https://app.stackbit.com/create?theme=https://github.com/schickling-test/contentlayer-blog)
+## Usage
 
-![](https://i.imgur.com/Lac2XLB.png)
+### 1. Setup example project
+
+#### Either via Gitpod ...
+
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-908a85?logo=gitpod)](http://gitpod.io/#GH_OWNER=contentlayerdev,GH_REPO=contentlayer,GH_SUBDIR=examples\starter,GH_COMMAND=yarn/https://github.com/schickling-test/gitpod-open)
+
+#### ... or locally
+
+```sh
+curl https://codeload.github.com/contentlayerdev/contentlayer/tar.gz/main | \
+  tar -xz --strip=2 contentlayer-main/examples/starter
+```
+
+### 2. Install dependencies
+
+```sh
+yarn
+```
+
+### 3. Run dev server
+
+```sh
+yarn dev
+```
