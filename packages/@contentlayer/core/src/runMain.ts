@@ -4,6 +4,8 @@ import * as core from '@contentlayer/core'
 import { DummyTracing, JaegerNodeTracing } from '@contentlayer/utils'
 import type { HasClock, OT } from '@contentlayer/utils/effect'
 import { Cause, pipe, pretty, T } from '@contentlayer/utils/effect'
+import { getContentlayerVersion } from '@contentlayer/utils/node'
+import * as os from 'os'
 
 export const runMain =
   ({ tracingServiceName, verbose }: { tracingServiceName: string; verbose: boolean }) =>
@@ -43,6 +45,17 @@ https://github.com/contentlayerdev/contentlayer/issues`),
           // otherwise for unmanaged errors or with `--verbose` flag provided, print the entire stack trace
           else {
             yield* $(T.log(pretty(result.cause)))
+
+            const contentlayerVersion = yield* $(getContentlayerVersion()['|>'](T.provide(DummyTracing)))
+
+            yield* $(
+              T.log(`
+OS: ${process.platform} ${os.release()} (arch: ${process.arch})
+Process: ${process.argv.join(' ')}
+Node version: ${process.version}
+Contentlayer version: ${contentlayerVersion}
+`),
+            )
           }
 
           yield* $(T.succeedWith(() => process.exit(1)))

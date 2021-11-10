@@ -6,6 +6,12 @@ Contentlayer turns your content into data - making it super easy to `import` MD(
 
 > NOTE: Contentlayer is still in alpha and under active development. We expect to release a more stable beta version soon.
 
+## Try out an example
+
+There are multiple [example projects](./examples) which you can clone to try out locally or in via Gitpod in your browser:
+
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-908a85?logo=gitpod)](http://gitpod.io/#GH_OWNER=contentlayerdev,GH_REPO=contentlayer,GH_SUBDIR=examples\mdx,GH_COMMAND=yarn/https://github.com/schickling-test/gitpod-open)
+
 ## Features
 
 - Supported content sources:

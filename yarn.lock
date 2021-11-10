@@ -1719,8 +1719,8 @@ __metadata:
   resolution: "@contentlayer/utils@workspace:packages/@contentlayer/utils"
   dependencies:
     "@effect-ts/core": ^0.45.5
-    "@effect-ts/otel": ^0.7.0
-    "@effect-ts/otel-node": ^0.7.0
+    "@effect-ts/otel": ^0.7.1
+    "@effect-ts/otel-node": ^0.7.1
     "@opentelemetry/api": ^1.0.3
     "@opentelemetry/core": ^1.0.0
     "@opentelemetry/exporter-collector": ^0.25.0
@@ -1771,31 +1771,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@effect-ts/otel-node@npm:^0.7.0":
-  version: 0.7.0
-  resolution: "@effect-ts/otel-node@npm:0.7.0"
+"@effect-ts/otel-node@npm:^0.7.1":
+  version: 0.7.1
+  resolution: "@effect-ts/otel-node@npm:0.7.1"
   dependencies:
-    "@effect-ts/otel": ^0.7.0
+    "@effect-ts/otel": ^0.7.1
   peerDependencies:
-    "@effect-ts/core": ^0.44.0
+    "@effect-ts/core": ^0.44.0 || ^0.45.0
     "@opentelemetry/api": ^1.0.0
     "@opentelemetry/core": ^1.0.0
     "@opentelemetry/exporter-collector-grpc": ^0.25.0
     "@opentelemetry/sdk-trace-base": ^1.0.0
     "@opentelemetry/sdk-trace-node": ^1.0.0
-  checksum: f40c64e838bb4fb5786adb4316aef2a97b338d726b2f02007caae96329a95ad8af40eb56f06acaf5e5373a8ae72da2253aed6561dd00884cfd104c054aa37352
+  checksum: f75344437dbc5bc3ec189206325343e14ba8ab88bf5d7d7382ace2012d2370349b223cddd0a94445c43a0cc93d053fc65a00b51d1f9dcfd35d04b75ec3e1af9e
   languageName: node
   linkType: hard
 
-"@effect-ts/otel@npm:^0.7.0":
-  version: 0.7.0
-  resolution: "@effect-ts/otel@npm:0.7.0"
+"@effect-ts/otel@npm:^0.7.1":
+  version: 0.7.1
+  resolution: "@effect-ts/otel@npm:0.7.1"
   peerDependencies:
-    "@effect-ts/core": ^0.44.0
+    "@effect-ts/core": ^0.44.0 || ^0.45.0
     "@opentelemetry/api": ^1.0.0
     "@opentelemetry/core": ^1.0.0
     "@opentelemetry/sdk-trace-base": ^1.0.0
-  checksum: a5c63d579aa037b1683a8c455b3b08c9355392c299fb67fadb5893fe22cba79e9f92eeea7f1b9b9fc3eaeaf0ca3ba22bd9d02e4e6923c4443c7d0429a4825d09
+  checksum: 89b8db7a87baf6180d49d92f90384da1f4172e21534423732501314140706d8b6ba1fce7cedc922fb1e75990015beb7086e6efcd62848e2cfd4838dcb9a4e947
   languageName: node
   linkType: hard
 
