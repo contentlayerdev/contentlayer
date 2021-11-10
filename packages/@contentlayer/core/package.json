@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/core",
-  "version": "0.0.31-dev.0",
+  "version": "0.0.31-dev.1",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",

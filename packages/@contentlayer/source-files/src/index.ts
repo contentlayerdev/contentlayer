@@ -12,7 +12,8 @@ export * from './types.js'
 export * from './schema/defs/index.js'
 
 export type Args = {
-  documentTypes: LocalSchema.DocumentType[] | Record<string, LocalSchema.DocumentType>
+  // `<any>` cast here is needed here to flip variance (see https://github.com/contentlayerdev/contentlayer/issues/33)
+  documentTypes: LocalSchema.DocumentType<any>[] | Record<string, LocalSchema.DocumentType>
   /**
    * Path to the root directory that contains all content. Every content file path will be relative
    * to this directory. This includes:
