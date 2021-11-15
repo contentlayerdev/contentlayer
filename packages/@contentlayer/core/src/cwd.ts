@@ -5,7 +5,12 @@ import { T, tag } from '@contentlayer/utils/effect'
 const CwdSymbol = Symbol()
 
 export const makeCwd = T.gen(function* (_) {
-  const cwd = yield* _(T.succeedWith(() => unknownToPosixFilePath(process.cwd())))
+  const cwd = yield* _(
+    T.succeedWith(() => {
+      const cwdValue = process.env.INIT_CWD ?? process.cwd()
+      return unknownToPosixFilePath(cwdValue)
+    }),
+  )
 
   return { serviceId: CwdSymbol, cwd } as const
 })
