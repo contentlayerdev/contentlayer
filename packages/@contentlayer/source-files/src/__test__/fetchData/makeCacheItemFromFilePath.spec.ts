@@ -1,9 +1,10 @@
 import { E } from '@contentlayer/utils/effect'
 import path from 'path'
 import t from 'tap'
+import { fileURLToPath } from 'url'
 
 // Given we're running the tests of the ./dist directory, we need to point the `__dirname` back to the `src` directory
-const __dirname = path.dirname(new URL(import.meta.url).pathname).replace('dist', 'src')
+const __dirname = path.dirname(fileURLToPath(import.meta.url)).replace('dist', 'src')
 
 const contentDirPath = path.join(__dirname, 'fixtures', 'content')
 
