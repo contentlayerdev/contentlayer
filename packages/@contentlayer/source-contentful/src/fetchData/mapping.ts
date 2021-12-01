@@ -1,7 +1,7 @@
 import * as core from '@contentlayer/core'
 import type { HashError } from '@contentlayer/utils'
 import { casesHandled, hashObject } from '@contentlayer/utils'
-import type { OT } from '@contentlayer/utils/effect'
+import type { HasConsole, OT } from '@contentlayer/utils/effect'
 import { T } from '@contentlayer/utils/effect'
 
 import type * as SchemaOverrides from '../schemaOverrides'
@@ -25,7 +25,7 @@ export const makeCacheItem = ({
   schemaDef: core.SchemaDef
   schemaOverrides: SchemaOverrides.Normalized.SchemaOverrides
   options: core.PluginOptions
-}): T.Effect<OT.HasTracer, MakeDocumentError, core.DataCache.CacheItem> =>
+}): T.Effect<OT.HasTracer & HasConsole, MakeDocumentError, core.DataCache.CacheItem> =>
   T.gen(function* ($) {
     // TODO also handle custom body field name
     const { typeFieldName } = options.fieldOptions
@@ -78,7 +78,7 @@ const makeNestedDocument = ({
   schemaDef: core.SchemaDef
   schemaOverrides: SchemaOverrides.Normalized.SchemaOverrides
   options: core.PluginOptions
-}): T.Effect<OT.HasTracer, MakeDocumentError, core.NestedDocument> =>
+}): T.Effect<OT.HasTracer & HasConsole, MakeDocumentError, core.NestedDocument> =>
   T.gen(function* ($) {
     const { typeFieldName } = options.fieldOptions
     const objectEntry = allEntries.find((_) => _.sys.id === entryId)!
@@ -125,7 +125,7 @@ const getDataForFieldDef = ({
   schemaDef: core.SchemaDef
   schemaOverrides: SchemaOverrides.Normalized.SchemaOverrides
   options: core.PluginOptions
-}): T.Effect<OT.HasTracer, MakeDocumentError, any> =>
+}): T.Effect<OT.HasTracer & HasConsole, MakeDocumentError, any> =>
   T.gen(function* ($) {
     if (rawFieldData === undefined) {
       if (fieldDef.isRequired) {
@@ -222,7 +222,7 @@ const getDataForListItem = ({
   schemaDef: core.SchemaDef
   schemaOverrides: SchemaOverrides.Normalized.SchemaOverrides
   options: core.PluginOptions
-}): T.Effect<OT.HasTracer, MakeDocumentError, any> => {
+}): T.Effect<OT.HasTracer & HasConsole, MakeDocumentError, any> => {
   if (typeof rawItemData === 'string') {
     return T.succeed(rawItemData)
   }

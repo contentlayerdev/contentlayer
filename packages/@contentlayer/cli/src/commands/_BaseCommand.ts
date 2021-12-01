@@ -1,7 +1,7 @@
 import type { HasCwd } from '@contentlayer/core'
 import * as core from '@contentlayer/core'
 import { unknownToPosixFilePath } from '@contentlayer/utils'
-import type { HasClock, OT } from '@contentlayer/utils/effect'
+import type { HasClock, HasConsole, OT } from '@contentlayer/utils/effect'
 import { pipe, T } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
 import { Command, Option } from 'clipanion'
@@ -22,7 +22,7 @@ export abstract class BaseCommand extends Command {
     description: 'More verbose logging and error stack traces',
   })
 
-  abstract executeSafe: T.Effect<OT.HasTracer & HasClock & HasCwd, unknown, void>
+  abstract executeSafe: T.Effect<OT.HasTracer & HasClock & HasCwd & HasConsole, unknown, void>
 
   execute = () =>
     pipe(

@@ -1,6 +1,6 @@
 import { renderTypes } from '@contentlayer/core'
-import { JaegerNodeTracing } from '@contentlayer/utils'
-import { pipe, T } from '@contentlayer/utils/effect'
+import { provideJaegerTracing } from '@contentlayer/utils'
+import { pipe, provideConsole, T } from '@contentlayer/utils/effect'
 import t from 'tap'
 
 import { makeSource } from '../../index.js'
@@ -32,7 +32,8 @@ t.test('generate-types', async (t) => {
     const schemaDef = await pipe(
       T.tryPromise(() => makeSource({ documentTypes: [TestPost], contentDirPath: '' })),
       T.chain((source) => source.provideSchema),
-      T.provideSomeLayer(JaegerNodeTracing('contentlayer-cli')),
+      provideJaegerTracing('contentlayer-cli'),
+      provideConsole,
       T.runPromise,
     )
 

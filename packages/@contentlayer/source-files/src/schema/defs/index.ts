@@ -85,6 +85,9 @@ export type NestedType<DefName extends string = string> = {
 
 export type DocumentType<DefName extends string = string> = { type: 'document'; def: Thunk<DocumentTypeDef<DefName>> }
 
+// `<any>` cast here is needed here to flip variance (see https://github.com/contentlayerdev/contentlayer/issues/33)
+export type DocumentTypes = DocumentType<any>[] | Record<string, DocumentType>
+
 export const defineNestedType = <DefName extends string>(
   def: Thunk<NestedTypeDef<DefName> | NestedUnnamedTypeDef>,
 ): NestedType<DefName> => ({

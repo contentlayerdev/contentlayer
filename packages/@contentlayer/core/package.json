@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/core",
-  "version": "0.0.32",
+  "version": "0.0.33-dev.11",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -35,11 +35,11 @@
     "gray-matter": "^4.0.3",
     "mdx-bundler": "^6.0.2",
     "rehype-stringify": "^9.0.2",
-    "remark-parse": "^10.0.0",
-    "remark-rehype": "^10.0.0",
-    "source-map-support": "^0.5.20",
+    "remark-parse": "^10.0.1",
+    "remark-rehype": "^10.0.1",
+    "source-map-support": "^0.5.21",
     "type-fest": "^1.2.1",
-    "unified": "^10.1.0"
+    "unified": "^10.1.1"
   },
   "devDependencies": {
     "@types/source-map-support": "^0.5.4",

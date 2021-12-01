@@ -68,7 +68,7 @@ class ConcreteEsbuildWatcher implements EsbuildWatcher {
 
   subscribe: M.Managed<unknown, never, S.Stream<unknown, never, E.Either<EsbuildError, esbuild.BuildResult>>> = pipe(
     H.subscribe(this.fsEventsHub),
-    M.chain((_) => M.ensuringFirst_(M.succeed(S.fromQueue(_)), Q.shutdown(_))),
+    M.chain((_) => M.ensuringFirst_(M.succeed(S.fromQueue()(_)), Q.shutdown(_))),
     M.map(S.flattenExit),
   )
 }

@@ -18,19 +18,35 @@ export namespace FetchDataError {
     | CouldNotDetermineDocumentTypeError
     | MissingRequiredFieldsError
     | ExtraFieldDataError
+    | IncompatibleFieldDataError
+    | SingletonDocumentNotFoundError
     | UnexpectedError
 
   interface AggregatableError {
     renderHeadline: RenderHeadline
     renderLine: () => string
-    kind: InvalidDataErrorKind
+    kind: AggregatableErrorKind
   }
 
   export const handleErrors = handleFetchDataErrors
 
-  type RenderHeadline = (_: { documentCount: number; options: core.PluginOptions; schemaDef: core.SchemaDef }) => string
+  type RenderHeadline = (_: {
+    /**
+     * `errorCount` is mostly equivalent with the number of erroneous documents
+     * but in some cases (e.g. `SingletonDocumentNotFoundError`) can be independent of a certain document
+     */
+    errorCount: number
+    options: core.PluginOptions
+    schemaDef: core.SchemaDef
+  }) => string
 
-  type InvalidDataErrorKind = 'UnknownDocument' | 'ExtraFieldData' | 'MissingOrIncompatibleData' | 'Unexpected'
+  type AggregatableErrorKind =
+    | 'UnknownDocument'
+    | 'ExtraFieldData'
+    | 'IncompatibleFieldData'
+    | 'MissingOrIncompatibleData'
+    | 'Unexpected'
+    | 'SingletonDocumentNotFound'
 
   export class InvalidFrontmatterError
     extends Tagged('InvalidFrontmatterError')<{
@@ -39,10 +55,9 @@ export namespace FetchDataError {
     }>
     implements AggregatableError
   {
-    kind: InvalidDataErrorKind = 'MissingOrIncompatibleData'
+    kind: AggregatableErrorKind = 'MissingOrIncompatibleData'
 
-    renderHeadline: RenderHeadline = ({ documentCount }) =>
-      `Invalid frontmatter data found for ${documentCount} documents.`
+    renderHeadline: RenderHeadline = ({ errorCount }) => `Invalid frontmatter data found for ${errorCount} documents.`
 
     renderLine = () => `"${this.documentFilePath}" failed with ${errorToString(this.error)}`
   }
@@ -54,9 +69,9 @@ export namespace FetchDataError {
     }>
     implements AggregatableError
   {
-    kind: InvalidDataErrorKind = 'MissingOrIncompatibleData'
+    kind: AggregatableErrorKind = 'MissingOrIncompatibleData'
 
-    renderHeadline: RenderHeadline = ({ documentCount }) => `Invalid markdown in ${documentCount} documents.`
+    renderHeadline: RenderHeadline = ({ errorCount }) => `Invalid markdown in ${errorCount} documents.`
 
     renderLine = () => `"${this.documentFilePath}" failed with ${errorToString(this.error)}`
   }
@@ -68,9 +83,9 @@ export namespace FetchDataError {
     }>
     implements AggregatableError
   {
-    kind: InvalidDataErrorKind = 'MissingOrIncompatibleData'
+    kind: AggregatableErrorKind = 'MissingOrIncompatibleData'
 
-    renderHeadline: RenderHeadline = ({ documentCount }) => `Invalid YAML data in ${documentCount} documents.`
+    renderHeadline: RenderHeadline = ({ errorCount }) => `Invalid YAML data in ${errorCount} documents.`
 
     renderLine = () => `"${this.documentFilePath}" failed with ${errorToString(this.error)}`
   }
@@ -82,9 +97,9 @@ export namespace FetchDataError {
     }>
     implements AggregatableError
   {
-    kind: InvalidDataErrorKind = 'MissingOrIncompatibleData'
+    kind: AggregatableErrorKind = 'MissingOrIncompatibleData'
 
-    renderHeadline: RenderHeadline = ({ documentCount }) => `Invalid JSON data in ${documentCount} documents.`
+    renderHeadline: RenderHeadline = ({ errorCount }) => `Invalid JSON data in ${errorCount} documents.`
 
     renderLine = () => `"${this.documentFilePath}" failed with ${errorToString(this.error)}`
   }
@@ -96,10 +111,10 @@ export namespace FetchDataError {
     }>
     implements AggregatableError
   {
-    kind: InvalidDataErrorKind = 'MissingOrIncompatibleData'
+    kind: AggregatableErrorKind = 'MissingOrIncompatibleData'
 
-    renderHeadline: RenderHeadline = ({ documentCount }) =>
-      `Error during computed field exection for ${documentCount} documents.`
+    renderHeadline: RenderHeadline = ({ errorCount }) =>
+      `Error during computed field exection for ${errorCount} documents.`
 
     renderLine = () => `"${this.documentFilePath}" failed with ${errorToString(this.error)}`
   }
@@ -111,9 +126,8 @@ export namespace FetchDataError {
     }>
     implements AggregatableError
   {
-    kind: InvalidDataErrorKind = 'MissingOrIncompatibleData'
-    renderHeadline: RenderHeadline = ({ documentCount }) =>
-      `Found unsupported file extensions for ${documentCount} documents`
+    kind: AggregatableErrorKind = 'MissingOrIncompatibleData'
+    renderHeadline: RenderHeadline = ({ errorCount }) => `Found unsupported file extensions for ${errorCount} documents`
 
     renderLine = () => `"${this.filePath}" uses "${this.extension}"`
   }
@@ -125,11 +139,11 @@ export namespace FetchDataError {
     }>
     implements AggregatableError
   {
-    kind: InvalidDataErrorKind = 'UnknownDocument'
-    renderHeadline: RenderHeadline = ({ documentCount, options, schemaDef }) => {
+    kind: AggregatableErrorKind = 'UnknownDocument'
+    renderHeadline: RenderHeadline = ({ errorCount, options, schemaDef }) => {
       const validTypeNames = Object.keys(schemaDef.documentTypeDefMap).join(', ')
       return `\
-Couldn't determine the document type for ${documentCount} documents.
+Couldn't determine the document type for ${errorCount} documents.
 
 Please either define a filePathPattern for the given document type definition \
 or provide a valid value for the type field (i.e. the field "${options.fieldOptions.typeFieldName}" needs to be \
@@ -146,11 +160,11 @@ one of the following document type names: ${validTypeNames}).`
     }>
     implements AggregatableError
   {
-    kind: InvalidDataErrorKind = 'MissingOrIncompatibleData'
-    renderHeadline: RenderHeadline = ({ documentCount, schemaDef }) => {
+    kind: AggregatableErrorKind = 'MissingOrIncompatibleData'
+    renderHeadline: RenderHeadline = ({ errorCount, schemaDef }) => {
       const validTypeNames = Object.keys(schemaDef.documentTypeDefMap).join(', ')
       return `\
-Couldn't find document type definitions provided by name for ${documentCount} documents.
+Couldn't find document type definitions provided by name for ${errorCount} documents.
 
 Please use one of the following document type names: ${validTypeNames}.\
 `
@@ -168,10 +182,10 @@ Please use one of the following document type names: ${validTypeNames}.\
     }>
     implements AggregatableError
   {
-    kind: InvalidDataErrorKind = 'MissingOrIncompatibleData'
-    renderHeadline: RenderHeadline = ({ documentCount }) => {
+    kind: AggregatableErrorKind = 'MissingOrIncompatibleData'
+    renderHeadline: RenderHeadline = ({ errorCount }) => {
       return `\
-Couldn't find nested document type definitions provided by name for ${documentCount} documents.\
+Couldn't find nested document type definitions provided by name for ${errorCount} documents.\
 `
     }
 
@@ -189,9 +203,9 @@ Couldn't find nested document type definitions provided by name for ${documentCo
     }>
     implements AggregatableError
   {
-    kind: InvalidDataErrorKind = 'MissingOrIncompatibleData'
+    kind: AggregatableErrorKind = 'MissingOrIncompatibleData'
 
-    renderHeadline: RenderHeadline = ({ documentCount }) => `Missing required fields for ${documentCount} documents`
+    renderHeadline: RenderHeadline = ({ errorCount }) => `Missing required fields for ${errorCount} documents`
 
     renderLine = () => {
       const misingRequiredFieldsStr = this.fieldDefsWithMissingData
@@ -213,10 +227,10 @@ ${misingRequiredFieldsStr}\
     }>
     implements AggregatableError
   {
-    kind: InvalidDataErrorKind = 'ExtraFieldData'
+    kind: AggregatableErrorKind = 'ExtraFieldData'
 
-    renderHeadline: RenderHeadline = ({ documentCount }) => `\
-  ${documentCount} documents contain field data which isn't defined in the document type definition`
+    renderHeadline: RenderHeadline = ({ errorCount }) => `\
+  ${errorCount} documents contain field data which isn't defined in the document type definition`
 
     renderLine = () => {
       const extraFields = this.extraFieldEntries
@@ -227,6 +241,45 @@ ${extraFields} `
     }
   }
 
+  export class IncompatibleFieldDataError
+    extends Tagged('IncompatibleFieldDataError')<{
+      readonly documentFilePath: PosixFilePath
+      readonly documentTypeName: string
+      readonly incompatibleFieldData: readonly (readonly [fieldKey: string, fieldValue: any])[]
+    }>
+    implements AggregatableError
+  {
+    kind: AggregatableErrorKind = 'IncompatibleFieldData'
+
+    renderHeadline: RenderHeadline = ({ errorCount }) => `\
+${errorCount} documents contain field data which didn't match the structure defined in the document type definition`
+
+    renderLine = () => {
+      const incompatibleFields = this.incompatibleFieldData
+        .map(([key, value]) => `  • ${key}: ${JSON.stringify(value)}`)
+        .join('\n')
+      return `"${this.documentFilePath}" of type "${this.documentTypeName}" has the following incompatible fields:
+${incompatibleFields} `
+    }
+  }
+
+  export class SingletonDocumentNotFoundError
+    extends Tagged('SingletonDocumentNotFoundError')<{
+      readonly documentTypeName: string
+      readonly filePath: string
+    }>
+    implements AggregatableError
+  {
+    kind: AggregatableErrorKind = 'SingletonDocumentNotFound'
+
+    renderHeadline: RenderHeadline = ({ errorCount }) => `\
+Couldn't find a document for ${errorCount} singleton document types`
+
+    renderLine = () => {
+      return `Couldn't find file "${this.filePath}" for document type "${this.documentTypeName}"`
+    }
+  }
+
   export class UnexpectedError
     extends Tagged('UnexpectedError')<{
       readonly documentFilePath: PosixFilePath
@@ -234,10 +287,10 @@ ${extraFields} `
     }>
     implements AggregatableError
   {
-    kind: InvalidDataErrorKind = 'Unexpected'
+    kind: AggregatableErrorKind = 'Unexpected'
 
-    renderHeadline: RenderHeadline = ({ documentCount }) => `\
-Encountered unexpected errors while processing of ${documentCount} documents. \
+    renderHeadline: RenderHeadline = ({ errorCount }) => `\
+Encountered unexpected errors while processing of ${errorCount} documents. \
 This is possibly a bug in Contentlayer. Please open an issue.`
 
     renderLine = () => `"${this.documentFilePath}": ${errorToString(this.error)}`

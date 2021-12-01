@@ -17,7 +17,6 @@ export const useLiveReload = () => {
     addMessageListener((e: any) => {
       if (e.type === 'message' && typeof e.data === 'string') {
         const data = JSON.parse(e.data)
-        // console.log({ data, lastBuiltHash })
 
         if ((data.action === 'built' || data.action === 'sync') && data.hash !== lastBuiltHash) {
           if (lastBuiltHash !== undefined) {

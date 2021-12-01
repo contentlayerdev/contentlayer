@@ -2,7 +2,7 @@ import type { UnexpectedMarkdownError, UnexpectedMDXError } from '@contentlayer/
 import * as core from '@contentlayer/core'
 import type { PosixFilePath } from '@contentlayer/utils'
 import * as utils from '@contentlayer/utils'
-import type { OT } from '@contentlayer/utils/effect'
+import type { HasConsole, OT } from '@contentlayer/utils/effect'
 import { pipe, T } from '@contentlayer/utils/effect'
 import dateFnsTz from 'date-fns-tz'
 import * as path from 'path'
@@ -27,7 +27,7 @@ export const makeDocument = ({
   contentDirPath: PosixFilePath
   options: core.PluginOptions
 }): T.Effect<
-  OT.HasTracer,
+  OT.HasTracer & HasConsole,
   FetchDataError.UnexpectedError | FetchDataError.NoSuchNestedDocumentTypeError,
   core.Document
 > =>
@@ -123,7 +123,7 @@ const makeNestedDocument = ({
   options: core.PluginOptions
   relativeFilePath: PosixFilePath
   contentDirPath: PosixFilePath
-}): T.Effect<OT.HasTracer, MakeDocumentInternalError, core.NestedDocument> =>
+}): T.Effect<OT.HasTracer & HasConsole, MakeDocumentInternalError, core.NestedDocument> =>
   T.gen(function* ($) {
     const objValues = yield* $(
       T.forEachParDict_(fieldDefs, {
@@ -160,7 +160,7 @@ const getDataForFieldDef = ({
   options: core.PluginOptions
   relativeFilePath: PosixFilePath
   contentDirPath: PosixFilePath
-}): T.Effect<OT.HasTracer, MakeDocumentInternalError, any> =>
+}): T.Effect<OT.HasTracer & HasConsole, MakeDocumentInternalError, any> =>
   T.gen(function* ($) {
     if (rawFieldData === undefined) {
       if (fieldDef.default !== undefined) {
@@ -283,7 +283,7 @@ const getDataForListItem = ({
   options: core.PluginOptions
   relativeFilePath: PosixFilePath
   contentDirPath: PosixFilePath
-}): T.Effect<OT.HasTracer, MakeDocumentInternalError, any> => {
+}): T.Effect<OT.HasTracer & HasConsole, MakeDocumentInternalError, any> => {
   if (typeof rawItemData === 'string') {
     return T.succeed(rawItemData)
   }

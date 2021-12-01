@@ -1,5 +1,5 @@
-import { JaegerNodeTracing } from '@contentlayer/utils'
-import { pipe, T } from '@contentlayer/utils/effect'
+import { provideJaegerTracing } from '@contentlayer/utils'
+import { pipe, provideConsole, T } from '@contentlayer/utils/effect'
 import type { DocumentType } from 'contentlayer/source-files'
 import { makeSource } from 'contentlayer/source-files'
 
@@ -13,6 +13,7 @@ const makeSchema = (documentTypes: Record<string, DocumentType<any>>) =>
   pipe(
     T.tryPromise(() => makeSource({ documentTypes, contentDirPath: '' })),
     T.chain((source) => source.provideSchema),
-    T.provideSomeLayer(JaegerNodeTracing('contentlayer-cli')),
+    provideJaegerTracing('contentlayer-cli'),
+    provideConsole,
     T.runPromise,
   )

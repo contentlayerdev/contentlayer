@@ -1,10 +1,12 @@
 import type * as core from '@contentlayer/core'
 import type { PosixFilePath } from '@contentlayer/utils'
 import { filePathJoin, posixFilePath } from '@contentlayer/utils'
+import type { HasConsole } from '@contentlayer/utils/effect'
 import { Chunk, O, OT, pipe, T, These } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
 import { promise as glob } from 'glob-promise'
 import matter from 'gray-matter'
+import minimatch from 'minimatch'
 import * as os from 'os'
 import yaml from 'yaml'
 
@@ -13,7 +15,7 @@ import type { Flags } from '../index.js'
 import type { FilePathPatternMap } from '../types.js'
 import { makeDocument } from './mapping.js'
 import type { RawContent } from './types.js'
-import { validateDocumentData } from './validate.js'
+import { validateDocumentData } from './validateDocumentData.js'
 
 export const fetchAllDocuments = ({
   coreSchemaDef,
@@ -31,10 +33,16 @@ export const fetchAllDocuments = ({
   options: core.PluginOptions
   previousCache: core.DataCache.Cache | undefined
   verbose: boolean
-}): T.Effect<OT.HasTracer, fs.UnknownFSError | core.HandledFetchDataError, core.DataCache.Cache> =>
+}): T.Effect<OT.HasTracer & HasConsole, fs.UnknownFSError | core.HandledFetchDataError, core.DataCache.Cache> =>
   pipe(
     T.gen(function* ($) {
       const allRelativeFilePaths = yield* $(getAllRelativeFilePaths({ contentDirPath }))
+
+      const singletonDataErrors = validateSingletonDocuments({
+        allRelativeFilePaths,
+        coreSchemaDef,
+        filePathPatternMap,
+      })
 
       const concurrencyLimit = os.cpus().length
 
@@ -57,7 +65,7 @@ export const fetchAllDocuments = ({
 
       yield* $(
         FetchDataError.handleErrors({
-          errors: Chunk.toArray(dataErrors),
+          errors: [...Chunk.toArray(dataErrors), ...singletonDataErrors],
           documentCount: allRelativeFilePaths.length,
           flags,
           options,
@@ -87,7 +95,7 @@ export const makeCacheItemFromFilePath = ({
   contentDirPath: PosixFilePath
   options: core.PluginOptions
   previousCache: core.DataCache.Cache | undefined
-}): T.Effect<OT.HasTracer, never, These.These<FetchDataError.FetchDataError, core.DataCache.CacheItem>> =>
+}): T.Effect<OT.HasTracer & HasConsole, never, These.These<FetchDataError.FetchDataError, core.DataCache.CacheItem>> =>
   pipe(
     T.gen(function* ($) {
       const fullFilePath = filePathJoin(contentDirPath, relativeFilePath)
@@ -300,3 +308,40 @@ const parseYaml = ({
     () => yaml.parse(yamlString),
     (error) => new FetchDataError.InvalidYamlFileError({ error, documentFilePath }),
   )
+
+const validateSingletonDocuments = ({
+  allRelativeFilePaths,
+  coreSchemaDef,
+  filePathPatternMap,
+}: {
+  allRelativeFilePaths: PosixFilePath[]
+  coreSchemaDef: core.SchemaDef
+  filePathPatternMap: FilePathPatternMap
+}): FetchDataError.SingletonDocumentNotFoundError[] => {
+  const singletonDocumentDefs = Object.values(coreSchemaDef.documentTypeDefMap).filter(
+    (documentTypeDef) => documentTypeDef.isSingleton,
+  )
+
+  const invertedFilePathPattnernMap = invertRecord(filePathPatternMap)
+
+  const singletonDocumentDefWithFilePathPatternArray = singletonDocumentDefs.map((documentTypeDef) => ({
+    documentTypeDef,
+    filePathPattern: invertedFilePathPattnernMap[documentTypeDef.name]!,
+  }))
+
+  return singletonDocumentDefWithFilePathPatternArray
+    .filter(
+      ({ filePathPattern }) =>
+        !allRelativeFilePaths.some((relativeFilePath) => minimatch(relativeFilePath, filePathPattern)),
+    )
+    .map(
+      ({ documentTypeDef, filePathPattern }) =>
+        new FetchDataError.SingletonDocumentNotFoundError({
+          documentTypeName: documentTypeDef.name,
+          filePath: filePathPattern,
+        }),
+    )
+}
+
+const invertRecord = (record: Record<string, string>): Record<string, string> =>
+  pipe(Object.entries(record), (entries) => entries.map(([key, value]) => [value, key]), Object.fromEntries)

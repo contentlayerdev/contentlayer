@@ -40,19 +40,18 @@ export namespace DataCache {
     fs.StatError | fs.ReadFileError | fs.JsonParseError | GetContentlayerVersionError,
     Cache | undefined
   > =>
-    T.gen(function* ($) {
-      const cacheDirPath = yield* $(ArtifactsDir.getCacheDirPath)
-      const filePath = path.join(cacheDirPath, dataCacheFileName(schemaHash))
+    pipe(
+      T.gen(function* ($) {
+        const cacheDirPath = yield* $(ArtifactsDir.getCacheDirPath)
+        const filePath = path.join(cacheDirPath, dataCacheFileName(schemaHash))
 
-      const cache = yield* $(
-        pipe(
-          fs.readFileJsonIfExists<Cache>(filePath),
-          OT.withSpan('@contentlayer/core/cache:loadPreviousCacheFromDisk', { attributes: { schemaHash, filePath } }),
-        ),
-      )
+        yield* $(OT.addAttribute('filePath', filePath))
+        const cache = yield* $(fs.readFileJsonIfExists<Cache>(filePath))
 
-      return cache
-    })
+        return cache
+      }),
+      OT.withSpan('@contentlayer/core/cache:loadPreviousCacheFromDisk', { attributes: { schemaHash } }),
+    )
 
   export const writeCacheToDisk = ({
     cache,
@@ -66,12 +65,16 @@ export namespace DataCache {
     E.Either<fs.WriteFileError | fs.MkdirError | fs.JsonStringifyError | GetContentlayerVersionError, void>
   > =>
     pipe(
-      ArtifactsDir.mkdirCache,
-      T.chain((cacheDirPath) => {
+      T.gen(function* ($) {
+        const cacheDirPath = yield* $(ArtifactsDir.mkdirCache)
+
         const filePath = path.join(cacheDirPath, dataCacheFileName(schemaHash))
-        return fs.writeFileJson({ filePath, content: cache })
+        yield* $(OT.addAttribute('filePath', filePath))
+
+        yield* $(fs.writeFileJson({ filePath, content: cache }))
       }),
       T.either,
+      OT.withSpan('@contentlayer/core/cache:writeCacheToDisk', { attributes: { schemaHash } }),
     )
 
   const dataCacheFileName = (schemaHash: string) => `data-${schemaHash}.json`

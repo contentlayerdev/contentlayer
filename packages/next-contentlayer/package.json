@@ -1,6 +1,6 @@
 {
   "name": "next-contentlayer",
-  "version": "0.0.32",
+  "version": "0.0.33-dev.11",
   "type": "module",
   "main": "./dist/cjs/index.cjs",
   "exports": {
@@ -42,7 +42,7 @@
     "react-dom": "*"
   },
   "devDependencies": {
-    "next": "^12.0.2",
-    "typescript": "^4.4.4"
+    "next": "^12.0.4",
+    "typescript": "^4.5.2"
   }
 }

@@ -1,6 +1,6 @@
 import type * as core from '@contentlayer/core'
 import type { PosixFilePath } from '@contentlayer/utils'
-import { O, These } from '@contentlayer/utils/effect'
+import { E, O, These } from '@contentlayer/utils/effect'
 import minimatch from 'minimatch'
 
 import { FetchDataError } from '../errors/index.js'
@@ -12,6 +12,7 @@ type ValidateDocumentDataError =
   | FetchDataError.NoSuchDocumentTypeError
   | FetchDataError.MissingRequiredFieldsError
   | FetchDataError.ExtraFieldDataError
+  | FetchDataError.IncompatibleFieldDataError
 
 export const validateDocumentData = ({
   coreSchemaDef,
@@ -87,6 +88,19 @@ export const validateDocumentData = ({
   }
 
   // TODO validate whether data has correct type (probably via zod)
+  for (const fieldDef of documentTypeDef.fieldDefs) {
+    const fieldValidOption = validateFieldData({
+      documentFilePath: relativeFilePath,
+      documentTypeName: documentTypeDef.name,
+      fieldDef,
+      rawFieldData: rawContent.fields[fieldDef.name],
+    })
+
+    if (O.isSome(fieldValidOption)) {
+      return These.fail(fieldValidOption.value)
+    }
+  }
+
   // TODO validate nesteds
 
   return These.warnOption({ documentTypeDef }, warningOption)
@@ -130,4 +144,32 @@ const getDocumentDefNameByFilePathPattern = ({
   }
 
   return undefined
+}
+
+const validateFieldData = ({
+  fieldDef,
+  rawFieldData,
+  documentFilePath,
+  documentTypeName,
+}: {
+  fieldDef: core.FieldDef
+  rawFieldData: any
+  documentFilePath: PosixFilePath
+  documentTypeName: string
+}): O.Option<FetchDataError.IncompatibleFieldDataError> => {
+  switch (fieldDef.type) {
+    case 'list':
+      return Array.isArray(rawFieldData)
+        ? O.none
+        : O.some(
+            new FetchDataError.IncompatibleFieldDataError({
+              incompatibleFieldData: [[fieldDef.name, rawFieldData]],
+              documentFilePath,
+              documentTypeName,
+            }),
+          )
+    // TODO proper handling
+    default:
+      return O.none
+  }
 }

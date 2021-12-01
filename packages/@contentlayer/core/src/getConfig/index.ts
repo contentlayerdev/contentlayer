@@ -32,7 +32,7 @@ export const getConfig = ({
     getConfigWatch({ configPath }),
     S.take(1),
     S.runCollect,
-    T.map((_) => _[0]!),
+    T.map(Chunk.unsafeHead),
     T.rightOrFail,
     OT.withSpan('@contentlayer/core/getConfig:getConfig', { attributes: { configPath } }),
   )
