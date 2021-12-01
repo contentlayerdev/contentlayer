@@ -266,7 +266,7 @@ ${incompatibleFields} `
   export class SingletonDocumentNotFoundError
     extends Tagged('SingletonDocumentNotFoundError')<{
       readonly documentTypeName: string
-      readonly filePath: string
+      readonly filePath: string | undefined
     }>
     implements AggregatableError
   {
@@ -276,7 +276,8 @@ ${incompatibleFields} `
 Couldn't find a document for ${errorCount} singleton document types`
 
     renderLine = () => {
-      return `Couldn't find file "${this.filePath}" for document type "${this.documentTypeName}"`
+      const filePathInfo = this.filePath ? ` at provided file path "${this.filePath}"` : ``
+      return `Couldn't find a document for document type "${this.documentTypeName}"${filePathInfo}`
     }
   }
 

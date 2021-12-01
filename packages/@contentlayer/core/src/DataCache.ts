@@ -29,6 +29,7 @@ export namespace DataCache {
      * by a given plugin (e.g. based on the last-edit date in source-files)
      */
     documentHash: string
+    documentTypeName: string
   }
 
   export const loadPreviousCacheFromDisk = ({

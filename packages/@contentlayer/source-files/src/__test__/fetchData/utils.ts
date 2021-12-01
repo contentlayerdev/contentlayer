@@ -5,6 +5,8 @@ import { provideJaegerTracing, unknownToPosixFilePath } from '@contentlayer/util
 import type { HasClock, HasConsole, OT } from '@contentlayer/utils/effect'
 import { pipe, provideTestConsole, T, These } from '@contentlayer/utils/effect'
 
+import type { HasDocumentTypeMapState } from '../../fetchData/DocumentTypeMap.js'
+import { provideDocumentTypeMapState } from '../../fetchData/DocumentTypeMap.js'
 import { makeCacheItemFromFilePath } from '../../fetchData/fetchAllDocuments.js'
 import { testOnly_makefilePathPatternMap } from '../../fetchData/index.js'
 import type { DocumentTypes } from '../../index.js'
@@ -58,11 +60,14 @@ export const runTest = async ({
   return runMain(eff)
 }
 
-const runMain = async <E, A>(eff: T.Effect<OT.HasTracer & HasClock & HasCwd & HasConsole, E, A>) => {
+const runMain = async <E, A>(
+  eff: T.Effect<OT.HasTracer & HasClock & HasCwd & HasConsole & HasDocumentTypeMapState, E, A>,
+) => {
   const logMessages: string[] = []
   const result = await pipe(
     eff,
     provideTestConsole(logMessages),
+    provideDocumentTypeMapState,
     provideCwd,
     provideJaegerTracing('test'),
     T.runPromise,

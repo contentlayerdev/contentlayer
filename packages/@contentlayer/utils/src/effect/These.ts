@@ -103,6 +103,7 @@ export const errorOrWaning = <E, A>(self: These<E, A>): O.Option<E> => {
   return E.fold_(self.either, O.some, (tp) => tp.get(1))
 }
 
+/** Unpacks the provided `These` into a new `Effect` with errors as `E` and values as value/warning tuple */
 export const toEffect = <E, A>(self: These<E, A>): T.Effect<unknown, E, Tp.Tuple<[A, O.Option<E>]>> => {
   return pipe(result(self), E.fold(T.fail, T.succeed))
 }

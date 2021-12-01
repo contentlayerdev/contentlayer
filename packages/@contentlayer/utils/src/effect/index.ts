@@ -10,6 +10,8 @@ export type { Has } from '@effect-ts/core/Has'
 export { tag } from '@effect-ts/core/Has'
 export { pretty } from '@effect-ts/core/Effect/Cause'
 
+export * as State from '@effect-ts/core/Effect/State'
+
 export * as Stream from './Stream.js'
 export * as S from './Stream.js'
 export * as Effect from './Effect.js'
@@ -21,6 +23,9 @@ export * as Sync from '@effect-ts/core/Sync'
 
 export * as Tuple from '@effect-ts/core/Collections/Immutable/Tuple'
 export * as Tp from '@effect-ts/core/Collections/Immutable/Tuple'
+
+export * as HashMap from '@effect-ts/core/Collections/Immutable/HashMap'
+export * as HashSet from '@effect-ts/core/Collections/Immutable/HashSet'
 
 export * as These from './These.js'
 

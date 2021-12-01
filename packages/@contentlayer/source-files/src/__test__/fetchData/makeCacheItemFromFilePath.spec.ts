@@ -59,8 +59,6 @@ t.test('makeCacheItemFromFilePath', async (t) => {
 
     t.equal(result._tag, 'Left')
     if (E.isLeft(result)) {
-      console.log(JSON.stringify(result.left, null, 2))
-
       t.equal(result.left._tag, 'IncompatibleFieldDataError')
     }
   })

@@ -6,13 +6,14 @@ import { Chunk, O, OT, pipe, T, These } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
 import { promise as glob } from 'glob-promise'
 import matter from 'gray-matter'
-import minimatch from 'minimatch'
 import * as os from 'os'
 import yaml from 'yaml'
 
 import { FetchDataError } from '../errors/index.js'
 import type { Flags } from '../index.js'
 import type { FilePathPatternMap } from '../types.js'
+import type { HasDocumentTypeMapState } from './DocumentTypeMap.js'
+import { DocumentTypeMapState, provideDocumentTypeMapState } from './DocumentTypeMap.js'
 import { makeDocument } from './mapping.js'
 import type { RawContent } from './types.js'
 import { validateDocumentData } from './validateDocumentData.js'
@@ -38,34 +39,31 @@ export const fetchAllDocuments = ({
     T.gen(function* ($) {
       const allRelativeFilePaths = yield* $(getAllRelativeFilePaths({ contentDirPath }))
 
-      const singletonDataErrors = validateSingletonDocuments({
-        allRelativeFilePaths,
-        coreSchemaDef,
-        filePathPatternMap,
-      })
-
       const concurrencyLimit = os.cpus().length
 
-      const { left: dataErrors, right: documents } = yield* $(
+      const { dataErrors, documents } = yield* $(
         pipe(
           allRelativeFilePaths,
           T.forEachParN(concurrencyLimit, (relativeFilePath) =>
             makeCacheItemFromFilePath({
               relativeFilePath,
               filePathPatternMap,
-              coreSchemaDef: coreSchemaDef,
+              coreSchemaDef,
               contentDirPath,
               options,
               previousCache,
             }),
           ),
           T.map(Chunk.partitionThese),
+          T.map(({ left, right }) => ({ dataErrors: Chunk.toArray(left), documents: Chunk.toArray(right) })),
         ),
       )
 
+      const singletonDataErrors = yield* $(validateSingletonDocuments({ coreSchemaDef, filePathPatternMap }))
+
       yield* $(
         FetchDataError.handleErrors({
-          errors: [...Chunk.toArray(dataErrors), ...singletonDataErrors],
+          errors: [...dataErrors, ...singletonDataErrors],
           documentCount: allRelativeFilePaths.length,
           flags,
           options,
@@ -74,10 +72,11 @@ export const fetchAllDocuments = ({
         }),
       )
 
-      const cacheItemsMap = Object.fromEntries(Chunk.map_(documents, (_) => [_.document._id, _]))
+      const cacheItemsMap = Object.fromEntries(documents.map((_) => [_.document._id, _]))
 
       return { cacheItemsMap }
     }),
+    provideDocumentTypeMapState,
     OT.withSpan('@contentlayer/source-local/fetchData:fetchAllDocuments', { attributes: { contentDirPath } }),
   )
 
@@ -95,7 +94,11 @@ export const makeCacheItemFromFilePath = ({
   contentDirPath: PosixFilePath
   options: core.PluginOptions
   previousCache: core.DataCache.Cache | undefined
-}): T.Effect<OT.HasTracer & HasConsole, never, These.These<FetchDataError.FetchDataError, core.DataCache.CacheItem>> =>
+}): T.Effect<
+  OT.HasTracer & HasConsole & HasDocumentTypeMapState,
+  never,
+  These.These<FetchDataError.FetchDataError, core.DataCache.CacheItem>
+> =>
   pipe(
     T.gen(function* ($) {
       const fullFilePath = filePathJoin(contentDirPath, relativeFilePath)
@@ -114,7 +117,10 @@ export const makeCacheItemFromFilePath = ({
         previousCache.cacheItemsMap[relativeFilePath]!.documentHash === documentHash &&
         previousCache.cacheItemsMap[relativeFilePath]!.hasWarnings === false
       ) {
-        return These.succeed(previousCache.cacheItemsMap[relativeFilePath]!)
+        const cacheItem = previousCache.cacheItemsMap[relativeFilePath]!
+        yield* $(DocumentTypeMapState.update((_) => _.add(cacheItem.documentTypeName, relativeFilePath)))
+
+        return These.succeed(cacheItem)
       }
 
       const rawContent = yield* $(processRawContent({ fullFilePath, relativeFilePath }))
@@ -128,7 +134,7 @@ export const makeCacheItemFromFilePath = ({
             filePathPatternMap,
             options,
           }),
-          These.toEffect,
+          T.chain(These.toEffect),
           T.map((_) => _.tuple),
         ),
       )
@@ -153,7 +159,10 @@ export const makeCacheItemFromFilePath = ({
         })
       }
 
-      return These.warnOption({ document, documentHash, hasWarnings: O.isSome(warnings) }, warnings)
+      return These.warnOption(
+        { document, documentHash, hasWarnings: O.isSome(warnings), documentTypeName: documentTypeDef.name },
+        warnings,
+      )
     }),
     OT.withSpan('@contentlayer/source-local/fetchData:makeCacheItemFromFilePath'),
     T.mapError((error) => {
@@ -309,38 +318,38 @@ const parseYaml = ({
   )
 
 const validateSingletonDocuments = ({
-  allRelativeFilePaths,
   coreSchemaDef,
   filePathPatternMap,
 }: {
-  allRelativeFilePaths: PosixFilePath[]
   coreSchemaDef: core.SchemaDef
   filePathPatternMap: FilePathPatternMap
-}): FetchDataError.SingletonDocumentNotFoundError[] => {
-  const singletonDocumentDefs = Object.values(coreSchemaDef.documentTypeDefMap).filter(
-    (documentTypeDef) => documentTypeDef.isSingleton,
-  )
-
-  const invertedFilePathPattnernMap = invertRecord(filePathPatternMap)
-
-  const singletonDocumentDefWithFilePathPatternArray = singletonDocumentDefs.map((documentTypeDef) => ({
-    documentTypeDef,
-    filePathPattern: invertedFilePathPattnernMap[documentTypeDef.name]!,
-  }))
-
-  return singletonDocumentDefWithFilePathPatternArray
-    .filter(
-      ({ filePathPattern }) =>
-        !allRelativeFilePaths.some((relativeFilePath) => minimatch(relativeFilePath, filePathPattern)),
+}): T.Effect<HasDocumentTypeMapState, never, FetchDataError.SingletonDocumentNotFoundError[]> =>
+  T.gen(function* ($) {
+    const singletonDocumentDefs = Object.values(coreSchemaDef.documentTypeDefMap).filter(
+      (documentTypeDef) => documentTypeDef.isSingleton,
     )
-    .map(
-      ({ documentTypeDef, filePathPattern }) =>
-        new FetchDataError.SingletonDocumentNotFoundError({
-          documentTypeName: documentTypeDef.name,
-          filePath: filePathPattern,
-        }),
-    )
-}
+
+    const documentTypeMap = yield* $(DocumentTypeMapState.get)
+
+    const invertedFilePathPattnernMap = invertRecord(filePathPatternMap)
+
+    return singletonDocumentDefs
+      .filter(
+        (documentTypeDef) =>
+          pipe(
+            documentTypeMap.getFilePaths(documentTypeDef.name),
+            O.map((_) => _.length),
+            O.getOrElse(() => 0),
+          ) !== 1,
+      )
+      .map(
+        (documentTypeDef) =>
+          new FetchDataError.SingletonDocumentNotFoundError({
+            documentTypeName: documentTypeDef.name,
+            filePath: invertedFilePathPattnernMap[documentTypeDef.name],
+          }),
+      )
+  })
 
 const invertRecord = (record: Record<string, string>): Record<string, string> =>
   pipe(Object.entries(record), (entries) => entries.map(([key, value]) => [value, key]), Object.fromEntries)

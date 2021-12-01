@@ -56,7 +56,7 @@ export const makeCacheItem = ({
     // Can't use e.g. `documentEntry.sys.updatedAt` here because it's not including changes to nested documents.
     const documentHash = yield* $(hashObject(document))
 
-    return { document, documentHash, hasWarnings: false }
+    return { document, documentHash, hasWarnings: false, documentTypeName: documentTypeDef.name }
   })
 
 const makeNestedDocument = ({

@@ -10,6 +10,7 @@ import { FSWatch } from '@contentlayer/utils/node'
 import { FetchDataError } from '../errors/index.js'
 import type * as LocalSchema from '../schema/defs/index.js'
 import type { FilePathPatternMap, Flags } from '../types.js'
+import { provideDocumentTypeMapState } from './DocumentTypeMap.js'
 import { fetchAllDocuments, makeCacheItemFromFilePath } from './fetchAllDocuments.js'
 
 export const fetchData = ({
@@ -138,6 +139,8 @@ const updateCacheEntry = ({
           options,
           previousCache: cache,
         }),
+        // NOTE in this code path the DocumentTypeMapState is not used
+        provideDocumentTypeMapState,
         These.effectTapSuccess((cacheItem) =>
           T.succeedWith(() => {
             cache!.cacheItemsMap[event.relativeFilePath] = cacheItem
