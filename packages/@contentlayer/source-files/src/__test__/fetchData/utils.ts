@@ -24,28 +24,29 @@ export const runTest = async ({
     const contentDirPath = unknownToPosixFilePath(contentDirPath_)
 
     const source = yield* $(T.tryPromise(() => makeSource({ contentDirPath, documentTypes })))
-    const schemaDef = yield* $(source.provideSchema)
+    const coreSchemaDef = yield* $(source.provideSchema)
 
     const documentTypeDefs = (Array.isArray(documentTypes) ? documentTypes : Object.values(documentTypes)).map((_) =>
       _.def(),
     )
     const filePathPatternMap = testOnly_makefilePathPatternMap(documentTypeDefs)
 
-    const defaultOptions: core.PluginOptions = {
-      markdown: undefined,
+    const options: core.PluginOptions = {
       date: undefined,
+      markdown: undefined,
       mdx: undefined,
       fieldOptions: core.defaultFieldOptions,
     }
+
     const cache = yield* $(
       pipe(
         makeCacheItemFromFilePath({
           relativeFilePath,
           contentDirPath,
-          coreSchemaDef: schemaDef,
+          coreSchemaDef,
           filePathPatternMap,
+          options,
           previousCache: undefined,
-          options: defaultOptions,
         }),
         These.effectToEither,
       ),
@@ -61,7 +62,6 @@ const runMain = async <E, A>(eff: T.Effect<OT.HasTracer & HasClock & HasCwd & Ha
   const logMessages: string[] = []
   const result = await pipe(
     eff,
-    // T.either,
     provideTestConsole(logMessages),
     provideCwd,
     provideJaegerTracing('test'),
