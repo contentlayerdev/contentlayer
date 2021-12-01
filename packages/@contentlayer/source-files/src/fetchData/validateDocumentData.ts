@@ -1,6 +1,6 @@
 import type * as core from '@contentlayer/core'
 import type { PosixFilePath } from '@contentlayer/utils'
-import { E, O, These } from '@contentlayer/utils/effect'
+import { O, These } from '@contentlayer/utils/effect'
 import minimatch from 'minimatch'
 
 import { FetchDataError } from '../errors/index.js'

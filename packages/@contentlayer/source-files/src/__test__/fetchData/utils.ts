@@ -12,14 +12,17 @@ import { makeSource } from '../../index.js'
 
 export const runTest = async ({
   documentTypes,
-  contentDirPath,
-  relativeFilePath,
+  contentDirPath: contentDirPath_,
+  relativeFilePath: relativeFilePath_,
 }: {
   documentTypes: DocumentTypes
   contentDirPath: string
   relativeFilePath: string
 }) => {
   const eff = T.gen(function* ($) {
+    const relativeFilePath = unknownToPosixFilePath(relativeFilePath_)
+    const contentDirPath = unknownToPosixFilePath(contentDirPath_)
+
     const source = yield* $(T.tryPromise(() => makeSource({ contentDirPath, documentTypes })))
     const schemaDef = yield* $(source.provideSchema)
 
@@ -37,8 +40,8 @@ export const runTest = async ({
     const cache = yield* $(
       pipe(
         makeCacheItemFromFilePath({
-          relativeFilePath: unknownToPosixFilePath(relativeFilePath),
-          contentDirPath: unknownToPosixFilePath(contentDirPath),
+          relativeFilePath,
+          contentDirPath,
           coreSchemaDef: schemaDef,
           filePathPatternMap,
           previousCache: undefined,
