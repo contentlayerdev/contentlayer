@@ -39,7 +39,7 @@ t.test('makeCacheItemFromFilePath', async (t) => {
 
     t.equal(result._tag, 'Left')
     if (E.isLeft(result)) {
-      t.ok(result.left._tag === 'MissingRequiredFieldsError')
+      t.equal(result.left._tag, 'MissingRequiredFieldsError')
     }
   })
 
@@ -58,7 +58,7 @@ t.test('makeCacheItemFromFilePath', async (t) => {
 
     t.equal(result._tag, 'Left')
     if (E.isLeft(result)) {
-      t.ok(result.left._tag === 'IncompatibleFieldDataError')
+      t.equal(result.left._tag, 'IncompatibleFieldDataError')
     }
   })
 })

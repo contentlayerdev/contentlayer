@@ -157,14 +157,13 @@ export const makeCacheItemFromFilePath = ({
     }),
     OT.withSpan('@contentlayer/source-local/fetchData:makeCacheItemFromFilePath'),
     T.mapError((error) => {
-      if (
-        error._tag === 'node.fs.StatError' ||
-        error._tag === 'node.fs.ReadFileError' ||
-        error._tag === 'node.fs.FileNotFoundError'
-      ) {
-        return new FetchDataError.UnexpectedError({ error, documentFilePath: relativeFilePath })
-      } else {
-        return error
+      switch (error._tag) {
+        case 'node.fs.StatError':
+        case 'node.fs.ReadFileError':
+        case 'node.fs.FileNotFoundError':
+          return new FetchDataError.UnexpectedError({ error, documentFilePath: relativeFilePath })
+        default:
+          return error
       }
     }),
     These.effectThese,
