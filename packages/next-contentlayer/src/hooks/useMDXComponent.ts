@@ -1,6 +1,8 @@
-import * as React from 'react'
+// NOTE use ESM/CommonJS compat import here until resolved: https://github.com/facebook/react/issues/11503
+import React from 'react'
 import * as _jsx_runtime from 'react/jsx-runtime.js'
-import * as ReactDOM from 'react-dom'
+// NOTE use ESM/CommonJS compat import here until resolved: https://github.com/facebook/react/issues/11503
+import ReactDOM from 'react-dom'
 
 const getMDXComponent = (code: string, globals: Record<string, unknown> = {}): React.ComponentType<any> => {
   const scope = { React, ReactDOM, _jsx_runtime, ...globals }

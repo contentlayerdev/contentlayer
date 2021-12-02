@@ -1,6 +1,7 @@
 import { addMessageListener } from 'next/dist/client/dev/error-overlay/websocket.js'
 import { useRouter } from 'next/router.js'
-import { useEffect } from 'react'
+// NOTE use ESM/CommonJS compat import here until resolved: https://github.com/facebook/react/issues/11503
+import React from 'react'
 
 /**
  * Needed as a work around for https://github.com/vercel/next.js/issues/19230
@@ -9,7 +10,7 @@ import { useEffect } from 'react'
  */
 export const useLiveReload = () => {
   const router = useRouter()
-  useEffect(() => {
+  React.useEffect(() => {
     let lastBuiltHash: string | undefined
 
     // Based on this "implementation detail"
