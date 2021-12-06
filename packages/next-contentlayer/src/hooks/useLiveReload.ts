@@ -10,18 +10,27 @@ import React from 'react'
  */
 export const useLiveReload = () => {
   const router = useRouter()
+
+  // `router.asPath` needs to be stored in a ref since there's no way to "update" the event listener below
+  const routePathRef = React.useRef(router.asPath)
+  React.useEffect(() => {
+    routePathRef.current = router.asPath
+  }, [router.asPath])
+
   React.useEffect(() => {
     let lastBuiltHash: string | undefined
 
     // Based on this "implementation detail"
     // https://github.com/vercel/next.js/blob/canary/packages/next/client/dev/error-overlay/eventsource.js
     addMessageListener((e: any) => {
+      // console.log(e.type, e.data, e)
+
       if (e.type === 'message' && typeof e.data === 'string') {
         const data = JSON.parse(e.data)
 
         if ((data.action === 'built' || data.action === 'sync') && data.hash !== lastBuiltHash) {
           if (lastBuiltHash !== undefined) {
-            router.replace(router.asPath)
+            router.replace(routePathRef.current)
           }
 
           lastBuiltHash = data.hash
@@ -29,5 +38,5 @@ export const useLiveReload = () => {
       }
     })
     /* eslint-disable react-hooks/exhaustive-deps */
-  }, [])
+  }, [routePathRef])
 }

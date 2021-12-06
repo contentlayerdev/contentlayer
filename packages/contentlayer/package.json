@@ -1,6 +1,6 @@
 {
   "name": "contentlayer",
-  "version": "0.0.34-dev.2",
+  "version": "0.0.34-dev.9",
   "bin": "./bin/cli.cjs",
   "type": "module",
   "engines": {
@@ -52,6 +52,7 @@
   "files": [
     "./bin/cli.cjs",
     "./dist/**/*.{js,ts,map}",
+    "./src",
     "./package.json"
   ],
   "scripts": {

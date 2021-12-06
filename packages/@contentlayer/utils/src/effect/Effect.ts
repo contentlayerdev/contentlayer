@@ -14,7 +14,10 @@ export type { _A as OutputOf } from '@effect-ts/core/Utils'
 //     console.log(...args)
 //   })
 
-export const { log } = T.deriveLifted(ConsoleService)(['log'], [], [])
+// NOTE this is temporary until Stackblitz supports deconstructed exports
+// export const { log } = T.deriveLifted(ConsoleService)(['log'], [], [])
+const log_ = T.deriveLifted(ConsoleService)(['log'], [], [])
+export const log = log_.log
 
 export const rightOrFail = <R, E1, EE1, A>(
   effect: T.Effect<R, E1, E.Either<EE1, A>>,

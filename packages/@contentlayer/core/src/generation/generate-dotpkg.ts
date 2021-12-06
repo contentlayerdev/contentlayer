@@ -207,6 +207,7 @@ const writeFileWithWrittenFilesCache =
   ({ writtenFilesCache }: { writtenFilesCache: WrittenFilesCache }) =>
   ({ filePath, content, documentHash }: { filePath: PosixFilePath; content: string; documentHash?: string }) =>
     T.gen(function* ($) {
+      // TODO also consider schema hash
       const fileIsUpToDate = documentHash !== undefined && writtenFilesCache[filePath] === documentHash
       if (fileIsUpToDate) {
         return

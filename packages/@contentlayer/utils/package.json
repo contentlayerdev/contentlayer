@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/utils",
-  "version": "0.0.34-dev.2",
+  "version": "0.0.34-dev.9",
   "type": "module",
   "exports": {
     "./package.json": {
@@ -38,6 +38,7 @@
   },
   "files": [
     "./dist/**/*.{js,ts,map}",
+    "./src",
     "./package.json"
   ],
   "scripts": {

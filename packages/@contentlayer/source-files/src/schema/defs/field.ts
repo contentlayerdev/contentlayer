@@ -12,29 +12,33 @@ export type FieldDef =
   | NumberFieldDef
   | BooleanFieldDef
   | JSONFieldDef
-  // | SlugFieldDef
   | DateFieldDef
   | MarkdownFieldDef
   | MDXFieldDef
-  // | TextFieldDef
-  // | UrlFieldDef
-  // | ImageFieldDef
   | EnumFieldDef
   | NestedFieldDef
   | NestedPolymorphicFieldDef
   | ReferenceFieldDef
   | ReferencePolymorphicFieldDef
 
-/** Field name should contain only alphanumeric characters, underscore and a hyphen [A-Za-z0-9_]. Must start with a letter. Must not end with an underscore or a hyphen. */
+/**
+ * Field name should contain only alphanumeric characters, underscore and a hyphen [A-Za-z0-9_].
+ * Must start with a letter. Must not end with an underscore or a hyphen.
+ */
 interface FieldDefBase {
   /** Short description to editors how the field is to be used */
   description?: string
+
   /**
    * Whether the field is required or not. Fields are optional by default.
    * @default false
    */
   required?: boolean
 }
+
+// type WithComputedField<ValueType,> = {
+//   computed:
+// }
 
 export interface ListFieldDef extends FieldDefBase {
   type: 'list'
@@ -46,7 +50,11 @@ export interface ListPolymorphicFieldDef extends FieldDefBase {
   type: 'list'
   default?: any[]
   of: ListFieldDefItem.Item[]
-  /** Field needed to distiguish list data items at run time */
+
+  /**
+   * Field needed to distiguish list data items at run time.
+   * This option is only needed when using non-scalar `of` values (e.g. `nested`)
+   */
   typeField: string
 }
 
@@ -86,12 +94,6 @@ export type JSONFieldDef = FieldDefBase & {
   default?: any
 }
 
-// TODO why is this field type needed?
-// export type SlugFieldDef = FieldDefBase & {
-//   type: 'slug'
-//   default?: string
-// }
-
 export type DateFieldDef = FieldDefBase & {
   type: 'date'
   default?: string
@@ -106,22 +108,6 @@ export type MDXFieldDef = FieldDefBase & {
   type: 'mdx'
   default?: string
 }
-
-// // why is this field type needed?
-// export type TextFieldDef = FieldDefBase & {
-//   type: 'text'
-//   default?: string
-// }
-
-// export type UrlFieldDef = FieldDefBase & {
-//   type: 'url'
-//   default?: string
-// }
-
-// export type ImageFieldDef = FieldDefBase & {
-//   type: 'image'
-//   default?: string
-// }
 
 export type EnumFieldDef = FieldDefBase & {
   type: 'enum'

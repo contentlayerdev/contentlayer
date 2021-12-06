@@ -1,4 +1,4 @@
-import { GetStaticPaths, InferGetStaticPropsType } from 'next'
+import { GetStaticPaths } from 'next'
 import { useMDXComponent } from 'next-contentlayer/hooks'
 
 import { allDocs } from '.contentlayer/data'
@@ -7,6 +7,11 @@ import { Doc } from '.contentlayer/types'
 
 const mdxComponents = {
   Button,
+}
+
+type StaticProps = {
+  doc: Doc
+  navInfo: { title: string; path: string }[]
 }
 
 const DocPage: React.FC<StaticProps> = ({ doc, navInfo }) => {
@@ -28,11 +33,6 @@ const DocPage: React.FC<StaticProps> = ({ doc, navInfo }) => {
 }
 
 export default DocPage
-
-type StaticProps = {
-  doc: Doc
-  navInfo: { title: string; path: string }[]
-}
 
 export const getStaticProps = ({ params: { slug = [] } }): { props: StaticProps } => {
   const pagePath = slug.join('/')

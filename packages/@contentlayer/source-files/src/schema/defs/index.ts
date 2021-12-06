@@ -18,7 +18,6 @@ export type TypeExtensions<DefName extends string = string> = {
 
 export type FieldDefs = Record<string, FieldDef> | FieldDefWithName[]
 
-/** Top level model type */
 export type DocumentTypeDef<DefName extends string = string> = {
   // type: 'DocumentTypeDef'
   name: DefName
@@ -29,9 +28,6 @@ export type DocumentTypeDef<DefName extends string = string> = {
    * The field definitions can either be provided as an embedded with the field names as keys or
    * as an array of all field definitions including the name as an extra field. (The array definition
    * can be used if you want more control over the order of the fields.)
-   *
-   * In the case of `fileType: "md"` the fields are used for the frontmatter
-   * and have an implicit field called `content` with the markdown body.
    */
   fields: FieldDefs
 
@@ -86,7 +82,7 @@ export type NestedType<DefName extends string = string> = {
 export type DocumentType<DefName extends string = string> = { type: 'document'; def: Thunk<DocumentTypeDef<DefName>> }
 
 // `<any>` cast here is needed here to flip variance (see https://github.com/contentlayerdev/contentlayer/issues/33)
-export type DocumentTypes = DocumentType<any>[] | Record<string, DocumentType>
+export type DocumentTypes = DocumentType<any>[] | Record<string, DocumentType<any>>
 
 export const defineNestedType = <DefName extends string>(
   def: Thunk<NestedTypeDef<DefName> | NestedUnnamedTypeDef>,
