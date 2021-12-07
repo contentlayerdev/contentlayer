@@ -24,7 +24,7 @@
     "lint:prettier:check": "prettier packages --check"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.17.0",
+    "@changesets/cli": "2.19.0-temp.0",
     "@effect-ts/tracing-plugin": "^0.14.21",
     "@playwright/test": "^1.15.1",
     "@types/prettier": "^2.3.2",
