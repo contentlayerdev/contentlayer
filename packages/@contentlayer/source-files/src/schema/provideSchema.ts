@@ -13,7 +13,7 @@ export const makeCoreSchema = ({
 }: {
   documentTypeDefs: LocalSchema.DocumentTypeDef[]
   options: core.PluginOptions
-}): T.Effect<unknown, SchemaError, core.SchemaDef> =>
+}): T.Effect<unknown, SchemaError | utils.HashError, core.SchemaDef> =>
   T.gen(function* ($) {
     const coreDocumentTypeDefMap: core.DocumentTypeDefMap = {}
     const coreNestedTypeDefMap: core.NestedTypeDefMap = {}
@@ -86,7 +86,7 @@ export const makeCoreSchema = ({
     }
 
     const defs = { documentTypeDefMap: coreDocumentTypeDefMap, nestedTypeDefMap: coreNestedTypeDefMap }
-    const hash = core.hashObject({ defs, options })
+    const hash = yield* $(utils.hashObject({ defs, options }))
 
     const coreSchemaDef = { ...defs, hash }
 
