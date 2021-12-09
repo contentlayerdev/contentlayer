@@ -162,14 +162,13 @@ const getDataForFieldDef = ({
   contentDirPath: PosixFilePath
 }): T.Effect<OT.HasTracer & HasConsole, MakeDocumentInternalError, any> =>
   T.gen(function* ($) {
-    if (rawFieldData === undefined) {
-      if (fieldDef.default !== undefined) {
-        return fieldDef.default
-      }
+    rawFieldData ??= fieldDef.default
 
+    if (rawFieldData === undefined) {
       if (fieldDef.isRequired && !fieldDef.isSystemField) {
         console.error(`Inconsistent data found: ${JSON.stringify(fieldDef)}`)
       }
+
       return undefined
     }
 

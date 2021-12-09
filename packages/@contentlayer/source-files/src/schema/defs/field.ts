@@ -52,10 +52,10 @@ export interface ListPolymorphicFieldDef extends FieldDefBase {
   of: ListFieldDefItem.Item[]
 
   /**
-   * Field needed to distiguish list data items at run time.
+   * Field needed to distiguish list data items at run time. Defaults to `fieldOptions.typeFieldName`
    * This option is only needed when using non-scalar `of` values (e.g. `nested`)
    */
-  typeField: string
+  typeField?: string
 }
 
 export const isListFieldDef = (_: FieldDef): _ is ListFieldDef => _.type === 'list' && !Array.isArray(_.of)
@@ -126,8 +126,12 @@ export const isNestedFieldDef = (_: FieldDef): _ is NestedFieldDef => _.type ===
 export type NestedPolymorphicFieldDef = FieldDefBase & {
   type: 'nested'
   of: NestedType[]
-  /** Field needed to distinguish list data items at run time */
-  typeField: string
+
+  /**
+   * Field needed to distiguish list data items at run time. Defaults to `fieldOptions.typeFieldName`
+   * This option is only needed when using non-scalar `of` values (e.g. `nested`)
+   */
+  typeField?: string
   default?: any
 }
 
@@ -144,8 +148,12 @@ export type ReferencePolymorphicFieldDef = FieldDefBase & {
   type: 'reference'
   default?: string
   of: DocumentType[]
-  /** Field needed to distinguish list data items at run time */
-  typeField: string
+
+  /**
+   * Field needed to distiguish list data items at run time. Defaults to `fieldOptions.typeFieldName`
+   * This option is only needed when using non-scalar `of` values (e.g. `nested`)
+   */
+  typeField?: string
 }
 
 export const isReferencePolymorphicFieldDef = (_: FieldDef): _ is ReferencePolymorphicFieldDef =>

@@ -19,9 +19,7 @@ export type TypeExtensions<DefName extends string = string> = {
 export type FieldDefs = Record<string, FieldDef> | FieldDefWithName[]
 
 export type DocumentTypeDef<DefName extends string = string> = {
-  // type: 'DocumentTypeDef'
   name: DefName
-  // type: ModelType
   description?: string
 
   /**
@@ -35,8 +33,14 @@ export type DocumentTypeDef<DefName extends string = string> = {
 
   /** Path is relative to the `contentDirPath` config */
   filePathPattern?: string // | ((doc: Document) => string)
-  /** Default is `markdown` */
+
+  /**
+   * Default is `markdown`
+   *
+   * Choose `none` e.g. for a `.json` or `.yaml` file
+   */
   bodyType?: DocumentBodyType
+
   isSingleton?: boolean
 
   extensions?: TypeExtensions<DefName>

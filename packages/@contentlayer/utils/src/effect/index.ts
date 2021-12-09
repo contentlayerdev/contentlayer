@@ -4,7 +4,7 @@ import type { Has } from '@effect-ts/core/Has'
 export { provideTestConsole, provideConsole } from './ConsoleService.js'
 export type { HasConsole } from './ConsoleService.js'
 
-export { pipe, flow } from '@effect-ts/core/Function'
+export { pipe, flow, identity } from '@effect-ts/core/Function'
 export { Tagged } from '@effect-ts/core/Case'
 export type { Has } from '@effect-ts/core/Has'
 export { tag } from '@effect-ts/core/Has'
