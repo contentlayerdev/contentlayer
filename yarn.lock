@@ -4123,17 +4123,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:17.0.20":
-  version: 17.0.20
-  resolution: "@types/react@npm:17.0.20"
-  dependencies:
-    "@types/prop-types": "*"
-    "@types/scheduler": "*"
-    csstype: ^3.0.2
-  checksum: e342bfaa4fe052fc3a445ea49f746f3fd82cfc9c8028eae139a3e0763ead1871f353bd40da2a472f23d2b52544d2781d40e3159c0703e7e2ff08c13f067a3b9c
-  languageName: node
-  linkType: hard
-
 "@types/resolve@npm:^1.17.1":
   version: 1.20.1
   resolution: "@types/resolve@npm:1.20.1"
@@ -9198,20 +9187,6 @@ __metadata:
     react-dom: ^17.0.2
     shiki: ^0.9.4
     typescript: ^4.5.2
-  languageName: unknown
-  linkType: soft
-
-"examples-mdx@workspace:examples/mdx":
-  version: 0.0.0-use.local
-  resolution: "examples-mdx@workspace:examples/mdx"
-  dependencies:
-    "@types/react": 17.0.20
-    contentlayer: latest
-    next: 12.0.7
-    next-contentlayer: latest
-    react: 17.0.2
-    react-dom: 17.0.2
-    typescript: 4.5.2
   languageName: unknown
   linkType: soft
 
@@ -14720,7 +14695,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"next@npm:12.0.7, next@npm:^12.0.7":
+"next@npm:^12.0.7":
   version: 12.0.7
   resolution: "next@npm:12.0.7"
   dependencies:
@@ -20961,7 +20936,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"typescript@4.5.2, typescript@^4.5.2":
+typescript@^4.5.2:
   version: 4.5.2
   resolution: "typescript@npm:4.5.2"
   bin:
@@ -20971,7 +20946,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@4.5.2#~builtin<compat/typescript>, typescript@patch:typescript@^4.5.2#~builtin<compat/typescript>":
+"typescript@patch:typescript@^4.5.2#~builtin<compat/typescript>":
   version: 4.5.2
   resolution: "typescript@patch:typescript@npm%3A4.5.2#~builtin<compat/typescript>::version=4.5.2&hash=32657b"
   bin:
