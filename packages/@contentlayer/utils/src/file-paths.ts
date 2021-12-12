@@ -29,4 +29,4 @@ export type UnknownFilePath = Branded.Branded<string, 'UnknownFilePath'>
 
 export const unknownFilePath = (path_: string): UnknownFilePath => Branded.makeBranded(path_)
 
-export const filePathJoin = <T extends string>(...paths: T[]): T => path.join(...paths) as T
+export const filePathJoin = (...paths: string[]): PosixFilePath => unknownToPosixFilePath(path.join(...paths))

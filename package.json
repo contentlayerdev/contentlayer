@@ -24,8 +24,8 @@
     "lint:prettier:check": "prettier packages --check"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.17.0",
-    "@effect-ts/tracing-plugin": "^0.14.18",
+    "@changesets/cli": "2.19.0-temp.0",
+    "@effect-ts/tracing-plugin": "^0.14.21",
     "@playwright/test": "^1.15.1",
     "@types/prettier": "^2.3.2",
     "@typescript-eslint/eslint-plugin": "^4.31.1",
@@ -35,9 +35,9 @@
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
-    "prettier": "^2.4.1",
+    "prettier": "^2.5.0",
     "ts-patch": "^1.4.5",
-    "typescript": "^4.4.4"
+    "typescript": "^4.5.2"
   },
   "resolutions": {
     "esbuild": "0.13.12",

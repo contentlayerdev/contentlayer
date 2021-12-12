@@ -1,4 +1,4 @@
-import { ArtifactsDir } from '@contentlayer/core'
+import { ArtifactsDir, getCwd } from '@contentlayer/core'
 import { OT, pipe, T } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
 import * as path from 'path'
@@ -11,13 +11,12 @@ export class PostInstallCommand extends BaseCommand {
   executeSafe = pipe(
     T.gen(function* ($) {
       // `process.env.INIT_CWD` is set by `yarn` or `npm` during installation
-      const cwd = process.env.INIT_CWD ?? process.cwd()
       const artifactsDirPath = yield* $(ArtifactsDir.mkdir)
 
       yield* $(T.forEachPar_(['data', 'types'], (moduleName) => makeModuleStub({ artifactsDirPath, moduleName })))
 
-      yield* $(createSymlinkForDotpkg({ artifactsDirPath, cwd }))
-      yield* $(addToplevelDotpkgToGitignore(cwd))
+      yield* $(createSymlinkForDotpkg({ artifactsDirPath }))
+      yield* $(addToplevelDotpkgToGitignore())
     }),
     OT.withSpan('@contentlayer/cli/commands/PostInstallCommand:executeSafe', { attributes: { cwd: process.cwd() } }),
   )
@@ -45,8 +44,9 @@ const moduleStubFile = `\
 export {}
 `
 
-const createSymlinkForDotpkg = ({ artifactsDirPath, cwd }: { artifactsDirPath: string; cwd: string }) =>
+const createSymlinkForDotpkg = ({ artifactsDirPath }: { artifactsDirPath: string }) =>
   T.gen(function* ($) {
+    const cwd = yield* $(getCwd)
     const symlinkPath = path.join(cwd, '.contentlayer')
     // NOTE dir-symlinks are interpreted as dirs by the OS
     const symlinkExists = yield* $(fs.fileOrDirExists(symlinkPath))
@@ -55,8 +55,9 @@ const createSymlinkForDotpkg = ({ artifactsDirPath, cwd }: { artifactsDirPath: s
     }
   })
 
-const addToplevelDotpkgToGitignore = (cwd: string) =>
+const addToplevelDotpkgToGitignore = () =>
   T.gen(function* ($) {
+    const cwd = yield* $(getCwd)
     const gitignoreFilePath = path.join(cwd, '.gitignore')
     const gitignoreExists = yield* $(fs.fileOrDirExists(gitignoreFilePath))
     if (gitignoreExists) {

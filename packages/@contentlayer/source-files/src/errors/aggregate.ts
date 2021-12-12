@@ -1,5 +1,6 @@
 import * as core from '@contentlayer/core'
 import { AsciiTree } from '@contentlayer/utils'
+import type { HasConsole } from '@contentlayer/utils/effect'
 import { T } from '@contentlayer/utils/effect'
 
 import type { Flags } from '../types.js'
@@ -19,7 +20,7 @@ export const handleFetchDataErrors = ({
   flags: Flags
   schemaDef: core.SchemaDef
   verbose?: boolean
-}): T.Effect<unknown, core.HandledFetchDataError, void> =>
+}): T.Effect<HasConsole, core.HandledFetchDataError, void> =>
   T.gen(function* ($) {
     const filteredErrors = filterErrorsByFlags({ errors, flags })
 
@@ -89,7 +90,7 @@ const aggregateFetchDataErrors = ({
   schemaDef: core.SchemaDef
   verbose?: boolean
 }): string => {
-  const keyMessage = `Found problems in ${errors.length} of ${documentCount} documents.`
+  const keyMessage = `Found ${errors.length} problems in ${documentCount} documents.`
   const topMessage = shouldFail ? `Error: ${keyMessage}` : `Warning: ${keyMessage} Skipping those documents.`
   const asciiTree = new AsciiTree(topMessage + '\n')
 
@@ -103,7 +104,7 @@ const aggregateFetchDataErrors = ({
     const errorPrintLimit = verbose ? taggedErrors.length : 20
     const remainingErrorCount = Math.max(taggedErrors.length - errorPrintLimit, 0)
     str += taggedErrors[0]!.renderHeadline({
-      documentCount: taggedErrors.length,
+      errorCount: taggedErrors.length,
       options,
       schemaDef,
     })
@@ -143,6 +144,10 @@ const failOrSkip = ({
   }
 
   if (errors.some((_) => _.kind === 'MissingOrIncompatibleData') && flags.onMissingOrIncompatibleData === 'fail') {
+    return 'fail'
+  }
+
+  if (errors.some((_) => _.kind === 'SingletonDocumentNotFound')) {
     return 'fail'
   }
 

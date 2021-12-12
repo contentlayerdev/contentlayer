@@ -1,4 +1,5 @@
 import * as core from '@contentlayer/core'
+import type { HasConsole } from '@contentlayer/utils/effect'
 import { Chunk, OT, pipe, T } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
 import * as os from 'os'
@@ -29,7 +30,7 @@ export const fetchAllDocuments = ({
   schemaDef: core.SchemaDef
   schemaOverrides: SchemaOverrides.Input.SchemaOverrides
   options: core.PluginOptions
-}): T.Effect<OT.HasTracer, core.SourceFetchDataError, core.DataCache.Cache> =>
+}): T.Effect<OT.HasTracer & HasConsole, core.SourceFetchDataError, core.DataCache.Cache> =>
   pipe(
     T.gen(function* ($) {
       const environment = yield* $(getEnvironment({ accessToken, spaceId, environmentId }))

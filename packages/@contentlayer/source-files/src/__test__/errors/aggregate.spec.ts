@@ -33,7 +33,7 @@ t.test('CouldNotDetermineDocumentTypeError', async (t) => {
     t.equal(
       errorString,
       `\
-Warning: Found problems in 4 of 42 documents. Skipping those documents.
+Warning: Found 4 problems in 42 documents. Skipping those documents.
 
  └── Couldn't determine the document type for 4 documents.
      
@@ -60,7 +60,7 @@ Warning: Found problems in 4 of 42 documents. Skipping those documents.
     t.equal(
       errorString,
       `\
-Warning: Found problems in 24 of 81 documents. Skipping those documents.
+Warning: Found 24 problems in 81 documents. Skipping those documents.
 
  └── Couldn't determine the document type for 24 documents.
      
@@ -105,7 +105,7 @@ Warning: Found problems in 24 of 81 documents. Skipping those documents.
     t.equal(
       errorString,
       `\
-Warning: Found problems in 24 of 81 documents. Skipping those documents.
+Warning: Found 24 problems in 81 documents. Skipping those documents.
 
  └── Couldn't determine the document type for 24 documents.
      
@@ -167,7 +167,7 @@ t.test('MissingRequiredFieldsError', async (t) => {
     t.equal(
       errorString,
       `\
-Warning: Found problems in 4 of 42 documents. Skipping those documents.
+Warning: Found 4 problems in 42 documents. Skipping those documents.
 
  └── Missing required fields for 4 documents
      
@@ -196,7 +196,7 @@ Warning: Found problems in 4 of 42 documents. Skipping those documents.
     t.equal(
       errorString,
       `\
-Warning: Found problems in 24 of 81 documents. Skipping those documents.
+Warning: Found 24 problems in 81 documents. Skipping those documents.
 
  └── Missing required fields for 24 documents
      
@@ -260,7 +260,7 @@ t.test('mix of different errors', async (t) => {
     t.equal(
       errorString,
       `\
-Warning: Found problems in 6 of 42 documents. Skipping those documents.
+Warning: Found 6 problems in 42 documents. Skipping those documents.
 
  ├── Couldn't determine the document type for 4 documents.
  │   
@@ -300,7 +300,7 @@ Warning: Found problems in 6 of 42 documents. Skipping those documents.
     t.equal(
       errorString,
       `\
-Error: Found problems in 12 of 42 documents.
+Error: Found 12 problems in 42 documents.
 
  ├── Couldn't determine the document type for 4 documents.
  │   

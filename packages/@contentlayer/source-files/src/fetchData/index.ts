@@ -3,13 +3,14 @@ import * as core from '@contentlayer/core'
 import type { PosixFilePath } from '@contentlayer/utils'
 import * as utils from '@contentlayer/utils'
 import { unknownToPosixFilePath } from '@contentlayer/utils'
-import type { E, OT } from '@contentlayer/utils/effect'
+import type { E, HasConsole, OT } from '@contentlayer/utils/effect'
 import { pipe, S, T, These } from '@contentlayer/utils/effect'
 import { FSWatch } from '@contentlayer/utils/node'
 
 import { FetchDataError } from '../errors/index.js'
 import type * as LocalSchema from '../schema/defs/index.js'
 import type { FilePathPatternMap, Flags } from '../types.js'
+import { provideDocumentTypeMapState } from './DocumentTypeMap.js'
 import { fetchAllDocuments, makeCacheItemFromFilePath } from './fetchAllDocuments.js'
 
 export const fetchData = ({
@@ -26,12 +27,8 @@ export const fetchData = ({
   options: core.PluginOptions
   contentDirPath: PosixFilePath
   verbose: boolean
-}): S.Stream<OT.HasTracer & HasCwd, never, E.Either<core.SourceFetchDataError, core.DataCache.Cache>> => {
-  const filePathPatternMap: FilePathPatternMap = Object.fromEntries(
-    documentTypeDefs
-      .filter((_) => _.filePathPattern)
-      .map((documentDef) => [documentDef.filePathPattern, documentDef.name]),
-  )
+}): S.Stream<OT.HasTracer & HasCwd & HasConsole, never, E.Either<core.SourceFetchDataError, core.DataCache.Cache>> => {
+  const filePathPatternMap = makefilePathPatternMap(documentTypeDefs)
 
   const initEvent: CustomUpdateEventInit = { _tag: 'init' }
 
@@ -105,6 +102,15 @@ export const fetchData = ({
   )
 }
 
+const makefilePathPatternMap = (documentTypeDefs: LocalSchema.DocumentTypeDef[]): FilePathPatternMap =>
+  Object.fromEntries(
+    documentTypeDefs
+      .filter((_) => _.filePathPattern)
+      .map((documentDef) => [documentDef.filePathPattern, documentDef.name]),
+  )
+
+export const testOnly_makefilePathPatternMap = makefilePathPatternMap
+
 const updateCacheEntry = ({
   contentDirPath,
   filePathPatternMap,
@@ -121,7 +127,7 @@ const updateCacheEntry = ({
   flags: Flags
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
-}): T.Effect<OT.HasTracer, core.HandledFetchDataError, core.DataCache.Cache> =>
+}): T.Effect<OT.HasTracer & HasConsole, core.HandledFetchDataError, core.DataCache.Cache> =>
   T.gen(function* ($) {
     yield* $(
       pipe(
@@ -133,6 +139,8 @@ const updateCacheEntry = ({
           options,
           previousCache: cache,
         }),
+        // NOTE in this code path the DocumentTypeMapState is not used
+        provideDocumentTypeMapState,
         These.effectTapSuccess((cacheItem) =>
           T.succeedWith(() => {
             cache!.cacheItemsMap[event.relativeFilePath] = cacheItem

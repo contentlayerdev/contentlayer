@@ -1,6 +1,6 @@
 import * as core from '@contentlayer/core'
 import * as utils from '@contentlayer/utils'
-import { T } from '@contentlayer/utils/effect'
+import { identity, T } from '@contentlayer/utils/effect'
 
 import type { SchemaError } from '../errors/index.js'
 import { DuplicateBodyFieldError } from '../errors/index.js'
@@ -13,7 +13,7 @@ export const makeCoreSchema = ({
 }: {
   documentTypeDefs: LocalSchema.DocumentTypeDef[]
   options: core.PluginOptions
-}): T.Effect<unknown, SchemaError, core.SchemaDef> =>
+}): T.Effect<unknown, SchemaError | utils.HashError, core.SchemaDef> =>
   T.gen(function* ($) {
     const coreDocumentTypeDefMap: core.DocumentTypeDefMap = {}
     const coreNestedTypeDefMap: core.NestedTypeDefMap = {}
@@ -21,7 +21,9 @@ export const makeCoreSchema = ({
     for (const documentDef of documentTypeDefs) {
       validateDefName({ defName: documentDef.name })
 
-      const fieldDefs = getFieldDefEntries(documentDef.fields).map(fieldDefEntryToCoreFieldDef)
+      const fieldDefs = getFieldDefEntries(documentDef.fields).map((_) =>
+        fieldDefEntryToCoreFieldDef(_, options.fieldOptions),
+      )
 
       if (fieldDefs.some((_) => _.name === options.fieldOptions.bodyFieldName)) {
         yield* $(T.fail(new DuplicateBodyFieldError({ bodyFieldName: options.fieldOptions.bodyFieldName })))
@@ -79,14 +81,16 @@ export const makeCoreSchema = ({
         _tag: 'NestedTypeDef',
         ...utils.pick(nestedDef, ['description']),
         name: nestedDef.name,
-        fieldDefs: getFieldDefEntries(nestedDef.fields).map(fieldDefEntryToCoreFieldDef),
+        fieldDefs: getFieldDefEntries(nestedDef.fields).map((_) =>
+          fieldDefEntryToCoreFieldDef(_, options.fieldOptions),
+        ),
         extensions: nestedDef.extensions ?? {},
       }
       coreNestedTypeDefMap[coreNestedTypeDef.name] = coreNestedTypeDef
     }
 
     const defs = { documentTypeDefMap: coreDocumentTypeDefMap, nestedTypeDefMap: coreNestedTypeDefMap }
-    const hash = core.hashObject({ defs, options })
+    const hash = yield* $(utils.hashObject({ defs, options }))
 
     const coreSchemaDef = { ...defs, hash }
 
@@ -124,7 +128,10 @@ const getFieldDefValues = (fieldDefs: LocalSchema.FieldDefs): LocalSchema.FieldD
 
 type FieldDefEntry = [fieldName: string, fieldDef: LocalSchema.FieldDef]
 
-const fieldDefEntryToCoreFieldDef = ([name, fieldDef]: FieldDefEntry): core.FieldDef => {
+const fieldDefEntryToCoreFieldDef = (
+  [name, fieldDef]: FieldDefEntry,
+  fieldOptions: core.FieldOptions,
+): core.FieldDef => {
   const baseFields: core.FieldDefBase = {
     ...utils.pick(fieldDef, ['type', 'default', 'description']),
     name,
@@ -134,15 +141,21 @@ const fieldDefEntryToCoreFieldDef = ([name, fieldDef]: FieldDefEntry): core.Fiel
   switch (fieldDef.type) {
     case 'list':
       if (LocalSchema.isListPolymorphicFieldDef(fieldDef)) {
-        return <core.ListPolymorphicFieldDef>{
+        return identity<core.ListPolymorphicFieldDef>({
           ...baseFields,
           type: 'list_polymorphic',
-          typeField: fieldDef.typeField,
-          of: fieldDef.of.map(fieldListItemsToCoreFieldListDefItems),
-        }
+          default: fieldDef.default,
+          typeField: fieldDef.typeField ?? fieldOptions.typeFieldName,
+          of: fieldDef.of.map((_) => fieldListItemsToCoreFieldListDefItems(_, fieldOptions)),
+        })
       }
 
-      return <core.ListFieldDef>{ ...baseFields, of: fieldListItemsToCoreFieldListDefItems(fieldDef.of) }
+      return identity<core.ListFieldDef>({
+        ...baseFields,
+        type: 'list',
+        default: fieldDef.default,
+        of: fieldListItemsToCoreFieldListDefItems(fieldDef.of, fieldOptions),
+      })
     case 'nested':
       if (LocalSchema.isNestedPolymorphicFieldDef(fieldDef)) {
         const nestedTypeDefs = fieldDef.of.map((_) => _.def())
@@ -151,36 +164,60 @@ const fieldDefEntryToCoreFieldDef = ([name, fieldDef]: FieldDefEntry): core.Fiel
           throw new Error(`Nested unnamed polymorphic type definitions are not yet supported.`)
         }
         const nestedTypeNames = nestedTypeDefs.map((_: any) => _.name as string)
-        return <core.NestedPolymorphicFieldDef>{
+        return identity<core.NestedPolymorphicFieldDef>({
           ...baseFields,
           type: 'nested_polymorphic',
+          default: fieldDef.default,
           nestedTypeNames,
-          typeField: fieldDef.typeField,
-        }
+          typeField: fieldDef.typeField ?? fieldOptions.typeFieldName,
+        })
       }
 
       const nestedTypeDef = fieldDef.of.def()
       if (LocalSchema.isNestedTypeDef(nestedTypeDef)) {
-        return <core.NestedFieldDef>{ ...baseFields, nestedTypeName: nestedTypeDef.name }
+        return identity<core.NestedFieldDef>({
+          ...baseFields,
+          type: 'nested',
+          default: fieldDef.default,
+          nestedTypeName: nestedTypeDef.name,
+        })
       }
 
-      const fieldDefs = getFieldDefEntries(nestedTypeDef.fields).map(fieldDefEntryToCoreFieldDef)
+      const fieldDefs = getFieldDefEntries(nestedTypeDef.fields).map((_) =>
+        fieldDefEntryToCoreFieldDef(_, fieldOptions),
+      )
       const extensions = nestedTypeDef.extensions ?? {}
       const typeDef: core.NestedUnnamedTypeDef = { _tag: 'NestedUnnamedTypeDef', fieldDefs, extensions }
-      return <core.NestedUnnamedFieldDef>{ ...baseFields, type: 'nested_unnamed', typeDef }
+      return identity<core.NestedUnnamedFieldDef>({
+        ...baseFields,
+        type: 'nested_unnamed',
+        default: fieldDef.default,
+        typeDef,
+      })
     case 'reference':
       if (LocalSchema.isReferencePolymorphicFieldDef(fieldDef)) {
         const documentTypeNames = fieldDef.of.map((_) => _.def().name)
-        return <core.ReferencePolymorphicFieldDef>{
+        return identity<core.ReferencePolymorphicFieldDef>({
           ...baseFields,
           type: 'reference_polymorphic',
+          default: fieldDef.default,
           documentTypeNames,
-          typeField: fieldDef.typeField,
-        }
+          typeField: fieldDef.typeField ?? fieldOptions.typeFieldName,
+        })
       }
-      return <core.ReferenceFieldDef>{ ...baseFields, documentTypeName: fieldDef.of.def().name }
+      return identity<core.ReferenceFieldDef>({
+        ...baseFields,
+        type: 'reference',
+        default: fieldDef.default,
+        documentTypeName: fieldDef.of.def().name,
+      })
     case 'enum':
-      return <core.EnumFieldDef>{ ...baseFields, options: fieldDef.options }
+      return identity<core.EnumFieldDef>({
+        ...baseFields,
+        type: 'enum',
+        default: fieldDef.default,
+        options: fieldDef.options,
+      })
     case 'boolean':
     case 'date':
     // case 'image':
@@ -206,6 +243,7 @@ const fieldDefEntryToCoreFieldDef = ([name, fieldDef]: FieldDefEntry): core.Fiel
 
 const fieldListItemsToCoreFieldListDefItems = (
   listFieldDefItem: LocalSchema.ListFieldDefItem.Item,
+  fieldOptions: core.FieldOptions,
 ): core.ListFieldDefItem.Item => {
   switch (listFieldDefItem.type) {
     case 'boolean':
@@ -222,7 +260,9 @@ const fieldListItemsToCoreFieldListDefItems = (
         return { type: 'nested', nestedTypeName: nestedTypeDef.name }
       }
 
-      const fieldDefs = getFieldDefEntries(nestedTypeDef.fields).map(fieldDefEntryToCoreFieldDef)
+      const fieldDefs = getFieldDefEntries(nestedTypeDef.fields).map((_) =>
+        fieldDefEntryToCoreFieldDef(_, fieldOptions),
+      )
       const extensions = nestedTypeDef.extensions ?? {}
       const typeDef: core.NestedUnnamedTypeDef = { _tag: 'NestedUnnamedTypeDef', fieldDefs, extensions }
       return { type: 'nested_unnamed', typeDef }

@@ -1,11 +1,10 @@
 import type { PosixFilePath } from '@contentlayer/utils'
 import { filePathJoin, unknownToPosixFilePath } from '@contentlayer/utils'
 import * as utils from '@contentlayer/utils'
-import type { E, HasClock } from '@contentlayer/utils/effect'
-import { flow, OT, pipe, S, T } from '@contentlayer/utils/effect'
+import type { E, HasClock, HasConsole } from '@contentlayer/utils/effect'
+import { Chunk, flow, OT, pipe, S, T } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
 import { camelCase } from 'camel-case'
-import { promises as fsPromise } from 'fs'
 import type { PackageJson } from 'type-fest'
 
 import { ArtifactsDir } from '../ArtifactsDir.js'
@@ -31,13 +30,19 @@ export type GenerationOptions = {
   options: PluginOptions
 }
 
-type GenerateDotpkgError = fs.UnknownFSError | fs.MkdirError | SourceProvideSchemaError | SourceFetchDataError
+type GenerateDotpkgError =
+  | fs.WriteFileError
+  | fs.JsonStringifyError
+  | fs.MkdirError
+  | fs.RmError
+  | SourceProvideSchemaError
+  | SourceFetchDataError
 
 export type GenerateInfo = {
   documentCount: number
 }
 
-export const logGenerateInfo = (info: GenerateInfo): T.Effect<unknown, never, void> =>
+export const logGenerateInfo = (info: GenerateInfo): T.Effect<HasConsole, never, void> =>
   T.log(`Generated ${info.documentCount} documents in node_modules/.contentlayer`)
 
 export const generateDotpkg = ({
@@ -46,14 +51,14 @@ export const generateDotpkg = ({
 }: {
   source: SourcePlugin
   verbose: boolean
-}): T.Effect<OT.HasTracer & HasClock & HasCwd, GenerateDotpkgError, GenerateInfo> =>
+}): T.Effect<OT.HasTracer & HasClock & HasCwd & HasConsole, GenerateDotpkgError, GenerateInfo> =>
   pipe(
     generateDotpkgStream({ source, verbose }),
     S.take(1),
     S.runCollect,
-    T.map((_) => _[0]!),
+    T.map(Chunk.unsafeHead),
     T.rightOrFail,
-    OT.withSpan('@contentlayer/core/generation:generateDotpkg', { attributes: {} }),
+    OT.withSpan('@contentlayer/core/generation:generateDotpkg', { attributes: { verbose } }),
   )
 
 // TODO make sure unused old generated files are removed
@@ -63,7 +68,7 @@ export const generateDotpkgStream = ({
 }: {
   source: SourcePlugin
   verbose: boolean
-}): S.Stream<OT.HasTracer & HasClock & HasCwd, never, E.Either<GenerateDotpkgError, GenerateInfo>> => {
+}): S.Stream<OT.HasTracer & HasClock & HasCwd & HasConsole, never, E.Either<GenerateDotpkgError, GenerateInfo>> => {
   const writtenFilesCache = {}
   const generationOptions = { sourcePluginType: source.type, options: source.options }
   const resolveParams = pipe(
@@ -94,25 +99,7 @@ export const generateDotpkgStream = ({
   )
 }
 
-const writeFilesForCache = (params: {
-  schemaDef: SchemaDef
-  cache: DataCache.Cache
-  targetPath: PosixFilePath
-  generationOptions: GenerationOptions
-  writtenFilesCache: WrittenFilesCache
-}): T.Effect<OT.HasTracer, never, E.Either<fs.UnknownFSError, void>> =>
-  pipe(
-    T.tryCatchPromise(
-      () => writeFilesForCache_(params),
-      (error) => new fs.UnknownFSError({ error }),
-    ),
-    OT.withSpan('@contentlayer/core/generation:writeFilesForCache', {
-      attributes: { targetPath: params.targetPath },
-    }),
-    T.either,
-  )
-
-const writeFilesForCache_ = async ({
+const writeFilesForCache = ({
   cache,
   schemaDef,
   targetPath,
@@ -124,61 +111,86 @@ const writeFilesForCache_ = async ({
   targetPath: PosixFilePath
   generationOptions: GenerationOptions
   writtenFilesCache: WrittenFilesCache
-}): Promise<void> => {
-  const withPrefix = (...path_: string[]) => filePathJoin(targetPath, ...path_.map(unknownToPosixFilePath))
+}): T.Effect<
+  OT.HasTracer,
+  never,
+  E.Either<fs.WriteFileError | fs.MkdirError | fs.RmError | fs.JsonStringifyError, void>
+> =>
+  pipe(
+    T.gen(function* ($) {
+      const withPrefix = (...path_: string[]) => filePathJoin(targetPath, ...path_.map(unknownToPosixFilePath))
 
-  if (process.env['CL_DEBUG']) {
-    // NOTE cache directory already exists because `source.fetchData` has already created it
-    await fsPromise.mkdir(withPrefix('cache'), { recursive: true })
-    await fsPromise.writeFile(withPrefix('cache', 'schema.json'), JSON.stringify(schemaDef, null, 2))
-    await fsPromise.writeFile(withPrefix('cache', 'data-cache.json'), JSON.stringify(cache, null, 2))
-  }
+      if (process.env['CL_DEBUG']) {
+        yield* $(fs.mkdirp(withPrefix('cache')))
+        yield* $(
+          T.collectAllPar([
+            fs.writeFileJson({ filePath: withPrefix('cache', 'schema.json'), content: schemaDef as any }),
+            fs.writeFileJson({ filePath: withPrefix('cache', 'data-cache.json'), content: cache }),
+          ]),
+        )
+      }
 
-  const allCacheItems = Object.values(cache.cacheItemsMap)
-  const allDocuments = allCacheItems.map((_) => _.document)
+      const allCacheItems = Object.values(cache.cacheItemsMap)
+      const allDocuments = allCacheItems.map((_) => _.document)
 
-  const documentDefs = Object.values(schemaDef.documentTypeDefMap)
+      const documentDefs = Object.values(schemaDef.documentTypeDefMap)
 
-  const typeNameField = generationOptions.options.fieldOptions.typeFieldName
-  const dataBarrelFiles = documentDefs.map((docDef) => ({
-    content: makeDataExportFile({
-      docDef,
-      documentIds: allDocuments.filter((_) => _[typeNameField] === docDef.name).map((_) => _._id),
+      const typeNameField = generationOptions.options.fieldOptions.typeFieldName
+      const dataBarrelFiles = documentDefs.map((docDef) => ({
+        content: makeDataExportFile({
+          docDef,
+          documentIds: allDocuments.filter((_) => _[typeNameField] === docDef.name).map((_) => _._id),
+        }),
+        filePath: withPrefix('data', `${getDataVariableName({ docDef })}.mjs`),
+      }))
+
+      const dataJsonFiles = allCacheItems.map(({ document, documentHash }) => ({
+        content: JSON.stringify(document, null, 2),
+        filePath: withPrefix('data', document[typeNameField], `${idToFileName(document._id)}.json`),
+        documentHash,
+      }))
+
+      const dataDirPaths = documentDefs.map((_) => withPrefix('data', _.name))
+      yield* $(T.forEachPar_([withPrefix('types'), ...dataDirPaths], fs.mkdirp))
+      //Promise.all([mkdir(withPrefix('types')), ...dataDirPaths.map(mkdir)])
+
+      const writeFile = writeFileWithWrittenFilesCache({ writtenFilesCache })
+
+      yield* $(
+        T.collectAllPar([
+          writeFile({ filePath: withPrefix('package.json'), content: makePackageJson(schemaDef.hash) }),
+          writeFile({
+            filePath: withPrefix('types', 'index.d.ts'),
+            content: renderTypes({ schemaDef, generationOptions }),
+            rmBeforeWrite: true,
+          }),
+          writeFile({ filePath: withPrefix('types', 'index.mjs'), content: makeHelperTypes() }),
+          writeFile({
+            filePath: withPrefix('data', 'index.d.ts'),
+            content: makeDataTypes({ schemaDef }),
+            rmBeforeWrite: true,
+          }),
+          writeFile({ filePath: withPrefix('data', 'index.mjs'), content: makeIndexJs({ schemaDef }) }),
+          ...dataBarrelFiles.map(writeFile),
+          ...dataJsonFiles.map(writeFile),
+        ]),
+      )
     }),
-    filePath: withPrefix('data', `${getDataVariableName({ docDef })}.mjs`),
-  }))
-
-  const dataJsonFiles = allCacheItems.map(({ document, documentHash }) => ({
-    content: JSON.stringify(document, null, 2),
-    filePath: withPrefix('data', document[typeNameField], `${idToFileName(document._id)}.json`),
-    documentHash,
-  }))
-
-  const dataDirPaths = documentDefs.map((_) => withPrefix('data', _.name))
-  await Promise.all([mkdir(withPrefix('types')), ...dataDirPaths.map(mkdir)])
-
-  const writeFile = writeFileWithWrittenFilesCache({ writtenFilesCache })
-
-  await Promise.all([
-    writeFile({ filePath: withPrefix('package.json'), content: makePackageJson() }),
-    writeFile({
-      filePath: withPrefix('types', 'index.d.ts'),
-      content: renderTypes({ schemaDef, generationOptions }),
+    OT.withSpan('@contentlayer/core/generation/generate-dotpkg:writeFilesForCache', {
+      attributes: {
+        targetPath,
+        cacheKeys: Object.keys(cache.cacheItemsMap),
+      },
     }),
-    writeFile({ filePath: withPrefix('types', 'index.mjs'), content: makeHelperTypes() }),
-    writeFile({ filePath: withPrefix('data', 'index.d.ts'), content: makeDataTypes({ schemaDef }) }),
-    writeFile({ filePath: withPrefix('data', 'index.mjs'), content: makeIndexJs({ schemaDef }) }),
-    ...dataBarrelFiles.map(writeFile),
-    ...dataJsonFiles.map(writeFile),
-  ])
-}
+    T.either,
+  )
 
-const makePackageJson = (): string => {
+const makePackageJson = (schemaHash: string): string => {
   const packageJson: PackageJson & { typesVersions: any } = {
     name: 'dot-contentlayer',
     description: 'This package is auto-generated by Contentlayer',
     // TODO generate more meaningful version (e.g. by using Contentlayer version and schema hash)
-    version: '0.0.0',
+    version: `0.0.0-${schemaHash}`,
     exports: {
       './data': {
         import: './data/index.mjs',
@@ -198,40 +210,38 @@ const makePackageJson = (): string => {
   return JSON.stringify(packageJson, null, 2)
 }
 
-const mkdir = async (dirPath: string) => {
-  try {
-    await fsPromise.mkdir(dirPath, { recursive: true })
-  } catch (e: any) {
-    if (e.code !== 'EEXIST') {
-      throw e
-    }
-  }
-}
-
 /**
  * Remembers which files already have been written to disk.
  * If no `documentHash` was provided, the writes won't be cached. */
 const writeFileWithWrittenFilesCache =
   ({ writtenFilesCache }: { writtenFilesCache: WrittenFilesCache }) =>
-  async ({
+  ({
     filePath,
     content,
     documentHash,
+    rmBeforeWrite = true,
   }: {
     filePath: PosixFilePath
     content: string
     documentHash?: string
-  }): Promise<void> => {
-    const fileIsUpToDate = documentHash !== undefined && writtenFilesCache[filePath] === documentHash
-    if (fileIsUpToDate) {
-      return
-    }
+    /** In order for VSC to pick up changes in generated files, it's currently needed to delete the file before re-creating it */
+    rmBeforeWrite?: boolean
+  }) =>
+    T.gen(function* ($) {
+      // TODO also consider schema hash
+      const fileIsUpToDate = documentHash !== undefined && writtenFilesCache[filePath] === documentHash
+      if (!rmBeforeWrite && fileIsUpToDate) {
+        return
+      }
 
-    await fsPromise.writeFile(filePath, content, 'utf8')
-    if (documentHash) {
-      writtenFilesCache[filePath] = documentHash
-    }
-  }
+      if (rmBeforeWrite) {
+        yield* $(fs.rm(filePath, { force: true }))
+      }
+      yield* $(fs.writeFile(filePath, content))
+      if (documentHash) {
+        writtenFilesCache[filePath] = documentHash
+      }
+    })
 
 const makeDataExportFile = ({ docDef, documentIds }: { docDef: DocumentTypeDef; documentIds: string[] }): string => {
   const dataVariableName = getDataVariableName({ docDef })

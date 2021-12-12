@@ -3,7 +3,7 @@ import type { JsonValue } from 'type-fest'
 
 import { T, Tagged } from './effect/index.js'
 
-export const hashObject = (obj: JsonValue): T.Effect<unknown, HashError, string> => {
+export const hashObject = (obj: JsonValue | any): T.Effect<unknown, HashError, string> => {
   return T.tryCatchPromise(
     () => xxhash64(JSON.stringify(obj)),
     (error) => new HashError({ error }),

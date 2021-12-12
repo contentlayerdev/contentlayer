@@ -44,7 +44,7 @@ export const makeSourcePlugin: core.MakeSourcePlugin<Args & PluginOptions> = asy
           ),
         ),
         // TODO remove polling and implement "properly"
-        S.repeat(SC.spaced(5_000)),
+        S.repeatSchedule(SC.spaced(5_000)),
       ),
   }
 }

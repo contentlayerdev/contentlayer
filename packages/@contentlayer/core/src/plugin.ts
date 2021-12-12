@@ -1,5 +1,5 @@
 import type { Thunk } from '@contentlayer/utils'
-import type { E, HasClock, OT, S, T } from '@contentlayer/utils/effect'
+import type { E, HasClock, HasConsole, OT, S, T } from '@contentlayer/utils/effect'
 import type { BundleMDXOptions } from 'mdx-bundler/dist/types'
 import type { LiteralUnion } from 'type-fest'
 import type * as unified from 'unified'
@@ -67,12 +67,12 @@ export type SourcePlugin = {
   extensions: PluginExtensions
 }
 
-export type ProvideSchema = T.Effect<OT.HasTracer, SourceProvideSchemaError, SchemaDef>
+export type ProvideSchema = T.Effect<OT.HasTracer & HasConsole, SourceProvideSchemaError, SchemaDef>
 export type FetchData = (_: {
   schemaDef: SchemaDef
   verbose: boolean
 }) => S.Stream<
-  OT.HasTracer & HasClock & HasCwd,
+  OT.HasTracer & HasClock & HasCwd & HasConsole,
   never,
   E.Either<SourceFetchDataError | SourceProvideSchemaError, DataCache.Cache>
 >

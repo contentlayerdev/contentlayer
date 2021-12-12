@@ -1,7 +1,8 @@
 import type { HasCwd } from '@contentlayer/core'
 import { getConfig, provideCwd } from '@contentlayer/core'
-import { JaegerNodeTracing, recRemoveUndefinedValues } from '@contentlayer/utils'
-import { OT, pipe, pretty, T } from '@contentlayer/utils/effect'
+import { provideJaegerTracing, recRemoveUndefinedValues } from '@contentlayer/utils'
+import type { HasConsole } from '@contentlayer/utils/effect'
+import { OT, pipe, pretty, provideConsole, T } from '@contentlayer/utils/effect'
 import { Command, Option } from 'clipanion'
 import { promises as fs } from 'fs'
 import * as path from 'path'
@@ -36,9 +37,10 @@ export class DefaultCommand extends Command {
     try {
       await pipe(
         this.executeSafe(),
-        T.provideSomeLayer(JaegerNodeTracing('contentlayer-stackbit-yaml-generator')),
+        provideJaegerTracing('contentlayer-stackbit-yaml-generator'),
         T.tapCause((cause) => T.die(pretty(cause))),
         provideCwd,
+        provideConsole,
         T.runPromise,
       )
     } catch (e: any) {
@@ -47,7 +49,7 @@ export class DefaultCommand extends Command {
     }
   }
 
-  executeSafe = (): T.Effect<OT.HasTracer & HasCwd, unknown, void> =>
+  executeSafe = (): T.Effect<OT.HasTracer & HasCwd & HasConsole, unknown, void> =>
     pipe(
       getConfig({ configPath: this.configPath }),
       T.chain((source) => T.struct({ source: T.succeed(source), schema: source.provideSchema })),

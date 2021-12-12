@@ -1,7 +1,7 @@
 import * as core from '@contentlayer/core'
 import { DummyTracing } from '@contentlayer/utils'
-import type { HasClock, OT } from '@contentlayer/utils/effect'
-import { pipe, T } from '@contentlayer/utils/effect'
+import type { HasClock, HasConsole, OT } from '@contentlayer/utils/effect'
+import { pipe, provideConsole, T } from '@contentlayer/utils/effect'
 import t from 'tap'
 
 import { getFlattenedPath, testOnly_getDataForFieldDef as getDataForFieldDef } from '../fetchData/mapping.js'
@@ -66,5 +66,5 @@ t.test('getDataForFieldDef', async (t) => {
   })
 })
 
-const runPromise = (eff: T.Effect<OT.HasTracer & HasClock, unknown, any>) =>
-  pipe(eff, T.provide(DummyTracing), T.runPromise)
+const runPromise = (eff: T.Effect<OT.HasTracer & HasClock & HasConsole, unknown, any>) =>
+  pipe(eff, T.provide(DummyTracing), provideConsole, T.runPromise)

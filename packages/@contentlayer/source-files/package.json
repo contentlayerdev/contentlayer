@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/source-files",
-  "version": "0.0.31",
+  "version": "0.0.34-dev.9",
   "type": "module",
   "exports": {
     ".": {
@@ -21,6 +21,7 @@
   "files": [
     "./dist/*.{js,ts,map}",
     "./dist/!(__test__)/**/*.{js,ts,map}",
+    "./src",
     "./package.json"
   ],
   "scripts": {
@@ -36,7 +37,7 @@
     "gray-matter": "^4.0.3",
     "minimatch": "^3.0.4",
     "ts-pattern": "^3.3.3",
-    "unified": "^10.1.0",
+    "unified": "^10.1.1",
     "yaml": "^1.10.2"
   },
   "devDependencies": {
@@ -47,6 +48,6 @@
     "@types/tap": "^15.0.5",
     "@types/yaml": "^1",
     "faker": "^5.5.3",
-    "tap": "^15.0.10"
+    "tap": "^15.1.5"
   }
 }

@@ -1,7 +1,8 @@
 import { errorToString } from '@contentlayer/utils'
+import type { HasConsole } from '@contentlayer/utils/effect'
 import { OT, pipe, T, Tagged } from '@contentlayer/utils/effect'
-import html from 'rehype-stringify'
-import markdown from 'remark-parse'
+import rehypeStringify from 'rehype-stringify'
+import remarkParse from 'remark-parse'
 import remark2rehype from 'remark-rehype'
 import { unified } from 'unified'
 
@@ -13,7 +14,7 @@ export const markdownToHtml = ({
 }: {
   mdString: string
   options?: MarkdownOptions
-}): T.Effect<OT.HasTracer, UnexpectedMarkdownError, string> =>
+}): T.Effect<OT.HasTracer & HasConsole, UnexpectedMarkdownError, string> =>
   pipe(
     T.gen(function* ($) {
       // const matterResult = matter(mdString)
@@ -31,7 +32,8 @@ export const markdownToHtml = ({
         )
       }
 
-      const builder = unified().use(markdown)
+      // parse markdown
+      const builder = unified().use(remarkParse as any)
 
       if (options?.remarkPlugins) {
         builder.use(options.remarkPlugins)
@@ -43,7 +45,8 @@ export const markdownToHtml = ({
         builder.use(options.rehypePlugins)
       }
 
-      builder.use(html)
+      // rehype to html
+      builder.use(rehypeStringify as any)
 
       const res = yield* $(T.tryPromise(() => builder.process(mdString)))
 

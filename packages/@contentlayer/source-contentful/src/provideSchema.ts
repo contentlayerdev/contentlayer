@@ -1,5 +1,6 @@
 import * as core from '@contentlayer/core'
 import { SourceProvideSchemaError } from '@contentlayer/core'
+import * as utils from '@contentlayer/utils'
 import { casesHandled, partition } from '@contentlayer/utils'
 import { OT, pipe, T } from '@contentlayer/utils/effect'
 
@@ -51,7 +52,7 @@ export const provideSchema = ({
       )
 
       const defs = { documentTypeDefMap, nestedTypeDefMap }
-      const hash = core.hashObject({ defs, options })
+      const hash = yield* $(utils.hashObject({ defs, options }))
 
       // if (process.env['CL_DEBUG']) {
       //   ;(await import('fs')).writeFileSync('.tmp.schema.json', JSON.stringify(defs, null, 2))

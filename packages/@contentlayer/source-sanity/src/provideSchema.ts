@@ -36,7 +36,7 @@ export const provideSchema = async ({
     .reduce((acc, _) => ({ ...acc, [_.name]: _ }), {})
 
   const defs = { documentTypeDefMap, nestedTypeDefMap }
-  const hash = core.hashObject({ defs, options })
+  const hash = 'todo'
 
   const coreSchemaDef = { ...defs, hash }
 

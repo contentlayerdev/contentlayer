@@ -1,10 +1,10 @@
 import * as T from '@effect-ts/core/Effect'
 import * as Ex from '@effect-ts/core/Effect/Exit'
+import * as S from '@effect-ts/core/Effect/Experimental/Stream'
 import * as H from '@effect-ts/core/Effect/Hub'
 import * as M from '@effect-ts/core/Effect/Managed'
 import * as Q from '@effect-ts/core/Effect/Queue'
 import * as Ref from '@effect-ts/core/Effect/Ref'
-import * as S from '@effect-ts/core/Effect/Stream'
 import * as E from '@effect-ts/core/Either'
 import { pipe } from '@effect-ts/core/Function'
 import * as O from '@effect-ts/core/Option'
@@ -181,7 +181,7 @@ class ConcreteFileWatcher extends FileWatcherInternal {
   subscribe(): M.Managed<unknown, never, S.Stream<unknown, never, E.Either<FileWatcherError, FileSystemEvent>>> {
     return pipe(
       H.subscribe(this.fsEventsHub),
-      M.chain((_) => M.ensuringFirst_(M.succeed(S.fromQueue(_)), Q.shutdown(_))),
+      M.chain((_) => M.ensuringFirst_(M.succeed(S.fromQueue()(_)), Q.shutdown(_))),
       M.map(S.flattenExit),
     )
   }

@@ -5,7 +5,10 @@ import { E, O, These } from './index.js'
 
 export * from '@effect-ts/core/Collections/Immutable/Chunk'
 
-/** Separates a Chunk of These into success values on one side and error/warning values on the other side */
+/**
+ * Separates a Chunk of These into success values on one side and error/warning values on the other side
+ * Values are preserved in case of a warning.
+ */
 export const partitionThese = <E, A>(
   chunk: Chunk.Chunk<These.These<E, A>>,
 ): Separated<Chunk.Chunk<E>, Chunk.Chunk<A>> => {
