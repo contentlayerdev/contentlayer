@@ -24,7 +24,7 @@
     "lint:prettier:check": "prettier packages --check"
   },
   "devDependencies": {
-    "@changesets/cli": "2.19.0-temp.0",
+    "@changesets/cli": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/cli/_pkg.tgz",
     "@effect-ts/tracing-plugin": "^0.14.21",
     "@playwright/test": "^1.15.1",
     "@types/prettier": "^2.3.2",

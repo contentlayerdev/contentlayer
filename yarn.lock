@@ -1394,15 +1394,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@changesets/apply-release-plan@npm:^5.1.0-temp.0":
-  version: 5.1.0-temp.0
-  resolution: "@changesets/apply-release-plan@npm:5.1.0-temp.0"
+"@changesets/apply-release-plan@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/apply-release-plan/_pkg.tgz":
+  version: 5.0.3
+  resolution: "@changesets/apply-release-plan@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/apply-release-plan/_pkg.tgz"
   dependencies:
     "@babel/runtime": ^7.10.4
-    "@changesets/config": ^1.7.0-temp.0
-    "@changesets/get-version-range-type": ^0.3.2
-    "@changesets/git": ^1.2.2-temp.0
-    "@changesets/types": ^4.1.0-temp.0
+    "@changesets/config": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/config"
+    "@changesets/get-version-range-type": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/get-version-range-type"
+    "@changesets/git": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/git"
+    "@changesets/types": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/types"
     "@manypkg/get-packages": ^1.1.3
     detect-indent: ^6.0.0
     fs-extra: ^7.0.1
@@ -1411,42 +1411,43 @@ __metadata:
     prettier: ^1.19.1
     resolve-from: ^5.0.0
     semver: ^5.4.1
-  checksum: 57a658adf352d2af7bd788b00e60fdc26ebf9f1517dff38809539c86b3873775d902fb3e314a10fdedc46f28e793689016999c75f990002fb6c33264cdd24499
+  checksum: dac8f62027f049f48a668add69a1e81c69ee0e3b53318fc61d7bbdf09866eb5de6622885c1de6ef37f849f5735e6566b4bca6155d225fa414fea643fc39d767d
   languageName: node
   linkType: hard
 
-"@changesets/assemble-release-plan@npm:^5.1.0-temp.0":
-  version: 5.1.0-temp.0
-  resolution: "@changesets/assemble-release-plan@npm:5.1.0-temp.0"
+"@changesets/assemble-release-plan@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/assemble-release-plan/_pkg.tgz":
+  version: 5.0.3
+  resolution: "@changesets/assemble-release-plan@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/assemble-release-plan/_pkg.tgz"
   dependencies:
     "@babel/runtime": ^7.10.4
-    "@changesets/errors": ^0.1.4
-    "@changesets/get-dependents-graph": ^1.2.5-temp.0
-    "@changesets/types": ^4.1.0-temp.0
+    "@changesets/errors": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/errors"
+    "@changesets/get-dependents-graph": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/get-dependents-graph"
+    "@changesets/types": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/types"
     "@manypkg/get-packages": ^1.1.3
     semver: ^5.4.1
-  checksum: 4706352cadefac5acb1035257fe80da36d4d1687e4ed2e6927ae4aab9974f8c0f064c9894cd5d57d51d1088100fb64ae15d17373b73ce61db7a6626940dff18e
+  checksum: 1aa1dccfab37dfd9944fa2a57d3d4d8f9e3f349598c90eee6ede2d4e55c6b193d9b7262c7067f9d8e371eb0cae01df0b6153424af3341d987852eb3cd7350bf3
   languageName: node
   linkType: hard
 
-"@changesets/cli@npm:2.19.0-temp.0":
-  version: 2.19.0-temp.0
-  resolution: "@changesets/cli@npm:2.19.0-temp.0"
+"@changesets/cli@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/cli/_pkg.tgz":
+  version: 2.18.1
+  resolution: "@changesets/cli@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/cli/_pkg.tgz"
   dependencies:
     "@babel/runtime": ^7.10.4
-    "@changesets/apply-release-plan": ^5.1.0-temp.0
-    "@changesets/assemble-release-plan": ^5.1.0-temp.0
-    "@changesets/config": ^1.7.0-temp.0
-    "@changesets/errors": ^0.1.4
-    "@changesets/get-dependents-graph": ^1.2.5-temp.0
-    "@changesets/get-release-plan": ^3.0.4-temp.0
-    "@changesets/git": ^1.2.2-temp.0
-    "@changesets/logger": ^0.0.5
-    "@changesets/pre": ^1.0.9-temp.0
-    "@changesets/read": ^0.5.3-temp.0
-    "@changesets/types": ^4.1.0-temp.0
-    "@changesets/write": ^0.1.7-temp.0
+    "@changesets/apply-release-plan": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/apply-release-plan"
+    "@changesets/assemble-release-plan": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/assemble-release-plan"
+    "@changesets/config": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/config"
+    "@changesets/errors": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/errors"
+    "@changesets/get-dependents-graph": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/get-dependents-graph"
+    "@changesets/get-release-plan": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/get-release-plan"
+    "@changesets/git": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/git"
+    "@changesets/logger": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/logger"
+    "@changesets/pre": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/pre"
+    "@changesets/read": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/read"
+    "@changesets/types": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/types"
+    "@changesets/write": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/write"
     "@manypkg/get-packages": ^1.1.3
+    "@types/is-ci": ^3.0.0
     "@types/semver": ^6.0.0
     boxen: ^1.3.0
     chalk: ^2.1.0
@@ -1454,139 +1455,146 @@ __metadata:
     external-editor: ^3.1.0
     fs-extra: ^7.0.1
     human-id: ^1.0.2
-    is-ci: ^2.0.0
+    is-ci: ^3.0.1
     meow: ^6.0.0
     outdent: ^0.5.0
     p-limit: ^2.2.0
-    preferred-pm: ^3.0.0
+    preferred-pm: ^3.0.3
     semver: ^5.4.1
     spawndamnit: ^2.0.0
     term-size: ^2.1.0
     tty-table: ^2.8.10
   bin:
     changeset: bin.js
-  checksum: 77d23b7e7e89e77a9d7afec8534037be371c6269b9a8770753bfb4f64621fc9c4ca7d7487cba150ae1e163efa8beff59efccd68b3aa70fc51bb5b4bf109f7e1a
+  checksum: e7ee8de830ff6297b347167c039391cd1286b8ef9b926b2bfbd5ee33ac11ed5df4202b0abc1b3de5f29415b3ffac45318f03968cf2a0c4efa27d7b5fa02ea1fc
   languageName: node
   linkType: hard
 
-"@changesets/config@npm:^1.7.0-temp.0":
-  version: 1.7.0-temp.0
-  resolution: "@changesets/config@npm:1.7.0-temp.0"
+"@changesets/config@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/config/_pkg.tgz":
+  version: 1.6.3
+  resolution: "@changesets/config@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/config/_pkg.tgz"
   dependencies:
-    "@changesets/errors": ^0.1.4
-    "@changesets/get-dependents-graph": ^1.2.5-temp.0
-    "@changesets/logger": ^0.0.5
-    "@changesets/types": ^4.1.0-temp.0
+    "@changesets/errors": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/errors"
+    "@changesets/get-dependents-graph": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/get-dependents-graph"
+    "@changesets/logger": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/logger"
+    "@changesets/types": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/types"
     "@manypkg/get-packages": ^1.1.3
     fs-extra: ^7.0.1
     micromatch: ^4.0.2
-  checksum: fe241fe1583681f2d5a434a97a84bf389c2786e60b0a256198adc9ffa325872d4ba85e24f6dcb1d0f792152a2d505ba95ca88738dadcdcb1f707a42b303237d8
+  checksum: c7fd534f5b1bf5327d3dfa436e008fc24b355a84f16fefb89f199b11528512031c1dd6a9efd2288ccdd00f166a0ce20aadac119dbe344bed4198d14607ed62ab
   languageName: node
   linkType: hard
 
-"@changesets/errors@npm:^0.1.4":
+"@changesets/errors@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/errors/_pkg.tgz":
   version: 0.1.4
-  resolution: "@changesets/errors@npm:0.1.4"
+  resolution: "@changesets/errors@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/errors/_pkg.tgz"
   dependencies:
     extendable-error: ^0.1.5
-  checksum: 10734f1379715bf5a70b566dd42b50a75964d76f382bb67332776614454deda6d04a43dd7e727cd7cba56d7f2f7c95a07c7c0a19dd5d64fb1980b28322840733
+  checksum: 74d6f586c2a400a5a70a3950a0ba5585ab935602800440496879382f48a769cf21a3772c663021a254640d172d8ce8868e0932797960f654571a44848d356261
   languageName: node
   linkType: hard
 
-"@changesets/get-dependents-graph@npm:^1.2.5-temp.0":
-  version: 1.2.5-temp.0
-  resolution: "@changesets/get-dependents-graph@npm:1.2.5-temp.0"
+"@changesets/get-dependents-graph@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/get-dependents-graph/_pkg.tgz":
+  version: 1.2.4
+  resolution: "@changesets/get-dependents-graph@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/get-dependents-graph/_pkg.tgz"
   dependencies:
-    "@changesets/types": ^4.1.0-temp.0
+    "@changesets/types": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/types"
     "@manypkg/get-packages": ^1.1.3
     chalk: ^2.1.0
     fs-extra: ^7.0.1
     semver: ^5.4.1
-  checksum: ac67b1383b0ab1cca3f18b2297ae5695da136bee949fd62e22d3e80c28884757bcb03f755bb5d0e0cc3cda3782c6b85096ee63ccd95b1270c5a3dcdbbb3ec6a6
+  checksum: 2c1fbac65d7fdac356ae69dbdc5047976e5767f66cc95f293b1ae20658f5daccb871b0dec833d8cb34a1586d7fdeabf5609d46f0862f3890c053a5cdbfb1a422
   languageName: node
   linkType: hard
 
-"@changesets/get-release-plan@npm:^3.0.4-temp.0":
-  version: 3.0.4-temp.0
-  resolution: "@changesets/get-release-plan@npm:3.0.4-temp.0"
+"@changesets/get-release-plan@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/get-release-plan/_pkg.tgz":
+  version: 3.0.3
+  resolution: "@changesets/get-release-plan@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/get-release-plan/_pkg.tgz"
   dependencies:
     "@babel/runtime": ^7.10.4
-    "@changesets/assemble-release-plan": ^5.1.0-temp.0
-    "@changesets/config": ^1.7.0-temp.0
-    "@changesets/pre": ^1.0.9-temp.0
-    "@changesets/read": ^0.5.3-temp.0
-    "@changesets/types": ^4.1.0-temp.0
+    "@changesets/assemble-release-plan": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/assemble-release-plan"
+    "@changesets/config": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/config"
+    "@changesets/pre": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/pre"
+    "@changesets/read": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/read"
+    "@changesets/types": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/types"
     "@manypkg/get-packages": ^1.1.3
-  checksum: dd43fdd09bf1bb2daee16d7f5dc10679dfa76dff7b8a472b4bb8c7af2ee7b62f71f9322d3c3f9ac85432ff79c2f29a61d6b5b0d53416e09cd47aafa74a3ac3ef
+  checksum: 4ac089c8661e69a2dbf0ce0f870f4de6e724850c0ccc166f46d19b7c4b5988672e6f7b0f1757bcea63a0c63eff25f2f28c84cfe8597a625376715c9e8f398451
   languageName: node
   linkType: hard
 
-"@changesets/get-version-range-type@npm:^0.3.2":
+"@changesets/get-version-range-type@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/get-version-range-type/_pkg.tgz":
   version: 0.3.2
-  resolution: "@changesets/get-version-range-type@npm:0.3.2"
-  checksum: b7ee7127c472a3886906ca6db336ac11233a5e75abc882084bfb4794e79a8936e3faceec3c04bf61c26453cd7f74278d9bf22aea4cdca8c1cd992591925b3c9b
+  resolution: "@changesets/get-version-range-type@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/get-version-range-type/_pkg.tgz"
+  checksum: 7e16d22fd42ab967904115efbb998d91d8e8091b52b458e444211ec4e361559517964a8856a8ab974487ac369a7dd9a8212e215eb8d04c57a59f352df35fe362
   languageName: node
   linkType: hard
 
-"@changesets/git@npm:^1.2.2-temp.0":
-  version: 1.2.2-temp.0
-  resolution: "@changesets/git@npm:1.2.2-temp.0"
+"@changesets/git@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/git/_pkg.tgz":
+  version: 1.2.1
+  resolution: "@changesets/git@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/git/_pkg.tgz"
   dependencies:
     "@babel/runtime": ^7.10.4
-    "@changesets/errors": ^0.1.4
-    "@changesets/types": ^4.1.0-temp.0
+    "@changesets/errors": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/errors"
+    "@changesets/types": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/types"
     "@manypkg/get-packages": ^1.1.3
     is-subdir: ^1.1.1
     spawndamnit: ^2.0.0
-  checksum: 3eac3788af1d2a8f91ac870fc9bce9170839591ae0b8cb4f8e6e32b4debdd63b1efdb543af775d6bbde67ad13b43096d295d44ce62f6649639c1e07a049adb28
+  checksum: 2e8b56780e1eef4b90c92ce3ce4e01f9f147f9b189095daa5da8894911ecdaf26534ba702d7c96a991d56d5fa0cb96e40511175d0abf62e7d9dbde89fcf33e6b
   languageName: node
   linkType: hard
 
-"@changesets/logger@npm:^0.0.5":
+"@changesets/logger@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/logger/_pkg.tgz":
   version: 0.0.5
-  resolution: "@changesets/logger@npm:0.0.5"
+  resolution: "@changesets/logger@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/logger/_pkg.tgz"
   dependencies:
     chalk: ^2.1.0
-  checksum: bfec3cd9122b00c0ec25e96730f771ffd662ef3906d571bad1e4e9993f9d54d357d3eaf074b3dfaa4e23af759ce68efa2a97d8b845b0d8c951df5d21c6dfdff5
+  checksum: 524ac2c2aa60e270c249111c3a225a02e0fb1faf04bff049fce43cd493257a9f841537d348b0ae3002865899946e985309486efcd77c67d5256e1394fd8f187f
   languageName: node
   linkType: hard
 
-"@changesets/parse@npm:^0.3.11-temp.0":
-  version: 0.3.11-temp.0
-  resolution: "@changesets/parse@npm:0.3.11-temp.0"
+"@changesets/parse@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/parse/_pkg.tgz":
+  version: 0.3.10
+  resolution: "@changesets/parse@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/parse/_pkg.tgz"
   dependencies:
-    "@changesets/types": ^4.1.0-temp.0
+    "@changesets/types": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/types"
     js-yaml: ^3.13.1
-  checksum: f6dd0e6e9a92be35e2a0f893b6895de023c3a55457230f5bee5f45cbdb2fc3fb15890ab5a372ec01ade016686c137ab33afab6eeda4badaeb3b51fc99a3d1395
+  checksum: 5b6d6078652bdbf1395d00121325be755cdafb62e4d7c98072557e1a8d6e1abd70569e7fecb07dbc50bcee7ba18daa2f03686ebffb9f3f196de4ed12f9bc6b3a
   languageName: node
   linkType: hard
 
-"@changesets/pre@npm:^1.0.9-temp.0":
-  version: 1.0.9-temp.0
-  resolution: "@changesets/pre@npm:1.0.9-temp.0"
+"@changesets/pre@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/pre/_pkg.tgz":
+  version: 1.0.8
+  resolution: "@changesets/pre@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/pre/_pkg.tgz"
   dependencies:
     "@babel/runtime": ^7.10.4
-    "@changesets/errors": ^0.1.4
-    "@changesets/types": ^4.1.0-temp.0
+    "@changesets/errors": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/errors"
+    "@changesets/types": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/types"
     "@manypkg/get-packages": ^1.1.3
     fs-extra: ^7.0.1
-  checksum: e4ad5e317e2f0db6d89432d727317732cedc9e34bc4102b760298b2ff9189aaa93dc580d93729f87e85fdf85745a12427f04d1c85da38231e8d27300a64269b9
+  checksum: 2659c06f978dab4d962a86a097f916d2f7a9603e51c067695a22f0d324f64a9cca44bf10f57ce7fba43700f776069fef9aa630ce2d4ec7b73fe27e1c6ddcdf9e
   languageName: node
   linkType: hard
 
-"@changesets/read@npm:^0.5.3-temp.0":
-  version: 0.5.3-temp.0
-  resolution: "@changesets/read@npm:0.5.3-temp.0"
+"@changesets/read@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/read/_pkg.tgz":
+  version: 0.5.2
+  resolution: "@changesets/read@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/read/_pkg.tgz"
   dependencies:
     "@babel/runtime": ^7.10.4
-    "@changesets/git": ^1.2.2-temp.0
-    "@changesets/logger": ^0.0.5
-    "@changesets/parse": ^0.3.11-temp.0
-    "@changesets/types": ^4.1.0-temp.0
+    "@changesets/git": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/git"
+    "@changesets/logger": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/logger"
+    "@changesets/parse": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/parse"
+    "@changesets/types": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/types"
     chalk: ^2.1.0
     fs-extra: ^7.0.1
     p-filter: ^2.1.0
-  checksum: 84d29c77b8f78877e6149b7b48f8f0c997daa00e075704140e69dc63b99fb5fd9c5ee8eaed3e0e6a4955e62195e3995c37f36152112677131641e7bba18f2d53
+  checksum: d8ff08b4fc2f9ad652d983526a9bd396937ed4f58d5b6a9ae8e54e0339f798061e8ad90c87dcc6943d006d55673ee2abb188c567e3d9b95a8769ec7df24a22b9
+  languageName: node
+  linkType: hard
+
+"@changesets/types@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/types/_pkg.tgz":
+  version: 4.0.2
+  resolution: "@changesets/types@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/types/_pkg.tgz"
+  checksum: 62d8683facdc28dcf0b3dbe5728364b67a668cd5271ca00ffde967c9908e00468c750b167cc15e1a1f5f167505de154e94d900ae17204e2e5206608f8922b057
   languageName: node
   linkType: hard
 
@@ -1597,23 +1605,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@changesets/types@npm:^4.1.0-temp.0":
-  version: 4.1.0-temp.0
-  resolution: "@changesets/types@npm:4.1.0-temp.0"
-  checksum: 63a6545239bd031bfe03fd3a5bd8af810b4cf017d44bd7f6e8cddaebdfc8e618d582e7caff00cd70196e818567d180bb819e8121beba00ed87911c7c663bb76e
-  languageName: node
-  linkType: hard
-
-"@changesets/write@npm:^0.1.7-temp.0":
-  version: 0.1.7-temp.0
-  resolution: "@changesets/write@npm:0.1.7-temp.0"
+"@changesets/write@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/write/_pkg.tgz":
+  version: 0.1.6
+  resolution: "@changesets/write@https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/write/_pkg.tgz"
   dependencies:
     "@babel/runtime": ^7.10.4
-    "@changesets/types": ^4.1.0-temp.0
+    "@changesets/types": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/types"
     fs-extra: ^7.0.1
     human-id: ^1.0.2
     prettier: ^1.19.1
-  checksum: 0bbba1c66bacc97de833474d5a4cda732d59768bba55049d747560f1585aca55e7087803291b50754ee15e9a18bb3d19bbb6af3ce289b369fc504543d0a2dc5f
+  checksum: df08232b00c0d0555d98f6fe27aaecd1ad7ef39a24dab296f7d12fded99fc3b4ada48016f5c3b86abaf466e9f43e770da7fc7393fb5d235e47911caaee30c60d
   languageName: node
   linkType: hard
 
@@ -3918,6 +3919,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/is-ci@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@types/is-ci@npm:3.0.0"
+  dependencies:
+    ci-info: ^3.1.0
+  checksum: 7c1f1f16c1fa2134de7400d82766c83fa76057261ba890628af77a09382ebb92d945bb077b98cfcf3d40ab1469c9ffbd2278112867edbe57aa655f53547eb139
+  languageName: node
+  linkType: hard
+
 "@types/is-hotkey@npm:^0.1.1":
   version: 0.1.5
   resolution: "@types/is-hotkey@npm:0.1.5"
@@ -6217,6 +6227,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ci-info@npm:^3.1.0, ci-info@npm:^3.2.0":
+  version: 3.3.0
+  resolution: "ci-info@npm:3.3.0"
+  checksum: c3d86fe374938ecda5093b1ba39acb535d8309185ba3f23587747c6a057e63f45419b406d880304dbc0e1d72392c9a33e42fe9a1e299209bc0ded5efaa232b66
+  languageName: node
+  linkType: hard
+
 "cipher-base@npm:^1.0.0, cipher-base@npm:^1.0.1, cipher-base@npm:^1.0.3":
   version: 1.0.4
   resolution: "cipher-base@npm:1.0.4"
@@ -6816,7 +6833,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "contentlayer-monorepo@workspace:."
   dependencies:
-    "@changesets/cli": 2.19.0-temp.0
+    "@changesets/cli": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/cli/_pkg.tgz"
     "@effect-ts/tracing-plugin": ^0.14.21
     "@playwright/test": ^1.15.1
     "@types/prettier": ^2.3.2
@@ -11680,6 +11697,17 @@ fsevents@^1.2.7:
   bin:
     is-ci: bin.js
   checksum: 77b869057510f3efa439bbb36e9be429d53b3f51abd4776eeea79ab3b221337fe1753d1e50058a9e2c650d38246108beffb15ccfd443929d77748d8c0cc90144
+  languageName: node
+  linkType: hard
+
+"is-ci@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "is-ci@npm:3.0.1"
+  dependencies:
+    ci-info: ^3.2.0
+  bin:
+    is-ci: bin.js
+  checksum: 192c66dc7826d58f803ecae624860dccf1899fc1f3ac5505284c0a5cf5f889046ffeb958fa651e5725d5705c5bcb14f055b79150ea5fcad7456a9569de60260e
   languageName: node
   linkType: hard
 
@@ -16978,7 +17006,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"preferred-pm@npm:^3.0.0":
+"preferred-pm@npm:^3.0.3":
   version: 3.0.3
   resolution: "preferred-pm@npm:3.0.3"
   dependencies:
