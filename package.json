@@ -21,7 +21,8 @@
     "lint:eslint:fix": "eslint packages --ext .ts --fix",
     "lint:eslint:check": "eslint packages --ext .ts --max-warnings=0",
     "lint:prettier:fix": "prettier packages --write",
-    "lint:prettier:check": "prettier packages --check"
+    "lint:prettier:check": "prettier packages --check",
+    "changeset": "node ./scripts/changeset.js"
   },
   "devDependencies": {
     "@changesets/cli": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/cli/_pkg.tgz",
