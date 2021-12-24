@@ -89,5 +89,6 @@ module.exports = withContentlayer()({
 - [samuelkraft.com](https://samuelkraft.com) ([Source](https://github.com/samuelkraft/samuelkraft-next))
 - [nirmalyaghosh.com](https://nirmalyaghosh.com) ([Source](https://github.com/ghoshnirmalya/nirmalyaghosh.com))
 - [miryang.dev](https://miryang.dev) ([Source](https://github.com/MiryangJung/miryang.dev))
+- [osiux.ws](https://www.osiux.ws) ([Source](https://github.com/osiux/osiux.ws))
 
 Are you using Contentlayer? Please add yourself to the list above via a PR. 🙏
