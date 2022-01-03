@@ -10,7 +10,6 @@ export class PostInstallCommand extends BaseCommand {
 
   executeSafe = pipe(
     T.gen(function* ($) {
-      // `process.env.INIT_CWD` is set by `yarn` or `npm` during installation
       const artifactsDirPath = yield* $(ArtifactsDir.mkdir)
 
       yield* $(T.forEachPar_(['data', 'types'], (moduleName) => makeModuleStub({ artifactsDirPath, moduleName })))

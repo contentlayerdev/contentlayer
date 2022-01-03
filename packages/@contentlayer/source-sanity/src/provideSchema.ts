@@ -6,8 +6,8 @@ import type Schema from '@sanity/schema'
 import type * as Sanity from './sanity-types'
 
 export const provideSchema = async ({
+  // options,
   studioDirPath,
-  options,
 }: {
   studioDirPath: string
   options: core.PluginOptions
