@@ -1,8 +1,8 @@
 import { OT, pipe, T } from '@contentlayer/utils/effect'
 import { createClient } from 'contentful-management'
 
-import { UnknownContentfulError } from './errors'
-import type { Contentful } from './types'
+import { UnknownContentfulError } from './errors.js'
+import type { Contentful } from './types.js'
 
 export const environmentGetContentTypes = (
   environment: Contentful.Environment,

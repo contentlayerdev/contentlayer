@@ -1,6 +1,6 @@
 import { mapObjectValues } from '@contentlayer/utils'
 
-import type { Contentful } from './types'
+import type { Contentful } from './types.js'
 
 export namespace Input {
   export type SchemaOverrides = {

@@ -4,8 +4,8 @@ import { casesHandled, hashObject } from '@contentlayer/utils'
 import type { HasConsole, OT } from '@contentlayer/utils/effect'
 import { T } from '@contentlayer/utils/effect'
 
-import type * as SchemaOverrides from '../schemaOverrides'
-import type { Contentful } from '../types'
+import type * as SchemaOverrides from '../schemaOverrides.js'
+import type { Contentful } from '../types.js'
 
 type MakeDocumentError = core.UnexpectedMarkdownError | core.UnexpectedMDXError | HashError
 
