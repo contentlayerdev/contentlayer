@@ -1,4 +1,5 @@
 import type * as core from '@contentlayer/core'
+import { posixFilePath } from '@contentlayer/utils'
 import t from 'tap'
 
 import { testOnly_aggregateFetchDataErrors as aggregateFetchDataErrors } from '../../errors/aggregate.js'
@@ -19,6 +20,7 @@ const flags: Flags = {
   onUnknownDocuments: 'skip-warn',
 }
 const schemaDef = makeSchemaDef()
+const contentDirPath = posixFilePath('./content')
 
 t.test('CouldNotDetermineDocumentTypeError', async (t) => {
   t.test('should print 4 errors', async (t) => {
@@ -27,6 +29,7 @@ t.test('CouldNotDetermineDocumentTypeError', async (t) => {
       options,
       flags,
       schemaDef,
+      contentDirPath,
       documentCount: 42,
     })
 
@@ -54,6 +57,7 @@ Warning: Found 4 problems in 42 documents. Skipping those documents.
       options,
       flags,
       schemaDef,
+      contentDirPath,
       documentCount: 81,
     })
 
@@ -98,6 +102,7 @@ Warning: Found 24 problems in 81 documents. Skipping those documents.
       options,
       flags,
       schemaDef,
+      contentDirPath,
       documentCount: 81,
       verbose: true,
     })
@@ -146,6 +151,7 @@ Warning: Found 24 problems in 81 documents. Skipping those documents.
       options,
       flags: { ...flags, onUnknownDocuments: 'skip-ignore' },
       schemaDef,
+      contentDirPath,
       documentCount: 81,
       verbose: true,
     })
@@ -161,6 +167,7 @@ t.test('MissingRequiredFieldsError', async (t) => {
       options,
       flags,
       schemaDef,
+      contentDirPath,
       documentCount: 42,
     })
 
@@ -190,6 +197,7 @@ Warning: Found 4 problems in 42 documents. Skipping those documents.
       options,
       flags,
       schemaDef,
+      contentDirPath,
       documentCount: 81,
     })
 
@@ -254,6 +262,7 @@ t.test('mix of different errors', async (t) => {
       options,
       flags,
       schemaDef,
+      contentDirPath,
       documentCount: 42,
     })
 
@@ -294,6 +303,7 @@ Warning: Found 6 problems in 42 documents. Skipping those documents.
       options,
       flags,
       schemaDef,
+      contentDirPath,
       documentCount: 42,
     })
 

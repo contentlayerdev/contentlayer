@@ -73,3 +73,5 @@ export const unwrapThunk = <T>(_: T | (() => T)): T => {
 }
 
 export class RawError extends Tagged('RawError')<{ readonly error: unknown }> {}
+
+export const isReadonlyArray = <T>(_: any): _ is ReadonlyArray<T> => Array.isArray(_)

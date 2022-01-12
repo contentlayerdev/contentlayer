@@ -162,7 +162,9 @@ const getDataForFieldDef = ({
   contentDirPath: PosixFilePath
 }): T.Effect<OT.HasTracer & HasConsole, MakeDocumentInternalError, any> =>
   T.gen(function* ($) {
-    rawFieldData ??= fieldDef.default
+    if (rawFieldData === undefined && fieldDef.default) {
+      rawFieldData = fieldDef.default
+    }
 
     if (rawFieldData === undefined) {
       if (fieldDef.isRequired && !fieldDef.isSystemField) {

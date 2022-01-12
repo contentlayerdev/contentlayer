@@ -75,7 +75,7 @@ const resolveConfigPath = ({
   configPath,
 }: {
   configPath?: string
-}): T.Effect<HasCwd, NoConfigFoundError | fs.StatError, string> =>
+}): T.Effect<HasCwd & OT.HasTracer, NoConfigFoundError | fs.StatError, string> =>
   T.gen(function* ($) {
     const cwd = yield* $(getCwd)
 

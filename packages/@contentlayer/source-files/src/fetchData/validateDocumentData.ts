@@ -1,6 +1,8 @@
 import type * as core from '@contentlayer/core'
 import type { PosixFilePath } from '@contentlayer/utils'
-import { O, T, These } from '@contentlayer/utils/effect'
+import { filePathJoin } from '@contentlayer/utils'
+import { O, OT, pipe, T, These } from '@contentlayer/utils/effect'
+import { fs } from '@contentlayer/utils/node'
 import minimatch from 'minimatch'
 
 import { FetchDataError } from '../errors/index.js'
@@ -14,6 +16,7 @@ type ValidateDocumentDataError =
   | FetchDataError.NoSuchDocumentTypeError
   | FetchDataError.MissingRequiredFieldsError
   | FetchDataError.ExtraFieldDataError
+  | FetchDataError.ReferencedFileDoesNotExistError
   | FetchDataError.IncompatibleFieldDataError
 
 export const validateDocumentData = ({
@@ -22,6 +25,7 @@ export const validateDocumentData = ({
   relativeFilePath,
   filePathPatternMap,
   options,
+  contentDirPath,
 }: {
   coreSchemaDef: core.SchemaDef
   rawContent: RawContent
@@ -29,90 +33,99 @@ export const validateDocumentData = ({
   relativeFilePath: PosixFilePath
   filePathPatternMap: FilePathPatternMap
   options: core.PluginOptions
+  contentDirPath: PosixFilePath
 }): T.Effect<
-  HasDocumentTypeMapState,
+  HasDocumentTypeMapState & OT.HasTracer,
   never,
   These.These<ValidateDocumentDataError, { documentTypeDef: core.DocumentTypeDef }>
 > =>
-  T.gen(function* ($) {
-    const documentDefName = getDocumentDefName({ rawContent, filePathPatternMap, relativeFilePath, options })
+  pipe(
+    T.gen(function* ($) {
+      const documentDefName = getDocumentDefName({ rawContent, filePathPatternMap, relativeFilePath, options })
 
-    if (documentDefName === undefined) {
-      const typeFieldName = options.fieldOptions.typeFieldName
-      return These.fail(
-        new FetchDataError.CouldNotDetermineDocumentTypeError({ documentFilePath: relativeFilePath, typeFieldName }),
-      )
-    }
+      yield* $(OT.addAttribute('documentDefName', documentDefName!))
 
-    const documentTypeDef = coreSchemaDef.documentTypeDefMap[documentDefName]
-
-    if (documentTypeDef === undefined) {
-      return These.fail(
-        new FetchDataError.NoSuchDocumentTypeError({
-          documentTypeName: documentDefName,
-          documentFilePath: relativeFilePath,
-        }),
-      )
-    }
-
-    yield* $(DocumentTypeMapState.update((_) => _.add(documentDefName, relativeFilePath)))
-
-    const existingDataFieldKeys = Object.keys(rawContent.fields)
-
-    // make sure all required fields are present
-    const requiredFieldsWithoutDefaultValue = documentTypeDef.fieldDefs.filter(
-      (_) => _.isRequired && _.default === undefined && _.isSystemField === false,
-    )
-    const misingRequiredFieldDefs = requiredFieldsWithoutDefaultValue.filter(
-      (fieldDef) => !existingDataFieldKeys.includes(fieldDef.name),
-    )
-    if (misingRequiredFieldDefs.length > 0) {
-      return These.fail(
-        new FetchDataError.MissingRequiredFieldsError({
-          documentFilePath: relativeFilePath,
-          documentTypeName: documentTypeDef.name,
-          fieldDefsWithMissingData: misingRequiredFieldDefs,
-        }),
-      )
-    }
-
-    let warningOption: O.Option<ValidateDocumentDataError> = O.none
-
-    // warn about data fields not defined in the schema
-    const typeFieldName = options.fieldOptions.typeFieldName
-    // NOTE we also need to add the system-level type name field to the list of existing data fields
-    const schemaFieldNames = documentTypeDef.fieldDefs.map((_) => _.name).concat([typeFieldName])
-    const extraFieldEntries = existingDataFieldKeys
-      .filter((fieldKey) => !schemaFieldNames.includes(fieldKey))
-      .map((fieldKey) => [fieldKey, rawContent.fields[fieldKey]] as const)
-
-    if (extraFieldEntries.length > 0) {
-      const extraFieldDataError = new FetchDataError.ExtraFieldDataError({
-        documentFilePath: relativeFilePath,
-        extraFieldEntries,
-        documentTypeName: documentTypeDef.name,
-      })
-
-      warningOption = O.some(extraFieldDataError)
-    }
-
-    for (const fieldDef of documentTypeDef.fieldDefs) {
-      const fieldValidOption = validateFieldData({
-        documentFilePath: relativeFilePath,
-        documentTypeName: documentTypeDef.name,
-        fieldDef,
-        rawFieldData: rawContent.fields[fieldDef.name],
-      })
-
-      if (O.isSome(fieldValidOption)) {
-        return These.fail(fieldValidOption.value)
+      if (documentDefName === undefined) {
+        const typeFieldName = options.fieldOptions.typeFieldName
+        return These.fail(
+          new FetchDataError.CouldNotDetermineDocumentTypeError({ documentFilePath: relativeFilePath, typeFieldName }),
+        )
       }
-    }
 
-    // TODO validate nesteds
+      const documentTypeDef = coreSchemaDef.documentTypeDefMap[documentDefName]
 
-    return These.warnOption({ documentTypeDef }, warningOption)
-  })
+      if (documentTypeDef === undefined) {
+        return These.fail(
+          new FetchDataError.NoSuchDocumentTypeError({
+            documentTypeName: documentDefName,
+            documentFilePath: relativeFilePath,
+          }),
+        )
+      }
+
+      yield* $(DocumentTypeMapState.update((_) => _.add(documentDefName, relativeFilePath)))
+
+      const existingDataFieldKeys = Object.keys(rawContent.fields)
+
+      // make sure all required fields are present
+      const requiredFieldsWithoutDefaultValue = documentTypeDef.fieldDefs.filter(
+        (_) => _.isRequired && _.default === undefined && _.isSystemField === false,
+      )
+      const misingRequiredFieldDefs = requiredFieldsWithoutDefaultValue.filter(
+        (fieldDef) => !existingDataFieldKeys.includes(fieldDef.name),
+      )
+      if (misingRequiredFieldDefs.length > 0) {
+        return These.fail(
+          new FetchDataError.MissingRequiredFieldsError({
+            documentFilePath: relativeFilePath,
+            documentTypeName: documentTypeDef.name,
+            fieldDefsWithMissingData: misingRequiredFieldDefs,
+          }),
+        )
+      }
+
+      let warningOption: O.Option<ValidateDocumentDataError> = O.none
+
+      // warn about data fields not defined in the schema
+      const typeFieldName = options.fieldOptions.typeFieldName
+      // NOTE we also need to add the system-level type name field to the list of existing data fields
+      const schemaFieldNames = documentTypeDef.fieldDefs.map((_) => _.name).concat([typeFieldName])
+      const extraFieldEntries = existingDataFieldKeys
+        .filter((fieldKey) => !schemaFieldNames.includes(fieldKey))
+        .map((fieldKey) => [fieldKey, rawContent.fields[fieldKey]] as const)
+
+      if (extraFieldEntries.length > 0) {
+        const extraFieldDataError = new FetchDataError.ExtraFieldDataError({
+          documentFilePath: relativeFilePath,
+          extraFieldEntries,
+          documentTypeName: documentTypeDef.name,
+        })
+
+        warningOption = O.some(extraFieldDataError)
+      }
+
+      for (const fieldDef of documentTypeDef.fieldDefs) {
+        const fieldValidOption = yield* $(
+          validateFieldData({
+            documentFilePath: relativeFilePath,
+            documentTypeName: documentTypeDef.name,
+            fieldDef,
+            rawFieldData: rawContent.fields[fieldDef.name],
+            contentDirPath,
+          }),
+        )
+
+        if (O.isSome(fieldValidOption)) {
+          return These.fail(fieldValidOption.value)
+        }
+      }
+
+      // TODO validate nesteds
+
+      return These.warnOption({ documentTypeDef }, warningOption)
+    }),
+    OT.withSpan('validateDocumentData', { attributes: { relativeFilePath } }),
+  )
 
 const getDocumentDefName = ({
   rawContent,
@@ -159,25 +172,49 @@ const validateFieldData = ({
   rawFieldData,
   documentFilePath,
   documentTypeName,
+  contentDirPath,
 }: {
   fieldDef: core.FieldDef
   rawFieldData: any
   documentFilePath: PosixFilePath
   documentTypeName: string
-}): O.Option<FetchDataError.IncompatibleFieldDataError> => {
-  switch (fieldDef.type) {
-    case 'list':
-      return Array.isArray(rawFieldData)
-        ? O.none
-        : O.some(
-            new FetchDataError.IncompatibleFieldDataError({
-              incompatibleFieldData: [[fieldDef.name, rawFieldData]],
-              documentFilePath,
-              documentTypeName,
-            }),
-          )
-    // TODO validate whether data has correct type (probably via zod)
-    default:
-      return O.none
-  }
-}
+  contentDirPath: PosixFilePath
+}): T.Effect<
+  OT.HasTracer,
+  never,
+  O.Option<FetchDataError.IncompatibleFieldDataError | FetchDataError.ReferencedFileDoesNotExistError>
+> =>
+  T.gen(function* ($) {
+    switch (fieldDef.type) {
+      case 'list':
+        // TODO fix if optional
+        return Array.isArray(rawFieldData)
+          ? O.none
+          : O.some(
+              new FetchDataError.IncompatibleFieldDataError({
+                incompatibleFieldData: [[fieldDef.name, rawFieldData]],
+                documentFilePath,
+                documentTypeName,
+              }),
+            )
+      // TODO also check for lists
+      case 'reference':
+        if (typeof rawFieldData === 'string') {
+          const fullFilePath = filePathJoin(contentDirPath, rawFieldData)
+          const fileExists = yield* $(fs.fileOrDirExists(fullFilePath))
+          if (!fileExists) {
+            return O.some(
+              new FetchDataError.ReferencedFileDoesNotExistError({
+                referencedFilePath: rawFieldData as any,
+                fieldName: fieldDef.name,
+                documentFilePath,
+                documentTypeName,
+              }),
+            )
+          }
+        }
+      // TODO validate whether data has correct type (probably via zod)
+      default:
+        return O.none
+    }
+  })['|>'](T.orDie)

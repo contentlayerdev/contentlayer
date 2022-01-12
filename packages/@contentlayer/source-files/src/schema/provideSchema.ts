@@ -210,6 +210,7 @@ const fieldDefEntryToCoreFieldDef = (
         type: 'reference',
         default: fieldDef.default,
         documentTypeName: fieldDef.of.def().name,
+        embedDocument: fieldDef.embedDocument ?? false,
       })
     case 'enum':
       return identity<core.EnumFieldDef>({
@@ -270,6 +271,7 @@ const fieldListItemsToCoreFieldListDefItems = (
       return {
         type: 'reference',
         documentTypeName: listFieldDefItem.def().name,
+        embedDocument: listFieldDefItem.embedDocument ?? false,
       }
     default:
       utils.casesHandled(listFieldDefItem)
@@ -292,7 +294,7 @@ const collectNestedDefs = (documentDefs: LocalSchema.DocumentTypeDef[]): LocalSc
   const traverseField = (fieldDef: LocalSchema.FieldDef): void => {
     switch (fieldDef.type) {
       case 'nested':
-        if (Array.isArray(fieldDef.of)) {
+        if (utils.isReadonlyArray(fieldDef.of)) {
           const nestedTypeDefs = fieldDef.of.map((_) => _.def())
           return nestedTypeDefs.forEach((nestedTypeDef) => {
             if (LocalSchema.isNestedTypeDef(nestedTypeDef)) {

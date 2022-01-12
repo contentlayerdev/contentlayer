@@ -171,7 +171,7 @@ const toFieldDef = ({
           const contentTypeId = field.validations![0]!.linkContentType![0]!
           if (isDocument({ schemaOverrides, contentTypeId })) {
             const documentTypeName = schemaOverrides.documentTypes[contentTypeId]!.defName
-            return { ...fieldBase, type: 'reference', documentTypeName }
+            return { ...fieldBase, type: 'reference', documentTypeName, embedDocument: false }
           } else {
             const nestedTypeName = schemaOverrides.nestedTypes[contentTypeId]!.defName
             return { ...fieldBase, type: 'nested', nestedTypeName }
@@ -236,7 +236,7 @@ const toListFieldDefItem = ({
 }): core.ListFieldDefItem.Item => {
   if (isDocument({ schemaOverrides, contentTypeId: contentTypeId })) {
     const documentTypeName = schemaOverrides.documentTypes[contentTypeId]!.defName
-    return { type: 'reference', documentTypeName }
+    return { type: 'reference', documentTypeName, embedDocument: false }
   } else {
     const nestedTypeName = schemaOverrides.nestedTypes[contentTypeId]!.defName
     return { type: 'nested', nestedTypeName }

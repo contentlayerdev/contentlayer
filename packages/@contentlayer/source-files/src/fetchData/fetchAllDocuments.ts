@@ -68,6 +68,7 @@ export const fetchAllDocuments = ({
           flags,
           options,
           schemaDef: coreSchemaDef,
+          contentDirPath,
           verbose,
         }),
       )
@@ -133,6 +134,7 @@ export const makeCacheItemFromFilePath = ({
             coreSchemaDef,
             filePathPatternMap,
             options,
+            contentDirPath,
           }),
           T.chain(These.toEffect),
           T.map((_) => _.tuple),

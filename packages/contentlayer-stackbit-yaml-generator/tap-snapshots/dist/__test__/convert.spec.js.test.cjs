@@ -463,6 +463,7 @@ Object {
           "default": undefined,
           "description": "Post author",
           "documentTypeName": "Person",
+          "embedDocument": false,
           "isRequired": false,
           "isSystemField": false,
           "name": "author",
@@ -530,7 +531,7 @@ Object {
       "name": "Post",
     },
   },
-  "hash": "5b10fecfe6a09406",
+  "hash": "65f43f17bd9d2917",
   "nestedTypeDefMap": Object {
     "Action": Object {
       "_tag": "NestedTypeDef",

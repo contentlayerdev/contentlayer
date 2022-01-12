@@ -8,11 +8,13 @@ import type { JsonValue } from 'type-fest'
 import { T } from '../effect/index.js'
 import { errorToString } from '../index.js'
 
-export const fileOrDirExists = (pathLike: string): T.Effect<unknown, StatError, boolean> => {
+export const fileOrDirExists = (pathLike: string): T.Effect<OT.HasTracer, StatError, boolean> => {
   return pipe(
     stat(pathLike),
     T.map((stat_) => stat_.isFile() || stat_.isDirectory()),
     T.catchTag('node.fs.FileNotFoundError', () => T.succeed(false)),
+    T.tap((exists) => OT.addAttribute('exists', exists)),
+    OT.withSpan('fileOrDirExists', { attributes: { pathLike } }),
   )
 }
 

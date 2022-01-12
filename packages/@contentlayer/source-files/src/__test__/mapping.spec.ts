@@ -6,6 +6,9 @@ import t from 'tap'
 
 import { getFlattenedPath, testOnly_getDataForFieldDef as getDataForFieldDef } from '../fetchData/mapping.js'
 
+// use GMT timezone for testing
+process.env.TZ = 'GMT'
+
 t.test('getFlattenedPath', async (t) => {
   t.equal(getFlattenedPath('some/path/doc.md'), 'some/path/doc')
   t.equal(getFlattenedPath('some/path/index.md'), 'some/path')

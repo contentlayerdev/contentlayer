@@ -96,6 +96,7 @@ export const fetchData = ({
         ),
       ),
     ),
+    S.mapEitherRight((cache) => embedReferences({ cache, coreSchemaDef })),
     S.mapEitherLeft(
       (error) => new core.SourceFetchDataError({ error, alreadyHandled: error._tag === 'HandledFetchDataError' }),
     ),
@@ -154,6 +155,7 @@ const updateCacheEntry = ({
             options,
             schemaDef: coreSchemaDef,
             verbose: false,
+            contentDirPath,
           }),
         ),
       ),
@@ -191,4 +193,65 @@ type CustomUpdateEventFileDeleted = {
 
 type CustomUpdateEventInit = {
   readonly _tag: 'init'
+}
+
+// TODO come up with better implementation for this that has correct and incremental caching behavior
+// TODO make this work for deep nested references
+const embedReferences = ({ cache, coreSchemaDef }: { cache: core.DataCache.Cache; coreSchemaDef: core.SchemaDef }) => {
+  const documentDefs = Object.values(coreSchemaDef.documentTypeDefMap)
+  const nestedDefs = Object.values(coreSchemaDef.nestedTypeDefMap)
+  const defs = [...documentDefs, ...nestedDefs]
+  const defsWithEmbeddedRefs = defs.filter((_) => _.fieldDefs.some((_) => core.isReferenceField(_) && _.embedDocument))
+
+  const defsWithEmbeddedListRefs = defs.filter((_) =>
+    _.fieldDefs.some((_) => core.isListFieldDef(_) && _.of.type === 'reference' && _.of.embedDocument),
+  )
+
+  const defNameSetWithEmbeddedRefs = new Set([
+    ...defsWithEmbeddedRefs.map((_) => _.name),
+    ...defsWithEmbeddedListRefs.map((_) => _.name),
+  ])
+
+  if (defsWithEmbeddedRefs.length > 0) {
+    for (const cacheItem of Object.values(cache.cacheItemsMap)) {
+      // short circuit here
+      if (!defNameSetWithEmbeddedRefs.has(cacheItem.documentTypeName)) continue
+
+      const documentDef = coreSchemaDef.documentTypeDefMap[cacheItem.documentTypeName]!
+      const fieldDefsWithEmbeddedRefs = documentDef.fieldDefs.filter((_) => core.isReferenceField(_) && _.embedDocument)
+      for (const fieldDef of fieldDefsWithEmbeddedRefs) {
+        const referenceId = cacheItem.document[fieldDef.name]
+        if (referenceId === undefined || referenceId === null) continue
+
+        const referenceAlreadyEmbedded = typeof referenceId !== 'string'
+        // TODO take care of case where embedded document was updated in the meantime
+        if (referenceAlreadyEmbedded) continue
+
+        const referencedDocument = cache.cacheItemsMap[referenceId]!.document!
+
+        cacheItem.document[fieldDef.name] = referencedDocument
+      }
+
+      // const embeddedListItemReferences = documentDef.fieldDefs.filter(core.isListFieldDef)
+      const listFieldDefs = documentDef.fieldDefs.filter(core.isListFieldDef)
+      // console.log({ listFieldDefs })
+
+      for (const listFieldDef of listFieldDefs) {
+        if (core.ListFieldDefItem.isDefItemReference(listFieldDef.of) && listFieldDef.of.embedDocument) {
+          const listValues = cacheItem.document[listFieldDef.name]
+          if (listValues === undefined || listValues === null || !Array.isArray(listValues)) continue
+
+          for (const [index, listValue] of listValues.entries()) {
+            const referenceAlreadyEmbedded = typeof listValue !== 'string'
+            if (referenceAlreadyEmbedded) continue
+
+            const referencedDocument = cache.cacheItemsMap[listValue]!.document!
+            cacheItem.document[listFieldDef.name][index] = referencedDocument
+          }
+        }
+      }
+    }
+  }
+
+  return cache
 }

@@ -18,6 +18,7 @@ export namespace FetchDataError {
     | CouldNotDetermineDocumentTypeError
     | MissingRequiredFieldsError
     | ExtraFieldDataError
+    | ReferencedFileDoesNotExistError
     | IncompatibleFieldDataError
     | SingletonDocumentNotFoundError
     | UnexpectedError
@@ -38,6 +39,7 @@ export namespace FetchDataError {
     errorCount: number
     options: core.PluginOptions
     schemaDef: core.SchemaDef
+    contentDirPath: PosixFilePath
   }) => string
 
   type AggregatableErrorKind =
@@ -178,7 +180,7 @@ Please use one of the following document type names: ${validTypeNames}.\
       readonly documentTypeName: string
       readonly documentFilePath: PosixFilePath
       readonly fieldName: string
-      readonly validNestedTypeNames: string[]
+      readonly validNestedTypeNames: readonly string[]
     }>
     implements AggregatableError
   {
@@ -238,6 +240,25 @@ ${misingRequiredFieldsStr}\
         .join('\n')
       return `"${this.documentFilePath}" of type "${this.documentTypeName}" has the following extra fields:
 ${extraFields} `
+    }
+  }
+
+  export class ReferencedFileDoesNotExistError
+    extends Tagged('ReferencedFileDoesNotExistError')<{
+      readonly documentFilePath: PosixFilePath
+      readonly documentTypeName: string
+      readonly fieldName: string
+      readonly referencedFilePath: PosixFilePath
+    }>
+    implements AggregatableError
+  {
+    kind: AggregatableErrorKind = 'IncompatibleFieldData'
+
+    renderHeadline: RenderHeadline = ({ errorCount, contentDirPath }) => `\
+${errorCount} documents contain file references which don't exist (file paths have to be relative to \`contentDirPath\`: "${contentDirPath}")`
+
+    renderLine = () => {
+      return `"${this.documentFilePath}" of type "${this.documentTypeName}" with field "${this.fieldName}" references the file "${this.referencedFilePath}" which doesn't exist.`
     }
   }
 

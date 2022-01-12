@@ -92,15 +92,15 @@ const fieldDefToStackbitField = ({
   }
   switch (fieldDef.type) {
     case 'enum':
-      return { ...commonField, type: 'enum', options: fieldDef.options }
+      return { ...commonField, type: 'enum', options: fieldDef.options as string[] }
     case 'reference':
       return { ...commonField, type: 'reference', models: [fieldDef.documentTypeName] }
     case 'reference_polymorphic':
-      return { ...commonField, type: 'reference', models: fieldDef.documentTypeNames }
+      return { ...commonField, type: 'reference', models: fieldDef.documentTypeNames as string[] }
     case 'nested':
       return { ...commonField, type: 'model', models: [fieldDef.nestedTypeName] }
     case 'nested_polymorphic':
-      return { ...commonField, type: 'model', models: fieldDef.nestedTypeNames }
+      return { ...commonField, type: 'model', models: fieldDef.nestedTypeNames as string[] }
     case 'nested_unnamed':
       return {
         ...commonField,
@@ -178,7 +178,7 @@ const listFieldDefToStackbitFieldListItems = (
             .map((fieldDef) => fieldDefToStackbitField({ fieldDef, fieldExtension: undefined })),
         }
       case 'enum':
-        return { type: 'enum', options: fieldDef.of.options }
+        return { type: 'enum', options: fieldDef.of.options as string[] }
       case 'nested':
       case 'reference':
         throw new Error('Case handled above')

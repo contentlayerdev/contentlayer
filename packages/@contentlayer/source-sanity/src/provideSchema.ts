@@ -176,6 +176,7 @@ const sanityFieldToCoreFieldDef =
           type: 'list_polymorphic',
           of: field.of.map(sanityArrayOfToCoreFieldListDefItem(objectTypeNames)),
           typeField: '_type',
+          default: undefined,
         }
       case 'object':
         return <core.NestedUnnamedFieldDef>{
@@ -203,6 +204,7 @@ const sanityFieldToCoreFieldDef =
             ...baseFields,
             type: 'enum',
             options: field.options.list,
+            default: undefined,
             // label: field.title,
             // hidden: field.hidden,
           }

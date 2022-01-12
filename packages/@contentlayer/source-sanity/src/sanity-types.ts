@@ -122,10 +122,10 @@ export type ArrayField = CommonFieldProps & { type: 'array'; name: string } & (
     {
         of: [StringField]
         options?: {
-          list: string[]
+          list: readonly string[]
         }
       }
-    | { of: ArrayOf[] }
+    | { of: readonly ArrayOf[] }
   )
 
 export const isArrayField = (_: Field): _ is ArrayField => _.type === 'array'

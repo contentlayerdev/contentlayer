@@ -3,6 +3,7 @@
   "version": "0.0.34-dev.9",
   "type": "module",
   "main": "./dist/index-cjs.cjs",
+  "sideEffects": false,
   "exports": {
     ".": {
       "import": "./dist/index.js",

@@ -152,7 +152,6 @@ const writeFilesForCache = ({
 
       const dataDirPaths = documentDefs.map((_) => withPrefix('data', _.name))
       yield* $(T.forEachPar_([withPrefix('types'), ...dataDirPaths], fs.mkdirp))
-      //Promise.all([mkdir(withPrefix('types')), ...dataDirPaths.map(mkdir)])
 
       const writeFile = writeFileWithWrittenFilesCache({ writtenFilesCache })
 

@@ -42,14 +42,14 @@ interface FieldDefBase {
 
 export interface ListFieldDef extends FieldDefBase {
   type: 'list'
-  default?: any[]
+  default?: readonly any[]
   of: ListFieldDefItem.Item
 }
 
 export interface ListPolymorphicFieldDef extends FieldDefBase {
   type: 'list'
-  default?: any[]
-  of: ListFieldDefItem.Item[]
+  default?: readonly any[]
+  of: readonly ListFieldDefItem.Item[]
 
   /**
    * Field needed to distiguish list data items at run time. Defaults to `fieldOptions.typeFieldName`
@@ -66,10 +66,18 @@ export namespace ListFieldDefItem {
   export type Item = ItemString | ItemEnum | ItemBoolean | ItemNestedType | ItemDocumentReference
 
   export type ItemString = { type: 'string' }
-  export type ItemEnum = { type: 'enum'; options: string[] }
+  export type ItemEnum = { type: 'enum'; options: readonly string[] }
   export type ItemBoolean = { type: 'boolean' }
   export type ItemNestedType = NestedType
-  export type ItemDocumentReference = DocumentType
+  export type ItemDocumentReference = DocumentType & {
+    /**
+     * Whether Contentlayer should embed the referenced document instead of the reference value (i.e. file path)
+     *
+     * @experimental
+     * @default false
+     */
+    embedDocument?: boolean
+  }
 
   export const isDefItemNested = (_: Item): _ is ItemNestedType => _.type === 'nested'
 }
@@ -112,7 +120,7 @@ export type MDXFieldDef = FieldDefBase & {
 export type EnumFieldDef = FieldDefBase & {
   type: 'enum'
   default?: any
-  options: string[]
+  options: readonly string[]
 }
 
 export type NestedFieldDef = FieldDefBase & {
@@ -125,7 +133,7 @@ export const isNestedFieldDef = (_: FieldDef): _ is NestedFieldDef => _.type ===
 
 export type NestedPolymorphicFieldDef = FieldDefBase & {
   type: 'nested'
-  of: NestedType[]
+  of: readonly NestedType[]
 
   /**
    * Field needed to distiguish list data items at run time. Defaults to `fieldOptions.typeFieldName`
@@ -138,16 +146,25 @@ export type NestedPolymorphicFieldDef = FieldDefBase & {
 export const isNestedPolymorphicFieldDef = (_: FieldDef): _ is NestedPolymorphicFieldDef =>
   _.type === 'nested' && Array.isArray(_.of)
 
+/** Referenced documents are expected to be relative to `contentDirPath` */
 export type ReferenceFieldDef = FieldDefBase & {
   type: 'reference'
   default?: string
   of: DocumentType
+
+  /**
+   * Whether Contentlayer should embed the referenced document instead of the reference value (i.e. file path)
+   *
+   * @experimental
+   * @default false
+   */
+  embedDocument?: boolean
 }
 
 export type ReferencePolymorphicFieldDef = FieldDefBase & {
   type: 'reference'
   default?: string
-  of: DocumentType[]
+  of: readonly DocumentType[]
 
   /**
    * Field needed to distiguish list data items at run time. Defaults to `fieldOptions.typeFieldName`

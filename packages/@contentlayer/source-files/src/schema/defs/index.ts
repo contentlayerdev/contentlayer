@@ -90,14 +90,16 @@ export type DocumentTypes = DocumentType<any>[] | Record<string, DocumentType<an
 
 export const defineNestedType = <DefName extends string>(
   def: Thunk<NestedTypeDef<DefName> | NestedUnnamedTypeDef>,
-): NestedType<DefName> => ({
+  // NOTE we're not using the generic `DefName` here because it causes problems with when using the defined document type
+): NestedType => ({
   type: 'nested',
   def,
 })
 
 export const defineDocumentType = <DefName extends string>(
   def: Thunk<DocumentTypeDef<DefName>>,
-): DocumentType<DefName> => ({
+  // NOTE we're not using the generic `DefName` here because it causes problems with when using the defined document type
+): DocumentType => ({
   type: 'document',
   def,
 })

@@ -190,6 +190,10 @@ const renderFieldType = (field: FieldDef): string => {
     case 'nested_unnamed':
       return '{\n' + field.typeDef.fieldDefs.map(renderFieldDef).join('\n') + '\n}'
     case 'reference':
+      if (field.embedDocument) {
+        return field.documentTypeName
+      }
+      return 'string'
     case 'reference_polymorphic':
       return 'string'
     case 'list_polymorphic':
@@ -203,7 +207,7 @@ const renderFieldType = (field: FieldDef): string => {
   }
 }
 
-const renderUnion = (typeNames: string[]): string => typeNames.join(' | ')
+const renderUnion = (typeNames: readonly string[]): string => typeNames.join(' | ')
 
 const renderPolymorphicListType = (typeNames: string[]): string => wrapInParenthesis(renderUnion(typeNames)) + '[]'
 
@@ -226,6 +230,9 @@ const renderListItemFieldType = (item: ListFieldDefItem.Item): string => {
     case 'nested_unnamed':
       return '{\n' + item.typeDef.fieldDefs.map(renderFieldDef).join('\n') + '\n}'
     case 'reference':
+      if (item.embedDocument) {
+        return item.documentTypeName
+      }
       // We're just returning the id (e.g. file path or record id) to the referenced document here
       return 'string'
     default:

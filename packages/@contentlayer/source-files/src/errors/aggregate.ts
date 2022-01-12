@@ -1,4 +1,5 @@
 import * as core from '@contentlayer/core'
+import type { PosixFilePath } from '@contentlayer/utils'
 import { AsciiTree } from '@contentlayer/utils'
 import type { HasConsole } from '@contentlayer/utils/effect'
 import { T } from '@contentlayer/utils/effect'
@@ -12,6 +13,7 @@ export const handleFetchDataErrors = ({
   options,
   flags,
   schemaDef,
+  contentDirPath,
   verbose,
 }: {
   errors: readonly FetchDataError.FetchDataError[]
@@ -19,6 +21,7 @@ export const handleFetchDataErrors = ({
   options: core.PluginOptions
   flags: Flags
   schemaDef: core.SchemaDef
+  contentDirPath: PosixFilePath
   verbose?: boolean
 }): T.Effect<HasConsole, core.HandledFetchDataError, void> =>
   T.gen(function* ($) {
@@ -34,6 +37,7 @@ export const handleFetchDataErrors = ({
       options,
       shouldFail,
       schemaDef,
+      contentDirPath,
       verbose,
     })
 
@@ -50,6 +54,7 @@ export const testOnly_aggregateFetchDataErrors = ({
   options,
   flags,
   schemaDef,
+  contentDirPath,
   verbose,
 }: {
   errors: readonly FetchDataError.FetchDataError[]
@@ -57,6 +62,7 @@ export const testOnly_aggregateFetchDataErrors = ({
   options: core.PluginOptions
   flags: Flags
   schemaDef: core.SchemaDef
+  contentDirPath: PosixFilePath
   verbose?: boolean
 }): string | null => {
   const filteredErrors = filterErrorsByFlags({ errors, flags })
@@ -71,6 +77,7 @@ export const testOnly_aggregateFetchDataErrors = ({
     options,
     shouldFail,
     schemaDef,
+    contentDirPath,
     verbose,
   })
 }
@@ -81,6 +88,7 @@ const aggregateFetchDataErrors = ({
   options,
   shouldFail,
   schemaDef,
+  contentDirPath,
   verbose,
 }: {
   errors: readonly FetchDataError.FetchDataError[]
@@ -88,6 +96,7 @@ const aggregateFetchDataErrors = ({
   options: core.PluginOptions
   shouldFail: boolean
   schemaDef: core.SchemaDef
+  contentDirPath: PosixFilePath
   verbose?: boolean
 }): string => {
   const keyMessage = `Found ${errors.length} problems in ${documentCount} documents.`
@@ -107,6 +116,7 @@ const aggregateFetchDataErrors = ({
       errorCount: taggedErrors.length,
       options,
       schemaDef,
+      contentDirPath,
     })
 
     str += '\n\n'

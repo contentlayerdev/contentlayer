@@ -40,7 +40,7 @@ export interface FieldDefBase {
 
 export interface ListFieldDef extends FieldDefBase {
   type: 'list'
-  default: any[] | undefined
+  default: readonly any[] | undefined
   // TODO support polymorphic definitions
   of: ListFieldDefItem.Item
 }
@@ -49,8 +49,8 @@ export const isListFieldDef = (_: FieldDef): _ is ListFieldDef => _.type === 'li
 
 export interface ListPolymorphicFieldDef extends FieldDefBase {
   type: 'list_polymorphic'
-  default: any[] | undefined
-  of: ListFieldDefItem.Item[]
+  default: readonly any[] | undefined
+  of: readonly ListFieldDefItem.Item[]
   /** Field needed to distinguish list data items at run time */
   typeField: string
 }
@@ -63,7 +63,7 @@ export namespace ListFieldDefItem {
   }
 
   export type ItemString = BaseItem & { type: 'string' }
-  export type ItemEnum = BaseItem & { type: 'enum'; options: string[] }
+  export type ItemEnum = BaseItem & { type: 'enum'; options: readonly string[] }
   export type ItemBoolean = BaseItem & { type: 'boolean' }
   export type ItemNested = BaseItem & {
     type: 'nested'
@@ -74,12 +74,22 @@ export namespace ListFieldDefItem {
     typeDef: NestedUnnamedTypeDef
   }
 
+  export const isDefItemNested = (_: Item): _ is ItemNested => _.type === 'nested'
+
   export type ItemReference = BaseItem & {
     type: 'reference'
     documentTypeName: string
+
+    /**
+     * Whether Contentlayer should embed the referenced document instead of the reference value
+     *
+     * @experimental
+     * @default false
+     */
+    embedDocument: boolean
   }
 
-  export const isDefItemNested = (_: Item): _ is ItemNested => _.type === 'nested'
+  export const isDefItemReference = (_: Item): _ is ItemReference => _.type === 'reference'
 }
 
 export type StringFieldDef = FieldDefBase & {
@@ -142,7 +152,7 @@ export type UrlFieldDef = FieldDefBase & {
 export type EnumFieldDef = FieldDefBase & {
   type: 'enum'
   default: string | undefined
-  options: string[]
+  options: readonly string[]
 }
 
 export type NestedFieldDef = FieldDefBase & {
@@ -158,7 +168,7 @@ export type NestedPolymorphicFieldDef = FieldDefBase & {
   type: 'nested_polymorphic'
   default: any | undefined
   /** References entries in NestedDefMap */
-  nestedTypeNames: string[]
+  nestedTypeNames: readonly string[]
   /** Field needed to distinguish list data items at run time */
   typeField: string
 }
@@ -178,12 +188,22 @@ export type ReferenceFieldDef = FieldDefBase & {
   type: 'reference'
   default: string | undefined
   documentTypeName: string
+
+  /**
+   * Whether Contentlayer should embed the referenced document instead of the reference value
+   *
+   * @experimental
+   * @default false
+   */
+  embedDocument: boolean
 }
 
 export type ReferencePolymorphicFieldDef = FieldDefBase & {
   type: 'reference_polymorphic'
   default: string | undefined
-  documentTypeNames: string[]
+  documentTypeNames: readonly string[]
   /** Field needed to distinguish list data items at run time */
   typeField: string
 }
+
+export const isReferenceField = (_: FieldDef): _ is ReferenceFieldDef => _.type === 'reference'
