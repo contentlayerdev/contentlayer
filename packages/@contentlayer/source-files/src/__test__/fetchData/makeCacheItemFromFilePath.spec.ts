@@ -27,7 +27,7 @@ t.test('makeCacheItemFromFilePath', async (t) => {
     }
   })
 
-  t.test('b.md: missing required field', async (t) => {
+  t.test('b.md: missing required field: list of strings', async (t) => {
     const TestPost = defineDocumentType(() => ({
       name: 'TestPost',
       filePathPattern: `**/*.md`,
@@ -41,6 +41,23 @@ t.test('makeCacheItemFromFilePath', async (t) => {
     t.equal(result._tag, 'Left')
     if (E.isLeft(result)) {
       t.equal(result.left._tag, 'MissingRequiredFieldsError')
+    }
+  })
+
+  t.test('b.md: missing optional field: list of strings', async (t) => {
+    const TestPost = defineDocumentType(() => ({
+      name: 'TestPost',
+      filePathPattern: `**/*.md`,
+      fields: {
+        tags: { type: 'list', of: { type: 'string' }, required: false },
+      },
+    }))
+
+    const { result } = await runTest({ documentTypes: [TestPost], contentDirPath, relativeFilePath: 'b.md' })
+
+    t.equal(result._tag, 'Right')
+    if (E.isRight(result)) {
+      t.ok(result.right.document)
     }
   })
 

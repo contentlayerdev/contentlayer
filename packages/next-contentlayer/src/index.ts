@@ -4,7 +4,7 @@ import { runContentlayerBuild, runContentlayerDev } from './plugin.js'
 
 export type { NextConfig }
 
-type PluginOptions = {}
+export type PluginOptions = {}
 
 let devServerStarted = false
 

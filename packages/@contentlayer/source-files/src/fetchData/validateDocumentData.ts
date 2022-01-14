@@ -185,9 +185,13 @@ const validateFieldData = ({
   O.Option<FetchDataError.IncompatibleFieldDataError | FetchDataError.ReferencedFileDoesNotExistError>
 > =>
   T.gen(function* ($) {
+    const dataIsNil = rawFieldData === undefined || rawFieldData === null
+    if (dataIsNil && fieldDef.isRequired === false) {
+      return O.none
+    }
+
     switch (fieldDef.type) {
       case 'list':
-        // TODO fix if optional
         return Array.isArray(rawFieldData)
           ? O.none
           : O.some(
@@ -197,7 +201,7 @@ const validateFieldData = ({
                 documentTypeName,
               }),
             )
-      // TODO also check for lists
+      // TODO also check for references in lists
       case 'reference':
         if (typeof rawFieldData === 'string') {
           const fullFilePath = filePathJoin(contentDirPath, rawFieldData)
