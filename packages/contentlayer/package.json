@@ -68,5 +68,15 @@
   },
   "devDependencies": {
     "typescript": "^4.5.2"
+  },
+  "author": "schickling",
+  "homepage": "https://github.com/contentlayerdev/contentlayer",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/contentlayerdev/contentlayer.git"
+  },
+  "bug": {
+    "url": "https://github.com/contentlayerdev/contentlayer/issues"
   }
 }
