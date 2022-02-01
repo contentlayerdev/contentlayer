@@ -1,3 +1,5 @@
+import type { StackbitExtension } from '@contentlayer/core'
+
 import type { DocumentType, NestedType } from './index.js'
 
 export type FieldDefType = FieldDef['type']
@@ -34,6 +36,8 @@ interface FieldDefBase {
    * @default false
    */
   required?: boolean
+
+  stackbit?: StackbitExtension.FieldExtension
 }
 
 // type WithComputedField<ValueType,> = {

@@ -44,6 +44,8 @@ export type DocumentTypeDef<DefName extends string = string> = {
   isSingleton?: boolean
 
   extensions?: TypeExtensions<DefName>
+
+  stackbit?: core.StackbitExtension.TypeExtension<DefName>
 }
 
 export type ComputedFields<DefName extends string = string> = Record<string, ComputedField<DefName>>

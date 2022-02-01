@@ -35,6 +35,7 @@ export namespace StackbitExtension {
     group?: string
     /** @default "content" */
     control?: Control
+    default?: any
   }
 
   // TODO enum labels
