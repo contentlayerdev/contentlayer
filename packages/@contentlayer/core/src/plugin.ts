@@ -31,7 +31,7 @@ export type MarkdownOptions = {
 export type MDXOptions = {
   remarkPlugins?: unified.Pluggable[]
   rehypePlugins?: unified.Pluggable[]
-} & Omit<BundleMDXOptions, 'xdmOptions'>
+} & Omit<BundleMDXOptions<any>, 'xdmOptions'>
 
 export type DateOptions = {
   /**

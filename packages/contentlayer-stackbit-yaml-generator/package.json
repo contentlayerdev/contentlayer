@@ -17,7 +17,7 @@
   "dependencies": {
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
-    "@stackbit/sdk": "^0.2.22",
+    "@stackbit/sdk": "^0.2.23",
     "clipanion": "^3.2.0-rc.6",
     "typanion": "3.7.1",
     "yaml": "^1.10.2"

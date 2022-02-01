@@ -28,7 +28,7 @@ export const bundleMDX = ({
         path.isAbsolute(contentDirPath) ? contentDirPath : path.join(process.cwd(), contentDirPath)
       const cwd = cwd_ ?? getCwdFromContentDirPath()
 
-      const mdxOptions: BundleMDXOptions = {
+      const mdxOptions: BundleMDXOptions<any> = {
         xdmOptions: (opts) => {
           opts.rehypePlugins = [...(opts.rehypePlugins ?? []), ...(rehypePlugins ?? [])]
           opts.remarkPlugins = [...(opts.remarkPlugins ?? []), ...(remarkPlugins ?? [])]
@@ -38,7 +38,7 @@ export const bundleMDX = ({
         ...restOptions,
       }
 
-      const res = yield* $(T.tryPromise(() => mdxBundler.bundleMDX(mdxString, mdxOptions)))
+      const res = yield* $(T.tryPromise(() => mdxBundler.bundleMDX({ source: mdxString, ...mdxOptions })))
 
       if (res.errors.length > 0) {
         return yield* $(T.fail(res.errors))
