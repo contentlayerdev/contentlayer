@@ -55,7 +55,7 @@ export const fetchAllDocuments = ({
             }),
           ),
           T.map(Chunk.partitionThese),
-          T.map(({ left, right }) => ({ dataErrors: Chunk.toArray(left), documents: Chunk.toArray(right) })),
+          T.map(({ tuple: [errors, docs] }) => ({ dataErrors: Chunk.toArray(errors), documents: Chunk.toArray(docs) })),
         ),
       )
 

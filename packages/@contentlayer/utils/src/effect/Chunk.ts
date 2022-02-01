@@ -1,7 +1,6 @@
 import { Chunk } from '@effect-ts/core'
-import type { Separated } from '@effect-ts/system/Utils'
 
-import { E, O, These } from './index.js'
+import { E, O, These, Tp } from './index.js'
 
 export * from '@effect-ts/core/Collections/Immutable/Chunk'
 
@@ -11,7 +10,7 @@ export * from '@effect-ts/core/Collections/Immutable/Chunk'
  */
 export const partitionThese = <E, A>(
   chunk: Chunk.Chunk<These.These<E, A>>,
-): Separated<Chunk.Chunk<E>, Chunk.Chunk<A>> => {
+): Tp.Tuple<[Chunk.Chunk<E>, Chunk.Chunk<A>]> => {
   let errors = Chunk.empty<E>()
   let values = Chunk.empty<A>()
 
@@ -28,8 +27,5 @@ export const partitionThese = <E, A>(
     }
   })
 
-  return {
-    left: errors,
-    right: values,
-  }
+  return Tp.tuple(errors, values)
 }

@@ -2,24 +2,21 @@ import * as core from '@contentlayer/core'
 import { DummyTracing } from '@contentlayer/utils'
 import type { HasClock, HasConsole, OT } from '@contentlayer/utils/effect'
 import { pipe, provideConsole, T } from '@contentlayer/utils/effect'
-import t from 'tap'
+import test from 'ava'
 
 import { getFlattenedPath, testOnly_getDataForFieldDef as getDataForFieldDef } from '../fetchData/mapping.js'
 
-// use GMT timezone for testing
-process.env.TZ = 'GMT'
-
-t.test('getFlattenedPath', async (t) => {
-  t.equal(getFlattenedPath('some/path/doc.md'), 'some/path/doc')
-  t.equal(getFlattenedPath('some/path/index.md'), 'some/path')
-  t.equal(getFlattenedPath('some/index/index.md'), 'some/index')
-  t.equal(getFlattenedPath('index/index.md'), 'index')
-  t.equal(getFlattenedPath('index.md'), '')
+test('getFlattenedPath', async (t) => {
+  t.is(getFlattenedPath('some/path/doc.md'), 'some/path/doc')
+  t.is(getFlattenedPath('some/path/index.md'), 'some/path')
+  t.is(getFlattenedPath('some/index/index.md'), 'some/index')
+  t.is(getFlattenedPath('index/index.md'), 'index')
+  t.is(getFlattenedPath('index.md'), '')
 })
 
 const __unusedValue: any = ''
 
-t.test('getDataForFieldDef', async (t) => {
+test('getDataForFieldDef', async (t) => {
   const testValue = async ({
     type,
     expectedValue,
@@ -55,7 +52,7 @@ t.test('getDataForFieldDef', async (t) => {
       }),
     )
 
-    t.equal(transformedData, expectedValue)
+    t.is(transformedData, expectedValue)
   }
 
   await testValue({ type: 'date', rawFieldData: '2022', expectedValue: '2022-01-01T00:00:00.000Z' })

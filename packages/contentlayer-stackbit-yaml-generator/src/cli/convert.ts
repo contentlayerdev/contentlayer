@@ -17,13 +17,15 @@ export const convertSchema = (
   const pagesDir = extensions.stackbit?.pagesDir
   const dataDir = extensions.stackbit?.dataDir
 
-  const models = [
-    ...pageDocumentDefs.map((def) => documentOrObjectDefToStackbitYamlModel({ def, type: 'page', urlPathFieldName })),
-    ...dataDocumentDefs.map((def) => documentOrObjectDefToStackbitYamlModel({ def, type: 'data', urlPathFieldName })),
-    ...Object.values(nestedTypeDefMap).map((def) =>
-      documentOrObjectDefToStackbitYamlModel({ def, type: 'object', urlPathFieldName }),
-    ),
-  ].reduce((acc, { model, name }) => ({ ...acc, [name]: model }), {} as Stackbit.YamlModels)
+  const models = Object.fromEntries(
+    [
+      ...pageDocumentDefs.map((def) => documentOrObjectDefToStackbitYamlModel({ def, type: 'page', urlPathFieldName })),
+      ...dataDocumentDefs.map((def) => documentOrObjectDefToStackbitYamlModel({ def, type: 'data', urlPathFieldName })),
+      ...Object.values(nestedTypeDefMap).map((def) =>
+        documentOrObjectDefToStackbitYamlModel({ def, type: 'object', urlPathFieldName }),
+      ),
+    ].map(({ model, name }) => [name, model]),
+  )
 
   return { stackbitVersion: '~0.3.0', nodeVersion: '>=12', models, pagesDir, dataDir }
 }
@@ -51,7 +53,7 @@ const documentOrObjectDefToStackbitYamlModel = ({
     folder: ext?.folder,
     file: ext?.file,
   }
-  const modelCommon: Stackbit.YamlBaseModel = {
+  const modelCommon: Omit<Stackbit.YamlBaseModel, 'type'> = {
     label: ext?.label ?? def.name,
     labelField: ext?.labelField,
     description: def.description,
@@ -81,7 +83,7 @@ const fieldDefToStackbitField = ({
   fieldDef: core.FieldDef
   fieldExtension: core.StackbitExtension.FieldExtension | undefined
 }): Stackbit.Field => {
-  const commonField: Stackbit.FieldCommonProps = {
+  const commonField: Omit<Stackbit.FieldCommonProps, 'type'> = {
     name: fieldDef.name,
     required: fieldDef.isRequired,
     const: fieldExtension?.const,

@@ -32,7 +32,7 @@
     "@contentlayer/utils": "workspace:*",
     "camel-case": "^4.1.2",
     "date-fns": "2.x",
-    "esbuild": "0.11.x || 0.12.x || 0.13.x",
+    "esbuild": "0.11.x || 0.12.x || 0.13.x || 0.14.x",
     "gray-matter": "^4.0.3",
     "mdx-bundler": "^6.0.2",
     "rehype-stringify": "^9.0.2",

@@ -15,7 +15,7 @@
   "dependencies": {
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
-    "clipanion": "^3.2.0-rc.4",
+    "clipanion": "^3.2.0-rc.6",
     "typanion": "^3.7.1"
   },
   "devDependencies": {

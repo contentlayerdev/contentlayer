@@ -1,6 +1,6 @@
 import type * as core from '@contentlayer/core'
 import { posixFilePath } from '@contentlayer/utils'
-import t from 'tap'
+import test from 'ava'
 
 import { testOnly_aggregateFetchDataErrors as aggregateFetchDataErrors } from '../../errors/aggregate.js'
 import type { Flags } from '../../types.js'
@@ -22,20 +22,19 @@ const flags: Flags = {
 const schemaDef = makeSchemaDef()
 const contentDirPath = posixFilePath('./content')
 
-t.test('CouldNotDetermineDocumentTypeError', async (t) => {
-  t.test('should print 4 errors', async (t) => {
-    const errorString = aggregateFetchDataErrors({
-      errors: makeErrors({ CouldNotDetermineDocumentTypeError: 4 }),
-      options,
-      flags,
-      schemaDef,
-      contentDirPath,
-      documentCount: 42,
-    })
+test('CouldNotDetermineDocumentTypeError: should print 4 errors', async (t) => {
+  const errorString = aggregateFetchDataErrors({
+    errors: makeErrors({ CouldNotDetermineDocumentTypeError: 4 }),
+    options,
+    flags,
+    schemaDef,
+    contentDirPath,
+    documentCount: 42,
+  })
 
-    t.equal(
-      errorString,
-      `\
+  t.is(
+    errorString,
+    `\
 Warning: Found 4 problems in 42 documents. Skipping those documents.
 
  └── Couldn't determine the document type for 4 documents.
@@ -48,22 +47,22 @@ Warning: Found 4 problems in 42 documents. Skipping those documents.
      • docs/card_balanced.md
      
 `,
-    )
+  )
+})
+
+test('CouldNotDetermineDocumentTypeError: should print 24 errors - truncated', async (t) => {
+  const errorString = aggregateFetchDataErrors({
+    errors: makeErrors({ CouldNotDetermineDocumentTypeError: 24 }),
+    options,
+    flags,
+    schemaDef,
+    contentDirPath,
+    documentCount: 81,
   })
 
-  t.test('should print 24 errors - truncated', async (t) => {
-    const errorString = aggregateFetchDataErrors({
-      errors: makeErrors({ CouldNotDetermineDocumentTypeError: 24 }),
-      options,
-      flags,
-      schemaDef,
-      contentDirPath,
-      documentCount: 81,
-    })
-
-    t.equal(
-      errorString,
-      `\
+  t.is(
+    errorString,
+    `\
 Warning: Found 24 problems in 81 documents. Skipping those documents.
 
  └── Couldn't determine the document type for 24 documents.
@@ -93,23 +92,23 @@ Warning: Found 24 problems in 81 documents. Skipping those documents.
      • ... 4 more documents (Use the --verbose CLI option to show all documents)
      
 `,
-    )
+  )
+})
+
+test('CouldNotDetermineDocumentTypeError: should print 24 errors - full', async (t) => {
+  const errorString = aggregateFetchDataErrors({
+    errors: makeErrors({ CouldNotDetermineDocumentTypeError: 24 }),
+    options,
+    flags,
+    schemaDef,
+    contentDirPath,
+    documentCount: 81,
+    verbose: true,
   })
 
-  t.test('should print 24 errors - full', async (t) => {
-    const errorString = aggregateFetchDataErrors({
-      errors: makeErrors({ CouldNotDetermineDocumentTypeError: 24 }),
-      options,
-      flags,
-      schemaDef,
-      contentDirPath,
-      documentCount: 81,
-      verbose: true,
-    })
-
-    t.equal(
-      errorString,
-      `\
+  t.is(
+    errorString,
+    `\
 Warning: Found 24 problems in 81 documents. Skipping those documents.
 
  └── Couldn't determine the document type for 24 documents.
@@ -142,38 +141,36 @@ Warning: Found 24 problems in 81 documents. Skipping those documents.
      • docs/internal_array.md
      
 `,
-    )
-  })
-
-  t.test('should ignore the errors', async (t) => {
-    const errorString = aggregateFetchDataErrors({
-      errors: makeErrors({ CouldNotDetermineDocumentTypeError: 24 }),
-      options,
-      flags: { ...flags, onUnknownDocuments: 'skip-ignore' },
-      schemaDef,
-      contentDirPath,
-      documentCount: 81,
-      verbose: true,
-    })
-
-    t.equal(errorString, null)
-  })
+  )
 })
 
-t.test('MissingRequiredFieldsError', async (t) => {
-  t.test('should print 4 errors', async (t) => {
-    const errorString = aggregateFetchDataErrors({
-      errors: makeErrors({ MissingRequiredFieldsError: 4 }),
-      options,
-      flags,
-      schemaDef,
-      contentDirPath,
-      documentCount: 42,
-    })
+test('CouldNotDetermineDocumentTypeError: should ignore the errors', async (t) => {
+  const errorString = aggregateFetchDataErrors({
+    errors: makeErrors({ CouldNotDetermineDocumentTypeError: 24 }),
+    options,
+    flags: { ...flags, onUnknownDocuments: 'skip-ignore' },
+    schemaDef,
+    contentDirPath,
+    documentCount: 81,
+    verbose: true,
+  })
 
-    t.equal(
-      errorString,
-      `\
+  t.is(errorString, null)
+})
+
+test('MissingRequiredFieldsError: should print 4 errors', async (t) => {
+  const errorString = aggregateFetchDataErrors({
+    errors: makeErrors({ MissingRequiredFieldsError: 4 }),
+    options,
+    flags,
+    schemaDef,
+    contentDirPath,
+    documentCount: 42,
+  })
+
+  t.is(
+    errorString,
+    `\
 Warning: Found 4 problems in 42 documents. Skipping those documents.
 
  └── Missing required fields for 4 documents
@@ -188,22 +185,22 @@ Warning: Found 4 problems in 42 documents. Skipping those documents.
        • someField: string
      
 `,
-    )
+  )
+})
+
+test('MissingRequiredFieldsError: should print 24 errors - truncated', async (t) => {
+  const errorString = aggregateFetchDataErrors({
+    errors: makeErrors({ MissingRequiredFieldsError: 24 }),
+    options,
+    flags,
+    schemaDef,
+    contentDirPath,
+    documentCount: 81,
   })
 
-  t.test('should print 24 errors - truncated', async (t) => {
-    const errorString = aggregateFetchDataErrors({
-      errors: makeErrors({ MissingRequiredFieldsError: 24 }),
-      options,
-      flags,
-      schemaDef,
-      contentDirPath,
-      documentCount: 81,
-    })
-
-    t.equal(
-      errorString,
-      `\
+  t.is(
+    errorString,
+    `\
 Warning: Found 24 problems in 81 documents. Skipping those documents.
 
  └── Missing required fields for 24 documents
@@ -251,24 +248,22 @@ Warning: Found 24 problems in 81 documents. Skipping those documents.
      • ... 4 more documents (Use the --verbose CLI option to show all documents)
      
 `,
-    )
-  })
+  )
 })
 
-t.test('mix of different errors', async (t) => {
-  t.test('some', async (t) => {
-    const errorString = aggregateFetchDataErrors({
-      errors: makeErrors({ CouldNotDetermineDocumentTypeError: 4, NoSuchDocumentTypeError: 2 }),
-      options,
-      flags,
-      schemaDef,
-      contentDirPath,
-      documentCount: 42,
-    })
+test('mix of different errors: some', async (t) => {
+  const errorString = aggregateFetchDataErrors({
+    errors: makeErrors({ CouldNotDetermineDocumentTypeError: 4, NoSuchDocumentTypeError: 2 }),
+    options,
+    flags,
+    schemaDef,
+    contentDirPath,
+    documentCount: 42,
+  })
 
-    t.equal(
-      errorString,
-      `\
+  t.is(
+    errorString,
+    `\
 Warning: Found 6 problems in 42 documents. Skipping those documents.
 
  ├── Couldn't determine the document type for 4 documents.
@@ -288,28 +283,28 @@ Warning: Found 6 problems in 42 documents. Skipping those documents.
      • docs/firewall_withdrawal.md (Used type name: "Sensor")
      
 `,
-    )
+  )
+})
+
+test('mix of different errors: other', async (t) => {
+  const errorString = aggregateFetchDataErrors({
+    errors: makeErrors({
+      CouldNotDetermineDocumentTypeError: 4,
+      NoSuchDocumentTypeError: 2,
+      ComputedValueError: 1,
+      UnexpectedError: 2,
+      MissingRequiredFieldsError: 3,
+    }),
+    options,
+    flags,
+    schemaDef,
+    contentDirPath,
+    documentCount: 42,
   })
 
-  t.test('other', async (t) => {
-    const errorString = aggregateFetchDataErrors({
-      errors: makeErrors({
-        CouldNotDetermineDocumentTypeError: 4,
-        NoSuchDocumentTypeError: 2,
-        ComputedValueError: 1,
-        UnexpectedError: 2,
-        MissingRequiredFieldsError: 3,
-      }),
-      options,
-      flags,
-      schemaDef,
-      contentDirPath,
-      documentCount: 42,
-    })
-
-    t.equal(
-      errorString,
-      `\
+  t.is(
+    errorString,
+    `\
 Error: Found 12 problems in 42 documents.
 
  ├── Couldn't determine the document type for 4 documents.
@@ -347,6 +342,5 @@ Error: Found 12 problems in 42 documents.
        • someField: string
      
 `,
-    )
-  })
+  )
 })

@@ -4,6 +4,7 @@ import type { PosixFilePath } from '@contentlayer/utils'
 import * as utils from '@contentlayer/utils'
 import type { HasConsole, OT } from '@contentlayer/utils/effect'
 import { pipe, T } from '@contentlayer/utils/effect'
+// Use legacy import format since somehow ESM export isn't properly picked up for `date-fns-tz`
 import dateFnsTz from 'date-fns-tz'
 import * as path from 'path'
 

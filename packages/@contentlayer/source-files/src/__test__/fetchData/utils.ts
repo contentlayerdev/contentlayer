@@ -1,7 +1,7 @@
 import type { HasCwd } from '@contentlayer/core'
 import * as core from '@contentlayer/core'
 import { provideCwd } from '@contentlayer/core'
-import { provideJaegerTracing, unknownToPosixFilePath } from '@contentlayer/utils'
+import { provideDummyTracing, provideJaegerTracing, unknownToPosixFilePath } from '@contentlayer/utils'
 import type { HasClock, HasConsole, OT } from '@contentlayer/utils/effect'
 import { pipe, provideTestConsole, T, These } from '@contentlayer/utils/effect'
 
@@ -69,7 +69,8 @@ const runMain = async <E, A>(
     provideTestConsole(logMessages),
     provideDocumentTypeMapState,
     provideCwd,
-    provideJaegerTracing('test'),
+    // provideJaegerTracing('test'),
+    provideDummyTracing,
     T.runPromise,
   )
 

@@ -44,8 +44,8 @@
     "react-dom": "*"
   },
   "devDependencies": {
-    "next": "^12.0.7",
-    "typescript": "^4.5.2"
+    "next": "^12.0.9",
+    "typescript": "^4.5.5"
   },
   "author": "schickling",
   "homepage": "https://github.com/contentlayerdev/contentlayer",
