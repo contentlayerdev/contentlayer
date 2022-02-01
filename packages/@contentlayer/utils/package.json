@@ -56,7 +56,7 @@
     }
   },
   "dependencies": {
-    "@effect-ts/core": "^0.54.5",
+    "@effect-ts/core": "^0.54.7",
     "@effect-ts/otel": "^0.11.6",
     "@effect-ts/otel-exporter-trace-otlp-grpc": "^0.11.6",
     "@effect-ts/otel-sdk-trace-node": "^0.11.6",
