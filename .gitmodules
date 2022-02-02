@@ -1,6 +1,6 @@
 [submodule "examples/gatsby-docs/gatsby"]
 	path = examples/gatsby-docs/gatsby
-	url = https://github.com/gatsbyjs/gatsby.git
+	url = git@github.com:gatsbyjs/gatsby.git
 	
 [submodule "examples/mdx"]
 	path = examples/mdx
