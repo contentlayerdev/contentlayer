@@ -25,7 +25,7 @@
     "changeset": "node ./scripts/changeset.js"
   },
   "devDependencies": {
-    "@changesets/cli": "https://pkg.csb.dev/changesets/changesets/commit/98401c27/@changesets/cli/_pkg.tgz",
+    "@changesets/cli": "https://pkg.csb.dev/changesets/changesets/commit/f65e0a7a/@changesets/cli/_pkg.tgz",
     "@effect-ts/tracing-plugin": "^0.14.21",
     "@playwright/test": "^1.15.1",
     "@types/prettier": "^2.3.2",
