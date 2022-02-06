@@ -48,9 +48,13 @@ if (command) {
 
         if (content) {
           const rootChangelogPath = path.join(__dirname, '..', 'CHANGELOG.md')
-          const rootChangelog = fs.readFileSync(rootChangelogPath, 'utf8')
+          if (fs.existsSync(rootChangelogPath)) {
+            const rootChangelog = fs.readFileSync(rootChangelogPath, 'utf8')
 
-          fs.writeFileSync(rootChangelogPath, rootChangelog.replace('\n', `\n\n## ${version}\n\n${content}\n`))
+            fs.writeFileSync(rootChangelogPath, rootChangelog.replace('\n', `\n\n## ${version}\n\n${content}\n`))
+          } else {
+            fs.writeFileSync(rootChangelogPath, `# contentlayer\n\n## ${version}\n\n${content}\n`)
+          }
         }
       }
       fs.unlinkSync(filePath)
