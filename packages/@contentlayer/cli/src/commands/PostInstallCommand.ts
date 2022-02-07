@@ -12,7 +12,7 @@ export class PostInstallCommand extends BaseCommand {
     T.gen(function* ($) {
       const artifactsDirPath = yield* $(ArtifactsDir.mkdir)
 
-      yield* $(T.forEachPar_(['data', 'types'], (moduleName) => makeModuleStub({ artifactsDirPath, moduleName })))
+      yield* $(makeModuleStub({ artifactsDirPath, moduleName: 'generated' }))
 
       yield* $(createSymlinkForDotpkg({ artifactsDirPath }))
       yield* $(addToplevelDotpkgToGitignore())

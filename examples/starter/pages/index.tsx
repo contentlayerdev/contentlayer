@@ -1,3 +1,4 @@
+import { allPosts } from 'contentlayer/generated'
 import { compareDesc } from 'date-fns'
 import type { InferGetStaticPropsType } from 'next'
 import Head from 'next/head'
@@ -6,7 +7,6 @@ import type { FC } from 'react'
 
 import { FormattedDate } from '../components/date'
 import { Layout, siteTitle } from '../components/layout'
-import { allPosts } from '.contentlayer/data'
 const utilStyles = require('../styles/utils.module.css')
 
 export const getStaticProps = async ({}) => {

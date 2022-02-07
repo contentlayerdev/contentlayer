@@ -1,10 +1,9 @@
+import { allPosts, Post } from 'contentlayer/generated'
 import Head from 'next/head'
 import type { FC } from 'react'
 
 import { FormattedDate } from '../../components/date'
 import { Layout } from '../../components/layout'
-import { allPosts } from '.contentlayer/data'
-import type { Post } from '.contentlayer/types'
 const utilStyles = require('../../styles/utils.module.css')
 
 export async function getStaticPaths() {
