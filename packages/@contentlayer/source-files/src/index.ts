@@ -23,6 +23,7 @@ export type Args = {
   extensions?: {
     stackbit?: core.StackbitExtension.Config
   }
+  resolveDocuments?: (...args: any[]) => any
 } & PluginOptions &
   Partial<Flags>
 

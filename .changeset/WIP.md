@@ -3,11 +3,13 @@
 - [ ] Fix Node.js live reload bug
 - [ ] Renamed `default` to `fallback`
 - [ ] Moved `defineDocumentType` and `defineNestedType` from `contentlayer/source-files` to `contentlayer/schema`
+  - [ ] ? In conflict with: Rename `fields` to `frontmatter`
 - [ ] Unified concept of `fieldOptions.typeFieldName` and `filePathPattern` to `resolveDocumentType`
   - also moves the concept of `bodyType` to `makeSource`
   - how to integrate with remark processors etc?
 - Change computed field concept
 - [x] Generate files to `contentlayer/generated` that links to `node_modules/.contentlayer`
+- [x] Contentlayer now passes the full MDX/MD file content (incl. frontmatter) to remark/rehype
 - [ ] ? MDX v2 and remove mdx-bundler
 - [ ] Validate there are no nested types with the same name
 
@@ -39,4 +41,8 @@
     }
     ```
 
-  - Rename `.contentlayer/data` / `.contentlayer/types` to `contentlayer/generated`
+  - Rename import statements from `.contentlayer/data` / `.contentlayer/types` to `contentlayer/generated`
+
+- Fixes
+  - Fixes https://github.com/contentlayerdev/contentlayer/issues/113
+- TODO: the next-integration package should check whether the neccessary tsconfig options are provided

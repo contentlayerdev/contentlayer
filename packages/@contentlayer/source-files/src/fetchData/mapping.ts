@@ -3,7 +3,7 @@ import * as core from '@contentlayer/core'
 import type { PosixFilePath } from '@contentlayer/utils'
 import * as utils from '@contentlayer/utils'
 import type { HasConsole, OT } from '@contentlayer/utils/effect'
-import { pipe, T } from '@contentlayer/utils/effect'
+import { identity, pipe, T } from '@contentlayer/utils/effect'
 // Use legacy import format since somehow ESM export isn't properly picked up for `date-fns-tz`
 import dateFnsTz from 'date-fns-tz'
 import * as path from 'path'
@@ -11,6 +11,8 @@ import * as path from 'path'
 import { FetchDataError } from '../errors/index.js'
 import type { DocumentBodyType } from '../schema/defs/index.js'
 import type { RawDocumentData } from '../types.js'
+import type { HasDocumentContext } from './DocumentContext.js'
+import { getFromDocumentContext } from './DocumentContext.js'
 import type { RawContent, RawContentMarkdown, RawContentMDX } from './types.js'
 
 export const makeDocument = ({
@@ -28,7 +30,7 @@ export const makeDocument = ({
   contentDirPath: PosixFilePath
   options: core.PluginOptions
 }): T.Effect<
-  OT.HasTracer & HasConsole,
+  OT.HasTracer & HasConsole & HasDocumentContext,
   FetchDataError.UnexpectedError | FetchDataError.NoSuchNestedDocumentTypeError,
   core.Document
 > =>
@@ -124,7 +126,7 @@ const makeNestedDocument = ({
   options: core.PluginOptions
   relativeFilePath: PosixFilePath
   contentDirPath: PosixFilePath
-}): T.Effect<OT.HasTracer & HasConsole, MakeDocumentInternalError, core.NestedDocument> =>
+}): T.Effect<OT.HasTracer & HasConsole & HasDocumentContext, MakeDocumentInternalError, core.NestedDocument> =>
   T.gen(function* ($) {
     const objValues = yield* $(
       T.forEachParDict_(fieldDefs, {
@@ -161,7 +163,7 @@ const getDataForFieldDef = ({
   options: core.PluginOptions
   relativeFilePath: PosixFilePath
   contentDirPath: PosixFilePath
-}): T.Effect<OT.HasTracer & HasConsole, MakeDocumentInternalError, any> =>
+}): T.Effect<OT.HasTracer & HasConsole & HasDocumentContext, MakeDocumentInternalError, any> =>
   T.gen(function* ($) {
     if (rawFieldData === undefined && fieldDef.default) {
       rawFieldData = fieldDef.default
@@ -248,12 +250,40 @@ const getDataForFieldDef = ({
           dateValue = dateFnsTz.zonedTimeToUtc(dateValue, options.date.timezone)
         }
         return dateValue.toISOString()
-      case 'markdown':
-        const html = yield* $(core.markdownToHtml({ mdString: rawFieldData, options: options?.markdown }))
-        return <core.Markdown>{ raw: rawFieldData, html }
-      case 'mdx':
-        const code = yield* $(core.bundleMDX({ mdxString: rawFieldData, options: options?.mdx, contentDirPath }))
-        return <core.MDX>{ raw: rawFieldData, code }
+      case 'markdown': {
+        const isBodyField = fieldDef.name === options.fieldOptions.bodyFieldName
+        // NOTE for the body field, we're passing the entire document file contents to MDX (e.g. in case some remark/rehype plugins need access to the frontmatter)
+        // TODO we should come up with a better way to do this
+        if (isBodyField) {
+          const rawContent = yield* $(getFromDocumentContext('rawContent'))
+          if (rawContent.kind !== 'markdown') return utils.assertNever(rawContent)
+
+          const html = yield* $(
+            core.markdownToHtml({ mdString: rawContent.rawDocumentContent, options: options?.markdown }),
+          )
+          return identity<core.Markdown>({ raw: rawFieldData, html })
+        } else {
+          const html = yield* $(core.markdownToHtml({ mdString: rawFieldData, options: options?.markdown }))
+          return identity<core.Markdown>({ raw: rawFieldData, html })
+        }
+      }
+      case 'mdx': {
+        const isBodyField = fieldDef.name === options.fieldOptions.bodyFieldName
+        // NOTE for the body field, we're passing the entire document file contents to MDX (e.g. in case some remark/rehype plugins need access to the frontmatter)
+        // TODO we should come up with a better way to do this
+        if (isBodyField) {
+          const rawContent = yield* $(getFromDocumentContext('rawContent'))
+          if (rawContent.kind !== 'mdx') return utils.assertNever(rawContent)
+
+          const code = yield* $(
+            core.bundleMDX({ mdxString: rawContent.rawDocumentContent, options: options?.mdx, contentDirPath }),
+          )
+          return identity<core.MDX>({ raw: rawFieldData, code })
+        } else {
+          const code = yield* $(core.bundleMDX({ mdxString: rawFieldData, options: options?.mdx, contentDirPath }))
+          return identity<core.MDX>({ raw: rawFieldData, code })
+        }
+      }
       case 'boolean':
       case 'string':
       case 'number':
@@ -285,7 +315,7 @@ const getDataForListItem = ({
   options: core.PluginOptions
   relativeFilePath: PosixFilePath
   contentDirPath: PosixFilePath
-}): T.Effect<OT.HasTracer & HasConsole, MakeDocumentInternalError, any> => {
+}): T.Effect<OT.HasTracer & HasConsole & HasDocumentContext, MakeDocumentInternalError, any> => {
   if (typeof rawItemData === 'string') {
     return T.succeed(rawItemData)
   }

@@ -3,6 +3,7 @@ import type { Has } from '@effect-ts/core/Has'
 
 export { provideTestConsole, provideConsole } from './ConsoleService.js'
 export type { HasConsole } from './ConsoleService.js'
+export type { _A as OutputOf } from '@effect-ts/core/Utils'
 
 export { pipe, flow, identity } from '@effect-ts/core/Function'
 export { Tagged } from '@effect-ts/core/Case'

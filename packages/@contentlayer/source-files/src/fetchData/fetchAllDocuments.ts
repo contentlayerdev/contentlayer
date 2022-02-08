@@ -2,7 +2,7 @@ import type * as core from '@contentlayer/core'
 import type { PosixFilePath } from '@contentlayer/utils'
 import { filePathJoin, posixFilePath } from '@contentlayer/utils'
 import type { HasConsole } from '@contentlayer/utils/effect'
-import { Chunk, O, OT, pipe, T, These } from '@contentlayer/utils/effect'
+import { Chunk, identity, O, OT, pipe, T, These } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
 import { promise as glob } from 'glob-promise'
 import matter from 'gray-matter'
@@ -12,10 +12,11 @@ import yaml from 'yaml'
 import { FetchDataError } from '../errors/index.js'
 import type { Flags } from '../index.js'
 import type { FilePathPatternMap } from '../types.js'
+import { provideDocumentContext } from './DocumentContext.js'
 import type { HasDocumentTypeMapState } from './DocumentTypeMap.js'
 import { DocumentTypeMapState, provideDocumentTypeMapState } from './DocumentTypeMap.js'
 import { makeDocument } from './mapping.js'
-import type { RawContent } from './types.js'
+import type { RawContent, RawContentJSON, RawContentMarkdown, RawContentMDX, RawContentYAML } from './types.js'
 import { validateDocumentData } from './validateDocumentData.js'
 
 export const fetchAllDocuments = ({
@@ -142,14 +143,17 @@ export const makeCacheItemFromFilePath = ({
       )
 
       const document = yield* $(
-        makeDocument({
-          documentTypeDef,
-          rawContent,
-          coreSchemaDef,
-          relativeFilePath,
-          contentDirPath,
-          options,
-        }),
+        pipe(
+          makeDocument({
+            documentTypeDef,
+            rawContent,
+            coreSchemaDef,
+            relativeFilePath,
+            contentDirPath,
+            options,
+          }),
+          provideDocumentContext({ rawContent, relativeFilePath }),
+        ),
       )
 
       const computedValues = yield* $(
@@ -205,20 +209,30 @@ const processRawContent = ({
       switch (filePathExtension) {
         case 'md': {
           const markdown = yield* $(parseMarkdown({ markdownString: fileContent, documentFilePath: relativeFilePath }))
-          return { kind: 'markdown' as const, fields: markdown.data, body: markdown.content }
+          return identity<RawContentMarkdown>({
+            kind: 'markdown',
+            fields: markdown.data,
+            body: markdown.content,
+            rawDocumentContent: fileContent,
+          })
         }
         case 'mdx': {
           const markdown = yield* $(parseMarkdown({ markdownString: fileContent, documentFilePath: relativeFilePath }))
-          return { kind: 'mdx' as const, fields: markdown.data, body: markdown.content }
+          return identity<RawContentMDX>({
+            kind: 'mdx',
+            fields: markdown.data,
+            body: markdown.content,
+            rawDocumentContent: fileContent,
+          })
         }
         case 'json': {
           const fields = yield* $(parseJson({ jsonString: fileContent, documentFilePath: relativeFilePath }))
-          return { kind: 'json' as const, fields }
+          return identity<RawContentJSON>({ kind: 'json', fields })
         }
         case 'yaml':
         case 'yml': {
           const fields = yield* $(parseYaml({ yamlString: fileContent, documentFilePath: relativeFilePath }))
-          return { kind: 'yaml' as const, fields }
+          return identity<RawContentYAML>({ kind: 'yaml', fields })
         }
         default:
           return yield* $(
