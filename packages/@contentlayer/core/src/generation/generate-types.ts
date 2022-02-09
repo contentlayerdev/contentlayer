@@ -58,6 +58,24 @@ export { isType } from 'contentlayer/client'
 // export type Image = string
 export type { Markdown, MDX }
 
+/** Document types */
+${documentTypes.map(prop('typeDef')).join('\n\n')}  
+
+/** Nested types */
+${nestedTypes.map(prop('typeDef')).join('\n\n')}  
+
+/** Helper types */
+
+export type AllTypes = DocumentTypes | NestedTypes
+export type AllTypeNames = DocumentTypeNames | NestedTypeNames
+
+export type DocumentTypes = ${renderUnion(documentTypeNames)}
+export type DocumentTypeNames = ${renderUnion(documentTypeNames.map(wrapInQuotes))}
+
+export type NestedTypes = ${nestedTypes.length > 0 ? renderUnion(nestedTypeNames) : 'never'}
+export type NestedTypeNames = ${nestedTypes.length > 0 ? renderUnion(nestedTypeNames.map(wrapInQuotes)) : 'never'}
+
+
 export interface ContentlayerGenTypes {
   documentTypes: DocumentTypes
   documentTypeMap: DocumentTypeMap
@@ -80,23 +98,6 @@ export type NestedTypeMap = {
 ${nestedTypeMap}
 }
 
-export type AllTypes = DocumentTypes | NestedTypes
-export type AllTypeNames = DocumentTypeNames | NestedTypeNames
-
-export type DocumentTypes = ${renderUnion(documentTypeNames)}
-export type DocumentTypeNames = ${renderUnion(documentTypeNames.map(wrapInQuotes))}
-
-export type NestedTypes = ${nestedTypes.length > 0 ? renderUnion(nestedTypeNames) : 'never'}
-export type NestedTypeNames = ${nestedTypes.length > 0 ? renderUnion(nestedTypeNames.map(wrapInQuotes)) : 'never'}
-
-
-
-/** Document types */
-${documentTypes.map(prop('typeDef')).join('\n\n')}  
-
-/** Nested types */
-${nestedTypes.map(prop('typeDef')).join('\n\n')}  
-  
  `
 }
 
