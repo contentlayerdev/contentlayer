@@ -3,8 +3,8 @@ import React from 'react'
 
 import { classNames, Link, withPrefix } from '../utils'
 import { Action } from './Action'
-import type * as types from '.contentlayer/types'
-import { isType } from '.contentlayer/types'
+import type * as types from 'contentlayer/generated'
+import { isType } from 'contentlayer/generated'
 
 export const Header: FC<{
   config: types.Config

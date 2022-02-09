@@ -289,6 +289,7 @@ const makeIndexMjs = ({ schemaDef }: { schemaDef: SchemaDef }): string => {
 export { isType } from 'contentlayer/client'
 
 ${constReexports}
+
 ${constImportsForAllDocuments}
 
 export const allDocuments = [${allDocuments}]

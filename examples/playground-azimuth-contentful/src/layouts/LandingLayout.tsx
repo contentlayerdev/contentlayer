@@ -11,7 +11,7 @@ import { SectionPosts } from '../components/landing-sections/SectionPosts'
 import { SectionPricing } from '../components/landing-sections/SectionPricing'
 import { SectionReviews } from '../components/landing-sections/SectionReviews'
 import { Layout } from '../components/Layout'
-import type { Config, Landing, Post } from '.contentlayer/types'
+import type { Config, Landing, Post } from 'contentlayer/generated'
 
 export const LandingLayout: FC<{
   landing: Landing

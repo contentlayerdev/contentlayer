@@ -3,7 +3,7 @@ import React from 'react'
 
 import { htmlToReact, Link, withPrefix } from '../../utils'
 import { BlogPostFooter } from '../BlogPostFooter'
-import type { Post, Section_posts } from '.contentlayer/types'
+import type { Post, Section_posts } from 'contentlayer/generated'
 
 export const SectionPosts: FC<{ section: Section_posts; posts: Post[] }> = ({ section, posts }) => {
   const recentPosts = posts

@@ -3,7 +3,7 @@ import React from 'react'
 
 import { htmlToReact, markdownify, withPrefix } from '../../utils'
 import { CtaButtons } from './CtaButtons'
-import type { Section_features } from '.contentlayer/types'
+import type { Section_features } from 'contentlayer/generated'
 
 export const SectionFeatures: FC<{ section: Section_features }> = ({ section, ...props }) => {
   return (

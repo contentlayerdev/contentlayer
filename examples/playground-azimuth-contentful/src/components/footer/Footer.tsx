@@ -6,7 +6,7 @@ import { ActionLink } from '../ActionLink'
 import { FooterForm } from './FooterForm'
 import { FooterNav } from './FooterNav'
 import { FooterText } from './FooterText'
-import type { Config } from '.contentlayer/types'
+import type { Config } from 'contentlayer/generated'
 
 export const Footer: FC<{ config: Config }> = ({ config }) => (
   <footer id="colophon" className="site-footer">

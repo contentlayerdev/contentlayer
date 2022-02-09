@@ -2,7 +2,7 @@ import type { FC } from 'react'
 import React from 'react'
 
 import { Link, withPrefix } from '../utils'
-import type { Action } from '.contentlayer/types'
+import type { Action } from 'contentlayer/generated'
 
 export const ActionLink: FC<{ action: Action }> = ({ action }) => (
   <Link

@@ -3,7 +3,7 @@ import React from 'react'
 
 import { markdownify } from '../../utils'
 import { FormField } from '../FormField'
-import type * as types from '.contentlayer/types'
+import type * as types from 'contentlayer/generated'
 
 export const FooterForm: FC<{ section: types.FooterForm }> = ({ section }) => (
   <section className="cell widget widget-form">

@@ -3,8 +3,8 @@ import type { FC } from 'react'
 
 import { FormattedDate } from '../../components/date'
 import { Layout } from '../../components/layout'
-import { allPosts } from '.contentlayer/data'
-import type { Post } from '.contentlayer/types'
+import { allPosts } from 'contentlayer/generated'
+import type { Post } from 'contentlayer/generated'
 const utilStyles = require('../../styles/utils.module.css')
 
 export async function getStaticPaths() {

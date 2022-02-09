@@ -7,12 +7,12 @@
 - [ ] Unified concept of `fieldOptions.typeFieldName` and `filePathPattern` to `resolveDocumentType`
   - also moves the concept of `bodyType` to `makeSource`
   - how to integrate with remark processors etc?
-- Change computed field concept
+- [ ] Change computed field concept
 - [x] Generate files to `contentlayer/generated` that links to `node_modules/.contentlayer`
 - [x] Contentlayer now passes the full MDX/MD file content (incl. frontmatter) to remark/rehype
 - [x] Generate types as part of NPM `postinstall` (closes #114)
 - [x] Improve type generation (closes #69)
-- [ ] ? MDX v2 and remove mdx-bundler
+- [x] MDX v2 (via mdx-bundler@8)
 - [ ] Validate there are no nested types with the same name
 
 ## New `.contentlayer` generation
@@ -43,7 +43,7 @@
     }
     ```
 
-  - Rename import statements from `.contentlayer/data` / `.contentlayer/types` to `contentlayer/generated`
+  - Rename import statements from `contentlayer/generated` / `contentlayer/generated` to `contentlayer/generated`
 
 - Fixes
   - Fixes https://github.com/contentlayerdev/contentlayer/issues/113

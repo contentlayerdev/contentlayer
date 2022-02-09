@@ -6,7 +6,7 @@ import { markdownify, withPrefix } from '../../utils'
 import { ActionModel } from '../Action'
 import { CtaButtons } from './CtaButtons'
 import { sectionBaseFields } from './model'
-import type * as types from '.contentlayer/types'
+import type * as types from 'contentlayer/generated'
 
 export const SectionHero: FC<{ section: types.SectionHero }> = ({ section }) => {
   return (

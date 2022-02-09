@@ -6,7 +6,7 @@ import { Layout } from '../components/Layout'
 import { SEOModel } from '../contentlayer/objects/SEO'
 import { htmlToReact, markdownify, withPrefix } from '../utils'
 import { urlFromFilePath } from '../utils/contentlayer'
-import type * as types from '.contentlayer/types'
+import type * as types from 'contentlayer/generated'
 
 export const PageLayout: FC<{
   page: types.Page

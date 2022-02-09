@@ -3,7 +3,7 @@ import React from 'react'
 
 import { Layout } from '../components/Layout'
 import { htmlToReact, markdownify, withPrefix } from '../utils'
-import type * as types from '.contentlayer/types'
+import type * as types from 'contentlayer/generated'
 
 export const PageLayout: FC<{
   page: types.Page

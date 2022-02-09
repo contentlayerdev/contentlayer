@@ -16,8 +16,12 @@
     "strict": false,
     "module": "esnext",
     "moduleResolution": "node",
-    "isolatedModules": true
+    "isolatedModules": true,
+    "baseUrl": ".",
+    "paths": {
+      "contentlayer/generated": ["./.contentlayer/generated"]
+    }
   },
-  "include": ["next-env.d.ts", "**/*.tsx", "**/*.ts", "./node_modules/.contentlayer/*", "./node_modules/@types"],
+  "include": ["next-env.d.ts", "**/*.tsx", "**/*.ts", ".contentlayer/generated"],
   "exclude": ["node_modules"]
 }

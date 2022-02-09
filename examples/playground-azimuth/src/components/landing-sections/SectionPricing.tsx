@@ -3,7 +3,7 @@ import React from 'react'
 
 import { classNames, htmlToReact, markdownify } from '../../utils'
 import { CtaButtons } from './CtaButtons'
-import type * as types from '.contentlayer/types'
+import type * as types from 'contentlayer/generated'
 
 export const SectionPricing: FC<{ section: types.SectionPricing }> = ({ section }) => (
   <section id={section.section_id} className={'block pricing-block bg-' + section.background + ' outer'}>

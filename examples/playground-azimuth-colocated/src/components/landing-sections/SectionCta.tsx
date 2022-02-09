@@ -6,7 +6,7 @@ import { htmlToReact } from '../../utils'
 import { ActionModel } from '../Action'
 import { CtaButtons } from './CtaButtons'
 import { sectionBaseFields } from './model'
-import type * as types from '.contentlayer/types'
+import type * as types from 'contentlayer/generated'
 
 export const SectionCta: FC<{ section: types.SectionCta }> = ({ section }) => (
   <section id={section.section_id} className="block cta-block bg-accent outer">
