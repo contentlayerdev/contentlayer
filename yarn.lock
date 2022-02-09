@@ -9117,7 +9117,6 @@ __metadata:
   resolution: "examples-starter-js@workspace:examples/starter-js"
   dependencies:
     contentlayer: latest
-    contentlayer-stackbit-yaml-generator: latest
     date-fns: ^2.28.0
     next: ^12.0.10
     next-contentlayer: latest

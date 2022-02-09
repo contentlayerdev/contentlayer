@@ -1,7 +1,7 @@
 0.1.0
 
 - [ ] Fix Node.js live reload bug
-- [ ] Renamed `default` to `fallback`
+- [ ] Renamed `default` to `fallback` #120
 - [ ] Moved `defineDocumentType` and `defineNestedType` from `contentlayer/source-files` to `contentlayer/schema`
   - [ ] ? In conflict with: Rename `fields` to `frontmatter`
 - [ ] Unified concept of `fieldOptions.typeFieldName` and `filePathPattern` to `resolveDocumentType`
