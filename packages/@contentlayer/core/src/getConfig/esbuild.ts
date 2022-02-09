@@ -12,10 +12,14 @@ export abstract class EsbuildWatcher {
 export type BuildResult = esbuild.BuildResult
 export type Plugin = esbuild.Plugin
 
-export type EsbuildError = UnknownEsbuildError | esbuild.BuildFailure
+export type EsbuildError = UnknownEsbuildError | KnownEsbuildError
 
 export class UnknownEsbuildError extends Tagged('UnknownEsbuildError')<{ readonly error: unknown }> {
   toString = () => `UnknownEsbuildError: ${errorToString(this.error)}`
+}
+
+export class KnownEsbuildError extends Tagged('KnownEsbuildError')<{ readonly error: esbuild.BuildFailure }> {
+  toString = () => `KnownEsbuildError: ${JSON.stringify(this.error, null, 2)}`
 }
 
 class ConcreteEsbuildWatcher implements EsbuildWatcher {
@@ -51,7 +55,7 @@ class ConcreteEsbuildWatcher implements EsbuildWatcher {
           watch: {
             onRebuild: (error, result) => {
               if (error) {
-                T.run(H.publish_(this.fsEventsHub, Ex.succeed(E.left(error))))
+                T.run(H.publish_(this.fsEventsHub, Ex.succeed(E.left(new KnownEsbuildError({ error })))))
               } else {
                 T.run(H.publish_(this.fsEventsHub, Ex.succeed(E.right(result!))))
               }

@@ -10,6 +10,7 @@
 - Change computed field concept
 - [x] Generate files to `contentlayer/generated` that links to `node_modules/.contentlayer`
 - [x] Contentlayer now passes the full MDX/MD file content (incl. frontmatter) to remark/rehype
+- [x] Generate types as part of NPM `postinstall` (closes #114)
 - [ ] ? MDX v2 and remove mdx-bundler
 - [ ] Validate there are no nested types with the same name
 

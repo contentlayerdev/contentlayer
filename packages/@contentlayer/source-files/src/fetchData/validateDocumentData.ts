@@ -6,7 +6,8 @@ import { fs } from '@contentlayer/utils/node'
 import minimatch from 'minimatch'
 
 import { FetchDataError } from '../errors/index.js'
-import type { FilePathPatternMap } from '../index.js'
+import type { DocumentBodyType, FilePathPatternMap } from '../index.js'
+import type { BodyTypeMap } from '../types.js'
 import type { HasDocumentTypeMapState } from './DocumentTypeMap.js'
 import { DocumentTypeMapState } from './DocumentTypeMap.js'
 import type { RawContent } from './types.js'
@@ -18,6 +19,7 @@ type ValidateDocumentDataError =
   | FetchDataError.ExtraFieldDataError
   | FetchDataError.ReferencedFileDoesNotExistError
   | FetchDataError.IncompatibleFieldDataError
+  | FetchDataError.FileExtensionMismatch
 
 export const validateDocumentData = ({
   coreSchemaDef,
@@ -26,6 +28,7 @@ export const validateDocumentData = ({
   filePathPatternMap,
   options,
   contentDirPath,
+  bodyTypeMap,
 }: {
   coreSchemaDef: core.SchemaDef
   rawContent: RawContent
@@ -34,6 +37,7 @@ export const validateDocumentData = ({
   filePathPatternMap: FilePathPatternMap
   options: core.PluginOptions
   contentDirPath: PosixFilePath
+  bodyTypeMap: BodyTypeMap
 }): T.Effect<
   HasDocumentTypeMapState & OT.HasTracer,
   never,
@@ -62,6 +66,10 @@ export const validateDocumentData = ({
           }),
         )
       }
+
+      const bodyType = bodyTypeMap[documentTypeDef.name]!
+      const mismatchError = validateBodyTypeMatchesFileExtension({ bodyType, relativeFilePath })
+      if (mismatchError) return These.fail(mismatchError)
 
       yield* $(DocumentTypeMapState.update((_) => _.add(documentDefName, relativeFilePath)))
 
@@ -222,3 +230,18 @@ const validateFieldData = ({
         return O.none
     }
   })['|>'](T.orDie)
+
+const validateBodyTypeMatchesFileExtension = ({
+  bodyType,
+  relativeFilePath,
+}: {
+  bodyType: DocumentBodyType
+  relativeFilePath: PosixFilePath
+}) => {
+  const extension = relativeFilePath.toLowerCase().split('.').pop()!
+  if ((bodyType === 'markdown' && extension !== 'md') || (bodyType === 'mdx' && extension !== 'mdx')) {
+    return new FetchDataError.FileExtensionMismatch({ bodyType, extension, filePath: relativeFilePath })
+  }
+
+  return undefined
+}

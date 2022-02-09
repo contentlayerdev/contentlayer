@@ -1,8 +1,9 @@
 import type * as core from '@contentlayer/core'
 import type { PosixFilePath } from '@contentlayer/utils'
-import { errorToString } from '@contentlayer/utils'
+import { assertNever, errorToString, pattern } from '@contentlayer/utils'
 import { Tagged } from '@contentlayer/utils/effect'
 
+import type { DocumentBodyType } from '../index.js'
 import { handleFetchDataErrors } from './aggregate.js'
 
 export namespace FetchDataError {
@@ -13,6 +14,7 @@ export namespace FetchDataError {
     | InvalidJsonFileError
     | ComputedValueError
     | UnsupportedFileExtension
+    | FileExtensionMismatch
     | NoSuchDocumentTypeError
     | NoSuchNestedDocumentTypeError
     | CouldNotDetermineDocumentTypeError
@@ -26,7 +28,7 @@ export namespace FetchDataError {
   interface AggregatableError {
     renderHeadline: RenderHeadline
     renderLine: () => string
-    kind: AggregatableErrorKind
+    category: AggregatableErrorCategory
   }
 
   export const handleErrors = handleFetchDataErrors
@@ -42,12 +44,14 @@ export namespace FetchDataError {
     contentDirPath: PosixFilePath
   }) => string
 
-  type AggregatableErrorKind =
+  /** This error category is used in order to let users configure the error handling (e.g. warn, ignore, fail) */
+  type AggregatableErrorCategory =
     | 'UnknownDocument'
     | 'ExtraFieldData'
     | 'IncompatibleFieldData'
     | 'MissingOrIncompatibleData'
     | 'Unexpected'
+    // TODO maybe "unify" this with another error category?
     | 'SingletonDocumentNotFound'
 
   export class InvalidFrontmatterError
@@ -57,7 +61,7 @@ export namespace FetchDataError {
     }>
     implements AggregatableError
   {
-    kind: AggregatableErrorKind = 'MissingOrIncompatibleData'
+    category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
 
     renderHeadline: RenderHeadline = ({ errorCount }) => `Invalid frontmatter data found for ${errorCount} documents.`
 
@@ -71,7 +75,7 @@ export namespace FetchDataError {
     }>
     implements AggregatableError
   {
-    kind: AggregatableErrorKind = 'MissingOrIncompatibleData'
+    category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
 
     renderHeadline: RenderHeadline = ({ errorCount }) => `Invalid markdown in ${errorCount} documents.`
 
@@ -85,7 +89,7 @@ export namespace FetchDataError {
     }>
     implements AggregatableError
   {
-    kind: AggregatableErrorKind = 'MissingOrIncompatibleData'
+    category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
 
     renderHeadline: RenderHeadline = ({ errorCount }) => `Invalid YAML data in ${errorCount} documents.`
 
@@ -99,7 +103,7 @@ export namespace FetchDataError {
     }>
     implements AggregatableError
   {
-    kind: AggregatableErrorKind = 'MissingOrIncompatibleData'
+    category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
 
     renderHeadline: RenderHeadline = ({ errorCount }) => `Invalid JSON data in ${errorCount} documents.`
 
@@ -113,7 +117,7 @@ export namespace FetchDataError {
     }>
     implements AggregatableError
   {
-    kind: AggregatableErrorKind = 'MissingOrIncompatibleData'
+    category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
 
     renderHeadline: RenderHeadline = ({ errorCount }) =>
       `Error during computed field exection for ${errorCount} documents.`
@@ -128,10 +132,34 @@ export namespace FetchDataError {
     }>
     implements AggregatableError
   {
-    kind: AggregatableErrorKind = 'MissingOrIncompatibleData'
+    category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
     renderHeadline: RenderHeadline = ({ errorCount }) => `Found unsupported file extensions for ${errorCount} documents`
 
     renderLine = () => `"${this.filePath}" uses "${this.extension}"`
+  }
+
+  export class FileExtensionMismatch
+    extends Tagged('FileExtensionMismatch')<{
+      readonly extension: string
+      readonly bodyType: DocumentBodyType
+      readonly filePath: string
+    }>
+    implements AggregatableError
+  {
+    category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
+    renderHeadline: RenderHeadline = ({ errorCount }) =>
+      `File extension didn't match \`bodyType\` for ${errorCount} documents`
+
+    renderLine = () => {
+      const expectedFileExtension = pattern
+        .match(this.bodyType)
+        .with('markdown', () => 'md')
+        .with('mdx', () => 'mdx')
+        .with('none', () => assertNever(this.bodyType))
+        .exhaustive()
+
+      return `"${this.filePath}" ends with "${this.extension}" but expected "${expectedFileExtension}" as \`bodyType\` is "${this.bodyType}"`
+    }
   }
 
   export class CouldNotDetermineDocumentTypeError
@@ -141,7 +169,7 @@ export namespace FetchDataError {
     }>
     implements AggregatableError
   {
-    kind: AggregatableErrorKind = 'UnknownDocument'
+    category: AggregatableErrorCategory = 'UnknownDocument'
     renderHeadline: RenderHeadline = ({ errorCount, options, schemaDef }) => {
       const validTypeNames = Object.keys(schemaDef.documentTypeDefMap).join(', ')
       return `\
@@ -162,7 +190,7 @@ one of the following document type names: ${validTypeNames}).`
     }>
     implements AggregatableError
   {
-    kind: AggregatableErrorKind = 'MissingOrIncompatibleData'
+    category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
     renderHeadline: RenderHeadline = ({ errorCount, schemaDef }) => {
       const validTypeNames = Object.keys(schemaDef.documentTypeDefMap).join(', ')
       return `\
@@ -184,7 +212,7 @@ Please use one of the following document type names: ${validTypeNames}.\
     }>
     implements AggregatableError
   {
-    kind: AggregatableErrorKind = 'MissingOrIncompatibleData'
+    category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
     renderHeadline: RenderHeadline = ({ errorCount }) => {
       return `\
 Couldn't find nested document type definitions provided by name for ${errorCount} documents.\
@@ -205,7 +233,7 @@ Couldn't find nested document type definitions provided by name for ${errorCount
     }>
     implements AggregatableError
   {
-    kind: AggregatableErrorKind = 'MissingOrIncompatibleData'
+    category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
 
     renderHeadline: RenderHeadline = ({ errorCount }) => `Missing required fields for ${errorCount} documents`
 
@@ -229,7 +257,7 @@ ${misingRequiredFieldsStr}\
     }>
     implements AggregatableError
   {
-    kind: AggregatableErrorKind = 'ExtraFieldData'
+    category: AggregatableErrorCategory = 'ExtraFieldData'
 
     renderHeadline: RenderHeadline = ({ errorCount }) => `\
   ${errorCount} documents contain field data which isn't defined in the document type definition`
@@ -252,7 +280,7 @@ ${extraFields} `
     }>
     implements AggregatableError
   {
-    kind: AggregatableErrorKind = 'IncompatibleFieldData'
+    category: AggregatableErrorCategory = 'IncompatibleFieldData'
 
     renderHeadline: RenderHeadline = ({ errorCount, contentDirPath }) => `\
 ${errorCount} documents contain file references which don't exist (file paths have to be relative to \`contentDirPath\`: "${contentDirPath}")`
@@ -270,7 +298,7 @@ ${errorCount} documents contain file references which don't exist (file paths ha
     }>
     implements AggregatableError
   {
-    kind: AggregatableErrorKind = 'IncompatibleFieldData'
+    category: AggregatableErrorCategory = 'IncompatibleFieldData'
 
     renderHeadline: RenderHeadline = ({ errorCount }) => `\
 ${errorCount} documents contain field data which didn't match the structure defined in the document type definition`
@@ -291,7 +319,7 @@ ${incompatibleFields} `
     }>
     implements AggregatableError
   {
-    kind: AggregatableErrorKind = 'SingletonDocumentNotFound'
+    category: AggregatableErrorCategory = 'SingletonDocumentNotFound'
 
     renderHeadline: RenderHeadline = ({ errorCount }) => `\
 Couldn't find a document for ${errorCount} singleton document types`
@@ -309,7 +337,7 @@ Couldn't find a document for ${errorCount} singleton document types`
     }>
     implements AggregatableError
   {
-    kind: AggregatableErrorKind = 'Unexpected'
+    category: AggregatableErrorCategory = 'Unexpected'
 
     renderHeadline: RenderHeadline = ({ errorCount }) => `\
 Encountered unexpected errors while processing of ${errorCount} documents. \

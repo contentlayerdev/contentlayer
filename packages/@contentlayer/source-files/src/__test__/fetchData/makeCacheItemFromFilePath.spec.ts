@@ -26,6 +26,22 @@ test('a.md: hello world should work', async (t) => {
   }
 })
 
+test('a.md: file extension - bodyType mismatch', async (t) => {
+  const TestPost = defineDocumentType(() => ({
+    name: 'TestPost',
+    filePathPattern: `**/*.md`,
+    bodyType: 'mdx',
+    fields: {},
+  }))
+
+  const { result } = await runTest({ documentTypes: [TestPost], contentDirPath, relativeFilePath: 'a.md' })
+
+  t.is(result._tag, 'Left')
+  if (E.isLeft(result)) {
+    t.is(result.left._tag, 'FileExtensionMismatch')
+  }
+})
+
 test('b.md: missing required field: list of strings', async (t) => {
   const TestPost = defineDocumentType(() => ({
     name: 'TestPost',

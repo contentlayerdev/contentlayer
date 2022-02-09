@@ -25,7 +25,7 @@ export const handleFetchDataErrors = ({
   verbose?: boolean
 }): T.Effect<HasConsole, core.HandledFetchDataError, void> =>
   T.gen(function* ($) {
-    const filteredErrors = filterErrorsByFlags({ errors, flags })
+    const filteredErrors = filterIgnoredErrorsByFlags({ errors, flags })
 
     if (filteredErrors.length === 0) return
 
@@ -65,7 +65,7 @@ export const testOnly_aggregateFetchDataErrors = ({
   contentDirPath: PosixFilePath
   verbose?: boolean
 }): string | null => {
-  const filteredErrors = filterErrorsByFlags({ errors, flags })
+  const filteredErrors = filterIgnoredErrorsByFlags({ errors, flags })
 
   if (filteredErrors.length === 0) return null
 
@@ -145,26 +145,26 @@ const failOrSkip = ({
   errors: readonly FetchDataError.FetchDataError[]
   flags: Flags
 }): 'fail' | 'skip' => {
-  if (errors.some((_) => _.kind === 'ExtraFieldData') && flags.onExtraFieldData === 'fail') {
+  if (errors.some((_) => _.category === 'ExtraFieldData') && flags.onExtraFieldData === 'fail') {
     return 'fail'
   }
 
-  if (errors.some((_) => _.kind === 'UnknownDocument') && flags.onUnknownDocuments === 'fail') {
+  if (errors.some((_) => _.category === 'UnknownDocument') && flags.onUnknownDocuments === 'fail') {
     return 'fail'
   }
 
-  if (errors.some((_) => _.kind === 'MissingOrIncompatibleData') && flags.onMissingOrIncompatibleData === 'fail') {
+  if (errors.some((_) => _.category === 'MissingOrIncompatibleData') && flags.onMissingOrIncompatibleData === 'fail') {
     return 'fail'
   }
 
-  if (errors.some((_) => _.kind === 'SingletonDocumentNotFound')) {
+  if (errors.some((_) => _.category === 'SingletonDocumentNotFound')) {
     return 'fail'
   }
 
-  return errors.some((_) => _.kind === 'Unexpected') ? 'fail' : 'skip'
+  return errors.some((_) => _.category === 'Unexpected') ? 'fail' : 'skip'
 }
 
-const filterErrorsByFlags = ({
+const filterIgnoredErrorsByFlags = ({
   errors,
   flags,
 }: {
@@ -172,8 +172,8 @@ const filterErrorsByFlags = ({
   flags: Flags
 }): readonly FetchDataError.FetchDataError[] =>
   errors.filter((e) => {
-    if (e.kind === 'ExtraFieldData' && flags.onExtraFieldData === 'ignore') return false
-    if (e.kind === 'UnknownDocument' && flags.onUnknownDocuments === 'skip-ignore') return false
-    if (e.kind === 'MissingOrIncompatibleData' && flags.onMissingOrIncompatibleData === 'skip-ignore') return false
+    if (e.category === 'ExtraFieldData' && flags.onExtraFieldData === 'ignore') return false
+    if (e.category === 'UnknownDocument' && flags.onUnknownDocuments === 'skip-ignore') return false
+    if (e.category === 'MissingOrIncompatibleData' && flags.onMissingOrIncompatibleData === 'skip-ignore') return false
     return true
   })

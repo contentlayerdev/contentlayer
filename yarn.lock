@@ -1703,10 +1703,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@contentlayer/utils@workspace:packages/@contentlayer/utils"
   dependencies:
-    "@effect-ts/core": ^0.54.9
-    "@effect-ts/otel": ^0.11.6
-    "@effect-ts/otel-exporter-trace-otlp-grpc": ^0.11.6
-    "@effect-ts/otel-sdk-trace-node": ^0.11.6
+    "@effect-ts/core": ^0.55.2
+    "@effect-ts/otel": ^0.12.0
+    "@effect-ts/otel-exporter-trace-otlp-grpc": ^0.12.0
+    "@effect-ts/otel-sdk-trace-node": ^0.12.0
     "@opentelemetry/api": ^1.0.3
     "@opentelemetry/core": ^1.0.0
     "@opentelemetry/exporter-trace-otlp-grpc": ^0.27.0
@@ -1747,68 +1747,68 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@effect-ts/core@npm:^0.54.9":
-  version: 0.54.9
-  resolution: "@effect-ts/core@npm:0.54.9"
+"@effect-ts/core@npm:^0.55.2":
+  version: 0.55.2
+  resolution: "@effect-ts/core@npm:0.55.2"
   dependencies:
-    "@effect-ts/system": ^0.51.6
-  checksum: 2735e1ae4d69c636431957cee517ca68683713322a93769116fb6ca88d20bff0f1aa4de8104ba74abe86858da7b454b56924272455bff6e847e55f295b630c3e
+    "@effect-ts/system": ^0.52.2
+  checksum: 956e504bcdcac6e8a4f0377679c92fe905c71b3acf72b13bd5957a16f73070fa12038a091e63ecd43b2861c6651ada520743f1e4e69d38287a8689231e34cfaa
   languageName: node
   linkType: hard
 
-"@effect-ts/otel-exporter-trace-otlp-grpc@npm:^0.11.6":
-  version: 0.11.6
-  resolution: "@effect-ts/otel-exporter-trace-otlp-grpc@npm:0.11.6"
+"@effect-ts/otel-exporter-trace-otlp-grpc@npm:^0.12.0":
+  version: 0.12.0
+  resolution: "@effect-ts/otel-exporter-trace-otlp-grpc@npm:0.12.0"
   dependencies:
-    "@effect-ts/otel": ^0.11.6
+    "@effect-ts/otel": ^0.12.0
   peerDependencies:
-    "@effect-ts/core": ^0.53.0
+    "@effect-ts/core": ^0.55.0
     "@opentelemetry/api": ^1.0.0
     "@opentelemetry/core": ^1.0.0
     "@opentelemetry/exporter-trace-otlp-grpc": ^0.27.0
     "@opentelemetry/sdk-trace-base": ^1.0.0
-  checksum: 2d3b497c485a19aee41af1b984638c957579525586fb3616793ec888b5697fff7ba73423e48722bb43b258a51d7261e6a6fb29a768602a056f8e440adf7a0e1b
+  checksum: 140857f7a81848a4939ebfa1d65058017cbed38b08dbd7ed400120c586f4df5b94510bfa7c322499d485b41f4ac647a406c268c8f39db28502222471bcb45522
   languageName: node
   linkType: hard
 
-"@effect-ts/otel-sdk-trace-node@npm:^0.11.6":
-  version: 0.11.6
-  resolution: "@effect-ts/otel-sdk-trace-node@npm:0.11.6"
+"@effect-ts/otel-sdk-trace-node@npm:^0.12.0":
+  version: 0.12.0
+  resolution: "@effect-ts/otel-sdk-trace-node@npm:0.12.0"
   dependencies:
-    "@effect-ts/otel": ^0.11.6
+    "@effect-ts/otel": ^0.12.0
   peerDependencies:
-    "@effect-ts/core": ^0.53.0
+    "@effect-ts/core": ^0.55.0
     "@opentelemetry/api": ^1.0.0
     "@opentelemetry/core": ^1.0.0
     "@opentelemetry/sdk-trace-base": ^1.0.0
     "@opentelemetry/sdk-trace-node": ^1.0.0
-  checksum: 5d3c205577137ac70633bbf7e0f28e434ed128b12930426687d3c8f3d0a15d18ac856429a4e5adbfd8dfa143a4f898721c79c66d6e41049aadecdfbbf42ea89a
+  checksum: 3b552fe4ecd343cfe24fb06c21d046fd42f847197ea8b39c3ad4bc94fd5601c972ec7e9971358a42c369921173fe5d3d7c7da2aaf08267ce017824a2b561c5f5
   languageName: node
   linkType: hard
 
-"@effect-ts/otel@npm:^0.11.6":
-  version: 0.11.6
-  resolution: "@effect-ts/otel@npm:0.11.6"
+"@effect-ts/otel@npm:^0.12.0":
+  version: 0.12.0
+  resolution: "@effect-ts/otel@npm:0.12.0"
   peerDependencies:
-    "@effect-ts/core": ^0.53.0
+    "@effect-ts/core": ^0.55.0
     "@opentelemetry/api": ^1.0.0
     "@opentelemetry/core": ^1.0.0
     "@opentelemetry/sdk-trace-base": ^1.0.1
-  checksum: 38a30ec2ffb96b6aff18fe90ed7c783c10e5994d2bb1e197ec1769d00b2ac8305513f7affee93d6189623c8f658e8b78894ea32c305ac22bf2e6b75668364469
+  checksum: 39adea91f459267e7b2ac71f1a41a6cdcaa1a66cfe98c25b9a9b82204f089d2036eb84d104a6a1026f0a9ef91802b7a3ccf358827b925ad38f18ba2efd19e7d4
   languageName: node
   linkType: hard
 
-"@effect-ts/system@npm:^0.51.6":
-  version: 0.51.6
-  resolution: "@effect-ts/system@npm:0.51.6"
-  checksum: 8ccb1dd1629d51ee8a918f029bdb8574ef2611679a667142a7393ba4bcbf4d8245a4ca9ff389e9fb20c7b68f644dc17e6f843880f46e2944c07a2fd64e595a8b
+"@effect-ts/system@npm:^0.52.2":
+  version: 0.52.2
+  resolution: "@effect-ts/system@npm:0.52.2"
+  checksum: 9f482a9e5c2936140886806ba9da056968d711b6334b481429b55d43f755ca948695e6c612cd8a03141a09940e64ced716eedb70c974a4ddab169e533823cfb4
   languageName: node
   linkType: hard
 
-"@effect-ts/tracing-plugin@npm:^0.17.0":
-  version: 0.17.0
-  resolution: "@effect-ts/tracing-plugin@npm:0.17.0"
-  checksum: f102d627ea11fdc369c99e6c03f2504fbe22585978131577d9dd67f77aa489359c66ea1709e1fa7e60bb1af41463dd90f8946ad54b46aaa2e541870e4e6f0e38
+"@effect-ts/tracing-plugin@npm:^0.18.0":
+  version: 0.18.0
+  resolution: "@effect-ts/tracing-plugin@npm:0.18.0"
+  checksum: 289a2e0085bd116a3fc5fa0b346aef56b87b49b931c8286183b2f7e7817a43e436a7baa944b79849afd39a6208d211842e4a366043efb2e09f345f85e15034af
   languageName: node
   linkType: hard
 
@@ -6743,7 +6743,7 @@ __metadata:
   resolution: "contentlayer-monorepo@workspace:."
   dependencies:
     "@changesets/cli": 2.19.0-temp.0
-    "@effect-ts/tracing-plugin": ^0.17.0
+    "@effect-ts/tracing-plugin": ^0.18.0
     "@types/prettier": ^2.3.2
     "@typescript-eslint/eslint-plugin": ^4.33.0
     "@typescript-eslint/parser": ^4.33.0
@@ -9134,7 +9134,6 @@ __metadata:
     "@types/react": ^17.0.21
     "@types/react-dom": ^17.0.9
     contentlayer: latest
-    contentlayer-stackbit-yaml-generator: latest
     date-fns: ^2.28.0
     next: ^12.0.10
     next-contentlayer: latest

@@ -4,6 +4,7 @@ import { T, tag } from '@contentlayer/utils/effect'
 
 import type { RawContent } from './types.js'
 
+/** `DocumentContext` is meant as a "container object" that provides useful information when processing a document */
 export interface DocumentContext {
   readonly rawContent: RawContent
   readonly relativeFilePath: PosixFilePath
