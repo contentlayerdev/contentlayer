@@ -38,6 +38,7 @@ export const withContentlayer =
         }
 
         // NOTE workaround for https://github.com/vercel/next.js/issues/17806#issuecomment-913437792
+        // https://github.com/contentlayerdev/contentlayer/issues/121
         config.module.rules.push({
           test: /\.m?js$/,
           type: 'javascript/auto',
