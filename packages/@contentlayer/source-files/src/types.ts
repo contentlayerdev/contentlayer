@@ -11,8 +11,10 @@ export type BodyTypeMap = Record<DocumentDefName, DocumentBodyType | undefined>
 export type LocalDocument = Record<string, any> & { _raw: RawDocumentData; _id: string }
 
 export type RawDocumentData = {
+  /** Relative to `contentDirPath` */
   sourceFilePath: string
   sourceFileName: string
+  /** Relative to `contentDirPath` */
   sourceFileDir: string
   bodyType: DocumentBodyType
   /** A path e.g. useful as URL paths based on `sourceFilePath` with file extension removed and `/index` removed. */
