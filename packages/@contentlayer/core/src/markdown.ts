@@ -2,6 +2,7 @@ import { errorToString } from '@contentlayer/utils'
 import type { HasConsole } from '@contentlayer/utils/effect'
 import { OT, pipe, T, Tagged } from '@contentlayer/utils/effect'
 import rehypeStringify from 'rehype-stringify'
+import remarkFrontmatter from 'remark-frontmatter'
 import remarkParse from 'remark-parse'
 import remark2rehype from 'remark-rehype'
 import { unified } from 'unified'
@@ -32,8 +33,13 @@ export const markdownToHtml = ({
         )
       }
 
+      const builder = unified()
+
+      // parses out the frontmatter (which is needed for full-document parsing)
+      builder.use(remarkFrontmatter)
+
       // parse markdown
-      const builder = unified().use(remarkParse as any)
+      builder.use(remarkParse as any)
 
       if (options?.remarkPlugins) {
         builder.use(options.remarkPlugins)

@@ -1629,6 +1629,7 @@ __metadata:
     markdown-wasm: ^1.2.0
     mdx-bundler: ^8.0.1
     rehype-stringify: ^9.0.2
+    remark-frontmatter: ^4.0.1
     remark-parse: ^10.0.1
     remark-rehype: ^10.0.1
     source-map-support: ^0.5.21

@@ -1,5 +1,6 @@
 0.1.0
 
+- [ ] Change `bodyType` to `fileType`
 - [ ] Fix Node.js live reload bug
 - [ ] Renamed `default` to `fallback` #120
 - [ ] Moved `defineDocumentType` and `defineNestedType` from `contentlayer/source-files` to `contentlayer/schema`

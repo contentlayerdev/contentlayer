@@ -32,6 +32,7 @@ export type FieldOptions = {
    * @default "body"
    */
   bodyFieldName?: string
+
   /**
    * Name of the field containing the name of the document type (or nested document type).
    * @default "type"

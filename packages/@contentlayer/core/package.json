@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/core",
-  "version": "0.0.35-dev.3",
+  "version": "0.0.35-dev.4",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -36,6 +36,7 @@
     "gray-matter": "^4.0.3",
     "mdx-bundler": "^8.0.1",
     "rehype-stringify": "^9.0.2",
+    "remark-frontmatter": "^4.0.1",
     "remark-parse": "^10.0.1",
     "remark-rehype": "^10.0.1",
     "source-map-support": "^0.5.21",
