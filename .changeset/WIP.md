@@ -14,6 +14,7 @@
 - [x] Generate types as part of NPM `postinstall` (closes #114)
 - [x] Improve type generation (closes #69)
 - [x] MDX v2 (via mdx-bundler@8)
+- [x] Improved error handling when `bodyType` and file extension doesn't match (e.g. `bodyType: 'mdx'` and a `.md` file)
 - [ ] Validate there are no nested types with the same name
 
 ## New `.contentlayer` generation
