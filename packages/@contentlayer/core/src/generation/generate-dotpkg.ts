@@ -192,7 +192,7 @@ const makePackageJson = (schemaHash: string): string => {
     version: `0.0.0-${schemaHash}`,
     exports: {
       './generated': {
-        import: './data/generated.mjs',
+        import: './generated/index.mjs',
       },
     },
     typesVersions: {
