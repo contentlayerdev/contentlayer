@@ -2,6 +2,6 @@
 	path = examples/gatsby-docs/gatsby
 	url = https://github.com/gatsbyjs/gatsby.git
 	
-[submodule "examples/mdx"]
-	path = examples/mdx
+[submodule "examples/next-contentlayer-example"]
+	path = examples/next-contentlayer-example
 	url = git@github.com:contentlayerdev/next-contentlayer-example.git
