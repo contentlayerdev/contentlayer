@@ -4,7 +4,8 @@
     "**/.next": true,
     "**/*.tsbuildinfo": true,
     "**/dist": true,
-    "**/.pnp.*": true
+    "**/.pnp.*": true,
+    "examples/gatsby-docs/gatsby": true
   },
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {

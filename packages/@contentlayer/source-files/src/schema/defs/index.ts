@@ -10,7 +10,7 @@ export type SchemaDef = {
   documentTypeDefs: DocumentTypeDef[]
 }
 
-export type DocumentBodyType = 'markdown' | 'mdx' | 'none'
+export type DocumentContentType = 'markdown' | 'mdx' | 'data'
 
 export type TypeExtensions<DefName extends string = string> = {
   stackbit?: core.StackbitExtension.TypeExtension<DefName>
@@ -39,7 +39,7 @@ export type DocumentTypeDef<DefName extends string = string> = {
    *
    * Choose `none` e.g. for a `.json` or `.yaml` file
    */
-  bodyType?: DocumentBodyType
+  contentType?: DocumentContentType
 
   isSingleton?: boolean
 

@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom'
 const getMDXComponent = (code: string, globals: Record<string, unknown> = {}): React.ComponentType<any> => {
   const scope = { React, ReactDOM, _jsx_runtime, ...globals }
   const fn = new Function(...Object.keys(scope), code)
-  return fn(...Object.values(scope))
+  return fn(...Object.values(scope)).default
 }
 
 export const useMDXComponent = (code: string, globals: Record<string, unknown> = {}): React.ComponentType<any> => {

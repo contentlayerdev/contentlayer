@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet'
 import { withPrefix } from '../utils'
 import { Footer } from './footer/Footer'
 import { Header } from './Header'
-import type { Blog, Config, Landing, Page, Post } from '.contentlayer/types'
+import type { Blog, Config, Landing, Page, Post } from 'contentlayer/generated'
 
 export const Layout: FC<{
   doc: Blog | Page | Landing | Post

@@ -7,7 +7,7 @@ import { Layout } from '../components/Layout'
 import { SEOModel } from '../contentlayer/objects/SEO'
 import { Link, withPrefix } from '../utils'
 import { urlFromFilePath } from '../utils/contentlayer'
-import type * as types from '.contentlayer/types'
+import type * as types from 'contentlayer/generated'
 
 export const BlogLayout: FC<{ blog: types.Blog; config: types.Config; posts: types.Post[] }> = ({
   blog,

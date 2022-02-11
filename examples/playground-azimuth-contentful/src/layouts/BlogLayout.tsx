@@ -1,11 +1,11 @@
-// import { blog, post, config } from '.contentlayer/types'
+// import { blog, post, config } from 'contentlayer/generated'
 import type { FC } from 'react'
 import React from 'react'
 
 import { BlogPostFooter } from '../components/BlogPostFooter'
 import { Layout } from '../components/Layout'
 import { Link, withPrefix } from '../utils'
-import type { Blog, Config, Post } from '.contentlayer/types'
+import type { Blog, Config, Post } from 'contentlayer/generated'
 
 export const BlogLayout: FC<{ blog: Blog; config: Config; posts: Post[] }> = ({ blog, config, posts }) => (
   <Layout doc={blog} config={config}>

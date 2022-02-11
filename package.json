@@ -16,6 +16,7 @@
     "examples:postinstall": "yarn workspaces foreach --verbose --include \"examples-*\" exec yarn contentlayer postinstall",
     "release:prerelease": "yarn build && yarn workspaces foreach --verbose --topological-dev --no-private exec npm version prerelease --preid=dev && yarn workspaces foreach --verbose --topological-dev --parallel --no-private npm publish --tolerate-republish --tag=dev",
     "release:patch": "yarn build && yarn workspaces foreach --verbose --topological-dev --no-private exec npm version patch && yarn workspaces foreach --verbose --topological-dev --parallel --no-private npm publish --tolerate-republish",
+    "release:minor": "yarn build && yarn workspaces foreach --verbose --topological-dev --no-private exec npm version minor && yarn workspaces foreach --verbose --topological-dev --parallel --no-private npm publish --tolerate-republish",
     "lint:check": "run lint:eslint:check && run lint:prettier:check",
     "lint:fix": "run lint:eslint:fix & run lint:prettier:fix",
     "lint:eslint:fix": "eslint packages --ext .ts --fix",
@@ -25,7 +26,7 @@
   },
   "devDependencies": {
     "@changesets/cli": "2.19.0-temp.0",
-    "@effect-ts/tracing-plugin": "^0.17.0",
+    "@effect-ts/tracing-plugin": "^0.18.0",
     "@types/prettier": "^2.3.2",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
@@ -46,5 +47,5 @@
     "next-contentlayer": "workspace:*",
     "rxjs": "^7.1.0"
   },
-  "packageManager": "yarn@3.0.2"
+  "packageManager": "yarn@3.1.1"
 }

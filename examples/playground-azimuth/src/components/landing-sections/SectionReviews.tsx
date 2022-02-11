@@ -2,7 +2,7 @@ import type { FC } from 'react'
 import React from 'react'
 
 import { htmlToReact, withPrefix } from '../../utils'
-import type * as types from '.contentlayer/types'
+import type * as types from 'contentlayer/generated'
 
 export const SectionReviews: FC<{ section: types.SectionReviews }> = ({ section }) => (
   <section id={section.section_id} className={'block reviews-block bg-' + section.background + ' outer'}>

@@ -4,7 +4,7 @@ import React from 'react'
 import { BlogPostFooter } from '../components/BlogPostFooter'
 import { Layout } from '../components/Layout'
 import { htmlToReact, withPrefix } from '../utils'
-import type * as types from '.contentlayer/types'
+import type * as types from 'contentlayer/generated'
 
 export const PostLayout: FC<{
   post: types.Post

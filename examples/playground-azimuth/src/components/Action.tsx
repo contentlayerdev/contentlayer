@@ -3,7 +3,7 @@ import React from 'react'
 
 import { classNames, Link, withPrefix } from '../utils'
 import { Icon } from './Icon'
-import type * as types from '.contentlayer/types'
+import type * as types from 'contentlayer/generated'
 
 export const Action: FC<{ action: types.Action }> = ({ action }) => (
   <Link

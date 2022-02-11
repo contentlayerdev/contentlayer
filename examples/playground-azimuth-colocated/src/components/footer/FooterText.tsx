@@ -2,7 +2,7 @@ import type { FC } from 'react'
 import React from 'react'
 
 import { Link, markdownify, withPrefix } from '../../utils'
-import type * as types from '.contentlayer/types'
+import type * as types from 'contentlayer/generated'
 
 export const FooterText: FC<{ section: types.FooterText }> = ({ section }) => (
   <section className="cell widget widget-text">

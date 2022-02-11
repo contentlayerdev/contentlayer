@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "gen:stackbit": "contentlayer-stackbit-yaml-generator"
+    "start": "next start"
   },
   "dependencies": {
     "date-fns": "^2.28.0",
@@ -16,7 +15,6 @@
   },
   "devDependencies": {
     "contentlayer": "latest",
-    "contentlayer-stackbit-yaml-generator": "latest",
     "next-contentlayer": "latest",
     "rehype-highlight": "^5.0.0"
   }

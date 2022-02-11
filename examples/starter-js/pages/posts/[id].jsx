@@ -2,7 +2,7 @@ import Head from 'next/head'
 
 import { FormattedDate } from '../../components/date'
 import { Layout } from '../../components/layout'
-import { allPosts } from '.contentlayer/data'
+import { allPosts } from 'contentlayer/generated'
 const utilStyles = require('../../styles/utils.module.css')
 
 export async function getStaticPaths() {

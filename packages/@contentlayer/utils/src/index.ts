@@ -75,3 +75,7 @@ export const unwrapThunk = <T>(_: T | (() => T)): T => {
 export class RawError extends Tagged('RawError')<{ readonly error: unknown }> {}
 
 export const isReadonlyArray = <T>(_: any): _ is ReadonlyArray<T> => Array.isArray(_)
+
+export const assertNever = (_: any): never => {
+  throw new Error(`assertNever: This should never happen ${JSON.stringify(_)}`)
+}

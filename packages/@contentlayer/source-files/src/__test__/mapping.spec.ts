@@ -4,6 +4,8 @@ import type { HasClock, HasConsole, OT } from '@contentlayer/utils/effect'
 import { pipe, provideConsole, T } from '@contentlayer/utils/effect'
 import test from 'ava'
 
+import type { HasDocumentContext } from '../fetchData/DocumentContext.js'
+import { provideDocumentContext } from '../fetchData/DocumentContext.js'
 import { getFlattenedPath, testOnly_getDataForFieldDef as getDataForFieldDef } from '../fetchData/mapping.js'
 
 test('getFlattenedPath', async (t) => {
@@ -66,5 +68,10 @@ test('getDataForFieldDef', async (t) => {
   })
 })
 
-const runPromise = (eff: T.Effect<OT.HasTracer & HasClock & HasConsole, unknown, any>) =>
-  pipe(eff, T.provide(DummyTracing), provideConsole, T.runPromise)
+const runPromise = (eff: T.Effect<OT.HasTracer & HasClock & HasConsole & HasDocumentContext, unknown, any>) =>
+  pipe(eff, T.provide(DummyTracing), provideConsole, provideTestDocumentContext, T.runPromise)
+
+const provideTestDocumentContext = provideDocumentContext({
+  rawContent: __unusedValue,
+  relativeFilePath: __unusedValue,
+})

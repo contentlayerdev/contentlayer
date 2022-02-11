@@ -8,7 +8,7 @@ import { Person } from '../contentlayer/documents/Person'
 import { SEOModel } from '../contentlayer/objects/SEO'
 import { htmlToReact, withPrefix } from '../utils'
 import { urlFromFilePath } from '../utils/contentlayer'
-import type * as types from '.contentlayer/types'
+import type * as types from 'contentlayer/generated'
 
 export const PostLayout: FC<{
   post: types.Post

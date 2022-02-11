@@ -1,23 +1,25 @@
 export type RawContent = RawContentMarkdown | RawContentMDX | RawContentJSON | RawContentYAML
 
-export type RawContentMarkdown = {
+export interface RawContentMarkdown {
   readonly kind: 'markdown'
   fields: Record<string, any>
   body: string
+  rawDocumentContent: string
 }
 
-export type RawContentMDX = {
+export interface RawContentMDX {
   readonly kind: 'mdx'
   fields: Record<string, any>
   body: string
+  rawDocumentContent: string
 }
 
-export type RawContentJSON = {
+export interface RawContentJSON {
   readonly kind: 'json'
   fields: Record<string, any>
 }
 
-export type RawContentYAML = {
+export interface RawContentYAML {
   readonly kind: 'yaml'
   fields: Record<string, any>
 }

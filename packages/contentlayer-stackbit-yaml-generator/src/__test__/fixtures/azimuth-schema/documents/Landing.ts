@@ -8,7 +8,6 @@ import { urlFromFilePath } from '../utils.js'
 export const Landing = defineDocumentType(() => ({
   name: 'Landing',
   filePathPattern: 'pages/{contact,features,index,pricing}.md',
-  bodyType: 'none',
   fields: {
     title: {
       type: 'string',

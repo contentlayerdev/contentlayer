@@ -1,6 +1,6 @@
 {
   "name": "contentlayer",
-  "version": "0.0.34",
+  "version": "0.1.0",
   "bin": "./bin/cli.cjs",
   "type": "module",
   "engines": {
@@ -57,7 +57,9 @@
   ],
   "scripts": {
     "#postinstall": "This is executed in packages which install `contentlayer`",
-    "postinstall": "node ./bin/cli.cjs postinstall || echo 'No Contentlayer build found.'"
+    "postinstall": "node ./bin/cli.cjs postinstall || echo 'No Contentlayer build found.'",
+    "#_bundle-cli": "Currently unused. See https://github.com/contentlayerdev/contentlayer/issues/67",
+    "_bundle-cli": "esbuild ./dist/cli/index.js --bundle --platform=node --format=esm --external:esbuild --external:@esbuild-plugins/node-resolve --outfile=dist/cli/bundle.js --main-fields=module,main --metafile=meta.json --banner:js=\"import { createRequire as topLevelCreateRequire } from 'module'; const require = topLevelCreateRequire(import.meta.url); const __dirname = '__SET_BY_ESBUILD__';\""
   },
   "dependencies": {
     "@contentlayer/cli": "workspace:*",

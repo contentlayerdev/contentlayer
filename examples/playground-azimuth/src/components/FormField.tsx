@@ -2,7 +2,7 @@ import type { FC } from 'react'
 import React from 'react'
 
 import { classNames } from '../utils'
-import type * as types from '.contentlayer/types'
+import type * as types from 'contentlayer/generated'
 
 export const FormField: FC<{ section: types.FooterForm | types.SectionContact; field: types.FormField }> = ({
   field,

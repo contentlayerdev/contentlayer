@@ -4,7 +4,7 @@ import React from 'react'
 
 import { htmlToReact, markdownify } from '../../utils'
 import { sectionBaseFields } from './model'
-import type * as types from '.contentlayer/types'
+import type * as types from 'contentlayer/generated'
 
 export const SectionFaq: FC<{ section: types.SectionFaq }> = ({ section }) => (
   <section id={section.section_id} className={'block faq-block bg-' + section.background + ' outer'}>

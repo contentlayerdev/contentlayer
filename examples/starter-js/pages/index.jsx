@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 import { FormattedDate } from '../components/date'
 import { Layout, siteTitle } from '../components/layout'
-import { allPosts } from '.contentlayer/data'
+import { allPosts } from 'contentlayer/generated'
 const utilStyles = require('../styles/utils.module.css')
 
 export const getStaticProps = async ({}) => {

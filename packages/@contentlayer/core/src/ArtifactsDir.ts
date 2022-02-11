@@ -11,7 +11,7 @@ import { getCwd } from './cwd.js'
 
 export namespace ArtifactsDir {
   export const getDirPath = ({ cwd }: { cwd: PosixFilePath }): PosixFilePath =>
-    filePathJoin(cwd, 'node_modules' as PosixFilePath, '.contentlayer' as PosixFilePath)
+    filePathJoin(cwd, '.contentlayer' as PosixFilePath)
 
   export const mkdir: T.Effect<OT.HasTracer & HasCwd, fs.MkdirError, PosixFilePath> = T.gen(function* ($) {
     const cwd = yield* $(getCwd)

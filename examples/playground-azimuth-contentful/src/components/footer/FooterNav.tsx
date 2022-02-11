@@ -2,7 +2,7 @@ import type { FC } from 'react'
 import React from 'react'
 
 import { Action } from '../Action'
-import type { Footer_nav } from '.contentlayer/types'
+import type { Footer_nav } from 'contentlayer/generated'
 
 export const FooterNav: FC<{ section: Footer_nav }> = ({ section }) => (
   <section className="cell widget widget-nav">

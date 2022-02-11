@@ -2,7 +2,7 @@ import type { FC } from 'react'
 import React from 'react'
 
 import { Action } from '../Action'
-import type * as types from '.contentlayer/types'
+import type * as types from 'contentlayer/generated'
 
 export const CtaButtons: FC<{ actions: types.Action[] }> = ({ actions }) => (
   <>

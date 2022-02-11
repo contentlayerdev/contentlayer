@@ -22,11 +22,11 @@ export abstract class BaseCommand extends Command {
     description: 'More verbose logging and error stack traces',
   })
 
-  abstract executeSafe: T.Effect<OT.HasTracer & HasClock & HasCwd & HasConsole, unknown, void>
+  abstract executeSafe: () => T.Effect<OT.HasTracer & HasClock & HasCwd & HasConsole, unknown, void>
 
   execute = () =>
     pipe(
-      this.executeSafe,
+      this.executeSafe(),
       core.runMain({
         tracingServiceName: 'contentlayer-cli',
         verbose: this.verbose || process.env.CL_DEBUG !== undefined,

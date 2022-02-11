@@ -6,7 +6,7 @@ import { markdownify, withPrefix } from '../../utils'
 import { ActionModel } from '../Action'
 import { CtaButtons } from './CtaButtons'
 import { sectionBaseFields } from './model'
-import type * as types from '.contentlayer/types'
+import type * as types from 'contentlayer/generated'
 
 export const SectionContent: FC<{ section: types.SectionContent }> = ({ section }) => (
   <section id={section.section_id} className={'block text-block bg-' + section.background + ' outer'}>

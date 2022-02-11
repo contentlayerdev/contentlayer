@@ -43,7 +43,7 @@ export type GenerateInfo = {
 }
 
 export const logGenerateInfo = (info: GenerateInfo): T.Effect<HasConsole, never, void> =>
-  T.log(`Generated ${info.documentCount} documents in node_modules/.contentlayer`)
+  T.log(`Generated ${info.documentCount} documents in .contentlayer`)
 
 export const generateDotpkg = ({
   source,
@@ -121,11 +121,11 @@ const writeFilesForCache = ({
       const withPrefix = (...path_: string[]) => filePathJoin(targetPath, ...path_.map(unknownToPosixFilePath))
 
       if (process.env['CL_DEBUG']) {
-        yield* $(fs.mkdirp(withPrefix('cache')))
+        yield* $(fs.mkdirp(withPrefix('.cache')))
         yield* $(
           T.collectAllPar([
-            fs.writeFileJson({ filePath: withPrefix('cache', 'schema.json'), content: schemaDef as any }),
-            fs.writeFileJson({ filePath: withPrefix('cache', 'data-cache.json'), content: cache }),
+            fs.writeFileJson({ filePath: withPrefix('.cache', 'schema.json'), content: schemaDef as any }),
+            fs.writeFileJson({ filePath: withPrefix('.cache', 'data-cache.json'), content: cache }),
           ]),
         )
       }
@@ -141,17 +141,17 @@ const writeFilesForCache = ({
           docDef,
           documentIds: allDocuments.filter((_) => _[typeNameField] === docDef.name).map((_) => _._id),
         }),
-        filePath: withPrefix('data', `${getDataVariableName({ docDef })}.mjs`),
+        filePath: withPrefix('generated', `${getDataVariableName({ docDef })}.mjs`),
       }))
 
       const dataJsonFiles = allCacheItems.map(({ document, documentHash }) => ({
         content: JSON.stringify(document, null, 2),
-        filePath: withPrefix('data', document[typeNameField], `${idToFileName(document._id)}.json`),
+        filePath: withPrefix('generated', document[typeNameField], `${idToFileName(document._id)}.json`),
         documentHash,
       }))
 
-      const dataDirPaths = documentDefs.map((_) => withPrefix('data', _.name))
-      yield* $(T.forEachPar_([withPrefix('types'), ...dataDirPaths], fs.mkdirp))
+      const dataDirPaths = documentDefs.map((_) => withPrefix('generated', _.name))
+      yield* $(T.forEachPar_([withPrefix('generated'), ...dataDirPaths], fs.mkdirp))
 
       const writeFile = writeFileWithWrittenFilesCache({ writtenFilesCache })
 
@@ -159,19 +159,19 @@ const writeFilesForCache = ({
         T.collectAllPar([
           writeFile({ filePath: withPrefix('package.json'), content: makePackageJson(schemaDef.hash) }),
           writeFile({
-            filePath: withPrefix('types', 'index.d.ts'),
+            filePath: withPrefix('generated', 'types.d.ts'),
             content: renderTypes({ schemaDef, generationOptions }),
             rmBeforeWrite: true,
           }),
-          writeFile({ filePath: withPrefix('types', 'index.mjs'), content: makeHelperTypes() }),
           writeFile({
-            filePath: withPrefix('data', 'index.d.ts'),
+            filePath: withPrefix('generated', 'index.d.ts'),
             content: makeDataTypes({ schemaDef }),
             rmBeforeWrite: true,
           }),
-          writeFile({ filePath: withPrefix('data', 'index.mjs'), content: makeIndexJs({ schemaDef }) }),
+          writeFile({ filePath: withPrefix('generated', 'index.mjs'), content: makeIndexMjs({ schemaDef }) }),
           ...dataBarrelFiles.map(writeFile),
           ...dataJsonFiles.map(writeFile),
+          // TODO generate readme file
         ]),
       )
     }),
@@ -191,17 +191,13 @@ const makePackageJson = (schemaHash: string): string => {
     // TODO generate more meaningful version (e.g. by using Contentlayer version and schema hash)
     version: `0.0.0-${schemaHash}`,
     exports: {
-      './data': {
-        import: './data/index.mjs',
-      },
-      './types': {
-        import: './types/index.mjs',
+      './generated': {
+        import: './data/generated.mjs',
       },
     },
     typesVersions: {
       '*': {
-        data: ['./data'],
-        types: ['./types'],
+        generated: ['./generated'],
       },
     },
   }
@@ -211,7 +207,10 @@ const makePackageJson = (schemaHash: string): string => {
 
 /**
  * Remembers which files already have been written to disk.
- * If no `documentHash` was provided, the writes won't be cached. */
+ * If no `documentHash` was provided, the writes won't be cached.
+ *
+ * TODO maybe rewrite with effect-cache
+ */
 const writeFileWithWrittenFilesCache =
   ({ writtenFilesCache }: { writtenFilesCache: WrittenFilesCache }) =>
   ({
@@ -268,7 +267,7 @@ export const ${dataVariableName} = [${documentIds.map((_) => makeVariableName(_)
 `
 }
 
-const makeIndexJs = ({ schemaDef }: { schemaDef: SchemaDef }): string => {
+const makeIndexMjs = ({ schemaDef }: { schemaDef: SchemaDef }): string => {
   const dataVariableNames = Object.values(schemaDef.documentTypeDefMap).map(
     (docDef) => [docDef, getDataVariableName({ docDef })] as const,
   )
@@ -290,21 +289,14 @@ const makeIndexJs = ({ schemaDef }: { schemaDef: SchemaDef }): string => {
 export { isType } from 'contentlayer/client'
 
 ${constReexports}
+
 ${constImportsForAllDocuments}
 
 export const allDocuments = [${allDocuments}]
 `
 }
 
-const makeHelperTypes = (): string => {
-  return `\
-// ${autogeneratedNote}
-
-export { isType } from 'contentlayer/client'
-`
-}
-
-const makeDataTypes = ({ schemaDef }: { schemaDef: SchemaDef }): string => {
+export const makeDataTypes = ({ schemaDef }: { schemaDef: SchemaDef }): string => {
   const dataConsts = Object.values(schemaDef.documentTypeDefMap)
     .map((docDef) => [docDef, docDef.name, getDataVariableName({ docDef })] as const)
     .map(
@@ -320,7 +312,9 @@ const makeDataTypes = ({ schemaDef }: { schemaDef: SchemaDef }): string => {
   return `\
 // ${autogeneratedNote}
 
-import { ${documentTypeNames}, DocumentTypes } from '../types'
+import { ${documentTypeNames}, DocumentTypes } from './types'
+
+export type * from './types'
 
 ${dataConsts}
 

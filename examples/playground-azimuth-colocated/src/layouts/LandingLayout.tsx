@@ -14,7 +14,7 @@ import { SectionReviews, SectionReviewsModel } from '../components/landing-secti
 import { Layout } from '../components/Layout'
 import { SEOModel } from '../contentlayer/objects/SEO'
 import { urlFromFilePath } from '../utils/contentlayer'
-import type * as types from '.contentlayer/types'
+import type * as types from 'contentlayer/generated'
 
 export const LandingLayout: FC<{
   landing: types.Landing

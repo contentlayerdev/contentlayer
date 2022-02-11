@@ -5,7 +5,7 @@ import React from 'react'
 import { htmlToReact, Link, withPrefix } from '../../utils'
 import { BlogPostFooter } from '../BlogPostFooter'
 import { sectionBaseFields } from './model'
-import type * as types from '.contentlayer/types'
+import type * as types from 'contentlayer/generated'
 
 export const SectionPosts: FC<{ section: types.SectionPosts; posts: types.Post[] }> = ({ section, posts }) => {
   const recentPosts = posts

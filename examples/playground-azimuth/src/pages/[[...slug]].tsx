@@ -8,8 +8,7 @@ import { LandingLayout } from '../layouts/LandingLayout'
 import { PageLayout } from '../layouts/PageLayout'
 import { PostLayout } from '../layouts/PostLayout'
 import { defineStaticProps, toParams } from '../utils/next'
-import { allDocuments, allPosts, config } from '.contentlayer/data'
-import { isType } from '.contentlayer/types'
+import { isType, allDocuments, allPosts, config } from 'contentlayer/generated'
 
 export const getStaticPaths = async () => {
   const paths = allDocuments

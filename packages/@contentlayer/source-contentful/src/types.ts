@@ -13,7 +13,7 @@ export type PluginOptions = {
 
 export type FieldOptions = {
   /**
-   * Name of the field containing the body/content extracted when `bodyType` is `markdown` or `mdx`.
+   * Name of the field containing the body/content extracted when `contentType` is `markdown` or `mdx`.
    * @default "body"
    */
   bodyFieldName?: string
