@@ -1,7 +1,7 @@
 0.1.0
 
-- [ ] Change `bodyType` to `fileType`
-- [ ] Fix Node.js live reload bug
+- [x] Change `bodyType` to `contentType`
+- [x] Fix Node.js live reload bug #109
 - [ ] Renamed `default` to `fallback` #120
 - [ ] Moved `defineDocumentType` and `defineNestedType` from `contentlayer/source-files` to `contentlayer/schema`
   - [ ] ? In conflict with: Rename `fields` to `frontmatter`

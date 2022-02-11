@@ -66,7 +66,7 @@ export default makeSource(async () => {
   return {
     contentDirPath: 'gatsby/docs',
     documentTypes: [Reference, HowTo, Conceptual, Tutorial],
-    onUnknownDocuments: 'skip-ignore',
+    onUnknownDocuments: 'skip-warn',
     markdown: {
       rehypePlugins: [[rehypeShiki, { highlighter }]],
     },

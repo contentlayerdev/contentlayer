@@ -30,7 +30,7 @@ export const makeCoreSchema = ({
       }
 
       // add default body markdown field if not explicitly provided
-      if (documentDef.bodyType === undefined || documentDef.bodyType === 'markdown') {
+      if (documentDef.contentType === undefined || documentDef.contentType === 'markdown') {
         fieldDefs.push({
           type: 'markdown',
           name: options.fieldOptions.bodyFieldName,
@@ -42,7 +42,7 @@ export const makeCoreSchema = ({
       }
 
       // add default body MDX field if not explicitly provided
-      if (documentDef.bodyType === 'mdx') {
+      if (documentDef.contentType === 'mdx') {
         fieldDefs.push({
           type: 'mdx',
           name: options.fieldOptions.bodyFieldName,

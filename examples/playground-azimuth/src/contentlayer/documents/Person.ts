@@ -3,7 +3,6 @@ import { defineDocumentType } from 'contentlayer/source-files'
 export const Person = defineDocumentType(() => ({
   name: 'Person',
   filePathPattern: 'data/authors/*.yaml',
-  bodyType: 'none',
   fields: {
     first_name: { type: 'string' },
     last_name: { type: 'string' },

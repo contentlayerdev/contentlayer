@@ -9,7 +9,7 @@ import * as os from 'os'
 
 import { FetchDataError } from '../errors/index.js'
 import type { Flags } from '../index.js'
-import type { BodyTypeMap, FilePathPatternMap } from '../types.js'
+import type { ContentTypeMap, FilePathPatternMap } from '../types.js'
 import type { HasDocumentTypeMapState } from './DocumentTypeMap.js'
 import { DocumentTypeMapState, provideDocumentTypeMapState } from './DocumentTypeMap.js'
 import { makeCacheItemFromFilePath } from './makeCacheItemFromFilePath.js'
@@ -18,7 +18,7 @@ export const fetchAllDocuments = ({
   coreSchemaDef,
   filePathPatternMap,
   contentDirPath,
-  bodyTypeMap,
+  contentTypeMap,
   flags,
   options,
   previousCache,
@@ -27,7 +27,7 @@ export const fetchAllDocuments = ({
   coreSchemaDef: core.SchemaDef
   filePathPatternMap: FilePathPatternMap
   contentDirPath: PosixFilePath
-  bodyTypeMap: BodyTypeMap
+  contentTypeMap: ContentTypeMap
   flags: Flags
   options: core.PluginOptions
   previousCache: core.DataCache.Cache | undefined
@@ -50,7 +50,7 @@ export const fetchAllDocuments = ({
               contentDirPath,
               options,
               previousCache,
-              bodyTypeMap,
+              contentTypeMap,
             }),
           ),
           T.map(Chunk.partitionThese),

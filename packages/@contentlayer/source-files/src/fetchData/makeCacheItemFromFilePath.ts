@@ -8,7 +8,7 @@ import matter from 'gray-matter'
 import yaml from 'yaml'
 
 import { FetchDataError } from '../errors/index.js'
-import type { BodyTypeMap, FilePathPatternMap } from '../types.js'
+import type { ContentTypeMap, FilePathPatternMap } from '../types.js'
 import { provideDocumentContext } from './DocumentContext.js'
 import type { HasDocumentTypeMapState } from './DocumentTypeMap.js'
 import { DocumentTypeMapState } from './DocumentTypeMap.js'
@@ -23,7 +23,7 @@ export const makeCacheItemFromFilePath = ({
   contentDirPath,
   options,
   previousCache,
-  bodyTypeMap,
+  contentTypeMap,
 }: {
   relativeFilePath: PosixFilePath
   filePathPatternMap: FilePathPatternMap
@@ -31,7 +31,7 @@ export const makeCacheItemFromFilePath = ({
   contentDirPath: PosixFilePath
   options: core.PluginOptions
   previousCache: core.DataCache.Cache | undefined
-  bodyTypeMap: BodyTypeMap
+  contentTypeMap: ContentTypeMap
 }): T.Effect<
   OT.HasTracer & HasConsole & HasDocumentTypeMapState,
   never,
@@ -72,7 +72,7 @@ export const makeCacheItemFromFilePath = ({
             filePathPatternMap,
             options,
             contentDirPath,
-            bodyTypeMap,
+            contentTypeMap,
           }),
           T.chain(These.toEffect),
           T.map((_) => _.tuple),

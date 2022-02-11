@@ -1,9 +1,9 @@
 import type * as core from '@contentlayer/core'
 import type { PosixFilePath } from '@contentlayer/utils'
-import { assertNever, errorToString, pattern } from '@contentlayer/utils'
+import { errorToString, pattern } from '@contentlayer/utils'
 import { Tagged } from '@contentlayer/utils/effect'
 
-import type { DocumentBodyType } from '../index.js'
+import type { DocumentContentType } from '../index.js'
 import { handleFetchDataErrors } from './aggregate.js'
 
 export namespace FetchDataError {
@@ -141,24 +141,26 @@ export namespace FetchDataError {
   export class FileExtensionMismatch
     extends Tagged('FileExtensionMismatch')<{
       readonly extension: string
-      readonly bodyType: DocumentBodyType
+      readonly contentType: DocumentContentType
       readonly filePath: string
     }>
     implements AggregatableError
   {
     category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
     renderHeadline: RenderHeadline = ({ errorCount }) =>
-      `File extension didn't match \`bodyType\` for ${errorCount} documents`
+      `File extension not compatible with \`contentType\` for ${errorCount} documents`
 
     renderLine = () => {
-      const expectedFileExtension = pattern
-        .match(this.bodyType)
-        .with('markdown', () => 'md')
-        .with('mdx', () => 'mdx')
-        .with('none', () => assertNever(this.bodyType))
+      const expectedFileExtensions = pattern
+        .match(this.contentType)
+        .with('markdown', () => ['md', 'mdx'])
+        .with('mdx', () => ['mdx', 'mdx'])
+        .with('data', () => ['json', 'yaml', 'yml'])
         .exhaustive()
 
-      return `"${this.filePath}" ends with "${this.extension}" but expected "${expectedFileExtension}" as \`bodyType\` is "${this.bodyType}"`
+      return `"${this.filePath}" ends with "${this.extension}" but expected to be one of "${expectedFileExtensions.join(
+        ', ',
+      )}" as defined \`contentType\` is "${this.contentType}"`
     }
   }
 

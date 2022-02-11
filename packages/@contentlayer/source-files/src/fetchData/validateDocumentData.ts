@@ -6,8 +6,8 @@ import { fs } from '@contentlayer/utils/node'
 import minimatch from 'minimatch'
 
 import { FetchDataError } from '../errors/index.js'
-import type { DocumentBodyType, FilePathPatternMap } from '../index.js'
-import type { BodyTypeMap } from '../types.js'
+import type { DocumentContentType, FilePathPatternMap } from '../index.js'
+import type { ContentTypeMap } from '../types.js'
 import type { HasDocumentTypeMapState } from './DocumentTypeMap.js'
 import { DocumentTypeMapState } from './DocumentTypeMap.js'
 import type { RawContent } from './types.js'
@@ -28,7 +28,7 @@ export const validateDocumentData = ({
   filePathPatternMap,
   options,
   contentDirPath,
-  bodyTypeMap,
+  contentTypeMap,
 }: {
   coreSchemaDef: core.SchemaDef
   rawContent: RawContent
@@ -37,7 +37,7 @@ export const validateDocumentData = ({
   filePathPatternMap: FilePathPatternMap
   options: core.PluginOptions
   contentDirPath: PosixFilePath
-  bodyTypeMap: BodyTypeMap
+  contentTypeMap: ContentTypeMap
 }): T.Effect<
   HasDocumentTypeMapState & OT.HasTracer,
   never,
@@ -67,8 +67,8 @@ export const validateDocumentData = ({
         )
       }
 
-      const bodyType = bodyTypeMap[documentTypeDef.name]!
-      const mismatchError = validateBodyTypeMatchesFileExtension({ bodyType, relativeFilePath })
+      const contentType = contentTypeMap[documentTypeDef.name]!
+      const mismatchError = validateContentTypeMatchesFileExtension({ contentType, relativeFilePath })
       if (mismatchError) return These.fail(mismatchError)
 
       yield* $(DocumentTypeMapState.update((_) => _.add(documentDefName, relativeFilePath)))
@@ -231,16 +231,24 @@ const validateFieldData = ({
     }
   })['|>'](T.orDie)
 
-const validateBodyTypeMatchesFileExtension = ({
-  bodyType,
+const validateContentTypeMatchesFileExtension = ({
+  contentType,
   relativeFilePath,
 }: {
-  bodyType: DocumentBodyType
+  contentType: DocumentContentType
   relativeFilePath: PosixFilePath
 }) => {
   const extension = relativeFilePath.toLowerCase().split('.').pop()!
-  if ((bodyType === 'markdown' && extension !== 'md') || (bodyType === 'mdx' && extension !== 'mdx')) {
-    return new FetchDataError.FileExtensionMismatch({ bodyType, extension, filePath: relativeFilePath })
+
+  const validMarkdownExtensions = ['md', 'mdx']
+  const isInvalidMarkdownOrMdx =
+    (contentType === 'markdown' || contentType === 'mdx') && validMarkdownExtensions.includes(extension) === false
+
+  const validDataExtensions = ['json', 'yaml', 'yml']
+  const isInvalidData = contentType === 'data' && validDataExtensions.includes(extension) === false
+
+  if (isInvalidMarkdownOrMdx || isInvalidData) {
+    return new FetchDataError.FileExtensionMismatch({ contentType, extension, filePath: relativeFilePath })
   }
 
   return undefined

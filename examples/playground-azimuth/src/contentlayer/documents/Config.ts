@@ -6,7 +6,6 @@ import { FormField } from '../nested/FormField'
 export const Config = defineDocumentType(() => ({
   name: 'Config',
   // filePathPattern: 'data/config.json',
-  bodyType: 'none',
   isSingleton: true,
   fields: {
     title: {

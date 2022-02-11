@@ -7,7 +7,7 @@ import { pipe, provideTestConsole, T, These } from '@contentlayer/utils/effect'
 
 import type { HasDocumentTypeMapState } from '../../fetchData/DocumentTypeMap.js'
 import { provideDocumentTypeMapState } from '../../fetchData/DocumentTypeMap.js'
-import { testOnly_makeBodyTypeMap, testOnly_makefilePathPatternMap } from '../../fetchData/index.js'
+import { testOnly_makeContentTypeMap, testOnly_makefilePathPatternMap } from '../../fetchData/index.js'
 import { makeCacheItemFromFilePath } from '../../fetchData/makeCacheItemFromFilePath.js'
 import type { DocumentTypes } from '../../index.js'
 import { makeSource } from '../../index.js'
@@ -32,7 +32,7 @@ export const runTest = async ({
       _.def(),
     )
     const filePathPatternMap = testOnly_makefilePathPatternMap(documentTypeDefs)
-    const bodyTypeMap = testOnly_makeBodyTypeMap(documentTypeDefs)
+    const contentTypeMap = testOnly_makeContentTypeMap(documentTypeDefs)
 
     const options: core.PluginOptions = {
       date: undefined,
@@ -50,7 +50,7 @@ export const runTest = async ({
           filePathPatternMap,
           options,
           previousCache: undefined,
-          bodyTypeMap,
+          contentTypeMap,
         }),
         These.effectToEither,
       ),

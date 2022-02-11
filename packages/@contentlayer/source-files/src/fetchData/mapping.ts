@@ -9,7 +9,7 @@ import dateFnsTz from 'date-fns-tz'
 import * as path from 'path'
 
 import { FetchDataError } from '../errors/index.js'
-import type { DocumentBodyType } from '../schema/defs/index.js'
+import type { DocumentContentType } from '../schema/defs/index.js'
 import type { RawDocumentData } from '../types.js'
 import type { HasDocumentContext } from './DocumentContext.js'
 import { getFromDocumentContext } from './DocumentContext.js'
@@ -61,17 +61,17 @@ export const makeDocument = ({
         }),
       )
 
-      const bodyType: DocumentBodyType = utils.pattern
+      const contentType: DocumentContentType = utils.pattern
         .match(rawContent.kind)
         .with('markdown', () => 'markdown' as const)
         .with('mdx', () => 'mdx' as const)
-        .otherwise(() => 'none' as const)
+        .otherwise(() => 'data' as const)
 
       const _raw: RawDocumentData = {
         sourceFilePath: relativeFilePath,
         sourceFileName: path.basename(relativeFilePath),
         sourceFileDir: path.dirname(relativeFilePath),
-        bodyType,
+        contentType,
         flattenedPath: getFlattenedPath(relativeFilePath),
       }
 
@@ -256,7 +256,7 @@ const getDataForFieldDef = ({
         // TODO we should come up with a better way to do this
         if (isBodyField) {
           const rawContent = yield* $(getFromDocumentContext('rawContent'))
-          if (rawContent.kind !== 'markdown') return utils.assertNever(rawContent)
+          if (rawContent.kind !== 'markdown' && rawContent.kind !== 'mdx') return utils.assertNever(rawContent)
 
           const html = yield* $(
             core.markdownToHtml({ mdString: rawContent.rawDocumentContent, options: options?.markdown }),
@@ -273,7 +273,7 @@ const getDataForFieldDef = ({
         // TODO we should come up with a better way to do this
         if (isBodyField) {
           const rawContent = yield* $(getFromDocumentContext('rawContent'))
-          if (rawContent.kind !== 'mdx') return utils.assertNever(rawContent)
+          if (rawContent.kind !== 'mdx' && rawContent.kind !== 'markdown') return utils.assertNever(rawContent)
 
           const code = yield* $(
             core.bundleMDX({ mdxString: rawContent.rawDocumentContent, options: options?.mdx, contentDirPath }),

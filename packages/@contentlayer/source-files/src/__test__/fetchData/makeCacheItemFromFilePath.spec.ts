@@ -26,11 +26,11 @@ test('a.md: hello world should work', async (t) => {
   }
 })
 
-test('a.md: file extension - bodyType mismatch', async (t) => {
+test('a.md: file extension - contentType mismatch', async (t) => {
   const TestPost = defineDocumentType(() => ({
     name: 'TestPost',
     filePathPattern: `**/*.md`,
-    bodyType: 'mdx',
+    contentType: 'data',
     fields: {},
   }))
 

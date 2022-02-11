@@ -46,7 +46,7 @@ export type FieldOptions = {
   // TODO add to Jsdoc that `bodyFieldName` is just about the field name of the generated document type + data.
   // not about some front matter (as opposed to `typeFieldName` which concerns the front matter as well)
   /**
-   * Name of the field containing the body/content extracted when `bodyType` is `markdown` or `mdx`.
+   * Name of the field containing the body/content extracted when `contentType` is `markdown` or `mdx`.
    * @default "body"
    */
   bodyFieldName: string
