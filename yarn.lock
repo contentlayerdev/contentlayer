@@ -14295,9 +14295,9 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"next-contentlayer-example@workspace:examples/mdx":
+"next-contentlayer-example@workspace:examples/next-contentlayer-example":
   version: 0.0.0-use.local
-  resolution: "next-contentlayer-example@workspace:examples/mdx"
+  resolution: "next-contentlayer-example@workspace:examples/next-contentlayer-example"
   dependencies:
     "@types/react": 17.0.20
     autoprefixer: ^10.4.2
