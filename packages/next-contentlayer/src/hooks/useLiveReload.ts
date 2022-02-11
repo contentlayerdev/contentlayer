@@ -12,7 +12,7 @@ export const useLiveReload = () => {
   const router = useRouter()
 
   // `router.asPath` needs to be stored in a ref since there's no way to "update" the event listener below
-  const routePathRef = React.useRef(router.asPath)
+  const routePathRef = React.useRef<string | undefined>(router.asPath)
   React.useEffect(() => {
     routePathRef.current = router.asPath
   }, [router.asPath])
@@ -23,20 +23,26 @@ export const useLiveReload = () => {
     // Based on this "implementation detail"
     // https://github.com/vercel/next.js/blob/canary/packages/next/client/dev/error-overlay/eventsource.js
     addMessageListener((e: any) => {
-      // console.log(e.type, e.data, e)
+      // console.log('new event', e.type, e.data, e)
 
-      if (e.type === 'message' && typeof e.data === 'string') {
+      const isRouteActive = routePathRef.current !== undefined
+      if (isRouteActive && e.type === 'message' && typeof e.data === 'string') {
         const data = JSON.parse(e.data)
 
-        if ((data.action === 'built' || data.action === 'sync') && data.hash !== lastBuiltHash) {
-          if (lastBuiltHash !== undefined) {
-            router.replace(routePathRef.current)
-          }
+        const dataHasChanged = data.hash !== lastBuiltHash && data.hash !== undefined
+        if ((data.action === 'built' || data.action === 'sync') && dataHasChanged) {
+          router.replace(routePathRef.current!, undefined, { scroll: false })
 
           lastBuiltHash = data.hash
         }
       }
     })
+
+    return () => {
+      // NOTE given we can't remove the event listner above, we need this "mechanism" to short-circuit the event callback when the component has unmounted
+      routePathRef.current = undefined
+    }
+
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [routePathRef])
 }
