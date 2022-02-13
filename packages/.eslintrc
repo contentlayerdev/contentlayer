@@ -1,20 +1,24 @@
 {
-  "env": {
-    "browser": true,
-    "node": true,
-    "es6": true
-  },
-  "ignorePatterns": ["packages/_archive/*", "examples/*", "**/dist/*", "**/.nyc_output/*"],
+  "env": { "es6": true },
+  "ignorePatterns": ["!.konfik", "**/dist/*", "**/.nyc_output/*", "node_modules/*"],
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "simple-import-sort", "import"],
-  "extends": ["plugin:react-hooks/recommended", "plugin:@typescript-eslint/recommended", "prettier"],
+  "plugins": ["@typescript-eslint", "simple-import-sort", "import", "prefer-arrow"],
+  "extends": ["plugin:@typescript-eslint/recommended", "plugin:unicorn/recommended", "prettier"],
   "rules": {
+    "unicorn/prevent-abbreviations": "off",
+    "func-style": ["warn", "expression"],
+    "prefer-arrow-callback": "warn",
+    "prefer-arrow/prefer-arrow-functions": [
+      "warn",
+      { "classPropertiesAllowed": true, "disallowPrototype": true, "singleReturnOnly": false }
+    ],
+    "no-empty-function": "off",
+    "@typescript-eslint/no-empty-function": "off",
     "simple-import-sort/imports": "error",
-    "import/no-duplicates": "warn",
-    // "func-style": ["warn", "expression"],
     "import/no-extraneous-dependencies": "error",
     "import/no-named-as-default": "warn",
     "import/no-named-as-default-member": "warn",
+    "import/no-duplicates": "warn",
     "@typescript-eslint/consistent-type-imports": "error",
     "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/ban-types": "off",
