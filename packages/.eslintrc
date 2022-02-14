@@ -1,0 +1,41 @@
+{
+  "env": { "es6": true },
+  "ignorePatterns": ["!.konfik", "**/dist/*", "**/.nyc_output/*", "node_modules/*"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "simple-import-sort", "import", "prefer-arrow"],
+  "extends": ["plugin:@typescript-eslint/recommended", "plugin:unicorn/recommended", "prettier"],
+  "rules": {
+    "unicorn/prevent-abbreviations": "off",
+    "unicorn/filename-case": "off",
+    "unicorn/prefer-optional-catch-binding": "off",
+    "unicorn/catch-error-name": "off",
+    "unicorn/no-array-callback-reference": "off",
+    "unicorn/consistent-function-scoping": "off",
+    "unicorn/prefer-ternary": "off",
+    "unicorn/no-array-reduce": "off",
+    "unicorn/no-array-for-each": "off",
+    "unicorn/no-null": "off",
+    "func-style": ["warn", "expression"],
+    "prefer-arrow-callback": "warn",
+    "prefer-arrow/prefer-arrow-functions": [
+      "warn",
+      { "classPropertiesAllowed": true, "disallowPrototype": true, "singleReturnOnly": false }
+    ],
+    "no-empty-function": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "simple-import-sort/imports": "error",
+    "import/no-extraneous-dependencies": "error",
+    "import/no-named-as-default": "warn",
+    "import/no-named-as-default-member": "warn",
+    "import/no-duplicates": "warn",
+    "@typescript-eslint/consistent-type-imports": "error",
+    "@typescript-eslint/no-namespace": "off",
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-empty-interface": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-unused-vars": ["warn", { "varsIgnorePattern": "^_", "argsIgnorePattern": "^_" }]
+  }
+}

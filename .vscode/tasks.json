@@ -114,6 +114,19 @@
         "showReuseMessage": true,
         "clear": false
       }
+    },
+    {
+      "label": "lint",
+      "type": "shell",
+      "command": "yarn lint:eslint:check",
+      "problemMatcher": "$eslint-stylish",
+      "presentation": {
+        "focus": false,
+        "panel": "shared",
+        "group": "dev",
+        "showReuseMessage": true,
+        "clear": true
+      }
     }
   ]
 }

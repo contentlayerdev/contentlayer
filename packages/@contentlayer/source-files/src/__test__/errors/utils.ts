@@ -2,7 +2,7 @@ import type * as core from '@contentlayer/core'
 import type { PosixFilePath } from '@contentlayer/utils'
 import { capitalizeFirstLetter, singleItem, unknownToPosixFilePath } from '@contentlayer/utils'
 import faker from 'faker'
-import * as path from 'path'
+import * as path from 'node:path'
 
 import { FetchDataError } from '../../errors/index.js'
 
