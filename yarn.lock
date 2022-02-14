@@ -3547,15 +3547,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@schickling/konfik-base@https://github.com/schickling/konfik-base.git#workspace=@schickling/konfik-base&commit=20ce0cd52c12dcfdf563a828d4bf00e121ba017b":
+"@schickling/konfik-base@https://github.com/schickling/konfik-base.git#workspace=@schickling/konfik-base&commit=658ecbd6095814a270cda5057802a997a348ab09":
   version: 0.0.0
-  resolution: "@schickling/konfik-base@https://github.com/schickling/konfik-base.git#workspace=%40schickling%2Fkonfik-base&commit=20ce0cd52c12dcfdf563a828d4bf00e121ba017b"
+  resolution: "@schickling/konfik-base@https://github.com/schickling/konfik-base.git#workspace=%40schickling%2Fkonfik-base&commit=658ecbd6095814a270cda5057802a997a348ab09"
   dependencies:
     "@konfik-plugin/eslint": latest
     "@konfik-plugin/prettier": latest
     "@konfik-plugin/tsconfig": latest
     prettier: ^2.5.1
-  checksum: ffb0140c58c54e65b3657aa1926adbb9bf1ac83de6e0e029c247193bdcad01f8564d9a3f334857ab240b15cce70dcace43999f34656bc5601c11585f72c094f8
+  checksum: 66bfac548e810f858e094f0783a596f28475c8151451bf13ae12c667f646eb865bf571b8fc30a73cdfe4888dbb23f7b8539aea7ff09c64deea0f1c83de0272e3
   languageName: node
   linkType: hard
 
@@ -6829,7 +6829,7 @@ __metadata:
     "@changesets/cli": 2.19.0-temp.0
     "@effect-ts/tracing-plugin": ^0.18.0
     "@konfik-plugin/package-json": latest
-    "@schickling/konfik-base": "https://github.com/schickling/konfik-base.git#workspace=@schickling/konfik-base&commit=20ce0cd52c12dcfdf563a828d4bf00e121ba017b"
+    "@schickling/konfik-base": "https://github.com/schickling/konfik-base.git#workspace=@schickling/konfik-base&commit=658ecbd6095814a270cda5057802a997a348ab09"
     "@types/prettier": ^2.3.2
     "@typescript-eslint/eslint-plugin": ^5.11.0
     "@typescript-eslint/parser": ^5.11.0

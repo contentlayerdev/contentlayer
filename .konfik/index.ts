@@ -40,7 +40,7 @@ const packageKonfik = PackageJsonKonfik({
     '@effect-ts/tracing-plugin': '^0.18.0',
     '@konfik-plugin/package-json': 'latest',
     '@schickling/konfik-base':
-      'https://github.com/schickling/konfik-base.git#workspace=@schickling/konfik-base&commit=20ce0cd52c12dcfdf563a828d4bf00e121ba017b',
+      'https://github.com/schickling/konfik-base.git#workspace=@schickling/konfik-base&commit=658ecbd6095814a270cda5057802a997a348ab09',
     '@types/prettier': '^2.3.2',
     konfik: '^0.0.12',
     prettier: '^2.5.1',
