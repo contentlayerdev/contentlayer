@@ -62,7 +62,7 @@ jobs:
       - run: yarn build
         working-directory: examples/gatsby-docs
 
-  build-example-mdx:
+  build-example-next-contentlayer-example:
     strategy:
       matrix:
         node-version: [16.x]
@@ -72,4 +72,4 @@ jobs:
       - uses: schickling-actions/checkout-and-install@main
       - run: yarn build
       - run: yarn build
-        working-directory: examples/mdx
+        working-directory: examples/next-contentlayer-example
