@@ -8,11 +8,13 @@
     "unicorn/prevent-abbreviations": "off",
     "unicorn/filename-case": "off",
     "unicorn/prefer-optional-catch-binding": "off",
+    "unicorn/catch-error-name": "off",
     "unicorn/no-array-callback-reference": "off",
     "unicorn/consistent-function-scoping": "off",
     "unicorn/prefer-ternary": "off",
     "unicorn/no-array-reduce": "off",
     "unicorn/no-array-for-each": "off",
+    "unicorn/no-null": "off",
     "func-style": ["warn", "expression"],
     "prefer-arrow-callback": "warn",
     "prefer-arrow/prefer-arrow-functions": [
