@@ -30,6 +30,10 @@ export const withContentlayer =
 
         return nextConfig.redirects?.() ?? []
       },
+      onDemandEntries: {
+        maxInactiveAge: 60 * 60 * 1000, // extend `maxInactiveAge` to 1 hour (from 15 sec by default)
+        ...nextConfig.onDemandEntries, // use existing onDemandEntries config if provided by user
+      },
       webpack(config: any, options: any) {
         config.watchOptions = {
           ...config.watchOptions,

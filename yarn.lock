@@ -1704,10 +1704,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@contentlayer/utils@workspace:packages/@contentlayer/utils"
   dependencies:
-    "@effect-ts/core": ^0.55.2
-    "@effect-ts/otel": ^0.12.0
-    "@effect-ts/otel-exporter-trace-otlp-grpc": ^0.12.0
-    "@effect-ts/otel-sdk-trace-node": ^0.12.0
+    "@effect-ts/core": ^0.58.0
+    "@effect-ts/otel": ^0.13.0
+    "@effect-ts/otel-exporter-trace-otlp-grpc": ^0.13.0
+    "@effect-ts/otel-sdk-trace-node": ^0.13.0
     "@opentelemetry/api": ^1.0.3
     "@opentelemetry/core": ^1.0.0
     "@opentelemetry/exporter-trace-otlp-grpc": ^0.27.0
@@ -1748,68 +1748,68 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@effect-ts/core@npm:^0.55.2":
-  version: 0.55.2
-  resolution: "@effect-ts/core@npm:0.55.2"
+"@effect-ts/core@npm:^0.58.0":
+  version: 0.58.0
+  resolution: "@effect-ts/core@npm:0.58.0"
   dependencies:
-    "@effect-ts/system": ^0.52.2
-  checksum: 956e504bcdcac6e8a4f0377679c92fe905c71b3acf72b13bd5957a16f73070fa12038a091e63ecd43b2861c6651ada520743f1e4e69d38287a8689231e34cfaa
+    "@effect-ts/system": ^0.55.0
+  checksum: d3cc0d2f99f90e6a93844124fa5e51c4552a1c9286190b7aba81890d17282c16c301b5c80c64668bdf7e434253b8dddd8dfebacfc2c105400247b6432a418fa8
   languageName: node
   linkType: hard
 
-"@effect-ts/otel-exporter-trace-otlp-grpc@npm:^0.12.0":
-  version: 0.12.0
-  resolution: "@effect-ts/otel-exporter-trace-otlp-grpc@npm:0.12.0"
+"@effect-ts/otel-exporter-trace-otlp-grpc@npm:^0.13.0":
+  version: 0.13.0
+  resolution: "@effect-ts/otel-exporter-trace-otlp-grpc@npm:0.13.0"
   dependencies:
-    "@effect-ts/otel": ^0.12.0
+    "@effect-ts/otel": ^0.13.0
   peerDependencies:
-    "@effect-ts/core": ^0.55.0
+    "@effect-ts/core": ^0.58.0
     "@opentelemetry/api": ^1.0.0
     "@opentelemetry/core": ^1.0.0
     "@opentelemetry/exporter-trace-otlp-grpc": ^0.27.0
     "@opentelemetry/sdk-trace-base": ^1.0.0
-  checksum: 140857f7a81848a4939ebfa1d65058017cbed38b08dbd7ed400120c586f4df5b94510bfa7c322499d485b41f4ac647a406c268c8f39db28502222471bcb45522
+  checksum: 9bb02f6257ac573e0938776898b3f5cd5232ce07b8574cf2afdef44860d4a480e31a80be97d6cce3519a7eacd039204cd605c9a8b5eafd22bb2b9cbb9ef73ff6
   languageName: node
   linkType: hard
 
-"@effect-ts/otel-sdk-trace-node@npm:^0.12.0":
-  version: 0.12.0
-  resolution: "@effect-ts/otel-sdk-trace-node@npm:0.12.0"
+"@effect-ts/otel-sdk-trace-node@npm:^0.13.0":
+  version: 0.13.0
+  resolution: "@effect-ts/otel-sdk-trace-node@npm:0.13.0"
   dependencies:
-    "@effect-ts/otel": ^0.12.0
+    "@effect-ts/otel": ^0.13.0
   peerDependencies:
-    "@effect-ts/core": ^0.55.0
+    "@effect-ts/core": ^0.58.0
     "@opentelemetry/api": ^1.0.0
     "@opentelemetry/core": ^1.0.0
     "@opentelemetry/sdk-trace-base": ^1.0.0
     "@opentelemetry/sdk-trace-node": ^1.0.0
-  checksum: 3b552fe4ecd343cfe24fb06c21d046fd42f847197ea8b39c3ad4bc94fd5601c972ec7e9971358a42c369921173fe5d3d7c7da2aaf08267ce017824a2b561c5f5
+  checksum: 0fcf89bcd652c505462c9179633b4520d4afc45207ecb66478e348ac270c82cb176dee4133bf2caee9d1c0dff6191a7818c5df95670794814d02952a4d233db8
   languageName: node
   linkType: hard
 
-"@effect-ts/otel@npm:^0.12.0":
-  version: 0.12.0
-  resolution: "@effect-ts/otel@npm:0.12.0"
+"@effect-ts/otel@npm:^0.13.0":
+  version: 0.13.0
+  resolution: "@effect-ts/otel@npm:0.13.0"
   peerDependencies:
-    "@effect-ts/core": ^0.55.0
+    "@effect-ts/core": ^0.58.0
     "@opentelemetry/api": ^1.0.0
     "@opentelemetry/core": ^1.0.0
     "@opentelemetry/sdk-trace-base": ^1.0.1
-  checksum: 39adea91f459267e7b2ac71f1a41a6cdcaa1a66cfe98c25b9a9b82204f089d2036eb84d104a6a1026f0a9ef91802b7a3ccf358827b925ad38f18ba2efd19e7d4
+  checksum: 3510d7f3a61c12a28c0d51fb50ac63d6e29bc0ccaf5c3daaf682986c657de83bec2b32b9bdd1adb10f7a50e798b186c9bb2341b1fd43dc20006151c90a872b3c
   languageName: node
   linkType: hard
 
-"@effect-ts/system@npm:^0.52.2":
-  version: 0.52.2
-  resolution: "@effect-ts/system@npm:0.52.2"
-  checksum: 9f482a9e5c2936140886806ba9da056968d711b6334b481429b55d43f755ca948695e6c612cd8a03141a09940e64ced716eedb70c974a4ddab169e533823cfb4
+"@effect-ts/system@npm:^0.55.0":
+  version: 0.55.0
+  resolution: "@effect-ts/system@npm:0.55.0"
+  checksum: 22638c977324f859c8efbf1366cd284505ab9e6427ff8a7d373fb108a99434e5f9ff380aca24229a7d7b97d60d8b6a69918bc517243aebeab549ec9bf7ef4a2f
   languageName: node
   linkType: hard
 
-"@effect-ts/tracing-plugin@npm:^0.18.0":
-  version: 0.18.0
-  resolution: "@effect-ts/tracing-plugin@npm:0.18.0"
-  checksum: 289a2e0085bd116a3fc5fa0b346aef56b87b49b931c8286183b2f7e7817a43e436a7baa944b79849afd39a6208d211842e4a366043efb2e09f345f85e15034af
+"@effect-ts/tracing-plugin@npm:^0.19.0":
+  version: 0.19.0
+  resolution: "@effect-ts/tracing-plugin@npm:0.19.0"
+  checksum: 00f7ae11dc859f11507703920613b381fd7c69e60f0abae17ac2d0c8105286d6d8f6112625a46a39e6ab75f3cf4b08a4eaf2d99717db7b514b05b8e2f11950b7
   languageName: node
   linkType: hard
 
@@ -2021,10 +2021,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/env@npm:12.0.10":
-  version: 12.0.10
-  resolution: "@next/env@npm:12.0.10"
-  checksum: 22e9200919a58eeb9ab03e18504ef689120075cb0301189b1f76d96d98cb73de448a54f96d2b388b1f3b6c08bf55021144f0c2bffd0b69720d6b23e1fd2cf27a
+"@next/env@npm:12.1.0":
+  version: 12.1.0
+  resolution: "@next/env@npm:12.1.0"
+  checksum: 31037e019846a2c3eeb106d64d54084e0b86d1b9b92fdb7332eeb39d94cb4a8e11ddab1a088088f7aea7b60a4cb57781815539676fddedf4305f19f8c8bf5b7f
   languageName: node
   linkType: hard
 
@@ -2037,79 +2037,79 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/swc-android-arm64@npm:12.0.10":
-  version: 12.0.10
-  resolution: "@next/swc-android-arm64@npm:12.0.10"
+"@next/swc-android-arm64@npm:12.1.0":
+  version: 12.1.0
+  resolution: "@next/swc-android-arm64@npm:12.1.0"
   conditions: os=android & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-arm64@npm:12.0.10":
-  version: 12.0.10
-  resolution: "@next/swc-darwin-arm64@npm:12.0.10"
+"@next/swc-darwin-arm64@npm:12.1.0":
+  version: 12.1.0
+  resolution: "@next/swc-darwin-arm64@npm:12.1.0"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-x64@npm:12.0.10":
-  version: 12.0.10
-  resolution: "@next/swc-darwin-x64@npm:12.0.10"
+"@next/swc-darwin-x64@npm:12.1.0":
+  version: 12.1.0
+  resolution: "@next/swc-darwin-x64@npm:12.1.0"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm-gnueabihf@npm:12.0.10":
-  version: 12.0.10
-  resolution: "@next/swc-linux-arm-gnueabihf@npm:12.0.10"
+"@next/swc-linux-arm-gnueabihf@npm:12.1.0":
+  version: 12.1.0
+  resolution: "@next/swc-linux-arm-gnueabihf@npm:12.1.0"
   conditions: os=linux & cpu=arm
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-gnu@npm:12.0.10":
-  version: 12.0.10
-  resolution: "@next/swc-linux-arm64-gnu@npm:12.0.10"
+"@next/swc-linux-arm64-gnu@npm:12.1.0":
+  version: 12.1.0
+  resolution: "@next/swc-linux-arm64-gnu@npm:12.1.0"
   conditions: os=linux & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-musl@npm:12.0.10":
-  version: 12.0.10
-  resolution: "@next/swc-linux-arm64-musl@npm:12.0.10"
+"@next/swc-linux-arm64-musl@npm:12.1.0":
+  version: 12.1.0
+  resolution: "@next/swc-linux-arm64-musl@npm:12.1.0"
   conditions: os=linux & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-gnu@npm:12.0.10":
-  version: 12.0.10
-  resolution: "@next/swc-linux-x64-gnu@npm:12.0.10"
+"@next/swc-linux-x64-gnu@npm:12.1.0":
+  version: 12.1.0
+  resolution: "@next/swc-linux-x64-gnu@npm:12.1.0"
   conditions: os=linux & cpu=x64
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-musl@npm:12.0.10":
-  version: 12.0.10
-  resolution: "@next/swc-linux-x64-musl@npm:12.0.10"
+"@next/swc-linux-x64-musl@npm:12.1.0":
+  version: 12.1.0
+  resolution: "@next/swc-linux-x64-musl@npm:12.1.0"
   conditions: os=linux & cpu=x64
   languageName: node
   linkType: hard
 
-"@next/swc-win32-arm64-msvc@npm:12.0.10":
-  version: 12.0.10
-  resolution: "@next/swc-win32-arm64-msvc@npm:12.0.10"
+"@next/swc-win32-arm64-msvc@npm:12.1.0":
+  version: 12.1.0
+  resolution: "@next/swc-win32-arm64-msvc@npm:12.1.0"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-win32-ia32-msvc@npm:12.0.10":
-  version: 12.0.10
-  resolution: "@next/swc-win32-ia32-msvc@npm:12.0.10"
+"@next/swc-win32-ia32-msvc@npm:12.1.0":
+  version: 12.1.0
+  resolution: "@next/swc-win32-ia32-msvc@npm:12.1.0"
   conditions: os=win32 & cpu=ia32
   languageName: node
   linkType: hard
 
-"@next/swc-win32-x64-msvc@npm:12.0.10":
-  version: 12.0.10
-  resolution: "@next/swc-win32-x64-msvc@npm:12.0.10"
+"@next/swc-win32-x64-msvc@npm:12.1.0":
+  version: 12.1.0
+  resolution: "@next/swc-win32-x64-msvc@npm:12.1.0"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -6744,7 +6744,7 @@ __metadata:
   resolution: "contentlayer-monorepo@workspace:."
   dependencies:
     "@changesets/cli": 2.19.0-temp.0
-    "@effect-ts/tracing-plugin": ^0.18.0
+    "@effect-ts/tracing-plugin": ^0.19.0
     "@types/prettier": ^2.3.2
     "@typescript-eslint/eslint-plugin": ^4.33.0
     "@typescript-eslint/parser": ^4.33.0
@@ -8996,7 +8996,7 @@ __metadata:
     contentlayer-stackbit-yaml-generator: "workspace:*"
     date-fns: ^2.28.0
     marked: ^3.0.4
-    next: ^12.0.10
+    next: ^12.1.0
     next-contentlayer: "workspace:*"
     react: ^17.0.2
     react-dom: ^17.0.2
@@ -9020,7 +9020,7 @@ __metadata:
     contentlayer-stackbit-yaml-generator: "workspace:*"
     date-fns: ^2.28.0
     marked: ^3.0.4
-    next: ^12.0.10
+    next: ^12.1.0
     next-contentlayer: "workspace:*"
     react: ^17.0.2
     react-dom: ^17.0.2
@@ -9043,7 +9043,7 @@ __metadata:
     contentlayer: "workspace:*"
     date-fns: ^2.28.0
     marked: ^3.0.4
-    next: ^12.0.10
+    next: ^12.1.0
     react: ^17.0.2
     react-dom: ^17.0.2
     react-helmet: ^6.1.0
@@ -9065,7 +9065,7 @@ __metadata:
     contentlayer-stackbit-yaml-generator: "workspace:*"
     date-fns: ^2.28.0
     marked: ^3.0.4
-    next: ^12.0.10
+    next: ^12.1.0
     next-contentlayer: "workspace:*"
     react: ^17.0.2
     react-dom: ^17.0.2
@@ -9085,7 +9085,7 @@ __metadata:
     "@types/react-dom": ^17.0.9
     contentlayer: latest
     date-fns: ^2.28.0
-    next: ^12.0.10
+    next: ^12.1.0
     next-contentlayer: latest
     react: 17.0.2
     react-dom: 17.0.2
@@ -9104,7 +9104,7 @@ __metadata:
     "@types/react-dom": ^17.0.9
     contentlayer: "workspace:*"
     eslint-config-next: ^12.0.10
-    next: ^12.0.10
+    next: ^12.1.0
     next-contentlayer: "workspace:*"
     react: ^17.0.2
     react-dom: ^17.0.2
@@ -9119,7 +9119,7 @@ __metadata:
   dependencies:
     contentlayer: latest
     date-fns: ^2.28.0
-    next: ^12.0.10
+    next: ^12.1.0
     next-contentlayer: latest
     react: 17.0.2
     react-dom: 17.0.2
@@ -9135,7 +9135,7 @@ __metadata:
     "@types/react-dom": ^17.0.9
     contentlayer: latest
     date-fns: ^2.28.0
-    next: ^12.0.10
+    next: ^12.1.0
     next-contentlayer: latest
     react: 17.0.2
     react-dom: 17.0.2
@@ -14302,12 +14302,12 @@ fsevents@~2.3.2:
     "@types/react": 17.0.20
     autoprefixer: ^10.4.2
     contentlayer: latest
-    next: 12.0.10
+    next: 12.1.0
     next-contentlayer: latest
     postcss: ^8.4.6
     react: 17.0.2
     react-dom: 17.0.2
-    tailwindcss: ^3.0.18
+    tailwindcss: ^3.0.23
     typescript: 4.5.5
   languageName: unknown
   linkType: soft
@@ -14318,7 +14318,7 @@ fsevents@~2.3.2:
   dependencies:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/utils": "workspace:*"
-    next: ^12.0.10
+    next: ^12.1.0
     rxjs: ^7.1.0
     typescript: ^4.5.5
   peerDependencies:
@@ -14335,29 +14335,29 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"next@npm:12.0.10, next@npm:^12.0.10":
-  version: 12.0.10
-  resolution: "next@npm:12.0.10"
+"next@npm:12.1.0, next@npm:^12.1.0":
+  version: 12.1.0
+  resolution: "next@npm:12.1.0"
   dependencies:
-    "@next/env": 12.0.10
-    "@next/swc-android-arm64": 12.0.10
-    "@next/swc-darwin-arm64": 12.0.10
-    "@next/swc-darwin-x64": 12.0.10
-    "@next/swc-linux-arm-gnueabihf": 12.0.10
-    "@next/swc-linux-arm64-gnu": 12.0.10
-    "@next/swc-linux-arm64-musl": 12.0.10
-    "@next/swc-linux-x64-gnu": 12.0.10
-    "@next/swc-linux-x64-musl": 12.0.10
-    "@next/swc-win32-arm64-msvc": 12.0.10
-    "@next/swc-win32-ia32-msvc": 12.0.10
-    "@next/swc-win32-x64-msvc": 12.0.10
+    "@next/env": 12.1.0
+    "@next/swc-android-arm64": 12.1.0
+    "@next/swc-darwin-arm64": 12.1.0
+    "@next/swc-darwin-x64": 12.1.0
+    "@next/swc-linux-arm-gnueabihf": 12.1.0
+    "@next/swc-linux-arm64-gnu": 12.1.0
+    "@next/swc-linux-arm64-musl": 12.1.0
+    "@next/swc-linux-x64-gnu": 12.1.0
+    "@next/swc-linux-x64-musl": 12.1.0
+    "@next/swc-win32-arm64-msvc": 12.1.0
+    "@next/swc-win32-ia32-msvc": 12.1.0
+    "@next/swc-win32-x64-msvc": 12.1.0
     caniuse-lite: ^1.0.30001283
     postcss: 8.4.5
     styled-jsx: 5.0.0
     use-subscription: 1.5.1
   peerDependencies:
     fibers: ">= 3.1.0"
-    node-sass: ^4.0.0 || ^5.0.0 || ^6.0.0
+    node-sass: ^6.0.0 || ^7.0.0
     react: ^17.0.2 || ^18.0.0-0
     react-dom: ^17.0.2 || ^18.0.0-0
     sass: ^1.3.0
@@ -14393,7 +14393,7 @@ fsevents@~2.3.2:
       optional: true
   bin:
     next: dist/bin/next
-  checksum: e92ff09c1f831a5131c4ca6bd5b917bf2ed0ba6c176fe10109096bbd35b5a72e6d8015aa6dc95d635175b4f3d58b1130471c2797088292dec58b10eb38d66662
+  checksum: 36dbafd5e640c420446dc05077f858ae4a8aaf5f91feb3c6c16c1b3f50b9fb63f743ef282a3bf0c68645442bef8aee643492f6dc62388a17f87064cde064d181
   languageName: node
   linkType: hard
 
@@ -18022,7 +18022,17 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-resolve@^1.21.0:
+resolve@^2.0.0-next.3:
+  version: 2.0.0-next.3
+  resolution: "resolve@npm:2.0.0-next.3"
+  dependencies:
+    is-core-module: ^2.2.0
+    path-parse: ^1.0.6
+  checksum: f34b3b93ada77d64a6d590c06a83e198f3a827624c4ec972260905fa6c4d612164fbf0200d16d2beefea4ad1755b001f4a9a1293d8fc2322a8f7d6bf692c4ff5
+  languageName: node
+  linkType: hard
+
+"resolve@npm:^1.22.0":
   version: 1.22.0
   resolution: "resolve@npm:1.22.0"
   dependencies:
@@ -18032,16 +18042,6 @@ resolve@^1.21.0:
   bin:
     resolve: bin/resolve
   checksum: a2d14cc437b3a23996f8c7367eee5c7cf8149c586b07ca2ae00e96581ce59455555a1190be9aa92154785cf9f2042646c200d0e00e0bbd2b8a995a93a0ed3e4e
-  languageName: node
-  linkType: hard
-
-resolve@^2.0.0-next.3:
-  version: 2.0.0-next.3
-  resolution: "resolve@npm:2.0.0-next.3"
-  dependencies:
-    is-core-module: ^2.2.0
-    path-parse: ^1.0.6
-  checksum: f34b3b93ada77d64a6d590c06a83e198f3a827624c4ec972260905fa6c4d612164fbf0200d16d2beefea4ad1755b001f4a9a1293d8fc2322a8f7d6bf692c4ff5
   languageName: node
   linkType: hard
 
@@ -18055,7 +18055,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@^1.21.0#~builtin<compat/resolve>":
+"resolve@patch:resolve@^1.22.0#~builtin<compat/resolve>":
   version: 1.22.0
   resolution: "resolve@patch:resolve@npm%3A1.22.0#~builtin<compat/resolve>::version=1.22.0&hash=07638b"
   dependencies:
@@ -19521,9 +19521,9 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^3.0.18":
-  version: 3.0.18
-  resolution: "tailwindcss@npm:3.0.18"
+"tailwindcss@npm:^3.0.23":
+  version: 3.0.23
+  resolution: "tailwindcss@npm:3.0.23"
   dependencies:
     arg: ^5.0.1
     chalk: ^4.1.2
@@ -19538,20 +19538,21 @@ resolve@^2.0.0-next.3:
     is-glob: ^4.0.3
     normalize-path: ^3.0.0
     object-hash: ^2.2.0
+    postcss: ^8.4.6
     postcss-js: ^4.0.0
     postcss-load-config: ^3.1.0
     postcss-nested: 5.0.6
     postcss-selector-parser: ^6.0.9
     postcss-value-parser: ^4.2.0
     quick-lru: ^5.1.1
-    resolve: ^1.21.0
+    resolve: ^1.22.0
   peerDependencies:
     autoprefixer: ^10.0.2
     postcss: ^8.0.9
   bin:
     tailwind: lib/cli.js
     tailwindcss: lib/cli.js
-  checksum: 3c56692eee2d2bb5e5328429c3c2a951716e7af76bc161c3f2d2efa1bfc5b3963967b64db962cea5fdcc3bc4ae1948c305dd7d9c1dc80603de85b785997d567c
+  checksum: 2e7fdd11561e619770f656821c4b6850fdef633777c1f56fc815e566fc3fe6ec707df0966e90764ef9f452be0d0ee54daa0541002918eada590def3788a30f08
   languageName: node
   linkType: hard
 
