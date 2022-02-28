@@ -3,9 +3,10 @@ receivers:
     protocols:
       grpc:
       http:
-        cors_allowed_origins:
-          - http://*
-          - https://*
+        cors:
+          allowed_origins:
+            - http://*
+            - https://*
 
 exporters:
   jaeger:

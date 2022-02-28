@@ -2,7 +2,7 @@ version: '3.8'
 services:
   # Collector
   otel-collector:
-    image: otel/opentelemetry-collector:0.40.0
+    image: otel/opentelemetry-collector:0.44.0
     command: ['--config=/conf/collector-config.yaml']
     volumes:
       - ./collector-config.yaml:/conf/collector-config.yaml
@@ -15,7 +15,7 @@ services:
 
   # Jaeger
   jaeger-all-in-one:
-    image: jaegertracing/all-in-one:1.29.0
+    image: jaegertracing/all-in-one:1.31.0
     ports:
       - '16686:16686'
       - '14268:14268'
