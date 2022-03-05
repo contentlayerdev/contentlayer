@@ -95,5 +95,6 @@ module.exports = withContentlayer()({
 - [sergiobarria.com](https://sergiobarria.com/) ([Source](https://github.com/sergiobarria/sergiobarria.com))
 - [adeecc.vercel.app](https://adeecc.vercel.app/) ([Source](https://github.com/adeecc/blogfolio))
 - [alpesdream.vercel.app](https://alpesdream.vercel.app/) ([Source](https://github.com/patrick-xin/alpesdream))
+- [bayukurnia.com](https://bayukurnia.com) ([Source](https://github.com/bwyx/bayukurnia.com))
 
 Are you using Contentlayer? Please add yourself to the list above via a PR. 🙏
