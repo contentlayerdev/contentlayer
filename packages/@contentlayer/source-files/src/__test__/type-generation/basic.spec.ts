@@ -59,6 +59,31 @@ test('generate-types: simple schema', async (t) => {
   t.snapshot(typeSource)
 })
 
+test('generate-types: simple schema with optional fields', async (t) => {
+  const TestPost = defineDocumentType(() => ({
+    name: 'TestPost',
+    filePathPattern: `**/*.md`,
+    fields: {
+      title: {
+        type: 'string',
+        description: 'The title of the post',
+        required: true,
+      },
+      date: {
+        type: 'date',
+        description: 'The date of the post',
+      },
+    },
+    computedFields: {
+      slug: { type: 'string', resolve: (_) => _._id.replace('.md', '') },
+    },
+  }))
+
+  const typeSource = await renderTypeSource([TestPost])
+
+  t.snapshot(typeSource)
+})
+
 test('generate-types: references with embedded schema', async (t) => {
   const Post = defineDocumentType(() => ({
     name: 'Post',

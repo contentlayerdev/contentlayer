@@ -163,9 +163,9 @@ const renderRawType = ({ sourcePluginType }: { sourcePluginType: SourcePluginTyp
 
 const renderFieldDef = (field: FieldDef): string => {
   const canBeUndefined = field.isRequired === false && field.default === undefined
-  return `${field.description ? `  /** ${field.description} */\n` : ''}  ${field.name}: ${renderFieldType(field)}${
-    canBeUndefined ? ' | undefined' : ''
-  }`
+  return `${field.description ? `  /** ${field.description} */\n` : ''}  ${field.name}${
+    canBeUndefined ? '?' : ''
+  }: ${renderFieldType(field)}${canBeUndefined ? ' | undefined' : ''}`
 }
 
 const renderFieldType = (field: FieldDef): string => {
