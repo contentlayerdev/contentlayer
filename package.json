@@ -4,6 +4,7 @@
   "workspaces": [
     "./packages/@contentlayer/*",
     "./packages/*",
+    "./examples/archive/*",
     "./examples/*"
   ],
   "scripts": {
