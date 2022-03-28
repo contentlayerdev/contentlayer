@@ -36,9 +36,9 @@ test('CouldNotDetermineDocumentTypeError: should print 4 errors', async () => {
 
   expect(errorString).toMatchInlineSnapshot(
     `
-    "Warning: Found 4 problems in 42 documents. Skipping those documents.
+    "Warning: Found 4 problems in 42 documents.
     
-     └── Couldn't determine the document type for 4 documents.
+     └── Couldn't determine the document type for 4 documents. (Skipping documents)
          
          Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field \\"type\\" needs to be one of the following document type names: TypeA, TypeB).
          
@@ -64,9 +64,9 @@ test('CouldNotDetermineDocumentTypeError: should print 24 errors - truncated', a
 
   expect(errorString).toMatchInlineSnapshot(
     `
-    "Warning: Found 24 problems in 81 documents. Skipping those documents.
+    "Warning: Found 24 problems in 81 documents.
     
-     └── Couldn't determine the document type for 24 documents.
+     └── Couldn't determine the document type for 24 documents. (Skipping documents)
          
          Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field \\"type\\" needs to be one of the following document type names: TypeA, TypeB).
          
@@ -110,9 +110,9 @@ test('CouldNotDetermineDocumentTypeError: should print 24 errors - full', async 
 
   expect(errorString).toMatchInlineSnapshot(
     `
-    "Warning: Found 24 problems in 81 documents. Skipping those documents.
+    "Warning: Found 24 problems in 81 documents.
     
-     └── Couldn't determine the document type for 24 documents.
+     └── Couldn't determine the document type for 24 documents. (Skipping documents)
          
          Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field \\"type\\" needs to be one of the following document type names: TypeA, TypeB).
          
@@ -160,7 +160,7 @@ test('CouldNotDetermineDocumentTypeError: should ignore the errors', async () =>
   expect(errorString).toBeNull()
 })
 
-test('MissingRequiredFieldsError: should print 4 errors', async () => {
+test('MissingRequiredFieldsError: should print 4 warnings', async () => {
   const errorString = aggregateFetchDataErrors({
     errors: makeErrors({ MissingRequiredFieldsError: 4 }),
     options,
@@ -172,9 +172,9 @@ test('MissingRequiredFieldsError: should print 4 errors', async () => {
 
   expect(errorString).toMatchInlineSnapshot(
     `
-    "Warning: Found 4 problems in 42 documents. Skipping those documents.
+    "Warning: Found 4 problems in 42 documents.
     
-     └── Missing required fields for 4 documents
+     └── Missing required fields for 4 documents. (Skipping documents)
          
          • \\"docs/port_quality_focused_monitor.md\\" is missing the following required fields:
            • someField: string
@@ -184,6 +184,58 @@ test('MissingRequiredFieldsError: should print 4 errors', async () => {
            • someField: string
          • \\"docs/poland.md\\" is missing the following required fields:
            • someField: string
+         
+    "
+  `,
+  )
+})
+
+test('ExtraFieldDataError: should print warning', async () => {
+  const errorString = aggregateFetchDataErrors({
+    errors: makeErrors({ ExtraFieldDataError: 2 }),
+    options,
+    flags,
+    schemaDef,
+    contentDirPath,
+    documentCount: 42,
+  })
+
+  expect(errorString).toMatchInlineSnapshot(
+    `
+    "Warning: Found 2 problems in 42 documents.
+    
+     └──   2 documents contain field data which isn't defined in the document type definition.
+         
+         • \\"docs/port_quality_focused_monitor.md\\" of type \\"System\\" has the following extra fields:
+           • someKey: \\"someVal\\" 
+         • \\"docs/administrator_missouri_synergize.md\\" of type \\"Alarm\\" has the following extra fields:
+           • someOtherKey: 42 
+         
+    "
+  `,
+  )
+})
+
+test('ExtraFieldDataError: should print error', async () => {
+  const errorString = aggregateFetchDataErrors({
+    errors: makeErrors({ ExtraFieldDataError: 2 }),
+    options,
+    flags: { ...flags, onExtraFieldData: 'fail' },
+    schemaDef,
+    contentDirPath,
+    documentCount: 42,
+  })
+
+  expect(errorString).toMatchInlineSnapshot(
+    `
+    "Error: Found 2 problems in 42 documents.
+    
+     └──   2 documents contain field data which isn't defined in the document type definition.
+         
+         • \\"docs/port_quality_focused_monitor.md\\" of type \\"System\\" has the following extra fields:
+           • someKey: \\"someVal\\" 
+         • \\"docs/administrator_missouri_synergize.md\\" of type \\"Alarm\\" has the following extra fields:
+           • someOtherKey: 42 
          
     "
   `,
@@ -202,9 +254,9 @@ test('MissingRequiredFieldsError: should print 24 errors - truncated', async () 
 
   expect(errorString).toMatchInlineSnapshot(
     `
-    "Warning: Found 24 problems in 81 documents. Skipping those documents.
+    "Warning: Found 24 problems in 81 documents.
     
-     └── Missing required fields for 24 documents
+     └── Missing required fields for 24 documents. (Skipping documents)
          
          • \\"docs/port_quality_focused_monitor.md\\" is missing the following required fields:
            • someField: string
@@ -265,9 +317,9 @@ test('mix of different errors: some', async () => {
 
   expect(errorString).toMatchInlineSnapshot(
     `
-    "Warning: Found 6 problems in 42 documents. Skipping those documents.
+    "Warning: Found 6 problems in 42 documents.
     
-     ├── Couldn't determine the document type for 4 documents.
+     ├── Couldn't determine the document type for 4 documents. (Skipping documents)
      │   
      │   Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field \\"type\\" needs to be one of the following document type names: TypeA, TypeB).
      │   
@@ -276,12 +328,52 @@ test('mix of different errors: some', async () => {
      │   • docs/synergize.md
      │   • docs/card_balanced.md
      │   
-     └── Couldn't find document type definitions provided by name for 2 documents.
+     └── Couldn't find document type definitions provided by name for 2 documents. (Skipping documents)
          
          Please use one of the following document type names: TypeA, TypeB.
          
          • docs/card_table.md (Used type name: \\"Bandwidth\\")
          • docs/firewall_withdrawal.md (Used type name: \\"Sensor\\")
+         
+    "
+  `,
+  )
+})
+
+test('mix of different errors: with extra field data', async () => {
+  const errorString = aggregateFetchDataErrors({
+    errors: makeErrors({ CouldNotDetermineDocumentTypeError: 4, NoSuchDocumentTypeError: 2, ExtraFieldDataError: 1 }),
+    options,
+    flags,
+    schemaDef,
+    contentDirPath,
+    documentCount: 42,
+  })
+
+  expect(errorString).toMatchInlineSnapshot(
+    `
+    "Warning: Found 7 problems in 42 documents.
+    
+     ├── Couldn't determine the document type for 4 documents. (Skipping documents)
+     │   
+     │   Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field \\"type\\" needs to be one of the following document type names: TypeA, TypeB).
+     │   
+     │   • docs/port_quality_focused_monitor.md
+     │   • docs/mobile_metical.md
+     │   • docs/synergize.md
+     │   • docs/card_balanced.md
+     │   
+     ├── Couldn't find document type definitions provided by name for 2 documents. (Skipping documents)
+     │   
+     │   Please use one of the following document type names: TypeA, TypeB.
+     │   
+     │   • docs/card_table.md (Used type name: \\"Bandwidth\\")
+     │   • docs/firewall_withdrawal.md (Used type name: \\"Sensor\\")
+     │   
+     └──   1 documents contain field data which isn't defined in the document type definition.
+         
+         • \\"docs/pixel_system_withdrawal.md\\" of type \\"Program\\" has the following extra fields:
+           • someKey: \\"someVal\\" 
          
     "
   `,
@@ -308,7 +400,7 @@ test('mix of different errors: other', async () => {
     `
     "Error: Found 12 problems in 42 documents.
     
-     ├── Couldn't determine the document type for 4 documents.
+     ├── Couldn't determine the document type for 4 documents. (Skipping documents)
      │   
      │   Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field \\"type\\" needs to be one of the following document type names: TypeA, TypeB).
      │   
@@ -317,7 +409,7 @@ test('mix of different errors: other', async () => {
      │   • docs/synergize.md
      │   • docs/card_balanced.md
      │   
-     ├── Couldn't find document type definitions provided by name for 2 documents.
+     ├── Couldn't find document type definitions provided by name for 2 documents. (Skipping documents)
      │   
      │   Please use one of the following document type names: TypeA, TypeB.
      │   
@@ -329,11 +421,11 @@ test('mix of different errors: other', async () => {
      │   • \\"docs/pixel_system_withdrawal.md\\": Error: Some problem happened: We need to calculate the virtual SSL matrix!
      │   • \\"docs/licensed_grocery_avon.md\\": Error: Some problem happened: If we reboot the application, we can get to the FTP circuit through the redundant SCSI feed!
      │   
-     ├── Error during computed field exection for 1 documents.
+     ├── Error during computed field exection for 1 documents. (Skipping documents)
      │   
      │   • \\"docs/berkshire_colorado.md\\" failed with Error: Some problem happened: Try to reboot the XML feed, maybe it will compress the redundant bus!
      │   
-     └── Missing required fields for 3 documents
+     └── Missing required fields for 3 documents. (Skipping documents)
          
          • \\"docs/berkshire.md\\" is missing the following required fields:
            • someField: string
