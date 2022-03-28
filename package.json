@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "postinstall": "ts-patch install && ts-patch --persist",
-    "test": "yarn workspaces foreach --no-private --parallel run test",
+    "test": "yarn workspaces foreach --no-private --parallel run test --run",
     "build": "run build:clean && run build:ts && yarn workspace next-contentlayer run prepack",
     "build:ts": "tsc --build tsconfig.all.json",
     "dev:ts": "run build:ts --watch",

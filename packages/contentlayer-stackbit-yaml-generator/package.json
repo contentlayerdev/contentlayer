@@ -12,7 +12,7 @@
     "./package.json"
   ],
   "scripts": {
-    "test": "ava --color"
+    "test": "FORCE_COLOR=1 vitest"
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*",
@@ -23,16 +23,9 @@
     "yaml": "^1.10.2"
   },
   "devDependencies": {
-    "ava": "^4.1.0",
     "contentlayer": "workspace:*",
-    "typescript": "^4.6.3"
-  },
-  "ava": {
-    "files": [
-      "dist/__test__/**/*.spec.js"
-    ],
-    "ignoredByWatcher": [
-      "src/**/*"
-    ]
+    "typescript": "^4.6.3",
+    "vite": "^2.8.6",
+    "vitest": "^0.7.12"
   }
 }

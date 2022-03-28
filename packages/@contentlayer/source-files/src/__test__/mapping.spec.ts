@@ -2,23 +2,23 @@ import * as core from '@contentlayer/core'
 import { DummyTracing } from '@contentlayer/utils'
 import type { HasClock, HasConsole, OT } from '@contentlayer/utils/effect'
 import { pipe, provideConsole, T } from '@contentlayer/utils/effect'
-import test from 'ava'
+import { expect, test } from 'vitest'
 
 import type { HasDocumentContext } from '../fetchData/DocumentContext.js'
 import { provideDocumentContext } from '../fetchData/DocumentContext.js'
 import { getFlattenedPath, testOnly_getDataForFieldDef as getDataForFieldDef } from '../fetchData/mapping.js'
 
-test('getFlattenedPath', async (t) => {
-  t.is(getFlattenedPath('some/path/doc.md'), 'some/path/doc')
-  t.is(getFlattenedPath('some/path/index.md'), 'some/path')
-  t.is(getFlattenedPath('some/index/index.md'), 'some/index')
-  t.is(getFlattenedPath('index/index.md'), 'index')
-  t.is(getFlattenedPath('index.md'), '')
+test('getFlattenedPath', () => {
+  expect(getFlattenedPath('some/path/doc.md')).toBe('some/path/doc')
+  expect(getFlattenedPath('some/path/index.md')).toBe('some/path')
+  expect(getFlattenedPath('some/index/index.md')).toBe('some/index')
+  expect(getFlattenedPath('index/index.md')).toBe('index')
+  expect(getFlattenedPath('index.md')).toBe('')
 })
 
 const __unusedValue: any = ''
 
-test('getDataForFieldDef', async (t) => {
+test('getDataForFieldDef', async () => {
   const testValue = async ({
     type,
     expectedValue,
@@ -54,7 +54,7 @@ test('getDataForFieldDef', async (t) => {
       }),
     )
 
-    t.is(transformedData, expectedValue)
+    expect(transformedData).toBe(expectedValue)
   }
 
   await testValue({ type: 'date', rawFieldData: '2022', expectedValue: '2022-01-01T00:00:00.000Z' })

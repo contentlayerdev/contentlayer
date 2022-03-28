@@ -25,7 +25,7 @@
     "./package.json"
   ],
   "scripts": {
-    "test": "TZ='GMT' ava --color"
+    "test": "TZ='GMT' FORCE_COLOR=1 vitest"
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*",
@@ -46,15 +46,8 @@
     "@types/node": "^16.11.26",
     "@types/tap": "^15.0.5",
     "@types/yaml": "^1.9.7",
-    "ava": "^4.1.0",
-    "faker": "^5.5.3"
-  },
-  "ava": {
-    "files": [
-      "dist/__test__/**/*.spec.js"
-    ],
-    "ignoredByWatcher": [
-      "src/**/*"
-    ]
+    "faker": "^5.5.3",
+    "vite": "^2.8.6",
+    "vitest": "^0.7.12"
   }
 }
