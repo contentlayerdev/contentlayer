@@ -72,7 +72,7 @@ export default makeSource({
 ```js
 const { withContentlayer } = require('next-contentlayer')
 
-module.exports = withContentlayer()({
+module.exports = withContentlayer({
   // Your Next.js config...
 })
 ```
