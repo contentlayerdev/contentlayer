@@ -69,10 +69,10 @@
     "@opentelemetry/semantic-conventions": "^1.0.0",
     "chokidar": "^3.5.3",
     "hash-wasm": "^4.9.0",
-    "inflection": "^1.13.1",
-    "oo-ascii-tree": "^1.36.0",
-    "ts-pattern": "^3.3.3",
-    "type-fest": "^1.2.1"
+    "inflection": "^1.13.2",
+    "oo-ascii-tree": "^1.55.1",
+    "ts-pattern": "^4.0.1",
+    "type-fest": "^2.12.1"
   },
   "devDependencies": {
     "@types/inflection": "^1.13.0"
