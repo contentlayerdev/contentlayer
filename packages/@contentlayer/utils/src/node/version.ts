@@ -5,6 +5,7 @@ import type { OT } from '../effect/index.js'
 import { pipe, T } from '../effect/index.js'
 import * as fs from './fs.js'
 
+// TODO do this at compile time as this takes 10ms every time
 // use static import once JSON modules are no longer experimental
 // import utilsPkg from '@contentlayer/utils/package.json'
 

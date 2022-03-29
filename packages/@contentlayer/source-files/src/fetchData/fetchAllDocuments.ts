@@ -18,6 +18,7 @@ export const fetchAllDocuments = ({
   coreSchemaDef,
   filePathPatternMap,
   contentDirPath,
+  contentDirIgnore,
   contentTypeMap,
   flags,
   options,
@@ -27,6 +28,7 @@ export const fetchAllDocuments = ({
   coreSchemaDef: core.SchemaDef
   filePathPatternMap: FilePathPatternMap
   contentDirPath: PosixFilePath
+  contentDirIgnore: readonly PosixFilePath[]
   contentTypeMap: ContentTypeMap
   flags: Flags
   options: core.PluginOptions
@@ -35,7 +37,7 @@ export const fetchAllDocuments = ({
 }): T.Effect<OT.HasTracer & HasConsole, fs.UnknownFSError | core.HandledFetchDataError, core.DataCache.Cache> =>
   pipe(
     T.gen(function* ($) {
-      const allRelativeFilePaths = yield* $(getAllRelativeFilePaths({ contentDirPath }))
+      const allRelativeFilePaths = yield* $(getAllRelativeFilePaths({ contentDirPath, contentDirIgnore }))
 
       const concurrencyLimit = os.cpus().length
 
@@ -82,13 +84,15 @@ export const fetchAllDocuments = ({
 
 const getAllRelativeFilePaths = ({
   contentDirPath,
+  contentDirIgnore,
 }: {
   contentDirPath: string
+  contentDirIgnore: readonly PosixFilePath[]
 }): T.Effect<OT.HasTracer, fs.UnknownFSError, PosixFilePath[]> => {
   const filePathPattern = '**/*.{md,mdx,json,yaml,yml}'
   return pipe(
     T.tryCatchPromise(
-      () => glob(filePathPattern, { cwd: contentDirPath }),
+      () => glob(filePathPattern, { cwd: contentDirPath, ignore: contentDirIgnore }),
       (error) => new fs.UnknownFSError({ error }),
     ),
     T.map((_) => _.map(posixFilePath)),

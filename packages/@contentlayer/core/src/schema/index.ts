@@ -51,4 +51,4 @@ export type ComputedField = {
   resolve: ComputedFieldResolver
 }
 
-type ComputedFieldResolver = (_: Document) => FieldDefType | Promise<FieldDefType>
+export type ComputedFieldResolver = (_: Document) => FieldDefType | Promise<FieldDefType>

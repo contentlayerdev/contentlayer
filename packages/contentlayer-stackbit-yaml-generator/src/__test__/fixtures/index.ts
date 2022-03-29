@@ -9,10 +9,12 @@ import * as blog from './blog-schema/index.js'
 export const makeAzimuthSchema = () => makeSchema(azimuth)
 export const makeBlogSchema = () => makeSchema(blog)
 
+const esbuildHash = 'not-important-for-this-test'
+
 const makeSchema = (documentTypes: Record<string, DocumentType<any>>) =>
   pipe(
     T.tryPromise(() => makeSource({ documentTypes, contentDirPath: '' })),
-    T.chain((source) => source.provideSchema),
+    T.chain((source) => source.provideSchema(esbuildHash)),
     provideJaegerTracing('contentlayer-cli'),
     provideConsole,
     T.runPromise,

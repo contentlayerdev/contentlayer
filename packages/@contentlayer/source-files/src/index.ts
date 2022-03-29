@@ -20,6 +20,32 @@ export type Args = {
    *  - `_raw` fields such as `flattenedPath`, `sourceFilePath`, `sourceFileDir`
    */
   contentDirPath: string
+
+  /**
+   * An array of paths that Contentlayer should ignore. They can be either files or directories.
+   * The paths need to be relative to `contentDirPath` or absolute.
+   * Glob/wildcard patterns (e.g. using `*`) are not support yet.
+   *
+   * @see {@link contentDirIgnoreDefault} for default values
+   *
+   * @default ['node_modules', '.git', '.yarn', '.cache', '.next', '.contentlayer', 'package.json', 'tsconfig.json']
+   *
+   *
+   * @example
+   * ```js
+   * export default makeSource({
+   *   // ...
+   *   contentDirPath: './content',
+   *   contentDirIgnore: ['internal-docs'],
+   * })
+   * ```
+   */
+  contentDirIgnore?: string[]
+  // NOTE https://github.com/parcel-bundler/watcher/issues/64
+
+  /**
+   * This is an experimental feature and should be ignored for now.
+   */
   extensions?: {
     stackbit?: core.StackbitExtension.Config
   }
@@ -33,6 +59,7 @@ export const makeSource: core.MakeSourcePlugin<Args> = async (args) => {
     restArgs: {
       documentTypes,
       contentDirPath,
+      contentDirIgnore,
       onUnknownDocuments = 'skip-warn',
       onMissingOrIncompatibleData = 'skip-warn',
       onExtraFieldData = 'warn',
@@ -49,10 +76,11 @@ export const makeSource: core.MakeSourcePlugin<Args> = async (args) => {
     type: 'local',
     extensions: extensions ?? {},
     options,
-    provideSchema: pipe(
-      makeCoreSchema({ documentTypeDefs, options }),
-      T.mapError((error) => new SourceProvideSchemaError({ error })),
-    ),
+    provideSchema: (esbuildHash) =>
+      pipe(
+        makeCoreSchema({ documentTypeDefs, options, esbuildHash }),
+        T.mapError((error) => new SourceProvideSchemaError({ error })),
+      ),
     fetchData: ({ schemaDef, verbose }) =>
       fetchData({
         coreSchemaDef: schemaDef,
@@ -60,7 +88,19 @@ export const makeSource: core.MakeSourcePlugin<Args> = async (args) => {
         flags,
         options,
         contentDirPath: unknownToPosixFilePath(contentDirPath),
+        contentDirIgnore: (contentDirIgnore ?? contentDirIgnoreDefault).map((_) => unknownToPosixFilePath(_)),
         verbose,
       }),
   }
 }
+
+export const contentDirIgnoreDefault = [
+  'node_modules',
+  '.git',
+  '.yarn',
+  '.cache',
+  '.next',
+  '.contentlayer',
+  'package.json',
+  'tsconfig.json',
+]

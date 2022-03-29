@@ -558,7 +558,7 @@ exports[`azimuth schema 1`] = `
       "name": "Post",
     },
   },
-  "hash": "9092919336b431c2",
+  "hash": "not-important-for-this-test",
   "nestedTypeDefMap": {
     "Action": {
       "_tag": "NestedTypeDef",
@@ -4210,7 +4210,7 @@ exports[`blog schema 1`] = `
       "name": "Post",
     },
   },
-  "hash": "b0ef233427c259a6",
+  "hash": "not-important-for-this-test",
   "nestedTypeDefMap": {},
 }
 `;

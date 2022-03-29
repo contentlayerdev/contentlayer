@@ -4,15 +4,16 @@ import { identity, T } from '@contentlayer/utils/effect'
 
 import type { SchemaError } from '../errors/index.js'
 import { DuplicateBodyFieldError } from '../errors/index.js'
-import type { LocalDocument } from '../types.js'
 import * as LocalSchema from './defs/index.js'
 
 export const makeCoreSchema = ({
   documentTypeDefs,
   options,
+  esbuildHash,
 }: {
   documentTypeDefs: LocalSchema.DocumentTypeDef[]
   options: core.PluginOptions
+  esbuildHash: string
 }): T.Effect<unknown, SchemaError | utils.HashError, core.SchemaDef> =>
   T.gen(function* ($) {
     const coreDocumentTypeDefMap: core.DocumentTypeDefMap = {}
@@ -58,7 +59,7 @@ export const makeCoreSchema = ({
           ...utils.pick(computedField, ['description', 'type']),
           name,
           // NOTE we need to flip the variance here (casting a core.Document to a LocalDocument)
-          resolve: (_) => computedField.resolve(_ as LocalDocument),
+          resolve: computedField.resolve as core.ComputedFieldResolver,
         }),
       )
 
@@ -89,10 +90,11 @@ export const makeCoreSchema = ({
       coreNestedTypeDefMap[coreNestedTypeDef.name] = coreNestedTypeDef
     }
 
-    const defs = { documentTypeDefMap: coreDocumentTypeDefMap, nestedTypeDefMap: coreNestedTypeDefMap }
-    const hash = yield* $(utils.hashObject({ defs, options }))
-
-    const coreSchemaDef = { ...defs, hash }
+    const coreSchemaDef = {
+      documentTypeDefMap: coreDocumentTypeDefMap,
+      nestedTypeDefMap: coreNestedTypeDefMap,
+      hash: esbuildHash,
+    }
 
     core.validateSchema(coreSchemaDef)
 

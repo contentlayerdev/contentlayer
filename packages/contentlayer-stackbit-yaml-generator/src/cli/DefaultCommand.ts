@@ -52,7 +52,9 @@ export class DefaultCommand extends Command {
   executeSafe = (): T.Effect<OT.HasTracer & HasCwd & HasConsole, unknown, void> =>
     pipe(
       getConfig({ configPath: this.configPath }),
-      T.chain((source) => T.struct({ source: T.succeed(source), schema: source.provideSchema })),
+      T.chain((config) =>
+        T.struct({ source: T.succeed(config.source), schema: config.source.provideSchema(config.esbuildHash) }),
+      ),
       T.chain(({ schema, source }) =>
         T.tryCatchPromise(
           async () => {

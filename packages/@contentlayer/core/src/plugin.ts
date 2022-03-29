@@ -67,7 +67,9 @@ export type SourcePlugin = {
   extensions: PluginExtensions
 }
 
-export type ProvideSchema = T.Effect<OT.HasTracer & HasConsole, SourceProvideSchemaError, SchemaDef>
+export type ProvideSchema = (
+  esbuildHash: string,
+) => T.Effect<OT.HasTracer & HasConsole, SourceProvideSchemaError, SchemaDef>
 export type FetchData = (_: {
   schemaDef: SchemaDef
   verbose: boolean

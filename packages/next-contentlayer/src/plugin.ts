@@ -14,7 +14,7 @@ export const runContentlayerDev = async () => {
   await pipe(
     core.getConfigWatch({}),
     S.tapSkipFirstRight(() => T.log(`Contentlayer config change detected. Updating type definitions and data...`)),
-    S.chainSwitchMapEitherRight((source) => core.generateDotpkgStream({ source, verbose: false })),
+    S.chainSwitchMapEitherRight((config) => core.generateDotpkgStream({ config, verbose: false })),
     S.tap(E.fold((error) => T.log(errorToString(error)), core.logGenerateInfo)),
     S.runDrain,
     runMain,
@@ -27,7 +27,7 @@ export const runContentlayerBuild = async () => {
 
   await pipe(
     core.getConfig({}),
-    T.chain((source) => core.generateDotpkg({ source, verbose: false })),
+    T.chain((config) => core.generateDotpkg({ config, verbose: false })),
     T.tap(core.logGenerateInfo),
     OT.withSpan('next-contentlayer:runContentlayerBuild'),
     runMain,

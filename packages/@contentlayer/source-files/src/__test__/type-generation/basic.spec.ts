@@ -8,9 +8,10 @@ import { makeSource } from '../../index.js'
 import { defineDocumentType } from '../../schema/defs/index.js'
 
 const renderTypeSource = async (documentTypes: DocumentTypes) => {
+  const esbuildHash = 'not-important-for-this-test'
   const schemaDef = await pipe(
     T.tryPromise(() => makeSource({ documentTypes, contentDirPath: '' })),
-    T.chain((source) => source.provideSchema),
+    T.chain((source) => source.provideSchema(esbuildHash)),
     provideJaegerTracing('contentlayer-cli'),
     provideConsole,
     T.runPromise,

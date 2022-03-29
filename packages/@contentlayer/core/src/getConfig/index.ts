@@ -23,11 +23,16 @@ type GetConfigError =
   | ConfigNoDefaultExportError
   | GetContentlayerVersionError
 
+export type Config = {
+  source: SourcePlugin
+  esbuildHash: string
+}
+
 export const getConfig = ({
   configPath,
 }: {
   configPath?: string
-}): T.Effect<OT.HasTracer & HasCwd, GetConfigError, SourcePlugin> =>
+}): T.Effect<OT.HasTracer & HasCwd, GetConfigError, Config> =>
   pipe(
     getConfigWatch({ configPath }),
     S.take(1),
@@ -41,7 +46,7 @@ export const getConfigWatch = ({
   configPath: configPath_,
 }: {
   configPath?: string
-}): S.Stream<OT.HasTracer & HasCwd, never, E.Either<GetConfigError, SourcePlugin>> => {
+}): S.Stream<OT.HasTracer & HasCwd, never, E.Either<GetConfigError, Config>> => {
   const resolveParams = pipe(
     T.structPar({ configPath: resolveConfigPath({ configPath: configPath_ }) }),
     T.chainMergeObject(() => makeTmpDirAndResolveEntryPoint),
@@ -54,6 +59,7 @@ export const getConfigWatch = ({
       pipe(
         esbuild.makeAndSubscribe({
           entryPoints: [configPath],
+          entryNames: '[name]-[hash]',
           outfile: outfilePath,
           sourcemap: true,
           platform: 'node',
@@ -63,9 +69,10 @@ export const getConfigWatch = ({
           jsx: 'transform',
           bundle: true,
           logLevel: 'silent',
+          metafile: true,
           plugins: [contentlayerGenPlugin(), makeAllPackagesExternalPlugin(configPath)],
         }),
-        S.mapEffectEitherRight((result) => getConfigFromResult({ result, configPath, outfilePath })),
+        S.mapEffectEitherRight((result) => getConfigFromResult({ result, configPath })),
       ),
     ),
   )
@@ -105,13 +112,11 @@ const makeTmpDirAndResolveEntryPoint = pipe(
 const getConfigFromResult = ({
   result,
   configPath,
-  outfilePath,
 }: {
   result: esbuild.BuildResult
   /** configPath only needed for error message */
   configPath: string
-  outfilePath: string
-}): T.Effect<OT.HasTracer, never, E.Either<ConfigReadError | ConfigNoDefaultExportError, SourcePlugin>> =>
+}): T.Effect<OT.HasTracer & HasCwd, never, E.Either<ConfigReadError | ConfigNoDefaultExportError, Config>> =>
   pipe(
     T.gen(function* ($) {
       const unknownWarnings = result.warnings.filter(
@@ -126,11 +131,28 @@ const getConfigFromResult = ({
         console.error(unknownWarnings)
       }
 
+      const cwd = yield* $(getCwd)
+
+      const outfilePath = Object.keys(result.metafile!.outputs)
+        // Will look like `path.join(cacheDir, 'compiled-contentlayer-config-[SOME_HASH].mjs')
+        .filter((_) => _.match(/compiled-contentlayer-config-.+.mjs$/))
+        // Needs to be absolute path for ESM import to work
+        .map((_) => path.join(cwd, _))[0]!
+
+      const esbuildHash = outfilePath.match(/compiled-contentlayer-config-(.+).mjs$/)![1]!
+
+      // TODO make a simple OT call via `addAttributes`
+      yield* $(OT.addAttribute('outfilePath', outfilePath))
+      yield* $(OT.addAttribute('esbuildHash', esbuildHash))
+
       // Needed in order for source maps of dynamic file to work
       yield* $(
-        T.tryCatchPromise(
-          async () => (await import('source-map-support')).install(),
-          (error) => new ConfigReadError({ error, configPath }),
+        pipe(
+          T.tryCatchPromise(
+            async () => (await import('source-map-support')).install(),
+            (error) => new ConfigReadError({ error, configPath }),
+          ),
+          OT.withSpan('load-source-map-support'),
         ),
       )
 
@@ -140,26 +162,33 @@ const getConfigFromResult = ({
       const importFresh = async (modulePath: string) => import(`file://${modulePath}?x=${new Date()}`)
 
       const exports = yield* $(
-        T.tryCatchPromise(
-          () => importFresh(outfilePath),
-          (error) => new ConfigReadError({ error, configPath }),
+        pipe(
+          T.tryCatchPromise(
+            () => importFresh(outfilePath),
+            (error) => new ConfigReadError({ error, configPath }),
+          ),
+          OT.withSpan('import-compiled-contentlayer-config'),
         ),
       )
+
       if (!('default' in exports)) {
         return yield* $(T.fail(new ConfigNoDefaultExportError({ configPath, availableExports: Object.keys(exports) })))
       }
 
       // Note currently `makeSource` returns a Promise but we should reconsider that design decision
-      const config = yield* $(
-        T.tryCatchPromise(
-          async () => exports.default,
-          (error) => new ConfigReadError({ error, configPath }),
+      const source: SourcePlugin = yield* $(
+        pipe(
+          T.tryCatchPromise(
+            async () => exports.default,
+            (error) => new ConfigReadError({ error, configPath }),
+          ),
+          OT.withSpan('resolve-source-plugin-promise'),
         ),
       )
 
-      return config as SourcePlugin
+      return { source, esbuildHash }
     }),
-    OT.withSpan('@contentlayer/core/getConfig:getConfigFromResult', { attributes: { configPath, outfilePath } }),
+    OT.withSpan('@contentlayer/core/getConfig:getConfigFromResult', { attributes: { configPath } }),
     T.either,
   )
 
