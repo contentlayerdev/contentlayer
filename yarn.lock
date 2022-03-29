@@ -13591,6 +13591,14 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"node-script-example@workspace:examples/node-script":
+  version: 0.0.0-use.local
+  resolution: "node-script-example@workspace:examples/node-script"
+  dependencies:
+    contentlayer: latest
+  languageName: unknown
+  linkType: soft
+
 "nopt@npm:^5.0.0":
   version: 5.0.0
   resolution: "nopt@npm:5.0.0"
