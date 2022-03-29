@@ -100,5 +100,6 @@ module.exports = withContentlayer()({
 - [euisblue.me](https://www.euisblue.me/) ([Source](https://github.com/euisblue/bluelog))
 - [thismodernweb.com](https://thismodernweb.com) ([Source](https://github.com/pmarsceill/this-modern-web))
 - [scriptbar-snippets.tryapp.us](https://scriptbar-snippets.tryapp.us) ([Source](https://github.com/datduyng/scriptbar-snippets))
+- [nikosantis.dev](https://nikosantis.dev) ([Source](https://github.com/nikosantis/nikosantis.dev))
 
 Are you using Contentlayer? Please add yourself to the list above via a PR. 🙏
