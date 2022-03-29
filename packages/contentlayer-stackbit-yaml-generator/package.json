@@ -1,6 +1,6 @@
 {
   "name": "contentlayer-stackbit-yaml-generator",
-  "version": "0.1.2",
+  "version": "0.1.3-dev.0",
   "type": "module",
   "bin": "./dist/cli/index.js",
   "exports": "./dist/lib/index.js",

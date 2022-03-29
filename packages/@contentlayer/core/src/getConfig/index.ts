@@ -199,7 +199,7 @@ const getConfigFromResult = ({
 const contentlayerGenPlugin = (): esbuild.Plugin => ({
   name: 'contentlayer-gen',
   setup(build) {
-    build.onResolve({ filter: /^\.contentlayer\// }, (args) => ({
+    build.onResolve({ filter: /contentlayer\/generated/ }, (args) => ({
       path: args.path,
       namespace: 'contentlayer-gen',
     }))
