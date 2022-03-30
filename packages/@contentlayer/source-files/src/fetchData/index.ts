@@ -20,7 +20,8 @@ export const fetchData = ({
   flags,
   options,
   contentDirPath,
-  contentDirIgnore,
+  contentDirInclude,
+  contentDirExclude,
   verbose,
 }: {
   coreSchemaDef: core.SchemaDef
@@ -28,7 +29,8 @@ export const fetchData = ({
   flags: Flags
   options: core.PluginOptions
   contentDirPath: PosixFilePath
-  contentDirIgnore: readonly PosixFilePath[]
+  contentDirInclude: readonly PosixFilePath[]
+  contentDirExclude: readonly PosixFilePath[]
   verbose: boolean
 }): S.Stream<OT.HasTracer & HasCwd & HasConsole, never, E.Either<core.SourceFetchDataError, core.DataCache.Cache>> => {
   const filePathPatternMap = makefilePathPatternMap(documentTypeDefs)
@@ -36,11 +38,13 @@ export const fetchData = ({
 
   const initEvent: CustomUpdateEventInit = { _tag: 'init' }
 
+  const watchPaths = contentDirInclude.length > 0 ? contentDirInclude : ['.']
+
   const fileUpdatesStream = pipe(
-    FSWatch.makeAndSubscribe('.', {
+    FSWatch.makeAndSubscribe(watchPaths, {
       cwd: contentDirPath,
       ignoreInitial: true,
-      ignored: contentDirIgnore as unknown as string[], // NOTE type cast needed because of readonly array
+      ignored: contentDirExclude as unknown as string[], // NOTE type cast needed because of readonly array
       // Unfortunately needed in order to avoid race conditions
       awaitWriteFinish: { stabilityThreshold: 50, pollInterval: 10 },
     }),
@@ -70,7 +74,8 @@ export const fetchData = ({
                   coreSchemaDef,
                   filePathPatternMap,
                   contentDirPath,
-                  contentDirIgnore,
+                  contentDirInclude,
+                  contentDirExclude,
                   flags,
                   options,
                   previousCache: cache,

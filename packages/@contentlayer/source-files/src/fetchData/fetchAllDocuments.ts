@@ -18,7 +18,8 @@ export const fetchAllDocuments = ({
   coreSchemaDef,
   filePathPatternMap,
   contentDirPath,
-  contentDirIgnore,
+  contentDirInclude,
+  contentDirExclude,
   contentTypeMap,
   flags,
   options,
@@ -28,7 +29,8 @@ export const fetchAllDocuments = ({
   coreSchemaDef: core.SchemaDef
   filePathPatternMap: FilePathPatternMap
   contentDirPath: PosixFilePath
-  contentDirIgnore: readonly PosixFilePath[]
+  contentDirInclude: readonly PosixFilePath[]
+  contentDirExclude: readonly PosixFilePath[]
   contentTypeMap: ContentTypeMap
   flags: Flags
   options: core.PluginOptions
@@ -37,7 +39,9 @@ export const fetchAllDocuments = ({
 }): T.Effect<OT.HasTracer & HasConsole, fs.UnknownFSError | core.HandledFetchDataError, core.DataCache.Cache> =>
   pipe(
     T.gen(function* ($) {
-      const allRelativeFilePaths = yield* $(getAllRelativeFilePaths({ contentDirPath, contentDirIgnore }))
+      const allRelativeFilePaths = yield* $(
+        getAllRelativeFilePaths({ contentDirPath, contentDirInclude, contentDirExclude }),
+      )
 
       const concurrencyLimit = os.cpus().length
 
@@ -84,15 +88,30 @@ export const fetchAllDocuments = ({
 
 const getAllRelativeFilePaths = ({
   contentDirPath,
-  contentDirIgnore,
+  contentDirInclude,
+  contentDirExclude,
 }: {
   contentDirPath: string
-  contentDirIgnore: readonly PosixFilePath[]
+  contentDirInclude: readonly PosixFilePath[]
+  contentDirExclude: readonly PosixFilePath[]
 }): T.Effect<OT.HasTracer, fs.UnknownFSError, PosixFilePath[]> => {
+  const getPatternPrefix = (paths_: readonly string[]) => {
+    const paths = paths_
+      .map((_) => _.trim())
+      .filter((_) => _ !== '.' && _ !== './')
+      .map((_) => (_.endsWith('/') ? _ : `${_}/`))
+
+    if (paths.length === 0) return ''
+    if (paths.length === 1) return paths[0]
+    return `{${paths.join(',')}}`
+  }
+
   const filePathPattern = '**/*.{md,mdx,json,yaml,yml}'
+  const pattern = `${getPatternPrefix(contentDirInclude)}${filePathPattern}`
+
   return pipe(
     T.tryCatchPromise(
-      () => glob(filePathPattern, { cwd: contentDirPath, ignore: contentDirIgnore }),
+      () => glob(pattern, { cwd: contentDirPath, ignore: contentDirExclude }),
       (error) => new fs.UnknownFSError({ error }),
     ),
     T.map((_) => _.map(posixFilePath)),

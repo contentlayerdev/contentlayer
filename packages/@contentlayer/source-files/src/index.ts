@@ -16,17 +16,38 @@ export type Args = {
   /**
    * Path to the root directory that contains all content. Every content file path will be relative
    * to this directory. This includes:
-   *  - `filePathPattern` is relative to `contentDirPath`
-   *  - `_raw` fields such as `flattenedPath`, `sourceFilePath`, `sourceFileDir`
+   *  - The `filePathPattern` option in `defineDocumentType` is relative to `contentDirPath`
+   *  - Each document's `_raw` fields such as `flattenedPath`, `sourceFilePath`, `sourceFileDir`
    */
   contentDirPath: string
 
   /**
+   * An array of paths that Contentlayer should include. They can be either files or directories.
+   * The paths need to be relative to `contentDirPath` or absolute.
+   * Glob/wildcard patterns (e.g. using `*`) are not supported yet.
+   * An empty array means that all files in `contentDirPath` will be included.
+   *
+   * @default []
+   *
+   * @example
+   * ```js
+   * export default makeSource({
+   *   // ...
+   *   contentDirPath: '.',
+   *   contentDirExclude: ['docs'],
+   * })
+   * ```
+   */
+  contentDirInclude?: string[]
+
+  /**
    * An array of paths that Contentlayer should ignore. They can be either files or directories.
    * The paths need to be relative to `contentDirPath` or absolute.
-   * Glob/wildcard patterns (e.g. using `*`) are not support yet.
+   * Glob/wildcard patterns (e.g. using `*`) are not supported yet.
    *
-   * @see {@link contentDirIgnoreDefault} for default values
+   * `contentDirExclude` has a higher priority than `contentDirInclude`.
+   *
+   * @see {@link contentDirExcludeDefault} for default values
    *
    * @default ['node_modules', '.git', '.yarn', '.cache', '.next', '.contentlayer', 'package.json', 'tsconfig.json']
    *
@@ -36,11 +57,11 @@ export type Args = {
    * export default makeSource({
    *   // ...
    *   contentDirPath: './content',
-   *   contentDirIgnore: ['internal-docs'],
+   *   contentDirExclude: ['internal-docs'],
    * })
    * ```
    */
-  contentDirIgnore?: string[]
+  contentDirExclude?: string[]
   // NOTE https://github.com/parcel-bundler/watcher/issues/64
 
   /**
@@ -59,7 +80,8 @@ export const makeSource: core.MakeSourcePlugin<Args> = async (args) => {
     restArgs: {
       documentTypes,
       contentDirPath,
-      contentDirIgnore,
+      contentDirInclude,
+      contentDirExclude,
       onUnknownDocuments = 'skip-warn',
       onMissingOrIncompatibleData = 'skip-warn',
       onExtraFieldData = 'warn',
@@ -88,19 +110,11 @@ export const makeSource: core.MakeSourcePlugin<Args> = async (args) => {
         flags,
         options,
         contentDirPath: unknownToPosixFilePath(contentDirPath),
-        contentDirIgnore: (contentDirIgnore ?? contentDirIgnoreDefault).map((_) => unknownToPosixFilePath(_)),
+        contentDirExclude: (contentDirExclude ?? contentDirExcludeDefault).map((_) => unknownToPosixFilePath(_)),
+        contentDirInclude: (contentDirInclude ?? []).map((_) => unknownToPosixFilePath(_)),
         verbose,
       }),
   }
 }
 
-export const contentDirIgnoreDefault = [
-  'node_modules',
-  '.git',
-  '.yarn',
-  '.cache',
-  '.next',
-  '.contentlayer',
-  'package.json',
-  'tsconfig.json',
-]
+export const contentDirExcludeDefault = ['node_modules', '.git', '.yarn', '.cache', '.next', '.contentlayer']

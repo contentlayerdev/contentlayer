@@ -1,6 +1,6 @@
 {
   "name": "next-contentlayer",
-  "version": "0.1.3-dev.0",
+  "version": "0.1.3-dev.4",
   "type": "module",
   "main": "./dist/index-cjs.cjs",
   "sideEffects": false,
@@ -31,7 +31,7 @@
     "./package.json"
   ],
   "scripts": {
-    "prepack": "sed '/^import /d' dist/index-cjs.js > dist/index-cjs.cjs"
+    "prepack": "sed '/^import /d' dist/index-cjs.js > dist/index-cjs.cjs; cp src/hooks/jsx-runtime.cjs dist/hooks/jsx-runtime.cjs"
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*",
