@@ -3,7 +3,7 @@ import * as core from '@contentlayer/core'
 import type { PosixFilePath } from '@contentlayer/utils'
 import * as utils from '@contentlayer/utils'
 import { unknownToPosixFilePath } from '@contentlayer/utils'
-import type { E, HasConsole, OT } from '@contentlayer/utils/effect'
+import type { E, HasClock, HasConsole, OT } from '@contentlayer/utils/effect'
 import { pipe, S, T, These } from '@contentlayer/utils/effect'
 import { FSWatch } from '@contentlayer/utils/node'
 
@@ -32,7 +32,11 @@ export const fetchData = ({
   contentDirInclude: readonly PosixFilePath[]
   contentDirExclude: readonly PosixFilePath[]
   verbose: boolean
-}): S.Stream<OT.HasTracer & HasCwd & HasConsole, never, E.Either<core.SourceFetchDataError, core.DataCache.Cache>> => {
+}): S.Stream<
+  OT.HasTracer & HasCwd & HasConsole & HasClock,
+  never,
+  E.Either<core.SourceFetchDataError, core.DataCache.Cache>
+> => {
   const filePathPatternMap = makefilePathPatternMap(documentTypeDefs)
   const contentTypeMap = makeContentTypeMap(documentTypeDefs)
 
@@ -150,7 +154,7 @@ const updateCacheEntry = ({
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
   contentTypeMap: ContentTypeMap
-}): T.Effect<OT.HasTracer & HasConsole, core.HandledFetchDataError, core.DataCache.Cache> =>
+}): T.Effect<OT.HasTracer & HasConsole & HasClock, core.HandledFetchDataError, core.DataCache.Cache> =>
   T.gen(function* ($) {
     yield* $(
       pipe(

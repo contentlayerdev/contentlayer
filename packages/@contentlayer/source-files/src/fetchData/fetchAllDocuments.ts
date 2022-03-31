@@ -1,7 +1,7 @@
 import type * as core from '@contentlayer/core'
 import type { PosixFilePath } from '@contentlayer/utils'
 import { posixFilePath } from '@contentlayer/utils'
-import type { HasConsole } from '@contentlayer/utils/effect'
+import type { HasClock, HasConsole } from '@contentlayer/utils/effect'
 import { Chunk, O, OT, pipe, T } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
 import { promise as glob } from 'glob-promise'
@@ -36,7 +36,11 @@ export const fetchAllDocuments = ({
   options: core.PluginOptions
   previousCache: core.DataCache.Cache | undefined
   verbose: boolean
-}): T.Effect<OT.HasTracer & HasConsole, fs.UnknownFSError | core.HandledFetchDataError, core.DataCache.Cache> =>
+}): T.Effect<
+  OT.HasTracer & HasConsole & HasClock,
+  fs.UnknownFSError | core.HandledFetchDataError,
+  core.DataCache.Cache
+> =>
   pipe(
     T.gen(function* ($) {
       const allRelativeFilePaths = yield* $(

@@ -1,7 +1,7 @@
 import type * as core from '@contentlayer/core'
 import type { PosixFilePath } from '@contentlayer/utils'
 import { filePathJoin } from '@contentlayer/utils'
-import type { HasConsole } from '@contentlayer/utils/effect'
+import type { HasClock, HasConsole } from '@contentlayer/utils/effect'
 import { identity, O, OT, pipe, T, These } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
 import matter from 'gray-matter'
@@ -33,7 +33,7 @@ export const makeCacheItemFromFilePath = ({
   previousCache: core.DataCache.Cache | undefined
   contentTypeMap: ContentTypeMap
 }): T.Effect<
-  OT.HasTracer & HasConsole & HasDocumentTypeMapState,
+  OT.HasTracer & HasConsole & HasDocumentTypeMapState & HasClock,
   never,
   These.These<FetchDataError.FetchDataError, core.DataCache.CacheItem>
 > =>
@@ -128,7 +128,7 @@ const processRawContent = ({
   fullFilePath: PosixFilePath
   relativeFilePath: PosixFilePath
 }): T.Effect<
-  OT.HasTracer,
+  OT.HasTracer & HasClock,
   | FetchDataError.UnsupportedFileExtension
   | FetchDataError.InvalidFrontmatterError
   | FetchDataError.InvalidMarkdownFileError

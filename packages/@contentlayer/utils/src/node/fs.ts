@@ -2,9 +2,10 @@ import { pipe } from '@effect-ts/core'
 import { Tagged } from '@effect-ts/core/Case'
 import * as OT from '@effect-ts/otel'
 import type { Stats } from 'fs'
-import { promises as fs } from 'fs'
+import { promises as fs, readFile as fsReadFile } from 'fs'
 import type { JsonValue } from 'type-fest'
 
+import type { HasClock } from '../effect/index.js'
 import { T } from '../effect/index.js'
 import { errorToString } from '../index.js'
 
@@ -39,23 +40,48 @@ export const stat = (filePath: string): T.Effect<unknown, FileNotFoundError | St
   )
 }
 
-export const readFile = (filePath: string): T.Effect<OT.HasTracer, ReadFileError | FileNotFoundError, string> =>
-  OT.withSpan('readFile', { attributes: { filePath } })(
-    T.tryCatchPromise(
-      () => fs.readFile(filePath, 'utf8'),
-      (error: any) => {
-        if (error.code === 'ENOENT') {
-          return new FileNotFoundError({ filePath })
+// export const readFile = (
+//   filePath: string,
+// ): T.Effect<OT.HasTracer & HasClock, ReadFileError | FileNotFoundError, string> =>
+//   pipe(
+//     T.tryCatchPromise(
+//       () => fs.readFile(filePath, 'utf8'),
+//       (error: any) => {
+//         if (error.code === 'ENOENT') {
+//           return new FileNotFoundError({ filePath })
+//         } else {
+//           return new ReadFileError({ filePath, error })
+//         }
+//       },
+//     ),
+//     T.timed,
+//     T.tap(({ tuple: [time] }) => OT.addAttribute('time', time.toString())),
+//     T.map(({ tuple: [, data] }) => data),
+//     OT.withSpan('readFile', { attributes: { filePath } }),
+//   )
+
+export const readFile = (
+  filePath: string,
+): T.Effect<OT.HasTracer & HasClock, ReadFileError | FileNotFoundError, string> =>
+  pipe(
+    T.effectAsync<unknown, ReadFileError, string>((resume) =>
+      fsReadFile(filePath, 'utf-8', (error: NodeJS.ErrnoException | null, data: string) => {
+        if (error) {
+          resume(T.fail(new ReadFileError({ error, filePath })))
         } else {
-          return new ReadFileError({ filePath, error })
+          resume(T.succeed(data))
         }
-      },
+      }),
     ),
+    T.timed,
+    T.tap(({ tuple: [time] }) => OT.addAttribute('time', time.toString())),
+    T.map(({ tuple: [, data] }) => data),
+    OT.withSpan('readFile', { attributes: { filePath } }),
   )
 
 export const readFileJson = <T extends JsonValue = JsonValue>(
   filePath: string,
-): T.Effect<OT.HasTracer, ReadFileError | FileNotFoundError | JsonParseError, T> =>
+): T.Effect<OT.HasTracer & HasClock, ReadFileError | FileNotFoundError | JsonParseError, T> =>
   pipe(
     readFile(filePath),
     T.chain((str) =>
@@ -68,7 +94,7 @@ export const readFileJson = <T extends JsonValue = JsonValue>(
 
 export const readFileJsonIfExists = <T extends JsonValue = JsonValue>(
   filePath: string,
-): T.Effect<OT.HasTracer, StatError | ReadFileError | JsonParseError, T | undefined> =>
+): T.Effect<OT.HasTracer & HasClock, StatError | ReadFileError | JsonParseError, T | undefined> =>
   pipe(
     fileOrDirExists(filePath),
     T.chain((exists) => (exists ? readFileJson<T>(filePath) : T.succeed(undefined))),

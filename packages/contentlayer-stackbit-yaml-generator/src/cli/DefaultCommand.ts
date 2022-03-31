@@ -1,7 +1,7 @@
 import type { HasCwd } from '@contentlayer/core'
 import { getConfig, provideCwd } from '@contentlayer/core'
 import { provideJaegerTracing, recRemoveUndefinedValues } from '@contentlayer/utils'
-import type { HasConsole } from '@contentlayer/utils/effect'
+import type { HasClock, HasConsole } from '@contentlayer/utils/effect'
 import { OT, pipe, pretty, provideConsole, T } from '@contentlayer/utils/effect'
 import { Command, Option } from 'clipanion'
 import { promises as fs } from 'fs'
@@ -49,7 +49,7 @@ export class DefaultCommand extends Command {
     }
   }
 
-  executeSafe = (): T.Effect<OT.HasTracer & HasCwd & HasConsole, unknown, void> =>
+  executeSafe = (): T.Effect<OT.HasTracer & HasCwd & HasConsole & HasClock, unknown, void> =>
     pipe(
       getConfig({ configPath: this.configPath }),
       T.chain((config) =>

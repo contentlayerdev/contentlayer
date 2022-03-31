@@ -1,4 +1,4 @@
-import type { E } from '@contentlayer/utils/effect'
+import type { E, HasClock } from '@contentlayer/utils/effect'
 import { Chunk, OT, pipe, S, T } from '@contentlayer/utils/effect'
 import type { GetContentlayerVersionError } from '@contentlayer/utils/node'
 import { fs } from '@contentlayer/utils/node'
@@ -32,7 +32,7 @@ export const getConfig = ({
   configPath,
 }: {
   configPath?: string
-}): T.Effect<OT.HasTracer & HasCwd, GetConfigError, Config> =>
+}): T.Effect<OT.HasTracer & HasCwd & HasClock, GetConfigError, Config> =>
   pipe(
     getConfigWatch({ configPath }),
     S.take(1),
@@ -46,7 +46,7 @@ export const getConfigWatch = ({
   configPath: configPath_,
 }: {
   configPath?: string
-}): S.Stream<OT.HasTracer & HasCwd, never, E.Either<GetConfigError, Config>> => {
+}): S.Stream<OT.HasTracer & HasCwd & HasClock, never, E.Either<GetConfigError, Config>> => {
   const resolveParams = pipe(
     T.structPar({ configPath: resolveConfigPath({ configPath: configPath_ }) }),
     T.chainMergeObject(() => makeTmpDirAndResolveEntryPoint),

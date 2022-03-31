@@ -1,6 +1,6 @@
 import type { PosixFilePath } from '@contentlayer/utils'
 import { filePathJoin } from '@contentlayer/utils'
-import type { OT } from '@contentlayer/utils/effect'
+import type { HasClock, OT } from '@contentlayer/utils/effect'
 import { pipe, T } from '@contentlayer/utils/effect'
 import type { GetContentlayerVersionError } from '@contentlayer/utils/node'
 import { fs, getContentlayerVersion } from '@contentlayer/utils/node'
@@ -21,16 +21,20 @@ export namespace ArtifactsDir {
     return dirPath
   })
 
-  export const getCacheDirPath: T.Effect<OT.HasTracer & HasCwd, GetContentlayerVersionError, PosixFilePath> = pipe(
-    T.struct({
-      contentlayerVersion: getContentlayerVersion(),
-      cwd: getCwd,
-    }),
-    T.map(({ contentlayerVersion, cwd }) =>
-      filePathJoin(getDirPath({ cwd }), '.cache' as PosixFilePath, `v${contentlayerVersion}` as PosixFilePath),
-    ),
-  )
+  export const getCacheDirPath: T.Effect<OT.HasTracer & HasCwd & HasClock, GetContentlayerVersionError, PosixFilePath> =
+    pipe(
+      T.struct({
+        contentlayerVersion: getContentlayerVersion(),
+        cwd: getCwd,
+      }),
+      T.map(({ contentlayerVersion, cwd }) =>
+        filePathJoin(getDirPath({ cwd }), '.cache' as PosixFilePath, `v${contentlayerVersion}` as PosixFilePath),
+      ),
+    )
 
-  export const mkdirCache: T.Effect<OT.HasTracer & HasCwd, fs.MkdirError | GetContentlayerVersionError, PosixFilePath> =
-    pipe(getCacheDirPath, T.tap(fs.mkdirp))
+  export const mkdirCache: T.Effect<
+    OT.HasTracer & HasCwd & HasClock,
+    fs.MkdirError | GetContentlayerVersionError,
+    PosixFilePath
+  > = pipe(getCacheDirPath, T.tap(fs.mkdirp))
 }

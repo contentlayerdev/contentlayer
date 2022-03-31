@@ -1,4 +1,4 @@
-import type { E } from '@contentlayer/utils/effect'
+import type { E, HasClock } from '@contentlayer/utils/effect'
 import { OT, pipe, T } from '@contentlayer/utils/effect'
 import type { GetContentlayerVersionError } from '@contentlayer/utils/node'
 import { fs } from '@contentlayer/utils/node'
@@ -37,7 +37,7 @@ export namespace DataCache {
   }: {
     schemaHash: string
   }): T.Effect<
-    OT.HasTracer & HasCwd,
+    OT.HasTracer & HasCwd & HasClock,
     fs.StatError | fs.ReadFileError | fs.JsonParseError | GetContentlayerVersionError,
     Cache | undefined
   > =>
@@ -61,7 +61,7 @@ export namespace DataCache {
     cache: Cache
     schemaHash: string
   }): T.Effect<
-    OT.HasTracer & HasCwd,
+    OT.HasTracer & HasCwd & HasClock,
     never,
     E.Either<fs.WriteFileError | fs.MkdirError | fs.JsonStringifyError | GetContentlayerVersionError, void>
   > =>
