@@ -27,7 +27,9 @@ export class DevCommand extends BaseCommand {
       S.tapRight((config) =>
         config.source.options.disableImportAliasWarning ? T.unit : T.fork(core.validateTsconfig),
       ),
-      S.chainSwitchMapEitherRight((config) => core.generateDotpkgStream({ config, verbose: this.verbose })),
+      S.chainSwitchMapEitherRight((config) =>
+        core.generateDotpkgStream({ config, verbose: this.verbose, isDev: true }),
+      ),
       S.tap(E.fold((error) => T.log(errorToString(error)), core.logGenerateInfo)),
       S.runDrain,
     )

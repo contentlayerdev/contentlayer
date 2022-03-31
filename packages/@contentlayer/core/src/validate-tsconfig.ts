@@ -50,7 +50,7 @@ To disable this warning you can set \`disableImportAliasWarning: true\` in your 
     }
 
     const paths = Object.values(config.compilerOptions.paths).flat() as string[]
-    if (paths.some((_) => !_.includes('./.contentlayer/generated'))) {
+    if (!paths.some((_) => _.includes('./.contentlayer/generated'))) {
       yield* $(
         warningMessage(
           `No path alias found for "contentlayer/generated" via \`compilerOptions.paths\` in "${fileName}".`,
