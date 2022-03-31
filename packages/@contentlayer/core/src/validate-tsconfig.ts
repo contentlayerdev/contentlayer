@@ -1,49 +1,65 @@
 import type { PosixFilePath } from '@contentlayer/utils'
 import { filePathJoin } from '@contentlayer/utils'
-import { Chunk, O, pipe, T, Tagged } from '@contentlayer/utils/effect'
+import { Chunk, O, OT, pipe, T, Tagged } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
 import { parse as parseJsonc } from 'comment-json'
+import path from 'node:path'
 
 import { getCwd } from './cwd.js'
 
-export const validateTsconfig = T.gen(function* ($) {
-  const cwd = yield* $(getCwd)
+export const validateTsconfig = pipe(
+  T.gen(function* ($) {
+    const cwd = yield* $(getCwd)
 
-  const possibleFileNames = ['tsconfig.json', 'jsconfig.json'].map((_) => filePathJoin(cwd, _))
+    const possibleFileNames = ['tsconfig.json', 'jsconfig.json'].map((_) => filePathJoin(cwd, _))
 
-  // const x = yield* $(
-  //   pipe(possibleFileNames.map((_) => tryParseFile(_)) as [TryParseFileEffect, TryParseFileEffect], T.raceAll),
-  // )
-
-  const tsconfigOption = yield* $(
-    pipe(
-      possibleFileNames,
-      T.forEachPar(tryParseFile),
-      T.map(Chunk.toArray),
-      T.map((_) => O.getFirst(..._)),
-    ),
-  )
-
-  if (O.isNone(tsconfigOption)) {
-    yield* $(
-      T.log(
-        `Contentlayer: No tsconfig.json (or jsconfig.json) file found. Importing from \`contentlayer\/generated\` will not work.`,
+    const tsconfigOption = yield* $(
+      pipe(
+        possibleFileNames,
+        T.forEachPar(tryParseFile),
+        T.map(Chunk.toArray),
+        T.map((_) => O.getFirst(..._)),
       ),
     )
 
-    return
-  }
+    const warningMessage = (msg: string) =>
+      T.log(`\
+Contentlayer (Warning): Importing from \`contentlayer\/generated\` might not work.
+${msg}
 
-  const tsconfig: any = tsconfigOption.value
+For more information see https://www.contentlayer.dev/docs/getting-started
+To disable this warning you can set \`disableImportAliasWarning: true\` in your Contentlayer config.
+`)
 
-  if (tsconfig.baseUrl === undefined) {
-    yield* $(
-      T.log(
-        `Contentlayer: tsconfig.json does not have a baseUrl. Importing from \`contentlayer\/generated\` will not work.`,
-      ),
-    )
-  }
-})
+    if (O.isNone(tsconfigOption)) {
+      yield* $(warningMessage(`No tsconfig.json or jsconfig.json file found`))
+
+      return
+    }
+
+    const { config, fileName } = tsconfigOption.value
+
+    if (config.compilerOptions?.baseUrl === undefined) {
+      yield* $(warningMessage(`Config option \`compilerOptions.baseUrl\` not found in "${fileName}".`))
+      return
+    }
+
+    if (config.compilerOptions?.paths === undefined) {
+      yield* $(warningMessage(`Config option \`compilerOptions.paths\` not found in "${fileName}".`))
+      return
+    }
+
+    const paths = Object.values(config.compilerOptions.paths).flat() as string[]
+    if (paths.some((_) => !_.includes('./.contentlayer/generated'))) {
+      yield* $(
+        warningMessage(
+          `No path alias found for "contentlayer/generated" via \`compilerOptions.paths\` in "${fileName}".`,
+        ),
+      )
+    }
+  }),
+  OT.withSpan('validateTsconfig'),
+)
 
 const tryParseFile = (filePath: PosixFilePath) =>
   pipe(
@@ -54,10 +70,10 @@ const tryParseFile = (filePath: PosixFilePath) =>
         (error) => new InvalidTsconfigError({ error }),
       ),
     ),
-    T.mapError((_) => (_._tag === 'node.fs.ReadFileError' ? new InvalidTsconfigError({ error: _ }) : _)),
+    T.map((config: any) => ({ fileName: path.basename(filePath), config })),
     T.tapError((error) =>
       T.succeedWith(() => {
-        if (error._tag === 'InvalidTsconfigError') {
+        if (error._tag === 'InvalidTsconfigError' || error._tag === 'node.fs.ReadFileError') {
           console.log(`Contentlayer: Invalid jsconfig/tsconfig file found: ${filePath}`)
         }
       }),

@@ -26,6 +26,7 @@ export type PluginOptions = {
   mdx?: MDXOptions
   fieldOptions?: FieldOptions
   date?: DateOptions
+  disableImportAliasWarning?: boolean
 }
 
 export type FieldOptions = {

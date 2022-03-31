@@ -40,6 +40,7 @@ export const runTest = async ({
       markdown: undefined,
       mdx: undefined,
       fieldOptions: core.defaultFieldOptions,
+      disableImportAliasWarning: false,
     }
 
     const cache = yield* $(

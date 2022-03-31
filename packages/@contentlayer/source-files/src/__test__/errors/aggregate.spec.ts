@@ -13,6 +13,7 @@ const options: core.PluginOptions = {
   mdx: undefined,
   date: undefined,
   fieldOptions: { typeFieldName, bodyFieldName },
+  disableImportAliasWarning: false,
 }
 const flags: Flags = {
   onExtraFieldData: 'warn',

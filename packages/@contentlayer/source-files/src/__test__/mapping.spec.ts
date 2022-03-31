@@ -49,6 +49,7 @@ test('getDataForFieldDef', async () => {
           markdown: undefined,
           mdx: undefined,
           date: undefined,
+          disableImportAliasWarning: false,
           ...options,
         },
       }),

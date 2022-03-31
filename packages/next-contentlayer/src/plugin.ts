@@ -14,6 +14,7 @@ export const runContentlayerDev = async () => {
   await pipe(
     core.getConfigWatch({}),
     S.tapSkipFirstRight(() => T.log(`Contentlayer config change detected. Updating type definitions and data...`)),
+    S.tapRight((config) => (config.source.options.disableImportAliasWarning ? T.unit : T.fork(core.validateTsconfig))),
     S.chainSwitchMapEitherRight((config) => core.generateDotpkgStream({ config, verbose: false })),
     S.tap(E.fold((error) => T.log(errorToString(error)), core.logGenerateInfo)),
     S.runDrain,

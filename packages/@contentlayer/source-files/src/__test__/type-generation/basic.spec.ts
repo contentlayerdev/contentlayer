@@ -26,6 +26,7 @@ const renderTypeSource = async (documentTypes: DocumentTypes) => {
         markdown: undefined,
         mdx: undefined,
         date: undefined,
+        disableImportAliasWarning: false,
       },
     },
   })
