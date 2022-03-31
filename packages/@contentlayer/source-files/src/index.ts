@@ -34,7 +34,7 @@ export type Args = {
    * export default makeSource({
    *   // ...
    *   contentDirPath: '.',
-   *   contentDirExclude: ['docs'],
+   *   contentDirInclude: ['docs'],
    * })
    * ```
    */
