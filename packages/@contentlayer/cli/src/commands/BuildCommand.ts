@@ -22,7 +22,8 @@ export class BuildCommand extends BaseCommand {
     pipe(
       this.clearCacheIfNeeded(),
       T.chain(() => core.getConfig({ configPath: this.configPath })),
-      T.chain((source) => core.generateDotpkg({ source, verbose: this.verbose })),
+      T.tap((config) => (config.source.options.disableImportAliasWarning ? T.unit : T.fork(core.validateTsconfig))),
+      T.chain((config) => core.generateDotpkg({ config, verbose: this.verbose })),
       T.tap(core.logGenerateInfo),
       OT.withSpan('@contentlayer/cli/commands/BuildCommand:executeSafe'),
     )

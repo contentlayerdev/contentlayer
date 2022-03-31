@@ -66,17 +66,14 @@ export const makeErrors = (
     errors.push(new FetchDataError.ComputedValueError({ documentFilePath, error }))
   })
 
-  doNTimes(countRecord.ExtraFieldDataError, () => {
+  doNTimes(countRecord.ExtraFieldDataError, (index) => {
     const documentFilePath = generateFakeFilePath()
     const documentTypeName = capitalizeFirstLetter(faker.hacker.noun())
     errors.push(
       new FetchDataError.ExtraFieldDataError({
         documentFilePath,
         documentTypeName,
-        extraFieldEntries: [
-          ['someKey', 'someVal'],
-          ['someOtherKey', 42],
-        ],
+        extraFieldEntries: [index === 0 ? ['someKey', 'someVal'] : ['someOtherKey', 42]],
       }),
     )
   })
@@ -104,9 +101,9 @@ export const makeErrors = (
   return errors
 }
 
-const doNTimes = (n_: number | undefined, fn: () => void): void => {
+const doNTimes = (n_: number | undefined, fn: (i: number) => void): void => {
   const n = n_ ?? 0
   for (let i = 0; i < n; i++) {
-    fn()
+    fn(i)
   }
 }

@@ -61,3 +61,15 @@ jobs:
       - run: yarn build
       - run: yarn build
         working-directory: examples/next-contentlayer-example
+
+  build-example-node-script:
+    strategy:
+      matrix:
+        node-version: [16.x]
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: schickling-actions/checkout-and-install@main
+      - run: yarn build
+      - run: yarn start
+        working-directory: examples/node-script

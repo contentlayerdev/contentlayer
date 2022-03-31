@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/source-sanity",
-  "version": "0.1.2",
+  "version": "0.2.1",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -13,7 +13,7 @@
     "test": "echo No tests yet"
   },
   "devDependencies": {
-    "@types/node": "^16.10.2"
+    "@types/node": "^16.11.26"
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*",

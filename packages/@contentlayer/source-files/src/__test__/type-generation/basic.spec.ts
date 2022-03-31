@@ -1,16 +1,17 @@
 import { renderTypes } from '@contentlayer/core'
 import { provideJaegerTracing } from '@contentlayer/utils'
 import { pipe, provideConsole, T } from '@contentlayer/utils/effect'
-import test from 'ava'
+import { expect, test } from 'vitest'
 
 import type { DocumentTypes } from '../../index.js'
 import { makeSource } from '../../index.js'
 import { defineDocumentType } from '../../schema/defs/index.js'
 
 const renderTypeSource = async (documentTypes: DocumentTypes) => {
+  const esbuildHash = 'not-important-for-this-test'
   const schemaDef = await pipe(
     T.tryPromise(() => makeSource({ documentTypes, contentDirPath: '' })),
-    T.chain((source) => source.provideSchema),
+    T.chain((source) => source.provideSchema(esbuildHash)),
     provideJaegerTracing('contentlayer-cli'),
     provideConsole,
     T.runPromise,
@@ -25,6 +26,7 @@ const renderTypeSource = async (documentTypes: DocumentTypes) => {
         markdown: undefined,
         mdx: undefined,
         date: undefined,
+        disableImportAliasWarning: false,
       },
     },
   })
@@ -33,7 +35,7 @@ const renderTypeSource = async (documentTypes: DocumentTypes) => {
 }
 
 // TODO rewrite test for gendotpkg
-test('generate-types: simple schema', async (t) => {
+test('generate-types: simple schema', async () => {
   const TestPost = defineDocumentType(() => ({
     name: 'TestPost',
     filePathPattern: `**/*.md`,
@@ -56,10 +58,10 @@ test('generate-types: simple schema', async (t) => {
 
   const typeSource = await renderTypeSource([TestPost])
 
-  t.snapshot(typeSource)
+  expect(typeSource).toMatchSnapshot()
 })
 
-test('generate-types: simple schema with optional fields', async (t) => {
+test('generate-types: simple schema with optional fields', async () => {
   const TestPost = defineDocumentType(() => ({
     name: 'TestPost',
     filePathPattern: `**/*.md`,
@@ -81,10 +83,10 @@ test('generate-types: simple schema with optional fields', async (t) => {
 
   const typeSource = await renderTypeSource([TestPost])
 
-  t.snapshot(typeSource)
+  expect(typeSource).toMatchSnapshot()
 })
 
-test('generate-types: references with embedded schema', async (t) => {
+test('generate-types: references with embedded schema', async () => {
   const Post = defineDocumentType(() => ({
     name: 'Post',
     fields: {
@@ -107,5 +109,5 @@ test('generate-types: references with embedded schema', async (t) => {
 
   const typeSource = await renderTypeSource([Post, Person])
 
-  t.snapshot(typeSource)
+  expect(typeSource).toMatchSnapshot()
 })

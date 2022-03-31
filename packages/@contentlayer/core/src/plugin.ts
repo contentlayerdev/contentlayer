@@ -21,6 +21,7 @@ export type PluginOptions = {
   mdx: MDXOptions | undefined
   date: DateOptions | undefined
   fieldOptions: FieldOptions
+  disableImportAliasWarning: boolean
 }
 
 export type MarkdownOptions = {
@@ -67,7 +68,9 @@ export type SourcePlugin = {
   extensions: PluginExtensions
 }
 
-export type ProvideSchema = T.Effect<OT.HasTracer & HasConsole, SourceProvideSchemaError, SchemaDef>
+export type ProvideSchema = (
+  esbuildHash: string,
+) => T.Effect<OT.HasTracer & HasConsole, SourceProvideSchemaError, SchemaDef>
 export type FetchData = (_: {
   schemaDef: SchemaDef
   verbose: boolean
@@ -91,6 +94,7 @@ export type PartialArgs = {
   date?: DateOptions | undefined
   fieldOptions?: Partial<FieldOptions>
   extensions?: PluginExtensions
+  disableImportAliasWarning?: boolean
 }
 
 export const defaultFieldOptions: FieldOptions = {
@@ -103,9 +107,9 @@ export const processArgs = async <TArgs extends PartialArgs>(
 ): Promise<{
   extensions: PluginExtensions
   options: PluginOptions
-  restArgs: Omit<TArgs, 'extensions' | 'fieldOptions' | 'markdown' | 'mdx' | 'date'>
+  restArgs: Omit<TArgs, 'extensions' | 'fieldOptions' | 'markdown' | 'mdx' | 'date' | 'disableImportAliasWarning'>
 }> => {
-  const { extensions, fieldOptions, markdown, mdx, date, ...restArgs } =
+  const { extensions, fieldOptions, markdown, mdx, date, disableImportAliasWarning, ...restArgs } =
     typeof argsOrArgsThunk === 'function' ? await argsOrArgsThunk() : argsOrArgsThunk
 
   const options: PluginOptions = {
@@ -116,6 +120,7 @@ export const processArgs = async <TArgs extends PartialArgs>(
       bodyFieldName: fieldOptions?.bodyFieldName ?? defaultFieldOptions.bodyFieldName,
       typeFieldName: fieldOptions?.typeFieldName ?? defaultFieldOptions.typeFieldName,
     },
+    disableImportAliasWarning: disableImportAliasWarning ?? false,
   }
 
   return { extensions: extensions ?? {}, options, restArgs }

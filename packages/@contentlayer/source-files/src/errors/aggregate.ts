@@ -35,6 +35,7 @@ export const handleFetchDataErrors = ({
       documentCount,
       errors: filteredErrors,
       options,
+      flags,
       shouldFail,
       schemaDef,
       contentDirPath,
@@ -75,6 +76,7 @@ export const testOnly_aggregateFetchDataErrors = ({
     documentCount,
     errors: filteredErrors,
     options,
+    flags,
     shouldFail,
     schemaDef,
     contentDirPath,
@@ -86,6 +88,7 @@ const aggregateFetchDataErrors = ({
   errors,
   documentCount,
   options,
+  flags,
   shouldFail,
   schemaDef,
   contentDirPath,
@@ -94,13 +97,14 @@ const aggregateFetchDataErrors = ({
   errors: readonly FetchDataError.FetchDataError[]
   documentCount: number
   options: core.PluginOptions
+  flags: Flags
   shouldFail: boolean
   schemaDef: core.SchemaDef
   contentDirPath: PosixFilePath
   verbose?: boolean
 }): string => {
   const keyMessage = `Found ${errors.length} problems in ${documentCount} documents.`
-  const topMessage = shouldFail ? `Error: ${keyMessage}` : `Warning: ${keyMessage} Skipping those documents.`
+  const topMessage = shouldFail ? `Error: ${keyMessage}` : `Warning: ${keyMessage}`
   const asciiTree = new AsciiTree(topMessage + '\n')
 
   const uniqueErrorTags = Array.from(new Set(errors.map((e) => e._tag)))
@@ -112,8 +116,11 @@ const aggregateFetchDataErrors = ({
 
     const errorPrintLimit = verbose ? taggedErrors.length : 20
     const remainingErrorCount = Math.max(taggedErrors.length - errorPrintLimit, 0)
+    const skippingMessage = shouldPrintSkipMessage({ flags, error: taggedErrors[0]! }) ? ' (Skipping documents)' : ''
+
     str += taggedErrors[0]!.renderHeadline({
       errorCount: taggedErrors.length,
+      skippingMessage,
       options,
       schemaDef,
       contentDirPath,
@@ -136,6 +143,18 @@ const aggregateFetchDataErrors = ({
   }
 
   return asciiTree.toString()
+}
+
+const shouldPrintSkipMessage = ({ error, flags }: { error: FetchDataError.FetchDataError; flags: Flags }): boolean => {
+  if (error.category === 'MissingOrIncompatibleData' && flags.onMissingOrIncompatibleData === 'skip-warn') {
+    return true
+  }
+
+  if (error.category === 'UnknownDocument' && flags.onUnknownDocuments === 'skip-warn') {
+    return true
+  }
+
+  return false
 }
 
 const failOrSkip = ({

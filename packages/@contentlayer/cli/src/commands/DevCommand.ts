@@ -24,7 +24,12 @@ export class DevCommand extends BaseCommand {
       S.fromEffect(this.clearCacheIfNeeded()),
       S.chain(() => core.getConfigWatch({ configPath: this.configPath })),
       S.tapSkipFirstRight(() => T.log(`Contentlayer config change detected. Updating type definitions and data...`)),
-      S.chainSwitchMapEitherRight((source) => core.generateDotpkgStream({ source, verbose: this.verbose })),
+      S.tapRight((config) =>
+        config.source.options.disableImportAliasWarning ? T.unit : T.fork(core.validateTsconfig),
+      ),
+      S.chainSwitchMapEitherRight((config) =>
+        core.generateDotpkgStream({ config, verbose: this.verbose, isDev: true }),
+      ),
       S.tap(E.fold((error) => T.log(errorToString(error)), core.logGenerateInfo)),
       S.runDrain,
     )

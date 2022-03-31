@@ -34,7 +34,7 @@ export const makeSourcePlugin: core.MakeSourcePlugin<Args & PluginOptions> = asy
     type: 'contentful',
     extensions,
     options,
-    provideSchema: provideSchema({ accessToken, spaceId, environmentId, options, schemaOverrides }),
+    provideSchema: () => provideSchema({ accessToken, spaceId, environmentId, options, schemaOverrides }),
     fetchData: ({ schemaDef }) =>
       pipe(
         S.fromEffect(

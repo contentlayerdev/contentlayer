@@ -1,6 +1,6 @@
 {
   "name": "contentlayer-stackbit-yaml-generator",
-  "version": "0.1.2",
+  "version": "0.2.1",
   "type": "module",
   "bin": "./dist/cli/index.js",
   "exports": "./dist/lib/index.js",
@@ -12,27 +12,20 @@
     "./package.json"
   ],
   "scripts": {
-    "test": "ava --color"
+    "test": "FORCE_COLOR=1 vitest"
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
     "@stackbit/sdk": "^0.2.23",
-    "clipanion": "^3.2.0-rc.6",
+    "clipanion": "^3.2.0-rc.10",
     "typanion": "3.7.1",
     "yaml": "^1.10.2"
   },
   "devDependencies": {
-    "ava": "^4.0.1",
     "contentlayer": "workspace:*",
-    "typescript": "^4.5.5"
-  },
-  "ava": {
-    "files": [
-      "dist/__test__/**/*.spec.js"
-    ],
-    "ignoredByWatcher": [
-      "src/**/*"
-    ]
+    "typescript": "^4.6.3",
+    "vite": "^2.8.6",
+    "vitest": "^0.7.12"
   }
 }

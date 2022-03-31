@@ -42,13 +42,13 @@ export namespace FetchDataError {
     options: core.PluginOptions
     schemaDef: core.SchemaDef
     contentDirPath: PosixFilePath
+    skippingMessage: string
   }) => string
 
   /** This error category is used in order to let users configure the error handling (e.g. warn, ignore, fail) */
   type AggregatableErrorCategory =
     | 'UnknownDocument'
     | 'ExtraFieldData'
-    | 'IncompatibleFieldData'
     | 'MissingOrIncompatibleData'
     | 'Unexpected'
     // TODO maybe "unify" this with another error category?
@@ -63,7 +63,8 @@ export namespace FetchDataError {
   {
     category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
 
-    renderHeadline: RenderHeadline = ({ errorCount }) => `Invalid frontmatter data found for ${errorCount} documents.`
+    renderHeadline: RenderHeadline = ({ errorCount, skippingMessage }) =>
+      `Invalid frontmatter data found for ${errorCount} documents.${skippingMessage}`
 
     renderLine = () => `"${this.documentFilePath}" failed with ${errorToString(this.error)}`
   }
@@ -77,7 +78,8 @@ export namespace FetchDataError {
   {
     category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
 
-    renderHeadline: RenderHeadline = ({ errorCount }) => `Invalid markdown in ${errorCount} documents.`
+    renderHeadline: RenderHeadline = ({ errorCount, skippingMessage }) =>
+      `Invalid markdown in ${errorCount} documents.${skippingMessage}`
 
     renderLine = () => `"${this.documentFilePath}" failed with ${errorToString(this.error)}`
   }
@@ -91,7 +93,8 @@ export namespace FetchDataError {
   {
     category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
 
-    renderHeadline: RenderHeadline = ({ errorCount }) => `Invalid YAML data in ${errorCount} documents.`
+    renderHeadline: RenderHeadline = ({ errorCount, skippingMessage }) =>
+      `Invalid YAML data in ${errorCount} documents.${skippingMessage}`
 
     renderLine = () => `"${this.documentFilePath}" failed with ${errorToString(this.error)}`
   }
@@ -105,7 +108,8 @@ export namespace FetchDataError {
   {
     category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
 
-    renderHeadline: RenderHeadline = ({ errorCount }) => `Invalid JSON data in ${errorCount} documents.`
+    renderHeadline: RenderHeadline = ({ errorCount, skippingMessage }) =>
+      `Invalid JSON data in ${errorCount} documents.${skippingMessage}`
 
     renderLine = () => `"${this.documentFilePath}" failed with ${errorToString(this.error)}`
   }
@@ -119,8 +123,8 @@ export namespace FetchDataError {
   {
     category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
 
-    renderHeadline: RenderHeadline = ({ errorCount }) =>
-      `Error during computed field exection for ${errorCount} documents.`
+    renderHeadline: RenderHeadline = ({ errorCount, skippingMessage }) =>
+      `Error during computed field exection for ${errorCount} documents.${skippingMessage}`
 
     renderLine = () => `"${this.documentFilePath}" failed with ${errorToString(this.error)}`
   }
@@ -133,7 +137,8 @@ export namespace FetchDataError {
     implements AggregatableError
   {
     category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
-    renderHeadline: RenderHeadline = ({ errorCount }) => `Found unsupported file extensions for ${errorCount} documents`
+    renderHeadline: RenderHeadline = ({ errorCount, skippingMessage }) =>
+      `Found unsupported file extensions for ${errorCount} documents.${skippingMessage}`
 
     renderLine = () => `"${this.filePath}" uses "${this.extension}"`
   }
@@ -147,8 +152,8 @@ export namespace FetchDataError {
     implements AggregatableError
   {
     category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
-    renderHeadline: RenderHeadline = ({ errorCount }) =>
-      `File extension not compatible with \`contentType\` for ${errorCount} documents`
+    renderHeadline: RenderHeadline = ({ errorCount, skippingMessage }) =>
+      `File extension not compatible with \`contentType\` for ${errorCount} documents.${skippingMessage}`
 
     renderLine = () => {
       const expectedFileExtensions = pattern
@@ -172,10 +177,10 @@ export namespace FetchDataError {
     implements AggregatableError
   {
     category: AggregatableErrorCategory = 'UnknownDocument'
-    renderHeadline: RenderHeadline = ({ errorCount, options, schemaDef }) => {
+    renderHeadline: RenderHeadline = ({ errorCount, options, schemaDef, skippingMessage }) => {
       const validTypeNames = Object.keys(schemaDef.documentTypeDefMap).join(', ')
       return `\
-Couldn't determine the document type for ${errorCount} documents.
+Couldn't determine the document type for ${errorCount} documents.${skippingMessage}
 
 Please either define a filePathPattern for the given document type definition \
 or provide a valid value for the type field (i.e. the field "${options.fieldOptions.typeFieldName}" needs to be \
@@ -193,10 +198,10 @@ one of the following document type names: ${validTypeNames}).`
     implements AggregatableError
   {
     category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
-    renderHeadline: RenderHeadline = ({ errorCount, schemaDef }) => {
+    renderHeadline: RenderHeadline = ({ errorCount, schemaDef, skippingMessage }) => {
       const validTypeNames = Object.keys(schemaDef.documentTypeDefMap).join(', ')
       return `\
-Couldn't find document type definitions provided by name for ${errorCount} documents.
+Couldn't find document type definitions provided by name for ${errorCount} documents.${skippingMessage}
 
 Please use one of the following document type names: ${validTypeNames}.\
 `
@@ -215,9 +220,9 @@ Please use one of the following document type names: ${validTypeNames}.\
     implements AggregatableError
   {
     category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
-    renderHeadline: RenderHeadline = ({ errorCount }) => {
+    renderHeadline: RenderHeadline = ({ errorCount, skippingMessage }) => {
       return `\
-Couldn't find nested document type definitions provided by name for ${errorCount} documents.\
+Couldn't find nested document type definitions provided by name for ${errorCount} documents.${skippingMessage}\
 `
     }
 
@@ -237,7 +242,8 @@ Couldn't find nested document type definitions provided by name for ${errorCount
   {
     category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
 
-    renderHeadline: RenderHeadline = ({ errorCount }) => `Missing required fields for ${errorCount} documents`
+    renderHeadline: RenderHeadline = ({ errorCount, skippingMessage }) =>
+      `Missing required fields for ${errorCount} documents.${skippingMessage}`
 
     renderLine = () => {
       const misingRequiredFieldsStr = this.fieldDefsWithMissingData
@@ -261,8 +267,8 @@ ${misingRequiredFieldsStr}\
   {
     category: AggregatableErrorCategory = 'ExtraFieldData'
 
-    renderHeadline: RenderHeadline = ({ errorCount }) => `\
-  ${errorCount} documents contain field data which isn't defined in the document type definition`
+    renderHeadline: RenderHeadline = ({ errorCount, skippingMessage }) => `\
+  ${errorCount} documents contain field data which isn't defined in the document type definition.${skippingMessage}`
 
     renderLine = () => {
       const extraFields = this.extraFieldEntries
@@ -282,10 +288,12 @@ ${extraFields} `
     }>
     implements AggregatableError
   {
-    category: AggregatableErrorCategory = 'IncompatibleFieldData'
+    category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
 
-    renderHeadline: RenderHeadline = ({ errorCount, contentDirPath }) => `\
-${errorCount} documents contain file references which don't exist (file paths have to be relative to \`contentDirPath\`: "${contentDirPath}")`
+    renderHeadline: RenderHeadline = ({ errorCount, contentDirPath, skippingMessage }) => `\
+${errorCount} documents contain file references which don't exist.${skippingMessage}
+
+File paths have to be relative to \`contentDirPath\`: "${contentDirPath}")`
 
     renderLine = () => {
       return `"${this.documentFilePath}" of type "${this.documentTypeName}" with field "${this.fieldName}" references the file "${this.referencedFilePath}" which doesn't exist.`
@@ -300,10 +308,10 @@ ${errorCount} documents contain file references which don't exist (file paths ha
     }>
     implements AggregatableError
   {
-    category: AggregatableErrorCategory = 'IncompatibleFieldData'
+    category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
 
-    renderHeadline: RenderHeadline = ({ errorCount }) => `\
-${errorCount} documents contain field data which didn't match the structure defined in the document type definition`
+    renderHeadline: RenderHeadline = ({ errorCount, skippingMessage }) => `\
+${errorCount} documents contain field data which didn't match the structure defined in the document type definition.${skippingMessage}`
 
     renderLine = () => {
       const incompatibleFields = this.incompatibleFieldData

@@ -28,6 +28,8 @@ export * as Tp from '@effect-ts/core/Collections/Immutable/Tuple'
 export * as HashMap from '@effect-ts/core/Collections/Immutable/HashMap'
 export * as HashSet from '@effect-ts/core/Collections/Immutable/HashSet'
 
+export * as Array from '@effect-ts/core/Collections/Immutable/Array'
+
 export * as These from './These.js'
 
 export * as Chunk from './Chunk.js'

@@ -1,0 +1,10 @@
+{
+  "name": "node-script-example",
+  "private": true,
+  "scripts": {
+    "start": "contentlayer build && node --experimental-json-modules my-script.mjs"
+  },
+  "dependencies": {
+    "contentlayer": "latest"
+  }
+}

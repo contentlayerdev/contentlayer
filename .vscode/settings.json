@@ -7,6 +7,19 @@
     "**/.pnp.*": true,
     "examples/gatsby-docs/gatsby": true
   },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/dist": true,
+    "**/*.lock": true,
+    "**/vercel.json": true,
+    "**/.yarn": true,
+    "**/.direnv": true
+  },
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.organizeImports": false,

@@ -24,9 +24,10 @@ export const runTest = async ({
   const eff = T.gen(function* ($) {
     const relativeFilePath = unknownToPosixFilePath(relativeFilePath_)
     const contentDirPath = unknownToPosixFilePath(contentDirPath_)
+    const esbuildHash = 'not-important-for-this-test'
 
     const source = yield* $(T.tryPromise(() => makeSource({ contentDirPath, documentTypes })))
-    const coreSchemaDef = yield* $(source.provideSchema)
+    const coreSchemaDef = yield* $(source.provideSchema(esbuildHash))
 
     const documentTypeDefs = (Array.isArray(documentTypes) ? documentTypes : Object.values(documentTypes)).map((_) =>
       _.def(),
@@ -39,6 +40,7 @@ export const runTest = async ({
       markdown: undefined,
       mdx: undefined,
       fieldOptions: core.defaultFieldOptions,
+      disableImportAliasWarning: false,
     }
 
     const cache = yield* $(

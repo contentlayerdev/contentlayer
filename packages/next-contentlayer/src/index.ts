@@ -8,7 +8,24 @@ export type PluginOptions = {}
 
 let devServerStarted = false
 
-export const withContentlayer =
+export const defaultPluginOptions: PluginOptions = {}
+
+/**
+ * This function allows you to provide custom plugin options (currently there are none however).
+ *
+ * @example
+ * ```js
+ * // next.config.mjs
+ * import { createContentlayerPlugin } from 'next-contentlayer'
+ *
+ * const withContentlayer = createContentlayerPlugin()
+ *
+ * export default withContentlayer({
+ *   // My Next.js config
+ * })
+ * ```
+ */
+export const createContentlayerPlugin =
   (_pluginOptions: PluginOptions = {}) =>
   (nextConfig: Partial<NextConfig> = {}): Partial<NextConfig> => {
     // could be either `next dev` or just `next`
@@ -59,3 +76,20 @@ export const withContentlayer =
       },
     }
   }
+
+/**
+ * Next.js plugin for Contentlayer with default options.
+ *
+ * If you want to provide custom plugin options, please use {@link createContentlayerPlugin} instead.
+ *
+ * @example
+ * ```js
+ * // next.config.mjs
+ * import { withContentlayer } from 'next-contentlayer'
+ *
+ * export default withContentlayer({
+ *   // My Next.js config
+ * })
+ * ```
+ */
+export const withContentlayer = createContentlayerPlugin(defaultPluginOptions)
