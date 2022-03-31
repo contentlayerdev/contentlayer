@@ -167,15 +167,17 @@ const writeFilesForCache = ({
         allCacheItems,
         Array.groupBy(({ document }) => document[typeNameField]),
         (_) => Object.entries(_),
-        Array.map(([documentTypeName, cacheItems]) => ({
-          content: JSON.stringify(
-            cacheItems.map((_) => _.document),
-            null,
-            2,
-          ),
-          filePath: withPrefix('generated', documentTypeName, `_index.json`),
-          documentHash: cacheItems.map((_) => _.documentHash).join(''),
-        })),
+        Array.map(([documentTypeName, cacheItems]) => {
+          const jsonData = schemaDef.documentTypeDefMap[documentTypeName]!.isSingleton
+            ? cacheItems.map((_) => _.document)[0]!
+            : cacheItems.map((_) => _.document)
+
+          return {
+            content: JSON.stringify(jsonData, null, 2),
+            filePath: withPrefix('generated', documentTypeName, `_index.json`),
+            documentHash: cacheItems.map((_) => _.documentHash).join(''),
+          }
+        }),
       )
 
       const dataDirPaths = documentDefs.map((_) => withPrefix('generated', _.name))
@@ -321,14 +323,6 @@ const makeIndexMjs = ({
     documentDefName: docDef.name,
     dataVariableName: getDataVariableName({ docDef }),
   }))
-
-  // const constReexports = dataVariableNames
-  //   .map(({ documentDefName, dataVariableName }) =>
-  //     isDev
-  //       ? `export * from './${documentDefName}/_index.mjs'`
-  //       : `export * as ${dataVariableName} from './${documentDefName}/_index.json'${assertStatement}`,
-  //   )
-  //   .join('\n')
 
   const constExports = 'export { ' + dataVariableNames.map((_) => _.dataVariableName).join(', ') + ' }'
 
