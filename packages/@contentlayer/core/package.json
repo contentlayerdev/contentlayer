@@ -35,7 +35,7 @@
     "date-fns": "2.x",
     "esbuild": "0.11.x || 0.12.x || 0.13.x || 0.14.x",
     "gray-matter": "^4.0.3",
-    "mdx-bundler": "^8.0.1",
+    "mdx-bundler": "^9.0.0",
     "rehype-stringify": "^9.0.3",
     "remark-frontmatter": "^4.0.1",
     "remark-parse": "^10.0.1",
