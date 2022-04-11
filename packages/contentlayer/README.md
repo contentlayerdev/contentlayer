@@ -79,6 +79,7 @@ module.exports = withContentlayer({
 
 ## Who is using Contentlayer?
 
+- [dvl.sh](https://dvl.sh)
 - [ped.ro](https://ped.ro) ([Source](https://github.com/peduarte/ped.ro))
 - [GraphCMS Docs](https://graphcms.com/docs)
 - [leerob.io](https://leerob.io/) ([Source](https://github.com/leerob/leerob.io))
