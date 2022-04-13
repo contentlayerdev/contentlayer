@@ -102,5 +102,6 @@ module.exports = withContentlayer({
 - [scriptbar-snippets.tryapp.us](https://scriptbar-snippets.tryapp.us) ([Source](https://github.com/datduyng/scriptbar-snippets))
 - [nikosantis.dev](https://nikosantis.dev) ([Source](https://github.com/nikosantis/nikosantis.dev))
 - [phong.vn](https://phong.vn) ([Source](https://github.com/0xPhong/phong.vn))
+- [dvl.sh](https://dvl.sh)
 
 Are you using Contentlayer? Please add yourself to the list above via a PR. 🙏
