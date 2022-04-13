@@ -101,5 +101,6 @@ module.exports = withContentlayer({
 - [thismodernweb.com](https://thismodernweb.com) ([Source](https://github.com/pmarsceill/this-modern-web))
 - [scriptbar-snippets.tryapp.us](https://scriptbar-snippets.tryapp.us) ([Source](https://github.com/datduyng/scriptbar-snippets))
 - [nikosantis.dev](https://nikosantis.dev) ([Source](https://github.com/nikosantis/nikosantis.dev))
+- [phong.vn](https://phong.vn) ([Source](https://github.com/0xPhong/phong.vn))
 
 Are you using Contentlayer? Please add yourself to the list above via a PR. 🙏
