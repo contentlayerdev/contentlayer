@@ -79,7 +79,6 @@ module.exports = withContentlayer({
 
 ## Who is using Contentlayer?
 
-- [dvl.sh](https://dvl.sh)
 - [ped.ro](https://ped.ro) ([Source](https://github.com/peduarte/ped.ro))
 - [GraphCMS Docs](https://graphcms.com/docs)
 - [leerob.io](https://leerob.io/) ([Source](https://github.com/leerob/leerob.io))
@@ -102,5 +101,6 @@ module.exports = withContentlayer({
 - [thismodernweb.com](https://thismodernweb.com) ([Source](https://github.com/pmarsceill/this-modern-web))
 - [scriptbar-snippets.tryapp.us](https://scriptbar-snippets.tryapp.us) ([Source](https://github.com/datduyng/scriptbar-snippets))
 - [nikosantis.dev](https://nikosantis.dev) ([Source](https://github.com/nikosantis/nikosantis.dev))
+- [dvl.sh](https://dvl.sh)
 
 Are you using Contentlayer? Please add yourself to the list above via a PR. 🙏
