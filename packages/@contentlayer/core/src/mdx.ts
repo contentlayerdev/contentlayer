@@ -29,7 +29,7 @@ export const bundleMDX = ({
       const cwd = cwd_ ?? getCwdFromContentDirPath()
 
       const mdxOptions: BundleMDXOptions<any> = {
-        xdmOptions: (opts) => {
+        mdxOptions: (opts) => {
           opts.rehypePlugins = [...(opts.rehypePlugins ?? []), ...(rehypePlugins ?? [])]
           opts.remarkPlugins = [...(opts.remarkPlugins ?? []), ...(remarkPlugins ?? [])]
           return opts
