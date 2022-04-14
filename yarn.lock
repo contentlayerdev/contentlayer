@@ -1674,6 +1674,11 @@ __metadata:
     vite: ^2.8.6
     vitest: ^0.7.12
     yaml: ^1.10.2
+  peerDependencies:
+    date-fns: 2.x
+  peerDependenciesMeta:
+    date-fns:
+      optional: true
   languageName: unknown
   linkType: soft
 

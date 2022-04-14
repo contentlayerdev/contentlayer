@@ -27,6 +27,14 @@
   "scripts": {
     "test": "TZ='GMT' FORCE_COLOR=1 vitest"
   },
+  "peerDependencies": {
+    "date-fns": "2.x"
+  },
+  "peerDependenciesMeta": {
+    "date-fns": {
+      "optional": true
+    }
+  },
   "dependencies": {
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
