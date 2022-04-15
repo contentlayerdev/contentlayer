@@ -52,6 +52,7 @@ export const makeDocument = ({
             getDataForFieldDef({
               fieldDef,
               rawFieldData: rawData[fieldDef.name],
+              typeName: documentTypeDef.name,
               coreSchemaDef,
               options,
               relativeFilePath,
@@ -95,6 +96,7 @@ type MakeDocumentInternalError =
   | UnexpectedMarkdownError
   | UnexpectedMDXError
   | FetchDataError.NoSuchNestedDocumentTypeError
+  | FetchDataError.IncompatibleFieldDataError
 
 const rawContentHasBody = (_: RawContent): _ is RawContentMarkdown | RawContentMDX =>
   'body' in _ && _.body !== undefined
@@ -134,6 +136,7 @@ const makeNestedDocument = ({
           getDataForFieldDef({
             fieldDef,
             rawFieldData: rawObjectData[fieldDef.name],
+            typeName,
             coreSchemaDef,
             options,
             relativeFilePath,
@@ -152,6 +155,7 @@ const makeNestedDocument = ({
 const getDataForFieldDef = ({
   fieldDef,
   rawFieldData,
+  typeName,
   coreSchemaDef,
   options,
   relativeFilePath,
@@ -159,6 +163,7 @@ const getDataForFieldDef = ({
 }: {
   fieldDef: core.FieldDef
   rawFieldData: any
+  typeName: string
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
   relativeFilePath: PosixFilePath
@@ -245,11 +250,25 @@ const getDataForFieldDef = ({
           ),
         )
       case 'date':
-        let dateValue = new Date(rawFieldData)
-        if (options.date?.timezone) {
-          dateValue = dateFnsTz.zonedTimeToUtc(dateValue, options.date.timezone)
-        }
-        return dateValue.toISOString()
+        const value = yield* $(
+          T.tryCatch(
+            () => {
+              let dateValue = new Date(rawFieldData)
+              if (options.date?.timezone) {
+                dateValue = dateFnsTz.zonedTimeToUtc(dateValue, options.date.timezone)
+              }
+              return dateValue.toISOString()
+            },
+            () =>
+              new FetchDataError.IncompatibleFieldDataError({
+                documentFilePath: relativeFilePath,
+                documentTypeName: typeName,
+                incompatibleFieldData: rawFieldData,
+              }),
+          ),
+        )
+
+        return value
       case 'markdown': {
         const isBodyField = fieldDef.name === options.fieldOptions.bodyFieldName
         // NOTE for the body field, we're passing the entire document file contents to MDX (e.g. in case some remark/rehype plugins need access to the frontmatter)
