@@ -89,7 +89,7 @@ test('getDataForFieldDef error', async () => {
           contentDirPath: __unusedValue,
           fieldDef: {
             type,
-            name: 'someField',
+            name: 'someDate',
             isSystemField: false,
             isRequired: false,
             default: undefined,
@@ -118,13 +118,23 @@ test('getDataForFieldDef error', async () => {
           "category": "MissingOrIncompatibleData",
           "documentFilePath": "some/path/doc.md",
           "documentTypeName": "Post",
-          "incompatibleFieldData": "2022-0",
+          "incompatibleFieldData": [
+            [
+              "someDate",
+              "2022-0",
+            ],
+          ],
           "renderHeadline": [Function],
           "renderLine": [Function],
           Symbol(): {
             "documentFilePath": "some/path/doc.md",
             "documentTypeName": "Post",
-            "incompatibleFieldData": "2022-0",
+            "incompatibleFieldData": [
+              [
+                "someDate",
+                "2022-0",
+              ],
+            ],
           },
           Symbol(): [
             "documentFilePath",

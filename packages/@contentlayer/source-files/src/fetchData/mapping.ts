@@ -31,7 +31,9 @@ export const makeDocument = ({
   options: core.PluginOptions
 }): T.Effect<
   OT.HasTracer & HasConsole & HasDocumentContext,
-  FetchDataError.UnexpectedError | FetchDataError.NoSuchNestedDocumentTypeError,
+  | FetchDataError.UnexpectedError
+  | FetchDataError.IncompatibleFieldDataError
+  | FetchDataError.NoSuchNestedDocumentTypeError,
   core.Document
 > =>
   pipe(
@@ -86,7 +88,7 @@ export const makeDocument = ({
       return doc
     }),
     T.mapError((error) =>
-      error._tag === 'NoSuchNestedDocumentTypeError'
+      error._tag === 'NoSuchNestedDocumentTypeError' || error._tag === 'IncompatibleFieldDataError'
         ? error
         : new FetchDataError.UnexpectedError({ error, documentFilePath: relativeFilePath }),
     ),
@@ -263,7 +265,7 @@ const getDataForFieldDef = ({
               new FetchDataError.IncompatibleFieldDataError({
                 documentFilePath: relativeFilePath,
                 documentTypeName: typeName,
-                incompatibleFieldData: rawFieldData,
+                incompatibleFieldData: [[fieldDef.name, rawFieldData]],
               }),
           ),
         )
