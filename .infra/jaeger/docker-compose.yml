@@ -3,14 +3,20 @@ services:
   # Collector
   otel-collector:
     # https://hub.docker.com/r/otel/opentelemetry-collector/tags
+    # image: otel/opentelemetry-collector:0.42.0
     image: otel/opentelemetry-collector:0.48.0
+    # image: otel/opentelemetry-collector-contrib:latest
     command: ['--config=/conf/collector-config.yaml']
     volumes:
       - ./collector-config.yaml:/conf/collector-config.yaml
     ports:
-      - '9464:9464'
-      - '4317:4317'
-      - '55681:55681'
+      # - '9464:9464' # Prometheus metrics ???
+      - '8889:8889' # Prometheus metrics ???
+      # - '8888:8888' # Prometheus metrics
+      - '4317:4317' # grpc
+      - '4318:4318' # http
+      - '55681:55681' # web trace endpoint ?
+      - '14278:14278'
     depends_on:
       - jaeger-all-in-one
 
@@ -21,3 +27,34 @@ services:
       - '16686:16686'
       - '14268:14268'
       - '14250'
+    environment:
+      # https://www.jaegertracing.io/docs/1.33/spm/#enabling-spm
+      METRICS_STORAGE_TYPE: 'prometheus'
+      PROMETHEUS_SERVER_URL: 'http://prometheus:9090'
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    # command:
+    #   - '--config.file=/etc/prometheus/prometheus.yml'
+    #   - '--storage.tsdb.path=/prometheus'
+    #   - '--web.console.libraries=/etc/prometheus/console_libraries'
+    #   - '--web.console.templates=/etc/prometheus/consoles'
+    #   - '--web.enable-lifecycle'
+    ports:
+      - '9090:9090'
+    # expose:
+    #   - 9090
+    # networks:
+    #   - monitoring
+
+volumes:
+  prometheus_data: {}
+
+# networks:
+#   monitoring:
+#     driver: bridge

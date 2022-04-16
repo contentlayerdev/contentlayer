@@ -8,18 +8,43 @@ receivers:
             - http://*
             - https://*
 
+  # Dummy receiver that's never used, because a pipeline is required to have one.
+  otlp/spanmetrics:
+    protocols:
+      grpc:
+        endpoint: "localhost:65535"
+
 exporters:
   jaeger:
     endpoint: jaeger-all-in-one:14250
     tls:
       insecure: true
+  prometheus:
+    # endpoint: "0.0.0.0:9464"
+    endpoint: "0.0.0.0:8889"
+    # endpoint: "prometheus:9464"
 
 processors:
   batch:
+  spanmetrics:
+    metrics_exporter: prometheus
 
 service:
+  telemetry:
+    logs:
+      level: "debug"
   pipelines:
     traces:
       receivers: [otlp]
       exporters: [jaeger]
-      processors: [batch]
+      processors: [spanmetrics, batch]
+    # metrics:
+    #   receivers: [otlp]
+    #   exporters: [prometheus]
+    #   processors: [batch]
+
+    # The exporter name in this pipeline must match the spanmetrics.metrics_exporter name.
+    # The receiver is just a dummy and never used; added to pass validation requiring at least one receiver in a pipeline.
+    metrics/spanmetrics:
+      receivers: [otlp/spanmetrics]
+      exporters: [prometheus]
