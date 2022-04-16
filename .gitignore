@@ -26,3 +26,14 @@ out
 !tap-snapshots/dist/*
 
 .contentlayer
+.yarn/releases/yarn-3.1.1.cjs
+.yarn/sdks/typescript/bin/tsc
+.yarn/sdks/typescript/bin/tsserver
+packages/contentlayer/README.md
+packages/contentlayer/bin/cli.cjs
+packages/contentlayer-stackbit-yaml-generator/bin/cli.cjs
+examples/archive/playground-azimuth-sanity/copy-code.sh
+examples/archive/playground-azimuth-contentful/copy-code.sh
+.yarn/sdks/typescript/bin/tsserver
+.yarn/sdks/typescript/bin/tsc
+.yarn/releases/yarn-3.1.1.cjs

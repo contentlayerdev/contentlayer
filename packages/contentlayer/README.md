@@ -78,7 +78,7 @@ module.exports = withContentlayer({
 ```
 
 ## Who is using Contentlayer?
-
+- [arkardev.space](https://arkardev.space) ([Source](https://github.com/Riley1101/portfolia))
 - [ped.ro](https://ped.ro) ([Source](https://github.com/peduarte/ped.ro))
 - [GraphCMS Docs](https://graphcms.com/docs)
 - [leerob.io](https://leerob.io/) ([Source](https://github.com/leerob/leerob.io))
