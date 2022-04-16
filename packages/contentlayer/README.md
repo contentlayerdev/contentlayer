@@ -104,4 +104,4 @@ module.exports = withContentlayer({
 - [phong.vn](https://phong.vn) ([Source](https://github.com/0xPhong/phong.vn))
 - [dvl.sh](https://dvl.sh)
 
-Are you using Contentlayer? Please add yourself to the list above via a PR. 🙏
+Are you using Contentlayer? Please add your page (and repo) to the end of the list via a PR. 🙏
