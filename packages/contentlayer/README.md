@@ -103,5 +103,6 @@ module.exports = withContentlayer({
 - [nikosantis.dev](https://nikosantis.dev) ([Source](https://github.com/nikosantis/nikosantis.dev))
 - [phong.vn](https://phong.vn) ([Source](https://github.com/0xPhong/phong.vn))
 - [dvl.sh](https://dvl.sh)
+- [nicholaswarren.com](https://nicholaswarren.com)
 
 Are you using Contentlayer? Please add your page (and repo) to the end of the list via a PR. 🙏
