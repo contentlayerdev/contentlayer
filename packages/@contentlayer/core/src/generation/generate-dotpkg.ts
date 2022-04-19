@@ -145,7 +145,8 @@ const writeFilesForCache = ({
       )
 
       // NOTE Type assert statements for `.json` files are neccessary from Node v16.14 onwards
-      const assertStatement = nodeVersionMajor >= 16 && nodeVersionMinor >= 14 ? ` assert { type: 'json' }` : ''
+      const needsJsonAssertStatement = nodeVersionMajor > 16 || (nodeVersionMajor === 16 && nodeVersionMinor >= 14)
+      const assertStatement = needsJsonAssertStatement ? ` assert { type: 'json' }` : ''
 
       const typeNameField = generationOptions.options.fieldOptions.typeFieldName
       const dataBarrelFiles = documentDefs.map((docDef) => ({
