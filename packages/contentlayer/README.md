@@ -4,7 +4,7 @@ Contentlayer is a content SDK that validates and transforms your content into ty
 
 [![Video Thumbnail](https://i.imgur.com/y3p4hDN.png)](https://www.youtube.com/watch?v=58Pj4a4Us7A)
 
-**⚠️ Contentlayer is in beta and under active development. Expect frequent breaking changes as new versions are released.**
+**⚠️ Contentlayer is currently in beta. There might still be breaking changes before the upcoming 1.0 release.**
 
 ## Getting Started
 
