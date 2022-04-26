@@ -5,6 +5,7 @@ import rehypeStringify from 'rehype-stringify'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkParse from 'remark-parse'
 import remark2rehype from 'remark-rehype'
+import type { Transformer } from 'unified'
 import { unified } from 'unified'
 
 import type { MarkdownOptions } from './plugin.js'
@@ -12,9 +13,11 @@ import type { MarkdownOptions } from './plugin.js'
 export const markdownToHtml = ({
   mdString,
   options,
+  data = {},
 }: {
   mdString: string
   options?: MarkdownOptions
+  data: any
 }): T.Effect<OT.HasTracer & HasConsole, UnexpectedMarkdownError, string> =>
   pipe(
     T.gen(function* ($) {
@@ -34,6 +37,12 @@ export const markdownToHtml = ({
       }
 
       const builder = unified()
+
+      const addRawDocumentMeta = (): Transformer => (_, vfile) => {
+        Object.assign(vfile.data, data)
+      }
+
+      builder.use(addRawDocumentMeta)
 
       // parses out the frontmatter (which is needed for full-document parsing)
       builder.use(remarkFrontmatter)
