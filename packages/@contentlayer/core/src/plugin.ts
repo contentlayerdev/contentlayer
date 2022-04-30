@@ -1,6 +1,8 @@
 import type { Thunk } from '@contentlayer/utils'
 import type { E, HasClock, HasConsole, OT, S, T } from '@contentlayer/utils/effect'
 import type { BundleMDXOptions } from 'mdx-bundler/dist/types'
+import type { Options as RehypeStringifyOptions } from 'rehype-stringify'
+import type { Options as RemarkRehypeOptions } from 'remark-rehype'
 import type { LiteralUnion } from 'type-fest'
 import type * as unified from 'unified'
 
@@ -25,6 +27,8 @@ export type PluginOptions = {
 }
 
 export type MarkdownOptions = {
+  remarkRehypeOptions?: RemarkRehypeOptions,
+  rehypeStringifyOptions?: RehypeStringifyOptions,
   remarkPlugins?: unified.Pluggable[]
   rehypePlugins?: unified.Pluggable[]
 }

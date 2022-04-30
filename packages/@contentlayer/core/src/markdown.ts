@@ -45,14 +45,14 @@ export const markdownToHtml = ({
         builder.use(options.remarkPlugins)
       }
 
-      builder.use(remark2rehype)
+      builder.use(remark2rehype, options?.remarkRehypeOptions)
 
       if (options?.rehypePlugins) {
         builder.use(options.rehypePlugins)
       }
 
       // rehype to html
-      builder.use(rehypeStringify as any)
+      builder.use(rehypeStringify as any, options?.rehypeStringifyOptions)
 
       const res = yield* $(T.tryPromise(() => builder.process(mdString)))
 
