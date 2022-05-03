@@ -76,5 +76,6 @@ Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest
 - [dvl.sh](https://dvl.sh)
 - [nicholaswarren.com](https://nicholaswarren.com)
 - [achintyajha.com](https://achintyajha.com) ([Source](https://github.com/achintyajha/www))
+- [cretu.dev](https://cretu.dev) ([Source](https://github.com/cristicretu/cretu.dev))
 
 Are you using Contentlayer? Please add your page (and repo) to the end of the list via a PR. 🙏
