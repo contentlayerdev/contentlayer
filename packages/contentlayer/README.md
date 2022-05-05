@@ -75,6 +75,7 @@ Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest
 - [phong.vn](https://phong.vn) ([Source](https://github.com/0xPhong/phong.vn))
 - [dvl.sh](https://dvl.sh)
 - [nicholaswarren.com](https://nicholaswarren.com)
+- [blog.sandromaglione.com](https://blog.sandromaglione.com/)
 - [achintyajha.com](https://achintyajha.com) ([Source](https://github.com/achintyajha/www))
 
 Are you using Contentlayer? Please add your page (and repo) to the end of the list via a PR. 🙏
