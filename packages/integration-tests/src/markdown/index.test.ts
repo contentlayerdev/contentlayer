@@ -3,6 +3,7 @@ import * as core from 'contentlayer/core'
 import { defineDocumentType, makeSource } from 'contentlayer/source-files'
 import * as fs from 'node:fs/promises'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import rehypeStringify from 'rehype-stringify'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkParse from 'remark-parse'
@@ -18,7 +19,7 @@ test('markdown builder pattern', async () => {
 
   const spyFn = vi.fn()
 
-  const testDirPath = new URL('.', import.meta.url).pathname
+  const testDirPath = fileURLToPath(new URL('.', import.meta.url))
 
   await fs.rm(path.join(testDirPath, '.contentlayer'), { recursive: true, force: true })
 

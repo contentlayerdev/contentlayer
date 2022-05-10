@@ -2,6 +2,7 @@ import * as core from 'contentlayer/core'
 import { defineDocumentType, makeSource } from 'contentlayer/source-files'
 import * as fs from 'node:fs/promises'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { expect, test } from 'vitest'
 
 test('empty content folder', async () => {
@@ -11,7 +12,7 @@ test('empty content folder', async () => {
     fields: {},
   }))
 
-  const testDirPath = new URL('.', import.meta.url).pathname
+  const testDirPath = fileURLToPath(new URL('.', import.meta.url))
 
   await fs.rm(path.join(testDirPath, '.contentlayer'), { recursive: true, force: true })
 
