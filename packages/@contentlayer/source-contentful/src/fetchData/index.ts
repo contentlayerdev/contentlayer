@@ -2,7 +2,7 @@ import * as core from '@contentlayer/core'
 import type { HasConsole } from '@contentlayer/utils/effect'
 import { Chunk, OT, pipe, T } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
-import * as os from 'os'
+import * as os from 'node:os'
 
 import {
   environmentGetAssets,

@@ -79,3 +79,5 @@ export const isReadonlyArray = <T>(_: any): _ is ReadonlyArray<T> => Array.isArr
 export function assertNever(_: any): never {
   throw new Error(`assertNever: This should never happen ${JSON.stringify(_)}`)
 }
+
+export const asMutableArray = <T>(arr: ReadonlyArray<T>): T[] => arr.slice()

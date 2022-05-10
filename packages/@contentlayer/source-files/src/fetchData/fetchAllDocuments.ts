@@ -1,11 +1,11 @@
 import type * as core from '@contentlayer/core'
 import type { PosixFilePath } from '@contentlayer/utils'
-import { posixFilePath } from '@contentlayer/utils'
+import { asMutableArray, posixFilePath } from '@contentlayer/utils'
 import type { HasConsole } from '@contentlayer/utils/effect'
 import { Chunk, O, OT, pipe, T } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
-import { promise as glob } from 'glob-promise'
-import * as os from 'os'
+import glob from 'fast-glob'
+import * as os from 'node:os'
 
 import { FetchDataError } from '../errors/index.js'
 import type { Flags } from '../index.js'
@@ -111,7 +111,7 @@ const getAllRelativeFilePaths = ({
 
   return pipe(
     T.tryCatchPromise(
-      () => glob(pattern, { cwd: contentDirPath, ignore: contentDirExclude }),
+      () => glob(pattern, { cwd: contentDirPath, ignore: asMutableArray(contentDirExclude) }),
       (error) => new fs.UnknownFSError({ error }),
     ),
     T.map((_) => _.map(posixFilePath)),

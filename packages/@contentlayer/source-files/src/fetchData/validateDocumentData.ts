@@ -3,7 +3,7 @@ import type { PosixFilePath } from '@contentlayer/utils'
 import { filePathJoin } from '@contentlayer/utils'
 import { O, OT, pipe, T, These } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
-import minimatch from 'minimatch'
+import micromatch from 'micromatch'
 
 import { FetchDataError } from '../errors/index.js'
 import type { DocumentContentType, FilePathPatternMap } from '../index.js'
@@ -166,8 +166,10 @@ const getDocumentDefNameByFilePathPattern = ({
   filePathPatternMap: FilePathPatternMap
 }): string | undefined => {
   const matchingFilePathPattern = Object.keys(filePathPatternMap).find((filePathPattern) =>
-    minimatch(relativeFilePath, filePathPattern),
+    micromatch.isMatch(relativeFilePath, filePathPattern, {}),
   )
+  console.log({ matchingFilePathPattern, relativeFilePath, filePathPatternMap })
+
   if (matchingFilePathPattern) {
     return filePathPatternMap[matchingFilePathPattern]
   }

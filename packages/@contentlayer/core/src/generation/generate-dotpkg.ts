@@ -165,18 +165,15 @@ const writeFilesForCache = ({
       }))
 
       const collectionDataJsonFiles = pipe(
-        allCacheItems,
-        Array.groupBy(({ document }) => document[typeNameField]),
-        (_) => Object.entries(_),
-        Array.map(([documentTypeName, cacheItems]) => {
-          const jsonData = schemaDef.documentTypeDefMap[documentTypeName]!.isSingleton
-            ? cacheItems.map((_) => _.document)[0]!
-            : cacheItems.map((_) => _.document)
+        documentDefs,
+        Array.map((documentDef) => {
+          const documents = allDocuments.filter((_) => _[typeNameField] === documentDef.name)
+          const jsonData = documentDef.isSingleton ? documents[0]! : documents
 
           return {
             content: JSON.stringify(jsonData, null, 2),
-            filePath: withPrefix('generated', documentTypeName, `_index.json`),
-            documentHash: cacheItems.map((_) => _.documentHash).join(''),
+            filePath: withPrefix('generated', documentDef.name, `_index.json`),
+            documentHash: documents.map((_) => _.documentHash).join(''),
           }
         }),
       )

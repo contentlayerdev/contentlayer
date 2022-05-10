@@ -5,7 +5,7 @@ import { DummyTracing, provideDummyTracing, provideJaegerTracing } from '@conten
 import type { HasClock, HasConsole, OT } from '@contentlayer/utils/effect'
 import { Cause, pipe, pretty, provideConsole, T } from '@contentlayer/utils/effect'
 import { getContentlayerVersion } from '@contentlayer/utils/node'
-import * as os from 'os'
+import * as os from 'node:os'
 
 export const runMain =
   ({ tracingServiceName, verbose }: { tracingServiceName: string; verbose: boolean }) =>
