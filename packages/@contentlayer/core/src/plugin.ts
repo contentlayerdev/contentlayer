@@ -24,6 +24,28 @@ export type PluginOptions = {
   disableImportAliasWarning: boolean
 }
 
+/**
+ * Please make sure to use the following Unified plugins for Contentlayer to work properly:
+ *
+ * @example
+ * ```ts
+ * import rehypeStringify from 'rehype-stringify'
+ * import remarkFrontmatter from 'remark-frontmatter'
+ * import remarkParse from 'remark-parse'
+ * import remark2rehype from 'remark-rehype'
+ *
+ * makeSource({
+ *   // your other options ...
+ *   markdown: (builder) => {
+ *     builder
+ *       .use(remarkFrontmatter)
+ *       .use(remarkParse)
+ *       .use(remark2rehype)
+ *       .use(rehypeStringify)
+ *   }
+ * })
+ * ```
+ */
 export type MarkdownUnifiedBuilderCallback = (builder: unified.Processor) => void
 
 export type MarkdownOptions = {
