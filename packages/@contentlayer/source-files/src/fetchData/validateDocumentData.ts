@@ -168,7 +168,6 @@ const getDocumentDefNameByFilePathPattern = ({
   const matchingFilePathPattern = Object.keys(filePathPatternMap).find((filePathPattern) =>
     micromatch.isMatch(relativeFilePath, filePathPattern, {}),
   )
-  console.log({ matchingFilePathPattern, relativeFilePath, filePathPatternMap })
 
   if (matchingFilePathPattern) {
     return filePathPatternMap[matchingFilePathPattern]
