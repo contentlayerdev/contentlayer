@@ -25,7 +25,6 @@ Follow [the tutorial](https://www.contentlayer.dev/docs/getting-started) to get 
 - Simple but powerful schema DSL to design your content model (validates your content and generates types)
 - Auto-generated TypeScript types based on your content model (e.g. frontmatter or CMS schema)
 
-
 ### Supported Content Sources
 
 - Local content (Markdown, MDX, JSON, YAML)
