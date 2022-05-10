@@ -56,6 +56,20 @@
       }
     },
     {
+      "label": "release:prerelease",
+      "type": "shell",
+      "command": "yarn release:prerelease",
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": {
+        "focus": true,
+        "panel": "dedicated",
+        "group": "build",
+        "reveal": "silent",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+    {
       "label": "build",
       "type": "shell",
       "command": "yarn build",
