@@ -1,8 +1,8 @@
 import { pipe } from '@effect-ts/core'
 import { Tagged } from '@effect-ts/core/Case'
 import * as OT from '@effect-ts/otel'
-import type { Stats } from 'fs'
-import { promises as fs } from 'fs'
+import type { Stats } from 'node:fs'
+import { promises as fs } from 'node:fs'
 import type { JsonValue } from 'type-fest'
 
 import { T } from '../effect/index.js'

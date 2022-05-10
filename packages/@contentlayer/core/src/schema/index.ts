@@ -1,4 +1,4 @@
-import type { Document } from '../data.js'
+import type { Document } from '../data-types.js'
 import type { FieldDef, FieldDefType } from './field.js'
 import type { StackbitExtension } from './stackbit-extension.js'
 export * from './field.js'

@@ -6,11 +6,8 @@ import type { HasConsole, OT } from '@contentlayer/utils/effect'
 import { identity, pipe, T } from '@contentlayer/utils/effect'
 // Use legacy import format since somehow ESM export isn't properly picked up for `date-fns-tz`
 import dateFnsTz from 'date-fns-tz'
-import * as path from 'path'
 
 import { FetchDataError } from '../errors/index.js'
-import type { DocumentContentType } from '../schema/defs/index.js'
-import type { RawDocumentData } from '../types.js'
 import type { HasDocumentContext } from './DocumentContext.js'
 import { getFromDocumentContext } from './DocumentContext.js'
 import type { RawContent, RawContentMarkdown, RawContentMDX } from './types.js'
@@ -64,26 +61,14 @@ export const makeDocument = ({
         }),
       )
 
-      const contentType: DocumentContentType = utils.pattern
-        .match(rawContent.kind)
-        .with('markdown', () => 'markdown' as const)
-        .with('mdx', () => 'mdx' as const)
-        .otherwise(() => 'data' as const)
+      const _raw = yield* $(getFromDocumentContext('rawDocumentData'))
 
-      const _raw: RawDocumentData = {
-        sourceFilePath: relativeFilePath,
-        sourceFileName: path.basename(relativeFilePath),
-        sourceFileDir: path.dirname(relativeFilePath),
-        contentType,
-        flattenedPath: getFlattenedPath(relativeFilePath),
-      }
-
-      const doc: core.Document = {
+      const doc = identity<core.Document>({
         ...docValues,
         _id: relativeFilePath,
         _raw,
         [typeFieldName]: documentTypeDef.name,
-      }
+      })
 
       return doc
     }),
@@ -273,6 +258,7 @@ const getDataForFieldDef = ({
         return value
       case 'markdown': {
         const isBodyField = fieldDef.name === options.fieldOptions.bodyFieldName
+        const rawDocumentData = yield* $(getFromDocumentContext('rawDocumentData'))
         // NOTE for the body field, we're passing the entire document file contents to MDX (e.g. in case some remark/rehype plugins need access to the frontmatter)
         // TODO we should come up with a better way to do this
         if (isBodyField) {
@@ -280,16 +266,23 @@ const getDataForFieldDef = ({
           if (rawContent.kind !== 'markdown' && rawContent.kind !== 'mdx') return utils.assertNever(rawContent)
 
           const html = yield* $(
-            core.markdownToHtml({ mdString: rawContent.rawDocumentContent, options: options?.markdown }),
+            core.markdownToHtml({
+              mdString: rawContent.rawDocumentContent,
+              options: options?.markdown,
+              rawDocumentData,
+            }),
           )
           return identity<core.Markdown>({ raw: rawFieldData, html })
         } else {
-          const html = yield* $(core.markdownToHtml({ mdString: rawFieldData, options: options?.markdown }))
+          const html = yield* $(
+            core.markdownToHtml({ mdString: rawFieldData, options: options?.markdown, rawDocumentData }),
+          )
           return identity<core.Markdown>({ raw: rawFieldData, html })
         }
       }
       case 'mdx': {
         const isBodyField = fieldDef.name === options.fieldOptions.bodyFieldName
+        const rawDocumentData = yield* $(getFromDocumentContext('rawDocumentData'))
         // NOTE for the body field, we're passing the entire document file contents to MDX (e.g. in case some remark/rehype plugins need access to the frontmatter)
         // TODO we should come up with a better way to do this
         if (isBodyField) {
@@ -297,11 +290,18 @@ const getDataForFieldDef = ({
           if (rawContent.kind !== 'mdx' && rawContent.kind !== 'markdown') return utils.assertNever(rawContent)
 
           const code = yield* $(
-            core.bundleMDX({ mdxString: rawContent.rawDocumentContent, options: options?.mdx, contentDirPath }),
+            core.bundleMDX({
+              mdxString: rawContent.rawDocumentContent,
+              options: options?.mdx,
+              contentDirPath,
+              rawDocumentData,
+            }),
           )
           return identity<core.MDX>({ raw: rawFieldData, code })
         } else {
-          const code = yield* $(core.bundleMDX({ mdxString: rawFieldData, options: options?.mdx, contentDirPath }))
+          const code = yield* $(
+            core.bundleMDX({ mdxString: rawFieldData, options: options?.mdx, contentDirPath, rawDocumentData }),
+          )
           return identity<core.MDX>({ raw: rawFieldData, code })
         }
       }

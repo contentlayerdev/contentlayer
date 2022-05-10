@@ -2,7 +2,7 @@ import type { E } from '@contentlayer/utils/effect'
 import { Chunk, OT, pipe, S, T } from '@contentlayer/utils/effect'
 import type { GetContentlayerVersionError } from '@contentlayer/utils/node'
 import { fs } from '@contentlayer/utils/node'
-import * as path from 'path'
+import * as path from 'node:path'
 
 import type { HasCwd } from '../cwd.js'
 import { getCwd } from '../cwd.js'

@@ -1,7 +1,7 @@
 import * as core from '@contentlayer/core'
 import { OT, pipe, T } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
-import * as path from 'path'
+import * as path from 'node:path'
 
 import { BaseCommand } from './_BaseCommand.js'
 

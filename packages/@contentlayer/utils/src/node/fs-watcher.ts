@@ -9,7 +9,7 @@ import * as E from '@effect-ts/core/Either'
 import { pipe } from '@effect-ts/core/Function'
 import * as O from '@effect-ts/core/Option'
 import * as Chokidar from 'chokidar'
-import type fs from 'fs'
+import type fs from 'node:fs'
 
 import { Tagged } from '../effect/index.js'
 import type { UnknownFilePath } from '../file-paths.js'

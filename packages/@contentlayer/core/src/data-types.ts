@@ -8,9 +8,10 @@ export type DocumentMeta = {
    * Optional concept as no system/workflow depends on IDs.
    */
   _id: string
-  // _typeName: string
-  _raw: Record<string, any>
+  _raw: RawDocumentData
 }
+
+export type RawDocumentData = Record<string, any>
 
 export type Markdown = {
   /** Raw Markdown source */

@@ -2,11 +2,11 @@ import type { E } from '@contentlayer/utils/effect'
 import { OT, pipe, T } from '@contentlayer/utils/effect'
 import type { GetContentlayerVersionError } from '@contentlayer/utils/node'
 import { fs } from '@contentlayer/utils/node'
-import * as path from 'path'
+import * as path from 'node:path'
 
 import { ArtifactsDir } from './ArtifactsDir.js'
 import type { HasCwd } from './cwd.js'
-import type { Document } from './data.js'
+import type { Document } from './data-types.js'
 
 export namespace DataCache {
   export type Cache = {

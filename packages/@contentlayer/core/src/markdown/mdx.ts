@@ -2,18 +2,22 @@ import { errorToString } from '@contentlayer/utils'
 import { OT, pipe, T, Tagged } from '@contentlayer/utils/effect'
 import * as mdxBundler from 'mdx-bundler'
 import type { BundleMDXOptions } from 'mdx-bundler/dist/types'
-import * as path from 'path'
+import * as path from 'node:path'
 
-import type { MDXOptions } from './plugin.js'
+import type { RawDocumentData } from '../data-types.js'
+import type { MDXOptions } from '../plugin.js'
+import { addRawDocumentToVFile } from './unified.js'
 
 export const bundleMDX = ({
   mdxString,
   options,
   contentDirPath,
+  rawDocumentData,
 }: {
   mdxString: string
   options?: MDXOptions
   contentDirPath: string
+  rawDocumentData: RawDocumentData
 }): T.Effect<OT.HasTracer, UnexpectedMDXError, string> =>
   pipe(
     T.gen(function* ($) {
@@ -31,7 +35,11 @@ export const bundleMDX = ({
       const mdxOptions: BundleMDXOptions<any> = {
         mdxOptions: (opts) => {
           opts.rehypePlugins = [...(opts.rehypePlugins ?? []), ...(rehypePlugins ?? [])]
-          opts.remarkPlugins = [...(opts.remarkPlugins ?? []), ...(remarkPlugins ?? [])]
+          opts.remarkPlugins = [
+            addRawDocumentToVFile(rawDocumentData),
+            ...(opts.remarkPlugins ?? []),
+            ...(remarkPlugins ?? []),
+          ]
           return opts
         },
         cwd,

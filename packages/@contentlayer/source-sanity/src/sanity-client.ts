@@ -1,6 +1,6 @@
 import type { ClientConstructor, SanityClient } from '@sanity/client'
-import { promises as fs } from 'fs'
-import * as path from 'path'
+import { promises as fs } from 'node:fs'
+import * as path from 'node:path'
 // NOTE sanity currently doesn't provide ESM exports, thus the require syntax is needed
 // import * as SanityClient from '@sanity/client'
 const SanityClient_: ClientConstructor = require('@sanity/client')

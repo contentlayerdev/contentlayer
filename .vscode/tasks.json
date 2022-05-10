@@ -4,6 +4,31 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "build:clean",
+      "type": "shell",
+      "command": "yarn build:clean",
+      "presentation": {
+        "focus": true,
+        "panel": "shared",
+        "group": "dev",
+        "showReuseMessage": true,
+        "clear": false,
+        "close": true,
+      }
+    },
+    {
+      "label": "test",
+      "type": "shell",
+      "command": "yarn test",
+      "presentation": {
+        "focus": true,
+        "panel": "shared",
+        "group": "test",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+    {
       "label": "release:patch",
       "type": "shell",
       "command": "yarn release:patch",

@@ -1,4 +1,4 @@
-import type { Document, NestedDocument } from './data.js'
+import type { Document, NestedDocument } from './data-types.js'
 import type { DataCache } from './DataCache.js'
 
 // export type ContentlayerTypesGenerated = ContentlayerGen extends { documentTypeMap: any, objectTypeMap: any } ? true : false

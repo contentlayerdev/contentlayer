@@ -1,4 +1,4 @@
-import * as path from 'path'
+import * as path from 'node:path'
 import { fileURLToPath } from 'url'
 
 import type { OT } from '../effect/index.js'

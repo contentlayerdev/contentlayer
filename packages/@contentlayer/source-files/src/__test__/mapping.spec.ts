@@ -155,4 +155,5 @@ const runPromise = <A>(eff: T.Effect<OT.HasTracer & HasClock & HasConsole & HasD
 const provideTestDocumentContext = provideDocumentContext({
   rawContent: __unusedValue,
   relativeFilePath: __unusedValue,
+  rawDocumentData: __unusedValue,
 })

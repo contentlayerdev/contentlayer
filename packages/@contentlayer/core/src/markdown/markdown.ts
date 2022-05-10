@@ -7,14 +7,18 @@ import remarkParse from 'remark-parse'
 import remark2rehype from 'remark-rehype'
 import { unified } from 'unified'
 
-import type { MarkdownOptions } from './plugin.js'
+import type { RawDocumentData } from '../data-types.js'
+import type { MarkdownOptions } from '../plugin.js'
+import { addRawDocumentToVFile } from './unified.js'
 
 export const markdownToHtml = ({
   mdString,
   options,
+  rawDocumentData,
 }: {
   mdString: string
   options?: MarkdownOptions
+  rawDocumentData: RawDocumentData
 }): T.Effect<OT.HasTracer & HasConsole, UnexpectedMarkdownError, string> =>
   pipe(
     T.gen(function* ($) {
@@ -34,6 +38,8 @@ export const markdownToHtml = ({
       }
 
       const builder = unified()
+
+      builder.use(addRawDocumentToVFile(rawDocumentData))
 
       // parses out the frontmatter (which is needed for full-document parsing)
       builder.use(remarkFrontmatter)

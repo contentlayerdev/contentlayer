@@ -4,8 +4,8 @@ import { provideJaegerTracing, recRemoveUndefinedValues } from '@contentlayer/ut
 import type { HasConsole } from '@contentlayer/utils/effect'
 import { OT, pipe, pretty, provideConsole, T } from '@contentlayer/utils/effect'
 import { Command, Option } from 'clipanion'
-import { promises as fs } from 'fs'
-import * as path from 'path'
+import { promises as fs } from 'node:fs'
+import * as path from 'node:path'
 import * as t from 'typanion'
 
 import type { Transform } from '../lib/index.js'

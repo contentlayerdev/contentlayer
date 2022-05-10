@@ -9,7 +9,7 @@ import yaml from 'yaml'
 
 import { FetchDataError } from '../errors/index.js'
 import type { ContentTypeMap, FilePathPatternMap } from '../types.js'
-import { provideDocumentContext } from './DocumentContext.js'
+import { makeAndProvideDocumentContext } from './DocumentContext.js'
 import type { HasDocumentTypeMapState } from './DocumentTypeMap.js'
 import { DocumentTypeMapState } from './DocumentTypeMap.js'
 import { makeDocument } from './mapping.js'
@@ -89,7 +89,7 @@ export const makeCacheItemFromFilePath = ({
             contentDirPath,
             options,
           }),
-          provideDocumentContext({ rawContent, relativeFilePath }),
+          makeAndProvideDocumentContext({ rawContent, relativeFilePath }),
         ),
       )
 
