@@ -43,6 +43,7 @@ export const bundleMDX = ({
           return opts
         },
         cwd,
+        // NOTE `restOptions` should be spread at the end to allow for user overrides
         ...restOptions,
       }
 

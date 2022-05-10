@@ -10444,6 +10444,17 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"integration-tests@workspace:packages/integration-tests":
+  version: 0.0.0-use.local
+  resolution: "integration-tests@workspace:packages/integration-tests"
+  dependencies:
+    contentlayer: "workspace:*"
+    typescript: ^4.6.3
+    vite: ^2.9.5
+    vitest: ^0.9.3
+  languageName: unknown
+  linkType: soft
+
 "internal-slot@npm:^1.0.3":
   version: 1.0.3
   resolution: "internal-slot@npm:1.0.3"

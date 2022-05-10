@@ -1,4 +1,4 @@
-import type { DateOptions, MarkdownOptions, MDXOptions } from '@contentlayer/core'
+import type { DateOptions, MarkdownOptions, MarkdownUnifiedBuilderCallback, MDXOptions } from '@contentlayer/core'
 
 import type { DocumentContentType } from './schema/defs/index.js'
 
@@ -22,7 +22,7 @@ export type RawDocumentData = {
 }
 
 export type PluginOptions = {
-  markdown?: MarkdownOptions
+  markdown?: MarkdownOptions | MarkdownUnifiedBuilderCallback
   mdx?: MDXOptions
   fieldOptions?: FieldOptions
   date?: DateOptions

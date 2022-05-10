@@ -8,7 +8,7 @@ import remark2rehype from 'remark-rehype'
 import { unified } from 'unified'
 
 import type { RawDocumentData } from '../data-types.js'
-import type { MarkdownOptions } from '../plugin.js'
+import type { MarkdownOptions, MarkdownUnifiedBuilderCallback } from '../plugin.js'
 import { addRawDocumentToVFile } from './unified.js'
 
 export const markdownToHtml = ({
@@ -17,7 +17,7 @@ export const markdownToHtml = ({
   rawDocumentData,
 }: {
   mdString: string
-  options?: MarkdownOptions
+  options?: MarkdownOptions | MarkdownUnifiedBuilderCallback
   rawDocumentData: RawDocumentData
 }): T.Effect<OT.HasTracer & HasConsole, UnexpectedMarkdownError, string> =>
   pipe(
@@ -41,24 +41,29 @@ export const markdownToHtml = ({
 
       builder.use(addRawDocumentToVFile(rawDocumentData))
 
-      // parses out the frontmatter (which is needed for full-document parsing)
-      builder.use(remarkFrontmatter)
+      // If the user has provided a unified builder callback, use it instead of the default plugins
+      if (typeof options === 'function') {
+        options(builder)
+      } else {
+        // parses out the frontmatter (which is needed for full-document parsing)
+        builder.use(remarkFrontmatter)
 
-      // parse markdown
-      builder.use(remarkParse as any)
+        // parse markdown
+        builder.use(remarkParse as any)
 
-      if (options?.remarkPlugins) {
-        builder.use(options.remarkPlugins)
+        if (options?.remarkPlugins) {
+          builder.use(options.remarkPlugins)
+        }
+
+        builder.use(remark2rehype)
+
+        if (options?.rehypePlugins) {
+          builder.use(options.rehypePlugins)
+        }
+
+        // rehype to html
+        builder.use(rehypeStringify as any)
       }
-
-      builder.use(remark2rehype)
-
-      if (options?.rehypePlugins) {
-        builder.use(options.rehypePlugins)
-      }
-
-      // rehype to html
-      builder.use(rehypeStringify as any)
 
       const res = yield* $(T.tryPromise(() => builder.process(mdString)))
 

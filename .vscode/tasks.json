@@ -29,6 +29,19 @@
       }
     },
     {
+      "label": "lint",
+      "type": "shell",
+      "command": "yarn lint:check",
+      "problemMatcher": ["$eslint-stylish"],
+      "presentation": {
+        "focus": true,
+        "panel": "shared",
+        "group": "test",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+    {
       "label": "release:patch",
       "type": "shell",
       "command": "yarn release:patch",

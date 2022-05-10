@@ -1,4 +1,4 @@
-import type * as Unified from 'unified'
+import type * as unified from 'unified'
 
 import type { RawDocumentData } from '../data-types.js'
 
@@ -7,6 +7,6 @@ import type { RawDocumentData } from '../data-types.js'
  *
  * Contentlayer uses this plugin by default.
  */
-export const addRawDocumentToVFile = (rawDocumentData: RawDocumentData) => (): Unified.Transformer => (_, vfile) => {
+export const addRawDocumentToVFile = (rawDocumentData: RawDocumentData) => (): unified.Transformer => (_, vfile) => {
   Object.assign(vfile.data, { rawDocumentData })
 }

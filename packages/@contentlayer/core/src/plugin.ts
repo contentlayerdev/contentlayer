@@ -1,6 +1,6 @@
 import type { Thunk } from '@contentlayer/utils'
 import type { E, HasClock, HasConsole, OT, S, T } from '@contentlayer/utils/effect'
-import type { BundleMDXOptions } from 'mdx-bundler/dist/types'
+import type * as mdxBundler from 'mdx-bundler/dist/types'
 import type { LiteralUnion } from 'type-fest'
 import type * as unified from 'unified'
 
@@ -17,12 +17,14 @@ export type PluginExtensions = {
 }
 
 export type PluginOptions = {
-  markdown: MarkdownOptions | undefined
+  markdown: MarkdownOptions | MarkdownUnifiedBuilderCallback | undefined
   mdx: MDXOptions | undefined
   date: DateOptions | undefined
   fieldOptions: FieldOptions
   disableImportAliasWarning: boolean
 }
+
+export type MarkdownUnifiedBuilderCallback = (builder: unified.Processor) => void
 
 export type MarkdownOptions = {
   remarkPlugins?: unified.Pluggable[]
@@ -32,7 +34,17 @@ export type MarkdownOptions = {
 export type MDXOptions = {
   remarkPlugins?: unified.Pluggable[]
   rehypePlugins?: unified.Pluggable[]
-} & Omit<BundleMDXOptions<any>, 'xdmOptions'>
+  /**  */
+  /**
+   * This allows you to modify the built-in MDX configuration (passed to @mdx-js/mdx compile).
+   * This can be helpful for specifying your own remarkPlugins/rehypePlugins.
+   *
+   * If you're providing `mdxOptions` then `rehypePlugins` and `remarkPlugins` will be ignored.
+   */
+  mdxOptions?: MDXBundlerMDXOptions
+} & Omit<mdxBundler.BundleMDXOptions<any>, 'mdxOptions'>
+
+export type MDXBundlerMDXOptions = mdxBundler.BundleMDXOptions<any>['mdxOptions']
 
 export type DateOptions = {
   /**
@@ -89,7 +101,7 @@ export type MakeSourcePlugin<TArgs extends PartialArgs> = (
 ) => Promise<SourcePlugin>
 
 export type PartialArgs = {
-  markdown?: MarkdownOptions | undefined
+  markdown?: MarkdownOptions | MarkdownUnifiedBuilderCallback | undefined
   mdx?: MarkdownOptions | undefined
   date?: DateOptions | undefined
   fieldOptions?: Partial<FieldOptions>
