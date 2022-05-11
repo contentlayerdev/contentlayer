@@ -8459,7 +8459,7 @@ __metadata:
     marked: ^3.0.4
     next: ^12.1.6
     next-contentlayer: "workspace:*"
-    react: ^17.0.2
+    react: ^18.1.0
     react-dom: ^18.1.0
     react-helmet: ^6.1.0
     react-html-parser: ^2.0.2
@@ -8483,7 +8483,7 @@ __metadata:
     marked: ^3.0.4
     next: ^12.1.6
     next-contentlayer: "workspace:*"
-    react: ^17.0.2
+    react: ^18.1.0
     react-dom: ^18.1.0
     react-helmet: ^6.1.0
     react-html-parser: ^2.0.2
@@ -8505,7 +8505,7 @@ __metadata:
     date-fns: ^2.28.0
     marked: ^3.0.4
     next: ^12.1.6
-    react: ^17.0.2
+    react: ^18.1.0
     react-dom: ^18.1.0
     react-helmet: ^6.1.0
     react-html-parser: ^2.0.2
@@ -8528,7 +8528,7 @@ __metadata:
     marked: ^3.0.4
     next: ^12.1.6
     next-contentlayer: "workspace:*"
-    react: ^17.0.2
+    react: ^18.1.0
     react-dom: ^18.1.0
     react-helmet: ^6.1.0
     react-html-parser: ^2.0.2
@@ -13380,7 +13380,7 @@ fsevents@~2.3.2:
     next: 12.1.6
     next-contentlayer: latest
     postcss: ^8.4.13
-    react: 18.0.0
+    react: 18.1.0
     react-dom: 18.1.0
     tailwindcss: ^3.0.24
     typescript: 4.6.4
@@ -14547,7 +14547,7 @@ fsevents@~2.3.2:
     "@sanity/desk-tool": ^2.10.5
     "@sanity/vision": ^2.10.5
     prop-types: ^15.8.1
-    react: ^17.0.2
+    react: ^18.1.0
     react-dom: ^18.1.0
     sanity-plugin-markdown: ^1.0.1
   languageName: unknown
@@ -16380,31 +16380,12 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"react@npm:18.0.0":
-  version: 18.0.0
-  resolution: "react@npm:18.0.0"
-  dependencies:
-    loose-envify: ^1.1.0
-  checksum: 293020b96536b3c7113ee57ca5c990a3f25649d1751b1c7a3aabd16dff0691fe9f1eed1206616d0906d05933536052037340a0c8d0941ff870b0eb469a2f975b
-  languageName: node
-  linkType: hard
-
-"react@npm:18.1.0":
+"react@npm:18.1.0, react@npm:^18.1.0":
   version: 18.1.0
   resolution: "react@npm:18.1.0"
   dependencies:
     loose-envify: ^1.1.0
   checksum: 5bb296b561b43ef2220395da4faac86c14a087c8c80e1a7598a5740f01ee605c11eaf249985c1e2000971c4cd32ccb46d40f00479bbd9fb6b1c7cf857393b7d4
-  languageName: node
-  linkType: hard
-
-"react@npm:^17.0.2":
-  version: 17.0.2
-  resolution: "react@npm:17.0.2"
-  dependencies:
-    loose-envify: ^1.1.0
-    object-assign: ^4.1.1
-  checksum: b254cc17ce3011788330f7bbf383ab653c6848902d7936a87b09d835d091e3f295f7e9dd1597c6daac5dc80f90e778c8230218ba8ad599f74adcc11e33b9d61b
   languageName: node
   linkType: hard
 
