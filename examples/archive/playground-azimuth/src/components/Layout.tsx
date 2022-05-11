@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import type { FC } from 'react'
+import type { FC, PropsWithChildren } from 'react'
 import React from 'react'
 import { Helmet } from 'react-helmet'
 
@@ -8,14 +8,17 @@ import { Footer } from './footer/Footer'
 import { Header } from './Header'
 import type * as types from 'contentlayer/generated'
 
-export const Layout: FC<{
-  doc: types.Blog | types.Page | types.Landing | types.Post
-  config: types.Config
-}> = ({ doc, config, children, ...props }) => {
+export const Layout: FC<
+  PropsWithChildren<{
+    doc: types.Blog | types.Page | types.Landing | types.Post
+    config: types.Config
+  }>
+> = ({ doc, config, children, ...props }) => {
   const font = config.base_font ?? 'nunito-sans'
 
   return (
     <>
+      {/* @ts-expect-error React helmet not yet React 18 ready */}
       <Helmet>
         <title>{doc.seo?.title ?? config.title}</title>
         <meta charSet="utf-8" />

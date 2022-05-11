@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-import type { FC } from 'react'
+import type { FC, PropsWithChildren } from 'react'
 const utilStyles = require('../styles/utils.module.css')
 const styles = require('./layout.module.css')
 
@@ -9,7 +9,7 @@ const name = 'Shu Uesugi'
 
 export const siteTitle = 'Next.js Sample Website'
 
-export const Layout: FC<{ home?: boolean }> = ({ children, home }) => {
+export const Layout: FC<PropsWithChildren<{ home?: boolean }>> = ({ children, home }) => {
   return (
     <div className={styles.container}>
       <Head>
