@@ -69,7 +69,7 @@
     "@contentlayer/utils": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "^4.6.3"
+    "typescript": "^4.6.4"
   },
   "author": "schickling",
   "homepage": "https://github.com/contentlayerdev/contentlayer",
