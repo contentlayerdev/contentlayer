@@ -36,6 +36,10 @@ module.exports.createContentlayerPlugin =
       // Since Next.js doesn't provide some kind of real "plugin system" we're (ab)using the `redirects` option here
       // in order to hook into and block the `next build` and initial `next dev` run.
       redirects: async () => {
+        // TODO move to post-install?
+        const { checkConstraints } = await import('./check-constraints.js')
+        checkConstraints()
+
         // NOTE since next.config.js doesn't support ESM yet, this "CJS -> ESM bridge" is needed
         const { runContentlayerBuild, runContentlayerDev } = await import('./plugin.js')
         if (isBuild) {

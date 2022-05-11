@@ -1,5 +1,6 @@
 import type { NextConfig } from 'next'
 
+import { checkConstraints } from './check-constraints.js'
 import { runContentlayerBuild, runContentlayerDev } from './plugin.js'
 
 export type { NextConfig }
@@ -38,6 +39,7 @@ export const createContentlayerPlugin =
       // in order to hook into and block the `next build` and initial `next dev` run.
       redirects: async () => {
         if (isBuild) {
+          checkConstraints()
           await runContentlayerBuild()
         } else if (isNextDev && !devServerStarted) {
           devServerStarted = true

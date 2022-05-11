@@ -1,10 +1,11 @@
 {
   "name": "next-contentlayer",
-  "version": "0.2.5-dev.2",
+  "version": "0.2.5-dev.7",
   "type": "module",
   "main": "./dist/index-cjs.cjs",
   "sideEffects": false,
   "exports": {
+    "./package.json": "./package.json",
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index-cjs.cjs"
@@ -17,6 +18,9 @@
   "types": "./dist/index.d.ts",
   "typesVersions": {
     "*": {
+      "packge.json": [
+        "./package.json"
+      ],
       ".": [
         "./dist"
       ],

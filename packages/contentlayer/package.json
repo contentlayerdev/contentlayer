@@ -1,12 +1,13 @@
 {
   "name": "contentlayer",
-  "version": "0.2.5-dev.2",
+  "version": "0.2.5-dev.7",
   "bin": "./bin/cli.cjs",
   "type": "module",
   "engines": {
-    "node": ">=14"
+    "node": ">=14.18"
   },
   "exports": {
+    "./package.json": "./package.json",
     "./source-files": {
       "import": "./dist/source-files/index.js"
     },
@@ -29,6 +30,9 @@
   "_typesVersions": "Not needed anymore once this issue is closed https://github.com/microsoft/TypeScript/issues/33079",
   "typesVersions": {
     "*": {
+      "packge.json": [
+        "./package.json"
+      ],
       "source-files": [
         "./dist/source-files"
       ],
