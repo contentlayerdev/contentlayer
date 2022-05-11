@@ -8,7 +8,7 @@ jobs:
   lint:
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [16]
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
@@ -18,7 +18,7 @@ jobs:
   test:
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [14, 16, 17, 18]
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
@@ -29,7 +29,7 @@ jobs:
   build-example-starter:
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [16]
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
@@ -41,7 +41,7 @@ jobs:
   build-example-azimuth:
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [16]
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
@@ -53,7 +53,7 @@ jobs:
   build-example-next-contentlayer-example:
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [14, 16, 17, 18]
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
@@ -65,7 +65,7 @@ jobs:
   build-example-node-script:
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [14, 16, 17, 18]
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
