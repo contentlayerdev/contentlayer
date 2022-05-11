@@ -15,7 +15,6 @@
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
     "**/dist": true,
-    "**/*.lock": true,
     "**/vercel.json": true,
     "**/.yarn": true,
     "**/.direnv": true

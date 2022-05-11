@@ -16,6 +16,7 @@ export namespace ArtifactsDir {
   export const mkdir: T.Effect<OT.HasTracer & HasCwd, fs.MkdirError, PosixFilePath> = T.gen(function* ($) {
     const cwd = yield* $(getCwd)
     const dirPath = getDirPath({ cwd })
+
     yield* $(fs.mkdirp(dirPath))
 
     return dirPath

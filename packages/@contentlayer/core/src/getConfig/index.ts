@@ -1,5 +1,5 @@
 import type { E } from '@contentlayer/utils/effect'
-import { Chunk, OT, pipe, S, T } from '@contentlayer/utils/effect'
+import { Array, Chunk, O, OT, pipe, S, T } from '@contentlayer/utils/effect'
 import type { GetContentlayerVersionError } from '@contentlayer/utils/node'
 import { fs } from '@contentlayer/utils/node'
 import * as path from 'node:path'
@@ -48,14 +48,14 @@ export const getConfigWatch = ({
   configPath?: string
 }): S.Stream<OT.HasTracer & HasCwd, never, E.Either<GetConfigError, Config>> => {
   const resolveParams = pipe(
-    T.structPar({ configPath: resolveConfigPath({ configPath: configPath_ }) }),
+    T.structPar({ configPath: resolveConfigPath({ configPath: configPath_ }), cwd: getCwd }),
     T.chainMergeObject(() => makeTmpDirAndResolveEntryPoint),
     T.either,
   )
 
   return pipe(
     S.fromEffect(resolveParams),
-    S.chainMapEitherRight(({ configPath, outfilePath }) =>
+    S.chainMapEitherRight(({ configPath, outfilePath, cwd }) =>
       pipe(
         esbuild.makeAndSubscribe({
           entryPoints: [configPath],
@@ -70,6 +70,7 @@ export const getConfigWatch = ({
           bundle: true,
           logLevel: 'silent',
           metafile: true,
+          absWorkingDir: cwd,
           plugins: [contentlayerGenPlugin(), makeAllPackagesExternalPlugin(configPath)],
         }),
         S.mapEffectEitherRight((result) => getConfigFromResult({ result, configPath })),
@@ -133,11 +134,15 @@ const getConfigFromResult = ({
 
       const cwd = yield* $(getCwd)
 
-      const outfilePath = Object.keys(result.metafile!.outputs)
+      // Deriving the exact outfilePath here since it's suffixed with a hash
+      const outfilePath = pipe(
+        Object.keys(result.metafile!.outputs),
         // Will look like `path.join(cacheDir, 'compiled-contentlayer-config-[SOME_HASH].mjs')
-        .filter((_) => _.match(/compiled-contentlayer-config-.+.mjs$/))
+        Array.find((_) => _.match(/compiled-contentlayer-config-.+.mjs$/) !== null),
         // Needs to be absolute path for ESM import to work
-        .map((_) => path.join(cwd, _))[0]!
+        O.map((_) => path.join(cwd, _)),
+        O.getUnsafe,
+      )
 
       const esbuildHash = outfilePath.match(/compiled-contentlayer-config-(.+).mjs$/)![1]!
 

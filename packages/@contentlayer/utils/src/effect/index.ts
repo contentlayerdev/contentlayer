@@ -28,7 +28,7 @@ export * as Tp from '@effect-ts/core/Collections/Immutable/Tuple'
 export * as HashMap from '@effect-ts/core/Collections/Immutable/HashMap'
 export * as HashSet from '@effect-ts/core/Collections/Immutable/HashSet'
 
-export * as Array from '@effect-ts/core/Collections/Immutable/Array'
+export * as Array from './Array.js'
 
 export * as These from './These.js'
 
@@ -48,8 +48,8 @@ export * as SC from '@effect-ts/core/Effect/Schedule'
 export * as Either from '@effect-ts/core/Either'
 export * as E from '@effect-ts/core/Either'
 
-export * as Option from '@effect-ts/core/Option'
-export * as O from '@effect-ts/core/Option'
+export * as Option from './Option.js'
+export * as O from './Option.js'
 
 export * as Ex from '@effect-ts/core/Effect/Exit'
 
