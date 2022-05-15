@@ -80,5 +80,6 @@ Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest
 - [Making Sense of Crypto and Web3](https://web3.lifeitself.us/)
 - [cretu.dev](https://cretu.dev) ([Source](https://github.com/cristicretu/cretu.dev))
 - [jarocki.me](https://jarocki.me) ([Source](https://github.com/BartoszJarocki/web-jarocki-me))
+- [iyansr.id](https://iyansr.id) ([Source](https://github.com/iyansr/iyansr.id-reborn))
 
 Are you using Contentlayer? Please add your page (and repo) to the end of the list via a PR. 🙏
