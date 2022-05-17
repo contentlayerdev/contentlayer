@@ -8,6 +8,16 @@ export * from './single-item.js'
 export * from './file-paths.js'
 export * from './tracing-effect/index.js'
 
+declare global {
+  type TODO = any
+}
+
+export type DeepPartial<T> = T extends object
+  ? {
+      [P in keyof T]?: DeepPartial<T[P]>
+    }
+  : T
+
 export { AsciiTree } from 'oo-ascii-tree'
 export * as pattern from 'ts-pattern'
 import { Tagged } from '@effect-ts/core/Case'

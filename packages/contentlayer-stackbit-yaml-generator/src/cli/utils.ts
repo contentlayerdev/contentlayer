@@ -1,3 +1,3 @@
 import YAML from 'yaml'
 
-export const toYamlString = (json: any): string => YAML.stringify(json)
+export const toYamlString = (json: any): string => YAML.stringify(json, { aliasDuplicateObjects: false })

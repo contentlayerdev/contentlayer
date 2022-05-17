@@ -76,7 +76,7 @@ export const generateDotpkgStream = ({
   const generationOptions = { sourcePluginType: config.source.type, options: config.source.options }
   const resolveParams = pipe(
     T.structPar({
-      schemaDef: config.source.provideSchema(config.esbuildHash),
+      schemaDef: config.source.provideSchema({ esbuildHash: config.esbuildHash }),
       targetPath: ArtifactsDir.mkdir,
     }),
     T.either,

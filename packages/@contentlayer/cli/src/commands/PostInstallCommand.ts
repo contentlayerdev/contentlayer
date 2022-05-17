@@ -59,7 +59,7 @@ const generateTypes = ({
     }
 
     const { source, esbuildHash } = sourceEither.right
-    const schemaDef = yield* $(source.provideSchema(esbuildHash))
+    const schemaDef = yield* $(source.provideSchema({ esbuildHash }))
 
     if (!indexDtsFileExists) {
       yield* $(fs.writeFile(indexDtsFilePath, core.makeDataTypes({ schemaDef })))

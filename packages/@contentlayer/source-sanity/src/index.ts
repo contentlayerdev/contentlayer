@@ -15,14 +15,13 @@ type Args = {
 
 export const makeSourcePlugin: core.MakeSourcePlugin<Args> = async (args) => {
   const {
-    extensions,
     options,
     restArgs: { studioDirPath },
   } = await core.processArgs(args)
 
   return {
     type: 'sanity',
-    extensions,
+    extensions: {},
     options,
     provideSchema: provideSchema({ studioDirPath, options }) as any,
     fetchData: ({ watch }: any) => {

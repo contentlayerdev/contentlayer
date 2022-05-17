@@ -1,10 +1,20 @@
 {
   "name": "contentlayer-stackbit-yaml-generator",
-  "version": "0.2.5",
+  "version": "0.2.6-dev.7",
   "type": "module",
-  "bin": "./dist/cli/index.js",
-  "exports": "./dist/lib/index.js",
+  "bin": "./bin/cli.cjs",
+  "exports": {
+    ".": "./dist/lib/index.js",
+    "./types": "./dist/types/index.js"
+  },
   "types": "./dist/lib/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "types": [
+        "./dist/types"
+      ]
+    }
+  },
   "files": [
     "./dist/*.{js,ts,map}",
     "./dist/!(__test__)/**/*.{js,ts,map}",
@@ -20,7 +30,7 @@
     "@stackbit/sdk": "^0.2.32",
     "clipanion": "^3.2.0-rc.11",
     "typanion": "3.8.0",
-    "yaml": "^1.10.2"
+    "yaml": "^2.1.0"
   },
   "devDependencies": {
     "contentlayer": "workspace:*",

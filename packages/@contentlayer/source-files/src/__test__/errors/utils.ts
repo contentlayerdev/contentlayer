@@ -88,6 +88,7 @@ export const makeErrors = (
       description: undefined,
       isRequired: true,
       isSystemField: false,
+      extensions: {},
     }
     errors.push(
       new FetchDataError.MissingRequiredFieldsError({

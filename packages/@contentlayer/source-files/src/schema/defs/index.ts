@@ -1,4 +1,4 @@
-import type * as core from '@contentlayer/core'
+import type { ExtensionsDocumentType, ExtensionsNestedType } from '@contentlayer/core'
 import type { Thunk } from '@contentlayer/utils'
 
 import type { ComputedField } from './computed-field.js'
@@ -12,9 +12,9 @@ export type SchemaDef = {
 
 export type DocumentContentType = 'markdown' | 'mdx' | 'data'
 
-export type TypeExtensions<DefName extends string = string> = {
-  stackbit?: core.StackbitExtension.TypeExtension<DefName>
-}
+// export type TypeExtensions<DefName extends string = string> = {
+// stackbit?: core.StackbitExtension.TypeExtension<DefName>
+// }
 
 export type FieldDefs = Record<string, FieldDef> | FieldDefWithName[]
 
@@ -43,8 +43,8 @@ export type DocumentTypeDef<DefName extends string = string> = {
 
   isSingleton?: boolean
 
-  extensions?: TypeExtensions<DefName>
-}
+  // extensions?: TypeExtensions<DefName>
+} & Partial<ExtensionsDocumentType>
 
 export type ComputedFields<DefName extends string = string> = Record<string, ComputedField<DefName>>
 
@@ -53,16 +53,16 @@ export type NestedTypeDef<DefName extends string = string> = {
   name: DefName
   description?: string
   fields: FieldDefs
-  extensions?: TypeExtensions<DefName>
-}
+  // extensions?: TypeExtensions<DefName>
+} & Partial<ExtensionsNestedType>
 
 export const isNestedTypeDef = (_: NestedTypeDef | NestedUnnamedTypeDef): _ is NestedTypeDef => _.hasOwnProperty('name')
 
 export type NestedUnnamedTypeDef = {
   // type: 'NestedUnnamedTypeDef'
   fields: FieldDefs
-  extensions?: TypeExtensions
-}
+  // extensions?: TypeExtensions
+} & Partial<ExtensionsNestedType>
 
 export const isNestedUnnamedTypeDef = (_: NestedTypeDef | NestedUnnamedTypeDef): _ is NestedUnnamedTypeDef =>
   !_.hasOwnProperty('name')

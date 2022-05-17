@@ -43,6 +43,7 @@ test('getDataForFieldDef', async () => {
           isRequired: false,
           default: undefined,
           description: undefined,
+          extensions: {},
         },
         relativeFilePath: __unusedValue,
         options: {
@@ -94,6 +95,7 @@ test('getDataForFieldDef error', async () => {
             isRequired: false,
             default: undefined,
             description: undefined,
+            extensions: {},
           },
           relativeFilePath: unknownToPosixFilePath('some/path/doc.md'),
           options: {

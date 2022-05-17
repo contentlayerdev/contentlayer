@@ -1,3 +1,5 @@
+import type { ExtensionsField } from '@contentlayer/core'
+
 import type { DocumentType, NestedType } from './index.js'
 
 export type FieldDefType = FieldDef['type']
@@ -25,7 +27,7 @@ export type FieldDef =
  * Field name should contain only alphanumeric characters, underscore and a hyphen [A-Za-z0-9_].
  * Must start with a letter. Must not end with an underscore or a hyphen.
  */
-interface FieldDefBase {
+interface FieldDefBase extends Partial<ExtensionsField> {
   /** Short description to editors how the field is to be used */
   description?: string
 

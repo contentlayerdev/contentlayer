@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/source-files",
-  "version": "0.2.5",
+  "version": "0.2.6-dev.7",
   "type": "module",
   "exports": {
     ".": {
@@ -45,7 +45,7 @@
     "micromatch": "^4.0.5",
     "ts-pattern": "^4.0.2",
     "unified": "^10.1.2",
-    "yaml": "^1.10.2"
+    "yaml": "^2.1.0"
   },
   "devDependencies": {
     "@types/faker": "^5.5.8",

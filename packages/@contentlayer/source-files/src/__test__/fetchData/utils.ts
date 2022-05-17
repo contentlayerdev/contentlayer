@@ -27,7 +27,7 @@ export const runTest = async ({
     const esbuildHash = 'not-important-for-this-test'
 
     const source = yield* $(T.tryPromise(() => makeSource({ contentDirPath, documentTypes })))
-    const coreSchemaDef = yield* $(source.provideSchema(esbuildHash))
+    const coreSchemaDef = yield* $(source.provideSchema({ esbuildHash }))
 
     const documentTypeDefs = (Array.isArray(documentTypes) ? documentTypes : Object.values(documentTypes)).map((_) =>
       _.def(),
