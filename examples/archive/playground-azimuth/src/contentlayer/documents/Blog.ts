@@ -23,12 +23,10 @@ export const Blog = defineDocumentType(() => ({
       resolve: urlFromFilePath,
     },
   },
-  extensions: {
-    stackbit: {
-      fields: {
-        title: { label: 'Title' },
-      },
-      file: 'blog.md',
+  stackbit: {
+    fields: {
+      title: { label: 'Title' },
     },
+    file: 'blog.md',
   },
 }))

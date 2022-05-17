@@ -1299,15 +1299,6 @@ exports[`azimuth schema 1`] = `
         },
         {
           "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "extensions": {},
-          "isRequired": true,
-          "isSystemField": false,
-          "name": "type",
-          "type": "string",
-        },
-        {
-          "default": undefined,
           "description": "The text shown below the title",
           "extensions": {},
           "isRequired": false,
@@ -1348,7 +1339,7 @@ exports[`azimuth schema 1`] = `
         },
         {
           "default": undefined,
-          "description": "The path of your custom \\"success\\" page, if you want to replace the default success message./index.js",
+          "description": "The path of your custom \\"success\\" page, if you want to replace the default success message.",
           "extensions": {},
           "isRequired": false,
           "isSystemField": false,
@@ -1410,15 +1401,6 @@ exports[`azimuth schema 1`] = `
           "isRequired": false,
           "isSystemField": false,
           "name": "title",
-          "type": "string",
-        },
-        {
-          "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "extensions": {},
-          "isRequired": true,
-          "isSystemField": false,
-          "name": "type",
           "type": "string",
         },
         {
@@ -1502,15 +1484,6 @@ exports[`azimuth schema 1`] = `
         },
         {
           "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "extensions": {},
-          "isRequired": true,
-          "isSystemField": false,
-          "name": "type",
-          "type": "string",
-        },
-        {
-          "default": undefined,
           "description": "The subtitle of the section",
           "extensions": {},
           "isRequired": false,
@@ -1555,15 +1528,6 @@ exports[`azimuth schema 1`] = `
           "isRequired": false,
           "isSystemField": false,
           "name": "title",
-          "type": "string",
-        },
-        {
-          "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "extensions": {},
-          "isRequired": true,
-          "isSystemField": false,
-          "name": "type",
           "type": "string",
         },
         {
@@ -1629,15 +1593,6 @@ exports[`azimuth schema 1`] = `
         },
         {
           "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "extensions": {},
-          "isRequired": true,
-          "isSystemField": false,
-          "name": "type",
-          "type": "string",
-        },
-        {
-          "default": undefined,
           "description": "The subtitle of the section",
           "extensions": {},
           "isRequired": false,
@@ -1695,15 +1650,6 @@ exports[`azimuth schema 1`] = `
           "isRequired": false,
           "isSystemField": false,
           "name": "title",
-          "type": "string",
-        },
-        {
-          "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "extensions": {},
-          "isRequired": true,
-          "isSystemField": false,
-          "name": "type",
           "type": "string",
         },
         {
@@ -1774,15 +1720,6 @@ exports[`azimuth schema 1`] = `
         },
         {
           "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "extensions": {},
-          "isRequired": true,
-          "isSystemField": false,
-          "name": "type",
-          "type": "string",
-        },
-        {
-          "default": undefined,
           "description": "The subtitle of the section",
           "extensions": {},
           "isRequired": false,
@@ -1827,15 +1764,6 @@ exports[`azimuth schema 1`] = `
           "isRequired": false,
           "isSystemField": false,
           "name": "title",
-          "type": "string",
-        },
-        {
-          "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "extensions": {},
-          "isRequired": true,
-          "isSystemField": false,
-          "name": "type",
           "type": "string",
         },
         {
@@ -1897,15 +1825,6 @@ exports[`azimuth schema 1`] = `
           "isRequired": false,
           "isSystemField": false,
           "name": "title",
-          "type": "string",
-        },
-        {
-          "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "extensions": {},
-          "isRequired": true,
-          "isSystemField": false,
-          "name": "type",
           "type": "string",
         },
         {
@@ -2432,10 +2351,6 @@ models:
         required: false
         description: The title of the section
         type: string
-      - name: type
-        required: true
-        description: Needed for contentlayer for polymorphic list types
-        type: string
       - name: content
         required: false
         description: The text content of the section
@@ -2474,10 +2389,6 @@ models:
         required: false
         description: The title of the section
         type: string
-      - name: type
-        required: true
-        description: Needed for contentlayer for polymorphic list types
-        type: string
       - name: subtitle
         required: false
         description: The subtitle of the section
@@ -2500,10 +2411,6 @@ models:
       - name: title
         required: false
         description: The title of the section
-        type: string
-      - name: type
-        required: true
-        description: Needed for contentlayer for polymorphic list types
         type: string
       - name: subtitle
         required: false
@@ -2544,10 +2451,6 @@ models:
       - name: title
         required: false
         description: The title of the section
-        type: string
-      - name: type
-        required: true
-        description: Needed for contentlayer for polymorphic list types
         type: string
       - name: subtitle
         required: false
@@ -2605,10 +2508,6 @@ models:
         required: false
         description: The title of the section
         type: string
-      - name: type
-        required: true
-        description: Needed for contentlayer for polymorphic list types
-        type: string
       - name: content
         required: false
         description: The text content of the section
@@ -2640,10 +2539,6 @@ models:
         required: false
         description: The title of the section
         type: string
-      - name: type
-        required: true
-        description: Needed for contentlayer for polymorphic list types
-        type: string
       - name: subtitle
         required: false
         description: The subtitle of the section
@@ -2666,10 +2561,6 @@ models:
       - name: title
         required: false
         description: The title of the section
-        type: string
-      - name: type
-        required: true
-        description: Needed for contentlayer for polymorphic list types
         type: string
       - name: subtitle
         required: false
@@ -2728,10 +2619,6 @@ models:
         required: false
         description: The title of the section
         type: string
-      - name: type
-        required: true
-        description: Needed for contentlayer for polymorphic list types
-        type: string
       - name: subtitle
         required: false
         description: The subtitle of the section
@@ -2778,10 +2665,6 @@ models:
         required: false
         description: The title of the section
         type: string
-      - name: type
-        required: true
-        description: Needed for contentlayer for polymorphic list types
-        type: string
       - name: subtitle
         required: false
         description: The text shown below the title
@@ -2804,7 +2687,7 @@ models:
       - name: form_action
         required: false
         description: The path of your custom \\"success\\" page, if you want to replace the
-          default success message./index.js
+          default success message.
         type: string
       - name: hide_labels
         required: false

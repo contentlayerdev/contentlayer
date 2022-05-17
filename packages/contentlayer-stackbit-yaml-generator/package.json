@@ -1,6 +1,6 @@
 {
   "name": "contentlayer-stackbit-yaml-generator",
-  "version": "0.2.6-dev.7",
+  "version": "0.2.6-dev.8",
   "type": "module",
   "bin": "./bin/cli.cjs",
   "exports": {

@@ -1,8 +1,8 @@
 import { defineDocumentType } from 'contentlayer/source-files'
 
-import { SEO } from '../nested/SEO.js'
-import { urlFromFilePath } from '../utils.js'
-import { Person } from './Person.js'
+import { SEO } from '../nested/SEO'
+import { urlFromFilePath } from '../utils'
+import { Person } from './Person'
 
 export const Post = defineDocumentType(() => ({
   name: 'Post',
@@ -56,19 +56,17 @@ export const Post = defineDocumentType(() => ({
       resolve: urlFromFilePath,
     },
   },
-  extensions: {
-    stackbit: {
-      fields: {
-        title: { label: 'Title' },
-        subtitle: { label: 'Subtitle' },
-        date: { label: 'Date' },
-        excerpt: { label: 'Excerpt' },
-        image: { label: 'Image' },
-        image_alt: { label: 'Image alt text (single post)' },
-        thumb_image: { label: 'Image (blog feed)' },
-        thumb_image_alt: { label: 'Image alt text (blog feed)' },
-      },
-      match: 'blog/**.md',
+  stackbit: {
+    fields: {
+      title: { label: 'Title' },
+      subtitle: { label: 'Subtitle' },
+      date: { label: 'Date' },
+      excerpt: { label: 'Excerpt' },
+      image: { label: 'Image' },
+      image_alt: { label: 'Image alt text (single post)' },
+      thumb_image: { label: 'Image (blog feed)' },
+      thumb_image_alt: { label: 'Image alt text (blog feed)' },
     },
+    match: 'blog/**.md',
   },
 }))

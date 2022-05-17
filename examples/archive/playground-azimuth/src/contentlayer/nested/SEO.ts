@@ -25,15 +25,13 @@ export const SEO = defineNestedType(() => ({
       of: Extra,
     },
   },
-  extensions: {
-    stackbit: {
-      label: 'Page meta data',
-      fields: {
-        title: { label: 'Title' },
-        description: { label: 'Description' },
-        robots: { label: 'Robots' },
-        extra: { label: 'Extra' },
-      },
+  stackbit: {
+    label: 'Page meta data',
+    fields: {
+      title: { label: 'Title' },
+      description: { label: 'Description' },
+      robots: { label: 'Robots' },
+      extra: { label: 'Extra' },
     },
   },
 }))
