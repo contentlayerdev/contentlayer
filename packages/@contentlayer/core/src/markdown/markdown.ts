@@ -19,7 +19,7 @@ export const markdownToHtml = ({
   mdString: string
   options?: MarkdownOptions | MarkdownUnifiedBuilderCallback
   rawDocumentData: RawDocumentData
-}): T.Effect<OT.HasTracer & HasConsole, UnexpectedMarkdownError, string> =>
+}): T.Effect<OT.HasTracer & HasConsole, UnexpectedMarkdownError, { html: string; data: Record<string, unknown> }> =>
   pipe(
     T.gen(function* ($) {
       // const matterResult = matter(mdString)
@@ -32,7 +32,7 @@ export const markdownToHtml = ({
         return yield* $(
           T.tryPromise(async () => {
             const { parse: parseWasm } = await import('markdown-wasm/dist/markdown.node.js')
-            return parseWasm(mdString)
+            return { html: parseWasm(mdString), data: {} }
           }),
         )
       }
@@ -67,7 +67,7 @@ export const markdownToHtml = ({
 
       const res = yield* $(T.tryPromise(() => builder.process(mdString)))
 
-      return res.toString()
+      return { html: String(res), data: res.data }
     }),
     T.catchAllDefect(T.fail),
     T.mapError((error) => new UnexpectedMarkdownError({ error })),

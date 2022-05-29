@@ -265,19 +265,19 @@ const getDataForFieldDef = ({
           const rawContent = yield* $(getFromDocumentContext('rawContent'))
           if (rawContent.kind !== 'markdown' && rawContent.kind !== 'mdx') return utils.assertNever(rawContent)
 
-          const html = yield* $(
+          const { html, data } = yield* $(
             core.markdownToHtml({
               mdString: rawContent.rawDocumentContent,
               options: options?.markdown,
               rawDocumentData,
             }),
           )
-          return identity<core.Markdown>({ raw: rawFieldData, html })
+          return identity<core.Markdown>({ raw: rawFieldData, html, data })
         } else {
-          const html = yield* $(
+          const { html, data } = yield* $(
             core.markdownToHtml({ mdString: rawFieldData, options: options?.markdown, rawDocumentData }),
           )
-          return identity<core.Markdown>({ raw: rawFieldData, html })
+          return identity<core.Markdown>({ raw: rawFieldData, html, data })
         }
       }
       case 'mdx': {

@@ -175,10 +175,10 @@ const getDataForFieldDef = ({
       case 'date':
         return new Date(rawFieldData)
       case 'markdown':
-        const html = yield* $(
+        const { html, data } = yield* $(
           core.markdownToHtml({ mdString: rawFieldData, options: options?.markdown, rawDocumentData: {} }),
         )
-        return <core.Markdown>{ raw: rawFieldData, html }
+        return <core.Markdown>{ raw: rawFieldData, html, data }
       // NOTE `mdx` support for Contentful is experimental and not clearly defined
       case 'mdx':
         const code = yield* $(
