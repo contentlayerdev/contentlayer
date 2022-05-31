@@ -23,7 +23,7 @@ export type DocumentTypeDef<DefName extends string = string> = {
   description?: string
 
   /**
-   * The field definitions can either be provided as an embedded with the field names as keys or
+   * The field definitions can either be provided as an object with the field names as keys or
    * as an array of all field definitions including the name as an extra field. (The array definition
    * can be used if you want more control over the order of the fields.)
    */
@@ -37,7 +37,7 @@ export type DocumentTypeDef<DefName extends string = string> = {
   /**
    * Default is `markdown`
    *
-   * Choose `none` e.g. for a `.json` or `.yaml` file
+   * Choose `data` e.g. for a `.json` or `.yaml` file
    */
   contentType?: DocumentContentType
 
