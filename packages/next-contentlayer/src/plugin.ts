@@ -4,15 +4,19 @@ import * as core from '@contentlayer/core'
 import { errorToString } from '@contentlayer/utils'
 import { E, OT, pipe, S, T } from '@contentlayer/utils/effect'
 
+type Options = {
+  configPath?: string | undefined
+}
+
 /** Seems like the next.config.js export function might be executed multiple times, so we need to make sure we only run it once */
 let contentlayerInitialized = false
 
-export const runContentlayerDev = async () => {
+export const runContentlayerDev = async ({ configPath }: Options) => {
   if (contentlayerInitialized) return
   contentlayerInitialized = true
 
   await pipe(
-    core.getConfigWatch({}),
+    core.getConfigWatch({ configPath }),
     S.tapSkipFirstRight(() => T.log(`Contentlayer config change detected. Updating type definitions and data...`)),
     S.tapRight((config) => (config.source.options.disableImportAliasWarning ? T.unit : T.fork(core.validateTsconfig))),
     S.chainSwitchMapEitherRight((config) => core.generateDotpkgStream({ config, verbose: false, isDev: true })),
@@ -22,12 +26,12 @@ export const runContentlayerDev = async () => {
   )
 }
 
-export const runContentlayerBuild = async () => {
+export const runContentlayerBuild = async ({ configPath }: Options) => {
   if (contentlayerInitialized) return
   contentlayerInitialized = true
 
   await pipe(
-    core.getConfig({}),
+    core.getConfig({ configPath }),
     T.chain((config) => core.generateDotpkg({ config, verbose: false })),
     T.tap(core.logGenerateInfo),
     OT.withSpan('next-contentlayer:runContentlayerBuild'),

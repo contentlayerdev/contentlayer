@@ -5,7 +5,9 @@ import { runContentlayerBuild, runContentlayerDev } from './plugin.js'
 
 export type { NextConfig }
 
-export type PluginOptions = {}
+export type PluginOptions = {
+  configPath?: string | undefined
+}
 
 let devServerStarted = false
 
@@ -19,7 +21,7 @@ export const defaultPluginOptions: PluginOptions = {}
  * // next.config.mjs
  * import { createContentlayerPlugin } from 'next-contentlayer'
  *
- * const withContentlayer = createContentlayerPlugin()
+ * const withContentlayer = createContentlayerPlugin({ configPath: './content/contentlayer.config.ts' })
  *
  * export default withContentlayer({
  *   // My Next.js config
@@ -27,57 +29,59 @@ export const defaultPluginOptions: PluginOptions = {}
  * ```
  */
 export const createContentlayerPlugin =
-  (_pluginOptions: PluginOptions = {}) =>
-  (nextConfig: Partial<NextConfig> = {}): Partial<NextConfig> => {
-    // could be either `next dev` or just `next`
-    const isNextDev = process.argv.includes('dev') || process.argv.some((_) => _.endsWith('/.bin/next'))
-    const isBuild = process.argv.includes('build')
+  (pluginOptions: PluginOptions = {}) =>
+    (nextConfig: Partial<NextConfig> = {}): Partial<NextConfig> => {
+      // could be either `next dev` or just `next`
+      const isNextDev = process.argv.includes('dev') || process.argv.some((_) => _.endsWith('/.bin/next'))
+      const isBuild = process.argv.includes('build')
 
-    return {
-      ...nextConfig,
-      // Since Next.js doesn't provide some kind of real "plugin system" we're (ab)using the `redirects` option here
-      // in order to hook into and block the `next build` and initial `next dev` run.
-      redirects: async () => {
-        if (isBuild) {
-          checkConstraints()
-          await runContentlayerBuild()
-        } else if (isNextDev && !devServerStarted) {
-          devServerStarted = true
-          // TODO also block here until first Contentlayer run is complete
-          runContentlayerDev()
-        }
+      const { configPath } = pluginOptions
 
-        return nextConfig.redirects?.() ?? []
-      },
-      onDemandEntries: {
-        maxInactiveAge: 60 * 60 * 1000, // extend `maxInactiveAge` to 1 hour (from 15 sec by default)
-        ...nextConfig.onDemandEntries, // use existing onDemandEntries config if provided by user
-      },
-      webpack(config: any, options: any) {
-        config.watchOptions = {
-          ...config.watchOptions,
-          // ignored: /node_modules([\\]+|\/)+(?!\.contentlayer)/,
-          ignored: ['**/node_modules/!(.contentlayer)/**/*'],
-        }
+      return {
+        ...nextConfig,
+        // Since Next.js doesn't provide some kind of real "plugin system" we're (ab)using the `redirects` option here
+        // in order to hook into and block the `next build` and initial `next dev` run.
+        redirects: async () => {
+          if (isBuild) {
+            checkConstraints()
+            await runContentlayerBuild({ configPath })
+          } else if (isNextDev && !devServerStarted) {
+            devServerStarted = true
+            // TODO also block here until first Contentlayer run is complete
+            runContentlayerDev({ configPath })
+          }
 
-        // NOTE workaround for https://github.com/vercel/next.js/issues/17806#issuecomment-913437792
-        // https://github.com/contentlayerdev/contentlayer/issues/121
-        config.module.rules.push({
-          test: /\.m?js$/,
-          type: 'javascript/auto',
-          resolve: {
-            fullySpecified: false,
-          },
-        })
+          return nextConfig.redirects?.() ?? []
+        },
+        onDemandEntries: {
+          maxInactiveAge: 60 * 60 * 1000, // extend `maxInactiveAge` to 1 hour (from 15 sec by default)
+          ...nextConfig.onDemandEntries, // use existing onDemandEntries config if provided by user
+        },
+        webpack(config: any, options: any) {
+          config.watchOptions = {
+            ...config.watchOptions,
+            // ignored: /node_modules([\\]+|\/)+(?!\.contentlayer)/,
+            ignored: ['**/node_modules/!(.contentlayer)/**/*'],
+          }
 
-        if (typeof nextConfig.webpack === 'function') {
-          return nextConfig.webpack(config, options)
-        }
+          // NOTE workaround for https://github.com/vercel/next.js/issues/17806#issuecomment-913437792
+          // https://github.com/contentlayerdev/contentlayer/issues/121
+          config.module.rules.push({
+            test: /\.m?js$/,
+            type: 'javascript/auto',
+            resolve: {
+              fullySpecified: false,
+            },
+          })
 
-        return config
-      },
+          if (typeof nextConfig.webpack === 'function') {
+            return nextConfig.webpack(config, options)
+          }
+
+          return config
+        },
+      }
     }
-  }
 
 /**
  * Next.js plugin for Contentlayer with default options.
