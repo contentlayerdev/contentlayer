@@ -42,7 +42,8 @@
     "remark-rehype": "^10.1.0",
     "source-map-support": "^0.5.21",
     "type-fest": "^2.12.2",
-    "unified": "^10.1.2"
+    "unified": "^10.1.2",
+    "vfile": "^5.3.4"
   },
   "devDependencies": {
     "@types/source-map-support": "^0.5.4",

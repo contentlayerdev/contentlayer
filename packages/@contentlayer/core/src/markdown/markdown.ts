@@ -6,6 +6,7 @@ import remarkFrontmatter from 'remark-frontmatter'
 import remarkParse from 'remark-parse'
 import remark2rehype from 'remark-rehype'
 import { unified } from 'unified'
+import { Data } from 'vfile'
 
 import type { RawDocumentData } from '../data-types.js'
 import type { MarkdownOptions, MarkdownUnifiedBuilderCallback } from '../plugin.js'
@@ -19,7 +20,7 @@ export const markdownToHtml = ({
   mdString: string
   options?: MarkdownOptions | MarkdownUnifiedBuilderCallback
   rawDocumentData: RawDocumentData
-}): T.Effect<OT.HasTracer & HasConsole, UnexpectedMarkdownError, { html: string; data: Record<string, unknown> }> =>
+}): T.Effect<OT.HasTracer & HasConsole, UnexpectedMarkdownError, { html: string; data: Data }> =>
   pipe(
     T.gen(function* ($) {
       // const matterResult = matter(mdString)
