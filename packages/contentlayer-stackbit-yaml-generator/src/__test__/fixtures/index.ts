@@ -14,7 +14,7 @@ const esbuildHash = 'not-important-for-this-test'
 const makeSchema = (documentTypes: Record<string, DocumentType<any>>) =>
   pipe(
     T.tryPromise(() => makeSource({ documentTypes, contentDirPath: '' })),
-    T.chain((source) => source.provideSchema(esbuildHash)),
+    T.chain((source) => source.provideSchema({ esbuildHash })),
     provideJaegerTracing('contentlayer-cli'),
     provideConsole,
     T.runPromise,

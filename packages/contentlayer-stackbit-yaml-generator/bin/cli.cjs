@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const main = async () => {
-  const { run } = await import('../dist/cli')
+  const { run } = await import('../dist/cli/index.js')
   await run()
 }
 

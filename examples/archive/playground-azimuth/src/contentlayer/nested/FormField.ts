@@ -32,18 +32,16 @@ export const FormField = defineNestedType(() => ({
       default: false,
     },
   },
-  extensions: {
-    stackbit: {
-      label: 'Form Field',
-      labelField: 'name',
-      fields: {
-        input_type: { label: 'Type' },
-        name: { label: 'Name' },
-        label: { label: 'Label' },
-        default_value: { label: 'Placeholder text or default value' },
-        options: { label: 'Options' },
-        is_required: { label: 'Is the field required?' },
-      },
+  stackbit: {
+    label: 'Form Field',
+    labelField: 'name',
+    fields: {
+      input_type: { label: 'Type' },
+      name: { label: 'Name' },
+      label: { label: 'Label' },
+      default_value: { label: 'Placeholder text or default value' },
+      options: { label: 'Options' },
+      is_required: { label: 'Is the field required?' },
     },
   },
 }))

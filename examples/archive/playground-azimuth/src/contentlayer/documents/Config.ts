@@ -45,21 +45,19 @@ export const Config = defineDocumentType(() => ({
     // header: { type: 'embedded', model: Header, required: true },
     footer: { type: 'nested', of: Footer, required: true },
   },
-  extensions: {
-    stackbit: {
-      label: 'Site Configuration',
-      fields: {
-        title: { label: 'Title' },
-        path_prefix: { label: 'Base URL', hidden: true },
-        domain: { label: 'Domain' },
-        favicon: { label: 'Favicon' },
-        palette: { label: 'Color Palette' },
-        base_font: { label: 'Font' },
-        header: { label: 'Header Configuration' },
-        footer: { label: 'Footer Configuration' },
-      },
-      file: 'config.json',
+  stackbit: {
+    label: 'Site Configuration',
+    fields: {
+      title: { label: 'Title' },
+      path_prefix: { label: 'Base URL', hidden: true },
+      domain: { label: 'Domain' },
+      favicon: { label: 'Favicon' },
+      palette: { label: 'Color Palette' },
+      base_font: { label: 'Font' },
+      header: { label: 'Header Configuration' },
+      footer: { label: 'Footer Configuration' },
     },
+    file: 'config.json',
   },
 }))
 
@@ -85,15 +83,13 @@ const Header = defineNestedType(() => ({
       of: Action,
     },
   },
-  extensions: {
-    stackbit: {
-      label: 'Header Configuration',
-      fields: {
-        logo_img: { label: 'Logo' },
-        logo_img_alt: { label: 'Logo Alt Text' },
-        has_nav: { label: 'Enable Navigation' },
-        nav_links: { label: 'Navigation Links' },
-      },
+  stackbit: {
+    label: 'Header Configuration',
+    fields: {
+      logo_img: { label: 'Logo' },
+      logo_img_alt: { label: 'Logo Alt Text' },
+      has_nav: { label: 'Enable Navigation' },
+      nav_links: { label: 'Navigation Links' },
     },
   },
 }))
@@ -127,17 +123,15 @@ const Footer = defineNestedType(() => ({
       of: Action,
     },
   },
-  extensions: {
-    stackbit: {
-      label: 'Footer Configuration',
-      labelField: 'content',
-      fields: {
-        sections: { label: 'Sections' },
-        has_nav: { label: 'Enable Horizontal Navigation' },
-        nav_links: { label: 'Horizontal Navigation Links' },
-        content: { label: 'Footer Content' },
-        links: { label: 'Links' },
-      },
+  stackbit: {
+    label: 'Footer Configuration',
+    labelField: 'content',
+    fields: {
+      sections: { label: 'Sections' },
+      has_nav: { label: 'Enable Horizontal Navigation' },
+      nav_links: { label: 'Horizontal Navigation Links' },
+      content: { label: 'Footer Content' },
+      links: { label: 'Links' },
     },
   },
 }))
@@ -196,19 +190,17 @@ const FooterForm = defineNestedType(() => ({
       required: true,
     },
   },
-  extensions: {
-    stackbit: {
-      label: 'Footer Form',
-      labelField: 'title',
-      fields: {
-        ...footerSectionBaseFieldsExtension,
-        content: { label: 'Content' },
-        form_id: { label: 'Form ID' },
-        form_action: { label: 'Form Action' },
-        hide_labels: { label: 'Hide Labels' },
-        form_fields: { label: 'Form Fields' },
-        submit_label: { label: 'Submit Button Label' },
-      },
+  stackbit: {
+    label: 'Footer Form',
+    labelField: 'title',
+    fields: {
+      ...footerSectionBaseFieldsExtension,
+      content: { label: 'Content' },
+      form_id: { label: 'Form ID' },
+      form_action: { label: 'Form Action' },
+      hide_labels: { label: 'Hide Labels' },
+      form_fields: { label: 'Form Fields' },
+      submit_label: { label: 'Submit Button Label' },
     },
   },
 }))
@@ -223,14 +215,12 @@ const FooterNav = defineNestedType(() => ({
       of: Action,
     },
   },
-  extensions: {
-    stackbit: {
-      label: 'Vertical Navigation',
-      labelField: 'title',
-      fields: {
-        ...footerSectionBaseFieldsExtension,
-        nav_links: { label: 'Vertical Navigation Links' },
-      },
+  stackbit: {
+    label: 'Vertical Navigation',
+    labelField: 'title',
+    fields: {
+      ...footerSectionBaseFieldsExtension,
+      nav_links: { label: 'Vertical Navigation Links' },
     },
   },
 }))
@@ -256,17 +246,15 @@ const FooterText = defineNestedType(() => ({
       description: 'The text content of the section',
     },
   },
-  extensions: {
-    stackbit: {
-      label: 'Text',
-      labelField: 'title',
-      fields: {
-        ...footerSectionBaseFieldsExtension,
-        image: { label: 'Image' },
-        image_alt: { label: 'Image Alt Text' },
-        image_url: { label: 'Image URL' },
-        content: { label: 'Content' },
-      },
+  stackbit: {
+    label: 'Text',
+    labelField: 'title',
+    fields: {
+      ...footerSectionBaseFieldsExtension,
+      image: { label: 'Image' },
+      image_alt: { label: 'Image Alt Text' },
+      image_url: { label: 'Image URL' },
+      content: { label: 'Content' },
     },
   },
 }))

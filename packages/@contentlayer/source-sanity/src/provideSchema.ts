@@ -177,6 +177,7 @@ const sanityFieldToCoreFieldDef =
           of: field.of.map(sanityArrayOfToCoreFieldListDefItem(objectTypeNames)),
           typeField: '_type',
           default: undefined,
+          extensions: {},
         }
       case 'object':
         return <core.NestedUnnamedFieldDef>{
@@ -207,6 +208,7 @@ const sanityFieldToCoreFieldDef =
             default: undefined,
             // label: field.title,
             // hidden: field.hidden,
+            extensions: {},
           }
         }
       }

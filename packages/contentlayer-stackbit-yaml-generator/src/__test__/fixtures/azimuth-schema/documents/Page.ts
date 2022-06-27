@@ -1,7 +1,7 @@
 import { defineDocumentType } from 'contentlayer/source-files'
 
-import { SEO } from '../nested/SEO.js'
-import { urlFromFilePath } from '../utils.js'
+import { SEO } from '../nested/SEO'
+import { urlFromFilePath } from '../utils'
 
 export const Page = defineDocumentType(() => ({
   name: 'Page',
@@ -38,7 +38,5 @@ export const Page = defineDocumentType(() => ({
       resolve: urlFromFilePath,
     },
   },
-  extensions: {
-    stackbit: { match: ['about.md', 'privacy-policy.md', 'signup.md', 'style-guide.md', 'terms-of-service.md'] },
-  },
+  stackbit: { match: ['about.md', 'privacy-policy.md', 'signup.md', 'style-guide.md', 'terms-of-service.md'] },
 }))

@@ -52,19 +52,17 @@ export const Action = defineNestedType(() => ({
       description: 'Add rel="nofollow" attribute to the link',
     },
   },
-  extensions: {
-    stackbit: {
-      labelField: 'label',
-      fields: {
-        label: { label: 'Label' },
-        url: { label: 'URL' },
-        style: { label: 'Style' },
-        has_icon: { label: 'Show icon' },
-        icon: { label: 'Icon' },
-        icon_position: { label: 'Icon position' },
-        new_window: { label: 'Open in new window' },
-        no_follow: { label: 'No follow' },
-      },
+  stackbit: {
+    labelField: 'label',
+    fields: {
+      label: { label: 'Label' },
+      url: { label: 'URL' },
+      style: { label: 'Style' },
+      has_icon: { label: 'Show icon' },
+      icon: { label: 'Icon' },
+      icon_position: { label: 'Icon position' },
+      new_window: { label: 'Open in new window' },
+      no_follow: { label: 'No follow' },
     },
   },
 }))

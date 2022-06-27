@@ -26,13 +26,12 @@ export type Args = {
 export const makeSourcePlugin: core.MakeSourcePlugin<Args & PluginOptions> = async (args) => {
   const {
     options,
-    extensions,
     restArgs: { accessToken, spaceId, environmentId = 'master', schemaOverrides = {} },
   } = await processArgs(args)
 
   return {
     type: 'contentful',
-    extensions,
+    extensions: {},
     options,
     provideSchema: () => provideSchema({ accessToken, spaceId, environmentId, options, schemaOverrides }),
     fetchData: ({ schemaDef }) =>

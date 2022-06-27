@@ -40,15 +40,13 @@ export const Landing = defineDocumentType(() => ({
       resolve: urlFromFilePath,
     },
   },
-  extensions: {
-    stackbit: {
-      label: 'Landing Page',
-      fields: {
-        title: { label: 'Title' },
-        sections: { label: 'Sections' },
-      },
-      match: ['contact.md', 'features.md', 'index.md', 'pricing.md'],
+  stackbit: {
+    label: 'Landing Page',
+    fields: {
+      title: { label: 'Title' },
+      sections: { label: 'Sections' },
     },
+    match: ['contact.md', 'features.md', 'index.md', 'pricing.md'],
   },
 }))
 
@@ -95,22 +93,20 @@ const SectionContent = defineNestedType(() => ({
       of: Action,
     },
   },
-  extensions: {
-    stackbit: {
-      label: 'Content Section',
-      labelField: 'title',
-      fieldGroups: [
-        { name: 'content', label: 'Content' },
-        { name: 'design', label: 'Design' },
-      ],
-      fields: {
-        ...sectionBaseFieldsExtension,
-        content: { label: 'Content', group: 'content' },
-        image: { label: 'Image', group: 'content', control: { type: 'image-gallery', options: {} } },
-        image_alt: { label: 'Image Alt Text', group: 'content' },
-        background: { label: 'Background', group: 'design', control: { type: 'image-gallery', options: {} } },
-        actions: { label: 'Action Buttons' },
-      },
+  stackbit: {
+    label: 'Content Section',
+    labelField: 'title',
+    fieldGroups: [
+      { name: 'content', label: 'Content' },
+      { name: 'design', label: 'Design' },
+    ],
+    fields: {
+      ...sectionBaseFieldsExtension,
+      content: { label: 'Content', group: 'content' },
+      image: { label: 'Image', group: 'content', control: { type: 'image-gallery', options: {} } },
+      image_alt: { label: 'Image Alt Text', group: 'content' },
+      background: { label: 'Background', group: 'design', control: { type: 'image-gallery', options: {} } },
+      actions: { label: 'Action Buttons' },
     },
   },
 }))
@@ -128,15 +124,13 @@ const SectionCta = defineNestedType(() => ({
       of: Action,
     },
   },
-  extensions: {
-    stackbit: {
-      label: 'Call to Action Section',
-      labelField: 'title',
-      fields: {
-        ...sectionBaseFieldsExtension,
-        subtitle: { label: 'Subtitle' },
-        actions: { label: 'Action Buttons' },
-      },
+  stackbit: {
+    label: 'Call to Action Section',
+    labelField: 'title',
+    fields: {
+      ...sectionBaseFieldsExtension,
+      subtitle: { label: 'Subtitle' },
+      actions: { label: 'Action Buttons' },
     },
   },
 }))
@@ -162,17 +156,15 @@ const SectionHero = defineNestedType(() => ({
       of: Action,
     },
   },
-  extensions: {
-    stackbit: {
-      label: 'Hero Section',
-      labelField: 'title',
-      fields: {
-        ...sectionBaseFieldsExtension,
-        content: { label: 'Content' },
-        image: { label: 'Image', control: { type: 'image-gallery', options: {} } },
-        image_alt: { label: 'Image Alt Text' },
-        actions: { label: 'Action Buttons' },
-      },
+  stackbit: {
+    label: 'Hero Section',
+    labelField: 'title',
+    fields: {
+      ...sectionBaseFieldsExtension,
+      content: { label: 'Content' },
+      image: { label: 'Image', control: { type: 'image-gallery', options: {} } },
+      image_alt: { label: 'Image Alt Text' },
+      actions: { label: 'Action Buttons' },
     },
   },
 }))
@@ -196,16 +188,14 @@ const SectionFeatures = defineNestedType(() => ({
       of: FeatureItem,
     },
   },
-  extensions: {
-    stackbit: {
-      label: 'Features Section',
-      labelField: 'title',
-      fields: {
-        ...sectionBaseFieldsExtension,
-        subtitle: { label: 'Subtitle' },
-        background: { label: 'Background' },
-        features: { label: 'Features' },
-      },
+  stackbit: {
+    label: 'Features Section',
+    labelField: 'title',
+    fields: {
+      ...sectionBaseFieldsExtension,
+      subtitle: { label: 'Subtitle' },
+      background: { label: 'Background' },
+      features: { label: 'Features' },
     },
   },
 }))
@@ -231,17 +221,15 @@ const FeatureItem = defineNestedType(() => ({
       of: Action,
     },
   },
-  extensions: {
-    stackbit: {
-      label: 'Feature Item',
-      labelField: 'title',
-      fields: {
-        title: { label: 'Title' },
-        content: { label: 'Content' },
-        image: { label: 'Image', control: { type: 'image-gallery', options: {} } },
-        image_alt: { label: 'Image Alt Text' },
-        actions: { label: 'Action Buttons' },
-      },
+  stackbit: {
+    label: 'Feature Item',
+    labelField: 'title',
+    fields: {
+      title: { label: 'Title' },
+      content: { label: 'Content' },
+      image: { label: 'Image', control: { type: 'image-gallery', options: {} } },
+      image_alt: { label: 'Image Alt Text' },
+      actions: { label: 'Action Buttons' },
     },
   },
 }))
@@ -286,21 +274,19 @@ const SectionContact = defineNestedType(() => ({
       required: true,
     },
   },
-  extensions: {
-    stackbit: {
-      label: 'Contact Section',
-      labelField: 'title',
-      fields: {
-        ...sectionBaseFieldsExtension,
-        subtitle: { label: 'Subtitle' },
-        content: { label: 'Content' },
-        background: { label: 'Background' },
-        form_id: { label: 'Form ID' },
-        form_action: { label: 'Form Action' },
-        hide_labels: { label: 'Hide labels of the form fields?' },
-        form_fields: { label: 'Form Fields' },
-        submit_label: { label: 'Submit Button Label' },
-      },
+  stackbit: {
+    label: 'Contact Section',
+    labelField: 'title',
+    fields: {
+      ...sectionBaseFieldsExtension,
+      subtitle: { label: 'Subtitle' },
+      content: { label: 'Content' },
+      background: { label: 'Background' },
+      form_id: { label: 'Form ID' },
+      form_action: { label: 'Form Action' },
+      hide_labels: { label: 'Hide labels of the form fields?' },
+      form_fields: { label: 'Form Fields' },
+      submit_label: { label: 'Submit Button Label' },
     },
   },
 }))
@@ -326,16 +312,14 @@ const SectionFaq = defineNestedType(() => ({
       of: FaqItem,
     },
   },
-  extensions: {
-    stackbit: {
-      label: 'Contact Section',
-      labelField: 'title',
-      fields: {
-        ...sectionBaseFieldsExtension,
-        subtitle: { label: 'Subtitle' },
-        background: { label: 'Background' },
-        faq_items: { label: 'FAQ Items' },
-      },
+  stackbit: {
+    label: 'Contact Section',
+    labelField: 'title',
+    fields: {
+      ...sectionBaseFieldsExtension,
+      subtitle: { label: 'Subtitle' },
+      background: { label: 'Background' },
+      faq_items: { label: 'FAQ Items' },
     },
   },
 }))
@@ -346,13 +330,11 @@ const FaqItem = defineNestedType(() => ({
     question: { type: 'string' },
     answer: { type: 'markdown' },
   },
-  extensions: {
-    stackbit: {
-      label: 'FAQ Item',
-      fields: {
-        question: { label: 'Question' },
-        answer: { label: 'Answer' },
-      },
+  stackbit: {
+    label: 'FAQ Item',
+    fields: {
+      question: { label: 'Question' },
+      answer: { label: 'Answer' },
     },
   },
 }))
@@ -372,14 +354,12 @@ const SectionPosts = defineNestedType(() => ({
       default: 'gray',
     },
   },
-  extensions: {
-    stackbit: {
-      label: 'Posts List',
-      fields: {
-        ...sectionBaseFieldsExtension,
-        subtitle: { label: 'Subtitle' },
-        background: { label: 'Background' },
-      },
+  stackbit: {
+    label: 'Posts List',
+    fields: {
+      ...sectionBaseFieldsExtension,
+      subtitle: { label: 'Subtitle' },
+      background: { label: 'Background' },
     },
   },
 }))
@@ -403,15 +383,13 @@ const SectionPricing = defineNestedType(() => ({
       of: PricingPlan,
     },
   },
-  extensions: {
-    stackbit: {
-      label: 'Pricing Section',
-      fields: {
-        ...sectionBaseFieldsExtension,
-        subtitle: { label: 'Subtitle' },
-        background: { label: 'Background' },
-        pricing_plans: { label: 'Pricing Plans' },
-      },
+  stackbit: {
+    label: 'Pricing Section',
+    fields: {
+      ...sectionBaseFieldsExtension,
+      subtitle: { label: 'Subtitle' },
+      background: { label: 'Background' },
+      pricing_plans: { label: 'Pricing Plans' },
     },
   },
 }))
@@ -441,18 +419,16 @@ const PricingPlan = defineNestedType(() => ({
       of: Action,
     },
   },
-  extensions: {
-    stackbit: {
-      label: 'Pricing Plan',
-      labelField: 'title',
-      fields: {
-        title: { label: 'Title' },
-        subtitle: { label: 'Subtitle' },
-        price: { label: 'Price' },
-        details: { label: 'Details' },
-        highlight: { label: 'Highlight' },
-        actions: { label: 'Action Buttons' },
-      },
+  stackbit: {
+    label: 'Pricing Plan',
+    labelField: 'title',
+    fields: {
+      title: { label: 'Title' },
+      subtitle: { label: 'Subtitle' },
+      price: { label: 'Price' },
+      details: { label: 'Details' },
+      highlight: { label: 'Highlight' },
+      actions: { label: 'Action Buttons' },
     },
   },
 }))
@@ -476,15 +452,13 @@ const SectionReviews = defineNestedType(() => ({
       of: ReviewItem,
     },
   },
-  extensions: {
-    stackbit: {
-      label: 'Reviews Section',
-      fields: {
-        ...sectionBaseFieldsExtension,
-        subtitle: { label: 'Subtitle' },
-        background: { label: 'Background' },
-        reviews: { label: 'Reviews' },
-      },
+  stackbit: {
+    label: 'Reviews Section',
+    fields: {
+      ...sectionBaseFieldsExtension,
+      subtitle: { label: 'Subtitle' },
+      background: { label: 'Background' },
+      reviews: { label: 'Reviews' },
     },
   },
 }))
@@ -497,15 +471,13 @@ const ReviewItem = defineNestedType(() => ({
     avatar_alt: { type: 'string' },
     content: { type: 'string' },
   },
-  extensions: {
-    stackbit: {
-      label: 'Review Item',
-      fields: {
-        author: { label: 'Author' },
-        avatar: { label: 'Author Image' },
-        avatar_alt: { label: 'Author Image Alt Text' },
-        content: { label: 'Content' },
-      },
+  stackbit: {
+    label: 'Review Item',
+    fields: {
+      author: { label: 'Author' },
+      avatar: { label: 'Author Image' },
+      avatar_alt: { label: 'Author Image Alt Text' },
+      content: { label: 'Content' },
     },
   },
 }))

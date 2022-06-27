@@ -9,7 +9,5 @@ export const Person = defineDocumentType(() => ({
     bio: { type: 'markdown' },
     photo: { type: 'string' },
   },
-  extensions: {
-    stackbit: { folder: 'authors' },
-  },
+  stackbit: { folder: 'authors' },
 }))

@@ -7,14 +7,10 @@ import type * as unified from 'unified'
 import type { HasCwd } from './cwd.js'
 import type { DataCache } from './DataCache.js'
 import type { SourceFetchDataError, SourceProvideSchemaError } from './errors.js'
-import type { SchemaDef, StackbitExtension } from './schema/index.js'
+import type { ExtensionsRoot } from './extensions.js'
+import type { SchemaDef } from './schema/index.js'
 
 export type SourcePluginType = LiteralUnion<'local' | 'contentful' | 'sanity', string>
-
-export type PluginExtensions = {
-  // TODO decentralized extension definitions + logic
-  stackbit?: StackbitExtension.Config
-}
 
 export type PluginOptions = {
   markdown: MarkdownOptions | MarkdownUnifiedBuilderCallback | undefined
@@ -99,12 +95,13 @@ export type SourcePlugin = {
   fetchData: FetchData
 } & {
   options: PluginOptions
-  extensions: PluginExtensions
+  extensions: Partial<ExtensionsRoot>
 }
 
-export type ProvideSchema = (
-  esbuildHash: string,
-) => T.Effect<OT.HasTracer & HasConsole, SourceProvideSchemaError, SchemaDef>
+export type ProvideSchema = (_: {
+  esbuildHash: string
+  extensionProperties?: string[]
+}) => T.Effect<OT.HasTracer & HasConsole, SourceProvideSchemaError, SchemaDef>
 export type FetchData = (_: {
   schemaDef: SchemaDef
   verbose: boolean
@@ -127,7 +124,6 @@ export type PartialArgs = {
   mdx?: MarkdownOptions | undefined
   date?: DateOptions | undefined
   fieldOptions?: Partial<FieldOptions>
-  extensions?: PluginExtensions
   disableImportAliasWarning?: boolean
 }
 
@@ -139,11 +135,10 @@ export const defaultFieldOptions: FieldOptions = {
 export const processArgs = async <TArgs extends PartialArgs>(
   argsOrArgsThunk: TArgs | Thunk<TArgs> | Thunk<Promise<TArgs>>,
 ): Promise<{
-  extensions: PluginExtensions
   options: PluginOptions
-  restArgs: Omit<TArgs, 'extensions' | 'fieldOptions' | 'markdown' | 'mdx' | 'date' | 'disableImportAliasWarning'>
+  restArgs: Omit<TArgs, 'fieldOptions' | 'markdown' | 'mdx' | 'date' | 'disableImportAliasWarning'>
 }> => {
-  const { extensions, fieldOptions, markdown, mdx, date, disableImportAliasWarning, ...restArgs } =
+  const { fieldOptions, markdown, mdx, date, disableImportAliasWarning, ...restArgs } =
     typeof argsOrArgsThunk === 'function' ? await argsOrArgsThunk() : argsOrArgsThunk
 
   const options: PluginOptions = {
@@ -157,5 +152,5 @@ export const processArgs = async <TArgs extends PartialArgs>(
     disableImportAliasWarning: disableImportAliasWarning ?? false,
   }
 
-  return { extensions: extensions ?? {}, options, restArgs }
+  return { options, restArgs }
 }

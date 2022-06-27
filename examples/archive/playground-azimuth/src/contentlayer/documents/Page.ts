@@ -38,7 +38,5 @@ export const Page = defineDocumentType(() => ({
       resolve: urlFromFilePath,
     },
   },
-  extensions: {
-    stackbit: { match: ['about.md', 'privacy-policy.md', 'signup.md', 'style-guide.md', 'terms-of-service.md'] },
-  },
+  stackbit: { match: ['about.md', 'privacy-policy.md', 'signup.md', 'style-guide.md', 'terms-of-service.md'] },
 }))

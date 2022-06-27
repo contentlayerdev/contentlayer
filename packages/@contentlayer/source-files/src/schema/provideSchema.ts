@@ -1,5 +1,6 @@
 import * as core from '@contentlayer/core'
 import * as utils from '@contentlayer/utils'
+import { pick } from '@contentlayer/utils'
 import { identity, T } from '@contentlayer/utils/effect'
 
 import type { SchemaError } from '../errors/index.js'
@@ -10,10 +11,12 @@ export const makeCoreSchema = ({
   documentTypeDefs,
   options,
   esbuildHash,
+  extensionProperties,
 }: {
   documentTypeDefs: LocalSchema.DocumentTypeDef[]
   options: core.PluginOptions
   esbuildHash: string
+  extensionProperties: string[]
 }): T.Effect<unknown, SchemaError | utils.HashError, core.SchemaDef> =>
   T.gen(function* ($) {
     const coreDocumentTypeDefMap: core.DocumentTypeDefMap = {}
@@ -23,7 +26,7 @@ export const makeCoreSchema = ({
       validateDefName({ defName: documentDef.name })
 
       const fieldDefs = getFieldDefEntries(documentDef.fields).map((_) =>
-        fieldDefEntryToCoreFieldDef(_, options.fieldOptions),
+        fieldDefEntryToCoreFieldDef(_, options.fieldOptions, extensionProperties),
       )
 
       if (fieldDefs.some((_) => _.name === options.fieldOptions.bodyFieldName)) {
@@ -39,6 +42,7 @@ export const makeCoreSchema = ({
           default: undefined,
           isRequired: true,
           isSystemField: true,
+          extensions: {}, // NOTE extensions are not yet supported for body field
         })
       }
 
@@ -51,6 +55,7 @@ export const makeCoreSchema = ({
           default: undefined,
           isRequired: true,
           isSystemField: true,
+          extensions: {}, // NOTE extensions are not yet supported for body field
         })
       }
 
@@ -69,7 +74,7 @@ export const makeCoreSchema = ({
         isSingleton: documentDef.isSingleton ?? false,
         fieldDefs,
         computedFields,
-        extensions: documentDef.extensions ?? {},
+        extensions: pick(documentDef, extensionProperties as any),
       }
       coreDocumentTypeDefMap[documentDef.name] = coreDocumentDef
     }
@@ -83,9 +88,9 @@ export const makeCoreSchema = ({
         ...utils.pick(nestedDef, ['description']),
         name: nestedDef.name,
         fieldDefs: getFieldDefEntries(nestedDef.fields).map((_) =>
-          fieldDefEntryToCoreFieldDef(_, options.fieldOptions),
+          fieldDefEntryToCoreFieldDef(_, options.fieldOptions, extensionProperties),
         ),
-        extensions: nestedDef.extensions ?? {},
+        extensions: pick(nestedDef, extensionProperties as any),
       }
       coreNestedTypeDefMap[coreNestedTypeDef.name] = coreNestedTypeDef
     }
@@ -133,12 +138,14 @@ type FieldDefEntry = [fieldName: string, fieldDef: LocalSchema.FieldDef]
 const fieldDefEntryToCoreFieldDef = (
   [name, fieldDef]: FieldDefEntry,
   fieldOptions: core.FieldOptions,
+  extensionProperties: string[],
 ): core.FieldDef => {
   const baseFields: core.FieldDefBase = {
     ...utils.pick(fieldDef, ['type', 'default', 'description']),
     name,
     isRequired: fieldDef.required ?? false,
     isSystemField: false,
+    extensions: pick(fieldDef, extensionProperties as any),
   }
   switch (fieldDef.type) {
     case 'list':
@@ -148,7 +155,7 @@ const fieldDefEntryToCoreFieldDef = (
           type: 'list_polymorphic',
           default: fieldDef.default,
           typeField: fieldDef.typeField ?? fieldOptions.typeFieldName,
-          of: fieldDef.of.map((_) => fieldListItemsToCoreFieldListDefItems(_, fieldOptions)),
+          of: fieldDef.of.map((_) => fieldListItemsToCoreFieldListDefItems(_, fieldOptions, extensionProperties)),
         })
       }
 
@@ -156,7 +163,7 @@ const fieldDefEntryToCoreFieldDef = (
         ...baseFields,
         type: 'list',
         default: fieldDef.default,
-        of: fieldListItemsToCoreFieldListDefItems(fieldDef.of, fieldOptions),
+        of: fieldListItemsToCoreFieldListDefItems(fieldDef.of, fieldOptions, extensionProperties),
       })
     case 'nested':
       if (LocalSchema.isNestedPolymorphicFieldDef(fieldDef)) {
@@ -186,9 +193,9 @@ const fieldDefEntryToCoreFieldDef = (
       }
 
       const fieldDefs = getFieldDefEntries(nestedTypeDef.fields).map((_) =>
-        fieldDefEntryToCoreFieldDef(_, fieldOptions),
+        fieldDefEntryToCoreFieldDef(_, fieldOptions, extensionProperties),
       )
-      const extensions = nestedTypeDef.extensions ?? {}
+      const extensions = pick(nestedTypeDef, extensionProperties as any)
       const typeDef: core.NestedUnnamedTypeDef = { _tag: 'NestedUnnamedTypeDef', fieldDefs, extensions }
       return identity<core.NestedUnnamedFieldDef>({
         ...baseFields,
@@ -223,22 +230,27 @@ const fieldDefEntryToCoreFieldDef = (
       })
     case 'boolean':
     case 'date':
-    // case 'image':
     case 'json':
     case 'markdown':
     case 'mdx':
     case 'number':
-    // case 'slug':
     case 'string':
-      // case 'text':
-      // case 'url':
-      return {
-        // needs to pick again since fieldDef.type has been
+      return identity<
+        | core.BooleanFieldDef
+        | core.DateFieldDef
+        | core.JSONFieldDef
+        | core.MarkdownFieldDef
+        | core.MDXFieldDef
+        | core.NumberFieldDef
+        | core.StringFieldDef
+      >({
+        // NOTE need to pick again since `fieldDef.type` is polymorphic (TS limitation?)
         ...utils.pick(fieldDef, ['type', 'default', 'description']),
         isRequired: fieldDef.required ?? false,
         name,
         isSystemField: false,
-      }
+        extensions: pick(fieldDef, extensionProperties as any),
+      })
     default:
       utils.casesHandled(fieldDef)
   }
@@ -247,6 +259,7 @@ const fieldDefEntryToCoreFieldDef = (
 const fieldListItemsToCoreFieldListDefItems = (
   listFieldDefItem: LocalSchema.ListFieldDefItem.Item,
   fieldOptions: core.FieldOptions,
+  extensionProperties: string[],
 ): core.ListFieldDefItem.Item => {
   switch (listFieldDefItem.type) {
     case 'boolean':
@@ -264,9 +277,9 @@ const fieldListItemsToCoreFieldListDefItems = (
       }
 
       const fieldDefs = getFieldDefEntries(nestedTypeDef.fields).map((_) =>
-        fieldDefEntryToCoreFieldDef(_, fieldOptions),
+        fieldDefEntryToCoreFieldDef(_, fieldOptions, extensionProperties),
       )
-      const extensions = nestedTypeDef.extensions ?? {}
+      const extensions = pick(nestedTypeDef, extensionProperties as any)
       const typeDef: core.NestedUnnamedTypeDef = { _tag: 'NestedUnnamedTypeDef', fieldDefs, extensions }
       return { type: 'nested_unnamed', typeDef }
     case 'document':

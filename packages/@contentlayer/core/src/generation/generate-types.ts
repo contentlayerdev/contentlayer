@@ -119,7 +119,7 @@ export const renderDocumentTypeDefOrNestedTypeDef = ({
   const computedFields = (def._tag === 'DocumentTypeDef' ? def.computedFields : [])
     .map((field) => `${field.description ? `  /** ${field.description} */\n` : ''}  ${field.name}: ${field.type}`)
     .join('\n')
-  const description = def.description ?? def.extensions.stackbit?.fields?.[def.name]?.label
+  const description = def.description
 
   const rawType = renderRawType({ sourcePluginType })
   const idJsdoc = renderIdJsdoc({ sourcePluginType })

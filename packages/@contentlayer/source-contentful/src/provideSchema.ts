@@ -146,6 +146,7 @@ const toFieldDef = ({
     default: undefined,
     description: undefined,
     isSystemField: false,
+    extensions: {},
   }
 
   if (fieldOverrides?.type) {

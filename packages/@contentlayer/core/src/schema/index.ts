@@ -1,13 +1,8 @@
 import type { Document } from '../data-types.js'
+import type { ExtensionsDocumentType, ExtensionsNestedType } from '../extensions.js'
 import type { FieldDef, FieldDefType } from './field.js'
-import type { StackbitExtension } from './stackbit-extension.js'
 export * from './field.js'
 export * from './validate.js'
-export * from './stackbit-extension.js'
-
-export type TypeDefExtensions = {
-  stackbit?: StackbitExtension.TypeExtension
-}
 
 export type DocumentTypeDefMap = Record<string, DocumentTypeDef>
 export type NestedTypeDefMap = Record<string, NestedTypeDef>
@@ -27,7 +22,7 @@ export type DocumentTypeDef = {
   isSingleton: boolean
   fieldDefs: FieldDef[]
   computedFields: ComputedField[]
-  extensions: TypeDefExtensions
+  extensions: Partial<ExtensionsDocumentType>
 }
 
 export type NestedTypeDef = {
@@ -35,13 +30,13 @@ export type NestedTypeDef = {
   name: string
   description: string | undefined
   fieldDefs: FieldDef[]
-  extensions: TypeDefExtensions
+  extensions: Partial<ExtensionsNestedType>
 }
 
 export type NestedUnnamedTypeDef = {
   readonly _tag: 'NestedUnnamedTypeDef'
   fieldDefs: FieldDef[]
-  extensions: TypeDefExtensions
+  extensions: Partial<ExtensionsNestedType>
 }
 
 export type ComputedField = {

@@ -14,20 +14,12 @@ exports[`azimuth schema 1`] = `
         },
       ],
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fields": {
-            "title": {
-              "label": "Title",
-            },
-          },
-          "file": "blog.md",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": "The title of the page",
+          "extensions": {},
           "isRequired": true,
           "isSystemField": false,
           "name": "title",
@@ -36,6 +28,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "seo",
@@ -45,6 +38,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "Markdown file body",
+          "extensions": {},
           "isRequired": true,
           "isSystemField": true,
           "name": "body",
@@ -58,43 +52,12 @@ exports[`azimuth schema 1`] = `
       "_tag": "DocumentTypeDef",
       "computedFields": [],
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fields": {
-            "base_font": {
-              "label": "Font",
-            },
-            "domain": {
-              "label": "Domain",
-            },
-            "favicon": {
-              "label": "Favicon",
-            },
-            "footer": {
-              "label": "Footer Configuration",
-            },
-            "header": {
-              "label": "Header Configuration",
-            },
-            "palette": {
-              "label": "Color Palette",
-            },
-            "path_prefix": {
-              "hidden": true,
-              "label": "Base URL",
-            },
-            "title": {
-              "label": "Title",
-            },
-          },
-          "file": "config.json",
-          "label": "Site Configuration",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": "Site title",
+          "extensions": {},
           "isRequired": true,
           "isSystemField": false,
           "name": "title",
@@ -103,6 +66,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The base URL of this site. Useful for sites hosted under specific path, e.g.: https://www.example.com/my-site/",
+          "extensions": {},
           "isRequired": true,
           "isSystemField": false,
           "name": "path_prefix",
@@ -111,6 +75,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The domain of your site, including the protocol, e.g. https://mysite.com/",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "domain",
@@ -119,6 +84,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "A square icon that represents your website",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "favicon",
@@ -127,6 +93,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": "blue",
           "description": "The color palette of the site",
+          "extensions": {},
           "isRequired": true,
           "isSystemField": false,
           "name": "palette",
@@ -142,6 +109,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": "nunito-sans",
           "description": undefined,
+          "extensions": {},
           "isRequired": true,
           "isSystemField": false,
           "name": "base_font",
@@ -155,6 +123,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": true,
           "isSystemField": false,
           "name": "header",
@@ -164,6 +133,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": true,
           "isSystemField": false,
           "name": "footer",
@@ -173,6 +143,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "Markdown file body",
+          "extensions": {},
           "isRequired": true,
           "isSystemField": true,
           "name": "body",
@@ -193,29 +164,12 @@ exports[`azimuth schema 1`] = `
         },
       ],
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fields": {
-            "sections": {
-              "label": "Sections",
-            },
-            "title": {
-              "label": "Title",
-            },
-          },
-          "label": "Landing Page",
-          "match": [
-            "contact.md",
-            "features.md",
-            "index.md",
-            "pricing.md",
-          ],
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": "The title of the page",
+          "extensions": {},
           "isRequired": true,
           "isSystemField": false,
           "name": "title",
@@ -224,6 +178,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "Page sections",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "sections",
@@ -271,6 +226,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "seo",
@@ -280,6 +236,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "Markdown file body",
+          "extensions": {},
           "isRequired": true,
           "isSystemField": true,
           "name": "body",
@@ -300,21 +257,12 @@ exports[`azimuth schema 1`] = `
         },
       ],
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "match": [
-            "about.md",
-            "privacy-policy.md",
-            "signup.md",
-            "style-guide.md",
-            "terms-of-service.md",
-          ],
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": "The title of the page",
+          "extensions": {},
           "isRequired": true,
           "isSystemField": false,
           "name": "title",
@@ -323,6 +271,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The text shown below the page title",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "subtitle",
@@ -331,6 +280,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The image shown below the page title",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "image",
@@ -339,6 +289,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The alt text of the image",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "image_alt",
@@ -347,6 +298,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "seo",
@@ -356,6 +308,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "Markdown file body",
+          "extensions": {},
           "isRequired": true,
           "isSystemField": true,
           "name": "body",
@@ -369,15 +322,12 @@ exports[`azimuth schema 1`] = `
       "_tag": "DocumentTypeDef",
       "computedFields": [],
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "folder": "authors",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "first_name",
@@ -386,6 +336,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "last_name",
@@ -394,6 +345,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "bio",
@@ -402,6 +354,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "photo",
@@ -410,6 +363,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "Markdown file body",
+          "extensions": {},
           "isRequired": true,
           "isSystemField": true,
           "name": "body",
@@ -430,41 +384,12 @@ exports[`azimuth schema 1`] = `
         },
       ],
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fields": {
-            "date": {
-              "label": "Date",
-            },
-            "excerpt": {
-              "label": "Excerpt",
-            },
-            "image": {
-              "label": "Image",
-            },
-            "image_alt": {
-              "label": "Image alt text (single post)",
-            },
-            "subtitle": {
-              "label": "Subtitle",
-            },
-            "thumb_image": {
-              "label": "Image (blog feed)",
-            },
-            "thumb_image_alt": {
-              "label": "Image alt text (blog feed)",
-            },
-            "title": {
-              "label": "Title",
-            },
-          },
-          "match": "blog/**.md",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": "The title of the post",
+          "extensions": {},
           "isRequired": true,
           "isSystemField": false,
           "name": "title",
@@ -473,6 +398,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The text shown just below the title or the featured image",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "subtitle",
@@ -481,6 +407,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": true,
           "isSystemField": false,
           "name": "date",
@@ -491,6 +418,7 @@ exports[`azimuth schema 1`] = `
           "description": "Post author",
           "documentTypeName": "Person",
           "embedDocument": false,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "author",
@@ -499,6 +427,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The excerpt of the post displayed in the blog feed",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "excerpt",
@@ -507,6 +436,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The image shown below the title",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "image",
@@ -515,6 +445,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The alt text of the featured image",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "image_alt",
@@ -523,6 +454,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The image shown in the blog feed",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "thumb_image",
@@ -531,6 +463,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The alt text of the blog feed image",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "thumb_image_alt",
@@ -539,6 +472,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "seo",
@@ -548,6 +482,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "Markdown file body",
+          "extensions": {},
           "isRequired": true,
           "isSystemField": true,
           "name": "body",
@@ -563,41 +498,12 @@ exports[`azimuth schema 1`] = `
     "Action": {
       "_tag": "NestedTypeDef",
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fields": {
-            "has_icon": {
-              "label": "Show icon",
-            },
-            "icon": {
-              "label": "Icon",
-            },
-            "icon_position": {
-              "label": "Icon position",
-            },
-            "label": {
-              "label": "Label",
-            },
-            "new_window": {
-              "label": "Open in new window",
-            },
-            "no_follow": {
-              "label": "No follow",
-            },
-            "style": {
-              "label": "Style",
-            },
-            "url": {
-              "label": "URL",
-            },
-          },
-          "labelField": "label",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": true,
           "isSystemField": false,
           "name": "label",
@@ -606,6 +512,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": true,
           "isSystemField": false,
           "name": "url",
@@ -614,6 +521,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": "link",
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "style",
@@ -627,6 +535,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": false,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "has_icon",
@@ -635,6 +544,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "icon",
@@ -655,6 +565,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": "left",
           "description": "The position of the icon relative to text",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "icon_position",
@@ -667,6 +578,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": false,
           "description": "Should the link open a new tab",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "new_window",
@@ -675,6 +587,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": false,
           "description": "Add rel=\\"nofollow\\" attribute to the link",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "no_follow",
@@ -686,23 +599,12 @@ exports[`azimuth schema 1`] = `
     "FaqItem": {
       "_tag": "NestedTypeDef",
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fields": {
-            "answer": {
-              "label": "Answer",
-            },
-            "question": {
-              "label": "Question",
-            },
-          },
-          "label": "FAQ Item",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "question",
@@ -711,6 +613,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "answer",
@@ -722,37 +625,12 @@ exports[`azimuth schema 1`] = `
     "FeatureItem": {
       "_tag": "NestedTypeDef",
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fields": {
-            "actions": {
-              "label": "Action Buttons",
-            },
-            "content": {
-              "label": "Content",
-            },
-            "image": {
-              "control": {
-                "options": {},
-                "type": "image-gallery",
-              },
-              "label": "Image",
-            },
-            "image_alt": {
-              "label": "Image Alt Text",
-            },
-            "title": {
-              "label": "Title",
-            },
-          },
-          "label": "Feature Item",
-          "labelField": "title",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "title",
@@ -761,6 +639,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "Feature description",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "content",
@@ -769,6 +648,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "Feature image",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "image",
@@ -777,6 +657,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The alt text of the feature image",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "image_alt",
@@ -785,6 +666,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "actions",
@@ -800,33 +682,12 @@ exports[`azimuth schema 1`] = `
     "Footer": {
       "_tag": "NestedTypeDef",
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fields": {
-            "content": {
-              "label": "Footer Content",
-            },
-            "has_nav": {
-              "label": "Enable Horizontal Navigation",
-            },
-            "links": {
-              "label": "Links",
-            },
-            "nav_links": {
-              "label": "Horizontal Navigation Links",
-            },
-            "sections": {
-              "label": "Sections",
-            },
-          },
-          "label": "Footer Configuration",
-          "labelField": "content",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": "Footer sections",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "sections",
@@ -850,6 +711,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": true,
           "description": "Display the horizontal navigation menu bar in the footer",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "has_nav",
@@ -858,6 +720,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "List of horizontal navigation links",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "nav_links",
@@ -870,6 +733,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The copyright text displayed in the footer",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "content",
@@ -878,6 +742,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "A list of links displayed in the footer",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "links",
@@ -893,42 +758,12 @@ exports[`azimuth schema 1`] = `
     "FooterForm": {
       "_tag": "NestedTypeDef",
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fields": {
-            "content": {
-              "label": "Content",
-            },
-            "form_action": {
-              "label": "Form Action",
-            },
-            "form_fields": {
-              "label": "Form Fields",
-            },
-            "form_id": {
-              "label": "Form ID",
-            },
-            "hide_labels": {
-              "label": "Hide Labels",
-            },
-            "submit_label": {
-              "label": "Submit Button Label",
-            },
-            "title": {
-              "label": "Title",
-            },
-            "type": {
-              "label": "Section type",
-            },
-          },
-          "label": "Footer Form",
-          "labelField": "title",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": "The title of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "title",
@@ -937,6 +772,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "Needed for contentlayer for polymorphic list types",
+          "extensions": {},
           "isRequired": true,
           "isSystemField": false,
           "name": "type",
@@ -945,6 +781,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The content of the section, appears above the form",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "content",
@@ -953,6 +790,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "A unique identifier of the form, must not contain whitespace",
+          "extensions": {},
           "isRequired": true,
           "isSystemField": false,
           "name": "form_id",
@@ -961,6 +799,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The path of your custom \\"success\\" page, if you want to replace the default success message./index.js",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "form_action",
@@ -969,6 +808,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": false,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "hide_labels",
@@ -977,6 +817,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "form_fields",
@@ -989,6 +830,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": true,
           "isSystemField": false,
           "name": "submit_label",
@@ -1000,27 +842,12 @@ exports[`azimuth schema 1`] = `
     "FooterNav": {
       "_tag": "NestedTypeDef",
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fields": {
-            "nav_links": {
-              "label": "Vertical Navigation Links",
-            },
-            "title": {
-              "label": "Title",
-            },
-            "type": {
-              "label": "Section type",
-            },
-          },
-          "label": "Vertical Navigation",
-          "labelField": "title",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": "The title of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "title",
@@ -1029,6 +856,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "Needed for contentlayer for polymorphic list types",
+          "extensions": {},
           "isRequired": true,
           "isSystemField": false,
           "name": "type",
@@ -1037,6 +865,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "List of vertical navigation links",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "nav_links",
@@ -1052,36 +881,12 @@ exports[`azimuth schema 1`] = `
     "FooterText": {
       "_tag": "NestedTypeDef",
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fields": {
-            "content": {
-              "label": "Content",
-            },
-            "image": {
-              "label": "Image",
-            },
-            "image_alt": {
-              "label": "Image Alt Text",
-            },
-            "image_url": {
-              "label": "Image URL",
-            },
-            "title": {
-              "label": "Title",
-            },
-            "type": {
-              "label": "Section type",
-            },
-          },
-          "label": "Text",
-          "labelField": "title",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": "The title of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "title",
@@ -1090,6 +895,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "Needed for contentlayer for polymorphic list types",
+          "extensions": {},
           "isRequired": true,
           "isSystemField": false,
           "name": "type",
@@ -1098,6 +904,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The image displayed in the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "image",
@@ -1106,6 +913,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The alt text of the image",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "image_alt",
@@ -1114,6 +922,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The url of the image",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "image_url",
@@ -1122,6 +931,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The text content of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "content",
@@ -1133,36 +943,12 @@ exports[`azimuth schema 1`] = `
     "FormField": {
       "_tag": "NestedTypeDef",
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fields": {
-            "default_value": {
-              "label": "Placeholder text or default value",
-            },
-            "input_type": {
-              "label": "Type",
-            },
-            "is_required": {
-              "label": "Is the field required?",
-            },
-            "label": {
-              "label": "Label",
-            },
-            "name": {
-              "label": "Name",
-            },
-            "options": {
-              "label": "Options",
-            },
-          },
-          "label": "Form Field",
-          "labelField": "name",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": "Type of the form field",
+          "extensions": {},
           "isRequired": true,
           "isSystemField": false,
           "name": "input_type",
@@ -1180,6 +966,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The name of the field, submitted with the form",
+          "extensions": {},
           "isRequired": true,
           "isSystemField": false,
           "name": "name",
@@ -1188,6 +975,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The caption of the field, shown above the field input",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "label",
@@ -1196,6 +984,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The placeholder for textual field types or default option for select field",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "default_value",
@@ -1204,6 +993,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The list of options for select field",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "options",
@@ -1215,6 +1005,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": false,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "is_required",
@@ -1226,29 +1017,12 @@ exports[`azimuth schema 1`] = `
     "Header": {
       "_tag": "NestedTypeDef",
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fields": {
-            "has_nav": {
-              "label": "Enable Navigation",
-            },
-            "logo_img": {
-              "label": "Logo",
-            },
-            "logo_img_alt": {
-              "label": "Logo Alt Text",
-            },
-            "nav_links": {
-              "label": "Navigation Links",
-            },
-          },
-          "label": "Header Configuration",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": "The logo image displayed in the header (if no logo added, the site title is displayed instead)",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "logo_img",
@@ -1257,6 +1031,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The alt text of the logo image",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "logo_img_alt",
@@ -1265,6 +1040,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": true,
           "description": "Display the navigation menu bar in the header",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "has_nav",
@@ -1273,6 +1049,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "List of navigation links",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "nav_links",
@@ -1288,36 +1065,12 @@ exports[`azimuth schema 1`] = `
     "PricingPlan": {
       "_tag": "NestedTypeDef",
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fields": {
-            "actions": {
-              "label": "Action Buttons",
-            },
-            "details": {
-              "label": "Details",
-            },
-            "highlight": {
-              "label": "Highlight",
-            },
-            "price": {
-              "label": "Price",
-            },
-            "subtitle": {
-              "label": "Subtitle",
-            },
-            "title": {
-              "label": "Title",
-            },
-          },
-          "label": "Pricing Plan",
-          "labelField": "title",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "title",
@@ -1326,6 +1079,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "subtitle",
@@ -1334,6 +1088,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "price",
@@ -1342,6 +1097,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "details",
@@ -1350,6 +1106,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": false,
           "description": "Make the plan stand out by adding a distinctive style",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "highlight",
@@ -1358,6 +1115,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "actions",
@@ -1373,29 +1131,12 @@ exports[`azimuth schema 1`] = `
     "ReviewItem": {
       "_tag": "NestedTypeDef",
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fields": {
-            "author": {
-              "label": "Author",
-            },
-            "avatar": {
-              "label": "Author Image",
-            },
-            "avatar_alt": {
-              "label": "Author Image Alt Text",
-            },
-            "content": {
-              "label": "Content",
-            },
-          },
-          "label": "Review Item",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "author",
@@ -1404,6 +1145,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "avatar",
@@ -1412,6 +1154,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "avatar_alt",
@@ -1420,6 +1163,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "content",
@@ -1431,29 +1175,12 @@ exports[`azimuth schema 1`] = `
     "SEO": {
       "_tag": "NestedTypeDef",
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fields": {
-            "description": {
-              "label": "Description",
-            },
-            "extra": {
-              "label": "Extra",
-            },
-            "robots": {
-              "label": "Robots",
-            },
-            "title": {
-              "label": "Title",
-            },
-          },
-          "label": "Page meta data",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": "The page title that goes into the <title> tag",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "title",
@@ -1462,6 +1189,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The page description that goes into the <meta name=\\"description\\"> tag",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "description",
@@ -1470,6 +1198,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The items that go into the <meta name=\\"robots\\"> tag",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "robots",
@@ -1491,6 +1220,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "Additional definition for specific meta tags such as open-graph, twitter, etc.",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "extra",
@@ -1503,6 +1233,7 @@ exports[`azimuth schema 1`] = `
                 {
                   "default": undefined,
                   "description": undefined,
+                  "extensions": {},
                   "isRequired": false,
                   "isSystemField": false,
                   "name": "name",
@@ -1511,6 +1242,7 @@ exports[`azimuth schema 1`] = `
                 {
                   "default": undefined,
                   "description": undefined,
+                  "extensions": {},
                   "isRequired": false,
                   "isSystemField": false,
                   "name": "value",
@@ -1519,6 +1251,7 @@ exports[`azimuth schema 1`] = `
                 {
                   "default": "name",
                   "description": undefined,
+                  "extensions": {},
                   "isRequired": false,
                   "isSystemField": false,
                   "name": "keyName",
@@ -1527,6 +1260,7 @@ exports[`azimuth schema 1`] = `
                 {
                   "default": undefined,
                   "description": undefined,
+                  "extensions": {},
                   "isRequired": false,
                   "isSystemField": false,
                   "name": "relativeUrl",
@@ -1543,51 +1277,12 @@ exports[`azimuth schema 1`] = `
     "SectionContact": {
       "_tag": "NestedTypeDef",
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fields": {
-            "background": {
-              "label": "Background",
-            },
-            "content": {
-              "label": "Content",
-            },
-            "form_action": {
-              "label": "Form Action",
-            },
-            "form_fields": {
-              "label": "Form Fields",
-            },
-            "form_id": {
-              "label": "Form ID",
-            },
-            "hide_labels": {
-              "label": "Hide labels of the form fields?",
-            },
-            "section_id": {
-              "label": "Section ID",
-            },
-            "submit_label": {
-              "label": "Submit Button Label",
-            },
-            "subtitle": {
-              "label": "Subtitle",
-            },
-            "title": {
-              "label": "Title",
-            },
-            "type": {
-              "label": "Section type",
-            },
-          },
-          "label": "Contact Section",
-          "labelField": "title",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": "A unique identifier of the section, must not contain whitespace",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "section_id",
@@ -1596,6 +1291,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The title of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "title",
@@ -1603,15 +1299,8 @@ exports[`azimuth schema 1`] = `
         },
         {
           "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "isRequired": true,
-          "isSystemField": false,
-          "name": "type",
-          "type": "string",
-        },
-        {
-          "default": undefined,
           "description": "The text shown below the title",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "subtitle",
@@ -1620,6 +1309,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "the content of the section, appears above the form",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "content",
@@ -1628,6 +1318,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": "gray",
           "description": "The background of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "background",
@@ -1640,6 +1331,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "A unique identifier of the form, must not contain whitespace",
+          "extensions": {},
           "isRequired": true,
           "isSystemField": false,
           "name": "form_id",
@@ -1647,7 +1339,8 @@ exports[`azimuth schema 1`] = `
         },
         {
           "default": undefined,
-          "description": "The path of your custom \\"success\\" page, if you want to replace the default success message./index.js",
+          "description": "The path of your custom \\"success\\" page, if you want to replace the default success message.",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "form_action",
@@ -1656,6 +1349,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": false,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "hide_labels",
@@ -1664,6 +1358,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "form_fields",
@@ -1676,6 +1371,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": true,
           "isSystemField": false,
           "name": "submit_label",
@@ -1687,64 +1383,12 @@ exports[`azimuth schema 1`] = `
     "SectionContent": {
       "_tag": "NestedTypeDef",
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fieldGroups": [
-            {
-              "label": "Content",
-              "name": "content",
-            },
-            {
-              "label": "Design",
-              "name": "design",
-            },
-          ],
-          "fields": {
-            "actions": {
-              "label": "Action Buttons",
-            },
-            "background": {
-              "control": {
-                "options": {},
-                "type": "image-gallery",
-              },
-              "group": "design",
-              "label": "Background",
-            },
-            "content": {
-              "group": "content",
-              "label": "Content",
-            },
-            "image": {
-              "control": {
-                "options": {},
-                "type": "image-gallery",
-              },
-              "group": "content",
-              "label": "Image",
-            },
-            "image_alt": {
-              "group": "content",
-              "label": "Image Alt Text",
-            },
-            "section_id": {
-              "label": "Section ID",
-            },
-            "title": {
-              "label": "Title",
-            },
-            "type": {
-              "label": "Section type",
-            },
-          },
-          "label": "Content Section",
-          "labelField": "title",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": "A unique identifier of the section, must not contain whitespace",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "section_id",
@@ -1753,6 +1397,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The title of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "title",
@@ -1760,15 +1405,8 @@ exports[`azimuth schema 1`] = `
         },
         {
           "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "isRequired": true,
-          "isSystemField": false,
-          "name": "type",
-          "type": "string",
-        },
-        {
-          "default": undefined,
           "description": "The text content of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "content",
@@ -1777,6 +1415,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The image of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "image",
@@ -1785,6 +1424,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The alt text of the section image",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "image_alt",
@@ -1793,6 +1433,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": "gray",
           "description": "The background of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "background",
@@ -1805,6 +1446,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "actions",
@@ -1820,33 +1462,12 @@ exports[`azimuth schema 1`] = `
     "SectionCta": {
       "_tag": "NestedTypeDef",
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fields": {
-            "actions": {
-              "label": "Action Buttons",
-            },
-            "section_id": {
-              "label": "Section ID",
-            },
-            "subtitle": {
-              "label": "Subtitle",
-            },
-            "title": {
-              "label": "Title",
-            },
-            "type": {
-              "label": "Section type",
-            },
-          },
-          "label": "Call to Action Section",
-          "labelField": "title",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": "A unique identifier of the section, must not contain whitespace",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "section_id",
@@ -1855,6 +1476,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The title of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "title",
@@ -1862,15 +1484,8 @@ exports[`azimuth schema 1`] = `
         },
         {
           "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "isRequired": true,
-          "isSystemField": false,
-          "name": "type",
-          "type": "string",
-        },
-        {
-          "default": undefined,
           "description": "The subtitle of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "subtitle",
@@ -1879,6 +1494,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "actions",
@@ -1894,36 +1510,12 @@ exports[`azimuth schema 1`] = `
     "SectionFaq": {
       "_tag": "NestedTypeDef",
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fields": {
-            "background": {
-              "label": "Background",
-            },
-            "faq_items": {
-              "label": "FAQ Items",
-            },
-            "section_id": {
-              "label": "Section ID",
-            },
-            "subtitle": {
-              "label": "Subtitle",
-            },
-            "title": {
-              "label": "Title",
-            },
-            "type": {
-              "label": "Section type",
-            },
-          },
-          "label": "Contact Section",
-          "labelField": "title",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": "A unique identifier of the section, must not contain whitespace",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "section_id",
@@ -1932,6 +1524,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The title of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "title",
@@ -1939,15 +1532,8 @@ exports[`azimuth schema 1`] = `
         },
         {
           "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "isRequired": true,
-          "isSystemField": false,
-          "name": "type",
-          "type": "string",
-        },
-        {
-          "default": undefined,
           "description": "The subtitle of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "subtitle",
@@ -1956,6 +1542,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": "gray",
           "description": "The background of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "background",
@@ -1968,6 +1555,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "faq_items",
@@ -1983,36 +1571,12 @@ exports[`azimuth schema 1`] = `
     "SectionFeatures": {
       "_tag": "NestedTypeDef",
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fields": {
-            "background": {
-              "label": "Background",
-            },
-            "features": {
-              "label": "Features",
-            },
-            "section_id": {
-              "label": "Section ID",
-            },
-            "subtitle": {
-              "label": "Subtitle",
-            },
-            "title": {
-              "label": "Title",
-            },
-            "type": {
-              "label": "Section type",
-            },
-          },
-          "label": "Features Section",
-          "labelField": "title",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": "A unique identifier of the section, must not contain whitespace",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "section_id",
@@ -2021,6 +1585,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The title of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "title",
@@ -2028,15 +1593,8 @@ exports[`azimuth schema 1`] = `
         },
         {
           "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "isRequired": true,
-          "isSystemField": false,
-          "name": "type",
-          "type": "string",
-        },
-        {
-          "default": undefined,
           "description": "The subtitle of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "subtitle",
@@ -2045,6 +1603,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": "gray",
           "description": "The background of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "background",
@@ -2057,6 +1616,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "features",
@@ -2072,43 +1632,12 @@ exports[`azimuth schema 1`] = `
     "SectionHero": {
       "_tag": "NestedTypeDef",
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fields": {
-            "actions": {
-              "label": "Action Buttons",
-            },
-            "content": {
-              "label": "Content",
-            },
-            "image": {
-              "control": {
-                "options": {},
-                "type": "image-gallery",
-              },
-              "label": "Image",
-            },
-            "image_alt": {
-              "label": "Image Alt Text",
-            },
-            "section_id": {
-              "label": "Section ID",
-            },
-            "title": {
-              "label": "Title",
-            },
-            "type": {
-              "label": "Section type",
-            },
-          },
-          "label": "Hero Section",
-          "labelField": "title",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": "A unique identifier of the section, must not contain whitespace",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "section_id",
@@ -2117,6 +1646,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The title of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "title",
@@ -2124,15 +1654,8 @@ exports[`azimuth schema 1`] = `
         },
         {
           "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "isRequired": true,
-          "isSystemField": false,
-          "name": "type",
-          "type": "string",
-        },
-        {
-          "default": undefined,
           "description": "The text content of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "content",
@@ -2141,6 +1664,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The image of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "image",
@@ -2149,6 +1673,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The alt text of the section image",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "image_alt",
@@ -2157,6 +1682,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "actions",
@@ -2172,32 +1698,12 @@ exports[`azimuth schema 1`] = `
     "SectionPosts": {
       "_tag": "NestedTypeDef",
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fields": {
-            "background": {
-              "label": "Background",
-            },
-            "section_id": {
-              "label": "Section ID",
-            },
-            "subtitle": {
-              "label": "Subtitle",
-            },
-            "title": {
-              "label": "Title",
-            },
-            "type": {
-              "label": "Section type",
-            },
-          },
-          "label": "Posts List",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": "A unique identifier of the section, must not contain whitespace",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "section_id",
@@ -2206,6 +1712,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The title of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "title",
@@ -2213,15 +1720,8 @@ exports[`azimuth schema 1`] = `
         },
         {
           "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "isRequired": true,
-          "isSystemField": false,
-          "name": "type",
-          "type": "string",
-        },
-        {
-          "default": undefined,
           "description": "The subtitle of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "subtitle",
@@ -2230,6 +1730,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": "gray",
           "description": "The background of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "background",
@@ -2245,35 +1746,12 @@ exports[`azimuth schema 1`] = `
     "SectionPricing": {
       "_tag": "NestedTypeDef",
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fields": {
-            "background": {
-              "label": "Background",
-            },
-            "pricing_plans": {
-              "label": "Pricing Plans",
-            },
-            "section_id": {
-              "label": "Section ID",
-            },
-            "subtitle": {
-              "label": "Subtitle",
-            },
-            "title": {
-              "label": "Title",
-            },
-            "type": {
-              "label": "Section type",
-            },
-          },
-          "label": "Pricing Section",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": "A unique identifier of the section, must not contain whitespace",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "section_id",
@@ -2282,6 +1760,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The title of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "title",
@@ -2289,15 +1768,8 @@ exports[`azimuth schema 1`] = `
         },
         {
           "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "isRequired": true,
-          "isSystemField": false,
-          "name": "type",
-          "type": "string",
-        },
-        {
-          "default": undefined,
           "description": "The subtitle of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "subtitle",
@@ -2306,6 +1778,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": "gray",
           "description": "The background of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "background",
@@ -2318,6 +1791,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "pricing_plans",
@@ -2333,35 +1807,12 @@ exports[`azimuth schema 1`] = `
     "SectionReviews": {
       "_tag": "NestedTypeDef",
       "description": undefined,
-      "extensions": {
-        "stackbit": {
-          "fields": {
-            "background": {
-              "label": "Background",
-            },
-            "reviews": {
-              "label": "Reviews",
-            },
-            "section_id": {
-              "label": "Section ID",
-            },
-            "subtitle": {
-              "label": "Subtitle",
-            },
-            "title": {
-              "label": "Title",
-            },
-            "type": {
-              "label": "Section type",
-            },
-          },
-          "label": "Reviews Section",
-        },
-      },
+      "extensions": {},
       "fieldDefs": [
         {
           "default": undefined,
           "description": "A unique identifier of the section, must not contain whitespace",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "section_id",
@@ -2370,6 +1821,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": "The title of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "title",
@@ -2377,15 +1829,8 @@ exports[`azimuth schema 1`] = `
         },
         {
           "default": undefined,
-          "description": "Needed for contentlayer for polymorphic list types",
-          "isRequired": true,
-          "isSystemField": false,
-          "name": "type",
-          "type": "string",
-        },
-        {
-          "default": undefined,
           "description": "The subtitle of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "subtitle",
@@ -2394,6 +1839,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": "gray",
           "description": "The background of the section",
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "background",
@@ -2406,6 +1852,7 @@ exports[`azimuth schema 1`] = `
         {
           "default": undefined,
           "description": undefined,
+          "extensions": {},
           "isRequired": false,
           "isSystemField": false,
           "name": "reviews",
@@ -2423,65 +1870,87 @@ exports[`azimuth schema 1`] = `
 `;
 
 exports[`azimuth schema 2`] = `
-"stackbitVersion: ~0.3.0
-nodeVersion: \\">=12\\"
+"stackbitVersion: ~0.4.0
+nodeVersion: \\">=14\\"
+cmsName: git
+ssgName: nextjs
+objectTypeKey: type
+pageLayoutKey: type
 models:
   Blog:
     label: Blog
-    labelField: null
-    description: null
     fields:
       - name: title
         required: true
-        const: null
-        default: null
         description: The title of the page
-        hidden: null
-        label: Title
         type: string
       - name: seo
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: null
         type: model
         models:
           - SEO
-      - name: body
-        required: true
-        const: null
-        default: null
-        description: Markdown file body
-        hidden: null
-        label: null
-        type: markdown
-    match: null
-    folder: null
-    file: blog.md
-    type: page
     singleInstance: true
-  Landing:
-    label: Landing Page
-    labelField: null
-    description: null
+    type: data
+  Config:
+    label: Config
     fields:
       - name: title
         required: true
-        const: null
-        default: null
+        description: Site title
+        type: string
+      - name: path_prefix
+        required: true
+        description: \\"The base URL of this site. Useful for sites hosted under specific
+          path, e.g.: https://www.example.com/my-site/\\"
+        type: string
+      - name: domain
+        required: false
+        description: The domain of your site, including the protocol, e.g.
+          https://mysite.com/
+        type: string
+      - name: favicon
+        required: false
+        description: A square icon that represents your website
+        type: string
+      - name: palette
+        required: true
+        description: The color palette of the site
+        type: enum
+        options:
+          - blue
+          - cyan
+          - green
+          - orange
+          - purple
+      - name: base_font
+        required: true
+        type: enum
+        options:
+          - fira-sans
+          - nunito-sans
+          - system-sans
+      - name: header
+        required: true
+        type: model
+        models:
+          - Header
+      - name: footer
+        required: true
+        type: model
+        models:
+          - Footer
+    singleInstance: true
+    type: data
+  Landing:
+    label: Landing
+    fields:
+      - name: title
+        required: true
         description: The title of the page
-        hidden: null
-        label: Title
         type: string
       - name: sections
         required: false
-        const: null
-        default: null
         description: Page sections
-        hidden: null
-        label: Sections
         type: list
         items:
           type: model
@@ -2497,374 +1966,111 @@ models:
             - SectionContact
       - name: seo
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: null
         type: model
         models:
           - SEO
-      - name: body
-        required: true
-        const: null
-        default: null
-        description: Markdown file body
-        hidden: null
-        label: null
-        type: markdown
-    match:
-      - contact.md
-      - features.md
-      - index.md
-      - pricing.md
-    folder: null
-    file: null
-    type: page
-    singleInstance: false
+    type: data
   Page:
     label: Page
-    labelField: null
-    description: null
     fields:
       - name: title
         required: true
-        const: null
-        default: null
         description: The title of the page
-        hidden: null
-        label: null
         type: string
       - name: subtitle
         required: false
-        const: null
-        default: null
         description: The text shown below the page title
-        hidden: null
-        label: null
         type: string
       - name: image
         required: false
-        const: null
-        default: null
         description: The image shown below the page title
-        hidden: null
-        label: null
         type: string
       - name: image_alt
         required: false
-        const: null
-        default: null
         description: The alt text of the image
-        hidden: null
-        label: null
         type: string
       - name: seo
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: null
         type: model
         models:
           - SEO
-      - name: body
-        required: true
-        const: null
-        default: null
-        description: Markdown file body
-        hidden: null
-        label: null
+    type: data
+  Person:
+    label: Person
+    fields:
+      - name: first_name
+        required: false
+        type: string
+      - name: last_name
+        required: false
+        type: string
+      - name: bio
+        required: false
         type: markdown
-    match:
-      - about.md
-      - privacy-policy.md
-      - signup.md
-      - style-guide.md
-      - terms-of-service.md
-    folder: null
-    file: null
-    type: page
-    singleInstance: false
+      - name: photo
+        required: false
+        type: string
+    type: data
   Post:
     label: Post
-    labelField: null
-    description: null
     fields:
       - name: title
         required: true
-        const: null
-        default: null
         description: The title of the post
-        hidden: null
-        label: Title
         type: string
       - name: subtitle
         required: false
-        const: null
-        default: null
         description: The text shown just below the title or the featured image
-        hidden: null
-        label: Subtitle
         type: string
       - name: date
         required: true
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Date
         type: date
       - name: author
         required: false
-        const: null
-        default: null
         description: Post author
-        hidden: null
-        label: null
         type: reference
         models:
           - Person
       - name: excerpt
         required: false
-        const: null
-        default: null
         description: The excerpt of the post displayed in the blog feed
-        hidden: null
-        label: Excerpt
         type: string
       - name: image
         required: false
-        const: null
-        default: null
         description: The image shown below the title
-        hidden: null
-        label: Image
         type: string
       - name: image_alt
         required: false
-        const: null
-        default: null
         description: The alt text of the featured image
-        hidden: null
-        label: Image alt text (single post)
         type: string
       - name: thumb_image
         required: false
-        const: null
-        default: null
         description: The image shown in the blog feed
-        hidden: null
-        label: Image (blog feed)
         type: string
       - name: thumb_image_alt
         required: false
-        const: null
-        default: null
         description: The alt text of the blog feed image
-        hidden: null
-        label: Image alt text (blog feed)
         type: string
       - name: seo
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: null
         type: model
         models:
           - SEO
-      - name: body
-        required: true
-        const: null
-        default: null
-        description: Markdown file body
-        hidden: null
-        label: null
-        type: markdown
-    match: blog/**.md
-    folder: null
-    file: null
-    type: page
-    singleInstance: false
-  Config:
-    label: Site Configuration
-    labelField: null
-    description: null
-    fields:
-      - name: title
-        required: true
-        const: null
-        default: null
-        description: Site title
-        hidden: null
-        label: Title
-        type: string
-      - name: path_prefix
-        required: true
-        const: null
-        default: null
-        description: \\"The base URL of this site. Useful for sites hosted under specific
-          path, e.g.: https://www.example.com/my-site/\\"
-        hidden: true
-        label: Base URL
-        type: string
-      - name: domain
-        required: false
-        const: null
-        default: null
-        description: The domain of your site, including the protocol, e.g.
-          https://mysite.com/
-        hidden: null
-        label: Domain
-        type: string
-      - name: favicon
-        required: false
-        const: null
-        default: null
-        description: A square icon that represents your website
-        hidden: null
-        label: Favicon
-        type: string
-      - name: palette
-        required: true
-        const: null
-        default: blue
-        description: The color palette of the site
-        hidden: null
-        label: Color Palette
-        type: enum
-        options:
-          - blue
-          - cyan
-          - green
-          - orange
-          - purple
-      - name: base_font
-        required: true
-        const: null
-        default: nunito-sans
-        description: null
-        hidden: null
-        label: Font
-        type: enum
-        options:
-          - fira-sans
-          - nunito-sans
-          - system-sans
-      - name: header
-        required: true
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Header Configuration
-        type: model
-        models:
-          - Header
-      - name: footer
-        required: true
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Footer Configuration
-        type: model
-        models:
-          - Footer
-      - name: body
-        required: true
-        const: null
-        default: null
-        description: Markdown file body
-        hidden: null
-        label: null
-        type: markdown
-    match: null
-    folder: null
-    file: config.json
     type: data
-    singleInstance: true
-  Person:
-    label: Person
-    labelField: null
-    description: null
-    fields:
-      - name: first_name
-        required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: null
-        type: string
-      - name: last_name
-        required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: null
-        type: string
-      - name: bio
-        required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: null
-        type: markdown
-      - name: photo
-        required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: null
-        type: string
-      - name: body
-        required: true
-        const: null
-        default: null
-        description: Markdown file body
-        hidden: null
-        label: null
-        type: markdown
-    match: null
-    folder: authors
-    file: null
-    type: data
-    singleInstance: false
   SEO:
-    label: Page meta data
-    labelField: null
-    description: null
+    label: SEO
     fields:
       - name: title
         required: false
-        const: null
-        default: null
         description: The page title that goes into the <title> tag
-        hidden: null
-        label: Title
         type: string
       - name: description
         required: false
-        const: null
-        default: null
         description: The page description that goes into the <meta name=\\"description\\"> tag
-        hidden: null
-        label: Description
         type: string
       - name: robots
         required: false
-        const: null
-        default: null
         description: The items that go into the <meta name=\\"robots\\"> tag
-        hidden: null
-        label: Robots
         type: list
         items:
           type: enum
@@ -2879,126 +2085,61 @@ models:
             - none
       - name: extra
         required: false
-        const: null
-        default: null
         description: Additional definition for specific meta tags such as open-graph,
           twitter, etc.
-        hidden: null
-        label: Extra
         type: list
         items:
           type: object
           fields:
             - name: name
               required: false
-              const: null
-              default: null
-              description: null
-              hidden: null
-              label: null
               type: string
             - name: value
               required: false
-              const: null
-              default: null
-              description: null
-              hidden: null
-              label: null
               type: string
             - name: keyName
               required: false
-              const: null
-              default: name
-              description: null
-              hidden: null
-              label: null
               type: string
             - name: relativeUrl
               required: false
-              const: null
-              default: null
-              description: null
-              hidden: null
-              label: null
               type: boolean
-    match: null
-    folder: null
-    file: null
     type: object
   Header:
-    label: Header Configuration
-    labelField: null
-    description: null
+    label: Header
     fields:
       - name: logo_img
         required: false
-        const: null
-        default: null
         description: The logo image displayed in the header (if no logo added, the site
           title is displayed instead)
-        hidden: null
-        label: Logo
         type: string
       - name: logo_img_alt
         required: false
-        const: null
-        default: null
         description: The alt text of the logo image
-        hidden: null
-        label: Logo Alt Text
         type: string
       - name: has_nav
         required: false
-        const: null
-        default: true
         description: Display the navigation menu bar in the header
-        hidden: null
-        label: Enable Navigation
         type: boolean
       - name: nav_links
         required: false
-        const: null
-        default: null
         description: List of navigation links
-        hidden: null
-        label: Navigation Links
         type: list
         items:
           type: model
           models:
             - Action
-    match: null
-    folder: null
-    file: null
     type: object
   Action:
     label: Action
-    labelField: label
-    description: null
     fields:
       - name: label
         required: true
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Label
         type: string
       - name: url
         required: true
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: URL
         type: string
       - name: style
         required: false
-        const: null
-        default: link
-        description: null
-        hidden: null
-        label: Style
         type: enum
         options:
           - link
@@ -3006,19 +2147,9 @@ models:
           - secondary
       - name: has_icon
         required: false
-        const: null
-        default: false
-        description: null
-        hidden: null
-        label: Show icon
         type: boolean
       - name: icon
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Icon
         type: enum
         options:
           - arrow-left
@@ -3033,47 +2164,26 @@ models:
           - youtube
       - name: icon_position
         required: false
-        const: null
-        default: left
         description: The position of the icon relative to text
-        hidden: null
-        label: Icon position
         type: enum
         options:
           - left
           - right
       - name: new_window
         required: false
-        const: null
-        default: false
         description: Should the link open a new tab
-        hidden: null
-        label: Open in new window
         type: boolean
       - name: no_follow
         required: false
-        const: null
-        default: false
         description: Add rel=\\"nofollow\\" attribute to the link
-        hidden: null
-        label: No follow
         type: boolean
-    match: null
-    folder: null
-    file: null
     type: object
   Footer:
-    label: Footer Configuration
-    labelField: content
-    description: null
+    label: Footer
     fields:
       - name: sections
         required: false
-        const: null
-        default: null
         description: Footer sections
-        hidden: null
-        label: Sections
         type: list
         items:
           type: model
@@ -3083,19 +2193,11 @@ models:
             - FooterText
       - name: has_nav
         required: false
-        const: null
-        default: true
         description: Display the horizontal navigation menu bar in the footer
-        hidden: null
-        label: Enable Horizontal Navigation
         type: boolean
       - name: nav_links
         required: false
-        const: null
-        default: null
         description: List of horizontal navigation links
-        hidden: null
-        label: Horizontal Navigation Links
         type: list
         items:
           type: model
@@ -3103,89 +2205,46 @@ models:
             - Action
       - name: content
         required: false
-        const: null
-        default: null
         description: The copyright text displayed in the footer
-        hidden: null
-        label: Footer Content
         type: string
       - name: links
         required: false
-        const: null
-        default: null
         description: A list of links displayed in the footer
-        hidden: null
-        label: Links
         type: list
         items:
           type: model
           models:
             - Action
-    match: null
-    folder: null
-    file: null
     type: object
   FooterForm:
-    label: Footer Form
-    labelField: title
-    description: null
+    label: FooterForm
     fields:
       - name: title
         required: false
-        const: null
-        default: null
         description: The title of the section
-        hidden: null
-        label: Title
         type: string
       - name: type
         required: true
-        const: null
-        default: null
         description: Needed for contentlayer for polymorphic list types
-        hidden: null
-        label: Section type
         type: string
       - name: content
         required: false
-        const: null
-        default: null
         description: The content of the section, appears above the form
-        hidden: null
-        label: Content
         type: markdown
       - name: form_id
         required: true
-        const: null
-        default: null
         description: A unique identifier of the form, must not contain whitespace
-        hidden: null
-        label: Form ID
         type: string
       - name: form_action
         required: false
-        const: null
-        default: null
         description: The path of your custom \\"success\\" page, if you want to replace the
           default success message./index.js
-        hidden: null
-        label: Form Action
         type: string
       - name: hide_labels
         required: false
-        const: null
-        default: false
-        description: null
-        hidden: null
-        label: Hide Labels
         type: boolean
       - name: form_fields
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Form Fields
         type: list
         items:
           type: model
@@ -3193,28 +2252,14 @@ models:
             - FormField
       - name: submit_label
         required: true
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Submit Button Label
         type: string
-    match: null
-    folder: null
-    file: null
     type: object
   FormField:
-    label: Form Field
-    labelField: name
-    description: null
+    label: FormField
     fields:
       - name: input_type
         required: true
-        const: null
-        default: null
         description: Type of the form field
-        hidden: null
-        label: Type
         type: enum
         options:
           - text
@@ -3226,923 +2271,429 @@ models:
           - select
       - name: name
         required: true
-        const: null
-        default: null
         description: The name of the field, submitted with the form
-        hidden: null
-        label: Name
         type: string
       - name: label
         required: false
-        const: null
-        default: null
         description: The caption of the field, shown above the field input
-        hidden: null
-        label: Label
         type: string
       - name: default_value
         required: false
-        const: null
-        default: null
         description: The placeholder for textual field types or default option for
           select field
-        hidden: null
-        label: Placeholder text or default value
         type: string
       - name: options
         required: false
-        const: null
-        default: null
         description: The list of options for select field
-        hidden: null
-        label: Options
         type: list
         items:
           type: string
       - name: is_required
         required: false
-        const: null
-        default: false
-        description: null
-        hidden: null
-        label: Is the field required?
         type: boolean
-    match: null
-    folder: null
-    file: null
     type: object
   FooterNav:
-    label: Vertical Navigation
-    labelField: title
-    description: null
+    label: FooterNav
     fields:
       - name: title
         required: false
-        const: null
-        default: null
         description: The title of the section
-        hidden: null
-        label: Title
         type: string
       - name: type
         required: true
-        const: null
-        default: null
         description: Needed for contentlayer for polymorphic list types
-        hidden: null
-        label: Section type
         type: string
       - name: nav_links
         required: false
-        const: null
-        default: null
         description: List of vertical navigation links
-        hidden: null
-        label: Vertical Navigation Links
         type: list
         items:
           type: model
           models:
             - Action
-    match: null
-    folder: null
-    file: null
     type: object
   FooterText:
-    label: Text
-    labelField: title
-    description: null
+    label: FooterText
     fields:
       - name: title
         required: false
-        const: null
-        default: null
         description: The title of the section
-        hidden: null
-        label: Title
         type: string
       - name: type
         required: true
-        const: null
-        default: null
         description: Needed for contentlayer for polymorphic list types
-        hidden: null
-        label: Section type
         type: string
       - name: image
         required: false
-        const: null
-        default: null
         description: The image displayed in the section
-        hidden: null
-        label: Image
         type: string
       - name: image_alt
         required: false
-        const: null
-        default: null
         description: The alt text of the image
-        hidden: null
-        label: Image Alt Text
         type: string
       - name: image_url
         required: false
-        const: null
-        default: null
         description: The url of the image
-        hidden: null
-        label: Image URL
         type: string
       - name: content
         required: false
-        const: null
-        default: null
         description: The text content of the section
-        hidden: null
-        label: Content
         type: markdown
-    match: null
-    folder: null
-    file: null
     type: object
   SectionContent:
-    label: Content Section
-    labelField: title
-    description: null
+    label: SectionContent
     fields:
       - name: section_id
         required: false
-        const: null
-        default: null
         description: A unique identifier of the section, must not contain whitespace
-        hidden: null
-        label: Section ID
         type: string
       - name: title
         required: false
-        const: null
-        default: null
         description: The title of the section
-        hidden: null
-        label: Title
-        type: string
-      - name: type
-        required: true
-        const: null
-        default: null
-        description: Needed for contentlayer for polymorphic list types
-        hidden: null
-        label: Section type
         type: string
       - name: content
         required: false
-        const: null
-        default: null
         description: The text content of the section
-        hidden: null
-        label: Content
         type: markdown
       - name: image
         required: false
-        const: null
-        default: null
         description: The image of the section
-        hidden: null
-        label: Image
         type: string
       - name: image_alt
         required: false
-        const: null
-        default: null
         description: The alt text of the section image
-        hidden: null
-        label: Image Alt Text
         type: string
       - name: background
         required: false
-        const: null
-        default: gray
         description: The background of the section
-        hidden: null
-        label: Background
         type: enum
         options:
           - gray
           - white
       - name: actions
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Action Buttons
         type: list
         items:
           type: model
           models:
             - Action
-    match: null
-    folder: null
-    file: null
     type: object
   SectionCta:
-    label: Call to Action Section
-    labelField: title
-    description: null
+    label: SectionCta
     fields:
       - name: section_id
         required: false
-        const: null
-        default: null
         description: A unique identifier of the section, must not contain whitespace
-        hidden: null
-        label: Section ID
         type: string
       - name: title
         required: false
-        const: null
-        default: null
         description: The title of the section
-        hidden: null
-        label: Title
-        type: string
-      - name: type
-        required: true
-        const: null
-        default: null
-        description: Needed for contentlayer for polymorphic list types
-        hidden: null
-        label: Section type
         type: string
       - name: subtitle
         required: false
-        const: null
-        default: null
         description: The subtitle of the section
-        hidden: null
-        label: Subtitle
         type: string
       - name: actions
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Action Buttons
         type: list
         items:
           type: model
           models:
             - Action
-    match: null
-    folder: null
-    file: null
     type: object
   SectionFaq:
-    label: Contact Section
-    labelField: title
-    description: null
+    label: SectionFaq
     fields:
       - name: section_id
         required: false
-        const: null
-        default: null
         description: A unique identifier of the section, must not contain whitespace
-        hidden: null
-        label: Section ID
         type: string
       - name: title
         required: false
-        const: null
-        default: null
         description: The title of the section
-        hidden: null
-        label: Title
-        type: string
-      - name: type
-        required: true
-        const: null
-        default: null
-        description: Needed for contentlayer for polymorphic list types
-        hidden: null
-        label: Section type
         type: string
       - name: subtitle
         required: false
-        const: null
-        default: null
         description: The subtitle of the section
-        hidden: null
-        label: Subtitle
         type: string
       - name: background
         required: false
-        const: null
-        default: gray
         description: The background of the section
-        hidden: null
-        label: Background
         type: enum
         options:
           - gray
           - white
       - name: faq_items
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: FAQ Items
         type: list
         items:
           type: model
           models:
             - FaqItem
-    match: null
-    folder: null
-    file: null
     type: object
   FaqItem:
-    label: FAQ Item
-    labelField: null
-    description: null
+    label: FaqItem
     fields:
       - name: question
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Question
         type: string
       - name: answer
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Answer
         type: markdown
-    match: null
-    folder: null
-    file: null
     type: object
   SectionFeatures:
-    label: Features Section
-    labelField: title
-    description: null
+    label: SectionFeatures
     fields:
       - name: section_id
         required: false
-        const: null
-        default: null
         description: A unique identifier of the section, must not contain whitespace
-        hidden: null
-        label: Section ID
         type: string
       - name: title
         required: false
-        const: null
-        default: null
         description: The title of the section
-        hidden: null
-        label: Title
-        type: string
-      - name: type
-        required: true
-        const: null
-        default: null
-        description: Needed for contentlayer for polymorphic list types
-        hidden: null
-        label: Section type
         type: string
       - name: subtitle
         required: false
-        const: null
-        default: null
         description: The subtitle of the section
-        hidden: null
-        label: Subtitle
         type: string
       - name: background
         required: false
-        const: null
-        default: gray
         description: The background of the section
-        hidden: null
-        label: Background
         type: enum
         options:
           - gray
           - white
       - name: features
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Features
         type: list
         items:
           type: model
           models:
             - FeatureItem
-    match: null
-    folder: null
-    file: null
     type: object
   FeatureItem:
-    label: Feature Item
-    labelField: title
-    description: null
+    label: FeatureItem
     fields:
       - name: title
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Title
         type: string
       - name: content
         required: false
-        const: null
-        default: null
         description: Feature description
-        hidden: null
-        label: Content
         type: markdown
       - name: image
         required: false
-        const: null
-        default: null
         description: Feature image
-        hidden: null
-        label: Image
         type: string
       - name: image_alt
         required: false
-        const: null
-        default: null
         description: The alt text of the feature image
-        hidden: null
-        label: Image Alt Text
         type: string
       - name: actions
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Action Buttons
         type: list
         items:
           type: model
           models:
             - Action
-    match: null
-    folder: null
-    file: null
     type: object
   SectionHero:
-    label: Hero Section
-    labelField: title
-    description: null
+    label: SectionHero
     fields:
       - name: section_id
         required: false
-        const: null
-        default: null
         description: A unique identifier of the section, must not contain whitespace
-        hidden: null
-        label: Section ID
         type: string
       - name: title
         required: false
-        const: null
-        default: null
         description: The title of the section
-        hidden: null
-        label: Title
-        type: string
-      - name: type
-        required: true
-        const: null
-        default: null
-        description: Needed for contentlayer for polymorphic list types
-        hidden: null
-        label: Section type
         type: string
       - name: content
         required: false
-        const: null
-        default: null
         description: The text content of the section
-        hidden: null
-        label: Content
         type: markdown
       - name: image
         required: false
-        const: null
-        default: null
         description: The image of the section
-        hidden: null
-        label: Image
         type: string
       - name: image_alt
         required: false
-        const: null
-        default: null
         description: The alt text of the section image
-        hidden: null
-        label: Image Alt Text
         type: string
       - name: actions
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Action Buttons
         type: list
         items:
           type: model
           models:
             - Action
-    match: null
-    folder: null
-    file: null
     type: object
   SectionPosts:
-    label: Posts List
-    labelField: null
-    description: null
+    label: SectionPosts
     fields:
       - name: section_id
         required: false
-        const: null
-        default: null
         description: A unique identifier of the section, must not contain whitespace
-        hidden: null
-        label: Section ID
         type: string
       - name: title
         required: false
-        const: null
-        default: null
         description: The title of the section
-        hidden: null
-        label: Title
-        type: string
-      - name: type
-        required: true
-        const: null
-        default: null
-        description: Needed for contentlayer for polymorphic list types
-        hidden: null
-        label: Section type
         type: string
       - name: subtitle
         required: false
-        const: null
-        default: null
         description: The subtitle of the section
-        hidden: null
-        label: Subtitle
         type: string
       - name: background
         required: false
-        const: null
-        default: gray
         description: The background of the section
-        hidden: null
-        label: Background
         type: enum
         options:
           - gray
           - white
-    match: null
-    folder: null
-    file: null
     type: object
   SectionPricing:
-    label: Pricing Section
-    labelField: null
-    description: null
+    label: SectionPricing
     fields:
       - name: section_id
         required: false
-        const: null
-        default: null
         description: A unique identifier of the section, must not contain whitespace
-        hidden: null
-        label: Section ID
         type: string
       - name: title
         required: false
-        const: null
-        default: null
         description: The title of the section
-        hidden: null
-        label: Title
-        type: string
-      - name: type
-        required: true
-        const: null
-        default: null
-        description: Needed for contentlayer for polymorphic list types
-        hidden: null
-        label: Section type
         type: string
       - name: subtitle
         required: false
-        const: null
-        default: null
         description: The subtitle of the section
-        hidden: null
-        label: Subtitle
         type: string
       - name: background
         required: false
-        const: null
-        default: gray
         description: The background of the section
-        hidden: null
-        label: Background
         type: enum
         options:
           - gray
           - white
       - name: pricing_plans
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Pricing Plans
         type: list
         items:
           type: model
           models:
             - PricingPlan
-    match: null
-    folder: null
-    file: null
     type: object
   PricingPlan:
-    label: Pricing Plan
-    labelField: title
-    description: null
+    label: PricingPlan
     fields:
       - name: title
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Title
         type: string
       - name: subtitle
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Subtitle
         type: string
       - name: price
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Price
         type: string
       - name: details
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Details
         type: markdown
       - name: highlight
         required: false
-        const: null
-        default: false
         description: Make the plan stand out by adding a distinctive style
-        hidden: null
-        label: Highlight
         type: boolean
       - name: actions
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Action Buttons
         type: list
         items:
           type: model
           models:
             - Action
-    match: null
-    folder: null
-    file: null
     type: object
   SectionReviews:
-    label: Reviews Section
-    labelField: null
-    description: null
+    label: SectionReviews
     fields:
       - name: section_id
         required: false
-        const: null
-        default: null
         description: A unique identifier of the section, must not contain whitespace
-        hidden: null
-        label: Section ID
         type: string
       - name: title
         required: false
-        const: null
-        default: null
         description: The title of the section
-        hidden: null
-        label: Title
-        type: string
-      - name: type
-        required: true
-        const: null
-        default: null
-        description: Needed for contentlayer for polymorphic list types
-        hidden: null
-        label: Section type
         type: string
       - name: subtitle
         required: false
-        const: null
-        default: null
         description: The subtitle of the section
-        hidden: null
-        label: Subtitle
         type: string
       - name: background
         required: false
-        const: null
-        default: gray
         description: The background of the section
-        hidden: null
-        label: Background
         type: enum
         options:
           - gray
           - white
       - name: reviews
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Reviews
         type: list
         items:
           type: model
           models:
             - ReviewItem
-    match: null
-    folder: null
-    file: null
     type: object
   ReviewItem:
-    label: Review Item
-    labelField: null
-    description: null
+    label: ReviewItem
     fields:
       - name: author
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Author
         type: string
       - name: avatar
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Author Image
         type: string
       - name: avatar_alt
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Author Image Alt Text
         type: string
       - name: content
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Content
         type: string
-    match: null
-    folder: null
-    file: null
     type: object
   SectionContact:
-    label: Contact Section
-    labelField: title
-    description: null
+    label: SectionContact
     fields:
       - name: section_id
         required: false
-        const: null
-        default: null
         description: A unique identifier of the section, must not contain whitespace
-        hidden: null
-        label: Section ID
         type: string
       - name: title
         required: false
-        const: null
-        default: null
         description: The title of the section
-        hidden: null
-        label: Title
-        type: string
-      - name: type
-        required: true
-        const: null
-        default: null
-        description: Needed for contentlayer for polymorphic list types
-        hidden: null
-        label: Section type
         type: string
       - name: subtitle
         required: false
-        const: null
-        default: null
         description: The text shown below the title
-        hidden: null
-        label: Subtitle
         type: string
       - name: content
         required: false
-        const: null
-        default: null
         description: the content of the section, appears above the form
-        hidden: null
-        label: Content
         type: markdown
       - name: background
         required: false
-        const: null
-        default: gray
         description: The background of the section
-        hidden: null
-        label: Background
         type: enum
         options:
           - gray
           - white
       - name: form_id
         required: true
-        const: null
-        default: null
         description: A unique identifier of the form, must not contain whitespace
-        hidden: null
-        label: Form ID
         type: string
       - name: form_action
         required: false
-        const: null
-        default: null
         description: The path of your custom \\"success\\" page, if you want to replace the
-          default success message./index.js
-        hidden: null
-        label: Form Action
+          default success message.
         type: string
       - name: hide_labels
         required: false
-        const: null
-        default: false
-        description: null
-        hidden: null
-        label: Hide labels of the form fields?
         type: boolean
       - name: form_fields
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Form Fields
         type: list
         items:
           type: model
@@ -4150,18 +2701,9 @@ models:
             - FormField
       - name: submit_label
         required: true
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: Submit Button Label
         type: string
-    match: null
-    folder: null
-    file: null
     type: object
-pagesDir: null
-dataDir: null
+contentModels: {}
 "
 `;
 
@@ -4184,6 +2726,7 @@ exports[`blog schema 1`] = `
         {
           "default": undefined,
           "description": "The title of the post",
+          "extensions": {},
           "isRequired": true,
           "isSystemField": false,
           "name": "title",
@@ -4192,6 +2735,7 @@ exports[`blog schema 1`] = `
         {
           "default": undefined,
           "description": "The date of the post",
+          "extensions": {},
           "isRequired": true,
           "isSystemField": false,
           "name": "date",
@@ -4200,6 +2744,7 @@ exports[`blog schema 1`] = `
         {
           "default": undefined,
           "description": "Markdown file body",
+          "extensions": {},
           "isRequired": true,
           "isSystemField": true,
           "name": "body",
@@ -4216,44 +2761,25 @@ exports[`blog schema 1`] = `
 `;
 
 exports[`blog schema 2`] = `
-"stackbitVersion: ~0.3.0
-nodeVersion: \\">=12\\"
+"stackbitVersion: ~0.4.0
+nodeVersion: \\">=14\\"
+cmsName: git
+ssgName: nextjs
+objectTypeKey: type
+pageLayoutKey: type
 models:
   Post:
     label: Post
-    labelField: null
-    description: null
     fields:
       - name: title
         required: true
-        const: null
-        default: null
         description: The title of the post
-        hidden: null
-        label: null
         type: string
       - name: date
         required: true
-        const: null
-        default: null
         description: The date of the post
-        hidden: null
-        label: null
         type: date
-      - name: body
-        required: true
-        const: null
-        default: null
-        description: Markdown file body
-        hidden: null
-        label: null
-        type: markdown
-    match: null
-    folder: null
-    file: null
     type: data
-    singleInstance: false
-pagesDir: null
-dataDir: null
+contentModels: {}
 "
 `;

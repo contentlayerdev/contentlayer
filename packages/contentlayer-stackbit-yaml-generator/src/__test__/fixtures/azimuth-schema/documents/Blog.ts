@@ -1,7 +1,7 @@
 import { defineDocumentType } from 'contentlayer/source-files'
 
-import { SEO } from '../nested/SEO.js'
-import { urlFromFilePath } from '../utils.js'
+import { SEO } from '../nested/SEO'
+import { urlFromFilePath } from '../utils'
 
 export const Blog = defineDocumentType(() => ({
   name: 'Blog',
@@ -23,12 +23,10 @@ export const Blog = defineDocumentType(() => ({
       resolve: urlFromFilePath,
     },
   },
-  extensions: {
-    stackbit: {
-      fields: {
-        title: { label: 'Title' },
-      },
-      file: 'blog.md',
+  stackbit: {
+    fields: {
+      title: { label: 'Title' },
     },
+    file: 'blog.md',
   },
 }))

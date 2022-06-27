@@ -63,20 +63,15 @@ export type Args = {
    */
   contentDirExclude?: string[]
   // NOTE https://github.com/parcel-bundler/watcher/issues/64
-
+} & PluginOptions &
+  Partial<Flags> &
   /**
    * This is an experimental feature and should be ignored for now.
-   */
-  extensions?: {
-    stackbit?: core.StackbitExtension.Config
-  }
-} & PluginOptions &
-  Partial<Flags>
+   */ Partial<core.ExtensionsRoot>
 
 export const makeSource: core.MakeSourcePlugin<Args> = async (args) => {
   const {
     options,
-    extensions,
     restArgs: {
       documentTypes,
       contentDirPath,
@@ -85,6 +80,7 @@ export const makeSource: core.MakeSourcePlugin<Args> = async (args) => {
       onUnknownDocuments = 'skip-warn',
       onMissingOrIncompatibleData = 'skip-warn',
       onExtraFieldData = 'warn',
+      ...restArgs
     },
   } = await processArgs(args)
 
@@ -96,11 +92,12 @@ export const makeSource: core.MakeSourcePlugin<Args> = async (args) => {
 
   return {
     type: 'local',
-    extensions: extensions ?? {},
+    // NOTE this is a pretty hacky solution that doesn't use the `extensionProperties` concept. We should revisit this.
+    extensions: { ...restArgs },
     options,
-    provideSchema: (esbuildHash) =>
+    provideSchema: ({ esbuildHash, extensionProperties = [] }) =>
       pipe(
-        makeCoreSchema({ documentTypeDefs, options, esbuildHash }),
+        makeCoreSchema({ documentTypeDefs, options, esbuildHash, extensionProperties }),
         T.mapError((error) => new SourceProvideSchemaError({ error })),
       ),
     fetchData: ({ schemaDef, verbose }) =>

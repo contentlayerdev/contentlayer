@@ -1,3 +1,4 @@
+import type { ExtensionsField } from '../extensions.js'
 import type { NestedUnnamedTypeDef } from './index.js'
 
 export type FieldDefType = FieldDef['type']
@@ -36,6 +37,7 @@ export interface FieldDefBase {
   isRequired: boolean
 
   isSystemField: boolean
+  extensions: Partial<ExtensionsField>
 }
 
 export interface ListFieldDef extends FieldDefBase {

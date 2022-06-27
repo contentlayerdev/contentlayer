@@ -1,51 +1,112 @@
 import type * as core from '@contentlayer/core'
 import * as utils from '@contentlayer/utils'
+import { identity } from '@contentlayer/utils/effect'
 import type * as Stackbit from '@stackbit/sdk'
 
-export const convertSchema = (
-  { documentTypeDefMap, nestedTypeDefMap }: core.SchemaDef,
-  extensions: core.PluginExtensions,
-): Stackbit.YamlConfig => {
-  // TODO this needs to be more dynamic/configurable
-  const urlPathFieldName = 'url_path'
+import type { StackbitExtension, StackbitExtensionField } from '../types/index.js'
+
+export const convertSchema = ({
+  schema,
+  fieldOptions,
+  extensions,
+}: {
+  schema: core.SchemaDef
+  fieldOptions: core.FieldOptions
+  extensions: StackbitExtension['root']
+}): Stackbit.YamlConfig => {
+  const { documentTypeDefMap, nestedTypeDefMap } = schema
   const documentTypeDefs = Object.values(documentTypeDefMap)
   const [pageDocumentDefs, dataDocumentDefs] = utils.partition(
     documentTypeDefs,
-    (_) =>
-      _.fieldDefs.some((_) => _.name === urlPathFieldName) || _.computedFields.some((_) => _.name === urlPathFieldName),
+    (_) => _.extensions.stackbit?.isPage ?? false,
   )
-  const pagesDir = extensions.stackbit?.pagesDir
-  const dataDir = extensions.stackbit?.dataDir
+
+  const pageModels = pageDocumentDefs.map((def) =>
+    documentOrObjectDefToStackbitYamlModel({ def, type: 'page', fieldOptions }),
+  )
+  const dataModels = dataDocumentDefs.map((def) =>
+    documentOrObjectDefToStackbitYamlModel({ def, type: 'data', fieldOptions }),
+  )
+  const objectModels = Object.values(nestedTypeDefMap).map((def) =>
+    documentOrObjectDefToStackbitYamlModel({ def, type: 'object', fieldOptions }),
+  )
 
   const models = Object.fromEntries(
-    [
-      ...pageDocumentDefs.map((def) => documentOrObjectDefToStackbitYamlModel({ def, type: 'page', urlPathFieldName })),
-      ...dataDocumentDefs.map((def) => documentOrObjectDefToStackbitYamlModel({ def, type: 'data', urlPathFieldName })),
-      ...Object.values(nestedTypeDefMap).map((def) =>
-        documentOrObjectDefToStackbitYamlModel({ def, type: 'object', urlPathFieldName }),
-      ),
-    ].map(({ model, name }) => [name, model]),
+    [...pageModels, ...dataModels, ...objectModels].map(({ model, name }) => [name, model]),
   )
 
-  return { stackbitVersion: '~0.3.0', nodeVersion: '>=12', models, pagesDir, dataDir }
+  const contentModels = Object.fromEntries(
+    pageDocumentDefs.flatMap((def) => {
+      const ext = def.extensions.stackbit
+
+      if (ext?.isPage === true) {
+        const contentModel = identity<Stackbit.ContentModel>({
+          isPage: true,
+          newFilePath: ext?.newFilePath,
+          urlPath: ext?.urlPath,
+          exclude: ext?.exclude,
+          file: ext?.file,
+          folder: ext?.folder,
+          hideContent: ext?.hideContent,
+          match: ext?.match,
+          singleInstance: ext?.singleInstance,
+        })
+
+        return [[def.name, contentModel]]
+      }
+
+      return []
+    }),
+  )
+
+  const { pageLayoutKey, ...restExtensions } = extensions
+
+  return identity<Stackbit.YamlConfig>({
+    stackbitVersion: '~0.4.0',
+    nodeVersion: '>=14',
+    cmsName: 'git',
+    ssgName: 'nextjs',
+    objectTypeKey: 'type',
+    ...restExtensions,
+    pageLayoutKey: pageLayoutKey ?? fieldOptions.typeFieldName,
+    models,
+    contentModels,
+  })
 }
 
-const documentOrObjectDefToStackbitYamlModel = ({
+type GetStackbitYamlModel<TType> = TType extends 'page'
+  ? Stackbit.YamlPageModel
+  : TType extends 'object'
+  ? Stackbit.ObjectModel
+  : TType extends 'data'
+  ? Stackbit.DataModel
+  : never
+
+const documentOrObjectDefToStackbitYamlModel = <TType extends Exclude<Stackbit.YamlModel['type'], 'config'>>({
   def,
   type,
+  fieldOptions,
 }: {
   def: core.DocumentTypeDef | core.NestedTypeDef
-  type: Stackbit.YamlModel['type']
-  urlPathFieldName: string
-}): { model: Stackbit.YamlModel; name: string } => {
+  type: TType
+  fieldOptions: core.FieldOptions
+}): { model: GetStackbitYamlModel<TType>; name: string } => {
   const ext = def.extensions.stackbit
   const fields =
     def._tag === 'DocumentTypeDef'
-      ? def.fieldDefs
-          .filter(not(isContentMarkdownFieldDef))
-          .map((fieldDef) => fieldDefToStackbitField({ fieldDef, fieldExtension: ext?.fields?.[fieldDef.name] }))
+      ? def.fieldDefs.filter(not(isContentMarkdownFieldDef(fieldOptions.bodyFieldName))).map((fieldDef) =>
+          fieldDefToStackbitField({
+            fieldDef,
+            fieldExtension: fieldDef.extensions.stackbit ?? ext?.fields?.[fieldDef.name],
+            fieldOptions,
+          }),
+        )
       : def.fieldDefs.map((fieldDef) =>
-          fieldDefToStackbitField({ fieldDef, fieldExtension: ext?.fields?.[fieldDef.name] }),
+          fieldDefToStackbitField({
+            fieldDef,
+            fieldExtension: fieldDef.extensions.stackbit ?? ext?.fields?.[fieldDef.name],
+            fieldOptions,
+          }),
         )
 
   const options = {
@@ -62,35 +123,51 @@ const documentOrObjectDefToStackbitYamlModel = ({
   }
 
   const name = def.name
-  const singleInstance: any = def._tag === 'DocumentTypeDef' && def.isSingleton
+  const isSingleInstance =
+    ext?.singleInstance !== undefined ? ext.singleInstance : def._tag === 'DocumentTypeDef' && def.isSingleton
+
+  const singleInstance = isSingleInstance ? { singleInstance: true } : {}
 
   switch (type) {
     case 'data':
-      return { name, model: { ...modelCommon, type: 'data', singleInstance } }
-    case 'config':
-      return { name, model: { ...modelCommon, type: 'config', singleInstance } }
+      return { name, model: identity<Stackbit.YamlDataModel>({ ...modelCommon, ...singleInstance, type: 'data' }) } as {
+        model: GetStackbitYamlModel<TType>
+        name: string
+      }
     case 'object':
-      return { name, model: { ...modelCommon, type: 'object' } }
+      return { name, model: identity<Stackbit.YamlObjectModel>({ ...modelCommon, type: 'object' }) } as {
+        model: GetStackbitYamlModel<TType>
+        name: string
+      }
     case 'page':
-      return { name, model: { ...modelCommon, type: 'page', singleInstance } }
+      return { name, model: identity<Stackbit.YamlPageModel>({ ...modelCommon, ...singleInstance, type: 'page' }) } as {
+        model: GetStackbitYamlModel<TType>
+        name: string
+      }
+    default:
+      utils.casesHandled(type)
   }
 }
 
 const fieldDefToStackbitField = ({
   fieldDef,
   fieldExtension,
+  fieldOptions,
 }: {
   fieldDef: core.FieldDef
-  fieldExtension: core.StackbitExtension.FieldExtension | undefined
+  fieldExtension: StackbitExtensionField | undefined
+  fieldOptions: core.FieldOptions
 }): Stackbit.Field => {
   const commonField: Omit<Stackbit.FieldCommonProps, 'type'> = {
     name: fieldDef.name,
     required: fieldDef.isRequired,
     const: fieldExtension?.const,
-    default: fieldDef.default,
+    default: fieldExtension?.initialValue,
     description: fieldDef.description,
     hidden: fieldExtension?.hidden,
     label: fieldExtension?.label,
+    group: fieldExtension?.group,
+    readOnly: fieldExtension?.readOnly,
   }
   switch (fieldDef.type) {
     case 'enum':
@@ -108,22 +185,18 @@ const fieldDefToStackbitField = ({
         ...commonField,
         type: 'object',
         fields: fieldDef.typeDef.fieldDefs
-          .filter(not(isContentMarkdownFieldDef))
-          .map((fieldDef) => fieldDefToStackbitField({ fieldDef, fieldExtension: undefined })),
+          .filter(not(isContentMarkdownFieldDef(fieldOptions.bodyFieldName)))
+          .map((fieldDef) => fieldDefToStackbitField({ fieldDef, fieldExtension: undefined, fieldOptions })),
       }
     case 'json':
       return { ...commonField, type: 'object', fields: [] }
     case 'list':
     case 'list_polymorphic':
-      return { ...commonField, type: 'list', items: listFieldDefToStackbitFieldListItems(fieldDef) }
+      return { ...commonField, type: 'list', items: listFieldDefToStackbitFieldListItems(fieldDef, fieldOptions) }
     case 'date':
     case 'number':
     case 'string':
     case 'markdown':
-    // case 'text':
-    // case 'slug':
-    // case 'image':
-    // case 'url':
     case 'boolean':
       return { ...commonField, type: fieldDef.type }
     case 'mdx':
@@ -135,6 +208,7 @@ const fieldDefToStackbitField = ({
 
 const listFieldDefToStackbitFieldListItems = (
   fieldDef: core.ListFieldDef | core.ListPolymorphicFieldDef,
+  fieldOptions: core.FieldOptions,
 ): Stackbit.FieldListItems => {
   const getModelName = (item: core.ListFieldDefItem.ItemNested | core.ListFieldDefItem.ItemReference) =>
     item.type === 'reference' ? item.documentTypeName : item.nestedTypeName
@@ -150,7 +224,7 @@ const listFieldDefToStackbitFieldListItems = (
     // TODO make more configurable via global `objectTypeKey` option
     // https://www.stackbit.com/docs/stackbit-yaml/properties/#objecttypekey
     throw new Error(
-      `typeField needs to be called "type" in order to be supported by Stackbit. typeField found: "${fieldDef.typeField}"`,
+      `typeField needs to be called "type" in order to be supported by Stackbit. Stackbit config option "objectTypeKey" isn't supported yet. typeField found: "${fieldDef.typeField}"`,
     )
   }
 
@@ -176,8 +250,8 @@ const listFieldDefToStackbitFieldListItems = (
         return {
           type: 'object',
           fields: fieldDef.of.typeDef.fieldDefs
-            .filter(not(isContentMarkdownFieldDef))
-            .map((fieldDef) => fieldDefToStackbitField({ fieldDef, fieldExtension: undefined })),
+            .filter(not(isContentMarkdownFieldDef(fieldOptions.bodyFieldName)))
+            .map((fieldDef) => fieldDefToStackbitField({ fieldDef, fieldExtension: undefined, fieldOptions })),
         }
       case 'enum':
         return { type: 'enum', options: fieldDef.of.options as string[] }
@@ -197,5 +271,5 @@ const not =
   (...args: Parameters<Fn>) =>
     !fn(...args)
 
-const isContentMarkdownFieldDef = (fieldDef: core.FieldDef) =>
-  fieldDef.name === 'content' && fieldDef.type === 'markdown'
+const isContentMarkdownFieldDef = (bodyFieldName: string) => (fieldDef: core.FieldDef) =>
+  fieldDef.name === bodyFieldName && (fieldDef.type === 'markdown' || fieldDef.type === 'mdx')
