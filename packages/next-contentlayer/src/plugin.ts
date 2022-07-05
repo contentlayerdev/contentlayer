@@ -4,14 +4,14 @@ import * as core from '@contentlayer/core'
 import { errorToString } from '@contentlayer/utils'
 import { E, OT, pipe, S, T } from '@contentlayer/utils/effect'
 
-type Options = {
+export type NextPluginOptions = {
   configPath?: string | undefined
 }
 
 /** Seems like the next.config.js export function might be executed multiple times, so we need to make sure we only run it once */
 let contentlayerInitialized = false
 
-export const runContentlayerDev = async ({ configPath }: Options) => {
+export const runContentlayerDev = async ({ configPath }: NextPluginOptions) => {
   if (contentlayerInitialized) return
   contentlayerInitialized = true
 
@@ -26,7 +26,7 @@ export const runContentlayerDev = async ({ configPath }: Options) => {
   )
 }
 
-export const runContentlayerBuild = async ({ configPath }: Options) => {
+export const runContentlayerBuild = async ({ configPath }: NextPluginOptions) => {
   if (contentlayerInitialized) return
   contentlayerInitialized = true
 
