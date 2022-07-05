@@ -6,17 +6,22 @@
 
 Contentlayer is developed as a mono-repo using Yarn.
 
-### Cloning & installing dependencies
+### Cloning
 
 ```sh
 git clone --recurse-submodules git://github.com/contentlayerdev/contentlayer.git
-yarn install
 ```
 
-#### Checkout submodules (after cloning)
+#### Checkout submodules
 
 ```sh
 git submodule update --init --recursive
+```
+
+#### Installing Dependencies
+
+```sh
+yarn install
 ```
 
 ### Building the source
