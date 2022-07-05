@@ -17,7 +17,7 @@ module.exports.defaultPluginOptions = defaultPluginOptions
  * // next.config.mjs
  * import { createContentlayerPlugin } from 'next-contentlayer'
  *
- * const withContentlayer = createContentlayerPlugin()
+ * const withContentlayer = createContentlayerPlugin({ configPath: './content/contentlayer.config.ts' })
  *
  * export default withContentlayer({
  *   // My Next.js config
