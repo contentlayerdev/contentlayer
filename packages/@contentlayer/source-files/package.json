@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/source-files",
-  "version": "0.2.5",
+  "version": "0.2.6-dev.9",
   "type": "module",
   "exports": {
     ".": {
@@ -39,6 +39,7 @@
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
     "chokidar": "^3.5.3",
+    "date-fns": "^2",
     "date-fns-tz": "^1.3.4",
     "fast-glob": "^3.2.11",
     "gray-matter": "^4.0.3",
