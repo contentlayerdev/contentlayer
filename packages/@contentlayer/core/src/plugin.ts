@@ -124,7 +124,7 @@ export type MakeSourcePlugin<TArgs extends PartialArgs> = (
 
 export type PartialArgs = {
   markdown?: MarkdownOptions | MarkdownUnifiedBuilderCallback | undefined
-  mdx?: MarkdownOptions | undefined
+  mdx?: MDXOptions | undefined
   date?: DateOptions | undefined
   fieldOptions?: Partial<FieldOptions>
   extensions?: PluginExtensions
