@@ -1,15 +1,13 @@
 import type { NextConfig } from 'next'
 
 import { checkConstraints } from './check-constraints.js'
-import { runContentlayerBuild, runContentlayerDev } from './plugin.js'
+import { type NextPluginOptions, runContentlayerBuild, runContentlayerDev } from './plugin.js'
 
 export type { NextConfig }
 
-export type PluginOptions = {}
-
 let devServerStarted = false
 
-export const defaultPluginOptions: PluginOptions = {}
+export const defaultPluginOptions: NextPluginOptions = {}
 
 /**
  * This function allows you to provide custom plugin options (currently there are none however).
@@ -19,7 +17,7 @@ export const defaultPluginOptions: PluginOptions = {}
  * // next.config.mjs
  * import { createContentlayerPlugin } from 'next-contentlayer'
  *
- * const withContentlayer = createContentlayerPlugin()
+ * const withContentlayer = createContentlayerPlugin({ configPath: './content/contentlayer.config.ts' })
  *
  * export default withContentlayer({
  *   // My Next.js config
@@ -27,11 +25,13 @@ export const defaultPluginOptions: PluginOptions = {}
  * ```
  */
 export const createContentlayerPlugin =
-  (_pluginOptions: PluginOptions = {}) =>
+  (pluginOptions: NextPluginOptions = defaultPluginOptions) =>
   (nextConfig: Partial<NextConfig> = {}): Partial<NextConfig> => {
     // could be either `next dev` or just `next`
     const isNextDev = process.argv.includes('dev') || process.argv.some((_) => _.endsWith('/.bin/next'))
     const isBuild = process.argv.includes('build')
+
+    const { configPath } = pluginOptions
 
     return {
       ...nextConfig,
@@ -40,11 +40,11 @@ export const createContentlayerPlugin =
       redirects: async () => {
         if (isBuild) {
           checkConstraints()
-          await runContentlayerBuild()
+          await runContentlayerBuild({ configPath })
         } else if (isNextDev && !devServerStarted) {
           devServerStarted = true
           // TODO also block here until first Contentlayer run is complete
-          runContentlayerDev()
+          runContentlayerDev({ configPath })
         }
 
         return nextConfig.redirects?.() ?? []

@@ -1,12 +1,12 @@
 import type { NextConfig } from 'next'
 
-export type { NextConfig }
+import type { NextPluginOptions } from './plugin.js'
 
-export type PluginOptions = {}
+export type { NextConfig }
 
 let devServerStarted = false
 
-const defaultPluginOptions: PluginOptions = {}
+const defaultPluginOptions: NextPluginOptions = {}
 module.exports.defaultPluginOptions = defaultPluginOptions
 
 /**
@@ -25,7 +25,7 @@ module.exports.defaultPluginOptions = defaultPluginOptions
  * ```
  */
 module.exports.createContentlayerPlugin =
-  (_pluginOptions: PluginOptions = {}) =>
+  (pluginOptions: NextPluginOptions = defaultPluginOptions) =>
   (nextConfig: Partial<NextConfig> = {}): Partial<NextConfig> => {
     // could be either `next dev` or just `next`
     const isNextDev = process.argv.includes('dev') || process.argv.some((_) => _.endsWith('/.bin/next'))
@@ -43,11 +43,11 @@ module.exports.createContentlayerPlugin =
         // NOTE since next.config.js doesn't support ESM yet, this "CJS -> ESM bridge" is needed
         const { runContentlayerBuild, runContentlayerDev } = await import('./plugin.js')
         if (isBuild) {
-          await runContentlayerBuild()
+          await runContentlayerBuild(pluginOptions)
         } else if (isNextDev && !devServerStarted) {
           devServerStarted = true
           // TODO also block here until first Contentlayer run is complete
-          runContentlayerDev()
+          runContentlayerDev(pluginOptions)
         }
 
         return nextConfig.redirects?.() ?? []
