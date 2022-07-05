@@ -369,7 +369,7 @@ export const makeDataTypes = ({ schemaDef }: { schemaDef: SchemaDef }): string =
 
 import { ${documentTypeNames}, DocumentTypes } from './types'
 
-export type * from './types'
+export * from './types'
 
 ${dataConsts}
 
