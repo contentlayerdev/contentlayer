@@ -85,5 +85,6 @@ Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest
 - [gipsterya.com](https://gipsterya.com)
 - [seankerwin.dev](https://seankerwin.dev) ([Source](https://github.com/lordkerwin/v2))
 - [royanger.dev](https://royanger.dev) ([Source](https://github.com/royanger/royanger.com))
+- [akashrajpurohit.com](https://akashrajpurohit.com/)
 
 Are you using Contentlayer? Please add your page (and repo) to the end of the list via a PR. 🙏
