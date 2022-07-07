@@ -19,11 +19,13 @@ export type Input = {
   contentTypeMap: ContentTypeMap
 }
 
+// FIXME: naming
 export type DTO = {
     input: Input;
     environmentSeed: any;
 }
 
+// FIXME: naming
 // This runs on the host, what is passed into the worker at `pool.run` has to
 // be serializable.
 export function createPool() {
@@ -34,10 +36,10 @@ export function createPool() {
     });
 
     return (dto: DTO): T.Effect<
-  OT.HasTracer & HasConsole & HasDocumentTypeMapState,
-  never,
-  These.These<FetchDataError.FetchDataError, core.DataCache.CacheItem>
-> =>
+          OT.HasTracer & HasConsole & HasDocumentTypeMapState,
+          never,
+          These.These<FetchDataError.FetchDataError, core.DataCache.CacheItem>
+        > =>
         pipe(
             T.promise(() => pool.run(dto, {name: 'makeCacheItemFromFilePath'})),
             T.chain(({_tag, value}) =>
@@ -55,7 +57,7 @@ export function createPool() {
 // the return value has to be serializable.
 export const makeCacheItemFromFilePath = (dto: DTO) => {
         // TODO: construct env
-        const env: OT.HasTracer & HasConsole & HasDocumentTypeMapState = undefined;
+        const env = undefined as unknown as OT.HasTracer & HasConsole & HasDocumentTypeMapState;
         return pipe(
             _.makeCacheItemFromFilePath(dto.input),
             T.fold(

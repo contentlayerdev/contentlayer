@@ -1,8 +1,7 @@
+import type { DocumentTypes } from 'contentlayer/generated'
+import { allDocuments } from 'contentlayer/generated'
 import Head from 'next/head'
 import type { FC } from 'react'
-
-import { allDocuments } from 'contentlayer/generated'
-import type { DocumentTypes } from 'contentlayer/generated'
 
 export const getStaticPaths = () => {
   const paths = allDocuments.map((_) => `/${_._raw.flattenedPath}`)
