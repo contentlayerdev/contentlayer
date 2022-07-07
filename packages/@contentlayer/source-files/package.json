@@ -43,6 +43,7 @@
     "fast-glob": "^3.2.11",
     "gray-matter": "^4.0.3",
     "micromatch": "^4.0.5",
+    "piscina": "^3.2.0",
     "ts-pattern": "^4.0.2",
     "unified": "^10.1.2",
     "yaml": "^1.10.2"

@@ -13,6 +13,7 @@ import type { ContentTypeMap, FilePathPatternMap } from '../types.js'
 import type { HasDocumentTypeMapState } from './DocumentTypeMap.js'
 import { DocumentTypeMapState, provideDocumentTypeMapState } from './DocumentTypeMap.js'
 import { makeCacheItemFromFilePath } from './makeCacheItemFromFilePath.js'
+import {createPool} from './makeCacheItemFromFilePath.worker.js'
 
 export const fetchAllDocuments = ({
   coreSchemaDef,
@@ -45,11 +46,16 @@ export const fetchAllDocuments = ({
 
       const concurrencyLimit = os.cpus().length
 
+      const run = createPool();
+      // TODO: deconstruct environment state
+      const environmentSeed = {};
+
       const { dataErrors, documents } = yield* $(
         pipe(
           allRelativeFilePaths,
+          // TODO: parallalize
           T.forEachParN(concurrencyLimit, (relativeFilePath) =>
-            makeCacheItemFromFilePath({
+            run({environmentSeed, input: {
               relativeFilePath,
               filePathPatternMap,
               coreSchemaDef,
@@ -57,7 +63,7 @@ export const fetchAllDocuments = ({
               options,
               previousCache,
               contentTypeMap,
-            }),
+            }}),
           ),
           T.map(Chunk.partitionThese),
           T.map(({ tuple: [errors, docs] }) => ({ dataErrors: Chunk.toArray(errors), documents: Chunk.toArray(docs) })),
