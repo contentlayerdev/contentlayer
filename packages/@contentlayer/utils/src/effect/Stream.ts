@@ -65,6 +65,8 @@ export const startWith =
 export const startWithRight =
   <A2>(value: A2) =>
   <R1, E1, A1>(stream: S.Stream<R1, never, E.Either<E1, A1>>): S.Stream<R1, never, E.Either<E1, A2 | A1>> =>
+    // TODO: Is this correct? Technically, I think this inserts the "init" _after_ any events -> race condition?
+    // how about `S.merge_(S.fromIterable([E.right(value)]), stream)`
     S.merge_(stream, S.fromIterable([E.right(value)]))
 
 export const chainMapEitherRight =
