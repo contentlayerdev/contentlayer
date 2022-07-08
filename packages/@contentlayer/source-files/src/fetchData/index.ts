@@ -163,8 +163,8 @@ const updateCacheEntry = ({
           previousCache: cache,
           contentTypeMap,
         }),
-        // NOTE in this code path the DocumentTypeMapState is not used
-        provideDocumentTypeMapState,
+        // We're not interested in the documentTypeMap in this branch, so we discard it.
+        T.map((_) => _.tuple[0]),
         These.effectTapSuccess((cacheItem) =>
           T.succeedWith(() => {
             cache.cacheItemsMap[event.relativeFilePath] = cacheItem

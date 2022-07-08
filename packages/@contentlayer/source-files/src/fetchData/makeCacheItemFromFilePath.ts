@@ -2,7 +2,7 @@ import type * as core from '@contentlayer/core'
 import type { PosixFilePath } from '@contentlayer/utils'
 import { filePathJoin } from '@contentlayer/utils'
 import type { HasConsole } from '@contentlayer/utils/effect'
-import { identity, O, OT, pipe, T, These } from '@contentlayer/utils/effect'
+import { E, identity, O, Option, OT, pipe, T, These, Tuple } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
 import matter from 'gray-matter'
 import yaml from 'yaml'
@@ -10,7 +10,7 @@ import yaml from 'yaml'
 import { FetchDataError } from '../errors/index.js'
 import type { ContentTypeMap, FilePathPatternMap } from '../types.js'
 import { makeAndProvideDocumentContext } from './DocumentContext.js'
-import type { HasDocumentTypeMapState } from './DocumentTypeMap.js'
+import type { DocumentTypeName, HasDocumentTypeMapState } from './DocumentTypeMap.js'
 import { DocumentTypeMapState } from './DocumentTypeMap.js'
 import { makeDocument } from './mapping.js'
 import type { RawContent, RawContentJSON, RawContentMarkdown, RawContentMDX, RawContentYAML } from './types.js'
@@ -33,9 +33,14 @@ export const makeCacheItemFromFilePath = ({
   previousCache: core.DataCache.Cache | undefined
   contentTypeMap: ContentTypeMap
 }): T.Effect<
-  OT.HasTracer & HasConsole & HasDocumentTypeMapState,
+  OT.HasTracer & HasConsole,
   never,
-  These.These<FetchDataError.FetchDataError, core.DataCache.CacheItem>
+  Tuple.Tuple<
+    [
+      These.These<FetchDataError.FetchDataError, core.DataCache.CacheItem>,
+      Option.Option<Tuple.Tuple<[DocumentTypeName, PosixFilePath]>>,
+    ]
+  >
 > =>
   pipe(
     T.gen(function* ($) {
@@ -56,14 +61,17 @@ export const makeCacheItemFromFilePath = ({
         previousCache.cacheItemsMap[relativeFilePath]!.hasWarnings === false
       ) {
         const cacheItem = previousCache.cacheItemsMap[relativeFilePath]!
-        yield* $(DocumentTypeMapState.update((_) => _.add(cacheItem.documentTypeName, relativeFilePath)))
+        const documentTypeTuple = Option.some(Tuple.tuple(cacheItem.documentTypeName, relativeFilePath))
 
-        return These.succeed(cacheItem)
+        return Tuple.tuple(These.succeed(cacheItem), documentTypeTuple)
       }
 
       const rawContent = yield* $(processRawContent({ fullFilePath, relativeFilePath }))
 
-      const [{ documentTypeDef }, warnings] = yield* $(
+      const {
+        data: [{ documentTypeDef }, warnings],
+        documentTypeTuple,
+      } = yield* $(
         pipe(
           validateDocumentData({
             rawContent,
@@ -74,8 +82,14 @@ export const makeCacheItemFromFilePath = ({
             contentDirPath,
             contentTypeMap,
           }),
-          T.chain(These.toEffect),
           T.map((_) => _.tuple),
+          T.chain(([data, documentTypeTuple]) =>
+            pipe(
+              These.toEffect(data),
+              T.map((_) => _.tuple),
+              T.map((data) => ({ data, documentTypeTuple })),
+            ),
+          ),
         ),
       )
 
@@ -102,9 +116,17 @@ export const makeCacheItemFromFilePath = ({
         })
       }
 
-      return These.warnOption(
-        { document, documentHash, hasWarnings: O.isSome(warnings), documentTypeName: documentTypeDef.name },
-        warnings,
+      return Tuple.tuple(
+        These.warnOption(
+          {
+            document,
+            documentHash,
+            hasWarnings: O.isSome(warnings),
+            documentTypeName: documentTypeDef.name,
+          },
+          warnings,
+        ),
+        documentTypeTuple,
       )
     }),
     OT.withSpan('@contentlayer/source-local/fetchData:makeCacheItemFromFilePath'),
@@ -118,7 +140,8 @@ export const makeCacheItemFromFilePath = ({
           return error
       }
     }),
-    These.effectThese,
+    T.either,
+    T.map(E.fold((e) => Tuple.tuple(These.fail(e), Option.none), identity)),
   )
 
 const processRawContent = ({

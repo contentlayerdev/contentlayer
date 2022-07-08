@@ -1,15 +1,14 @@
 import type * as core from '@contentlayer/core'
 import type { PosixFilePath } from '@contentlayer/utils'
 import { filePathJoin } from '@contentlayer/utils'
-import { O, OT, pipe, T, These } from '@contentlayer/utils/effect'
+import { O, Option, OT, pipe, T, These, Tuple } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
 import micromatch from 'micromatch'
 
 import { FetchDataError } from '../errors/index.js'
 import type { DocumentContentType, FilePathPatternMap } from '../index.js'
 import type { ContentTypeMap } from '../types.js'
-import type { HasDocumentTypeMapState } from './DocumentTypeMap.js'
-import { DocumentTypeMapState } from './DocumentTypeMap.js'
+import type { DocumentTypeName } from './DocumentTypeMap.js'
 import type { RawContent } from './types.js'
 
 type ValidateDocumentDataError =
@@ -39,9 +38,14 @@ export const validateDocumentData = ({
   contentDirPath: PosixFilePath
   contentTypeMap: ContentTypeMap
 }): T.Effect<
-  HasDocumentTypeMapState & OT.HasTracer,
+  OT.HasTracer,
   never,
-  These.These<ValidateDocumentDataError, { documentTypeDef: core.DocumentTypeDef }>
+  Tuple.Tuple<
+    [
+      These.These<ValidateDocumentDataError, { documentTypeDef: core.DocumentTypeDef }>,
+      Option.Option<Tuple.Tuple<[DocumentTypeName, PosixFilePath]>>,
+    ]
+  >
 > =>
   pipe(
     T.gen(function* ($) {
@@ -51,27 +55,36 @@ export const validateDocumentData = ({
 
       if (documentDefName === undefined) {
         const typeFieldName = options.fieldOptions.typeFieldName
-        return These.fail(
-          new FetchDataError.CouldNotDetermineDocumentTypeError({ documentFilePath: relativeFilePath, typeFieldName }),
+        return Tuple.tuple(
+          These.fail(
+            new FetchDataError.CouldNotDetermineDocumentTypeError({
+              documentFilePath: relativeFilePath,
+              typeFieldName,
+            }),
+          ),
+          Option.none,
         )
       }
 
       const documentTypeDef = coreSchemaDef.documentTypeDefMap[documentDefName]
 
       if (documentTypeDef === undefined) {
-        return These.fail(
-          new FetchDataError.NoSuchDocumentTypeError({
-            documentTypeName: documentDefName,
-            documentFilePath: relativeFilePath,
-          }),
+        return Tuple.tuple(
+          These.fail(
+            new FetchDataError.NoSuchDocumentTypeError({
+              documentTypeName: documentDefName,
+              documentFilePath: relativeFilePath,
+            }),
+          ),
+          Option.none,
         )
       }
 
       const contentType = contentTypeMap[documentTypeDef.name]!
       const mismatchError = validateContentTypeMatchesFileExtension({ contentType, relativeFilePath })
-      if (mismatchError) return These.fail(mismatchError)
+      if (mismatchError) return Tuple.tuple(These.fail(mismatchError), Option.none)
 
-      yield* $(DocumentTypeMapState.update((_) => _.add(documentDefName, relativeFilePath)))
+      const meta = Option.some(Tuple.tuple(documentDefName, relativeFilePath))
 
       const existingDataFieldKeys = Object.keys(rawContent.fields)
 
@@ -83,12 +96,15 @@ export const validateDocumentData = ({
         (fieldDef) => !existingDataFieldKeys.includes(fieldDef.name),
       )
       if (misingRequiredFieldDefs.length > 0) {
-        return These.fail(
-          new FetchDataError.MissingRequiredFieldsError({
-            documentFilePath: relativeFilePath,
-            documentTypeName: documentTypeDef.name,
-            fieldDefsWithMissingData: misingRequiredFieldDefs,
-          }),
+        return Tuple.tuple(
+          These.fail(
+            new FetchDataError.MissingRequiredFieldsError({
+              documentFilePath: relativeFilePath,
+              documentTypeName: documentTypeDef.name,
+              fieldDefsWithMissingData: misingRequiredFieldDefs,
+            }),
+          ),
+          meta,
         )
       }
 
@@ -124,13 +140,12 @@ export const validateDocumentData = ({
         )
 
         if (O.isSome(fieldValidOption)) {
-          return These.fail(fieldValidOption.value)
+          return Tuple.tuple(These.fail(fieldValidOption.value), meta)
         }
       }
 
       // TODO validate nesteds
-
-      return These.warnOption({ documentTypeDef }, warningOption)
+      return Tuple.tuple(These.warnOption({ documentTypeDef }, warningOption), meta)
     }),
     OT.withSpan('validateDocumentData', { attributes: { relativeFilePath } }),
   )

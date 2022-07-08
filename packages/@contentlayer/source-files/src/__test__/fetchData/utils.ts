@@ -54,6 +54,10 @@ export const runTest = async ({
           previousCache: undefined,
           contentTypeMap,
         }),
+        // TODO: DocumentTypeMap is now explicitly returned from
+        // makeCacheItemFromFilePath in [1]. Verify that it is tested somewhere
+        // else, as we're throwing it away here.
+        T.map((_) => _.tuple[0]),
         These.effectToEither,
       ),
     )
