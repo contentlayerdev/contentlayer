@@ -1,6 +1,8 @@
 import { provideDummyTracing } from '@contentlayer/utils'
 import { pipe, provideConsole, T } from '@contentlayer/utils/effect'
 import type { _A, _E } from '@effect-ts/core/Utils'
+import fs from 'node:fs'
+import * as os from 'node:os'
 import Pool from 'piscina'
 
 import * as _ from './makeCacheItemFromFilePath.js'
@@ -14,11 +16,16 @@ export type Either<E, A> = Left<E, A> | Right<E, A>
 type DTO = Either<_E<ReturnType<F>>, _A<ReturnType<F>>>
 
 // FIXME: naming
-// This runs on the host, what is passed into the worker at `pool.run` has to
-// be serializable.
 export function fromWorkerPool(): F {
-  // I believe, by default, #workers = #cpu cores, which is probably what we want?
+  const l = os.cpus().length
   const pool = new Pool({
+    // "Our testing has shown that a maxQueue size of approximately the square
+    // of the maximum number of threads is generally sufficient and performs
+    // well for many cases"
+    //
+    // via https://github.com/piscinajs/piscina#queue-size
+    maxQueue: l ** l,
+    maxThreads: l,
     // FIXME: get path dynamically
     filename:
       '/home/ts/dev/code/contentlayer/packages/@contentlayer/source-files/dist/fetchData/makeCacheItemFromFilePath.worker.js',
@@ -26,15 +33,16 @@ export function fromWorkerPool(): F {
 
   return (payload) =>
     pipe(
-      T.succeedWith(() => JSON.stringify(payload)),
+      // host -> worker
+      T.succeedWith(() => JSON.stringify(payload, null, 2)),
       T.chain((value) => T.promise<string>(() => pool.run(value, { name: 'makeCacheItemFromFilePath' }))),
+      // worker -> host
       T.chain((value) => T.succeedWith<DTO>(() => JSON.parse(value))),
       T.chain(({ _tag, value }) =>
         T.if_(
           _tag === 'right',
-          // FIXME: effect
           () => T.succeedWith(() => value),
-          // FIXME: Signature claims it doesn't fail.
+          // Signature claims it doesn't fail, so we're just dying here.
           () => T.die(value),
         ),
       ),
@@ -54,6 +62,6 @@ export function makeCacheItemFromFilePath(payload: string): Promise<string> {
     provideConsole,
     provideDummyTracing,
     T.runPromise,
-    (p) => p.then((value) => JSON.stringify(value)),
+    (p) => p.then((value) => JSON.stringify(value, null, 2)),
   )
 }

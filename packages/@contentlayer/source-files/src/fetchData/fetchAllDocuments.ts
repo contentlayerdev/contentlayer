@@ -74,7 +74,8 @@ export const fetchAllDocuments = ({
               }
               const res = These.result(a)
               if (E.isLeft(res)) {
-                errors = Chunk.append_(errors, res.left)
+                // FIXME: type
+                errors = Chunk.append_(errors, FetchDataError.fromSerialized(res.left as unknown as any))
               } else {
                 values = Chunk.append_(values, res.right.tuple[0])
                 const warning = res.right.tuple[1]
