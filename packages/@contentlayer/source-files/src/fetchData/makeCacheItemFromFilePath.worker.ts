@@ -1,7 +1,6 @@
 import { provideDummyTracing } from '@contentlayer/utils'
 import { pipe, provideConsole, T } from '@contentlayer/utils/effect'
 import type { _A, _E } from '@effect-ts/core/Utils'
-import fs from 'node:fs'
 import * as os from 'node:os'
 import Pool from 'piscina'
 
@@ -9,23 +8,24 @@ import * as _ from './makeCacheItemFromFilePath.js'
 
 type F = typeof _.makeCacheItemFromFilePath
 
-export type Left<E, A> = { _tag: 'left'; value: E }
-export type Right<E, A> = { _tag: 'right'; value: A }
+export type Left<E, _> = { _tag: 'left'; value: E }
+export type Right<_, A> = { _tag: 'right'; value: A }
 export type Either<E, A> = Left<E, A> | Right<E, A>
 
 type DTO = Either<_E<ReturnType<F>>, _A<ReturnType<F>>>
 
 // FIXME: naming
 export function fromWorkerPool(): F {
-  const l = os.cpus().length
+  const cores = os.cpus().length
   const pool = new Pool({
     // "Our testing has shown that a maxQueue size of approximately the square
     // of the maximum number of threads is generally sufficient and performs
     // well for many cases"
     //
     // via https://github.com/piscinajs/piscina#queue-size
-    maxQueue: l ** l,
-    maxThreads: l,
+    maxQueue: cores ** cores,
+    // by default, this is cores * 1.5
+    maxThreads: cores,
     // FIXME: get path dynamically
     filename:
       '/home/ts/dev/code/contentlayer/packages/@contentlayer/source-files/dist/fetchData/makeCacheItemFromFilePath.worker.js',
