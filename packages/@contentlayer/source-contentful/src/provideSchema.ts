@@ -34,7 +34,7 @@ export const provideSchema = ({
 
       // ;(await import('fs')).writeFileSync('.tmp.contentTypes.json', JSON.stringify(contentTypes, null, 2))
 
-      const [documentContentTypes, objectContentTypes] = partition(contentTypes, (_) =>
+      const [documentContentTypes, objectContentTypes] = partition(contentTypes, (_): _ is Contentful.ContentType =>
         isDocument({ schemaOverrides, contentTypeId: _.sys.id }),
       )
 
