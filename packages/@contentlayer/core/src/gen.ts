@@ -33,8 +33,16 @@ export type GetFieldNamesForDefinitionGen<DefName extends string> =
     : keyof GetNestedTypeGen<DefName>
 
 declare global {
-  // NOTE will be extended via `node_modules/@types/contentlayer/types/index.d.ts`
-  interface ContentlayerGen {}
+  // NOTE will be extended via `$YOUR_PROJECT/.contentlayer/generated/types.d.ts`
+  interface ContentlayerGen {
+    // documentTypes: DocumentTypes
+    // documentTypeMap: DocumentTypeMap
+    // documentTypeNames: DocumentTypeNames
+    // nestedTypes: NestedTypes
+    // nestedTypeMap: NestedTypeMap
+    // nestedTypeNames: NestedTypeNames
+    // allTypeNames: AllTypeNames
+  }
 }
 
 export type CacheGen = Omit<DataCache.Cache, 'documents'> & { documents: DocumentGen[] }

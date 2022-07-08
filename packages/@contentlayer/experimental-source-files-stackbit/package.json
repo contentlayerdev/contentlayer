@@ -1,0 +1,38 @@
+{
+  "name": "@contentlayer/experimental-source-files-stackbit",
+  "version": "0.2.7-dev.6",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "./dist/*.{js,ts,map}",
+    "./dist/!(__test__)/**/*.{js,ts,map}",
+    "./src",
+    "./package.json"
+  ],
+  "scripts": {
+    "test": "TZ='GMT' FORCE_COLOR=1 vitest"
+  },
+  "peerDependencies": {
+    "@stackbit/sdk": "~0.2.34"
+  },
+  "peerDependenciesMeta": {
+    "@stackbit/sdk": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@contentlayer/core": "workspace:*",
+    "@contentlayer/source-files": "workspace:*",
+    "@contentlayer/utils": "workspace:*",
+    "@stackbit/sdk": "~0.2.34"
+  },
+  "devDependencies": {
+    "vite": "^2.9.8",
+    "vitest": "^0.12.4"
+  }
+}

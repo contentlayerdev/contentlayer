@@ -1631,6 +1631,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@contentlayer/experimental-source-files-stackbit@workspace:packages/@contentlayer/experimental-source-files-stackbit":
+  version: 0.0.0-use.local
+  resolution: "@contentlayer/experimental-source-files-stackbit@workspace:packages/@contentlayer/experimental-source-files-stackbit"
+  dependencies:
+    "@contentlayer/core": "workspace:*"
+    "@contentlayer/source-files": "workspace:*"
+    "@contentlayer/utils": "workspace:*"
+    "@stackbit/sdk": ~0.2.34
+    vite: ^2.9.8
+    vitest: ^0.12.4
+  peerDependencies:
+    "@stackbit/sdk": ~0.2.34
+  peerDependenciesMeta:
+    "@stackbit/sdk":
+      optional: true
+  languageName: unknown
+  linkType: soft
+
 "@contentlayer/source-contentful@workspace:*, @contentlayer/source-contentful@workspace:packages/@contentlayer/source-contentful":
   version: 0.0.0-use.local
   resolution: "@contentlayer/source-contentful@workspace:packages/@contentlayer/source-contentful"
@@ -3481,6 +3499,25 @@ __metadata:
     moment: ^2.29.1
     semver: ^7.3.5
   checksum: 540130e3e17655b8a781954acd9598fe3c826c51522d5280edc7c97cd5833290684de57f1c05b74c901772d2275aeacf9ab2d7d183608d5f4d64e1dd44441e4e
+  languageName: node
+  linkType: hard
+
+"@stackbit/sdk@npm:~0.2.34":
+  version: 0.2.34
+  resolution: "@stackbit/sdk@npm:0.2.34"
+  dependencies:
+    "@octokit/rest": ^18.3.5
+    "@stackbit/utils": ^0.2.3
+    acorn: ^8.2.4
+    esbuild: ^0.14.42
+    fs-extra: ^9.1.0
+    joi: ^17.4.0
+    js-yaml: ^4.0.0
+    lodash: ^4.17.20
+    micromatch: ^4.0.2
+    moment: ^2.29.1
+    semver: ^7.3.5
+  checksum: 2e7fb994c6746eb9cc1e90098cf66780ff6c4b0228d8190fbd788535e579940d6890ca257dfd6474e7dfc8321d7e8cc132128c251a605334d5482e2452eaed23
   languageName: node
   linkType: hard
 
@@ -6337,7 +6374,7 @@ __metadata:
     eslint-plugin-simple-import-sort: ^7.0.0
     prettier: ^2.6.2
     ts-patch: ^2.0.1
-    typescript: ^4.6.4
+    typescript: ^4.7.4
   languageName: unknown
   linkType: soft
 
@@ -6351,7 +6388,7 @@ __metadata:
     clipanion: ^3.2.0-rc.11
     contentlayer: "workspace:*"
     typanion: 3.8.0
-    typescript: ^4.6.4
+    typescript: ^4.7.4
     vite: ^2.9.8
     vitest: ^0.12.4
     yaml: ^1.10.2
@@ -6369,7 +6406,7 @@ __metadata:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/source-files": "workspace:*"
     "@contentlayer/utils": "workspace:*"
-    typescript: ^4.6.4
+    typescript: ^4.7.4
   bin:
     contentlayer: ./bin/cli.cjs
   languageName: unknown
@@ -8427,7 +8464,7 @@ __metadata:
     react-html-parser: ^2.0.2
     react-script-tag: ^1.1.2
     sass: ^1.32.7
-    typescript: ^4.6.4
+    typescript: ^4.7.4
   languageName: unknown
   linkType: soft
 
@@ -8451,7 +8488,7 @@ __metadata:
     react-html-parser: ^2.0.2
     react-script-tag: ^1.1.2
     sass: ^1.32.7
-    typescript: ^4.6.4
+    typescript: ^4.7.4
   languageName: unknown
   linkType: soft
 
@@ -8473,7 +8510,7 @@ __metadata:
     react-html-parser: ^2.0.2
     react-script-tag: ^1.1.2
     sass: ^1.32.7
-    typescript: ^4.6.4
+    typescript: ^4.7.4
   languageName: unknown
   linkType: soft
 
@@ -8496,7 +8533,7 @@ __metadata:
     react-html-parser: ^2.0.2
     react-script-tag: ^1.1.2
     sass: ^1.32.7
-    typescript: ^4.6.4
+    typescript: ^4.7.4
   languageName: unknown
   linkType: soft
 
@@ -8513,7 +8550,7 @@ __metadata:
     react: 18.1.0
     react-dom: 18.1.0
     rehype-highlight: ^5.0.2
-    typescript: ^4.6.4
+    typescript: ^4.7.4
   languageName: unknown
   linkType: soft
 
@@ -8544,7 +8581,7 @@ __metadata:
     react: 18.1.0
     react-dom: 18.1.0
     rehype-highlight: ^5.0.2
-    typescript: ^4.6.4
+    typescript: ^4.7.4
   languageName: unknown
   linkType: soft
 
@@ -10451,7 +10488,7 @@ fsevents@~2.3.2:
   resolution: "integration-tests@workspace:packages/integration-tests"
   dependencies:
     contentlayer: "workspace:*"
-    typescript: ^4.6.4
+    typescript: ^4.7.4
     vite: ^2.9.8
     vitest: ^0.12.4
   languageName: unknown
@@ -13336,7 +13373,7 @@ fsevents@~2.3.2:
     react: 18.1.0
     react-dom: 18.1.0
     tailwindcss: ^3.0.24
-    typescript: 4.6.4
+    typescript: 4.7.4
   languageName: unknown
   linkType: soft
 
@@ -13348,7 +13385,7 @@ fsevents@~2.3.2:
     "@contentlayer/utils": "workspace:*"
     next: ^12.1.6
     rxjs: ^7.1.0
-    typescript: ^4.6.4
+    typescript: ^4.7.4
   peerDependencies:
     next: ^12
     react: "*"
@@ -18958,23 +18995,23 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"typescript@npm:4.6.4, typescript@npm:^4.6.4":
-  version: 4.6.4
-  resolution: "typescript@npm:4.6.4"
+"typescript@npm:4.7.4, typescript@npm:^4.7.4":
+  version: 4.7.4
+  resolution: "typescript@npm:4.7.4"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: e7bfcc39cd4571a63a54e5ea21f16b8445268b9900bf55aee0e02ad981be576acc140eba24f1af5e3c1457767c96cea6d12861768fb386cf3ffb34013718631a
+  checksum: 5750181b1cd7e6482c4195825547e70f944114fb47e58e4aa7553e62f11b3f3173766aef9c281783edfd881f7b8299cf35e3ca8caebe73d8464528c907a164df
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@4.6.4#~builtin<compat/typescript>, typescript@patch:typescript@^4.6.4#~builtin<compat/typescript>":
-  version: 4.6.4
-  resolution: "typescript@patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=493e53"
+"typescript@patch:typescript@4.7.4#~builtin<compat/typescript>, typescript@patch:typescript@^4.7.4#~builtin<compat/typescript>":
+  version: 4.7.4
+  resolution: "typescript@patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=493e53"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 8cff08bf66d9ecfbf9fcc5edde04a5a7923e6cac3b21d99b4e9a06973bf5bd7f9a83ec7eed24129c1b9e13fd861de8c1070110d4b9ce9f18ab57c6999e9c9a6f
+  checksum: 96d3030cb01143570567cb4f3a616b10df65f658f0e74e853e77a089a6a954e35c800be7db8b9bfe9a1ae05d9c2897e281359f65e4caa1caf266368e1c4febd3
   languageName: node
   linkType: hard
 

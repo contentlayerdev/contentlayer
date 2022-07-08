@@ -38,7 +38,7 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "prettier": "^2.6.2",
     "ts-patch": "^2.0.1",
-    "typescript": "^4.6.4"
+    "typescript": "^4.7.4"
   },
   "resolutions": {
     "esbuild": "0.14.38",

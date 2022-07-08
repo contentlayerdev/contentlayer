@@ -24,6 +24,6 @@
     "contentlayer": "workspace:*",
     "contentlayer-stackbit-yaml-generator": "workspace:*",
     "next-contentlayer": "workspace:*",
-    "typescript": "^4.6.4"
+    "typescript": "^4.7.4"
   }
 }

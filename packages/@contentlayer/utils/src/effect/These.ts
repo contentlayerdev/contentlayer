@@ -9,8 +9,8 @@ import { _A, _E } from '@effect-ts/core/Effect'
 import { E, O, T } from './index.js'
 
 export class These<E, A> {
-  readonly [_E]: () => E;
-  readonly [_A]: () => A
+  readonly [_E]!: () => E;
+  readonly [_A]!: () => A
   constructor(readonly either: E.Either<E, Tp.Tuple<[A, O.Option<E>]>>) {}
 }
 

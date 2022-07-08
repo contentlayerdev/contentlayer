@@ -13,6 +13,7 @@ export * as pattern from 'ts-pattern'
 import { Tagged } from '@effect-ts/core/Case'
 // inflection is a CJS module, so we need to import it as default export
 import inflection from 'inflection'
+
 export { inflection }
 
 export const recRemoveUndefinedValues = (val: any): void => {
@@ -29,19 +30,27 @@ export const recRemoveUndefinedValues = (val: any): void => {
   }
 }
 
-export const partition = <T>(arr: T[], isLeft: (_: T) => boolean): [T[], T[]] => {
+export const partition = <T, TLeft extends T>(
+  arr: T[],
+  isLeft: (_: T) => _ is TLeft,
+): [TLeft[], Exclude<T, TLeft>[]] => {
   return arr.reduce(
     (acc, el) => {
       if (isLeft(el)) {
-        acc[0].push(el)
+        acc[0]!.push(el)
       } else {
-        acc[1].push(el)
+        acc[1]!.push(el as Exclude<T, TLeft>)
       }
       return acc
     },
-    [[], []] as [T[], T[]],
+    [[], []] as [TLeft[], Exclude<T, TLeft>[]],
   )
 }
+
+export const not =
+  <T, TGuarded extends T>(guard: (_: T) => _ is TGuarded) =>
+  (el: T): el is Exclude<T, TGuarded> =>
+    !guard(el)
 
 export const errorToString = (error: any) => {
   const stack = process.env.CL_DEBUG ? error.stack : undefined
@@ -60,6 +69,10 @@ export const capitalizeFirstLetter = (str: string): string => str.charAt(0).toUp
  */
 export function casesHandled(x: never): never {
   throw new Error(`A case was not handled for value: ${JSON.stringify(x)}`)
+}
+
+export function notImplemented(msg?: string): never {
+  throw new Error(`Not yet implemented ${msg}`)
 }
 
 export type Thunk<T> = () => T

@@ -11,7 +11,7 @@ export const convertSchema = (
   const documentTypeDefs = Object.values(documentTypeDefMap)
   const [pageDocumentDefs, dataDocumentDefs] = utils.partition(
     documentTypeDefs,
-    (_) =>
+    (_): _ is core.DocumentTypeDef =>
       _.fieldDefs.some((_) => _.name === urlPathFieldName) || _.computedFields.some((_) => _.name === urlPathFieldName),
   )
   const pagesDir = extensions.stackbit?.pagesDir
