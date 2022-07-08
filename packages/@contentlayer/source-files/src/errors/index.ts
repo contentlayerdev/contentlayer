@@ -355,6 +355,47 @@ This is possibly a bug in Contentlayer. Please open an issue.`
 
     renderLine = () => `"${this.documentFilePath}": ${errorToString(this.error)}`
   }
+
+  const tagToError = {
+    InvalidFrontmatterError: InvalidFrontmatterError,
+    InvalidMarkdownFileError: InvalidMarkdownFileError,
+    InvalidYamlFileError: InvalidYamlFileError,
+    InvalidJsonFileError: InvalidJsonFileError,
+    ComputedValueError: ComputedValueError,
+    UnsupportedFileExtension: UnsupportedFileExtension,
+    FileExtensionMismatch: FileExtensionMismatch,
+    NoSuchDocumentTypeError: NoSuchDocumentTypeError,
+    NoSuchNestedDocumentTypeError: NoSuchNestedDocumentTypeError,
+    CouldNotDetermineDocumentTypeError: CouldNotDetermineDocumentTypeError,
+    MissingRequiredFieldsError: MissingRequiredFieldsError,
+    ExtraFieldDataError: ExtraFieldDataError,
+    ReferencedFileDoesNotExistError: ReferencedFileDoesNotExistError,
+    IncompatibleFieldDataError: IncompatibleFieldDataError,
+    SingletonDocumentNotFoundError: SingletonDocumentNotFoundError,
+    UnexpectedError: UnexpectedError,
+  }
+
+  export const fromSerialized = ({
+    _tag,
+    ...rest
+  }: {
+    _tag: keyof typeof tagToError
+    // FIXME: Obviously, this type is a lie, arguments would be a union of
+    // class params, instead of an intersection.
+    readonly error: unknown
+    readonly documentFilePath: PosixFilePath
+    readonly documentTypeName: string
+    readonly fieldName: string
+    readonly extension: string
+    readonly filePath: string
+    readonly typeFieldName: string
+    readonly contentType: DocumentContentType
+    readonly referencedFilePath: PosixFilePath
+    readonly validNestedTypeNames: readonly string[]
+    readonly fieldDefsWithMissingData: core.FieldDef[]
+    readonly extraFieldEntries: readonly (readonly [fieldKey: string, fieldValue: any])[]
+    readonly incompatibleFieldData: readonly (readonly [fieldKey: string, fieldValue: any])[]
+  }): FetchDataError => new tagToError[_tag](rest)
 }
 
 export type SchemaError = DuplicateBodyFieldError
