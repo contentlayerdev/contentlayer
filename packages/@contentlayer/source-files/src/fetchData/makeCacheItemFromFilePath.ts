@@ -10,7 +10,7 @@ import yaml from 'yaml'
 import { FetchDataError } from '../errors/index.js'
 import type { ContentTypeMap, FilePathPatternMap } from '../types.js'
 import { makeAndProvideDocumentContext } from './DocumentContext.js'
-import type { DocumentTypeName, HasDocumentTypeMapState } from './DocumentTypeMap.js'
+import type { DocumentTypeName } from './DocumentTypeMap.js'
 import { makeDocument } from './mapping.js'
 import type { RawContent, RawContentJSON, RawContentMarkdown, RawContentMDX, RawContentYAML } from './types.js'
 import { validateDocumentData } from './validateDocumentData.js'
@@ -20,6 +20,7 @@ export const makeCacheItemFromFilePath = ({
   filePathPatternMap,
   coreSchemaDef,
   contentDirPath,
+  // FIXME: This doesn't serialize properly.
   options,
   previousCache,
   contentTypeMap,

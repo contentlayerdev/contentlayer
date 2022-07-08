@@ -11,8 +11,8 @@ import { FetchDataError } from '../errors/index.js'
 import type { Flags } from '../index.js'
 import type { ContentTypeMap, FilePathPatternMap } from '../types.js'
 import { DocumentTypeMap, provideDocumentTypeMapState } from './DocumentTypeMap.js'
+import { makeCacheItemFromFilePath as withoutPool } from './makeCacheItemFromFilePath.js'
 import { fromWorkerPool } from './makeCacheItemFromFilePath.worker.js'
-// import {createPool} from './makeCacheItemFromFilePath.worker.js'
 
 export const fetchAllDocuments = ({
   coreSchemaDef,
@@ -46,10 +46,10 @@ export const fetchAllDocuments = ({
       const concurrencyLimit = os.cpus().length
 
       const makeCacheItemFromFilePath = fromWorkerPool()
+      // const makeCacheItemFromFilePath = withoutPool
       const { dataErrors, documents, documentTypeMap } = yield* $(
         pipe(
           allRelativeFilePaths,
-          // TODO: parallalize
           T.forEachParN(concurrencyLimit, (relativeFilePath) =>
             makeCacheItemFromFilePath({
               relativeFilePath,
@@ -74,7 +74,6 @@ export const fetchAllDocuments = ({
               }
               const res = These.result(a)
               if (E.isLeft(res)) {
-                // FIXME: type
                 errors = Chunk.append_(errors, FetchDataError.fromSerialized(res.left as unknown as any))
               } else {
                 values = Chunk.append_(values, res.right.tuple[0])

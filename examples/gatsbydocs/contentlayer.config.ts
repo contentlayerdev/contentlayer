@@ -1,6 +1,6 @@
 import rehypeShiki from '@stefanprobst/rehype-shiki'
-import type { FieldDef} from 'contentlayer/source-files';
-import { defineDocumentType, defineNestedType,makeSource } from 'contentlayer/source-files'
+import type { FieldDef } from 'contentlayer/source-files'
+import { defineDocumentType, defineNestedType, makeSource } from 'contentlayer/source-files'
 import { createRequire } from 'module'
 import * as path from 'path'
 import * as shiki from 'shiki'
@@ -20,7 +20,7 @@ const fields: Record<string, FieldDef> = {
   },
   jsdoc: {
     type: 'list',
-    of: {type: 'string'},
+    of: { type: 'string' },
   },
   tableOfContentsDepth: { type: 'number' },
   showTopLevelSignatures: { type: 'boolean' },
@@ -61,20 +61,20 @@ const Tutorial = defineDocumentType(() => ({
 }))
 
 export default makeSource(async () => {
-  const require = createRequire(import.meta.url)
-  const shikiPkgPath = (dir: string) => path.join(require.resolve('shiki'), '..', '..', dir, path.sep)
-  const highlighter = await shiki.getHighlighter({
-    paths: { languages: shikiPkgPath('languages'), themes: shikiPkgPath('themes') },
-    theme: 'github-light',
-  })
+  // const require = createRequire(import.meta.url)
+  // const shikiPkgPath = (dir: string) => path.join(require.resolve('shiki'), '..', '..', dir, path.sep)
+  // const highlighter = await shiki.getHighlighter({
+  //   paths: { languages: shikiPkgPath('languages'), themes: shikiPkgPath('themes') },
+  //   theme: 'github-light',
+  // })
 
   return {
     contentDirPath: 'content',
     documentTypes: [Reference, HowTo, Conceptual, Tutorial],
     // onUnknownDocuments: 'skip-ignore',
-    markdown: {
-            // '@stefanprobst/rehype-shiki', {}
-      rehypePlugins: [[rehypeShiki, { highlighter }]],
-    },
+    // markdown: {
+    //   // '@stefanprobst/rehype-shiki', {}
+    //   rehypePlugins: [[rehypeShiki, { highlighter }]],
+    // },
   }
 })
