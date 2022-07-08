@@ -39,8 +39,7 @@
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*",
-    "@contentlayer/utils": "workspace:*",
-    "rxjs": "^7.1.0"
+    "@contentlayer/utils": "workspace:*"
   },
   "peerDependencies": {
     "next": "^12",

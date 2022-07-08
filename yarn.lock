@@ -13384,7 +13384,6 @@ fsevents@~2.3.2:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/utils": "workspace:*"
     next: ^12.1.6
-    rxjs: ^7.1.0
     typescript: ^4.7.4
   peerDependencies:
     next: ^12
