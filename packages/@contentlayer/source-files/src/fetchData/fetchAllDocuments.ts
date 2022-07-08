@@ -11,7 +11,7 @@ import { FetchDataError } from '../errors/index.js'
 import type { Flags } from '../index.js'
 import type { ContentTypeMap, FilePathPatternMap } from '../types.js'
 import { DocumentTypeMap, provideDocumentTypeMapState } from './DocumentTypeMap.js'
-import { makeCacheItemFromFilePath } from './makeCacheItemFromFilePath.js'
+import { fromWorkerPool } from './makeCacheItemFromFilePath.worker.js'
 // import {createPool} from './makeCacheItemFromFilePath.worker.js'
 
 export const fetchAllDocuments = ({
@@ -45,7 +45,7 @@ export const fetchAllDocuments = ({
 
       const concurrencyLimit = os.cpus().length
 
-      // TODO createPool
+      const makeCacheItemFromFilePath = fromWorkerPool()
       const { dataErrors, documents, documentTypeMap } = yield* $(
         pipe(
           allRelativeFilePaths,
