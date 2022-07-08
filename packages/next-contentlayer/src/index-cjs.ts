@@ -15,11 +15,11 @@ module.exports.defaultPluginOptions = defaultPluginOptions
  * @example
  * ```js
  * // next.config.js
- * import { createContentlayerPlugin } from 'next-contentlayer'
+ * const { createContentlayerPlugin } = require('next-contentlayer')
  *
  * const withContentlayer = createContentlayerPlugin({ configPath: './content/contentlayer.config.ts' })
  *
- * export default withContentlayer({
+ * module.exports = withContentlayer({
  *   // My Next.js config
  * })
  * ```
@@ -91,9 +91,9 @@ module.exports.createContentlayerPlugin =
  * @example
  * ```js
  * // next.config.js
- * import { withContentlayer } from 'next-contentlayer'
+ * const { withContentlayer } = require('next-contentlayer')
  *
- * export default withContentlayer({
+ * module.exports = withContentlayer({
  *   // My Next.js config
  * })
  * ```
