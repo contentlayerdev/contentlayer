@@ -1,4 +1,4 @@
-import { provideDummyTracing } from '@contentlayer/utils'
+import { provideDummyTracing, provideJaegerTracing } from '@contentlayer/utils'
 import { pipe, provideConsole, T } from '@contentlayer/utils/effect'
 import type { _A, _E } from '@effect-ts/core/Utils'
 import * as os from 'node:os'
@@ -60,7 +60,7 @@ export function makeCacheItemFromFilePath(payload: string): Promise<string> {
       (value) => ({ _tag: 'right', value } as const),
     ),
     provideConsole,
-    provideDummyTracing,
+    provideJaegerTracing('worker'),
     T.runPromise,
     (p) => p.then((value) => JSON.stringify(value, null, 2)),
   )
