@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/experimental-source-files-stackbit",
-  "version": "0.2.7-dev.6",
+  "version": "0.2.6",
   "type": "module",
   "exports": {
     ".": {
