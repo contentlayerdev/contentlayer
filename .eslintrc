@@ -6,9 +6,10 @@
   },
   "ignorePatterns": ["packages/_archive/*", "**/.contentlayer/*", "**/dist/*", "**/.nyc_output/*"],
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "simple-import-sort", "import"],
+  "plugins": ["prettier", "@typescript-eslint", "simple-import-sort", "import"],
   "extends": ["plugin:react-hooks/recommended", "plugin:@typescript-eslint/recommended", "prettier"],
   "rules": {
+    "prettier/prettier": "error",
     "simple-import-sort/imports": "error",
     "import/no-duplicates": "warn",
     // "func-style": ["warn", "expression"],
