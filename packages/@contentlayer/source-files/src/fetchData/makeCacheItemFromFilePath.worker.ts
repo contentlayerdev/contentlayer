@@ -1,4 +1,4 @@
-import { provideDummyTracing, provideJaegerTracing } from '@contentlayer/utils'
+import { provideJaegerTracing } from '@contentlayer/utils'
 import { pipe, provideConsole, T } from '@contentlayer/utils/effect'
 import type { _A, _E } from '@effect-ts/core/Utils'
 import * as os from 'node:os'
@@ -14,6 +14,7 @@ export type Either<E, A> = Left<E, A> | Right<E, A>
 
 type DTO = Either<_E<ReturnType<F>>, _A<ReturnType<F>>>
 
+// TODO: generalize codec / serializing
 // FIXME: naming
 export function fromWorkerPool(): F {
   const cores = os.cpus().length
@@ -24,7 +25,7 @@ export function fromWorkerPool(): F {
     //
     // via https://github.com/piscinajs/piscina#queue-size
     maxQueue: cores ** cores,
-    // by default, this is cores * 1.5
+    // FIXME: on the default, (#cores * 1.5), this lead to memory issues that caused a thread panic
     maxThreads: cores,
     // FIXME: get path dynamically
     filename:
@@ -34,7 +35,7 @@ export function fromWorkerPool(): F {
   return (payload) =>
     pipe(
       // host -> worker
-      T.succeedWith(() => JSON.stringify(payload, null, 2)),
+      T.succeedWith(() => JSON.stringify(payload)),
       T.chain((value) => T.promise<string>(() => pool.run(value, { name: 'makeCacheItemFromFilePath' }))),
       // worker -> host
       T.chain((value) => T.succeedWith<DTO>(() => JSON.parse(value))),
@@ -62,6 +63,6 @@ export function makeCacheItemFromFilePath(payload: string): Promise<string> {
     provideConsole,
     provideJaegerTracing('worker'),
     T.runPromise,
-    (p) => p.then((value) => JSON.stringify(value, null, 2)),
+    (p) => p.then((value) => JSON.stringify(value)),
   )
 }
