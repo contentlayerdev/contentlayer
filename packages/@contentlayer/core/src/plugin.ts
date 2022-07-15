@@ -63,7 +63,12 @@ export type MDXOptions = {
    *
    * If you're providing `mdxOptions` then `rehypePlugins` and `remarkPlugins` will be ignored.
    */
-  mdxOptions?: MDXBundlerMDXOptions
+  mdxOptions?: MDXBundlerMDXOptions,
+  /**
+   * Set the bundler cwd to the directory the file being processed resides in. Useful for, e.g.,
+   * using relative markdown image paths that you'd like the bundler to handle.
+   */
+  useRelativeCwd?: boolean
 } & Omit<mdxBundler.BundleMDXOptions<any>, 'mdxOptions'>
 
 export type MDXBundlerMDXOptions = mdxBundler.BundleMDXOptions<any>['mdxOptions']
