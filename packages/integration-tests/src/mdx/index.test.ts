@@ -15,8 +15,6 @@ test('mdx useRelativeCwd', async () => {
     fields: {},
   }))
 
-  const spyFn = vi.fn()
-
   const testDirPath = fileURLToPath(new URL('.', import.meta.url))
   const testOutPath = `${testDirPath}/out`
 
@@ -28,19 +26,15 @@ test('mdx useRelativeCwd', async () => {
     contentDirPath: path.join(testDirPath, 'content'),
     documentTypes: [Post],
     mdx: {
+      useRelativeCwd: true,
       remarkPlugins: [remarkMdxImages],
       esbuildOptions: (options) => {
         options.platform = 'node'
         options.outdir = testOutPath
-        options.assetNames = `images/[dir]/[name]`
+        options.assetNames = `images/[name]-[hash]`
         options.loader = {
           ...options.loader,
-          '.png': 'file',
-          '.jpg': 'file',
-          '.jpeg': 'file',
-          '.svg': 'file',
-          '.webp': 'file',
-          '.gif': 'file'
+          '.png': 'file'
         }
         options.publicPath = '/'
         options.write = true
@@ -52,8 +46,9 @@ test('mdx useRelativeCwd', async () => {
   await core.runMain({ tracingServiceName: 'test', verbose: false })(
     core.generateDotpkg({ config: { source, esbuildHash: 'STATIC_HASH' }, verbose: true }),
   )
-
-  expect(spyFn).toHaveBeenCalledOnce()
-
-  // TODO Check for the output file, images/posts/test-image.png
+  
+  // Check that the bundled image as been generated
+  const statResult = await fs.stat(path.join(testOutPath, 'images/test-image-QQWYPTMT.png')).catch(() => false)
+  
+  expect(statResult).not.toEqual(false);
 })
