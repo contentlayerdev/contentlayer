@@ -25,12 +25,19 @@ export const bundleMDX = ({
       if (mdxString.length === 0) {
         return ''
       }
-      const { rehypePlugins, remarkPlugins, cwd: cwd_, ...restOptions } = options ?? {}
+      const { rehypePlugins, remarkPlugins, useRelativeCwd, cwd: cwd_, ...restOptions } = options ?? {}
 
       const getCwdFromContentDirPath = () =>
         // TODO don't use `process.cwd()` but instead `HasCwd`
         path.isAbsolute(contentDirPath) ? contentDirPath : path.join(process.cwd(), contentDirPath)
-      const cwd = cwd_ ?? getCwdFromContentDirPath()
+      
+      const getCwd = () =>
+        cwd_ ?? getCwdFromContentDirPath()
+      
+      const getRelativeCwd = () => 
+        path.join(getCwd(), path.dirname(rawDocumentData.flattenedPath))
+
+      const cwd = useRelativeCwd ? getRelativeCwd() : getCwd()
 
       const mdxOptions: BundleMDXOptions<any> = {
         mdxOptions: (opts) => {
