@@ -242,7 +242,15 @@ const getDataForFieldDef = ({
             () => {
               let dateValue = new Date(rawFieldData)
               if (options.date?.timezone) {
-                dateValue = dateFnsTz.zonedTimeToUtc(dateValue, options.date.timezone)
+                // NOTE offset of specified timezone in milliseconds
+                const desiredOffset = dateFnsTz.getTimezoneOffset(options.date.timezone)
+                
+                // NOTE offset of raw date value is in minutes, we must multiple 60 then 1000 to get milliseconds
+                const currentOffset = dateValue.getTimezoneOffset() * 60 * 1000
+                
+                if (desredOffset != currentOffset) {
+                  dateValue = new Date(dateValue.getTime() + dateFnsTz.getTimezoneOffset(options.date.timezone) * -1)
+                }
               }
               return dateValue.toISOString()
             },
