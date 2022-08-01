@@ -65,10 +65,13 @@ export type MDXOptions = {
    */
   mdxOptions?: MDXBundlerMDXOptions,
   /**
-   * Set the bundler cwd to the directory the file being processed resides in. Useful for, e.g.,
-   * using relative markdown image paths that you'd like the bundler to handle.
+   * How we resolve the cwd passed to mdx-bundler when processing a file. If an explicit `cwd` 
+   * is provided this option will be ignored.
+   * - `relative` sets the cwd to the directory the file resides in.
+   * - `contentDirPath` sets the cwd to the contentDirPath. This was the default behavior up until v0.2.6.
+   * @default "relative"
    */
-  useRelativeCwd?: boolean
+  resolveCwd?: 'relative' | 'contentDirPath';
 } & Omit<mdxBundler.BundleMDXOptions<any>, 'mdxOptions'>
 
 export type MDXBundlerMDXOptions = mdxBundler.BundleMDXOptions<any>['mdxOptions']

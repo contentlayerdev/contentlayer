@@ -25,20 +25,18 @@ export const bundleMDX = ({
       if (mdxString.length === 0) {
         return ''
       }
-      const { rehypePlugins, remarkPlugins, useRelativeCwd, cwd: cwd_, ...restOptions } = options ?? {}
+      const { rehypePlugins, remarkPlugins, resolveCwd, cwd: cwd_, ...restOptions } = options ?? {}
 
       const getCwdFromContentDirPath = () =>
         // TODO don't use `process.cwd()` but instead `HasCwd`
         path.isAbsolute(contentDirPath) ? contentDirPath : path.join(process.cwd(), contentDirPath)
-      
-      const getCwd = () =>
-        cwd_ ?? getCwdFromContentDirPath()
-      
+
       const getRelativeCwd = () => 
-        path.join(getCwd(), path.dirname(rawDocumentData.flattenedPath))
+        path.join(getCwdFromContentDirPath(), path.dirname(rawDocumentData.flattenedPath))
 
-      const cwd = useRelativeCwd ? getRelativeCwd() : getCwd()
-
+      const getCwd = () =>
+        resolveCwd === 'contentDirPath' ? getCwdFromContentDirPath() : getRelativeCwd()
+      
       const mdxOptions: BundleMDXOptions<any> = {
         mdxOptions: (opts) => {
           opts.rehypePlugins = [...(opts.rehypePlugins ?? []), ...(rehypePlugins ?? [])]
@@ -49,7 +47,8 @@ export const bundleMDX = ({
           ]
           return opts
         },
-        cwd,
+        // User-provided cwd trumps resolution
+        cwd: cwd_ ?? getCwd(),
         // NOTE `restOptions` should be spread at the end to allow for user overrides
         ...restOptions,
       }
