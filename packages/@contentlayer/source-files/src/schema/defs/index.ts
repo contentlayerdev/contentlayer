@@ -26,8 +26,10 @@ export type DocumentTypeDef<DefName extends string = string> = {
    * The field definitions can either be provided as an object with the field names as keys or
    * as an array of all field definitions including the name as an extra field. (The array definition
    * can be used if you want more control over the order of the fields.)
+   *
+   * @default []
    */
-  fields: FieldDefs
+  fields?: FieldDefs
 
   computedFields?: ComputedFields<DefName>
 
@@ -52,7 +54,8 @@ export type NestedTypeDef<DefName extends string = string> = {
   // type: 'NestedTypeDef'
   name: DefName
   description?: string
-  fields: FieldDefs
+  /** @default [] */
+  fields?: FieldDefs
   extensions?: TypeExtensions<DefName>
 }
 
@@ -60,7 +63,8 @@ export const isNestedTypeDef = (_: NestedTypeDef | NestedUnnamedTypeDef): _ is N
 
 export type NestedUnnamedTypeDef = {
   // type: 'NestedUnnamedTypeDef'
-  fields: FieldDefs
+  /** @default [] */
+  fields?: FieldDefs
   extensions?: TypeExtensions
 }
 
