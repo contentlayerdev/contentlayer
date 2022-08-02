@@ -26,30 +26,6 @@ jobs:
       - run: yarn build
       - run: yarn test
 
-  build-example-starter:
-    strategy:
-      matrix:
-        node-version: [16]
-        os: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: schickling-actions/checkout-and-install@main
-      - run: yarn build
-      - run: yarn build
-        working-directory: examples/archive/starter
-
-  build-example-azimuth:
-    strategy:
-      matrix:
-        node-version: [16]
-        os: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: schickling-actions/checkout-and-install@main
-      - run: yarn build
-      - run: yarn build
-        working-directory: examples/archive/playground-azimuth
-
   build-example-next-contentlayer-example:
     strategy:
       matrix:
