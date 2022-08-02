@@ -31,12 +31,10 @@ export const bundleMDX = ({
         // TODO don't use `process.cwd()` but instead `HasCwd`
         path.isAbsolute(contentDirPath) ? contentDirPath : path.join(process.cwd(), contentDirPath)
 
-      const getRelativeCwd = () => 
-        path.join(getCwdFromContentDirPath(), path.dirname(rawDocumentData.flattenedPath))
+      const getRelativeCwd = () => path.join(getCwdFromContentDirPath(), path.dirname(rawDocumentData.flattenedPath))
 
-      const getCwd = () =>
-        resolveCwd === 'contentDirPath' ? getCwdFromContentDirPath() : getRelativeCwd()
-      
+      const getCwd = () => (resolveCwd === 'contentDirPath' ? getCwdFromContentDirPath() : getRelativeCwd())
+
       const mdxOptions: BundleMDXOptions<any> = {
         mdxOptions: (opts) => {
           opts.rehypePlugins = [...(opts.rehypePlugins ?? []), ...(rehypePlugins ?? [])]
