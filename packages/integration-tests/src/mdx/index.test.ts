@@ -34,25 +34,24 @@ test('mdx - resolveCwd - contentDirPath', async () => {
         options.assetNames = `images/[name]-[hash]`
         options.loader = {
           ...options.loader,
-          '.png': 'file'
+          '.png': 'file',
         }
         options.publicPath = '/'
         options.write = true
         return options
-      }
-    }
+      },
+    },
   })
 
   await core.runMain({ tracingServiceName: 'test', verbose: false })(
     core.generateDotpkg({ config: { source, esbuildHash: 'STATIC_HASH' }, verbose: true }),
   )
-  
+
   // Check that the bundled image has been generated
   const statResult = await fs.stat(path.join(testOutPath, 'images/image-b-QQWYPTMT.png')).catch(() => false)
-  
-  expect(statResult).not.toEqual(false);
-})
 
+  expect(statResult).not.toEqual(false)
+})
 
 test('mdx - resolveCwd - relative', async () => {
   const Post = defineDocumentType(() => ({
@@ -81,21 +80,21 @@ test('mdx - resolveCwd - relative', async () => {
         options.assetNames = `images/[name]-[hash]`
         options.loader = {
           ...options.loader,
-          '.png': 'file'
+          '.png': 'file',
         }
         options.publicPath = '/'
         options.write = true
         return options
-      }
-    }
+      },
+    },
   })
 
   await core.runMain({ tracingServiceName: 'test', verbose: false })(
     core.generateDotpkg({ config: { source, esbuildHash: 'STATIC_HASH' }, verbose: true }),
   )
-  
+
   // Check that the bundled image has been generated
   const statResult = await fs.stat(path.join(testOutPath, 'images/image-a-QQWYPTMT.png')).catch(() => false)
-  
-  expect(statResult).not.toEqual(false);
+
+  expect(statResult).not.toEqual(false)
 })
