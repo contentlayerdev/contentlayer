@@ -7,11 +7,11 @@
     "build": "next build"
   },
   "dependencies": {
-    "date-fns": "^2.28.0",
+    "date-fns": "^2.29.1",
     "marked": "^3.0.4",
-    "next": "^12.1.6",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
+    "next": "^12.2.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
     "react-html-parser": "^2.0.2",
     "react-script-tag": "^1.1.2",
@@ -19,8 +19,8 @@
   },
   "devDependencies": {
     "@contentlayer/source-contentful": "workspace:*",
-    "@types/react": "^18.0.9",
-    "@types/react-dom": "^18.0.3",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
     "@types/react-helmet": "^6.1.5",
     "contentlayer": "workspace:*",
     "contentlayer-stackbit-yaml-generator": "workspace:*",

@@ -17,15 +17,15 @@
   "dependencies": {
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
-    "@stackbit/sdk": "^0.2.32",
+    "@stackbit/sdk": "^0.2.35",
     "clipanion": "^3.2.0-rc.11",
-    "typanion": "3.8.0",
+    "typanion": "3.9.0",
     "yaml": "^1.10.2"
   },
   "devDependencies": {
     "contentlayer": "workspace:*",
     "typescript": "^4.7.4",
-    "vite": "^2.9.8",
-    "vitest": "^0.12.4"
+    "vite": "^3.0.4",
+    "vitest": "^0.20.2"
   }
 }

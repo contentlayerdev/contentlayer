@@ -5,7 +5,7 @@
     "dev": "ts-node --transpile-only --compiler-options '{\"module\":\"CommonJS\"}' ./src/index.ts"
   },
   "devDependencies": {
-    "ts-node": "^10.7.0"
+    "ts-node": "^10.9.1"
   },
   "dependencies": {
     "contentful-management": "7.22.4",
