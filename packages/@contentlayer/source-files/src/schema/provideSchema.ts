@@ -22,7 +22,7 @@ export const makeCoreSchema = ({
     for (const documentDef of documentTypeDefs) {
       validateDefName({ defName: documentDef.name })
 
-      const fieldDefs = getFieldDefEntries(documentDef.fields).map((_) =>
+      const fieldDefs = getFieldDefEntries(documentDef.fields ?? []).map((_) =>
         fieldDefEntryToCoreFieldDef(_, options.fieldOptions),
       )
 
@@ -82,7 +82,7 @@ export const makeCoreSchema = ({
         _tag: 'NestedTypeDef',
         ...utils.pick(nestedDef, ['description']),
         name: nestedDef.name,
-        fieldDefs: getFieldDefEntries(nestedDef.fields).map((_) =>
+        fieldDefs: getFieldDefEntries(nestedDef.fields ?? []).map((_) =>
           fieldDefEntryToCoreFieldDef(_, options.fieldOptions),
         ),
         extensions: nestedDef.extensions ?? {},
@@ -185,7 +185,7 @@ const fieldDefEntryToCoreFieldDef = (
         })
       }
 
-      const fieldDefs = getFieldDefEntries(nestedTypeDef.fields).map((_) =>
+      const fieldDefs = getFieldDefEntries(nestedTypeDef.fields ?? []).map((_) =>
         fieldDefEntryToCoreFieldDef(_, fieldOptions),
       )
       const extensions = nestedTypeDef.extensions ?? {}
@@ -263,7 +263,7 @@ const fieldListItemsToCoreFieldListDefItems = (
         return { type: 'nested', nestedTypeName: nestedTypeDef.name }
       }
 
-      const fieldDefs = getFieldDefEntries(nestedTypeDef.fields).map((_) =>
+      const fieldDefs = getFieldDefEntries(nestedTypeDef.fields ?? []).map((_) =>
         fieldDefEntryToCoreFieldDef(_, fieldOptions),
       )
       const extensions = nestedTypeDef.extensions ?? {}
@@ -290,7 +290,7 @@ const collectNestedDefs = (documentDefs: LocalSchema.DocumentTypeDef[]): LocalSc
 
     objectDefMap[objectDef.name] = objectDef
 
-    getFieldDefValues(objectDef.fields).forEach(traverseField)
+    getFieldDefValues(objectDef.fields ?? []).forEach(traverseField)
   }
 
   const traverseField = (fieldDef: LocalSchema.FieldDef): void => {
@@ -302,7 +302,7 @@ const collectNestedDefs = (documentDefs: LocalSchema.DocumentTypeDef[]): LocalSc
             if (LocalSchema.isNestedTypeDef(nestedTypeDef)) {
               return traverseNestedDef(nestedTypeDef)
             }
-            return getFieldDefValues(nestedTypeDef.fields).forEach(traverseField)
+            return getFieldDefValues(nestedTypeDef.fields ?? []).forEach(traverseField)
           })
         }
 
@@ -310,7 +310,7 @@ const collectNestedDefs = (documentDefs: LocalSchema.DocumentTypeDef[]): LocalSc
         if (LocalSchema.isNestedTypeDef(nestedTypeDef)) {
           return traverseNestedDef(nestedTypeDef)
         }
-        return getFieldDefValues(nestedTypeDef.fields).forEach(traverseField)
+        return getFieldDefValues(nestedTypeDef.fields ?? []).forEach(traverseField)
       case 'list':
         if (LocalSchema.isListPolymorphicFieldDef(fieldDef)) {
           return fieldDef.of.forEach(traverseListFieldItem)
@@ -340,13 +340,13 @@ const collectNestedDefs = (documentDefs: LocalSchema.DocumentTypeDef[]): LocalSc
       case 'nested':
         const nestedTypeDef = listFieldDefItem.def()
         if (LocalSchema.isNestedUnnamedTypeDef(nestedTypeDef)) {
-          return getFieldDefValues(nestedTypeDef.fields).forEach(traverseField)
+          return getFieldDefValues(nestedTypeDef.fields ?? []).forEach(traverseField)
         }
         return traverseNestedDef(nestedTypeDef)
     }
   }
 
-  documentDefs.flatMap((_) => getFieldDefValues(_.fields)).forEach(traverseField)
+  documentDefs.flatMap((_) => getFieldDefValues(_.fields ?? [])).forEach(traverseField)
 
   return Object.values(objectDefMap)
 }
