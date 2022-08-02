@@ -65,8 +65,14 @@ test('getDataForFieldDef', async () => {
   await testValue({
     type: 'date',
     rawFieldData: '2022-10-12',
-    expectedValue: '2022-10-12T04:00:00.000Z',
-    options: { date: { timezone: 'America/New_York' } },
+    expectedValue: '2022-10-12T07:00:00.000Z',
+    options: { date: { timezone: 'America/Phoenix' } },
+  })
+  await testValue({
+    type: 'date',
+    rawFieldData: '2022-10-12T07:00:00.000Z',
+    expectedValue: '2022-10-12T07:00:00.000Z',
+    options: { date: { timezone: 'America/Phoenix' } },
   })
 })
 
