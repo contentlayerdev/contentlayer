@@ -23,7 +23,7 @@ test('empty content folder', async () => {
     documentTypes: [Post],
   })
 
-  await core.runMain({ tracingServiceName: 'test', verbose: false })(
+  await core.runMain({ tracingServiceName: 'contentlayer-test', verbose: false })(
     core.generateDotpkg({ config: { source, esbuildHash: 'STATIC_HASH' }, verbose: true }),
   )
 
