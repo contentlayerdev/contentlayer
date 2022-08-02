@@ -8,7 +8,6 @@
     { "path": "./packages/@contentlayer/source-contentful" },
     { "path": "./packages/@contentlayer/source-files" },
     { "path": "./packages/@contentlayer/experimental-source-files-stackbit" },
-    { "path": "./packages/@contentlayer/source-sanity" },
     { "path": "./packages/@contentlayer/utils" },
     { "path": "./packages/contentlayer" },
     { "path": "./packages/contentlayer-stackbit-yaml-generator" },

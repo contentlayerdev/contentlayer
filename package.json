@@ -4,7 +4,6 @@
   "workspaces": [
     "./packages/@contentlayer/*",
     "./packages/*",
-    "./examples/archive/*",
     "./examples/*"
   ],
   "scripts": {
@@ -46,7 +45,6 @@
     "@contentlayer/*": "workspace:*",
     "contentlayer-stackbit-yaml-generator": "workspace:*",
     "next-contentlayer": "workspace:*",
-    "unist-util-visit-parents": "^5.1.0",
     "rxjs": "^7.1.0"
   },
   "packageManager": "yarn@3.1.1"
