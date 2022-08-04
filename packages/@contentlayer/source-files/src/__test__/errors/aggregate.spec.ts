@@ -1,5 +1,5 @@
 import type * as core from '@contentlayer/core'
-import { absolutePosixFilePath, unknownToAbsolutePosixFilePath } from '@contentlayer/utils'
+import { unknownToAbsolutePosixFilePath } from '@contentlayer/utils'
 import { expect, test } from 'vitest'
 
 import { testOnly_aggregateFetchDataErrors as aggregateFetchDataErrors } from '../../errors/aggregate.js'
@@ -21,7 +21,7 @@ const flags: Flags = {
   onUnknownDocuments: 'skip-warn',
 }
 const schemaDef = makeSchemaDef()
-const contentDirPath = unknownToAbsolutePosixFilePath('./content', absolutePosixFilePath(process.cwd()))
+const contentDirPath = unknownToAbsolutePosixFilePath('./content', unknownToAbsolutePosixFilePath(process.cwd()))
 
 // TODO improve Vitest inline snapshots once fixed https://github.com/vitest-dev/vitest/issues/856
 
