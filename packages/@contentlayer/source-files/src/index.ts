@@ -1,7 +1,7 @@
-import type * as core from '@contentlayer/core'
+import * as core from '@contentlayer/core'
 import { processArgs, SourceProvideSchemaError } from '@contentlayer/core'
-import { unknownToPosixFilePath } from '@contentlayer/utils'
-import { pipe, T } from '@contentlayer/utils/effect'
+import { unknownToAbsolutePosixFilePath } from '@contentlayer/utils'
+import { pipe, S, T } from '@contentlayer/utils/effect'
 
 import { fetchData } from './fetchData/index.js'
 import type * as LocalSchema from './schema/defs/index.js'
@@ -104,16 +104,23 @@ export const makeSource: core.MakeSourcePlugin<Args> = async (args) => {
         T.mapError((error) => new SourceProvideSchemaError({ error })),
       ),
     fetchData: ({ schemaDef, verbose }) =>
-      fetchData({
-        coreSchemaDef: schemaDef,
-        documentTypeDefs,
-        flags,
-        options,
-        contentDirPath: unknownToPosixFilePath(contentDirPath),
-        contentDirExclude: (contentDirExclude ?? contentDirExcludeDefault).map((_) => unknownToPosixFilePath(_)),
-        contentDirInclude: (contentDirInclude ?? []).map((_) => unknownToPosixFilePath(_)),
-        verbose,
-      }),
+      pipe(
+        S.fromEffect(core.getCwd),
+        S.chain((cwd) =>
+          fetchData({
+            coreSchemaDef: schemaDef,
+            documentTypeDefs,
+            flags,
+            options,
+            contentDirPath: unknownToAbsolutePosixFilePath(contentDirPath, cwd),
+            contentDirExclude: (contentDirExclude ?? contentDirExcludeDefault).map((_) =>
+              unknownToAbsolutePosixFilePath(_, cwd),
+            ),
+            contentDirInclude: (contentDirInclude ?? []).map((_) => unknownToAbsolutePosixFilePath(_, cwd)),
+            verbose,
+          }),
+        ),
+      ),
   }
 }
 

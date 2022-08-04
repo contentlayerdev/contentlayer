@@ -1,6 +1,6 @@
-import type { UnexpectedMarkdownError, UnexpectedMDXError } from '@contentlayer/core'
+import type { HasCwd, UnexpectedMarkdownError, UnexpectedMDXError } from '@contentlayer/core'
 import * as core from '@contentlayer/core'
-import type { PosixFilePath } from '@contentlayer/utils'
+import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer/utils'
 import * as utils from '@contentlayer/utils'
 import type { HasConsole, OT } from '@contentlayer/utils/effect'
 import { identity, pipe, T } from '@contentlayer/utils/effect'
@@ -10,6 +10,7 @@ import dateFnsTz from 'date-fns-tz'
 import { FetchDataError } from '../errors/index.js'
 import type { HasDocumentContext } from './DocumentContext.js'
 import { getFromDocumentContext } from './DocumentContext.js'
+import { getImageFieldData } from './image/index.js'
 import type { RawContent, RawContentMarkdown, RawContentMDX } from './types.js'
 
 export const makeDocument = ({
@@ -23,12 +24,13 @@ export const makeDocument = ({
   rawContent: RawContent
   documentTypeDef: core.DocumentTypeDef
   coreSchemaDef: core.SchemaDef
-  relativeFilePath: PosixFilePath
-  contentDirPath: PosixFilePath
+  relativeFilePath: RelativePosixFilePath
+  contentDirPath: AbsolutePosixFilePath
   options: core.PluginOptions
 }): T.Effect<
-  OT.HasTracer & HasConsole & HasDocumentContext,
+  OT.HasTracer & HasConsole & HasDocumentContext & HasCwd,
   | FetchDataError.UnexpectedError
+  | FetchDataError.ImageError
   | FetchDataError.IncompatibleFieldDataError
   | FetchDataError.NoSuchNestedDocumentTypeError,
   core.Document
@@ -73,7 +75,9 @@ export const makeDocument = ({
       return doc
     }),
     T.mapError((error) =>
-      error._tag === 'NoSuchNestedDocumentTypeError' || error._tag === 'IncompatibleFieldDataError'
+      error._tag === 'NoSuchNestedDocumentTypeError' ||
+      error._tag === 'IncompatibleFieldDataError' ||
+      error._tag === 'ImageError'
         ? error
         : new FetchDataError.UnexpectedError({ error, documentFilePath: relativeFilePath }),
     ),
@@ -84,6 +88,7 @@ type MakeDocumentInternalError =
   | UnexpectedMDXError
   | FetchDataError.NoSuchNestedDocumentTypeError
   | FetchDataError.IncompatibleFieldDataError
+  | FetchDataError.ImageError
 
 const rawContentHasBody = (_: RawContent): _ is RawContentMarkdown | RawContentMDX =>
   'body' in _ && _.body !== undefined
@@ -113,9 +118,9 @@ const makeNestedDocument = ({
   typeName: string
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
-  relativeFilePath: PosixFilePath
-  contentDirPath: PosixFilePath
-}): T.Effect<OT.HasTracer & HasConsole & HasDocumentContext, MakeDocumentInternalError, core.NestedDocument> =>
+  relativeFilePath: RelativePosixFilePath
+  contentDirPath: AbsolutePosixFilePath
+}): T.Effect<OT.HasTracer & HasConsole & HasDocumentContext & HasCwd, MakeDocumentInternalError, core.NestedDocument> =>
   T.gen(function* ($) {
     const objValues = yield* $(
       T.forEachParDict_(fieldDefs, {
@@ -153,9 +158,9 @@ const getDataForFieldDef = ({
   typeName: string
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
-  relativeFilePath: PosixFilePath
-  contentDirPath: PosixFilePath
-}): T.Effect<OT.HasTracer & HasConsole & HasDocumentContext, MakeDocumentInternalError, any> =>
+  relativeFilePath: RelativePosixFilePath
+  contentDirPath: AbsolutePosixFilePath
+}): T.Effect<OT.HasTracer & HasConsole & HasDocumentContext & HasCwd, MakeDocumentInternalError, any> =>
   T.gen(function* ($) {
     if (rawFieldData === undefined && fieldDef.default) {
       rawFieldData = fieldDef.default
@@ -313,6 +318,22 @@ const getDataForFieldDef = ({
           return identity<core.MDX>({ raw: rawFieldData, code })
         }
       }
+      case 'image':
+        if (typeof rawFieldData !== 'string') {
+          yield* $(
+            T.fail(
+              new FetchDataError.IncompatibleFieldDataError({
+                documentTypeName: typeName,
+                documentFilePath: relativeFilePath,
+                incompatibleFieldData: [[fieldDef.name, rawFieldData]],
+              }),
+            ),
+          )
+        }
+
+        return yield* $(
+          getImageFieldData({ imagePath: rawFieldData, documentFilePath: relativeFilePath, contentDirPath, fieldDef }),
+        )
       case 'boolean':
       case 'string':
       case 'number':
@@ -342,9 +363,9 @@ const getDataForListItem = ({
   fieldDef: core.ListFieldDef | core.ListPolymorphicFieldDef
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
-  relativeFilePath: PosixFilePath
-  contentDirPath: PosixFilePath
-}): T.Effect<OT.HasTracer & HasConsole & HasDocumentContext, MakeDocumentInternalError, any> => {
+  relativeFilePath: RelativePosixFilePath
+  contentDirPath: AbsolutePosixFilePath
+}): T.Effect<OT.HasTracer & HasConsole & HasDocumentContext & HasCwd, MakeDocumentInternalError, any> => {
   if (typeof rawItemData === 'string') {
     return T.succeed(rawItemData)
   }

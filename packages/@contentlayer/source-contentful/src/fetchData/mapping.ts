@@ -190,6 +190,7 @@ const getDataForFieldDef = ({
           }),
         )
         return <core.MDX>{ raw: rawFieldData, code }
+      case 'image': // TODO better image asset handling
       case 'string':
         // e.g. for images
         if (rawFieldDataIsAsset(rawFieldData)) {

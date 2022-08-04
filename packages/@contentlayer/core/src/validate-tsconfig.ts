@@ -1,4 +1,4 @@
-import type { PosixFilePath } from '@contentlayer/utils'
+import type { AbsolutePosixFilePath } from '@contentlayer/utils'
 import { filePathJoin } from '@contentlayer/utils'
 import { Chunk, O, OT, pipe, T, Tagged } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
@@ -61,7 +61,7 @@ To disable this warning you can set \`disableImportAliasWarning: true\` in your 
   OT.withSpan('validateTsconfig'),
 )
 
-const tryParseFile = (filePath: PosixFilePath) =>
+const tryParseFile = (filePath: AbsolutePosixFilePath) =>
   pipe(
     fs.readFile(filePath),
     T.chain((contents) =>

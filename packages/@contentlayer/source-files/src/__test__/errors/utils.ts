@@ -1,6 +1,6 @@
 import type * as core from '@contentlayer/core'
-import type { PosixFilePath } from '@contentlayer/utils'
-import { capitalizeFirstLetter, singleItem, unknownToPosixFilePath } from '@contentlayer/utils'
+import type { RelativePosixFilePath } from '@contentlayer/utils'
+import { capitalizeFirstLetter, singleItem, unknownToRelativePosixFilePath } from '@contentlayer/utils'
 import faker from 'faker'
 import * as path from 'node:path'
 
@@ -29,8 +29,8 @@ export const makeSchemaDef = (): core.SchemaDef => {
   return schemaDef
 }
 
-const generateFakeFilePath = (extension = 'md'): PosixFilePath =>
-  singleItem(path.join('docs', faker.system.commonFileName(extension))).map(unknownToPosixFilePath).item
+const generateFakeFilePath = (extension = 'md'): RelativePosixFilePath =>
+  singleItem(path.join('docs', faker.system.commonFileName(extension))).map(unknownToRelativePosixFilePath).item
 
 export const makeErrors = (
   countRecord: Partial<Record<FetchDataError.FetchDataError['_tag'], number>>,

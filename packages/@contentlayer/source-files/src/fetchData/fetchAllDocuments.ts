@@ -1,6 +1,6 @@
 import type * as core from '@contentlayer/core'
-import type { PosixFilePath } from '@contentlayer/utils'
-import { asMutableArray, posixFilePath } from '@contentlayer/utils'
+import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer/utils'
+import { asMutableArray, relativePosixFilePath } from '@contentlayer/utils'
 import type { HasConsole } from '@contentlayer/utils/effect'
 import { Chunk, O, OT, pipe, T } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
@@ -28,15 +28,19 @@ export const fetchAllDocuments = ({
 }: {
   coreSchemaDef: core.SchemaDef
   filePathPatternMap: FilePathPatternMap
-  contentDirPath: PosixFilePath
-  contentDirInclude: readonly PosixFilePath[]
-  contentDirExclude: readonly PosixFilePath[]
+  contentDirPath: AbsolutePosixFilePath
+  contentDirInclude: readonly AbsolutePosixFilePath[]
+  contentDirExclude: readonly AbsolutePosixFilePath[]
   contentTypeMap: ContentTypeMap
   flags: Flags
   options: core.PluginOptions
   previousCache: core.DataCache.Cache | undefined
   verbose: boolean
-}): T.Effect<OT.HasTracer & HasConsole, fs.UnknownFSError | core.HandledFetchDataError, core.DataCache.Cache> =>
+}): T.Effect<
+  OT.HasTracer & HasConsole & core.HasCwd,
+  fs.UnknownFSError | core.HandledFetchDataError,
+  core.DataCache.Cache
+> =>
   pipe(
     T.gen(function* ($) {
       const allRelativeFilePaths = yield* $(
@@ -91,10 +95,10 @@ const getAllRelativeFilePaths = ({
   contentDirInclude,
   contentDirExclude,
 }: {
-  contentDirPath: string
-  contentDirInclude: readonly PosixFilePath[]
-  contentDirExclude: readonly PosixFilePath[]
-}): T.Effect<OT.HasTracer, fs.UnknownFSError, PosixFilePath[]> => {
+  contentDirPath: AbsolutePosixFilePath
+  contentDirInclude: readonly AbsolutePosixFilePath[]
+  contentDirExclude: readonly AbsolutePosixFilePath[]
+}): T.Effect<OT.HasTracer, fs.UnknownFSError, RelativePosixFilePath[]> => {
   const getPatternPrefix = (paths_: readonly string[]) => {
     const paths = paths_
       .map((_) => _.trim())
@@ -114,7 +118,7 @@ const getAllRelativeFilePaths = ({
       () => glob(pattern, { cwd: contentDirPath, ignore: asMutableArray(contentDirExclude) }),
       (error) => new fs.UnknownFSError({ error }),
     ),
-    T.map((_) => _.map(posixFilePath)),
+    T.map((_) => _.map(relativePosixFilePath)),
     OT.withSpan('@contentlayer/source-local/fetchData:getAllRelativeFilePaths'),
   )
 }

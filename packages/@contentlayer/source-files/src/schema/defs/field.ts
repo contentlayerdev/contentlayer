@@ -15,6 +15,7 @@ export type FieldDef =
   | DateFieldDef
   | MarkdownFieldDef
   | MDXFieldDef
+  | ImageFieldDef
   | EnumFieldDef
   | NestedFieldDef
   | NestedPolymorphicFieldDef
@@ -114,6 +115,11 @@ export type MarkdownFieldDef = FieldDefBase & {
 
 export type MDXFieldDef = FieldDefBase & {
   type: 'mdx'
+  default?: string
+}
+
+export type ImageFieldDef = FieldDefBase & {
+  type: 'image'
   default?: string
 }
 

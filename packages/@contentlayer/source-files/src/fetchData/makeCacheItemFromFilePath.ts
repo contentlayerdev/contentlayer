@@ -1,5 +1,5 @@
 import type * as core from '@contentlayer/core'
-import type { PosixFilePath } from '@contentlayer/utils'
+import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer/utils'
 import { filePathJoin } from '@contentlayer/utils'
 import type { HasConsole } from '@contentlayer/utils/effect'
 import { identity, O, OT, pipe, T, These } from '@contentlayer/utils/effect'
@@ -25,15 +25,15 @@ export const makeCacheItemFromFilePath = ({
   previousCache,
   contentTypeMap,
 }: {
-  relativeFilePath: PosixFilePath
+  relativeFilePath: RelativePosixFilePath
   filePathPatternMap: FilePathPatternMap
   coreSchemaDef: core.SchemaDef
-  contentDirPath: PosixFilePath
+  contentDirPath: AbsolutePosixFilePath
   options: core.PluginOptions
   previousCache: core.DataCache.Cache | undefined
   contentTypeMap: ContentTypeMap
 }): T.Effect<
-  OT.HasTracer & HasConsole & HasDocumentTypeMapState,
+  OT.HasTracer & HasConsole & HasDocumentTypeMapState & core.HasCwd,
   never,
   These.These<FetchDataError.FetchDataError, core.DataCache.CacheItem>
 > =>
@@ -125,8 +125,8 @@ const processRawContent = ({
   fullFilePath,
   relativeFilePath,
 }: {
-  fullFilePath: PosixFilePath
-  relativeFilePath: PosixFilePath
+  fullFilePath: AbsolutePosixFilePath
+  relativeFilePath: RelativePosixFilePath
 }): T.Effect<
   OT.HasTracer,
   | FetchDataError.UnsupportedFileExtension
@@ -189,7 +189,7 @@ const getComputedValues = ({
 }: {
   documentTypeDef: core.DocumentTypeDef
   document: core.Document
-  documentFilePath: PosixFilePath
+  documentFilePath: RelativePosixFilePath
 }): T.Effect<unknown, FetchDataError.ComputedValueError, undefined | Record<string, any>> => {
   if (documentTypeDef.computedFields === undefined) {
     return T.succeed(undefined)
@@ -213,7 +213,7 @@ const parseMarkdown = ({
   documentFilePath,
 }: {
   markdownString: string
-  documentFilePath: PosixFilePath
+  documentFilePath: RelativePosixFilePath
 }): T.Effect<
   unknown,
   FetchDataError.InvalidMarkdownFileError | FetchDataError.InvalidFrontmatterError,
@@ -235,7 +235,7 @@ const parseJson = ({
   documentFilePath,
 }: {
   jsonString: string
-  documentFilePath: PosixFilePath
+  documentFilePath: RelativePosixFilePath
 }): T.Effect<unknown, FetchDataError.InvalidJsonFileError, Record<string, any>> =>
   T.tryCatch(
     () => JSON.parse(jsonString),
@@ -247,7 +247,7 @@ const parseYaml = ({
   documentFilePath,
 }: {
   yamlString: string
-  documentFilePath: PosixFilePath
+  documentFilePath: RelativePosixFilePath
 }): T.Effect<unknown, FetchDataError.InvalidYamlFileError, Record<string, any>> =>
   T.tryCatch(
     () => yaml.parse(yamlString),

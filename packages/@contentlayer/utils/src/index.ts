@@ -6,6 +6,7 @@ export * from './promise.js'
 export * from './hash.js'
 export * from './single-item.js'
 export * from './file-paths.js'
+export * as base64 from './base64.js'
 export * from './tracing-effect/index.js'
 
 export { AsciiTree } from 'oo-ascii-tree'

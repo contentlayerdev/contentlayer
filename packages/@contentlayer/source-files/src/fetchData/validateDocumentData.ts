@@ -1,5 +1,5 @@
 import type * as core from '@contentlayer/core'
-import type { PosixFilePath } from '@contentlayer/utils'
+import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer/utils'
 import { filePathJoin } from '@contentlayer/utils'
 import { O, OT, pipe, T, These } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
@@ -33,10 +33,10 @@ export const validateDocumentData = ({
   coreSchemaDef: core.SchemaDef
   rawContent: RawContent
   /** relativeFilePath just needed for better error handling */
-  relativeFilePath: PosixFilePath
+  relativeFilePath: RelativePosixFilePath
   filePathPatternMap: FilePathPatternMap
   options: core.PluginOptions
-  contentDirPath: PosixFilePath
+  contentDirPath: AbsolutePosixFilePath
   contentTypeMap: ContentTypeMap
 }): T.Effect<
   HasDocumentTypeMapState & OT.HasTracer,
@@ -185,9 +185,9 @@ const validateFieldData = ({
 }: {
   fieldDef: core.FieldDef
   rawFieldData: any
-  documentFilePath: PosixFilePath
+  documentFilePath: RelativePosixFilePath
   documentTypeName: string
-  contentDirPath: PosixFilePath
+  contentDirPath: AbsolutePosixFilePath
 }): T.Effect<
   OT.HasTracer,
   never,
@@ -237,7 +237,7 @@ const validateContentTypeMatchesFileExtension = ({
   relativeFilePath,
 }: {
   contentType: DocumentContentType
-  relativeFilePath: PosixFilePath
+  relativeFilePath: RelativePosixFilePath
 }) => {
   const extension = relativeFilePath.toLowerCase().split('.').pop()!
 
