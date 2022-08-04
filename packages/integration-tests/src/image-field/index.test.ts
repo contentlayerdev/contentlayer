@@ -33,36 +33,18 @@ test('mdx-image-field ', async () => {
     core.generateDotpkg({ config: { source, esbuildHash: 'STATIC_HASH' }, verbose: true }),
   )
 
-  const allPosts = await fs.readFile(
-    path.join(generatedContentlayerDirPath, 'generated', 'Post', '_index.json'),
-    'utf8',
-  )
+  const allPosts = await fs
+    .readFile(path.join(generatedContentlayerDirPath, 'generated', 'Post', '_index.json'), 'utf8')
+    .then((json) => JSON.parse(json))
 
-  expect(allPosts).toMatchInlineSnapshot(`
-    "[
-      {
-        \\"coverImage\\": {
-          \\"filePath\\": \\"posts/image-a.png\\",
-          \\"relativeFilePath\\": \\"image-a.png\\",
-          \\"format\\": \\"png\\",
-          \\"height\\": 480,
-          \\"width\\": 640,
-          \\"blurhashDataUrl\\": \\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAMAAADz0U65AAAACVBMVEV8Ou12OOBtM9E8a9LBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAHElEQVQImWNgwAIYmZhgDEYwzcQEQiABRhDCAgADQQAWowgdtgAAAABJRU5ErkJggg==\\"
-        },
-        \\"body\\": {
-          \\"raw\\": \\"\\\\n# Hello world\\\\n\\",
-          \\"html\\": \\"<h1>Hello world</h1>\\"
-        },
-        \\"_id\\": \\"posts/post-a.md\\",
-        \\"_raw\\": {
-          \\"sourceFilePath\\": \\"posts/post-a.md\\",
-          \\"sourceFileName\\": \\"post-a.md\\",
-          \\"sourceFileDir\\": \\"posts\\",
-          \\"contentType\\": \\"markdown\\",
-          \\"flattenedPath\\": \\"posts/post-a\\"
-        },
-        \\"type\\": \\"Post\\"
-      }
-    ]"
+  expect(allPosts[0].coverImage).toMatchInlineSnapshot(`
+    {
+      "blurhashDataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAMAAADz0U65AAAACVBMVEV8Ou12OOBtM9E8a9LBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAHElEQVQImWNgwAIYmZhgDEYwzcQEQiABRhDCAgADQQAWowgdtgAAAABJRU5ErkJggg==",
+      "filePath": "posts/image-a.png",
+      "format": "png",
+      "height": 480,
+      "relativeFilePath": "image-a.png",
+      "width": 640,
+    }
   `)
 })
