@@ -1,8 +1,8 @@
 import type { HasCwd } from '@contentlayer/core'
 import * as core from '@contentlayer/core'
-import type { PosixFilePath } from '@contentlayer/utils'
+import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer/utils'
 import * as utils from '@contentlayer/utils'
-import { unknownToPosixFilePath } from '@contentlayer/utils'
+import { unknownToRelativePosixFilePath } from '@contentlayer/utils'
 import type { E, HasConsole, OT } from '@contentlayer/utils/effect'
 import { pipe, S, T, These } from '@contentlayer/utils/effect'
 import { FSWatch } from '@contentlayer/utils/node'
@@ -28,9 +28,9 @@ export const fetchData = ({
   documentTypeDefs: LocalSchema.DocumentTypeDef[]
   flags: Flags
   options: core.PluginOptions
-  contentDirPath: PosixFilePath
-  contentDirInclude: readonly PosixFilePath[]
-  contentDirExclude: readonly PosixFilePath[]
+  contentDirPath: AbsolutePosixFilePath
+  contentDirInclude: readonly AbsolutePosixFilePath[]
+  contentDirExclude: readonly AbsolutePosixFilePath[]
   verbose: boolean
 }): S.Stream<OT.HasTracer & HasCwd & HasConsole, never, E.Either<core.SourceFetchDataError, core.DataCache.Cache>> => {
   const filePathPatternMap = makefilePathPatternMap(documentTypeDefs)
@@ -142,7 +142,7 @@ const updateCacheEntry = ({
   options,
   contentTypeMap,
 }: {
-  contentDirPath: PosixFilePath
+  contentDirPath: AbsolutePosixFilePath
   filePathPatternMap: FilePathPatternMap
   cache: core.DataCache.Cache
   event: CustomUpdateEventFileUpdated
@@ -150,7 +150,7 @@ const updateCacheEntry = ({
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
   contentTypeMap: ContentTypeMap
-}): T.Effect<OT.HasTracer & HasConsole, core.HandledFetchDataError, core.DataCache.Cache> =>
+}): T.Effect<OT.HasTracer & HasConsole & HasCwd, core.HandledFetchDataError, core.DataCache.Cache> =>
   T.gen(function* ($) {
     yield* $(
       pipe(
@@ -191,9 +191,9 @@ const chokidarAllEventToCustomUpdateEvent = (event: FSWatch.FileSystemEvent): Cu
   switch (event._tag) {
     case 'FileAdded':
     case 'FileChanged':
-      return { _tag: 'updated', relativeFilePath: unknownToPosixFilePath(event.path) }
+      return { _tag: 'updated', relativeFilePath: unknownToRelativePosixFilePath(event.path) }
     case 'FileRemoved':
-      return { _tag: 'deleted', relativeFilePath: unknownToPosixFilePath(event.path) }
+      return { _tag: 'deleted', relativeFilePath: unknownToRelativePosixFilePath(event.path) }
     case 'DirectoryRemoved':
     case 'DirectoryAdded':
       return { _tag: 'init' }
@@ -206,12 +206,12 @@ type CustomUpdateEvent = CustomUpdateEventFileUpdated | CustomUpdateEventFileDel
 
 type CustomUpdateEventFileUpdated = {
   readonly _tag: 'updated'
-  relativeFilePath: PosixFilePath
+  relativeFilePath: RelativePosixFilePath
 }
 
 type CustomUpdateEventFileDeleted = {
   readonly _tag: 'deleted'
-  relativeFilePath: PosixFilePath
+  relativeFilePath: RelativePosixFilePath
 }
 
 type CustomUpdateEventInit = {

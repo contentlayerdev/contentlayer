@@ -1,7 +1,11 @@
 import type { HasCwd } from '@contentlayer/core'
 import * as core from '@contentlayer/core'
 import { provideCwd } from '@contentlayer/core'
-import { provideDummyTracing, unknownToPosixFilePath } from '@contentlayer/utils'
+import {
+  provideDummyTracing,
+  unknownToAbsolutePosixFilePath,
+  unknownToRelativePosixFilePath,
+} from '@contentlayer/utils'
 import type { HasClock, HasConsole, OT } from '@contentlayer/utils/effect'
 import { pipe, provideTestConsole, T, These } from '@contentlayer/utils/effect'
 
@@ -22,8 +26,8 @@ export const runTest = async ({
   relativeFilePath: string
 }) => {
   const eff = T.gen(function* ($) {
-    const relativeFilePath = unknownToPosixFilePath(relativeFilePath_)
-    const contentDirPath = unknownToPosixFilePath(contentDirPath_)
+    const relativeFilePath = unknownToRelativePosixFilePath(relativeFilePath_)
+    const contentDirPath = unknownToAbsolutePosixFilePath(contentDirPath_)
     const esbuildHash = 'not-important-for-this-test'
 
     const source = yield* $(T.tryPromise(() => makeSource({ contentDirPath, documentTypes })))

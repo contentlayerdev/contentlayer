@@ -1,5 +1,5 @@
 import * as core from '@contentlayer/core'
-import type { PosixFilePath } from '@contentlayer/utils'
+import type { AbsolutePosixFilePath } from '@contentlayer/utils'
 import { AsciiTree } from '@contentlayer/utils'
 import type { HasConsole } from '@contentlayer/utils/effect'
 import { T } from '@contentlayer/utils/effect'
@@ -21,7 +21,7 @@ export const handleFetchDataErrors = ({
   options: core.PluginOptions
   flags: Flags
   schemaDef: core.SchemaDef
-  contentDirPath: PosixFilePath
+  contentDirPath: AbsolutePosixFilePath
   verbose?: boolean
 }): T.Effect<HasConsole, core.HandledFetchDataError, void> =>
   T.gen(function* ($) {
@@ -63,7 +63,7 @@ export const testOnly_aggregateFetchDataErrors = ({
   options: core.PluginOptions
   flags: Flags
   schemaDef: core.SchemaDef
-  contentDirPath: PosixFilePath
+  contentDirPath: AbsolutePosixFilePath
   verbose?: boolean
 }): string | null => {
   const filteredErrors = filterIgnoredErrorsByFlags({ errors, flags })
@@ -100,7 +100,7 @@ const aggregateFetchDataErrors = ({
   flags: Flags
   shouldFail: boolean
   schemaDef: core.SchemaDef
-  contentDirPath: PosixFilePath
+  contentDirPath: AbsolutePosixFilePath
   verbose?: boolean
 }): string => {
   const keyMessage = `Found ${errors.length} problems in ${documentCount} documents.`

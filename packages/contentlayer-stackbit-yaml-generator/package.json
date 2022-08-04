@@ -1,6 +1,6 @@
 {
   "name": "contentlayer-stackbit-yaml-generator",
-  "version": "0.2.6",
+  "version": "0.2.7-dev.9",
   "type": "module",
   "bin": "./dist/cli/index.js",
   "exports": "./dist/lib/index.js",
@@ -26,6 +26,6 @@
     "contentlayer": "workspace:*",
     "typescript": "^4.7.4",
     "vite": "^3.0.4",
-    "vitest": "^0.20.2"
+    "vitest": "0.20.3"
   }
 }

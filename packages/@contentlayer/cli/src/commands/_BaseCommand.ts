@@ -1,6 +1,5 @@
 import type { HasCwd } from '@contentlayer/core'
 import * as core from '@contentlayer/core'
-import { unknownToPosixFilePath } from '@contentlayer/utils'
 import type { HasClock, HasConsole, OT } from '@contentlayer/utils/effect'
 import { pipe, T } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
@@ -38,7 +37,7 @@ export abstract class BaseCommand extends Command {
 
     return T.gen(function* ($) {
       if (clearCache) {
-        const cwd = unknownToPosixFilePath(process.cwd())
+        const cwd = yield* $(core.getCwd)
         const artifactsDir = core.ArtifactsDir.getDirPath({ cwd })
         yield* $(fs.rm(artifactsDir, { recursive: true, force: true }))
         yield* $(T.log('Cache cleared successfully'))

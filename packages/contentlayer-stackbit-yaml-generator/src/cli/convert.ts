@@ -116,6 +116,8 @@ const fieldDefToStackbitField = ({
     case 'list':
     case 'list_polymorphic':
       return { ...commonField, type: 'list', items: listFieldDefToStackbitFieldListItems(fieldDef) }
+    case 'image':
+      return { ...commonField, type: 'string' }
     case 'date':
     case 'number':
     case 'string':

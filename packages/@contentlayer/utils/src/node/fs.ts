@@ -53,6 +53,20 @@ export const readFile = (filePath: string): T.Effect<OT.HasTracer, ReadFileError
     ),
   )
 
+export const readFileBuffer = (filePath: string): T.Effect<OT.HasTracer, ReadFileError | FileNotFoundError, Buffer> =>
+  OT.withSpan('readFileBuffer', { attributes: { filePath } })(
+    T.tryCatchPromise(
+      () => fs.readFile(filePath),
+      (error: any) => {
+        if (error.code === 'ENOENT') {
+          return new FileNotFoundError({ filePath })
+        } else {
+          return new ReadFileError({ filePath, error })
+        }
+      },
+    ),
+  )
+
 export const readFileJson = <T extends JsonValue = JsonValue>(
   filePath: string,
 ): T.Effect<OT.HasTracer, ReadFileError | FileNotFoundError | JsonParseError, T> =>

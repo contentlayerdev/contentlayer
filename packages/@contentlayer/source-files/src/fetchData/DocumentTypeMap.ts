@@ -1,15 +1,15 @@
-import type { PosixFilePath } from '@contentlayer/utils'
+import type { RelativePosixFilePath } from '@contentlayer/utils'
 import type { Has } from '@contentlayer/utils/effect'
 import { HashMap, O, pipe, State, T, Tagged } from '@contentlayer/utils/effect'
 
 type DocumentTypeName = string
 
 export class DocumentTypeMap extends Tagged('@local/DocumentTypeMap')<{
-  readonly map: HashMap.HashMap<DocumentTypeName, PosixFilePath[]>
+  readonly map: HashMap.HashMap<DocumentTypeName, RelativePosixFilePath[]>
 }> {
   static init = () => new DocumentTypeMap({ map: HashMap.make() })
 
-  add = (documentTypeName: DocumentTypeName, filePath: PosixFilePath) => {
+  add = (documentTypeName: DocumentTypeName, filePath: RelativePosixFilePath) => {
     const oldPaths = pipe(
       HashMap.get_(this.map, documentTypeName),
       O.getOrElse(() => []),
@@ -20,7 +20,7 @@ export class DocumentTypeMap extends Tagged('@local/DocumentTypeMap')<{
     })
   }
 
-  getFilePaths = (documentTypeName: DocumentTypeName): O.Option<PosixFilePath[]> =>
+  getFilePaths = (documentTypeName: DocumentTypeName): O.Option<RelativePosixFilePath[]> =>
     HashMap.get_(this.map, documentTypeName)
 }
 
