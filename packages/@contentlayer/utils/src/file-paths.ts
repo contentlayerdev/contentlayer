@@ -9,7 +9,7 @@ export const absolutePosixFilePath = (path_: string): AbsolutePosixFilePath => {
     throw new Error(`Expected a Posix file path, got ${path_}`)
   }
 
-  if (!path_.startsWith(path.sep)) {
+  if (!path.isAbsolute(path_)) {
     throw new Error(`Expected an absolute path (i.e. starting with '/' or '\\'), got ${path_}`)
   }
 
@@ -35,7 +35,7 @@ export const assertPosixFilePathString = (
 }
 
 export const unknownToRelativePosixFilePath = (path_: string, cwd?: AbsolutePosixFilePath): RelativePosixFilePath => {
-  if (path_.startsWith(path.sep)) {
+  if (path.isAbsolute(path_)) {
     if (cwd === undefined) {
       throw new Error(`Expected a relative path, got ${path_}`)
     }
@@ -51,7 +51,7 @@ export const unknownToRelativePosixFilePath = (path_: string, cwd?: AbsolutePosi
 }
 
 export const unknownToAbsolutePosixFilePath = (path_: string, cwd?: AbsolutePosixFilePath): AbsolutePosixFilePath => {
-  if (!path_.startsWith(path.sep)) {
+  if (!path.isAbsolute(path_)) {
     if (cwd === undefined) {
       throw new Error(`Expected an absolute path (i.e. starting with '/' or '\\'), got ${path_}`)
     }
@@ -73,8 +73,8 @@ export const unknownFilePath = (path_: string): UnknownFilePath => Branded.makeB
 export function filePathJoin(...paths: RelativePosixFilePath[]): RelativePosixFilePath
 export function filePathJoin(...paths: [AbsolutePosixFilePath, ...string[]]): AbsolutePosixFilePath
 export function filePathJoin(...paths: string[]): RelativePosixFilePath | AbsolutePosixFilePath {
-  if (paths.length > 0 && paths[0]!.startsWith(path.sep)) {
-    if (paths.slice(1).some((_) => _.startsWith(path.sep))) {
+  if (paths.length > 0 && path.isAbsolute(paths[0]!)) {
+    if (paths.slice(1).some(path.isAbsolute)) {
       throw new Error(`All path segments except the first are expected to be relative, got ${paths}`)
     }
 
