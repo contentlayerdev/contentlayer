@@ -50,7 +50,7 @@ test('mdx-image-field ', async () => {
           \\"blurhashDataUrl\\": \\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAMAAADz0U65AAAACVBMVEV8Ou12OOBtM9E8a9LBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAHElEQVQImWNgwAIYmZhgDEYwzcQEQiABRhDCAgADQQAWowgdtgAAAABJRU5ErkJggg==\\"
         },
         \\"body\\": {
-          \\"raw\\": \\"\\\\n# Hello world\\\\n\\\\n\\",
+          \\"raw\\": \\"\\\\n# Hello world\\\\n\\",
           \\"html\\": \\"<h1>Hello world</h1>\\"
         },
         \\"_id\\": \\"posts/post-a.md\\",
