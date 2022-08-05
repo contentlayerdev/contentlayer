@@ -4,3 +4,5 @@
   - See https://github.com/vitest-dev/vitest/issues/1191#issuecomment-1192798501
   - The underlying problems seems to be a bug in Node 16 related to worker cleanup.
 - Seems also like Vitest even with Node 18 doesn't seem to work on Windows with `threads: true`
+
+**TODO: We should see whether upcoming Node versions (incl 16.x release) fix the problems above so we can upgrade to the latest Vitest version and use `threads: true` in all cases.**
