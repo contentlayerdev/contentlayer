@@ -24,6 +24,10 @@ const makeJaegerNodeTracingLayer = (serviceName: string): L.Layer<Has<Clock>, ne
 
 export const provideJaegerTracing = (serviceName: string) => T.provideSomeLayer(makeJaegerNodeTracingLayer(serviceName))
 
+// Only use Otel tracing if explicitly enabled via env var
+export const provideTracing = (tracingServiceName: string) =>
+  process.env.CL_OTEL !== undefined ? provideJaegerTracing(tracingServiceName) : provideDummyTracing
+
 //
 // Dummy Tracer
 //

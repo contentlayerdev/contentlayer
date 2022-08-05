@@ -1,10 +1,10 @@
 import type { HasCwd } from '@contentlayer/core'
 import * as core from '@contentlayer/core'
 import { provideCwd } from '@contentlayer/core'
-import { DummyTracing, unknownToRelativePosixFilePath } from '@contentlayer/utils'
-import type { HasClock, HasConsole, OT } from '@contentlayer/utils/effect'
-import { pipe, provideConsole, T } from '@contentlayer/utils/effect'
-import { expect, test } from 'vitest'
+import { provideTracing, unknownToRelativePosixFilePath } from '@contentlayer/utils'
+import type { HasClock, HasConsole } from '@contentlayer/utils/effect'
+import { OT, pipe, provideConsole, T } from '@contentlayer/utils/effect'
+import { describe, expect, test } from 'vitest'
 
 import type { HasDocumentContext } from '../fetchData/DocumentContext.js'
 import { provideDocumentContext } from '../fetchData/DocumentContext.js'
@@ -20,7 +20,7 @@ test('getFlattenedPath', () => {
 
 const __unusedValue: any = ''
 
-test('getDataForFieldDef', async () => {
+describe('getDataForFieldDef', () => {
   const testValue = async ({
     type,
     expectedValue,
@@ -32,7 +32,7 @@ test('getDataForFieldDef', async () => {
     expectedValue: any
     options?: Partial<core.PluginOptions>
   }) => {
-    const transformedData = await runPromise(
+    const transformedData = await pipe(
       getDataForFieldDef({
         rawFieldData,
         typeName: __unusedValue,
@@ -56,20 +56,45 @@ test('getDataForFieldDef', async () => {
           ...options,
         },
       }),
+      OT.withSpan('testValue'),
+      runPromise,
     )
 
     expect(transformedData).toBe(expectedValue)
   }
 
-  await testValue({ type: 'date', rawFieldData: '2022', expectedValue: '2022-01-01T00:00:00.000Z' })
-  await testValue({ type: 'date', rawFieldData: '2022/10/12', expectedValue: '2022-10-12T00:00:00.000Z' })
-  await testValue({ type: 'date', rawFieldData: '2022-10-12', expectedValue: '2022-10-12T00:00:00.000Z' })
-  await testValue({
-    type: 'date',
-    rawFieldData: '2022-10-12',
-    expectedValue: '2022-10-12T04:00:00.000Z',
-    options: { date: { timezone: 'America/New_York' } },
-  })
+  test('only year', () => testValue({ type: 'date', rawFieldData: '2022', expectedValue: '2022-01-01T00:00:00.000Z' }))
+
+  test('date with slash separators', () =>
+    testValue({ type: 'date', rawFieldData: '2022/10/12', expectedValue: '2022-10-12T00:00:00.000Z' }))
+
+  test('date with dash separators', () =>
+    testValue({ type: 'date', rawFieldData: '2022-10-12', expectedValue: '2022-10-12T00:00:00.000Z' }))
+
+  test('with timezone option but date str without tz', () =>
+    testValue({
+      type: 'date',
+      rawFieldData: '2022-10-12',
+      expectedValue: '2022-10-12T04:00:00Z',
+      options: { date: { timezone: 'America/New_York' } }, // NY is UTC+4
+    }))
+
+  test('iso date str with tz should ignore timezone option', () =>
+    testValue({
+      type: 'date',
+      rawFieldData: '2022-10-12T07:00:00.000Z',
+      expectedValue: '2022-10-12T07:00:00.000Z',
+      options: { date: { timezone: 'America/New_York' } }, // NY is UTC+4
+    }))
+
+  // Skip this test for now as Temporal doesn't seem to support `new Date().toUTCString()` format yet
+  test.skip('utc date str with tz should ignore timezone option', () =>
+    testValue({
+      type: 'date',
+      rawFieldData: 'Fri, 05 Aug 2022 11:12:18 GMT',
+      expectedValue: '2022-08-05T15:12:18Z',
+      options: { date: { timezone: 'America/New_York' } }, // NY is UTC+4
+    }))
 })
 
 test('getDataForFieldDef error', async () => {
@@ -152,7 +177,7 @@ test('getDataForFieldDef error', async () => {
 })
 
 const runPromise = <A>(eff: T.Effect<OT.HasTracer & HasClock & HasConsole & HasDocumentContext & HasCwd, unknown, A>) =>
-  pipe(eff, T.provide(DummyTracing), provideConsole, provideTestDocumentContext, provideCwd, T.runPromise)
+  pipe(eff, provideTracing('contentlayer-test'), provideConsole, provideTestDocumentContext, provideCwd, T.runPromise)
 
 const provideTestDocumentContext = provideDocumentContext({
   rawContent: __unusedValue,

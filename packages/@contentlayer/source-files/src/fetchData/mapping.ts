@@ -1,11 +1,10 @@
 import type { HasCwd, UnexpectedMarkdownError, UnexpectedMDXError } from '@contentlayer/core'
 import * as core from '@contentlayer/core'
 import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer/utils'
+import { Temporal } from '@contentlayer/utils'
 import * as utils from '@contentlayer/utils'
 import type { HasConsole, OT } from '@contentlayer/utils/effect'
 import { identity, pipe, T } from '@contentlayer/utils/effect'
-// Use legacy import format since somehow ESM export isn't properly picked up for `date-fns-tz`
-import dateFnsTz from 'date-fns-tz'
 
 import { FetchDataError } from '../errors/index.js'
 import type { HasDocumentContext } from './DocumentContext.js'
@@ -245,11 +244,23 @@ const getDataForFieldDef = ({
         const value = yield* $(
           T.tryCatch(
             () => {
-              let dateValue = new Date(rawFieldData)
-              if (options.date?.timezone) {
-                dateValue = dateFnsTz.zonedTimeToUtc(dateValue, options.date.timezone)
+              const dateHasExplitcitTimezone = () => {
+                try {
+                  Temporal.TimeZone.from(rawFieldData)
+                  return true
+                } catch {
+                  return false
+                }
               }
-              return dateValue.toISOString()
+
+              if (options.date?.timezone && !dateHasExplitcitTimezone()) {
+                const desiredTimezone = Temporal.TimeZone.from(options.date.timezone)
+                const offsetNs = desiredTimezone.getOffsetNanosecondsFor(Temporal.Now.instant())
+
+                return new Date(rawFieldData).toTemporalInstant().subtract({ nanoseconds: offsetNs }).toString()
+              } else {
+                return new Date(rawFieldData).toISOString()
+              }
             },
             () =>
               new FetchDataError.IncompatibleFieldDataError({

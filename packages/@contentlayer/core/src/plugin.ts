@@ -80,7 +80,9 @@ export type DateOptions = {
   /**
    * Use provided timezone (e.g. `America/New_York`)
    *
-   * Based on: https://github.com/marnusw/date-fns-tz#zonedtimetoutc
+   * Based on: https://tc39.es/proposal-temporal/docs/timezone.html
+   *
+   * NOTE The provided timezone will only be used for values that don't already have a timezone set.
    */
   timezone?: string
 }

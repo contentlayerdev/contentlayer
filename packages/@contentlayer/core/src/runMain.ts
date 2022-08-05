@@ -1,7 +1,7 @@
 import type { HasCwd } from '@contentlayer/core'
 import { provideCwd } from '@contentlayer/core'
 import * as core from '@contentlayer/core'
-import { DummyTracing, provideDummyTracing, provideJaegerTracing } from '@contentlayer/utils'
+import { DummyTracing, provideTracing } from '@contentlayer/utils'
 import type { HasClock, HasConsole, OT } from '@contentlayer/utils/effect'
 import { Cause, pipe, pretty, provideConsole, T } from '@contentlayer/utils/effect'
 import { getContentlayerVersion } from '@contentlayer/utils/node'
@@ -16,11 +16,7 @@ export const runMain =
           yield* $(T.log('Warning: Contentlayer might not work as expected on Windows'))
         }
 
-        // Only use Otel tracing if explicitly enabled via env var
-        const provideTracing =
-          process.env.CL_OTEL !== undefined ? provideJaegerTracing(tracingServiceName) : provideDummyTracing
-
-        const result = yield* $(pipe(eff, provideTracing, provideCwd, T.result))
+        const result = yield* $(pipe(eff, provideTracing(tracingServiceName), provideCwd, T.result))
 
         if (result._tag === 'Failure') {
           const failOrCause = Cause.failureOrCause(result.cause)

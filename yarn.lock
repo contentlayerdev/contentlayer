@@ -301,7 +301,6 @@ __metadata:
     "@types/source-map-support": ^0.5.4
     camel-case: ^4.1.2
     comment-json: ^4.2.2
-    date-fns: 2.x
     esbuild: ^0.12.1 || 0.13.x || 0.14.x
     gray-matter: ^4.0.3
     markdown-wasm: ^1.2.0
@@ -314,12 +313,9 @@ __metadata:
     type-fest: ^2.18.0
     unified: ^10.1.2
   peerDependencies:
-    date-fns: 2.x
     esbuild: ^0.12.1 || 0.13.x || 0.14.x
     markdown-wasm: 1.x
   peerDependenciesMeta:
-    date-fns:
-      optional: true
     esbuild:
       optional: true
     markdown-wasm:
@@ -368,8 +364,6 @@ __metadata:
     "@types/sharp": ^0.30.4
     "@types/yaml": ^1.9.7
     chokidar: ^3.5.3
-    date-fns: ^2
-    date-fns-tz: ^1.3.4
     faker: ^5.5.3
     fast-glob: ^3.2.11
     gray-matter: ^4.0.3
@@ -381,11 +375,6 @@ __metadata:
     vite: ^3.0.4
     vitest: 0.20.3
     yaml: ^1.10.2
-  peerDependencies:
-    date-fns: 2.x
-  peerDependenciesMeta:
-    date-fns:
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -397,6 +386,7 @@ __metadata:
     "@effect-ts/otel": ^0.13.0
     "@effect-ts/otel-exporter-trace-otlp-grpc": ^0.13.0
     "@effect-ts/otel-sdk-trace-node": ^0.13.0
+    "@js-temporal/polyfill": ^0.4.2
     "@opentelemetry/api": ~1.0.3
     "@opentelemetry/core": ~1.0.0
     "@opentelemetry/exporter-trace-otlp-grpc": ~0.27.0
@@ -634,6 +624,16 @@ __metadata:
     "@jridgewell/resolve-uri": ^3.0.3
     "@jridgewell/sourcemap-codec": ^1.4.10
   checksum: d89597752fd88d3f3480845691a05a44bd21faac18e2185b6f436c3b0fd0c5a859fbbd9aaa92050c4052caf325ad3e10e2e1d1b64327517471b7d51babc0ddef
+  languageName: node
+  linkType: hard
+
+"@js-temporal/polyfill@npm:^0.4.2":
+  version: 0.4.2
+  resolution: "@js-temporal/polyfill@npm:0.4.2"
+  dependencies:
+    jsbi: ^4.1.0
+    tslib: ^2.3.1
+  checksum: 315e0cb880151b0150ba3039e99ce8cac846834b59981d0b49f5f00c5a5a6f7d270cb95bad7527e145fe026d0e8e4036d32fb1780af8e1bb641a765436e9e458
   languageName: node
   linkType: hard
 
@@ -2867,33 +2867,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns-tz@npm:^1.3.4":
-  version: 1.3.4
-  resolution: "date-fns-tz@npm:1.3.4"
-  peerDependencies:
-    date-fns: ">=2.0.0"
-  checksum: d9b929f2d65b2c4ed96bb09a8bc38f3884b2c44525d58f9329bd374556bb0445bd13308747d209afda513c9b1fac33dfee91d0633b1e9c579d376715a1ac01c5
-  languageName: node
-  linkType: hard
-
-"date-fns@npm:2.x":
-  version: 2.25.0
-  resolution: "date-fns@npm:2.25.0"
-  checksum: 8896dc1dde0ee5ef77616942423bfa11fa2017a5ac19457293b7aaedc8822ff94f0a14eaf93da573b09b601dc0149eb430988a046cc9f79a2eb15f8c66c9c50c
-  languageName: node
-  linkType: hard
-
 "date-fns@npm:^1.27.2":
   version: 1.30.1
   resolution: "date-fns@npm:1.30.1"
   checksum: 86b1f3269cbb1f3ee5ac9959775ea6600436f4ee2b78430cd427b41a0c9fabf740b1a5d401c085f3003539a6f4755c7c56c19fbd70ce11f6f673f6bc8075b710
-  languageName: node
-  linkType: hard
-
-"date-fns@npm:^2":
-  version: 2.28.0
-  resolution: "date-fns@npm:2.28.0"
-  checksum: a0516b2e4f99b8bffc6cc5193349f185f195398385bdcaf07f17c2c4a24473c99d933eb0018be4142a86a6d46cb0b06be6440ad874f15e795acbedd6fd727a1f
   languageName: node
   linkType: hard
 
@@ -5114,6 +5091,13 @@ fsevents@~2.3.2:
   bin:
     js-yaml: bin/js-yaml.js
   checksum: c7830dfd456c3ef2c6e355cc5a92e6700ceafa1d14bba54497b34a99f0376cecbb3e9ac14d3e5849b426d5a5140709a66237a8c991c675431271c4ce5504151a
+  languageName: node
+  linkType: hard
+
+"jsbi@npm:^4.1.0":
+  version: 4.3.0
+  resolution: "jsbi@npm:4.3.0"
+  checksum: 27c4f178eb7fd9d1756144066fdebc62f4a0176e877f55e646e8ce84075c13551bd575a316b9959ccdcca9d5dc05a81c9907cfa09f0cfeb43c9777797e36b0e9
   languageName: node
   linkType: hard
 
@@ -8519,7 +8503,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.4.0":
+"tslib@npm:^2.3.1, tslib@npm:^2.4.0":
   version: 2.4.0
   resolution: "tslib@npm:2.4.0"
   checksum: 8c4aa6a3c5a754bf76aefc38026134180c053b7bd2f81338cb5e5ebf96fefa0f417bff221592bf801077f5bf990562f6264fecbc42cd3309b33872cb6fc3b113
