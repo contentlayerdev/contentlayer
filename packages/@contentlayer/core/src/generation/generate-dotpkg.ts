@@ -1,5 +1,5 @@
-import type { PosixFilePath } from '@contentlayer/utils'
-import { filePathJoin, unknownToPosixFilePath } from '@contentlayer/utils'
+import type { AbsolutePosixFilePath } from '@contentlayer/utils'
+import { filePathJoin } from '@contentlayer/utils'
 import * as utils from '@contentlayer/utils'
 import type { E, HasClock, HasConsole } from '@contentlayer/utils/effect'
 import { Array, Chunk, flow, OT, pipe, S, T } from '@contentlayer/utils/effect'
@@ -112,7 +112,7 @@ const writeFilesForCache = ({
 }: {
   schemaDef: SchemaDef
   cache: DataCache.Cache
-  targetPath: PosixFilePath
+  targetPath: AbsolutePosixFilePath
   generationOptions: GenerationOptions
   writtenFilesCache: WrittenFilesCache
   isDev: boolean
@@ -123,7 +123,7 @@ const writeFilesForCache = ({
 > =>
   pipe(
     T.gen(function* ($) {
-      const withPrefix = (...path_: string[]) => filePathJoin(targetPath, ...path_.map(unknownToPosixFilePath))
+      const withPrefix = (...path_: string[]) => filePathJoin(targetPath, ...path_)
 
       if (process.env['CL_DEBUG']) {
         yield* $(fs.mkdirp(withPrefix('.cache')))
@@ -251,7 +251,7 @@ const writeFileWithWrittenFilesCache =
     documentHash,
     rmBeforeWrite = true,
   }: {
-    filePath: PosixFilePath
+    filePath: AbsolutePosixFilePath
     content: string
     documentHash?: string
     /** In order for VSC to pick up changes in generated files, it's currently needed to delete the file before re-creating it */

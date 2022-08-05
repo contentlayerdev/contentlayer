@@ -26,3 +26,14 @@ export type MDX = {
   /** Prebundled via mdx-bundler */
   code: string
 }
+
+export type ImageFieldData = {
+  /** Image file path relative to `contentDirPath` */
+  filePath: string
+  /** Image file path relative to document */
+  relativeFilePath: string
+  width: number
+  height: number
+  format: string
+  blurhashDataUrl: string
+}

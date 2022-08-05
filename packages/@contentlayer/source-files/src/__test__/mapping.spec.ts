@@ -1,5 +1,7 @@
+import type { HasCwd } from '@contentlayer/core'
 import * as core from '@contentlayer/core'
-import { DummyTracing, unknownToPosixFilePath } from '@contentlayer/utils'
+import { provideCwd } from '@contentlayer/core'
+import { DummyTracing, unknownToRelativePosixFilePath } from '@contentlayer/utils'
 import type { HasClock, HasConsole, OT } from '@contentlayer/utils/effect'
 import { pipe, provideConsole, T } from '@contentlayer/utils/effect'
 import { expect, test } from 'vitest'
@@ -95,7 +97,7 @@ test('getDataForFieldDef error', async () => {
             default: undefined,
             description: undefined,
           },
-          relativeFilePath: unknownToPosixFilePath('some/path/doc.md'),
+          relativeFilePath: unknownToRelativePosixFilePath('some/path/doc.md'),
           options: {
             fieldOptions: core.defaultFieldOptions,
             markdown: undefined,
@@ -149,8 +151,8 @@ test('getDataForFieldDef error', async () => {
   await testValue({ type: 'date', rawFieldData: '2022-0' })
 })
 
-const runPromise = <A>(eff: T.Effect<OT.HasTracer & HasClock & HasConsole & HasDocumentContext, unknown, A>) =>
-  pipe(eff, T.provide(DummyTracing), provideConsole, provideTestDocumentContext, T.runPromise)
+const runPromise = <A>(eff: T.Effect<OT.HasTracer & HasClock & HasConsole & HasDocumentContext & HasCwd, unknown, A>) =>
+  pipe(eff, T.provide(DummyTracing), provideConsole, provideTestDocumentContext, provideCwd, T.runPromise)
 
 const provideTestDocumentContext = provideDocumentContext({
   rawContent: __unusedValue,

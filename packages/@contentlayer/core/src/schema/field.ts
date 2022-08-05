@@ -9,13 +9,10 @@ export type FieldDef =
   | NumberFieldDef
   | BooleanFieldDef
   | JSONFieldDef
-  // | SlugFieldDef
   | DateFieldDef
   | MarkdownFieldDef
   | MDXFieldDef
-  // | TextFieldDef
-  // | ImageFieldDef
-  // | UrlFieldDef
+  | ImageFieldDef
   | EnumFieldDef
   | NestedFieldDef
   | NestedPolymorphicFieldDef
@@ -112,12 +109,6 @@ export type JSONFieldDef = FieldDefBase & {
   default: any | undefined
 }
 
-// TODO why is this field type needed?
-export type SlugFieldDef = FieldDefBase & {
-  type: 'slug'
-  default: string | undefined
-}
-
 export type DateFieldDef = FieldDefBase & {
   type: 'date'
   default: string | undefined
@@ -133,19 +124,8 @@ export type MDXFieldDef = FieldDefBase & {
   default: string | undefined
 }
 
-// why is this field type needed?
-export type TextFieldDef = FieldDefBase & {
-  type: 'text'
-  default: string | undefined
-}
-
 export type ImageFieldDef = FieldDefBase & {
   type: 'image'
-  default: string | undefined
-}
-
-export type UrlFieldDef = FieldDefBase & {
-  type: 'url'
   default: string | undefined
 }
 

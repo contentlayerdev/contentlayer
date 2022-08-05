@@ -223,15 +223,12 @@ const fieldDefEntryToCoreFieldDef = (
       })
     case 'boolean':
     case 'date':
-    // case 'image':
+    case 'image':
     case 'json':
     case 'markdown':
     case 'mdx':
     case 'number':
-    // case 'slug':
     case 'string':
-      // case 'text':
-      // case 'url':
       return {
         // needs to pick again since fieldDef.type has been
         ...utils.pick(fieldDef, ['type', 'default', 'description']),
@@ -316,10 +313,10 @@ const collectNestedDefs = (documentDefs: LocalSchema.DocumentTypeDef[]): LocalSc
           return fieldDef.of.forEach(traverseListFieldItem)
         }
         return traverseListFieldItem(fieldDef.of)
+      case 'image':
       case 'boolean':
       case 'date':
       case 'enum':
-      // case 'image':
       case 'json':
       case 'markdown':
       case 'mdx':

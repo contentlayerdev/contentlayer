@@ -1,4 +1,4 @@
-import type { PosixFilePath } from '@contentlayer/utils'
+import type { RelativePosixFilePath } from '@contentlayer/utils'
 import * as utils from '@contentlayer/utils'
 import type { Has } from '@contentlayer/utils/effect'
 import { T, tag } from '@contentlayer/utils/effect'
@@ -12,7 +12,7 @@ import type { RawContent } from './types.js'
 /** `DocumentContext` is meant as a "container object" that provides useful information when processing a document */
 export interface DocumentContext {
   readonly rawContent: RawContent
-  readonly relativeFilePath: PosixFilePath
+  readonly relativeFilePath: RelativePosixFilePath
   readonly rawDocumentData: RawDocumentData
 }
 

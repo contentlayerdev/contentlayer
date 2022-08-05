@@ -1,4 +1,4 @@
-import { unknownToPosixFilePath } from '@contentlayer/utils'
+import { unknownToAbsolutePosixFilePath } from '@contentlayer/utils'
 import type { Has } from '@contentlayer/utils/effect'
 import { T, tag } from '@contentlayer/utils/effect'
 
@@ -9,7 +9,7 @@ export const makeCwd = T.gen(function* (_) {
     T.succeedWith(() => {
       // `process.env.INIT_CWD` is set by `yarn` or `npm` during installation
       const cwdValue = process.env.INIT_CWD ?? process.cwd()
-      return unknownToPosixFilePath(cwdValue)
+      return unknownToAbsolutePosixFilePath(cwdValue)
     }),
   )
 

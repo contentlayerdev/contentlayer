@@ -1,5 +1,5 @@
 import type * as core from '@contentlayer/core'
-import type { PosixFilePath } from '@contentlayer/utils'
+import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer/utils'
 import { errorToString, pattern } from '@contentlayer/utils'
 import { Tagged } from '@contentlayer/utils/effect'
 
@@ -12,6 +12,7 @@ export namespace FetchDataError {
     | InvalidMarkdownFileError
     | InvalidYamlFileError
     | InvalidJsonFileError
+    | ImageError
     | ComputedValueError
     | UnsupportedFileExtension
     | FileExtensionMismatch
@@ -41,7 +42,7 @@ export namespace FetchDataError {
     errorCount: number
     options: core.PluginOptions
     schemaDef: core.SchemaDef
-    contentDirPath: PosixFilePath
+    contentDirPath: AbsolutePosixFilePath
     skippingMessage: string
   }) => string
 
@@ -57,7 +58,7 @@ export namespace FetchDataError {
   export class InvalidFrontmatterError
     extends Tagged('InvalidFrontmatterError')<{
       readonly error: unknown
-      readonly documentFilePath: PosixFilePath
+      readonly documentFilePath: RelativePosixFilePath
     }>
     implements AggregatableError
   {
@@ -72,7 +73,7 @@ export namespace FetchDataError {
   export class InvalidMarkdownFileError
     extends Tagged('InvalidMarkdownFileError')<{
       readonly error: unknown
-      readonly documentFilePath: PosixFilePath
+      readonly documentFilePath: RelativePosixFilePath
     }>
     implements AggregatableError
   {
@@ -87,7 +88,7 @@ export namespace FetchDataError {
   export class InvalidYamlFileError
     extends Tagged('InvalidYamlFileError')<{
       readonly error: unknown
-      readonly documentFilePath: PosixFilePath
+      readonly documentFilePath: RelativePosixFilePath
     }>
     implements AggregatableError
   {
@@ -102,7 +103,7 @@ export namespace FetchDataError {
   export class InvalidJsonFileError
     extends Tagged('InvalidJsonFileError')<{
       readonly error: unknown
-      readonly documentFilePath: PosixFilePath
+      readonly documentFilePath: RelativePosixFilePath
     }>
     implements AggregatableError
   {
@@ -114,10 +115,30 @@ export namespace FetchDataError {
     renderLine = () => `"${this.documentFilePath}" failed with ${errorToString(this.error)}`
   }
 
+  export class ImageError
+    extends Tagged('ImageError')<{
+      readonly error: unknown
+      readonly documentFilePath: RelativePosixFilePath
+      readonly fieldDef: core.FieldDef
+      readonly imagePath: string
+    }>
+    implements AggregatableError
+  {
+    category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
+
+    renderHeadline: RenderHeadline = ({ errorCount, skippingMessage }) =>
+      `Error for ${errorCount} image fields.${skippingMessage}`
+
+    renderLine = () =>
+      `"${this.documentFilePath}" with field "${this.fieldDef.name}: ${this.imagePath}" failed with ${errorToString(
+        this.error,
+      )}`
+  }
+
   export class ComputedValueError
     extends Tagged('ComputedValueError')<{
       readonly error: unknown
-      readonly documentFilePath: PosixFilePath
+      readonly documentFilePath: RelativePosixFilePath
     }>
     implements AggregatableError
   {
@@ -171,7 +192,7 @@ export namespace FetchDataError {
 
   export class CouldNotDetermineDocumentTypeError
     extends Tagged('CouldNotDetermineDocumentTypeError')<{
-      readonly documentFilePath: PosixFilePath
+      readonly documentFilePath: RelativePosixFilePath
       readonly typeFieldName: string
     }>
     implements AggregatableError
@@ -193,7 +214,7 @@ one of the following document type names: ${validTypeNames}).`
   export class NoSuchDocumentTypeError
     extends Tagged('NoSuchDocumentTypeError')<{
       readonly documentTypeName: string
-      readonly documentFilePath: PosixFilePath
+      readonly documentFilePath: RelativePosixFilePath
     }>
     implements AggregatableError
   {
@@ -213,7 +234,7 @@ Please use one of the following document type names: ${validTypeNames}.\
   export class NoSuchNestedDocumentTypeError
     extends Tagged('NoSuchNestedDocumentTypeError')<{
       readonly documentTypeName: string
-      readonly documentFilePath: PosixFilePath
+      readonly documentFilePath: RelativePosixFilePath
       readonly fieldName: string
       readonly validNestedTypeNames: readonly string[]
     }>
@@ -234,7 +255,7 @@ Couldn't find nested document type definitions provided by name for ${errorCount
 
   export class MissingRequiredFieldsError
     extends Tagged('MissingRequiredFieldsError')<{
-      readonly documentFilePath: PosixFilePath
+      readonly documentFilePath: RelativePosixFilePath
       readonly documentTypeName: string
       readonly fieldDefsWithMissingData: core.FieldDef[]
     }>
@@ -259,7 +280,7 @@ ${misingRequiredFieldsStr}\
 
   export class ExtraFieldDataError
     extends Tagged('ExtraFieldDataError')<{
-      readonly documentFilePath: PosixFilePath
+      readonly documentFilePath: RelativePosixFilePath
       readonly documentTypeName: string
       readonly extraFieldEntries: readonly (readonly [fieldKey: string, fieldValue: any])[]
     }>
@@ -281,10 +302,10 @@ ${extraFields} `
 
   export class ReferencedFileDoesNotExistError
     extends Tagged('ReferencedFileDoesNotExistError')<{
-      readonly documentFilePath: PosixFilePath
+      readonly documentFilePath: RelativePosixFilePath
       readonly documentTypeName: string
       readonly fieldName: string
-      readonly referencedFilePath: PosixFilePath
+      readonly referencedFilePath: RelativePosixFilePath
     }>
     implements AggregatableError
   {
@@ -302,7 +323,7 @@ File paths have to be relative to \`contentDirPath\`: "${contentDirPath}")`
 
   export class IncompatibleFieldDataError
     extends Tagged('IncompatibleFieldDataError')<{
-      readonly documentFilePath: PosixFilePath
+      readonly documentFilePath: RelativePosixFilePath
       readonly documentTypeName: string
       readonly incompatibleFieldData: readonly (readonly [fieldKey: string, fieldValue: any])[]
     }>
@@ -342,7 +363,7 @@ Couldn't find a document for ${errorCount} singleton document types`
 
   export class UnexpectedError
     extends Tagged('UnexpectedError')<{
-      readonly documentFilePath: PosixFilePath
+      readonly documentFilePath: RelativePosixFilePath
       readonly error: unknown
     }>
     implements AggregatableError
