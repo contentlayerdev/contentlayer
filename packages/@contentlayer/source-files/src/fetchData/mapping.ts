@@ -253,6 +253,7 @@ const getDataForFieldDef = ({
                 }
               }
 
+              // See Temporal docs https://tc39.es/proposal-temporal/docs/
               if (options.date?.timezone && !dateHasExplitcitTimezone()) {
                 const desiredTimezone = Temporal.TimeZone.from(options.date.timezone)
                 const offsetNs = desiredTimezone.getOffsetNanosecondsFor(Temporal.Now.instant())
