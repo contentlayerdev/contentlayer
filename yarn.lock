@@ -2867,6 +2867,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"date-fns@npm:2.29.1":
+  version: 2.29.1
+  resolution: "date-fns@npm:2.29.1"
+  checksum: 9d07f77dffc1eb8c213391bde39f2963ffe7c0019d9edde14487882d627224f3a39b963e6e99d0cc58afff220a6a1a7e8864d2789958f4eaa77714de94d4d076
+  languageName: node
+  linkType: hard
+
 "date-fns@npm:^1.27.2":
   version: 1.30.1
   resolution: "date-fns@npm:1.30.1"
@@ -6318,6 +6325,7 @@ fsevents@~2.3.2:
     "@types/react": 18.0.15
     autoprefixer: ^10.4.8
     contentlayer: latest
+    date-fns: 2.29.1
     next: 12.2.3
     next-contentlayer: latest
     postcss: ^8.4.14
