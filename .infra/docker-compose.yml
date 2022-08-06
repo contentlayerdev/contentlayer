@@ -23,6 +23,7 @@ services:
   grafana:
     image: grafana/grafana:latest
     volumes:
+      - ./grafana.ini:/etc/grafana/grafana.ini # needed for tempo-search feature toggle
       - ./grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
     environment:
       - GF_AUTH_ANONYMOUS_ENABLED=true
