@@ -1,0 +1,36 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+        cors:
+          allowed_origins:
+            - 'http://*'
+            - 'https://*'
+          allowed_headers: ['*']
+
+exporters:
+  otlp:
+    endpoint: tempo:4317
+    tls:
+      insecure: true
+  jaeger:
+    endpoint: jaeger-all-in-one:14250
+    tls:
+      insecure: true
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+
+# TODO should I re-enable the batch processor?
+# processors:
+#   batch:
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [otlp, jaeger]
+      # processors: [batch]
+    metrics:
+      receivers: [otlp]
+      exporters: [prometheus]
