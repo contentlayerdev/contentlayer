@@ -26,6 +26,6 @@
     "contentlayer": "workspace:*",
     "typescript": "^4.7.4",
     "vite": "^3.0.4",
-    "vitest": "0.20.3"
+    "vitest": "0.21.0"
   }
 }
