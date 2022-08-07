@@ -49,7 +49,7 @@ Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest
 
 ### Who is using Contentlayer?
 
-- [ped.ro](https://ped.ro) ([Source](https://github.com/peduarte/ped.ro))
+- [ped.ro](https://ped.ro)
 - [GraphCMS Docs](https://graphcms.com/docs)
 - [axeldelafosse.com](https://axeldelafosse.com) ([Source](https://github.com/axeldelafosse/axeldelafosse))
 - [arthurvdiniz.me](https://arthurvdiniz.me) ([Source](https://github.com/arthurvdiniz/me))
