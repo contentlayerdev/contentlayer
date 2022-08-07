@@ -51,7 +51,6 @@ Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest
 
 - [ped.ro](https://ped.ro) ([Source](https://github.com/peduarte/ped.ro))
 - [GraphCMS Docs](https://graphcms.com/docs)
-- [leerob.io](https://leerob.io/) ([Source](https://github.com/leerob/leerob.io))
 - [axeldelafosse.com](https://axeldelafosse.com) ([Source](https://github.com/axeldelafosse/axeldelafosse))
 - [arthurvdiniz.me](https://arthurvdiniz.me) ([Source](https://github.com/arthurvdiniz/me))
 - [imadatyatalah.vercel.app](https://imadatyatalah.vercel.app) ([Source](https://github.com/imadatyatalah/imadatyatalah.me))
