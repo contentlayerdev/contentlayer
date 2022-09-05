@@ -1,8 +1,9 @@
-import * as core from 'contentlayer/core'
-import { defineDocumentType, makeSource } from 'contentlayer/source-files'
 import * as fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+
+import * as core from 'contentlayer/core'
+import { defineDocumentType, makeSource } from 'contentlayer/source-files'
 import { expect, test } from 'vitest'
 
 test('empty content folder', async () => {

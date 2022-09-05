@@ -10,6 +10,6 @@
   "dependencies": {
     "contentful-management": "7.22.4",
     "contentful-migration": "^4.2.3",
-    "lorem-ipsum": "^2.0.3"
+    "lorem-ipsum": "^2.0.8"
   }
 }

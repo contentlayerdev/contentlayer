@@ -1,8 +1,9 @@
+import * as path from 'node:path'
+
 import type { RelativePosixFilePath } from '@contentlayer/utils'
 import * as utils from '@contentlayer/utils'
 import type { Has } from '@contentlayer/utils/effect'
 import { T, tag } from '@contentlayer/utils/effect'
-import * as path from 'node:path'
 
 import type { DocumentContentType } from '../schema/defs/index.js'
 import type { RawDocumentData } from '../types.js'

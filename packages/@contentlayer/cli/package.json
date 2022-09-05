@@ -19,6 +19,6 @@
     "typanion": "^3.9.0"
   },
   "devDependencies": {
-    "@types/node": "^17.0.45"
+    "@types/node": "^18.7.15"
   }
 }

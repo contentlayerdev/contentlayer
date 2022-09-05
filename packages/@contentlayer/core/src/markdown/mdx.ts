@@ -1,8 +1,9 @@
+import * as path from 'node:path'
+
 import { errorToString } from '@contentlayer/utils'
 import { OT, pipe, T, Tagged } from '@contentlayer/utils/effect'
 import * as mdxBundler from 'mdx-bundler'
 import type { BundleMDXOptions } from 'mdx-bundler/dist/types'
-import * as path from 'node:path'
 
 import type { RawDocumentData } from '../data-types.js'
 import type { MDXOptions } from '../plugin.js'

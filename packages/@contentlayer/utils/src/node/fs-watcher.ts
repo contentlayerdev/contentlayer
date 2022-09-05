@@ -1,3 +1,5 @@
+import type fs from 'node:fs'
+
 import * as T from '@effect-ts/core/Effect'
 import * as Ex from '@effect-ts/core/Effect/Exit'
 import * as S from '@effect-ts/core/Effect/Experimental/Stream'
@@ -9,7 +11,6 @@ import * as E from '@effect-ts/core/Either'
 import { pipe } from '@effect-ts/core/Function'
 import * as O from '@effect-ts/core/Option'
 import * as Chokidar from 'chokidar'
-import type fs from 'node:fs'
 
 import { Tagged } from '../effect/index.js'
 import type { UnknownFilePath } from '../file-paths.js'

@@ -32,7 +32,7 @@
     "@stackbit/sdk": "~0.2.35"
   },
   "devDependencies": {
-    "vite": "^3.0.4",
-    "vitest": "0.21.0"
+    "vite": "^3.1.0",
+    "vitest": "0.23.1"
   }
 }

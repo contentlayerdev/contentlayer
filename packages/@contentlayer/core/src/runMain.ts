@@ -1,3 +1,5 @@
+import * as os from 'node:os'
+
 import type { HasCwd } from '@contentlayer/core'
 import { provideCwd } from '@contentlayer/core'
 import * as core from '@contentlayer/core'
@@ -5,7 +7,6 @@ import { DummyTracing, provideTracing } from '@contentlayer/utils'
 import type { HasClock, HasConsole, OT } from '@contentlayer/utils/effect'
 import { Cause, pipe, pretty, provideConsole, T } from '@contentlayer/utils/effect'
 import { getContentlayerVersion } from '@contentlayer/utils/node'
-import * as os from 'node:os'
 
 export const runMain =
   ({ tracingServiceName, verbose }: { tracingServiceName: string; verbose: boolean }) =>

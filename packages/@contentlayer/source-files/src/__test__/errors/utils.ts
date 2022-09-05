@@ -1,8 +1,9 @@
+import * as path from 'node:path'
+
 import type * as core from '@contentlayer/core'
 import type { RelativePosixFilePath } from '@contentlayer/utils'
 import { capitalizeFirstLetter, singleItem, unknownToRelativePosixFilePath } from '@contentlayer/utils'
 import faker from 'faker'
-import * as path from 'node:path'
 
 import { FetchDataError } from '../../errors/index.js'
 

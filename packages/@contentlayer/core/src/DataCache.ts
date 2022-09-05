@@ -1,8 +1,9 @@
+import * as path from 'node:path'
+
 import type { E } from '@contentlayer/utils/effect'
 import { OT, pipe, T } from '@contentlayer/utils/effect'
 import type { GetContentlayerVersionError } from '@contentlayer/utils/node'
 import { fs } from '@contentlayer/utils/node'
-import * as path from 'node:path'
 
 import { ArtifactsDir } from './ArtifactsDir.js'
 import type { HasCwd } from './cwd.js'

@@ -1,9 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import * as core from 'contentlayer/core'
-import { defineDocumentType, makeSource } from 'contentlayer/source-files'
 import * as fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+
+import * as core from 'contentlayer/core'
+import { defineDocumentType, makeSource } from 'contentlayer/source-files'
 import { expect, test } from 'vitest'
 
 test('mdx-image-field ', async () => {
@@ -39,7 +40,7 @@ test('mdx-image-field ', async () => {
 
   expect(allPosts[0].coverImage).toMatchInlineSnapshot(`
     {
-      "blurhashDataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAMAAADz0U65AAAACVBMVEV8Ou12OOBtM9E8a9LBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAHElEQVQImWNgwAIYmZhgDEYwzcQEQiABRhDCAgADQQAWowgdtgAAAABJRU5ErkJggg==",
+      "blurhashDataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAArklEQVR4nF2OSw6CQBBEuZKGwfl4Io1BNqAMwwV1YTRGl4gLI3+8QJludeOiU13J6+ryMlPjMxWsqVjZzytY2cEjY1UDpwfk5sVKnoFggJfphi8iccViskMkLt/EGqkY4RGd6wGJKrEOTohlgdyMsJoATmgR+mes/ANS80AojlhO93Cm/QENNuqOeHbDVj6RyBKxKpCZ5vOCfjndwekelEbKO5fsqUPLrf+Hkgl4A4q9pmrNTiK/AAAAAElFTkSuQmCC",
       "filePath": "posts/image-a.png",
       "format": "png",
       "height": 480,

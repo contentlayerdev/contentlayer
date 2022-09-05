@@ -1,10 +1,11 @@
 import '@contentlayer/utils/effect/Tracing/Enable'
 
+import process from 'node:process'
+
 import { provideDummyTracing } from '@contentlayer/utils'
 import { pipe, T } from '@contentlayer/utils/effect'
 import { getContentlayerVersion } from '@contentlayer/utils/node'
 import { Builtins, Cli } from 'clipanion'
-import process from 'node:process'
 
 import { BuildCommand } from './commands/BuildCommand.js'
 import { DefaultCommand } from './commands/DefaultCommand.js'

@@ -1,3 +1,5 @@
+import * as os from 'node:os'
+
 import type * as core from '@contentlayer/core'
 import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer/utils'
 import { asMutableArray, relativePosixFilePath } from '@contentlayer/utils'
@@ -5,7 +7,6 @@ import type { HasConsole } from '@contentlayer/utils/effect'
 import { Chunk, O, OT, pipe, T } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
 import glob from 'fast-glob'
-import * as os from 'node:os'
 
 import { FetchDataError } from '../errors/index.js'
 import type { Flags } from '../index.js'

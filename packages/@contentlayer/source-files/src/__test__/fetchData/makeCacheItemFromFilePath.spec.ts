@@ -1,5 +1,6 @@
-import { E } from '@contentlayer/utils/effect'
 import path from 'node:path'
+
+import { E } from '@contentlayer/utils/effect'
 import { fileURLToPath } from 'url'
 import { expect, test } from 'vitest'
 

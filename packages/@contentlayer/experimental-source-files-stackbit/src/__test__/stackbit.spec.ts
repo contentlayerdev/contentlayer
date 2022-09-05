@@ -1,10 +1,11 @@
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
 import * as SourceFiles from '@contentlayer/source-files'
 import { provideDummyTracing } from '@contentlayer/utils'
 import type { HasClock, HasConsole, OT } from '@contentlayer/utils/effect'
 import { pipe, provideTestConsole, T } from '@contentlayer/utils/effect'
 import * as Stackbit from '@stackbit/sdk'
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import { expect, test } from 'vitest'
 
 import { stackbitConfigToDocumentTypes } from '../index.js'

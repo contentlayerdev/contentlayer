@@ -13,7 +13,7 @@
     "test": "echo No tests yet"
   },
   "peerDependencies": {
-    "esbuild": "^0.12.1 || 0.13.x || 0.14.x",
+    "esbuild": "^0.12.1 || 0.13.x || 0.14.x || 0.15.x",
     "markdown-wasm": "1.x"
   },
   "peerDependenciesMeta": {
@@ -27,8 +27,8 @@
   "dependencies": {
     "@contentlayer/utils": "workspace:*",
     "camel-case": "^4.1.2",
-    "comment-json": "^4.2.2",
-    "esbuild": "^0.12.1 || 0.13.x || 0.14.x",
+    "comment-json": "^4.2.3",
+    "esbuild": "^0.12.1 || 0.13.x || 0.14.x || 0.15.x",
     "gray-matter": "^4.0.3",
     "mdx-bundler": "^9.0.1",
     "rehype-stringify": "^9.0.3",
@@ -40,7 +40,7 @@
     "unified": "^10.1.2"
   },
   "devDependencies": {
-    "@types/source-map-support": "^0.5.4",
+    "@types/source-map-support": "^0.5.6",
     "markdown-wasm": "^1.2.0"
   }
 }

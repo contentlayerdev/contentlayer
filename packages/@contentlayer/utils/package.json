@@ -72,7 +72,7 @@
     "chokidar": "^3.5.3",
     "hash-wasm": "^4.9.0",
     "inflection": "^1.13.2",
-    "oo-ascii-tree": "^1.63.2",
+    "oo-ascii-tree": "^1.67.0",
     "ts-pattern": "^4.0.5",
     "type-fest": "^2.18.0"
   },
