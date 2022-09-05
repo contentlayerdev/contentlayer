@@ -5,5 +5,6 @@
   - The underlying problems seems to be a bug in Node 16 related to worker cleanup.
 - Seems also like Vitest even with Node 18 doesn't seem to work on Windows with `threads: true`
 - Update: I've been running into further issues with `threads: true` and have now disabled it entirely
+- Update (2022/9/5): It seems like even the latest Vitest addition of `VITEST_SEGFAULT_RETRY` still doesn't resolve failing tests on Windows with Node 14 (see this [action run](https://github.com/contentlayerdev/contentlayer/actions/runs/2993794700))
 
 **TODO: We should see whether upcoming Node versions (incl 16.x release) fix the problems above so we can upgrade to the latest Vitest version and use `threads: true` in all cases.**
