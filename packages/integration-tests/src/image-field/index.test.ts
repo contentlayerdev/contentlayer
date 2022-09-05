@@ -22,7 +22,7 @@ test('mdx-image-field ', async () => {
 
   await fs.rm(generatedContentlayerDirPath, { recursive: true, force: true })
 
-  process.env['INIT_CWD'] = testDirPath
+  process.env['PWD'] = testDirPath
 
   const source = await makeSource({
     contentDirPath: path.join(testDirPath, 'content'),

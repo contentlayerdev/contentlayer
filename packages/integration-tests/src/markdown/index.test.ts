@@ -23,7 +23,7 @@ test('markdown builder pattern', async () => {
 
   await fs.rm(path.join(testDirPath, '.contentlayer'), { recursive: true, force: true })
 
-  process.env['INIT_CWD'] = testDirPath
+  process.env['PWD'] = testDirPath
 
   const source = await makeSource({
     contentDirPath: path.join(testDirPath, 'posts'),

@@ -20,7 +20,7 @@ test('mdx - resolveCwd - contentDirPath', async () => {
 
   await fs.rm(path.join(testDirPath, '.contentlayer'), { recursive: true, force: true })
 
-  process.env['INIT_CWD'] = testDirPath
+  process.env['PWD'] = testDirPath
 
   const source = await makeSource({
     contentDirPath: path.join(testDirPath, 'contentDirPath'),
@@ -66,7 +66,7 @@ test('mdx - resolveCwd - relative', async () => {
 
   await fs.rm(path.join(testDirPath, '.contentlayer'), { recursive: true, force: true })
 
-  process.env['INIT_CWD'] = testDirPath
+  process.env['PWD'] = testDirPath
 
   const source = await makeSource({
     contentDirPath: path.join(testDirPath, 'content'),
