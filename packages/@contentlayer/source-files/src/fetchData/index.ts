@@ -29,8 +29,8 @@ export const fetchData = ({
   flags: Flags
   options: core.PluginOptions
   contentDirPath: AbsolutePosixFilePath
-  contentDirInclude: readonly AbsolutePosixFilePath[]
-  contentDirExclude: readonly AbsolutePosixFilePath[]
+  contentDirInclude: readonly RelativePosixFilePath[]
+  contentDirExclude: readonly RelativePosixFilePath[]
   verbose: boolean
 }): S.Stream<OT.HasTracer & HasCwd & HasConsole, never, E.Either<core.SourceFetchDataError, core.DataCache.Cache>> => {
   const filePathPatternMap = makefilePathPatternMap(documentTypeDefs)

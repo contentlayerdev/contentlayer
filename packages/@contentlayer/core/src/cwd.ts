@@ -7,8 +7,7 @@ const CwdSymbol = Symbol()
 export const makeCwd = T.gen(function* (_) {
   const cwd = yield* _(
     T.succeedWith(() => {
-      // `process.env.INIT_CWD` is set by `yarn` or `npm` during installation
-      const cwdValue = process.env.INIT_CWD ?? process.cwd()
+      const cwdValue = process.env.PWD ?? process.cwd()
       return unknownToAbsolutePosixFilePath(cwdValue)
     }),
   )

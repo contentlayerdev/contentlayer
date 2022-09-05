@@ -22,6 +22,11 @@ export const relativePosixFilePath = (path_: string): RelativePosixFilePath => {
   if (!isPosixFilePathString(path_)) {
     throw new Error(`Expected a Posix file path, got ${path_}`)
   }
+
+  if (path.isAbsolute(path_)) {
+    throw new Error(`Expected a relative path (i.e. not starting with '/' or '\\'), got ${path_}`)
+  }
+
   return Branded.makeBranded(path_)
 }
 

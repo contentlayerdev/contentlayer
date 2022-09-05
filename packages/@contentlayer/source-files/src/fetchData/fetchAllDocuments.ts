@@ -29,8 +29,8 @@ export const fetchAllDocuments = ({
   coreSchemaDef: core.SchemaDef
   filePathPatternMap: FilePathPatternMap
   contentDirPath: AbsolutePosixFilePath
-  contentDirInclude: readonly AbsolutePosixFilePath[]
-  contentDirExclude: readonly AbsolutePosixFilePath[]
+  contentDirInclude: readonly RelativePosixFilePath[]
+  contentDirExclude: readonly RelativePosixFilePath[]
   contentTypeMap: ContentTypeMap
   flags: Flags
   options: core.PluginOptions
@@ -96,8 +96,8 @@ const getAllRelativeFilePaths = ({
   contentDirExclude,
 }: {
   contentDirPath: AbsolutePosixFilePath
-  contentDirInclude: readonly AbsolutePosixFilePath[]
-  contentDirExclude: readonly AbsolutePosixFilePath[]
+  contentDirInclude: readonly RelativePosixFilePath[]
+  contentDirExclude: readonly RelativePosixFilePath[]
 }): T.Effect<OT.HasTracer, fs.UnknownFSError, RelativePosixFilePath[]> => {
   const getPatternPrefix = (paths_: readonly string[]) => {
     const paths = paths_

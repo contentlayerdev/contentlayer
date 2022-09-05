@@ -1,6 +1,6 @@
 import * as core from '@contentlayer/core'
 import { processArgs, SourceProvideSchemaError } from '@contentlayer/core'
-import { unknownToAbsolutePosixFilePath } from '@contentlayer/utils'
+import { unknownToAbsolutePosixFilePath, unknownToRelativePosixFilePath } from '@contentlayer/utils'
 import { pipe, S, T } from '@contentlayer/utils/effect'
 
 import { fetchData } from './fetchData/index.js'
@@ -114,9 +114,9 @@ export const makeSource: core.MakeSourcePlugin<Args> = async (args) => {
             options,
             contentDirPath: unknownToAbsolutePosixFilePath(contentDirPath, cwd),
             contentDirExclude: (contentDirExclude ?? contentDirExcludeDefault).map((_) =>
-              unknownToAbsolutePosixFilePath(_, cwd),
+              unknownToRelativePosixFilePath(_, cwd),
             ),
-            contentDirInclude: (contentDirInclude ?? []).map((_) => unknownToAbsolutePosixFilePath(_, cwd)),
+            contentDirInclude: (contentDirInclude ?? []).map((_) => unknownToRelativePosixFilePath(_, cwd)),
             verbose,
           }),
         ),
