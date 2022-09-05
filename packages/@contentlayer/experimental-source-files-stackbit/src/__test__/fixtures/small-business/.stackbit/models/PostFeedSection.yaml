@@ -1,0 +1,124 @@
+type: object
+name: PostFeedSection
+label: Post feed
+labelField: title
+extends:
+  - Section
+fieldGroups:
+  - name: styles
+    label: Styles
+    icon: palette
+  - name: settings
+    label: Settings
+    icon: gear
+fields:
+  - type: string
+    name: title
+    label: Title
+    default: Posts
+  - type: string
+    name: subtitle
+    label: Subtitle
+    default: Blog posts
+  - type: boolean
+    name: showDate
+    label: Show post date
+    default: false
+  - type: boolean
+    name: showAuthor
+    label: Show post author
+    default: false
+  - type: boolean
+    name: showExcerpt
+    label: Show post excerpt
+    default: false
+  - type: boolean
+    name: showReadMoreLink
+    label: Show keep reading link
+    default: false
+  - type: string
+    name: readMoreLinkLabel
+    label: Keep reading link label
+    default: ''
+  - type: enum
+    name: variant
+    group: styles
+    label: Arrangement
+    default: variant-a
+    options:
+      - label: Two columns grid
+        value: variant-a
+      - label: Three columns grid
+        value: variant-b
+      - label: Mixed grid
+        value: variant-c
+      - label: List
+        value: variant-d
+  - type: list
+    name: actions
+    label: Actions
+    items:
+      type: model
+      models:
+        - Button
+        - Link
+    default:
+      - type: Button
+        label: View all
+        url: '/'
+        style: primary
+  - type: style
+    name: styles
+    styles:
+      self:
+        height: ['auto', 'screen']
+        width: ['narrow', 'wide', 'full']
+        margin: ['tw0:96']
+        padding: ['tw0:96']
+        justifyContent: ['flex-start', 'flex-end', 'center']
+        borderRadius: '*'
+        borderWidth: ['0:8']
+        borderStyle: '*'
+        borderColor:
+          - value: 'border-primary'
+            label: 'Primary color'
+            color: '$primary'
+          - value: 'border-secondary'
+            label: 'Secondary color'
+            color: '$secondary'
+          - value: 'border-dark'
+            label: 'Dark color'
+            color: '$dark'
+          - value: 'border-complementary'
+            label: 'Complementary color'
+            color: '$complementary'
+      title:
+        fontWeight: ['400', '500']
+        fontStyle: ['italic']
+        textAlign: ['left', 'center', 'right']
+        textDecoration: ['underline']
+      subtitle:
+        fontWeight: ['400', '500']
+        fontStyle: ['italic']
+        textAlign: ['left', 'center', 'right']
+        textDecoration: ['underline']
+      actions:
+        justifyContent: ['flex-start', 'flex-end', 'center']
+    default:
+      self:
+        height: auto
+        width: wide
+        margin: ['mt-0', 'mb-0', 'ml-0', 'mr-0']
+        padding: ['pt-12', 'pb-12', 'pl-4', 'pr-4']
+        justifyContent: center
+        borderRadius: none
+        borderWidth: 0
+        borderStyle: none
+        borderColor: border-dark
+      title:
+        textAlign: center
+      subtitle:
+        fontWeight: 400
+        textAlign: center
+      actions:
+        justifyContent: center

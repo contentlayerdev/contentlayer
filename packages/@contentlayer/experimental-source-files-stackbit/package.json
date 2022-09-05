@@ -18,7 +18,7 @@
     "test": "TZ='GMT' FORCE_COLOR=1 vitest"
   },
   "peerDependencies": {
-    "@stackbit/sdk": "~0.2.35"
+    "@stackbit/sdk": "~0.2.38"
   },
   "peerDependenciesMeta": {
     "@stackbit/sdk": {
@@ -29,7 +29,7 @@
     "@contentlayer/core": "workspace:*",
     "@contentlayer/source-files": "workspace:*",
     "@contentlayer/utils": "workspace:*",
-    "@stackbit/sdk": "~0.2.35"
+    "@stackbit/sdk": "~0.2.38"
   },
   "devDependencies": {
     "vite": "^3.1.0",

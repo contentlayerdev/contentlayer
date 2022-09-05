@@ -336,11 +336,11 @@ __metadata:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/source-files": "workspace:*"
     "@contentlayer/utils": "workspace:*"
-    "@stackbit/sdk": ~0.2.35
+    "@stackbit/sdk": ~0.2.38
     vite: ^3.1.0
     vitest: 0.23.1
   peerDependencies:
-    "@stackbit/sdk": ~0.2.35
+    "@stackbit/sdk": ~0.2.38
   peerDependenciesMeta:
     "@stackbit/sdk":
       optional: true
@@ -1292,7 +1292,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stackbit/sdk@npm:^0.2.35, @stackbit/sdk@npm:~0.2.35":
+"@stackbit/sdk@npm:^0.2.35":
   version: 0.2.35
   resolution: "@stackbit/sdk@npm:0.2.35"
   dependencies:
@@ -1311,6 +1311,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@stackbit/sdk@npm:~0.2.38":
+  version: 0.2.38
+  resolution: "@stackbit/sdk@npm:0.2.38"
+  dependencies:
+    "@octokit/rest": ^18.3.5
+    "@stackbit/utils": ^0.2.5
+    acorn: ^8.2.4
+    esbuild: ^0.14.42
+    fs-extra: ^9.1.0
+    joi: ^17.4.0
+    js-yaml: ^4.0.0
+    lodash: ^4.17.20
+    micromatch: ^4.0.2
+    moment: ^2.29.1
+    semver: ^7.3.5
+  checksum: b6b7f1b6cf805fbe72addb3d170c216b7972fbd9f2f96f4842d7af76bc02ccf83dd93df79d63aad27f9a0ff3761906c688051fce3f6bb7a30570482dd1427def
+  languageName: node
+  linkType: hard
+
 "@stackbit/utils@npm:^0.2.3":
   version: 0.2.3
   resolution: "@stackbit/utils@npm:0.2.3"
@@ -1320,6 +1339,18 @@ __metadata:
     js-yaml: ^4.0.0
     lodash: ^4.17.21
   checksum: accca336d89f2b8f71b028ee43587d2a71b9b5d3b3e0b66bbb081ef60ee7cffc8e6f822fbd89ed3593b3da5297a7948f2dc499e837a4f78f0a6cb18acaa4b911
+  languageName: node
+  linkType: hard
+
+"@stackbit/utils@npm:^0.2.5":
+  version: 0.2.5
+  resolution: "@stackbit/utils@npm:0.2.5"
+  dependencies:
+    "@iarna/toml": ^2.2.5
+    fs-extra: ^9.1.0
+    js-yaml: ^4.0.0
+    lodash: ^4.17.21
+  checksum: 27fd30a9d1d15a673821b79b793fa94bf2db03c6b56f6f8dfe796c5cdfb5f5e46516931c6e0f71fd8bc23b6e20bf694f2a297eb64a431bb85b31d5f2ac53a86f
   languageName: node
   linkType: hard
 

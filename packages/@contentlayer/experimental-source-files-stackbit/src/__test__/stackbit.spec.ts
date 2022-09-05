@@ -13,8 +13,21 @@ import { stackbitConfigToDocumentTypes } from '../index.js'
 const testDirPath = fileURLToPath(new URL('.', import.meta.url))
 const NOT_USED_STR = 'NOT_USED'
 
-test('dummy', async () => {
+test('next-starter', async () => {
   const nextStarterFixtureDirPath = path.join(testDirPath, 'fixtures', 'next-starter')
+
+  const configResult = await Stackbit.loadConfig({ dirPath: nextStarterFixtureDirPath })
+
+  const documentTypes = stackbitConfigToDocumentTypes(configResult.config!)
+
+  const contentlayerSource = await SourceFiles.makeSource({ contentDirPath: NOT_USED_STR, documentTypes })
+  const { result: coreSchema } = await runMain(contentlayerSource.provideSchema(NOT_USED_STR))
+
+  expect(coreSchema).toMatchSnapshot()
+})
+
+test('small-business', async () => {
+  const nextStarterFixtureDirPath = path.join(testDirPath, 'fixtures', 'small-business')
 
   const configResult = await Stackbit.loadConfig({ dirPath: nextStarterFixtureDirPath })
 

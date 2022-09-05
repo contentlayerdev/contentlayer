@@ -1,0 +1,49 @@
+type: object
+name: Section
+label: Section
+fieldGroups:
+  - name: styles
+    label: Styles
+    icon: palette
+  - name: settings
+    label: Settings
+    icon: gear
+fields:
+  - type: enum
+    name: colors
+    label: Colors
+    group: styles
+    controlType: palette
+    options:
+      - label: Colors A
+        value: colors-a
+        textColor: '$onLight'
+        backgroundColor: '$light'
+        borderColor: '#ececec'
+      - label: Colors B
+        value: colors-b
+        textColor: '$onDark'
+        backgroundColor: '$dark'
+        borderColor: '#ececec'
+      - label: Colors C
+        value: colors-c
+        textColor: '$onSecondary'
+        backgroundColor: '$secondary'
+        borderColor: '#ececec'
+      - label: Colors D
+        value: colors-d
+        textColor: '$onComplementary'
+        backgroundColor: '$complementary'
+        borderColor: '#ececec'
+      - label: Colors E
+        value: colors-e
+        textColor: '$onComplementaryAlt'
+        backgroundColor: '$complementaryAlt'
+        borderColor: '#ececec'
+    default: colors-d
+  - type: string
+    name: elementId
+    group: settings
+    label: Element ID
+    description: A unique ID for the HTML element. Must not contain whitespace.
+    default: ''

@@ -1,0 +1,29 @@
+type: object
+name: ImageBlock
+label: Image
+labelField: altText
+fieldGroups:
+  - name: settings
+    label: Settings
+    icon: gear
+fields:
+  - type: image
+    name: url
+    label: Image
+    default: https://assets.stackbit.com/components/images/default/default-image.png
+    required: true
+  - type: string
+    name: altText
+    label: Alt text
+    description: Alternative text for screen readers
+    default: altText of the image
+  - type: string
+    name: caption
+    label: Caption
+    default: Caption of the image
+  - type: string
+    name: elementId
+    group: settings
+    label: Element ID
+    description: A unique ID for the HTML element. Must not contain whitespace.
+    default: ''
