@@ -209,7 +209,11 @@ const stackbitListItemToListFieldDef =
     switch (stackbitListItem.type) {
       case 'boolean':
       case 'string':
-        type Item = SourceFiles.ListFieldDefItem.ItemString | SourceFiles.ListFieldDefItem.ItemBoolean
+      case 'number':
+        type Item =
+          | SourceFiles.ListFieldDefItem.ItemString
+          | SourceFiles.ListFieldDefItem.ItemBoolean
+          | SourceFiles.ListFieldDefItem.ItemNumber
         return identity<Item>({ type: stackbitListItem.type })
       case 'enum':
         return identity<SourceFiles.ListFieldDefItem.ItemEnum>({
@@ -229,20 +233,28 @@ const stackbitListItemToListFieldDef =
           ),
         )
       case 'object':
-      case 'number':
-      case 'file':
-      case 'image':
-      case 'json':
+        return identity<SourceFiles.ListFieldDefItem.ItemNestedType>({
+          type: 'nested',
+          def: () => ({ name: '__UNNAMED__', fields: stackbitListItem.fields.map(stackbitFieldToField(ctx)) }),
+        })
       case 'date':
-      case 'markdown':
-      case 'url':
-      case 'slug':
-      case 'text':
-      case 'html':
       case 'datetime':
+        return identity<SourceFiles.ListFieldDefItem.ItemDate>({ type: 'date' })
+      case 'json':
+        return identity<SourceFiles.ListFieldDefItem.ItemJSON>({ type: 'json' })
+      case 'markdown':
+        return identity<SourceFiles.ListFieldDefItem.ItemMarkdown>({ type: 'markdown' })
+      case 'image':
+        return identity<SourceFiles.ListFieldDefItem.ItemImage>({ type: 'image' })
+      case 'url':
+      case 'text':
       case 'color':
+      case 'slug':
+      case 'html':
+      case 'file':
+        return identity<SourceFiles.ListFieldDefItem.ItemString>({ type: 'string' })
       case 'richText':
-        notImplemented(stackbitListItem.type)
+        notImplemented(`richText doesn't exist in the "files" content source`)
       default:
         casesHandled(stackbitListItem)
     }
