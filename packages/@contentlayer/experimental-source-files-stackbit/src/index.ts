@@ -181,19 +181,21 @@ const stackbitFieldToField =
         return identity<WithName<SourceFiles.MarkdownFieldDef>>({ ...commonFields, type: 'markdown' })
       case 'json':
         return identity<WithName<SourceFiles.JSONFieldDef>>({ ...commonFields, type: 'json' })
+      case 'image':
+        return identity<WithName<SourceFiles.ImageFieldDef>>({ ...commonFields, type: 'image' })
+      case 'datetime':
+      case 'date':
+        return identity<WithName<SourceFiles.DateFieldDef>>({ ...commonFields, type: 'date' })
       case 'string':
       case 'url':
       case 'text':
-      case 'image': // TODO altText
       case 'color':
       case 'slug':
       case 'html':
-      case 'date':
       case 'file':
-      case 'datetime':
         return identity<WithName<SourceFiles.StringFieldDef>>({ ...commonFields, type: 'string' })
       case 'richText':
-        notImplemented(`richText doesn't exist in files content source`)
+        notImplemented(`richText doesn't exist in the "files" content source`)
       default:
         casesHandled(stackbitField)
     }

@@ -285,7 +285,7 @@ exports[`small-business 1`] = `
           "isRequired": false,
           "isSystemField": false,
           "name": "favicon",
-          "type": "string",
+          "type": "image",
         },
         {
           "default": undefined,
@@ -319,7 +319,7 @@ exports[`small-business 1`] = `
           "isRequired": false,
           "isSystemField": false,
           "name": "defaultSocialImage",
-          "type": "string",
+          "type": "image",
         },
         {
           "default": undefined,
@@ -389,7 +389,7 @@ exports[`small-business 1`] = `
           "isRequired": false,
           "isSystemField": false,
           "name": "socialImage",
-          "type": "string",
+          "type": "image",
         },
         {
           "default": undefined,
@@ -665,7 +665,7 @@ exports[`small-business 1`] = `
           "isRequired": false,
           "isSystemField": false,
           "name": "socialImage",
-          "type": "string",
+          "type": "image",
         },
         {
           "default": undefined,
@@ -933,7 +933,7 @@ exports[`small-business 1`] = `
           "isRequired": true,
           "isSystemField": false,
           "name": "date",
-          "type": "string",
+          "type": "date",
         },
         {
           "default": undefined,
@@ -1061,7 +1061,7 @@ exports[`small-business 1`] = `
           "isRequired": false,
           "isSystemField": false,
           "name": "socialImage",
-          "type": "string",
+          "type": "image",
         },
         {
           "default": undefined,
@@ -2061,7 +2061,7 @@ exports[`small-business 1`] = `
           "isRequired": true,
           "isSystemField": false,
           "name": "url",
-          "type": "string",
+          "type": "image",
         },
         {
           "default": "cover",
@@ -4172,7 +4172,7 @@ vitae interdum. Ut nec massa eget lorem blandit condimentum et at risus.",
           "isRequired": true,
           "isSystemField": false,
           "name": "url",
-          "type": "string",
+          "type": "image",
         },
         {
           "default": "altText of the image",

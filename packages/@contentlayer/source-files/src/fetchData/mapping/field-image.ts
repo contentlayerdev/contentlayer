@@ -7,8 +7,33 @@ import type * as ImageScript from 'imagescript'
 import type sharp from 'sharp'
 
 import { FetchDataError } from '../../errors/index.js'
+import type { ParsedFieldData } from './parseFieldData.js'
 
-export const getImageFieldData = ({
+export const makeImageField = ({
+  imageData,
+  documentFilePath,
+  contentDirPath,
+  fieldDef,
+}: {
+  imageData: ParsedFieldData<'image'>
+  documentFilePath: utils.RelativePosixFilePath
+  contentDirPath: utils.AbsolutePosixFilePath
+  fieldDef: core.FieldDef
+}) =>
+  T.gen(function* ($) {
+    const imageFieldData = yield* $(
+      getImageFieldData({
+        imagePath: imageData.src,
+        documentFilePath,
+        contentDirPath,
+        fieldDef,
+      }),
+    )
+
+    return identity<core.ImageFieldData>({ ...imageFieldData, alt: imageData.alt })
+  })
+
+const getImageFieldData = ({
   documentFilePath,
   contentDirPath,
   fieldDef,

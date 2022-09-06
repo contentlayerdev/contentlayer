@@ -12,7 +12,7 @@ import type { ContentTypeMap, FilePathPatternMap } from '../types.js'
 import { makeAndProvideDocumentContext } from './DocumentContext.js'
 import type { HasDocumentTypeMapState } from './DocumentTypeMap.js'
 import { DocumentTypeMapState } from './DocumentTypeMap.js'
-import { makeDocument } from './mapping.js'
+import { makeDocument } from './mapping/index.js'
 import type { RawContent, RawContentJSON, RawContentMarkdown, RawContentMDX, RawContentYAML } from './types.js'
 import { validateDocumentData } from './validateDocumentData.js'
 
@@ -107,7 +107,7 @@ export const makeCacheItemFromFilePath = ({
         warnings,
       )
     }),
-    OT.withSpan('@contentlayer/source-local/fetchData:makeCacheItemFromFilePath'),
+    OT.withSpan('@contentlayer/source-local/fetchData:makeCacheItemFromFilePath', { attributes: { relativeFilePath } }),
     T.mapError((error) => {
       switch (error._tag) {
         case 'node.fs.StatError':
@@ -220,7 +220,13 @@ const parseMarkdown = ({
   matter.GrayMatterFile<string>
 > =>
   T.tryCatch(
-    () => matter(markdownString),
+    () =>
+      matter(markdownString, {
+        engines: {
+          // Provide custom YAML engine to avoid parsing of date values https://github.com/jonschlinkert/gray-matter/issues/62)
+          yaml: (str) => yaml.parse(str),
+        },
+      }),
     (error: any) => {
       if (error.name === 'YAMLException') {
         return new FetchDataError.InvalidFrontmatterError({ error, documentFilePath })

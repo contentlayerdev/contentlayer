@@ -7,7 +7,7 @@ import { T, tag } from '@contentlayer/utils/effect'
 
 import type { DocumentContentType } from '../schema/defs/index.js'
 import type { RawDocumentData } from '../types.js'
-import { getFlattenedPath } from './mapping.js'
+import { getFlattenedPath } from './mapping/index.js'
 import type { RawContent } from './types.js'
 
 /** `DocumentContext` is meant as a "container object" that provides useful information when processing a document */

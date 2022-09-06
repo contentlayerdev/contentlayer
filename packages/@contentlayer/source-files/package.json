@@ -37,7 +37,8 @@
     "micromatch": "^4.0.5",
     "ts-pattern": "^4.0.5",
     "unified": "^10.1.2",
-    "yaml": "^1.10.2"
+    "yaml": "^1.10.2",
+    "zod": "^3.18.0"
   },
   "devDependencies": {
     "@types/faker": "^5.5.8",
