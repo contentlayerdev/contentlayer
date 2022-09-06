@@ -173,6 +173,7 @@ const listFieldDefToStackbitFieldListItems = (
     switch (fieldDef.of.type) {
       case 'string':
       case 'boolean':
+      case 'number':
         return { type: fieldDef.of.type }
       case 'nested_unnamed':
         return {
@@ -186,6 +187,12 @@ const listFieldDefToStackbitFieldListItems = (
       case 'nested':
       case 'reference':
         throw new Error('Case handled above')
+      case 'json':
+      case 'markdown':
+      case 'mdx':
+      case 'date':
+      case 'image':
+        throw new Error('Not yet implemented')
       default:
         utils.casesHandled(fieldDef.of)
     }
