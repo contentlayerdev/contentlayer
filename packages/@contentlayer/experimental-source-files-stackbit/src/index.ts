@@ -235,7 +235,7 @@ const stackbitListItemToListFieldDef =
       case 'object':
         return identity<SourceFiles.ListFieldDefItem.ItemNestedType>({
           type: 'nested',
-          def: () => ({ name: '__UNNAMED__', fields: stackbitListItem.fields.map(stackbitFieldToField(ctx)) }),
+          def: () => ({ fields: stackbitListItem.fields.map(stackbitFieldToField(ctx)) }),
         })
       case 'date':
       case 'datetime':

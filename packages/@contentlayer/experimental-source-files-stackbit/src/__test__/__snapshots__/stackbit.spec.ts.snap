@@ -419,8 +419,21 @@ exports[`kitchen-sink 1`] = `
                 "isSystemField": false,
                 "name": "object_list",
                 "of": {
-                  "nestedTypeName": "__UNNAMED__",
-                  "type": "nested",
+                  "type": "nested_unnamed",
+                  "typeDef": {
+                    "_tag": "NestedUnnamedTypeDef",
+                    "extensions": {},
+                    "fieldDefs": [
+                      {
+                        "default": undefined,
+                        "description": undefined,
+                        "isRequired": false,
+                        "isSystemField": false,
+                        "name": "string_field",
+                        "type": "string",
+                      },
+                    ],
+                  },
                 },
                 "type": "list",
               },
@@ -510,8 +523,21 @@ exports[`kitchen-sink 1`] = `
           "isSystemField": false,
           "name": "object_list",
           "of": {
-            "nestedTypeName": "__UNNAMED__",
-            "type": "nested",
+            "type": "nested_unnamed",
+            "typeDef": {
+              "_tag": "NestedUnnamedTypeDef",
+              "extensions": {},
+              "fieldDefs": [
+                {
+                  "default": undefined,
+                  "description": undefined,
+                  "isRequired": false,
+                  "isSystemField": false,
+                  "name": "string_field",
+                  "type": "string",
+                },
+              ],
+            },
           },
           "type": "list",
         },
@@ -781,22 +807,6 @@ exports[`kitchen-sink 1`] = `
   },
   "hash": "NOT_USED",
   "nestedTypeDefMap": {
-    "__UNNAMED__": {
-      "_tag": "NestedTypeDef",
-      "description": undefined,
-      "extensions": {},
-      "fieldDefs": [
-        {
-          "default": undefined,
-          "description": undefined,
-          "isRequired": false,
-          "isSystemField": false,
-          "name": "string_field",
-          "type": "string",
-        },
-      ],
-      "name": "__UNNAMED__",
-    },
     "object_model_1": {
       "_tag": "NestedTypeDef",
       "description": undefined,

@@ -190,7 +190,7 @@ const renderFieldType = (field: FieldDef): string => {
     case 'nested_polymorphic':
       return renderUnion(field.nestedTypeNames)
     case 'nested_unnamed':
-      return '{\n' + field.typeDef.fieldDefs.map(renderFieldDef).join('\n') + '\n}'
+      return '{\n' + field.typeDef.fieldDefs.map(renderFieldDef).map(indent(2)).join('\n') + '\n  }'
     case 'reference':
       if (field.embedDocument) {
         return field.documentTypeName
@@ -212,6 +212,8 @@ const renderFieldType = (field: FieldDef): string => {
 const renderUnion = (typeNames: readonly string[]): string => typeNames.join(' | ')
 
 const renderPolymorphicListType = (typeNames: string[]): string => wrapInParenthesis(renderUnion(typeNames)) + '[]'
+
+const indent = (spaceCount: number) => (str: string) => `${' '.repeat(spaceCount)}${str}`
 
 const wrapInParenthesis = (_: string) => `(${_})`
 const wrapInQuotes = (_: string) => `'${_}'`

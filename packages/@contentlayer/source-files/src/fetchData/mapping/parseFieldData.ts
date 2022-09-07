@@ -56,8 +56,6 @@ export const parseFieldData = <TFieldType extends core.FieldDefType>({
   if (result.success) {
     return T.succeed(result.data)
   } else {
-    console.log(result.error, typeof rawData)
-
     return T.fail(
       new FetchDataError.IncompatibleFieldDataError({
         documentTypeName,
