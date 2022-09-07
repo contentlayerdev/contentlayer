@@ -79,9 +79,9 @@ export const makeSource: core.MakeSourcePlugin<Args> = async (args) => {
     extensions,
     restArgs: {
       documentTypes,
-      contentDirPath,
-      contentDirInclude,
-      contentDirExclude,
+      contentDirPath: contentDirPath_,
+      contentDirInclude: contentDirInclude_,
+      contentDirExclude: contentDirExclude_,
       onUnknownDocuments = 'skip-warn',
       onMissingOrIncompatibleData = 'skip-warn',
       onExtraFieldData = 'warn',
@@ -106,20 +106,26 @@ export const makeSource: core.MakeSourcePlugin<Args> = async (args) => {
     fetchData: ({ schemaDef, verbose }) =>
       pipe(
         S.fromEffect(core.getCwd),
-        S.chain((cwd) =>
-          fetchData({
+        S.chain((cwd) => {
+          const contentDirPath = unknownToAbsolutePosixFilePath(contentDirPath_, cwd)
+          const contentDirExclude = (contentDirExclude_ ?? contentDirExcludeDefault).map((_) =>
+            unknownToRelativePosixFilePath(_, contentDirPath),
+          )
+          const contentDirInclude = (contentDirInclude_ ?? []).map((_) =>
+            unknownToRelativePosixFilePath(_, contentDirPath),
+          )
+
+          return fetchData({
             coreSchemaDef: schemaDef,
             documentTypeDefs,
             flags,
             options,
-            contentDirPath: unknownToAbsolutePosixFilePath(contentDirPath, cwd),
-            contentDirExclude: (contentDirExclude ?? contentDirExcludeDefault).map((_) =>
-              unknownToRelativePosixFilePath(_, cwd),
-            ),
-            contentDirInclude: (contentDirInclude ?? []).map((_) => unknownToRelativePosixFilePath(_, cwd)),
+            contentDirPath,
+            contentDirExclude,
+            contentDirInclude,
             verbose,
-          }),
-        ),
+          })
+        }),
       ),
   }
 }
