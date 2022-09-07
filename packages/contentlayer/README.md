@@ -89,5 +89,6 @@ Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest
 - [MrcatDev](https://blog-nextjs-olive.vercel.app/) ([Source](https://github.com/atxiii/blog-nextjs))
 - [screfy.com](https://screfy.com) ([Source](https://github.com/screfy/screfy.com))
 - [igorkowalczyk.dev](https://igorkowalczyk.dev) ([Source](https://github.com/igorkowalczyk/igorkowalczyk.github.io))
+- [christianpenrod.com](https://christianpenrod.com) ([Source](https://github.com/penrodlol/christianpenrod))
 
 Are you using Contentlayer? Please add your page (and repo) to the end of the list via a PR. 🙏
