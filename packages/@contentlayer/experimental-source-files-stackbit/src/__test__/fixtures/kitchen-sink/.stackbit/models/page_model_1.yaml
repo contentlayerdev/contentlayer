@@ -1,0 +1,11 @@
+name: page_model_1
+type: page
+urlPath: "/{slug}"
+filePath: "{slug}.md"
+hideContent: true
+fields:
+  - type: string
+    name: string_field
+  - type: string
+    name: string_required
+    required: true
