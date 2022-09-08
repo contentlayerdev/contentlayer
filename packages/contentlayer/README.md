@@ -90,5 +90,6 @@ Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest
 - [screfy.com](https://screfy.com) ([Source](https://github.com/screfy/screfy.com))
 - [igorkowalczyk.dev](https://igorkowalczyk.dev) ([Source](https://github.com/igorkowalczyk/igorkowalczyk.github.io))
 - [christianpenrod.com](https://christianpenrod.com) ([Source](https://github.com/penrodlol/christianpenrod))
+- [xahidex.com](https://xahidex.com)
 
 Are you using Contentlayer? Please add your page (and repo) to the end of the list via a PR. 🙏
