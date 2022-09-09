@@ -1,0 +1,35 @@
+stackbitVersion: ~0.4.0
+ssgName: nextjs
+nodeVersion: '14'
+cmsName: git
+assets:
+  referenceType: static
+  staticDir: public
+  uploadDir: images
+  publicPath: /
+dataDir: content/data
+pagesDir: content/pages
+pageLayoutKey: layout
+objectTypeKey: type
+styleObjectModelName: ThemeStyle
+contentModels:
+  PageLayout:
+    isPage: true
+    urlPath: '/{slug}'
+    newFilePath: '{slug}.md'
+  PostLayout:
+    isPage: true
+    urlPath: '/blog/{slug}'
+    newFilePath: 'blog/{slug}.md'
+  Person:
+    newFilePath: 'team/{slug}.json'
+  PostFeedLayout:
+    isPage: true
+    singleInstance: true
+    urlPath: '/blog'
+    file: 'blog/index.md'
+    newFilePath: 'blog/index.md'
+modelsSource:
+  type: files
+  modelDirs:
+    - .stackbit/models

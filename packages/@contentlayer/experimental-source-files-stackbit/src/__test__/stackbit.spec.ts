@@ -13,18 +13,33 @@ import { stackbitConfigToDocumentTypes } from '../index.js'
 const testDirPath = fileURLToPath(new URL('.', import.meta.url))
 const NOT_USED_STR = 'NOT_USED'
 
-test('dummy', async () => {
-  const nextStarterFixtureDirPath = path.join(testDirPath, 'fixtures', 'next-starter')
+test('kitchen-sink', async () => {
+  const coreSchema = await schemaFromFixture('kitchen-sink')()
+  expect(coreSchema).toMatchSnapshot()
+})
+
+test('next-starter', async () => {
+  const coreSchema = await schemaFromFixture('next-starter')()
+  expect(coreSchema).toMatchSnapshot()
+})
+
+test('small-business', async () => {
+  const coreSchema = await schemaFromFixture('small-business')()
+  expect(coreSchema).toMatchSnapshot()
+})
+
+const schemaFromFixture = (fixtureName: string) => async () => {
+  const nextStarterFixtureDirPath = path.join(testDirPath, 'fixtures', fixtureName)
 
   const configResult = await Stackbit.loadConfig({ dirPath: nextStarterFixtureDirPath })
 
   const documentTypes = stackbitConfigToDocumentTypes(configResult.config!)
 
   const contentlayerSource = await SourceFiles.makeSource({ contentDirPath: NOT_USED_STR, documentTypes })
-  const { result: coreSchema } = await runMain(contentlayerSource.provideSchema(NOT_USED_STR))
+  const schema = await runMain(contentlayerSource.provideSchema(NOT_USED_STR))
 
-  expect(coreSchema).toMatchSnapshot()
-})
+  return schema.result
+}
 
 const runMain = async <E, A>(eff: T.Effect<OT.HasTracer & HasClock & HasConsole, E, A>) => {
   const logMessages: string[] = []

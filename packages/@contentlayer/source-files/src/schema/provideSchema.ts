@@ -248,6 +248,12 @@ const fieldListItemsToCoreFieldListDefItems = (
   switch (listFieldDefItem.type) {
     case 'boolean':
     case 'string':
+    case 'number':
+    case 'date':
+    case 'json':
+    case 'markdown':
+    case 'mdx':
+    case 'image':
       return utils.pick(listFieldDefItem, ['type'])
     case 'enum':
       return {

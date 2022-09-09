@@ -138,7 +138,7 @@ const fieldDefToStackbitField = ({
 const listFieldDefToStackbitFieldListItems = (
   fieldDef: core.ListFieldDef | core.ListPolymorphicFieldDef,
 ): Stackbit.FieldListItems => {
-  const getModelName = (item: core.ListFieldDefItem.ItemNested | core.ListFieldDefItem.ItemReference) =>
+  const getModelName = (item: core.ListFieldDefItem.ItemNested | core.ListFieldDefItem.ItemDocumentReference) =>
     item.type === 'reference' ? item.documentTypeName : item.nestedTypeName
 
   if (fieldDef.type === 'list' && (fieldDef.of.type === 'reference' || fieldDef.of.type === 'nested')) {
@@ -159,7 +159,7 @@ const listFieldDefToStackbitFieldListItems = (
   if (
     fieldDef.type === 'list_polymorphic' &&
     fieldDef.of.every(
-      (_): _ is core.ListFieldDefItem.ItemReference | core.ListFieldDefItem.ItemNested =>
+      (_): _ is core.ListFieldDefItem.ItemDocumentReference | core.ListFieldDefItem.ItemNested =>
         _.type === 'reference' || _.type === 'nested',
     )
   ) {
@@ -173,6 +173,7 @@ const listFieldDefToStackbitFieldListItems = (
     switch (fieldDef.of.type) {
       case 'string':
       case 'boolean':
+      case 'number':
         return { type: fieldDef.of.type }
       case 'nested_unnamed':
         return {
@@ -186,6 +187,12 @@ const listFieldDefToStackbitFieldListItems = (
       case 'nested':
       case 'reference':
         throw new Error('Case handled above')
+      case 'json':
+      case 'markdown':
+      case 'mdx':
+      case 'date':
+      case 'image':
+        throw new Error('Not yet implemented')
       default:
         utils.casesHandled(fieldDef.of)
     }

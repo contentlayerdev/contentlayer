@@ -1,0 +1,55 @@
+name: PostFeedLayout
+label: Blog
+labelField: title
+layout: PostFeedLayout
+hideContent: true
+extends:
+  - Seo
+fields:
+  - type: string
+    name: title
+    label: Title
+    default: This is a page title
+  - type: number
+    name: numOfPostsPerPage
+    label: Number of Posts per page
+    description: Set to zero to show all posts
+    default: 10
+  - type: model
+    name: postFeed
+    readOnly: true
+    label: Post Feed
+    models: [PagedPostsSection]
+    default:
+      title: null
+      subtitle: null
+      showDate: true
+      showAuthor: true
+      variant: variant-a
+      colors: colors-a
+      actions: []
+  - type: list
+    name: topSections
+    label: Top Sections
+    items:
+      type: model
+      groups:
+        - sectionComponent
+  - type: list
+    name: bottomSections
+    label: Bottom Sections
+    items:
+      type: model
+      groups:
+        - sectionComponent
+  - type: style
+    name: styles
+    styles:
+      title:
+        fontWeight: ['400', '500']
+        fontStyle: ['italic']
+        textAlign: ['left', 'center', 'right']
+        textDecoration: ['underline']
+    default:
+      title:
+        textAlign: center

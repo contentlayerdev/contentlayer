@@ -8,7 +8,7 @@ import { describe, expect, test } from 'vitest'
 
 import type { HasDocumentContext } from '../fetchData/DocumentContext.js'
 import { provideDocumentContext } from '../fetchData/DocumentContext.js'
-import { getFlattenedPath, testOnly_getDataForFieldDef as getDataForFieldDef } from '../fetchData/mapping.js'
+import { getFlattenedPath, testOnly_getDataForFieldDef as getDataForFieldDef } from '../fetchData/mapping/index.js'
 
 test('getFlattenedPath', () => {
   expect(getFlattenedPath('some/path/doc.md')).toBe('some/path/doc')
@@ -35,7 +35,7 @@ describe('getDataForFieldDef', () => {
     const transformedData = await pipe(
       getDataForFieldDef({
         rawFieldData,
-        typeName: __unusedValue,
+        documentTypeName: __unusedValue,
         coreSchemaDef: { hash: '', documentTypeDefMap: {}, nestedTypeDefMap: {} },
         contentDirPath: __unusedValue,
         fieldDef: {
@@ -46,7 +46,7 @@ describe('getDataForFieldDef', () => {
           default: undefined,
           description: undefined,
         },
-        relativeFilePath: __unusedValue,
+        documentFilePath: __unusedValue,
         options: {
           fieldOptions: core.defaultFieldOptions,
           markdown: undefined,
@@ -111,7 +111,7 @@ test('getDataForFieldDef error', async () => {
       pipe(
         getDataForFieldDef({
           rawFieldData,
-          typeName: 'Post',
+          documentTypeName: 'Post',
           coreSchemaDef: { hash: '', documentTypeDefMap: {}, nestedTypeDefMap: {} },
           contentDirPath: __unusedValue,
           fieldDef: {
@@ -122,7 +122,7 @@ test('getDataForFieldDef error', async () => {
             default: undefined,
             description: undefined,
           },
-          relativeFilePath: unknownToRelativePosixFilePath('some/path/doc.md'),
+          documentFilePath: unknownToRelativePosixFilePath('some/path/doc.md'),
           options: {
             fieldOptions: core.defaultFieldOptions,
             markdown: undefined,

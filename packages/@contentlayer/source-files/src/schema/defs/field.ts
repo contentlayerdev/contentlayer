@@ -64,11 +64,28 @@ export const isListPolymorphicFieldDef = (_: FieldDef): _ is ListPolymorphicFiel
   _.type === 'list' && Array.isArray(_.of)
 
 export namespace ListFieldDefItem {
-  export type Item = ItemString | ItemEnum | ItemBoolean | ItemNestedType | ItemDocumentReference
+  export type Item =
+    | ItemString
+    | ItemNumber
+    | ItemBoolean
+    | ItemJSON
+    | ItemDate
+    | ItemMarkdown
+    | ItemMDX
+    | ItemImage
+    | ItemEnum
+    | ItemNestedType
+    | ItemDocumentReference
 
   export type ItemString = { type: 'string' }
-  export type ItemEnum = { type: 'enum'; options: readonly string[] }
+  export type ItemNumber = { type: 'number' }
   export type ItemBoolean = { type: 'boolean' }
+  export type ItemJSON = { type: 'json' }
+  export type ItemDate = { type: 'date' }
+  export type ItemMarkdown = { type: 'markdown' }
+  export type ItemMDX = { type: 'mdx' }
+  export type ItemImage = { type: 'image' }
+  export type ItemEnum = { type: 'enum'; options: readonly string[] }
   export type ItemNestedType = NestedType
   export type ItemDocumentReference = DocumentType & {
     /**

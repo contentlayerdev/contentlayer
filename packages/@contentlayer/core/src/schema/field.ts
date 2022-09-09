@@ -53,15 +53,33 @@ export interface ListPolymorphicFieldDef extends FieldDefBase {
 }
 
 export namespace ListFieldDefItem {
-  export type Item = ItemString | ItemEnum | ItemBoolean | ItemNested | ItemNestedUnnamed | ItemReference
+  export type Item =
+    | ItemString
+    | ItemNumber
+    | ItemBoolean
+    | ItemJSON
+    | ItemDate
+    | ItemMarkdown
+    | ItemMDX
+    | ItemImage
+    | ItemEnum
+    | ItemNested
+    | ItemNestedUnnamed
+    | ItemDocumentReference
 
   type BaseItem = {
     // labelField: string | undefined
   }
 
   export type ItemString = BaseItem & { type: 'string' }
-  export type ItemEnum = BaseItem & { type: 'enum'; options: readonly string[] }
+  export type ItemNumber = BaseItem & { type: 'number' }
   export type ItemBoolean = BaseItem & { type: 'boolean' }
+  export type ItemJSON = BaseItem & { type: 'json' }
+  export type ItemDate = BaseItem & { type: 'date' }
+  export type ItemMarkdown = BaseItem & { type: 'markdown' }
+  export type ItemMDX = BaseItem & { type: 'mdx' }
+  export type ItemImage = BaseItem & { type: 'image' }
+  export type ItemEnum = BaseItem & { type: 'enum'; options: readonly string[] }
   export type ItemNested = BaseItem & {
     type: 'nested'
     nestedTypeName: string
@@ -73,7 +91,7 @@ export namespace ListFieldDefItem {
 
   export const isDefItemNested = (_: Item): _ is ItemNested => _.type === 'nested'
 
-  export type ItemReference = BaseItem & {
+  export type ItemDocumentReference = BaseItem & {
     type: 'reference'
     documentTypeName: string
 
@@ -86,7 +104,7 @@ export namespace ListFieldDefItem {
     embedDocument: boolean
   }
 
-  export const isDefItemReference = (_: Item): _ is ItemReference => _.type === 'reference'
+  export const isDefItemReference = (_: Item): _ is ItemDocumentReference => _.type === 'reference'
 }
 
 export type StringFieldDef = FieldDefBase & {
