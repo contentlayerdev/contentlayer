@@ -1,22 +1,32 @@
-import type { GetDocumentTypeNamesGen } from '@contentlayer/core'
+import type * as core from '@contentlayer/core'
 import type * as SourceFiles from '@contentlayer/source-files'
-import { defineDocumentType } from '@contentlayer/source-files'
-import { not, partition } from '@contentlayer/utils'
+import { defineDocumentType, defineNestedType } from '@contentlayer/source-files'
+import type { PartialDeep } from '@contentlayer/utils'
+import { mergeDeep, not, partition, pick } from '@contentlayer/utils'
 import * as Stackbit from '@stackbit/sdk'
 import { validateAndNormalizeConfig } from '@stackbit/sdk/dist/config/config-loader.js'
 
 import type { SharedCtx } from './mapping.js'
 import { stackbitDocumentLikeModelToDocumentType, stackbitObjectModelToDocumentType } from './mapping.js'
 
+/** NOTE Overrides are currently not validated - use carefully */
 export type ContentlayerOverrideArgs<TDocumentTypeNames extends string> = {
-  documentTypes: Partial<{
+  documentTypes?: Partial<{
     [TDocumentTypeName in TDocumentTypeNames]: ContentlayerOverrideDocumentType<TDocumentTypeName>
+  }>
+  nestedTypes?: Partial<{
+    [TDocumentTypeName in TDocumentTypeNames]: ContentlayerOverrideNestedType
   }>
 }
 
 export type ContentlayerOverrideDocumentType<TDocumentTypeName extends string> = {
   filePathPattern?: string
+  fields?: { [fieldName: string]: { type: SourceFiles.FieldDefType } }
   computedFields?: SourceFiles.ComputedFields<TDocumentTypeName>
+}
+
+export type ContentlayerOverrideNestedType = {
+  fields?: { [fieldName: string]: { type: SourceFiles.FieldDefType } }
 }
 
 /**
@@ -32,9 +42,9 @@ export type ContentlayerOverrideDocumentType<TDocumentTypeName extends string> =
  * })
  * ```
  */
-export const loadStackbitConfigAsDocumentTypes = <TDocumentTypeNames extends GetDocumentTypeNamesGen>(
+export const loadStackbitConfigAsDocumentTypes = <TDocumentTypeNames extends core.GetDocumentTypeNamesGen>(
   options: Stackbit.ConfigLoaderOptions = { dirPath: '' },
-  overrideArgs: ContentlayerOverrideArgs<TDocumentTypeNames> = { documentTypes: {} },
+  overrideArgs: ContentlayerOverrideArgs<TDocumentTypeNames> = { documentTypes: {}, nestedTypes: {} },
 ): Promise<SourceFiles.DocumentType[]> =>
   Stackbit.loadConfig(options).then((configResult) => {
     if (configResult.errors.length > 0) {
@@ -58,9 +68,9 @@ export const loadStackbitConfigAsDocumentTypes = <TDocumentTypeNames extends Get
  * export default makeSource({ contentDirPath: 'content', documentTypes })
  * ```
  */
-export const stackbitConfigToDocumentTypes = <TDocumentTypeNames extends GetDocumentTypeNamesGen>(
+export const stackbitConfigToDocumentTypes = <TDocumentTypeNames extends core.GetDocumentTypeNamesGen>(
   stackbitConfig: Stackbit.Config | Stackbit.YamlConfig,
-  overrideArgs: ContentlayerOverrideArgs<TDocumentTypeNames> = { documentTypes: {} },
+  overrideArgs: ContentlayerOverrideArgs<TDocumentTypeNames> = { documentTypes: {}, nestedTypes: {} },
 ): SourceFiles.DocumentType[] => {
   const validatedStackbitConfig = validateStackbitConfig(stackbitConfig)
 
@@ -76,15 +86,48 @@ export const stackbitConfigToDocumentTypes = <TDocumentTypeNames extends GetDocu
   objectModels.forEach((model) => {
     const nestedType = stackbitObjectModelToDocumentType(ctx)(model)
     ctx.nestedTypeMap[model.name] = nestedType
+
+    const nestedOverride = (overrideArgs.nestedTypes as any)?.[model.name] as ContentlayerOverrideNestedType | undefined
+    const fields = nestedType.def().fields
+    if (nestedOverride?.fields && fields) {
+      for (const [fieldName, { type }] of Object.entries(nestedOverride.fields)) {
+        const fieldDef = Array.isArray(fields)
+          ? fields.find((fieldDef) => fieldDef.name === fieldName)
+          : fields[fieldName]
+
+        if (fieldDef) {
+          fieldDef.type = type
+        }
+      }
+
+      patchNestedType(nestedType, { fields })
+    }
   })
 
   documentTypes.forEach((documentType) => {
     const documentTypeName = documentType.def().name
     ctx.documentTypeMap[documentTypeName] = documentType
 
-    const documentOverride = (overrideArgs.documentTypes as any)[documentTypeName]
-    if (documentOverride) {
-      patchDocumentType(documentType, documentOverride)
+    const documentOverride = (overrideArgs.documentTypes as any)?.[documentTypeName] as
+      | ContentlayerOverrideDocumentType<string>
+      | undefined
+    if (documentOverride?.filePathPattern !== undefined || documentOverride?.computedFields !== undefined) {
+      patchDocumentType(documentType, pick(documentOverride, ['filePathPattern', 'computedFields']))
+    }
+
+    const fields = documentType.def().fields
+    if (documentOverride?.fields && fields) {
+      for (const [fieldName, { type }] of Object.entries(documentOverride.fields)) {
+        const fieldDef = Array.isArray(fields)
+          ? fields.find((fieldDef) => fieldDef.name === fieldName)
+          : fields[fieldName]
+
+        if (fieldDef) {
+          fieldDef.type = type
+        }
+      }
+
+      patchDocumentType(documentType, { fields })
     }
   })
 
@@ -93,10 +136,15 @@ export const stackbitConfigToDocumentTypes = <TDocumentTypeNames extends GetDocu
 
 const patchDocumentType = (
   documentType: SourceFiles.DocumentType,
-  patch: Partial<SourceFiles.DocumentTypeDef>,
+  patch: PartialDeep<SourceFiles.DocumentTypeDef>,
 ): void => {
   const previousDef = documentType.def()
-  documentType.def = defineDocumentType(() => ({ ...previousDef, ...patch })).def
+  documentType.def = defineDocumentType(() => mergeDeep({ ...previousDef, ...patch })).def
+}
+
+const patchNestedType = (nestedType: SourceFiles.NestedType, patch: PartialDeep<SourceFiles.NestedTypeDef>): void => {
+  const previousDef = nestedType.def()
+  nestedType.def = defineNestedType(() => mergeDeep({ ...previousDef, ...patch })).def
 }
 
 const validateStackbitConfig = (stackbitConfig: Stackbit.Config | Stackbit.YamlConfig): Stackbit.Config => {
