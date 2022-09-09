@@ -1,5 +1,6 @@
 import * as path from 'node:path'
 
+import type * as core from '@contentlayer/core'
 import type { RelativePosixFilePath } from '@contentlayer/utils'
 import * as utils from '@contentlayer/utils'
 import type { Has } from '@contentlayer/utils/effect'
@@ -15,6 +16,7 @@ export interface DocumentContext {
   readonly rawContent: RawContent
   readonly relativeFilePath: RelativePosixFilePath
   readonly rawDocumentData: RawDocumentData
+  readonly documentTypeDef: core.DocumentTypeDef
 }
 
 export const DocumentContext = tag<DocumentContext>(Symbol.for('@contentlayer/source-files/DocumentContext'))
@@ -23,6 +25,7 @@ export const provideDocumentContext = (_: DocumentContext) => T.provideService(D
 export const makeAndProvideDocumentContext = ({
   rawContent,
   relativeFilePath,
+  documentTypeDef,
 }: Omit<DocumentContext, 'rawDocumentData'>) => {
   const contentType: DocumentContentType = utils.pattern
     .match(rawContent.kind)
@@ -38,7 +41,7 @@ export const makeAndProvideDocumentContext = ({
     flattenedPath: getFlattenedPath(relativeFilePath),
   }
 
-  return provideDocumentContext({ rawContent, rawDocumentData, relativeFilePath })
+  return provideDocumentContext({ rawContent, rawDocumentData, relativeFilePath, documentTypeDef })
 }
 
 export const getFromDocumentContext = <K extends keyof DocumentContext>(key: K) =>

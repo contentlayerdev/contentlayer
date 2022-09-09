@@ -30,6 +30,7 @@ export namespace FetchDataError {
     renderHeadline: RenderHeadline
     renderLine: () => string
     category: AggregatableErrorCategory
+    documentTypeDef: core.DocumentTypeDef | undefined
   }
 
   export const handleErrors = handleFetchDataErrors
@@ -63,6 +64,7 @@ export namespace FetchDataError {
     implements AggregatableError
   {
     category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
+    documentTypeDef = undefined
 
     renderHeadline: RenderHeadline = ({ errorCount, skippingMessage }) =>
       `Invalid frontmatter data found for ${errorCount} documents.${skippingMessage}`
@@ -78,6 +80,7 @@ export namespace FetchDataError {
     implements AggregatableError
   {
     category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
+    documentTypeDef = undefined
 
     renderHeadline: RenderHeadline = ({ errorCount, skippingMessage }) =>
       `Invalid markdown in ${errorCount} documents.${skippingMessage}`
@@ -93,6 +96,7 @@ export namespace FetchDataError {
     implements AggregatableError
   {
     category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
+    documentTypeDef = undefined
 
     renderHeadline: RenderHeadline = ({ errorCount, skippingMessage }) =>
       `Invalid YAML data in ${errorCount} documents.${skippingMessage}`
@@ -108,6 +112,7 @@ export namespace FetchDataError {
     implements AggregatableError
   {
     category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
+    documentTypeDef = undefined
 
     renderHeadline: RenderHeadline = ({ errorCount, skippingMessage }) =>
       `Invalid JSON data in ${errorCount} documents.${skippingMessage}`
@@ -121,6 +126,7 @@ export namespace FetchDataError {
       readonly documentFilePath: RelativePosixFilePath
       readonly fieldDef: core.FieldDef
       readonly imagePath: string
+      readonly documentTypeDef: core.DocumentTypeDef
     }>
     implements AggregatableError
   {
@@ -139,6 +145,7 @@ export namespace FetchDataError {
     extends Tagged('ComputedValueError')<{
       readonly error: unknown
       readonly documentFilePath: RelativePosixFilePath
+      readonly documentTypeDef: core.DocumentTypeDef
     }>
     implements AggregatableError
   {
@@ -158,6 +165,7 @@ export namespace FetchDataError {
     implements AggregatableError
   {
     category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
+    documentTypeDef = undefined
     renderHeadline: RenderHeadline = ({ errorCount, skippingMessage }) =>
       `Found unsupported file extensions for ${errorCount} documents.${skippingMessage}`
 
@@ -173,6 +181,7 @@ export namespace FetchDataError {
     implements AggregatableError
   {
     category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
+    documentTypeDef = undefined
     renderHeadline: RenderHeadline = ({ errorCount, skippingMessage }) =>
       `File extension not compatible with \`contentType\` for ${errorCount} documents.${skippingMessage}`
 
@@ -198,6 +207,7 @@ export namespace FetchDataError {
     implements AggregatableError
   {
     category: AggregatableErrorCategory = 'UnknownDocument'
+    documentTypeDef = undefined
     renderHeadline: RenderHeadline = ({ errorCount, options, schemaDef, skippingMessage }) => {
       const validTypeNames = Object.keys(schemaDef.documentTypeDefMap).join(', ')
       return `\
@@ -219,6 +229,7 @@ one of the following document type names: ${validTypeNames}).`
     implements AggregatableError
   {
     category: AggregatableErrorCategory = 'MissingOrIncompatibleData'
+    documentTypeDef = undefined
     renderHeadline: RenderHeadline = ({ errorCount, schemaDef, skippingMessage }) => {
       const validTypeNames = Object.keys(schemaDef.documentTypeDefMap).join(', ')
       return `\
@@ -233,10 +244,11 @@ Please use one of the following document type names: ${validTypeNames}.\
 
   export class NoSuchNestedDocumentTypeError
     extends Tagged('NoSuchNestedDocumentTypeError')<{
-      readonly documentTypeName: string
+      readonly nestedTypeName: string
       readonly documentFilePath: RelativePosixFilePath
       readonly fieldName: string
       readonly validNestedTypeNames: readonly string[]
+      readonly documentTypeDef: core.DocumentTypeDef
     }>
     implements AggregatableError
   {
@@ -249,15 +261,15 @@ Couldn't find nested document type definitions provided by name for ${errorCount
 
     renderLine = () => {
       const validTypeNames = this.validNestedTypeNames.join(', ')
-      return `${this.documentFilePath} (Used type name "${this.documentTypeName}" for field "${this.fieldName}". Please use one of the following nested document type names: ${validTypeNames}`
+      return `${this.documentFilePath} (Used type name "${this.nestedTypeName}" for field "${this.fieldName}". Please use one of the following nested document type names: ${validTypeNames}`
     }
   }
 
   export class MissingRequiredFieldsError
     extends Tagged('MissingRequiredFieldsError')<{
       readonly documentFilePath: RelativePosixFilePath
-      readonly documentTypeName: string
       readonly fieldDefsWithMissingData: core.FieldDef[]
+      readonly documentTypeDef: core.DocumentTypeDef
     }>
     implements AggregatableError
   {
@@ -272,7 +284,7 @@ Couldn't find nested document type definitions provided by name for ${errorCount
         .join('\n')
 
       return `\
-"${this.documentFilePath}" is missing the following required fields:
+"${this.documentFilePath}" (of type "${this.documentTypeDef.name}") is missing the following required fields:
 ${misingRequiredFieldsStr}\
 `
     }
@@ -281,8 +293,8 @@ ${misingRequiredFieldsStr}\
   export class ExtraFieldDataError
     extends Tagged('ExtraFieldDataError')<{
       readonly documentFilePath: RelativePosixFilePath
-      readonly documentTypeName: string
       readonly extraFieldEntries: readonly (readonly [fieldKey: string, fieldValue: any])[]
+      readonly documentTypeDef: core.DocumentTypeDef
     }>
     implements AggregatableError
   {
@@ -295,7 +307,7 @@ ${misingRequiredFieldsStr}\
       const extraFields = this.extraFieldEntries
         .map(([key, value]) => `  • ${key}: ${JSON.stringify(value)}`)
         .join('\n')
-      return `"${this.documentFilePath}" of type "${this.documentTypeName}" has the following extra fields:
+      return `"${this.documentFilePath}" of type "${this.documentTypeDef.name}" has the following extra fields:
 ${extraFields} `
     }
   }
@@ -303,9 +315,9 @@ ${extraFields} `
   export class ReferencedFileDoesNotExistError
     extends Tagged('ReferencedFileDoesNotExistError')<{
       readonly documentFilePath: RelativePosixFilePath
-      readonly documentTypeName: string
       readonly fieldName: string
       readonly referencedFilePath: RelativePosixFilePath
+      readonly documentTypeDef: core.DocumentTypeDef
     }>
     implements AggregatableError
   {
@@ -317,15 +329,15 @@ ${errorCount} documents contain file references which don't exist.${skippingMess
 File paths have to be relative to \`contentDirPath\`: "${contentDirPath}")`
 
     renderLine = () => {
-      return `"${this.documentFilePath}" of type "${this.documentTypeName}" with field "${this.fieldName}" references the file "${this.referencedFilePath}" which doesn't exist.`
+      return `"${this.documentFilePath}" of type "${this.documentTypeDef.name}" with field "${this.fieldName}" references the file "${this.referencedFilePath}" which doesn't exist.`
     }
   }
 
   export class IncompatibleFieldDataError
     extends Tagged('IncompatibleFieldDataError')<{
       readonly documentFilePath: RelativePosixFilePath
-      readonly documentTypeName: string
       readonly incompatibleFieldData: readonly (readonly [fieldKey: string, fieldValue: any])[]
+      readonly documentTypeDef: core.DocumentTypeDef
     }>
     implements AggregatableError
   {
@@ -338,15 +350,15 @@ ${errorCount} documents contain field data which didn't match the structure defi
       const incompatibleFields = this.incompatibleFieldData
         .map(([key, value]) => `  • ${key}: ${JSON.stringify(value)}`)
         .join('\n')
-      return `"${this.documentFilePath}" of type "${this.documentTypeName}" has the following incompatible fields:
+      return `"${this.documentFilePath}" of type "${this.documentTypeDef.name}" has the following incompatible fields:
 ${incompatibleFields} `
     }
   }
 
   export class SingletonDocumentNotFoundError
     extends Tagged('SingletonDocumentNotFoundError')<{
-      readonly documentTypeName: string
       readonly filePath: string | undefined
+      readonly documentTypeDef: core.DocumentTypeDef
     }>
     implements AggregatableError
   {
@@ -357,7 +369,7 @@ Couldn't find a document for ${errorCount} singleton document types`
 
     renderLine = () => {
       const filePathInfo = this.filePath ? ` at provided file path "${this.filePath}"` : ``
-      return `Couldn't find a document for document type "${this.documentTypeName}"${filePathInfo}`
+      return `Couldn't find a document for document type "${this.documentTypeDef.name}"${filePathInfo}`
     }
   }
 
@@ -369,6 +381,7 @@ Couldn't find a document for ${errorCount} singleton document types`
     implements AggregatableError
   {
     category: AggregatableErrorCategory = 'Unexpected'
+    documentTypeDef = undefined
 
     renderHeadline: RenderHeadline = ({ errorCount }) => `\
 Encountered unexpected errors while processing of ${errorCount} documents. \

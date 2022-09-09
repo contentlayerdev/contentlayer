@@ -89,7 +89,7 @@ export const makeCacheItemFromFilePath = ({
             contentDirPath,
             options,
           }),
-          makeAndProvideDocumentContext({ rawContent, relativeFilePath }),
+          makeAndProvideDocumentContext({ rawContent, relativeFilePath, documentTypeDef }),
         ),
       )
 
@@ -202,7 +202,7 @@ const getComputedValues = ({
       mapValue: (field) =>
         T.tryCatchPromise(
           async () => field.resolve(document),
-          (error) => new FetchDataError.ComputedValueError({ error, documentFilePath }),
+          (error) => new FetchDataError.ComputedValueError({ error, documentFilePath, documentTypeDef }),
         ),
     }),
   )

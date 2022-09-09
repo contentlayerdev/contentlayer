@@ -10,13 +10,13 @@ export const makeDateField = ({
   fieldName,
   options,
   documentFilePath,
-  documentTypeName,
+  documentTypeDef,
 }: {
   dateString: string
   fieldName: string
   options: core.PluginOptions
   documentFilePath: RelativePosixFilePath
-  documentTypeName: string
+  documentTypeDef: core.DocumentTypeDef
 }) =>
   T.tryCatch(
     () => {
@@ -42,7 +42,7 @@ export const makeDateField = ({
     () =>
       new FetchDataError.IncompatibleFieldDataError({
         documentFilePath,
-        documentTypeName,
+        documentTypeDef,
         incompatibleFieldData: [[fieldName, dateString]],
       }),
   )

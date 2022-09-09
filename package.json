@@ -14,7 +14,7 @@
     "dev:ts": "run build:ts --watch",
     "build:clean": "bash -c 'rm -rf packages/*/dist packages/@contentlayer/*/dist'",
     "examples:postinstall": "yarn workspaces foreach --verbose --include \"examples-*\" exec yarn contentlayer postinstall",
-    "release:prerelease": "yarn build && yarn workspaces foreach --verbose --topological-dev --no-private exec npm version prerelease --preid=dev && yarn workspaces foreach --verbose --topological-dev --parallel --no-private npm publish --tolerate-republish --tag=dev",
+    "release:prerelease": "yarn build && yarn workspaces foreach --verbose --topological-dev --parallel --no-private npm publish --tolerate-republish --tag=dev",
     "release:patch": "yarn build && yarn workspaces foreach --verbose --topological-dev --no-private exec npm version patch && yarn workspaces foreach --verbose --topological-dev --parallel --no-private npm publish --tolerate-republish",
     "release:minor": "yarn build && yarn workspaces foreach --verbose --topological-dev --no-private exec npm version minor && yarn workspaces foreach --verbose --topological-dev --parallel --no-private npm publish --tolerate-republish",
     "lint:check": "run lint:eslint:check && run lint:prettier:check",

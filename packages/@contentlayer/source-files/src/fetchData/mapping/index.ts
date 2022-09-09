@@ -180,13 +180,14 @@ const getDataForFieldDef = ({
       return undefined
     }
 
+    const documentTypeDef = coreSchemaDef.documentTypeDefMap[documentTypeName]!
     const parseFieldDataEff = <TFieldType extends core.FieldDefType>(fieldType: TFieldType) =>
       parseFieldData({
         rawData: rawFieldData,
         fieldType,
         documentFilePath,
         fieldName: fieldDef.name,
-        documentTypeName,
+        documentTypeDef,
       })
 
     switch (fieldDef.type) {
@@ -220,22 +221,23 @@ const getDataForFieldDef = ({
         )
       case 'nested_polymorphic': {
         const rawObjectData = yield* $(parseFieldDataEff('nested_polymorphic'))
-        const typeName = rawObjectData[fieldDef.typeField]
+        const nestedTypeName = rawObjectData[fieldDef.typeField]
 
-        if (!fieldDef.nestedTypeNames.includes(typeName)) {
+        if (!fieldDef.nestedTypeNames.includes(nestedTypeName)) {
           return yield* $(
             T.fail(
               new FetchDataError.NoSuchNestedDocumentTypeError({
-                documentTypeName: typeName,
+                nestedTypeName,
                 documentFilePath,
                 fieldName: fieldDef.name,
                 validNestedTypeNames: fieldDef.nestedTypeNames,
+                documentTypeDef: coreSchemaDef.documentTypeDefMap[documentTypeName]!,
               }),
             ),
           )
         }
 
-        const nestedTypeDef = coreSchemaDef.nestedTypeDefMap[typeName]!
+        const nestedTypeDef = coreSchemaDef.nestedTypeDefMap[nestedTypeName]!
 
         return yield* $(
           makeNestedDocument({
@@ -271,7 +273,7 @@ const getDataForFieldDef = ({
       case 'date':
         const dateString = yield* $(parseFieldDataEff('date'))
         return yield* $(
-          makeDateField({ dateString, documentFilePath, fieldName: fieldDef.name, documentTypeName, options }),
+          makeDateField({ dateString, documentFilePath, fieldName: fieldDef.name, documentTypeDef, options }),
         )
       case 'markdown': {
         const mdString = yield* $(parseFieldDataEff('markdown'))
@@ -315,13 +317,14 @@ const getDataForListItem = ({
   contentDirPath: AbsolutePosixFilePath
 }): T.Effect<OT.HasTracer & HasConsole & HasDocumentContext & core.HasCwd, MakeDocumentInternalError, any> =>
   T.gen(function* ($) {
+    const documentTypeDef = coreSchemaDef.documentTypeDefMap[documentTypeName]!
     const parseFieldDataEff = <TFieldType extends core.FieldDefType>(fieldType: TFieldType) =>
       parseFieldData({
         rawData: rawItemData,
         fieldType,
         documentFilePath,
         fieldName: fieldDef.name,
-        documentTypeName,
+        documentTypeDef,
       })
 
     if (fieldDef.type === 'list_polymorphic') {
@@ -336,10 +339,11 @@ const getDataForListItem = ({
         return yield* $(
           T.fail(
             new FetchDataError.NoSuchNestedDocumentTypeError({
-              documentTypeName: nestedTypeName,
+              nestedTypeName,
               documentFilePath,
               fieldName: fieldDef.name,
               validNestedTypeNames,
+              documentTypeDef: coreSchemaDef.documentTypeDefMap[documentTypeName]!,
             }),
           ),
         )
@@ -392,7 +396,7 @@ const getDataForListItem = ({
       case 'date':
         const dateString = yield* $(parseFieldDataEff('date'))
         return yield* $(
-          makeDateField({ dateString, documentFilePath, fieldName: fieldDef.name, documentTypeName, options }),
+          makeDateField({ dateString, documentFilePath, fieldName: fieldDef.name, documentTypeDef, options }),
         )
       case 'markdown': {
         const mdString = yield* $(parseFieldDataEff('markdown'))

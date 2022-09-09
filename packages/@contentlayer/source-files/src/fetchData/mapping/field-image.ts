@@ -7,6 +7,8 @@ import type * as ImageScript from 'imagescript'
 import type sharp from 'sharp'
 
 import { FetchDataError } from '../../errors/index.js'
+import type { HasDocumentContext } from '../DocumentContext.js'
+import { getFromDocumentContext } from '../DocumentContext.js'
 import type { ParsedFieldData } from './parseFieldData.js'
 
 export const makeImageField = ({
@@ -43,7 +45,7 @@ const getImageFieldData = ({
   contentDirPath: utils.AbsolutePosixFilePath
   fieldDef: core.FieldDef
   imagePath: string
-}): T.Effect<OT.HasTracer & core.HasCwd, FetchDataError.ImageError, core.ImageFieldData> =>
+}): T.Effect<OT.HasTracer & core.HasCwd & HasDocumentContext, FetchDataError.ImageError, core.ImageFieldData> =>
   pipe(
     T.gen(function* ($) {
       const cwd = yield* $(core.getCwd)
@@ -70,7 +72,22 @@ const getImageFieldData = ({
         blurhashDataUrl,
       })
     }),
-    T.mapError((error) => new FetchDataError.ImageError({ error, documentFilePath, fieldDef, imagePath: imagePath_ })),
+    T.catchAll((error) =>
+      pipe(
+        getFromDocumentContext('documentTypeDef'),
+        T.chain((documentTypeDef) =>
+          T.fail(
+            new FetchDataError.ImageError({
+              error,
+              documentFilePath,
+              fieldDef,
+              imagePath: imagePath_,
+              documentTypeDef,
+            }),
+          ),
+        ),
+      ),
+    ),
     OT.withSpan('getImageFieldData', { attributes: { imagePath: imagePath_ } }),
   )
 

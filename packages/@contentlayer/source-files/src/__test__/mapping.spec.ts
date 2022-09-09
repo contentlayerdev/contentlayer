@@ -112,7 +112,11 @@ test('getDataForFieldDef error', async () => {
         getDataForFieldDef({
           rawFieldData,
           documentTypeName: 'Post',
-          coreSchemaDef: { hash: '', documentTypeDefMap: {}, nestedTypeDefMap: {} },
+          coreSchemaDef: {
+            hash: '',
+            documentTypeDefMap: { Post: { name: 'Post', _tag: 'DocumentTypeDef', ...__unusedValue } },
+            nestedTypeDefMap: {},
+          },
           contentDirPath: __unusedValue,
           fieldDef: {
             type,
@@ -144,7 +148,10 @@ test('getDataForFieldDef error', async () => {
           "_tag": "IncompatibleFieldDataError",
           "category": "MissingOrIncompatibleData",
           "documentFilePath": "some/path/doc.md",
-          "documentTypeName": "Post",
+          "documentTypeDef": {
+            "_tag": "DocumentTypeDef",
+            "name": "Post",
+          },
           "incompatibleFieldData": [
             [
               "someDate",
@@ -155,7 +162,10 @@ test('getDataForFieldDef error', async () => {
           "renderLine": [Function],
           Symbol(): {
             "documentFilePath": "some/path/doc.md",
-            "documentTypeName": "Post",
+            "documentTypeDef": {
+              "_tag": "DocumentTypeDef",
+              "name": "Post",
+            },
             "incompatibleFieldData": [
               [
                 "someDate",
@@ -165,7 +175,7 @@ test('getDataForFieldDef error', async () => {
           },
           Symbol(): [
             "documentFilePath",
-            "documentTypeName",
+            "documentTypeDef",
             "incompatibleFieldData",
           ],
         },
@@ -183,4 +193,5 @@ const provideTestDocumentContext = provideDocumentContext({
   rawContent: __unusedValue,
   relativeFilePath: __unusedValue,
   rawDocumentData: __unusedValue,
+  documentTypeDef: __unusedValue,
 })

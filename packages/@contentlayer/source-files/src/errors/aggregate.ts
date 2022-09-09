@@ -146,7 +146,11 @@ const aggregateFetchDataErrors = ({
 }
 
 const shouldPrintSkipMessage = ({ error, flags }: { error: FetchDataError.FetchDataError; flags: Flags }): boolean => {
-  if (error.category === 'MissingOrIncompatibleData' && flags.onMissingOrIncompatibleData === 'skip-warn') {
+  if (
+    error.category === 'MissingOrIncompatibleData' &&
+    flags.onMissingOrIncompatibleData === 'skip-warn' &&
+    error.documentTypeDef?.isSingleton !== true
+  ) {
     return true
   }
 
@@ -180,7 +184,15 @@ const failOrSkip = ({
     return 'fail'
   }
 
-  return errors.some((_) => _.category === 'Unexpected') ? 'fail' : 'skip'
+  if (errors.some((_) => _.category === 'Unexpected')) {
+    return 'fail'
+  }
+
+  if (errors.some((_) => _.documentTypeDef?.isSingleton)) {
+    return 'fail'
+  }
+
+  return 'skip'
 }
 
 const filterIgnoredErrorsByFlags = ({

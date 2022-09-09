@@ -86,7 +86,7 @@ export const validateDocumentData = ({
         return These.fail(
           new FetchDataError.MissingRequiredFieldsError({
             documentFilePath: relativeFilePath,
-            documentTypeName: documentTypeDef.name,
+            documentTypeDef,
             fieldDefsWithMissingData: misingRequiredFieldDefs,
           }),
         )
@@ -106,7 +106,7 @@ export const validateDocumentData = ({
         const extraFieldDataError = new FetchDataError.ExtraFieldDataError({
           documentFilePath: relativeFilePath,
           extraFieldEntries,
-          documentTypeName: documentTypeDef.name,
+          documentTypeDef,
         })
 
         warningOption = O.some(extraFieldDataError)
@@ -116,7 +116,7 @@ export const validateDocumentData = ({
         const fieldValidOption = yield* $(
           validateFieldData({
             documentFilePath: relativeFilePath,
-            documentTypeName: documentTypeDef.name,
+            documentTypeDef,
             fieldDef,
             rawFieldData: rawContent.fields[fieldDef.name],
             contentDirPath,
@@ -180,13 +180,13 @@ const validateFieldData = ({
   fieldDef,
   rawFieldData,
   documentFilePath,
-  documentTypeName,
+  documentTypeDef,
   contentDirPath,
 }: {
   fieldDef: core.FieldDef
   rawFieldData: any
   documentFilePath: RelativePosixFilePath
-  documentTypeName: string
+  documentTypeDef: core.DocumentTypeDef
   contentDirPath: AbsolutePosixFilePath
 }): T.Effect<
   OT.HasTracer,
@@ -207,7 +207,7 @@ const validateFieldData = ({
               new FetchDataError.IncompatibleFieldDataError({
                 incompatibleFieldData: [[fieldDef.name, rawFieldData]],
                 documentFilePath,
-                documentTypeName,
+                documentTypeDef,
               }),
             )
       // TODO also check for references in lists
@@ -221,7 +221,7 @@ const validateFieldData = ({
                 referencedFilePath: rawFieldData as any,
                 fieldName: fieldDef.name,
                 documentFilePath,
-                documentTypeName,
+                documentTypeDef,
               }),
             )
           }

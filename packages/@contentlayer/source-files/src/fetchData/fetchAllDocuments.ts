@@ -152,7 +152,7 @@ const validateSingletonDocuments = ({
       .map(
         (documentTypeDef) =>
           new FetchDataError.SingletonDocumentNotFoundError({
-            documentTypeName: documentTypeDef.name,
+            documentTypeDef,
             filePath: invertedFilePathPattnernMap[documentTypeDef.name],
           }),
       )

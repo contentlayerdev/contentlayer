@@ -41,13 +41,13 @@ export type ParsedFieldData<TFieldType extends core.FieldDefType> = zod.infer<ty
 export const parseFieldData = <TFieldType extends core.FieldDefType>({
   rawData,
   fieldType,
-  documentTypeName,
+  documentTypeDef,
   documentFilePath,
   fieldName,
 }: {
   rawData: unknown
   fieldType: TFieldType
-  documentTypeName: string
+  documentTypeDef: core.DocumentTypeDef
   documentFilePath: RelativePosixFilePath
   fieldName: string
 }): T.Effect<unknown, FetchDataError.IncompatibleFieldDataError, ParsedFieldData<TFieldType>> => {
@@ -58,7 +58,7 @@ export const parseFieldData = <TFieldType extends core.FieldDefType>({
   } else {
     return T.fail(
       new FetchDataError.IncompatibleFieldDataError({
-        documentTypeName,
+        documentTypeDef,
         documentFilePath,
         incompatibleFieldData: [[fieldName, rawData]],
       }),
