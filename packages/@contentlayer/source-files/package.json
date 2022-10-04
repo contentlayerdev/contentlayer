@@ -31,24 +31,24 @@
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
     "chokidar": "^3.5.3",
-    "fast-glob": "^3.2.11",
+    "fast-glob": "^3.2.12",
     "gray-matter": "^4.0.3",
     "imagescript": "^1.2.9",
     "micromatch": "^4.0.5",
     "ts-pattern": "^4.0.5",
     "unified": "^10.1.2",
     "yaml": "^1.10.2",
-    "zod": "^3.18.0"
+    "zod": "^3.19.1"
   },
   "devDependencies": {
     "@types/faker": "^5.5.8",
     "@types/micromatch": "^4.0.2",
-    "@types/node": "^18.7.15",
-    "@types/sharp": "^0.30.5",
+    "@types/node": "^18.8.1",
+    "@types/sharp": "^0.31.0",
     "@types/yaml": "^1.9.7",
     "faker": "^5.5.3",
-    "sharp": "^0.31.0",
-    "vite": "^3.1.0",
-    "vitest": "0.23.1"
+    "sharp": "^0.31.1",
+    "vite": "^3.1.4",
+    "vitest": "0.23.4"
   }
 }

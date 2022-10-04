@@ -15,10 +15,10 @@
   "dependencies": {
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
-    "clipanion": "^3.2.0-rc.11",
-    "typanion": "^3.9.0"
+    "clipanion": "^3.2.0-rc.12",
+    "typanion": "^3.12.0"
   },
   "devDependencies": {
-    "@types/node": "^18.7.15"
+    "@types/node": "^18.8.1"
   }
 }
