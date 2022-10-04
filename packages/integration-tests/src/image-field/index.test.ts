@@ -40,7 +40,7 @@ test('mdx-image-field ', async () => {
 
   expect(allPosts[0].coverImage).toMatchInlineSnapshot(`
     {
-      "blurhashDataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAArklEQVR4nF2OSw6CQBBEuZKGwfl4Io1BNqAMwwV1YTRGl4gLI3+8QJludeOiU13J6+ryMlPjMxWsqVjZzytY2cEjY1UDpwfk5sVKnoFggJfphi8iccViskMkLt/EGqkY4RGd6wGJKrEOTohlgdyMsJoATmgR+mes/ANS80AojlhO93Cm/QENNuqOeHbDVj6RyBKxKpCZ5vOCfjndwekelEbKO5fsqUPLrf+Hkgl4A4q9pmrNTiK/AAAAAElFTkSuQmCC",
+      "blurhashDataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAMAAADz0U65AAAACVBMVEV8Oe1uNNJ3OOKPJhaEAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAHUlEQVR4nGNgwAIYGRkhDCZGJqgAE0SIiQmEsAAAAyMAF5ferjEAAAAASUVORK5CYII=",
       "filePath": "posts/image-a.png",
       "format": "png",
       "height": 480,

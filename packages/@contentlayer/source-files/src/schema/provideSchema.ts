@@ -56,7 +56,7 @@ export const makeCoreSchema = ({
 
       const computedFields = Object.entries(documentDef.computedFields ?? {}).map<core.ComputedField>(
         ([name, computedField]) => ({
-          ...utils.pick(computedField, ['description', 'type']),
+          ...utils.pick(computedField, ['description', 'type'], false),
           name,
           // NOTE we need to flip the variance here (casting a core.Document to a LocalDocument)
           resolve: computedField.resolve as core.ComputedFieldResolver,
@@ -65,7 +65,7 @@ export const makeCoreSchema = ({
 
       const coreDocumentDef: core.DocumentTypeDef = {
         _tag: 'DocumentTypeDef',
-        ...utils.pick(documentDef, ['name', 'description']),
+        ...utils.pick(documentDef, ['name', 'description'], false),
         isSingleton: documentDef.isSingleton ?? false,
         fieldDefs,
         computedFields,
@@ -80,7 +80,7 @@ export const makeCoreSchema = ({
 
       const coreNestedTypeDef: core.NestedTypeDef = {
         _tag: 'NestedTypeDef',
-        ...utils.pick(nestedDef, ['description']),
+        ...utils.pick(nestedDef, ['description'], false),
         name: nestedDef.name,
         fieldDefs: getFieldDefEntries(nestedDef.fields ?? []).map((_) =>
           fieldDefEntryToCoreFieldDef(_, options.fieldOptions),
@@ -135,7 +135,7 @@ const fieldDefEntryToCoreFieldDef = (
   fieldOptions: core.FieldOptions,
 ): core.FieldDef => {
   const baseFields: core.FieldDefBase = {
-    ...utils.pick(fieldDef, ['type', 'default', 'description']),
+    ...utils.pick(fieldDef, ['type', 'default', 'description'], false),
     name,
     isRequired: fieldDef.required ?? false,
     isSystemField: false,
@@ -231,7 +231,7 @@ const fieldDefEntryToCoreFieldDef = (
     case 'string':
       return {
         // needs to pick again since fieldDef.type has been
-        ...utils.pick(fieldDef, ['type', 'default', 'description']),
+        ...utils.pick(fieldDef, ['type', 'default', 'description'], false),
         isRequired: fieldDef.required ?? false,
         name,
         isSystemField: false,
@@ -254,7 +254,7 @@ const fieldListItemsToCoreFieldListDefItems = (
     case 'markdown':
     case 'mdx':
     case 'image':
-      return utils.pick(listFieldDefItem, ['type'])
+      return utils.pick(listFieldDefItem, ['type'], false)
     case 'enum':
       return {
         type: 'enum',
