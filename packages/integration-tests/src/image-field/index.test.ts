@@ -40,7 +40,7 @@ test('mdx-image-field ', async () => {
 
   expect(allPosts[0].coverImage).toMatchInlineSnapshot(`
     {
-      "blurhashDataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAMAAADz0U65AAAACVBMVEV8Oe1uNNJ3OOKPJhaEAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAHUlEQVR4nGNgwAIYGRkhDCZGJqgAE0SIiQmEsAAAAyMAF5ferjEAAAAASUVORK5CYII=",
+      "blurhashDataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAMAAADz0U65AAAACVBMVEV8Oe1uNNJ3OOKPJhaEAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAHUlEQVR4nGNgwAIYGRkhDCZGJqgAE0SIiQmEsAAAAyMAF5ferjEAAAAASUVORK5CYII=",
       "filePath": "posts/image-a.png",
       "format": "png",
       "height": 480,
