@@ -30,11 +30,12 @@ export const makeDateField = ({
       }
 
       // See Temporal docs https://tc39.es/proposal-temporal/docs/
-      if (options.date?.timezone && !dateHasExplitcitTimezone()) {
+      if (options.date?.timezone !== undefined && dateHasExplitcitTimezone() === false) {
+        const instant = new Date(dateString).toTemporalInstant()
         const desiredTimezone = Temporal.TimeZone.from(options.date.timezone)
-        const offsetNs = desiredTimezone.getOffsetNanosecondsFor(Temporal.Now.instant())
+        const offsetNs = desiredTimezone.getOffsetNanosecondsFor(instant)
 
-        return new Date(dateString).toTemporalInstant().subtract({ nanoseconds: offsetNs }).toString()
+        return instant.subtract({ nanoseconds: offsetNs }).toString()
       } else {
         return new Date(dateString).toISOString()
       }
