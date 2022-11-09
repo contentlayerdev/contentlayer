@@ -12,6 +12,8 @@ export type TypeDefExtensions = {
 export type DocumentTypeDefMap = Record<string, DocumentTypeDef>
 export type NestedTypeDefMap = Record<string, NestedTypeDef>
 
+export type DocumentTypeTag = (DocumentTypeDef | NestedTypeDef | NestedUnnamedTypeDef)['_tag']
+
 export type SchemaDef = {
   documentTypeDefMap: DocumentTypeDefMap
   nestedTypeDefMap: NestedTypeDefMap

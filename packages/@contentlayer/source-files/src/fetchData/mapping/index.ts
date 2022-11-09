@@ -54,7 +54,7 @@ export const makeDocument = ({
             getDataForFieldDef({
               fieldDef,
               rawFieldData: rawData[fieldDef.name],
-              documentTypeName: documentTypeDef.name,
+              isRootDocument: true,
               coreSchemaDef,
               options,
               documentFilePath: relativeFilePath,
@@ -107,7 +107,7 @@ export const getFlattenedPath = (relativeFilePath: string): string =>
 const makeNestedDocument = ({
   rawObjectData,
   fieldDefs,
-  typeName,
+  nestedTypeName,
   coreSchemaDef,
   options,
   documentFilePath,
@@ -116,7 +116,7 @@ const makeNestedDocument = ({
   rawObjectData: Record<string, any>
   /** Passing `FieldDef[]` here instead of `ObjectDef` in order to also support `inline_nested` */
   fieldDefs: core.FieldDef[]
-  typeName: string
+  nestedTypeName: string
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
   documentFilePath: RelativePosixFilePath
@@ -133,7 +133,7 @@ const makeNestedDocument = ({
           getDataForFieldDef({
             fieldDef,
             rawFieldData: rawObjectData[fieldDef.name],
-            documentTypeName: typeName,
+            isRootDocument: false,
             coreSchemaDef,
             options,
             documentFilePath,
@@ -144,7 +144,7 @@ const makeNestedDocument = ({
     )
 
     const typeNameField = options.fieldOptions.typeFieldName
-    const obj: core.NestedDocument = { ...objValues, [typeNameField]: typeName, _raw: {} }
+    const obj: core.NestedDocument = { ...objValues, [typeNameField]: nestedTypeName, _raw: {} }
 
     return obj
   })
@@ -152,7 +152,7 @@ const makeNestedDocument = ({
 const getDataForFieldDef = ({
   fieldDef,
   rawFieldData,
-  documentTypeName,
+  isRootDocument,
   coreSchemaDef,
   options,
   documentFilePath,
@@ -160,34 +160,32 @@ const getDataForFieldDef = ({
 }: {
   fieldDef: core.FieldDef
   rawFieldData: any
-  documentTypeName: string
+  isRootDocument: boolean
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
   documentFilePath: RelativePosixFilePath
   contentDirPath: AbsolutePosixFilePath
 }): T.Effect<OT.HasTracer & HasConsole & HasDocumentContext & core.HasCwd, MakeDocumentInternalError, any> =>
   T.gen(function* ($) {
-    if (rawFieldData === undefined && fieldDef.default) {
+    if ((rawFieldData === undefined || rawFieldData === null) && fieldDef.default) {
       rawFieldData = fieldDef.default
     }
 
-    if (rawFieldData === undefined) {
+    if (rawFieldData === undefined || rawFieldData === null) {
+      const documentTypeDef = yield* $(getFromDocumentContext('documentTypeDef'))
       console.assert(
         !fieldDef.isRequired || fieldDef.isSystemField,
-        `Inconsistent data found: ${JSON.stringify({ fieldDef, documentFilePath, typeName: documentTypeName })}`,
+        `Inconsistent data found: ${JSON.stringify({ fieldDef, documentFilePath, typeName: documentTypeDef.name })}`,
       )
 
-      return undefined
+      return rawFieldData
     }
 
-    const documentTypeDef = coreSchemaDef.documentTypeDefMap[documentTypeName]!
     const parseFieldDataEff = <TFieldType extends core.FieldDefType>(fieldType: TFieldType) =>
       parseFieldData({
         rawData: rawFieldData,
         fieldType,
-        documentFilePath,
         fieldName: fieldDef.name,
-        documentTypeDef,
       })
 
     switch (fieldDef.type) {
@@ -198,7 +196,7 @@ const getDataForFieldDef = ({
           makeNestedDocument({
             rawObjectData,
             fieldDefs: nestedTypeDef.fieldDefs,
-            typeName: nestedTypeDef.name,
+            nestedTypeName: nestedTypeDef.name,
             coreSchemaDef,
             options,
             documentFilePath,
@@ -212,7 +210,7 @@ const getDataForFieldDef = ({
           makeNestedDocument({
             rawObjectData,
             fieldDefs: fieldDef.typeDef.fieldDefs,
-            typeName: '__UNNAMED__',
+            nestedTypeName: '__UNNAMED__',
             coreSchemaDef,
             options,
             documentFilePath,
@@ -224,6 +222,7 @@ const getDataForFieldDef = ({
         const nestedTypeName = rawObjectData[fieldDef.typeField]
 
         if (!fieldDef.nestedTypeNames.includes(nestedTypeName)) {
+          const documentTypeDef = yield* $(getFromDocumentContext('documentTypeDef'))
           return yield* $(
             T.fail(
               new FetchDataError.NoSuchNestedDocumentTypeError({
@@ -231,7 +230,7 @@ const getDataForFieldDef = ({
                 documentFilePath,
                 fieldName: fieldDef.name,
                 validNestedTypeNames: fieldDef.nestedTypeNames,
-                documentTypeDef: coreSchemaDef.documentTypeDefMap[documentTypeName]!,
+                documentTypeDef,
               }),
             ),
           )
@@ -243,7 +242,7 @@ const getDataForFieldDef = ({
           makeNestedDocument({
             rawObjectData,
             fieldDefs: nestedTypeDef.fieldDefs,
-            typeName: nestedTypeDef.name,
+            nestedTypeName: nestedTypeDef.name,
             coreSchemaDef,
             options,
             documentFilePath,
@@ -264,7 +263,6 @@ const getDataForFieldDef = ({
               fieldDef,
               coreSchemaDef,
               options,
-              documentTypeName,
               documentFilePath,
               contentDirPath,
             }),
@@ -272,12 +270,11 @@ const getDataForFieldDef = ({
         )
       case 'date':
         const dateString = yield* $(parseFieldDataEff('date'))
-        return yield* $(
-          makeDateField({ dateString, documentFilePath, fieldName: fieldDef.name, documentTypeDef, options }),
-        )
+        return yield* $(makeDateField({ dateString, fieldName: fieldDef.name, options }))
       case 'markdown': {
         const mdString = yield* $(parseFieldDataEff('markdown'))
-        return yield* $(makeMarkdownField({ mdString, fieldDef, options }))
+        const isDocumentBodyField = isRootDocument && fieldDef.name === options.fieldOptions.bodyFieldName
+        return yield* $(makeMarkdownField({ mdString, options, isDocumentBodyField }))
       }
       case 'mdx': {
         const mdxString = yield* $(parseFieldDataEff('mdx'))
@@ -304,7 +301,6 @@ const getDataForListItem = ({
   fieldDef,
   coreSchemaDef,
   options,
-  documentTypeName,
   documentFilePath,
   contentDirPath,
 }: {
@@ -312,19 +308,15 @@ const getDataForListItem = ({
   fieldDef: core.ListFieldDef | core.ListPolymorphicFieldDef
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
-  documentTypeName: string
   documentFilePath: RelativePosixFilePath
   contentDirPath: AbsolutePosixFilePath
 }): T.Effect<OT.HasTracer & HasConsole & HasDocumentContext & core.HasCwd, MakeDocumentInternalError, any> =>
   T.gen(function* ($) {
-    const documentTypeDef = coreSchemaDef.documentTypeDefMap[documentTypeName]!
     const parseFieldDataEff = <TFieldType extends core.FieldDefType>(fieldType: TFieldType) =>
       parseFieldData({
         rawData: rawItemData,
         fieldType,
-        documentFilePath,
         fieldName: fieldDef.name,
-        documentTypeDef,
       })
 
     if (fieldDef.type === 'list_polymorphic') {
@@ -336,6 +328,7 @@ const getDataForListItem = ({
           .filter((_): _ is core.ListFieldDefItem.ItemNested => _.type === 'nested')
           .map((_) => _.nestedTypeName)
 
+        const documentTypeDef = yield* $(getFromDocumentContext('documentTypeDef'))
         return yield* $(
           T.fail(
             new FetchDataError.NoSuchNestedDocumentTypeError({
@@ -343,7 +336,7 @@ const getDataForListItem = ({
               documentFilePath,
               fieldName: fieldDef.name,
               validNestedTypeNames,
-              documentTypeDef: coreSchemaDef.documentTypeDefMap[documentTypeName]!,
+              documentTypeDef,
             }),
           ),
         )
@@ -352,7 +345,7 @@ const getDataForListItem = ({
         makeNestedDocument({
           rawObjectData: rawItemData,
           fieldDefs: nestedTypeDef.fieldDefs,
-          typeName: nestedTypeDef.name,
+          nestedTypeName: nestedTypeDef.name,
           coreSchemaDef,
           options,
           documentFilePath,
@@ -369,7 +362,7 @@ const getDataForListItem = ({
           makeNestedDocument({
             rawObjectData,
             fieldDefs: nestedTypeDef.fieldDefs,
-            typeName: nestedTypeDef.name,
+            nestedTypeName: nestedTypeDef.name,
             coreSchemaDef,
             options,
             documentFilePath,
@@ -383,7 +376,7 @@ const getDataForListItem = ({
           makeNestedDocument({
             rawObjectData,
             fieldDefs: fieldDef.of.typeDef.fieldDefs,
-            typeName: '__UNNAMED__',
+            nestedTypeName: '__UNNAMED__',
             coreSchemaDef,
             options,
             documentFilePath,
@@ -395,12 +388,10 @@ const getDataForListItem = ({
         return makeMdxField({ mdxString: rawItemData, contentDirPath, fieldDef, options })
       case 'date':
         const dateString = yield* $(parseFieldDataEff('date'))
-        return yield* $(
-          makeDateField({ dateString, documentFilePath, fieldName: fieldDef.name, documentTypeDef, options }),
-        )
+        return yield* $(makeDateField({ dateString, fieldName: fieldDef.name, options }))
       case 'markdown': {
         const mdString = yield* $(parseFieldDataEff('markdown'))
-        return yield* $(makeMarkdownField({ mdString, fieldDef, options }))
+        return yield* $(makeMarkdownField({ mdString, options, isDocumentBodyField: false }))
       }
       case 'mdx': {
         const mdxString = yield* $(parseFieldDataEff('mdx'))

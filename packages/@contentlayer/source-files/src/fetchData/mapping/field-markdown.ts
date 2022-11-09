@@ -8,19 +8,19 @@ import { getFromDocumentContext } from '../DocumentContext.js'
 
 export const makeMarkdownField = ({
   mdString,
-  fieldDef,
   options,
+  isDocumentBodyField,
 }: {
   mdString: string
-  fieldDef: core.FieldDef
   options: core.PluginOptions
+  isDocumentBodyField: boolean
 }): T.Effect<HasDocumentContext & OT.HasTracer & HasConsole, core.UnexpectedMarkdownError, core.Markdown> =>
   T.gen(function* ($) {
-    const isBodyField = fieldDef.name === options.fieldOptions.bodyFieldName
+    // const isDocumentBodyField = fieldDef.name === options.fieldOptions.bodyFieldName
     const rawDocumentData = yield* $(getFromDocumentContext('rawDocumentData'))
     // NOTE for the body field, we're passing the entire document file contents to MDX (e.g. in case some remark/rehype plugins need access to the frontmatter)
     // TODO we should come up with a better way to do this
-    if (isBodyField) {
+    if (isDocumentBodyField) {
       const rawContent = yield* $(getFromDocumentContext('rawContent'))
       if (rawContent.kind !== 'markdown' && rawContent.kind !== 'mdx') return utils.assertNever(rawContent)
 

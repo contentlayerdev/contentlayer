@@ -1,8 +1,9 @@
 import type * as core from '@contentlayer/core'
 import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer/utils'
 import { errorToString, pattern } from '@contentlayer/utils'
-import { Tagged } from '@contentlayer/utils/effect'
+import { pipe, T, Tagged } from '@contentlayer/utils/effect'
 
+import { getDocumentContext } from '../fetchData/DocumentContext.js'
 import type { DocumentContentType } from '../index.js'
 import { handleFetchDataErrors } from './aggregate.js'
 
@@ -353,6 +354,24 @@ ${errorCount} documents contain field data which didn't match the structure defi
       return `"${this.documentFilePath}" of type "${this.documentTypeDef.name}" has the following incompatible fields:
 ${incompatibleFields} `
     }
+
+    static fail = ({
+      incompatibleFieldData,
+    }: {
+      incompatibleFieldData: readonly (readonly [fieldKey: string, fieldValue: any])[]
+    }) =>
+      pipe(
+        getDocumentContext,
+        T.chain((documentContext) =>
+          T.fail(
+            new FetchDataError.IncompatibleFieldDataError({
+              documentFilePath: documentContext.relativeFilePath,
+              documentTypeDef: documentContext.documentTypeDef,
+              incompatibleFieldData,
+            }),
+          ),
+        ),
+      )
   }
 
   export class SingletonDocumentNotFoundError

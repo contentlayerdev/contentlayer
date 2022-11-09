@@ -1,7 +1,6 @@
 import type * as core from '@contentlayer/core'
-import type { RelativePosixFilePath } from '@contentlayer/utils'
 import { Temporal } from '@contentlayer/utils'
-import { T } from '@contentlayer/utils/effect'
+import { pipe, T } from '@contentlayer/utils/effect'
 
 import { FetchDataError } from '../../errors/index.js'
 
@@ -9,17 +8,13 @@ export const makeDateField = ({
   dateString,
   fieldName,
   options,
-  documentFilePath,
-  documentTypeDef,
 }: {
   dateString: string
   fieldName: string
   options: core.PluginOptions
-  documentFilePath: RelativePosixFilePath
-  documentTypeDef: core.DocumentTypeDef
 }) =>
-  T.tryCatch(
-    () => {
+  pipe(
+    T.try(() => {
       const dateHasExplitcitTimezone = () => {
         try {
           Temporal.TimeZone.from(dateString)
@@ -39,11 +34,8 @@ export const makeDateField = ({
       } else {
         return new Date(dateString).toISOString()
       }
-    },
-    () =>
-      new FetchDataError.IncompatibleFieldDataError({
-        documentFilePath,
-        documentTypeDef,
-        incompatibleFieldData: [[fieldName, dateString]],
-      }),
+    }),
+    T.catchAll(() =>
+      FetchDataError.IncompatibleFieldDataError.fail({ incompatibleFieldData: [[fieldName, dateString]] }),
+    ),
   )
