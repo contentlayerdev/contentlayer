@@ -167,15 +167,24 @@ const getDataForFieldDef = ({
   contentDirPath: AbsolutePosixFilePath
 }): T.Effect<OT.HasTracer & HasConsole & HasDocumentContext & core.HasCwd, MakeDocumentInternalError, any> =>
   T.gen(function* ($) {
-    if ((rawFieldData === undefined || rawFieldData === null) && fieldDef.default) {
+    if ((rawFieldData === undefined || rawFieldData === null) && fieldDef.default !== undefined) {
       rawFieldData = fieldDef.default
     }
 
     if (rawFieldData === undefined || rawFieldData === null) {
       const documentTypeDef = yield* $(getFromDocumentContext('documentTypeDef'))
       console.assert(
-        !fieldDef.isRequired || fieldDef.isSystemField,
-        `Inconsistent data found: ${JSON.stringify({ fieldDef, documentFilePath, typeName: documentTypeDef.name })}`,
+        fieldDef.isRequired === false || fieldDef.isSystemField === true,
+        `Inconsistent data found: ${rawFieldData} ${JSON.stringify(
+          {
+            fieldDef,
+            documentFilePath,
+            rootDocTypeName: documentTypeDef.name,
+            isRootDocument,
+          },
+          null,
+          2,
+        )}`,
       )
 
       return rawFieldData
