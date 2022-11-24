@@ -60,8 +60,6 @@ export type MDXOptions = {
   /**
    * This allows you to modify the built-in MDX configuration (passed to @mdx-js/mdx compile).
    * This can be helpful for specifying your own remarkPlugins/rehypePlugins.
-   *
-   * If you're providing `mdxOptions` then `rehypePlugins` and `remarkPlugins` will be ignored.
    */
   mdxOptions?: MDXBundlerMDXOptions
   /**
