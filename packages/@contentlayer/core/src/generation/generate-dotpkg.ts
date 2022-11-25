@@ -6,6 +6,7 @@ import { Array, Chunk, flow, OT, pipe, S, T } from '@contentlayer/utils/effect'
 import { fs } from '@contentlayer/utils/node'
 import { camelCase } from 'camel-case'
 import type { PackageJson } from 'type-fest'
+import { slugify } from 'transliteration'
 
 import { ArtifactsDir } from '../ArtifactsDir.js'
 import type { HasCwd } from '../cwd.js'
@@ -392,7 +393,7 @@ const leftPadWithUnderscoreIfStartsWithNumber = (str: string): string => {
   if (/^[0-9]/.test(str)) {
     return '_' + str
   }
-  return str
+  return slugify(str,{ separator: "_" })
 }
 
 // const errorIfArtifactsDirIsDeleted = ({ artifactsDir }: { artifactsDir: string }) => {

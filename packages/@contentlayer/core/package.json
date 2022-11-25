@@ -37,7 +37,8 @@
     "remark-rehype": "^10.1.0",
     "source-map-support": "^0.5.21",
     "type-fest": "^3.2.0",
-    "unified": "^10.1.2"
+    "unified": "^10.1.2",
+    "transliteration": "^2.3.5"
   },
   "devDependencies": {
     "@types/source-map-support": "^0.5.6",
