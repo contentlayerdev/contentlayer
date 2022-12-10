@@ -96,5 +96,6 @@ Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest
 - [adrianmato.art](https://adrianmato.art)
 - [livropog.com.br](https://livropog.com.br) ([Source](https://github.com/josenaldo/livro-pog)]
 - [rofireza.com](https://rofireza.com/) ([Source](https://github.com/arrofirezasatria/rofireza.com))
+- [jakubh.com](https://jakubh.com/) ([Source](https://github.com/ivenuss/jakubh.com))
 
 Are you using Contentlayer? Please add your page (and repo) to the end of the list via a PR. 🙏
