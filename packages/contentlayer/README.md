@@ -98,5 +98,6 @@ Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest
 - [rofireza.com](https://rofireza.com/) ([Source](https://github.com/arrofirezasatria/rofireza.com))
 - [jakubh.com](https://jakubh.com/) ([Source](https://github.com/ivenuss/jakubh.com))
 - [fiqry.dev](https://fiqry.dev/) ([Source](https://github.com/fiqryq/fiqry.dev))
+- [soapbox.pub](https://soapbox.pub/) ([Source](https://gitlab.com/soapbox-pub/soapbox.pub))
 
 Are you using Contentlayer? Please add your page (and repo) to the end of the list via a PR. 🙏
