@@ -36,7 +36,7 @@ const codecMap = {
   reference_polymorphic: zod.string(),
 }
 
-export type ParsedFieldData<TFieldType extends core.FieldDefType> = zod.infer<typeof codecMap[TFieldType]>
+export type ParsedFieldData<TFieldType extends core.FieldDefType> = zod.infer<(typeof codecMap)[TFieldType]>
 
 export const parseFieldData = <TFieldType extends core.FieldDefType>({
   rawData,
