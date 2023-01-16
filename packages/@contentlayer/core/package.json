@@ -13,7 +13,7 @@
     "test": "echo No tests yet"
   },
   "peerDependencies": {
-    "esbuild": "^0.12.1 || 0.13.x || 0.14.x || 0.15.x || 0.16.x || 0.17.x",
+    "esbuild": "0.17.x",
     "markdown-wasm": "1.x"
   },
   "peerDependenciesMeta": {
@@ -28,7 +28,7 @@
     "@contentlayer/utils": "workspace:*",
     "camel-case": "^4.1.2",
     "comment-json": "^4.2.3",
-    "esbuild": "^0.12.1 || 0.13.x || 0.14.x || 0.15.x || 0.16.x || 0.17.x",
+    "esbuild": "0.17.x",
     "gray-matter": "^4.0.3",
     "mdx-bundler": "^9.2.1",
     "rehype-stringify": "^9.0.3",
