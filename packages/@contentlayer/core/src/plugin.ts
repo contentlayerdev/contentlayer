@@ -1,5 +1,6 @@
 import type { Thunk } from '@contentlayer/utils'
 import type { E, HasClock, HasConsole, OT, S, T } from '@contentlayer/utils/effect'
+import type * as mdxEsbuild from '@mdx-js/esbuild/lib'
 import type * as mdxBundler from 'mdx-bundler/dist/types'
 import type { LiteralUnion } from 'type-fest'
 import type * as unified from 'unified'
@@ -58,10 +59,13 @@ export type MDXOptions = {
   rehypePlugins?: unified.Pluggable[]
   /**  */
   /**
-   * This allows you to modify the built-in MDX configuration (passed to @mdx-js/mdx compile).
+   * This allows you to modify the built-in MDX configuration (passed to @mdx-js/mdx compile via mdx-bundler).
    * This can be helpful for specifying your own remarkPlugins/rehypePlugins.
+   *
+   * Note that Contentlayer by default applies the built-in `addRawDocumentToVFile` remark plugin
+   * which adds the raw document data to the vfile under `vfile.data.rawDocumentData`.
    */
-  mdxOptions?: MDXBundlerMDXOptions
+  mdxOptions?: MDXBundlerMapOptions
   /**
    * How we resolve the cwd passed to mdx-bundler when processing a file. If an explicit `cwd`
    * is provided this option will be ignored.
@@ -72,7 +76,7 @@ export type MDXOptions = {
   resolveCwd?: 'relative' | 'contentDirPath'
 } & Omit<mdxBundler.BundleMDXOptions<any>, 'mdxOptions'>
 
-export type MDXBundlerMDXOptions = mdxBundler.BundleMDXOptions<any>['mdxOptions']
+export type MDXBundlerMapOptions = (options: mdxEsbuild.ProcessorOptions) => mdxEsbuild.ProcessorOptions
 
 export type DateOptions = {
   /**

@@ -26,7 +26,14 @@ export const bundleMDX = ({
       if (mdxString.length === 0) {
         return ''
       }
-      const { rehypePlugins, remarkPlugins, resolveCwd, cwd: cwd_, mdxOptions: mdxOptions_, ...restOptions } = options ?? {}
+      const {
+        rehypePlugins,
+        remarkPlugins,
+        resolveCwd,
+        cwd: cwd_,
+        mdxOptions: mapMdxOptions,
+        ...restOptions
+      } = options ?? {}
 
       const getCwdFromContentDirPath = () =>
         // TODO don't use `process.cwd()` but instead `HasCwd`
@@ -44,7 +51,7 @@ export const bundleMDX = ({
             ...(opts.remarkPlugins ?? []),
             ...(remarkPlugins ?? []),
           ]
-          return mdxOptions_ ? mdxOptions_(opts) : opts;
+          return mapMdxOptions ? mapMdxOptions(opts) : opts
         },
         // User-provided cwd trumps resolution
         cwd: cwd_ ?? getCwd(),
