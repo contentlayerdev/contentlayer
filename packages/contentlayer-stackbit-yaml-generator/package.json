@@ -18,14 +18,14 @@
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
     "@stackbit/sdk": "^0.2.35",
-    "clipanion": "^3.2.0-rc.13",
+    "clipanion": "^3.2.0-rc.14",
     "typanion": "3.12.1",
     "yaml": "^1.10.2"
   },
   "devDependencies": {
     "contentlayer": "workspace:*",
-    "typescript": "^4.8.4",
-    "vite": "^3.2.3",
-    "vitest": "0.24.5"
+    "typescript": "^4.9.4",
+    "vite": "^4.0.4",
+    "vitest": "0.27.1"
   }
 }
