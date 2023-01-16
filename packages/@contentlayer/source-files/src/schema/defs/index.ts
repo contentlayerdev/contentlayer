@@ -108,4 +108,11 @@ export const defineDocumentType = <DefName extends string>(
   def,
 })
 
-// export const defineSchema = (_: SchemaDef): SchemaDef => _
+export const defineFields = <TFieldDefs extends FieldDefs>(fields: TFieldDefs): TFieldDefs => fields
+
+export const defineComputedFields = <
+  TDefName extends string,
+  TComputedFields extends ComputedFields<TDefName> = ComputedFields<TDefName>,
+>(
+  computedFields: TComputedFields,
+): TComputedFields => computedFields

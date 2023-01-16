@@ -1,4 +1,4 @@
-import { defineDocumentType, defineNestedType } from 'contentlayer/source-files'
+import { defineDocumentType, defineFields, defineNestedType } from 'contentlayer/source-files'
 
 import { Action } from '../nested/Action.js'
 import { FormField } from '../nested/FormField.js'
@@ -52,7 +52,7 @@ export const Landing = defineDocumentType(() => ({
   },
 }))
 
-const sectionBaseFields = {
+const sectionBaseFields = defineFields({
   section_id: {
     type: 'string',
     description: 'A unique identifier of the section, must not contain whitespace',
@@ -66,7 +66,7 @@ const sectionBaseFields = {
     required: true,
     description: 'Needed for contentlayer for polymorphic list types',
   },
-} as const
+})
 
 const sectionBaseFieldsExtension = {
   section_id: { label: 'Section ID' },
