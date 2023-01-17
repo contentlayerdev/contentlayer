@@ -6682,6 +6682,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"node-script-mdx-example@workspace:examples/node-script-mdx":
+  version: 0.0.0-use.local
+  resolution: "node-script-mdx-example@workspace:examples/node-script-mdx"
+  dependencies:
+    contentlayer: latest
+  languageName: unknown
+  linkType: soft
+
 "nopt@npm:^5.0.0":
   version: 5.0.0
   resolution: "nopt@npm:5.0.0"
