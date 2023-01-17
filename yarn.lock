@@ -385,6 +385,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@contentlayer/source-remote-files@workspace:*, @contentlayer/source-remote-files@workspace:packages/@contentlayer/source-remote-files":
+  version: 0.0.0-use.local
+  resolution: "@contentlayer/source-remote-files@workspace:packages/@contentlayer/source-remote-files"
+  dependencies:
+    "@contentlayer/core": "workspace:*"
+    "@contentlayer/source-files": "workspace:*"
+    "@contentlayer/utils": "workspace:*"
+  languageName: unknown
+  linkType: soft
+
 "@contentlayer/utils@workspace:*, @contentlayer/utils@workspace:packages/@contentlayer/utils":
   version: 0.0.0-use.local
   resolution: "@contentlayer/utils@workspace:packages/@contentlayer/utils"
@@ -3037,6 +3047,7 @@ __metadata:
     "@contentlayer/client": "workspace:*"
     "@contentlayer/core": "workspace:*"
     "@contentlayer/source-files": "workspace:*"
+    "@contentlayer/source-remote-files": "workspace:*"
     "@contentlayer/utils": "workspace:*"
     typescript: ^4.9.4
   bin:
@@ -6664,6 +6675,14 @@ __metadata:
 "node-script-mdx-example@workspace:examples/node-script-mdx":
   version: 0.0.0-use.local
   resolution: "node-script-mdx-example@workspace:examples/node-script-mdx"
+  dependencies:
+    contentlayer: latest
+  languageName: unknown
+  linkType: soft
+
+"node-script-remote-content-example@workspace:examples/node-script-remote-content":
+  version: 0.0.0-use.local
+  resolution: "node-script-remote-content-example@workspace:examples/node-script-remote-content"
   dependencies:
     contentlayer: latest
   languageName: unknown

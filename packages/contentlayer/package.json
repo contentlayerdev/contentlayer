@@ -14,6 +14,9 @@
     "./source-files/schema": {
       "import": "./dist/source-files/schema/index.js"
     },
+    "./source-remote-files": {
+      "import": "./dist/source-remote-files/index.js"
+    },
     "./client": {
       "import": "./dist/client/index.js"
     },
@@ -38,6 +41,9 @@
       ],
       "source-files/schema": [
         "./dist/source-files/schema"
+      ],
+      "source-remote-files": [
+        "./dist/source-remote-files"
       ],
       "client": [
         "./dist/client"
@@ -70,6 +76,7 @@
     "@contentlayer/client": "workspace:*",
     "@contentlayer/core": "workspace:*",
     "@contentlayer/source-files": "workspace:*",
+    "@contentlayer/source-remote-files": "workspace:*",
     "@contentlayer/utils": "workspace:*"
   },
   "devDependencies": {

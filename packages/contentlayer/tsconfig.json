@@ -11,6 +11,7 @@
     { "path": "../@contentlayer/cli" },
     { "path": "../@contentlayer/client" },
     { "path": "../@contentlayer/source-files" },
+    { "path": "../@contentlayer/source-remote-files" },
     { "path": "../@contentlayer/utils" },
     { "path": "../@contentlayer/core" }
   ]

@@ -1,0 +1,22 @@
+{
+  "name": "@contentlayer/source-remote-files",
+  "version": "0.2.10-dev.4",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "./dist/*.{js,ts,map}",
+    "./dist/!(__test__)/**/*.{js,ts,map}",
+    "./src",
+    "./package.json"
+  ],
+  "dependencies": {
+    "@contentlayer/core": "workspace:*",
+    "@contentlayer/source-files": "workspace:*",
+    "@contentlayer/utils": "workspace:*"
+  }
+}
