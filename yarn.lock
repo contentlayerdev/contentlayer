@@ -336,11 +336,11 @@ __metadata:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/source-files": "workspace:*"
     "@contentlayer/utils": "workspace:*"
-    "@stackbit/sdk": ~0.2.38
+    "@stackbit/sdk": ~0.3.13
     vite: ^4.0.4
     vitest: 0.27.1
   peerDependencies:
-    "@stackbit/sdk": ~0.2.38
+    "@stackbit/sdk": 0.3.x
   peerDependenciesMeta:
     "@stackbit/sdk":
       optional: true
@@ -1433,13 +1433,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stackbit/sdk@npm:^0.2.35":
-  version: 0.2.35
-  resolution: "@stackbit/sdk@npm:0.2.35"
+"@stackbit/sdk@npm:^0.3.13, @stackbit/sdk@npm:~0.3.13":
+  version: 0.3.13
+  resolution: "@stackbit/sdk@npm:0.3.13"
   dependencies:
     "@octokit/rest": ^18.3.5
-    "@stackbit/utils": ^0.2.3
+    "@stackbit/types": ^0.1.9
+    "@stackbit/utils": ^0.2.14
     acorn: ^8.2.4
+    chokidar: ^3.5.3
     esbuild: ^0.14.42
     fs-extra: ^9.1.0
     joi: ^17.4.0
@@ -1448,50 +1450,27 @@ __metadata:
     micromatch: ^4.0.2
     moment: ^2.29.1
     semver: ^7.3.5
-  checksum: a7e536e4ea5b30478c9042b378612d87bb19ef94d166111cc814f2f70d8749bfa20991c4cba6d2172f94f6ad3973364b02e3d307643bea1197c98e8f367647da
+  checksum: a8715484658d7df9b7c29036b85385edb732830fe4b4527247aca8dbb02ca5c9321a879d6d9c90084935b7e60aa9f9f021176f1d4a10ff37bdb76c20fb6e4687
   languageName: node
   linkType: hard
 
-"@stackbit/sdk@npm:~0.2.38":
-  version: 0.2.38
-  resolution: "@stackbit/sdk@npm:0.2.38"
-  dependencies:
-    "@octokit/rest": ^18.3.5
-    "@stackbit/utils": ^0.2.5
-    acorn: ^8.2.4
-    esbuild: ^0.14.42
-    fs-extra: ^9.1.0
-    joi: ^17.4.0
-    js-yaml: ^4.0.0
-    lodash: ^4.17.20
-    micromatch: ^4.0.2
-    moment: ^2.29.1
-    semver: ^7.3.5
-  checksum: b6b7f1b6cf805fbe72addb3d170c216b7972fbd9f2f96f4842d7af76bc02ccf83dd93df79d63aad27f9a0ff3761906c688051fce3f6bb7a30570482dd1427def
+"@stackbit/types@npm:^0.1.9":
+  version: 0.1.9
+  resolution: "@stackbit/types@npm:0.1.9"
+  checksum: 007bcd333e3acca26e3678f0feb225e81e9a4b5e179a3df33599ff40d9d2b4abd9ff8b5f8284895f42b90da889be2f7e61a90a05dbb7c96bc9d4098aaf8cafde
   languageName: node
   linkType: hard
 
-"@stackbit/utils@npm:^0.2.3":
-  version: 0.2.3
-  resolution: "@stackbit/utils@npm:0.2.3"
+"@stackbit/utils@npm:^0.2.14":
+  version: 0.2.14
+  resolution: "@stackbit/utils@npm:0.2.14"
   dependencies:
     "@iarna/toml": ^2.2.5
     fs-extra: ^9.1.0
     js-yaml: ^4.0.0
     lodash: ^4.17.21
-  checksum: accca336d89f2b8f71b028ee43587d2a71b9b5d3b3e0b66bbb081ef60ee7cffc8e6f822fbd89ed3593b3da5297a7948f2dc499e837a4f78f0a6cb18acaa4b911
-  languageName: node
-  linkType: hard
-
-"@stackbit/utils@npm:^0.2.5":
-  version: 0.2.5
-  resolution: "@stackbit/utils@npm:0.2.5"
-  dependencies:
-    "@iarna/toml": ^2.2.5
-    fs-extra: ^9.1.0
-    js-yaml: ^4.0.0
-    lodash: ^4.17.21
-  checksum: 27fd30a9d1d15a673821b79b793fa94bf2db03c6b56f6f8dfe796c5cdfb5f5e46516931c6e0f71fd8bc23b6e20bf694f2a297eb64a431bb85b31d5f2ac53a86f
+    strip-ansi: ^6.0.1
+  checksum: 0069c2db79a1b99019a9deafc9f3193f147c73487060fce21b2813219955fcc3beeb6375f91094c2ee96f70730880905278583269614b63a71d82aa891c36e99
   languageName: node
   linkType: hard
 
@@ -3037,7 +3016,7 @@ __metadata:
   dependencies:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/utils": "workspace:*"
-    "@stackbit/sdk": ^0.2.35
+    "@stackbit/sdk": ^0.3.13
     clipanion: ^3.2.0-rc.14
     contentlayer: "workspace:*"
     typanion: 3.12.1

@@ -1,11 +1,12 @@
 import type * as core from '@contentlayer/core'
 import * as utils from '@contentlayer/utils'
 import type * as Stackbit from '@stackbit/sdk'
+import type * as StackbitTypes from '@stackbit/types'
 
 export const convertSchema = (
   { documentTypeDefMap, nestedTypeDefMap }: core.SchemaDef,
   extensions: core.PluginExtensions,
-): Stackbit.YamlConfig => {
+): StackbitTypes.StackbitConfig => {
   // TODO this needs to be more dynamic/configurable
   const urlPathFieldName = 'url_path'
   const documentTypeDefs = Object.values(documentTypeDefMap)
@@ -37,7 +38,7 @@ const documentOrObjectDefToStackbitYamlModel = ({
   def: core.DocumentTypeDef | core.NestedTypeDef
   type: Stackbit.YamlModel['type']
   urlPathFieldName: string
-}): { model: Stackbit.YamlModel; name: string } => {
+}): { model: StackbitTypes.NamelessModel; name: string } => {
   const ext = def.extensions.stackbit
   const fields =
     def._tag === 'DocumentTypeDef'
@@ -68,7 +69,8 @@ const documentOrObjectDefToStackbitYamlModel = ({
     case 'data':
       return { name, model: { ...modelCommon, type: 'data', singleInstance } }
     case 'config':
-      return { name, model: { ...modelCommon, type: 'config', singleInstance } }
+      //   return { name, model: { ...modelCommon, type: 'config', singleInstance } }
+      throw new Error('Config models are not supported anymore')
     case 'object':
       return { name, model: { ...modelCommon, type: 'object' } }
     case 'page':
@@ -115,6 +117,7 @@ const fieldDefToStackbitField = ({
       return { ...commonField, type: 'object', fields: [] }
     case 'list':
     case 'list_polymorphic':
+      // @ts-expect-error TODO fix this together with some help from Stackbit
       return { ...commonField, type: 'list', items: listFieldDefToStackbitFieldListItems(fieldDef) }
     case 'image':
       return { ...commonField, type: 'string' }
