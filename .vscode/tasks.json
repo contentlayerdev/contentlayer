@@ -4,6 +4,19 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "yarn-install",
+      "type": "shell",
+      "command": "yarn install",
+      "presentation": {
+        "focus": true,
+        "panel": "shared",
+        "group": "yarn",
+        "showReuseMessage": true,
+        "clear": false,
+        "close": true
+      }
+    },
+    {
       "label": "build:clean",
       "type": "shell",
       "command": "yarn build:clean",
@@ -13,7 +26,7 @@
         "group": "dev",
         "showReuseMessage": true,
         "clear": false,
-        "close": true,
+        "close": true
       }
     },
     {

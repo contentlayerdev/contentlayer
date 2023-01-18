@@ -8,6 +8,7 @@ export namespace StackbitExtension {
   export type Config = {
     pagesDir?: string
     dataDir?: string
+    dirPath?: string
   }
 
   /** Extends a document or object defintion with Stackbit specific properties */

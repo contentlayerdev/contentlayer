@@ -6,7 +6,6 @@ import type { HasClock, HasConsole } from '@contentlayer/utils/effect'
 import { OT, pipe, provideConsole, T } from '@contentlayer/utils/effect'
 import { describe, expect, test } from 'vitest'
 
-import type { HasDocumentContext } from '../fetchData/DocumentContext.js'
 import { provideDocumentContext } from '../fetchData/DocumentContext.js'
 import { getFlattenedPath, testOnly_getDataForFieldDef as getDataForFieldDef } from '../fetchData/mapping/index.js'
 
@@ -35,7 +34,7 @@ describe('getDataForFieldDef', () => {
     const transformedData = await pipe(
       getDataForFieldDef({
         rawFieldData,
-        documentTypeName: __unusedValue,
+        isRootDocument: true,
         coreSchemaDef: { hash: '', documentTypeDefMap: {}, nestedTypeDefMap: {} },
         contentDirPath: __unusedValue,
         fieldDef: {
@@ -56,6 +55,7 @@ describe('getDataForFieldDef', () => {
           ...options,
         },
       }),
+      provideTestDocumentContext({ relativeFilePath: __unusedValue, documentTypeDefName: __unusedValue }),
       OT.withSpan('testValue'),
       runPromise,
     )
@@ -64,6 +64,8 @@ describe('getDataForFieldDef', () => {
   }
 
   test('only year', () => testValue({ type: 'date', rawFieldData: '2022', expectedValue: '2022-01-01T00:00:00.000Z' }))
+
+  test('null', () => testValue({ type: 'date', rawFieldData: null, expectedValue: null }))
 
   test('date with slash separators', () =>
     testValue({ type: 'date', rawFieldData: '2022/10/12', expectedValue: '2022-10-12T00:00:00.000Z' }))
@@ -107,11 +109,12 @@ test('getDataForFieldDef error', async () => {
     rawFieldData: any
     options?: Partial<core.PluginOptions>
   }) => {
+    const documentFilePath = unknownToRelativePosixFilePath('some/path/doc.md')
     const transformedData = await runPromise(
       pipe(
         getDataForFieldDef({
           rawFieldData,
-          documentTypeName: 'Post',
+          isRootDocument: true,
           coreSchemaDef: {
             hash: '',
             documentTypeDefMap: { Post: { name: 'Post', _tag: 'DocumentTypeDef', ...__unusedValue } },
@@ -126,7 +129,7 @@ test('getDataForFieldDef error', async () => {
             default: undefined,
             description: undefined,
           },
-          documentFilePath: unknownToRelativePosixFilePath('some/path/doc.md'),
+          documentFilePath,
           options: {
             fieldOptions: core.defaultFieldOptions,
             markdown: undefined,
@@ -136,6 +139,7 @@ test('getDataForFieldDef error', async () => {
             ...options,
           },
         }),
+        provideTestDocumentContext({ relativeFilePath: documentFilePath, documentTypeDefName: 'Post' }),
         T.either,
       ),
     )
@@ -186,12 +190,22 @@ test('getDataForFieldDef error', async () => {
   await testValue({ type: 'date', rawFieldData: '2022-0' })
 })
 
-const runPromise = <A>(eff: T.Effect<OT.HasTracer & HasClock & HasConsole & HasDocumentContext & HasCwd, unknown, A>) =>
-  pipe(eff, provideTracing('contentlayer-test'), provideConsole, provideTestDocumentContext, provideCwd, T.runPromise)
+const runPromise = <A>(eff: T.Effect<OT.HasTracer & HasClock & HasConsole & HasCwd, unknown, A>) =>
+  pipe(eff, provideTracing('contentlayer-test'), provideConsole, provideCwd, T.runPromise)
 
-const provideTestDocumentContext = provideDocumentContext({
-  rawContent: __unusedValue,
-  relativeFilePath: __unusedValue,
-  rawDocumentData: __unusedValue,
-  documentTypeDef: __unusedValue,
-})
+const provideTestDocumentContext = ({
+  documentTypeDefName,
+  relativeFilePath,
+}: {
+  documentTypeDefName: string
+  relativeFilePath: string
+}) =>
+  provideDocumentContext({
+    rawContent: __unusedValue,
+    relativeFilePath: unknownToRelativePosixFilePath(relativeFilePath),
+    rawDocumentData: __unusedValue,
+    documentTypeDef: {
+      _tag: 'DocumentTypeDef',
+      name: documentTypeDefName,
+    } as any,
+  })

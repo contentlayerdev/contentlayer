@@ -1,9 +1,9 @@
 import type * as core from '@contentlayer/core'
-import type { RelativePosixFilePath } from '@contentlayer/utils'
 import { T } from '@contentlayer/utils/effect'
 import * as zod from 'zod'
 
 import { FetchDataError } from '../../errors/index.js'
+import type { HasDocumentContext } from '../DocumentContext.js'
 
 const ParsedImageData = zod.object({
   src: zod.string(),
@@ -36,32 +36,23 @@ const codecMap = {
   reference_polymorphic: zod.string(),
 }
 
-export type ParsedFieldData<TFieldType extends core.FieldDefType> = zod.infer<typeof codecMap[TFieldType]>
+export type ParsedFieldData<TFieldType extends core.FieldDefType> = zod.infer<(typeof codecMap)[TFieldType]>
 
 export const parseFieldData = <TFieldType extends core.FieldDefType>({
   rawData,
   fieldType,
-  documentTypeDef,
-  documentFilePath,
   fieldName,
 }: {
   rawData: unknown
   fieldType: TFieldType
-  documentTypeDef: core.DocumentTypeDef
-  documentFilePath: RelativePosixFilePath
+  /** Only needed for error handling */
   fieldName: string
-}): T.Effect<unknown, FetchDataError.IncompatibleFieldDataError, ParsedFieldData<TFieldType>> => {
+}): T.Effect<HasDocumentContext, FetchDataError.IncompatibleFieldDataError, ParsedFieldData<TFieldType>> => {
   const result = codecMap[fieldType].safeParse(rawData)
 
   if (result.success) {
     return T.succeed(result.data)
   } else {
-    return T.fail(
-      new FetchDataError.IncompatibleFieldDataError({
-        documentTypeDef,
-        documentFilePath,
-        incompatibleFieldData: [[fieldName, rawData]],
-      }),
-    )
+    return FetchDataError.IncompatibleFieldDataError.fail({ incompatibleFieldData: [[fieldName, rawData]] })
   }
 }

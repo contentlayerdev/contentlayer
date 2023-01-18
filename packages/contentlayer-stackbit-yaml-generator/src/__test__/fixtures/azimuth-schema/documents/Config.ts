@@ -1,4 +1,4 @@
-import { defineDocumentType, defineNestedType } from 'contentlayer/source-files'
+import { defineDocumentType, defineFields, defineNestedType } from 'contentlayer/source-files'
 
 import { Action } from '../nested/Action.js'
 import { FormField } from '../nested/FormField.js'
@@ -142,7 +142,7 @@ const Footer = defineNestedType(() => ({
   },
 }))
 
-const footerSectionBaseFields = {
+const footerSectionBaseFields = defineFields({
   title: {
     type: 'string',
     label: 'Title',
@@ -154,7 +154,7 @@ const footerSectionBaseFields = {
     required: true,
     description: 'Needed for contentlayer for polymorphic list types',
   },
-} as const
+})
 
 const footerSectionBaseFieldsExtension = {
   title: {

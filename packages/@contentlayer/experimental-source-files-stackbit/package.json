@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/experimental-source-files-stackbit",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "type": "module",
   "exports": {
     ".": {
@@ -18,7 +18,7 @@
     "test": "TZ='GMT' FORCE_COLOR=1 vitest"
   },
   "peerDependencies": {
-    "@stackbit/sdk": "~0.2.38"
+    "@stackbit/sdk": "0.3.x"
   },
   "peerDependenciesMeta": {
     "@stackbit/sdk": {
@@ -29,10 +29,10 @@
     "@contentlayer/core": "workspace:*",
     "@contentlayer/source-files": "workspace:*",
     "@contentlayer/utils": "workspace:*",
-    "@stackbit/sdk": "~0.2.38"
+    "@stackbit/sdk": "~0.3.13"
   },
   "devDependencies": {
-    "vite": "^3.2.3",
-    "vitest": "0.24.5"
+    "vite": "^4.0.4",
+    "vitest": "0.27.1"
   }
 }

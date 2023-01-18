@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/core",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -13,7 +13,7 @@
     "test": "echo No tests yet"
   },
   "peerDependencies": {
-    "esbuild": "^0.12.1 || 0.13.x || 0.14.x || 0.15.x",
+    "esbuild": "0.17.x",
     "markdown-wasm": "1.x"
   },
   "peerDependenciesMeta": {
@@ -28,7 +28,7 @@
     "@contentlayer/utils": "workspace:*",
     "camel-case": "^4.1.2",
     "comment-json": "^4.2.3",
-    "esbuild": "^0.12.1 || 0.13.x || 0.14.x || 0.15.x",
+    "esbuild": "0.17.x",
     "gray-matter": "^4.0.3",
     "mdx-bundler": "^9.2.1",
     "rehype-stringify": "^9.0.3",
@@ -36,7 +36,7 @@
     "remark-parse": "^10.0.1",
     "remark-rehype": "^10.1.0",
     "source-map-support": "^0.5.21",
-    "type-fest": "^3.2.0",
+    "type-fest": "^3.5.2",
     "unified": "^10.1.2"
   },
   "devDependencies": {

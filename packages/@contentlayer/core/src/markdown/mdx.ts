@@ -43,6 +43,11 @@ export const bundleMDX = ({
 
       const getCwd = () => (resolveCwd === 'contentDirPath' ? getCwdFromContentDirPath() : getRelativeCwd())
 
+      // TODO when fixed https://github.com/kentcdodds/mdx-bundler/pull/206
+      if (process.env.NODE_ENV === undefined) {
+        process.env.NODE_ENV = 'development'
+      }
+
       const mdxOptions: BundleMDXOptions<any> = {
         mdxOptions: (opts) => {
           opts.rehypePlugins = [...(opts.rehypePlugins ?? []), ...(rehypePlugins ?? [])]
@@ -68,6 +73,7 @@ export const bundleMDX = ({
       return res.code
     }),
     T.mapError((error) => new UnexpectedMDXError({ error })),
+    T.tapError(() => OT.addAttribute('mdxString', mdxString)),
     OT.withSpan('@contentlayer/core/markdown:bundleMDX'),
   )
 

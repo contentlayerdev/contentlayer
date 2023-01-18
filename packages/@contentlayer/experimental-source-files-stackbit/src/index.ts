@@ -43,7 +43,7 @@ export type ContentlayerOverrideNestedType = {
  * ```
  */
 export const loadStackbitConfigAsDocumentTypes = <TDocumentTypeNames extends core.GetDocumentTypeNamesGen>(
-  options: Stackbit.ConfigLoaderOptions = { dirPath: '' },
+  options: { dirPath: string } = { dirPath: '' },
   overrideArgs: ContentlayerOverrideArgs<TDocumentTypeNames> = { documentTypes: {}, nestedTypes: {} },
 ): Promise<SourceFiles.DocumentType[]> =>
   Stackbit.loadConfig(options).then((configResult) => {
@@ -69,7 +69,7 @@ export const loadStackbitConfigAsDocumentTypes = <TDocumentTypeNames extends cor
  * ```
  */
 export const stackbitConfigToDocumentTypes = <TDocumentTypeNames extends core.GetDocumentTypeNamesGen>(
-  stackbitConfig: Stackbit.Config | Stackbit.YamlConfig,
+  stackbitConfig: Stackbit.Config,
   overrideArgs: ContentlayerOverrideArgs<TDocumentTypeNames> = { documentTypes: {}, nestedTypes: {} },
 ): SourceFiles.DocumentType[] => {
   const validatedStackbitConfig = validateStackbitConfig(stackbitConfig)
@@ -147,7 +147,7 @@ const patchNestedType = (nestedType: SourceFiles.NestedType, patch: PartialDeep<
   nestedType.def = defineNestedType(() => mergeDeep({ ...previousDef, ...patch })).def
 }
 
-const validateStackbitConfig = (stackbitConfig: Stackbit.Config | Stackbit.YamlConfig): Stackbit.Config => {
+const validateStackbitConfig = (stackbitConfig: Stackbit.Config): Stackbit.Config => {
   if (Array.isArray(stackbitConfig.models)) {
     return stackbitConfig as Stackbit.Config
   }
@@ -166,4 +166,5 @@ const isDocumentLikeModel = (
 ): model is Stackbit.PageModel | Stackbit.DataModel | Stackbit.ConfigModel =>
   model.type === 'data' || model.type === 'page' || model.type === 'config'
 
-const isImageModel = (model: Stackbit.Model): model is Stackbit.ImageModel => model.type === 'image'
+const isImageModel = (model: Stackbit.Model | Stackbit.ImageModel): model is Stackbit.ImageModel =>
+  model.type === 'image'

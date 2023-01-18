@@ -61,4 +61,4 @@ export * as Q from '@effect-ts/core/Effect/Queue'
 
 export * as Ref from '@effect-ts/core/Effect/Ref'
 
-export * as OT from '@effect-ts/otel'
+export * as OT from './OT.js'
