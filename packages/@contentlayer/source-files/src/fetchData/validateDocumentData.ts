@@ -125,6 +125,10 @@ const getDocumentDefName = ({
   filePathPatternMap: FilePathPatternMap
   options: core.PluginOptions
 }): string | undefined => {
+  // Check if the document have fields
+  if (!rawContent.fields) {
+    return undefined;
+  }
   // first check if provided document has a type field value
   const typeFieldName = options.fieldOptions.typeFieldName
   const typeFieldValue = rawContent.fields[typeFieldName]
@@ -190,12 +194,12 @@ const validateFieldData = ({
         return Array.isArray(rawFieldData)
           ? O.none
           : O.some(
-              new FetchDataError.IncompatibleFieldDataError({
-                incompatibleFieldData: [[fieldDef.name, rawFieldData]],
-                documentFilePath,
-                documentTypeDef,
-              }),
-            )
+            new FetchDataError.IncompatibleFieldDataError({
+              incompatibleFieldData: [[fieldDef.name, rawFieldData]],
+              documentFilePath,
+              documentTypeDef,
+            }),
+          )
       // TODO also check for references in lists
       case 'reference':
         if (typeof rawFieldData === 'string') {
