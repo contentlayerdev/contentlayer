@@ -3,7 +3,7 @@ import * as path from 'node:path'
 import type * as core from '@contentlayer/core'
 import type { RelativePosixFilePath } from '@contentlayer/utils'
 import { singleItem, unknownToRelativePosixFilePath } from '@contentlayer/utils'
-import faker from 'faker'
+import { faker } from '@faker-js/faker'
 
 import { FetchDataError } from '../../errors/index.js'
 
@@ -65,7 +65,7 @@ export const makeErrors = (
   faker.seed(123)
 
   const documentTypeNames = Object.keys(schemaDef.documentTypeDefMap)
-  const documentTypeName = faker.random.arrayElement(documentTypeNames)
+  const documentTypeName = faker.helpers.arrayElement(documentTypeNames)
   const documentTypeDef = schemaDef.documentTypeDefMap[documentTypeName]!
 
   doNTimes(countRecord.CouldNotDetermineDocumentTypeError, () => {

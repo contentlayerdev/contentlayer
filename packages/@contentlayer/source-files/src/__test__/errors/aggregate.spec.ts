@@ -35,22 +35,20 @@ test('CouldNotDetermineDocumentTypeError: should print 4 errors', async () => {
     documentCount: 42,
   })
 
-  expect(errorString).toMatchInlineSnapshot(
-    `
+  expect(errorString).toMatchInlineSnapshot(`
     "Warning: Found 4 problems in 42 documents.
 
      └── Couldn't determine the document type for 4 documents. (Skipping documents)
          
          Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field \\"type\\" needs to be one of the following document type names: TypeA, TypeB).
          
-         • docs/global_rupee_sensor.md
-         • docs/administrator_missouri_synergize.md
-         • docs/card_balanced.md
-         • docs/card_table.md
+         • docs/killer_handcrafted_synthesize.md
+         • docs/redundant_silver_card.md
+         • docs/maryland_market.md
+         • docs/content_steel_coordinator.md
          
     "
-  `,
-  )
+  `)
 })
 
 test('CouldNotDetermineDocumentTypeError: should print 24 errors - truncated', async () => {
@@ -63,39 +61,37 @@ test('CouldNotDetermineDocumentTypeError: should print 24 errors - truncated', a
     documentCount: 81,
   })
 
-  expect(errorString).toMatchInlineSnapshot(
-    `
+  expect(errorString).toMatchInlineSnapshot(`
     "Warning: Found 24 problems in 81 documents.
 
      └── Couldn't determine the document type for 24 documents. (Skipping documents)
          
          Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field \\"type\\" needs to be one of the following document type names: TypeA, TypeB).
          
-         • docs/global_rupee_sensor.md
-         • docs/administrator_missouri_synergize.md
-         • docs/card_balanced.md
-         • docs/card_table.md
-         • docs/poland.md
-         • docs/withdrawal_buckinghamshire.md
-         • docs/synergistic_monitoring.md
-         • docs/enterprise_wide_orchestrator.md
-         • docs/index.md
-         • docs/shoes_markets.md
-         • docs/deliverables_palladium_berkshire.md
-         • docs/plastic_berkshire.md
-         • docs/future_berkshire_open_architected.md
-         • docs/hack_synthesizing.md
-         • docs/italy.md
-         • docs/focus.md
-         • docs/vatu_impactful_islands.md
-         • docs/account_sudan_incredible.md
-         • docs/digitized_borders_sleek.md
-         • docs/account.md
+         • docs/killer_handcrafted_synthesize.md
+         • docs/redundant_silver_card.md
+         • docs/maryland_market.md
+         • docs/content_steel_coordinator.md
+         • docs/rhenium_grocery.md
+         • docs/northeast.md
+         • docs/system_paradigm_hatchback.md
+         • docs/degree_tin_bandwidth.md
+         • docs/elegant_plight.md
+         • docs/southeast_antillian_tan.md
+         • docs/bulgarian.md
+         • docs/dobra_safely_lie.md
+         • docs/scsi_dicta.md
+         • docs/target.md
+         • docs/facilitator_hence.md
+         • docs/online.md
+         • docs/sleek_omani_missouri.md
+         • docs/plum_forint_east.md
+         • docs/account_truthful.md
+         • docs/indexing.md
          • ... 4 more documents (Use the --verbose CLI option to show all documents)
          
     "
-  `,
-  )
+  `)
 })
 
 test('CouldNotDetermineDocumentTypeError: should print 24 errors - full', async () => {
@@ -109,42 +105,40 @@ test('CouldNotDetermineDocumentTypeError: should print 24 errors - full', async 
     verbose: true,
   })
 
-  expect(errorString).toMatchInlineSnapshot(
-    `
+  expect(errorString).toMatchInlineSnapshot(`
     "Warning: Found 24 problems in 81 documents.
 
      └── Couldn't determine the document type for 24 documents. (Skipping documents)
          
          Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field \\"type\\" needs to be one of the following document type names: TypeA, TypeB).
          
-         • docs/global_rupee_sensor.md
-         • docs/administrator_missouri_synergize.md
-         • docs/card_balanced.md
-         • docs/card_table.md
-         • docs/poland.md
-         • docs/withdrawal_buckinghamshire.md
-         • docs/synergistic_monitoring.md
-         • docs/enterprise_wide_orchestrator.md
-         • docs/index.md
-         • docs/shoes_markets.md
-         • docs/deliverables_palladium_berkshire.md
-         • docs/plastic_berkshire.md
-         • docs/future_berkshire_open_architected.md
-         • docs/hack_synthesizing.md
-         • docs/italy.md
-         • docs/focus.md
-         • docs/vatu_impactful_islands.md
-         • docs/account_sudan_incredible.md
-         • docs/digitized_borders_sleek.md
-         • docs/account.md
-         • docs/health_user_ball.md
-         • docs/boliviano_buckinghamshire_cuba.md
-         • docs/internal_array.md
-         • docs/front_line.md
+         • docs/killer_handcrafted_synthesize.md
+         • docs/redundant_silver_card.md
+         • docs/maryland_market.md
+         • docs/content_steel_coordinator.md
+         • docs/rhenium_grocery.md
+         • docs/northeast.md
+         • docs/system_paradigm_hatchback.md
+         • docs/degree_tin_bandwidth.md
+         • docs/elegant_plight.md
+         • docs/southeast_antillian_tan.md
+         • docs/bulgarian.md
+         • docs/dobra_safely_lie.md
+         • docs/scsi_dicta.md
+         • docs/target.md
+         • docs/facilitator_hence.md
+         • docs/online.md
+         • docs/sleek_omani_missouri.md
+         • docs/plum_forint_east.md
+         • docs/account_truthful.md
+         • docs/indexing.md
+         • docs/awesome_global_unleash.md
+         • docs/wooden_health_dolorem.md
+         • docs/circuit.md
+         • docs/factors.md
          
     "
-  `,
-  )
+  `)
 })
 
 test('CouldNotDetermineDocumentTypeError: should ignore the errors', async () => {
@@ -171,24 +165,22 @@ test('MissingRequiredFieldsError: should print 4 warnings', async () => {
     documentCount: 42,
   })
 
-  expect(errorString).toMatchInlineSnapshot(
-    `
+  expect(errorString).toMatchInlineSnapshot(`
     "Warning: Found 4 problems in 42 documents.
 
      └── Missing required fields for 4 documents. (Skipping documents)
          
-         • \\"docs/global_rupee_sensor.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/killer_handcrafted_synthesize.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/administrator_missouri_synergize.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/redundant_silver_card.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/card_balanced.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/maryland_market.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/card_table.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/content_steel_coordinator.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
          
     "
-  `,
-  )
+  `)
 })
 
 test('MissingRequiredFieldsError: should fail because of singleton', async () => {
@@ -202,24 +194,22 @@ test('MissingRequiredFieldsError: should fail because of singleton', async () =>
     documentCount: 42,
   })
 
-  expect(errorString).toMatchInlineSnapshot(
-    `
+  expect(errorString).toMatchInlineSnapshot(`
     "Error: Found 4 problems in 42 documents.
 
      └── Missing required fields for 4 documents.
          
-         • \\"docs/global_rupee_sensor.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/killer_handcrafted_synthesize.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/administrator_missouri_synergize.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/redundant_silver_card.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/card_balanced.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/maryland_market.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/card_table.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/content_steel_coordinator.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
          
     "
-  `,
-  )
+  `)
 })
 
 test('ExtraFieldDataError: should print warning', async () => {
@@ -232,20 +222,18 @@ test('ExtraFieldDataError: should print warning', async () => {
     documentCount: 42,
   })
 
-  expect(errorString).toMatchInlineSnapshot(
-    `
+  expect(errorString).toMatchInlineSnapshot(`
     "Warning: Found 2 problems in 42 documents.
 
      └──   2 documents contain field data which isn't defined in the document type definition.
          
-         • \\"docs/global_rupee_sensor.md\\" of type \\"TypeB\\" has the following extra fields:
+         • \\"docs/killer_handcrafted_synthesize.md\\" of type \\"TypeB\\" has the following extra fields:
            • someKey: \\"someVal\\" 
-         • \\"docs/administrator_missouri_synergize.md\\" of type \\"TypeB\\" has the following extra fields:
+         • \\"docs/redundant_silver_card.md\\" of type \\"TypeB\\" has the following extra fields:
            • someOtherKey: 42 
          
     "
-  `,
-  )
+  `)
 })
 
 test('ExtraFieldDataError: should print error', async () => {
@@ -258,20 +246,18 @@ test('ExtraFieldDataError: should print error', async () => {
     documentCount: 42,
   })
 
-  expect(errorString).toMatchInlineSnapshot(
-    `
+  expect(errorString).toMatchInlineSnapshot(`
     "Error: Found 2 problems in 42 documents.
 
      └──   2 documents contain field data which isn't defined in the document type definition.
          
-         • \\"docs/global_rupee_sensor.md\\" of type \\"TypeB\\" has the following extra fields:
+         • \\"docs/killer_handcrafted_synthesize.md\\" of type \\"TypeB\\" has the following extra fields:
            • someKey: \\"someVal\\" 
-         • \\"docs/administrator_missouri_synergize.md\\" of type \\"TypeB\\" has the following extra fields:
+         • \\"docs/redundant_silver_card.md\\" of type \\"TypeB\\" has the following extra fields:
            • someOtherKey: 42 
          
     "
-  `,
-  )
+  `)
 })
 
 test('MissingRequiredFieldsError: should print 24 errors - truncated', async () => {
@@ -284,57 +270,55 @@ test('MissingRequiredFieldsError: should print 24 errors - truncated', async () 
     documentCount: 81,
   })
 
-  expect(errorString).toMatchInlineSnapshot(
-    `
+  expect(errorString).toMatchInlineSnapshot(`
     "Warning: Found 24 problems in 81 documents.
 
      └── Missing required fields for 24 documents. (Skipping documents)
          
-         • \\"docs/global_rupee_sensor.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/killer_handcrafted_synthesize.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/administrator_missouri_synergize.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/redundant_silver_card.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/card_balanced.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/maryland_market.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/card_table.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/content_steel_coordinator.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/poland.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/rhenium_grocery.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/withdrawal_buckinghamshire.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/northeast.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/synergistic_monitoring.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/system_paradigm_hatchback.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/enterprise_wide_orchestrator.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/degree_tin_bandwidth.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/index.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/elegant_plight.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/shoes_markets.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/southeast_antillian_tan.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/deliverables_palladium_berkshire.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/bulgarian.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/plastic_berkshire.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/dobra_safely_lie.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/future_berkshire_open_architected.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/scsi_dicta.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/hack_synthesizing.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/target.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/italy.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/facilitator_hence.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/focus.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/online.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/vatu_impactful_islands.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/sleek_omani_missouri.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/account_sudan_incredible.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/plum_forint_east.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/digitized_borders_sleek.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/account_truthful.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/account.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/indexing.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
          • ... 4 more documents (Use the --verbose CLI option to show all documents)
          
     "
-  `,
-  )
+  `)
 })
 
 test('mix of different errors: some', async () => {
@@ -347,29 +331,27 @@ test('mix of different errors: some', async () => {
     documentCount: 42,
   })
 
-  expect(errorString).toMatchInlineSnapshot(
-    `
+  expect(errorString).toMatchInlineSnapshot(`
     "Warning: Found 6 problems in 42 documents.
 
      ├── Couldn't determine the document type for 4 documents. (Skipping documents)
      │   
      │   Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field \\"type\\" needs to be one of the following document type names: TypeA, TypeB).
      │   
-     │   • docs/global_rupee_sensor.md
-     │   • docs/administrator_missouri_synergize.md
-     │   • docs/card_balanced.md
-     │   • docs/card_table.md
+     │   • docs/killer_handcrafted_synthesize.md
+     │   • docs/redundant_silver_card.md
+     │   • docs/maryland_market.md
+     │   • docs/content_steel_coordinator.md
      │   
      └── Couldn't find document type definitions provided by name for 2 documents. (Skipping documents)
          
          Please use one of the following document type names: TypeA, TypeB.
          
-         • docs/poland.md (Used type name: \\"TypeB\\")
-         • docs/withdrawal_buckinghamshire.md (Used type name: \\"TypeB\\")
+         • docs/rhenium_grocery.md (Used type name: \\"TypeB\\")
+         • docs/northeast.md (Used type name: \\"TypeB\\")
          
     "
-  `,
-  )
+  `)
 })
 
 test('mix of different errors: with extra field data', async () => {
@@ -385,34 +367,32 @@ test('mix of different errors: with extra field data', async () => {
     documentCount: 42,
   })
 
-  expect(errorString).toMatchInlineSnapshot(
-    `
+  expect(errorString).toMatchInlineSnapshot(`
     "Warning: Found 7 problems in 42 documents.
 
      ├── Couldn't determine the document type for 4 documents. (Skipping documents)
      │   
      │   Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field \\"type\\" needs to be one of the following document type names: TypeA, TypeB).
      │   
-     │   • docs/global_rupee_sensor.md
-     │   • docs/administrator_missouri_synergize.md
-     │   • docs/card_balanced.md
-     │   • docs/card_table.md
+     │   • docs/killer_handcrafted_synthesize.md
+     │   • docs/redundant_silver_card.md
+     │   • docs/maryland_market.md
+     │   • docs/content_steel_coordinator.md
      │   
      ├── Couldn't find document type definitions provided by name for 2 documents. (Skipping documents)
      │   
      │   Please use one of the following document type names: TypeA, TypeB.
      │   
-     │   • docs/poland.md (Used type name: \\"TypeB\\")
-     │   • docs/withdrawal_buckinghamshire.md (Used type name: \\"TypeB\\")
+     │   • docs/rhenium_grocery.md (Used type name: \\"TypeB\\")
+     │   • docs/northeast.md (Used type name: \\"TypeB\\")
      │   
      └──   1 documents contain field data which isn't defined in the document type definition.
          
-         • \\"docs/synergistic_monitoring.md\\" of type \\"TypeB\\" has the following extra fields:
+         • \\"docs/system_paradigm_hatchback.md\\" of type \\"TypeB\\" has the following extra fields:
            • someKey: \\"someVal\\" 
          
     "
-  `,
-  )
+  `)
 })
 
 test('mix of different errors: other', async () => {
@@ -434,45 +414,43 @@ test('mix of different errors: other', async () => {
     documentCount: 42,
   })
 
-  expect(errorString).toMatchInlineSnapshot(
-    `
+  expect(errorString).toMatchInlineSnapshot(`
     "Error: Found 12 problems in 42 documents.
 
      ├── Couldn't determine the document type for 4 documents. (Skipping documents)
      │   
      │   Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field \\"type\\" needs to be one of the following document type names: TypeA, TypeB).
      │   
-     │   • docs/global_rupee_sensor.md
-     │   • docs/administrator_missouri_synergize.md
-     │   • docs/card_balanced.md
-     │   • docs/card_table.md
+     │   • docs/killer_handcrafted_synthesize.md
+     │   • docs/redundant_silver_card.md
+     │   • docs/maryland_market.md
+     │   • docs/content_steel_coordinator.md
      │   
      ├── Couldn't find document type definitions provided by name for 2 documents. (Skipping documents)
      │   
      │   Please use one of the following document type names: TypeA, TypeB.
      │   
-     │   • docs/poland.md (Used type name: \\"TypeB\\")
-     │   • docs/withdrawal_buckinghamshire.md (Used type name: \\"TypeB\\")
+     │   • docs/rhenium_grocery.md (Used type name: \\"TypeB\\")
+     │   • docs/northeast.md (Used type name: \\"TypeB\\")
      │   
      ├── Encountered unexpected errors while processing of 2 documents. This is possibly a bug in Contentlayer. Please open an issue.
      │   
-     │   • \\"docs/synergistic_monitoring.md\\": Error: Some problem happened: Try to calculate the SSL card, maybe it will input the open-source matrix!
-     │   • \\"docs/index.md\\": Error: Some problem happened: You can't copy the system without hacking the online CSS protocol!
+     │   • \\"docs/system_paradigm_hatchback.md\\": Error: Some problem happened: The SSD monitor is down, calculate the cross-platform system so we can navigate the SAS card!
+     │   • \\"docs/gorgeous_rich.md\\": Error: Some problem happened: The SSL system is down, override the 1080p driver so we can connect the API system!
      │   
      ├── Error during computed field exection for 1 documents. (Skipping documents)
      │   
-     │   • \\"docs/deliverables_palladium_berkshire.md\\" failed with Error: Some problem happened: Use the virtual RAM sensor, then you can synthesize the virtual interface!
+     │   • \\"docs/bulgarian.md\\" failed with Error: Some problem happened: I'll generate the solid state IP feed, that should capacitor the SSD firewall!
      │   
      └── Missing required fields for 3 documents. (Skipping documents)
          
-         • \\"docs/future_berkshire_open_architected.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/intranet_northwest.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/hack_synthesizing.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/redundant.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/italy.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/useful_bronze_online.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
          
     "
-  `,
-  )
+  `)
 })
