@@ -98,8 +98,8 @@ describe('3-small-files', () => {
   })
 })
 
-describe('misc-files: empty-md', () => {
-  const contentDirPath = path.join(testFileDir, 'fixtures', 'misc-files', 'empty')
+describe('misc-files: empty-markdown', () => {
+  const contentDirPath = path.join(testFileDir, 'fixtures', 'misc-files', 'empty-markdown')
 
   test('empty file should work with no required fields', async () => {
     const TestPost = defineDocumentType(() => ({
@@ -164,6 +164,82 @@ describe('misc-files: empty-mdx', () => {
     }))
 
     const { result } = await runTest({ documentTypes: [TestPost], contentDirPath, relativeFilePath: 'empty.mdx' })
+
+    expect(result._tag).toBe('Left')
+    if (E.isLeft(result)) {
+      expect(result.left._tag).toBe('MissingRequiredFieldsError')
+    }
+  })
+})
+
+describe('misc-files: empty-json', () => {
+  const contentDirPath = path.join(testFileDir, 'fixtures', 'misc-files', 'empty-json')
+
+  test('empty file should fail with no required fields', async () => {
+    const TestPost = defineDocumentType(() => ({
+      name: 'TestPost',
+      filePathPattern: `**/*.json`,
+      contentType: 'data',
+      fields: {},
+    }))
+
+    const { result } = await runTest({ documentTypes: [TestPost], contentDirPath, relativeFilePath: 'empty.json' })
+
+    expect(result._tag).toBe('Left')
+    if (E.isLeft(result)) {
+      expect(result.left._tag).toBe('InvalidJsonFileError')
+    }
+  })
+
+  test('empty file should fail with required fields', async () => {
+    const TestPost = defineDocumentType(() => ({
+      name: 'TestPost',
+      filePathPattern: `**/*.json`,
+      contentType: 'data',
+      fields: {
+        title: { type: 'string', required: true },
+      },
+    }))
+
+    const { result } = await runTest({ documentTypes: [TestPost], contentDirPath, relativeFilePath: 'empty.json' })
+
+    expect(result._tag).toBe('Left')
+    if (E.isLeft(result)) {
+      expect(result.left._tag).toBe('InvalidJsonFileError')
+    }
+  })
+})
+
+describe('misc-files: empty-yaml', () => {
+  const contentDirPath = path.join(testFileDir, 'fixtures', 'misc-files', 'empty-yaml')
+
+  test('empty file should work with no required fields', async () => {
+    const TestPost = defineDocumentType(() => ({
+      name: 'TestPost',
+      filePathPattern: `**/*.yaml`,
+      contentType: 'data',
+      fields: {},
+    }))
+
+    const { result } = await runTest({ documentTypes: [TestPost], contentDirPath, relativeFilePath: 'empty.yaml' })
+
+    expect(result._tag).toBe('Right')
+    if (E.isRight(result)) {
+      expect(result.right.document).toBeTruthy()
+    }
+  })
+
+  test('empty file should fail with required fields', async () => {
+    const TestPost = defineDocumentType(() => ({
+      name: 'TestPost',
+      filePathPattern: `**/*.yaml`,
+      contentType: 'data',
+      fields: {
+        title: { type: 'string', required: true },
+      },
+    }))
+
+    const { result } = await runTest({ documentTypes: [TestPost], contentDirPath, relativeFilePath: 'empty.yaml' })
 
     expect(result._tag).toBe('Left')
     if (E.isLeft(result)) {

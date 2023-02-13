@@ -256,6 +256,6 @@ const parseYaml = ({
   documentFilePath: RelativePosixFilePath
 }): T.Effect<unknown, FetchDataError.InvalidYamlFileError, Record<string, any>> =>
   T.tryCatch(
-    () => yaml.parse(yamlString),
+    () => yaml.parse(yamlString) ?? {},
     (error) => new FetchDataError.InvalidYamlFileError({ error, documentFilePath }),
   )
