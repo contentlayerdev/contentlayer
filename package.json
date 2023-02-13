@@ -7,7 +7,8 @@
     "./examples/*"
   ],
   "scripts": {
-    "postinstall": "ts-patch install && ts-patch --persist",
+    "postinstall": "ts-patch install",
+    "prepare": "ts-patch install -s",
     "test": "CI=true VITEST_SEGFAULT_RETRY=3 yarn workspaces foreach --parallel run test",
     "build": "run build:clean && run build:ts && yarn workspace next-contentlayer run prepack",
     "build:ts": "tsc --build tsconfig.all.json",
