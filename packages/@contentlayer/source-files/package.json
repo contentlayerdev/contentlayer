@@ -41,12 +41,11 @@
     "zod": "^3.20.6"
   },
   "devDependencies": {
-    "@types/faker": "^5.5.8",
+    "@faker-js/faker": "^7.6.0",
     "@types/micromatch": "^4.0.2",
     "@types/node": "^18.13.0",
     "@types/sharp": "^0.31.1",
     "@types/yaml": "^1.9.7",
-    "faker": "^5.5.3",
     "sharp": "^0.31.3",
     "vite": "^4.1.1",
     "vitest": "0.28.4"
