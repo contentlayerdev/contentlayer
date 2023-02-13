@@ -72,9 +72,9 @@
     "chokidar": "^3.5.3",
     "hash-wasm": "^4.9.0",
     "inflection": "^2.0.1",
-    "oo-ascii-tree": "^1.73.0",
-    "ts-pattern": "^4.1.3",
-    "type-fest": "^3.5.2"
+    "oo-ascii-tree": "^1.74.0",
+    "ts-pattern": "^4.1.4",
+    "type-fest": "^3.5.7"
   },
   "devDependencies": {
     "@types/inflection": "^1.13.0"

@@ -118,6 +118,7 @@ const stackbitFieldToField =
       case 'file':
         return identity<WithName<SourceFiles.StringFieldDef>>({ ...commonFields, type: 'string' })
       case 'richText':
+      case 'cross-reference':
         notImplemented(`richText doesn't exist in the "files" content source`)
       default:
         casesHandled(stackbitField)
@@ -177,6 +178,7 @@ const stackbitListItemToListFieldDef =
       case 'file':
         return identity<SourceFiles.ListFieldDefItem.ItemString>({ type: 'string' })
       case 'richText':
+      case 'cross-reference':
         notImplemented(`richText doesn't exist in the "files" content source`)
       default:
         casesHandled(stackbitListItem)
