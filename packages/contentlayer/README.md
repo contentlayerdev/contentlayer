@@ -101,5 +101,6 @@ Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest
 - [soapbox.pub](https://soapbox.pub/) ([Source](https://gitlab.com/soapbox-pub/soapbox.pub))
 - [hafidzamr.dev](https://hafidzamr.dev/) ([Source](https://github.com/hafidzamr/hafidzamr.dev))
 - [anudeepreddy.dev](https://anudeepreddy.dev/)
+- [nikhilmohite.com](https://nikhilmohite.com/)
 
 Are you using Contentlayer? Please add your page (and repo) to the end of the list via a PR. 🙏
