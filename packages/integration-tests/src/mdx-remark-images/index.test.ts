@@ -3,10 +3,13 @@ import * as fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import { absolutePosixFilePath } from '@contentlayer/utils'
 import * as core from 'contentlayer/core'
 import { defineDocumentType, makeSource } from 'contentlayer/source-files'
 import remarkMdxImages from 'remark-mdx-images'
 import { expect, test } from 'vitest'
+
+const configFilePath = absolutePosixFilePath('/not/used')
 
 test('mdx - resolveCwd - contentDirPath', async () => {
   const Post = defineDocumentType(() => ({
@@ -42,10 +45,10 @@ test('mdx - resolveCwd - contentDirPath', async () => {
         return options
       },
     },
-  })
+  })(undefined)
 
   await core.runMain({ tracingServiceName: 'contentlayer-test', verbose: false })(
-    core.generateDotpkg({ config: { source, esbuildHash: 'STATIC_HASH' }, verbose: true }),
+    core.generateDotpkg({ config: { source, esbuildHash: 'STATIC_HASH', filePath: configFilePath }, verbose: true }),
   )
 
   // Check that the bundled image has been generated
@@ -88,10 +91,10 @@ test('mdx - resolveCwd - relative', async () => {
         return options
       },
     },
-  })
+  })(undefined)
 
   await core.runMain({ tracingServiceName: 'contentlayer-test', verbose: false })(
-    core.generateDotpkg({ config: { source, esbuildHash: 'STATIC_HASH' }, verbose: true }),
+    core.generateDotpkg({ config: { source, esbuildHash: 'STATIC_HASH', filePath: configFilePath }, verbose: true }),
   )
 
   // Check that the bundled image has been generated

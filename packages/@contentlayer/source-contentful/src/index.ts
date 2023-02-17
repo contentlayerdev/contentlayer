@@ -23,12 +23,12 @@ export type Args = {
   schemaOverrides?: SchemaOverrides.Input.SchemaOverrides
 }
 
-export const makeSourcePlugin: core.MakeSourcePlugin<Args & PluginOptions> = async (args) => {
+export const makeSourcePlugin: core.MakeSourcePlugin<Args & PluginOptions> = (args) => async () => {
   const {
     options,
     extensions,
     restArgs: { accessToken, spaceId, environmentId = 'master', schemaOverrides = {} },
-  } = await processArgs(args)
+  } = await processArgs(args, undefined)
 
   return {
     type: 'contentful',

@@ -48,6 +48,9 @@
       "client": [
         "./dist/client"
       ],
+      "dynamic": [
+        "./dist/dynamic"
+      ],
       "utils": [
         "./dist/utils"
       ],
@@ -75,6 +78,7 @@
     "@contentlayer/cli": "workspace:*",
     "@contentlayer/client": "workspace:*",
     "@contentlayer/core": "workspace:*",
+    "@contentlayer/dynamic": "workspace:*",
     "@contentlayer/source-files": "workspace:*",
     "@contentlayer/source-remote-files": "workspace:*",
     "@contentlayer/utils": "workspace:*"

@@ -1,4 +1,4 @@
-import type { Thunk } from '@contentlayer/utils'
+import type { fs } from '@contentlayer/utils'
 import type { E, HasClock, HasConsole, OT, S, T } from '@contentlayer/utils/effect'
 import type * as mdxEsbuild from '@mdx-js/esbuild/lib'
 import type * as mdxBundler from 'mdx-bundler/dist/types'
@@ -23,6 +23,11 @@ export type PluginOptions = {
   date: DateOptions | undefined
   fieldOptions: FieldOptions
   disableImportAliasWarning: boolean
+  experimental: PluginOptionsExperimental
+}
+
+export type PluginOptionsExperimental = {
+  enableDynamicBuild: boolean
 }
 
 /**
@@ -121,7 +126,7 @@ export type FetchData = (_: {
   schemaDef: SchemaDef
   verbose: boolean
 }) => S.Stream<
-  OT.HasTracer & HasClock & HasCwd & HasConsole,
+  OT.HasTracer & HasClock & HasCwd & HasConsole & fs.HasFs,
   never,
   E.Either<SourceFetchDataError | SourceProvideSchemaError, DataCache.Cache>
 >
@@ -131,8 +136,10 @@ export type FetchData = (_: {
 // ) => Promise<core.SourcePlugin>
 
 export type MakeSourcePlugin<TArgs extends PartialArgs> = (
-  _: TArgs | Thunk<TArgs> | Thunk<Promise<TArgs>>,
-) => Promise<SourcePlugin>
+  _: TArgs | ThunkWithSourceKey<TArgs> | ThunkWithSourceKey<Promise<TArgs>>,
+) => (sourceKey: string | undefined) => Promise<SourcePlugin>
+
+export type ThunkWithSourceKey<T> = (sourceKey: string | undefined) => T
 
 export type PartialArgs = {
   markdown?: MarkdownOptions | MarkdownUnifiedBuilderCallback | undefined
@@ -141,6 +148,7 @@ export type PartialArgs = {
   fieldOptions?: Partial<FieldOptions>
   extensions?: PluginExtensions
   disableImportAliasWarning?: boolean
+  experimental?: Partial<PluginOptionsExperimental>
 }
 
 export const defaultFieldOptions: FieldOptions = {
@@ -149,14 +157,18 @@ export const defaultFieldOptions: FieldOptions = {
 }
 
 export const processArgs = async <TArgs extends PartialArgs>(
-  argsOrArgsThunk: TArgs | Thunk<TArgs> | Thunk<Promise<TArgs>>,
+  argsOrArgsThunk: TArgs | ThunkWithSourceKey<TArgs> | ThunkWithSourceKey<Promise<TArgs>>,
+  sourceKey: string | undefined,
 ): Promise<{
   extensions: PluginExtensions
   options: PluginOptions
-  restArgs: Omit<TArgs, 'extensions' | 'fieldOptions' | 'markdown' | 'mdx' | 'date' | 'disableImportAliasWarning'>
+  restArgs: Omit<
+    TArgs,
+    'extensions' | 'fieldOptions' | 'markdown' | 'mdx' | 'date' | 'disableImportAliasWarning' | 'experimental'
+  >
 }> => {
-  const { extensions, fieldOptions, markdown, mdx, date, disableImportAliasWarning, ...restArgs } =
-    typeof argsOrArgsThunk === 'function' ? await argsOrArgsThunk() : argsOrArgsThunk
+  const { extensions, fieldOptions, markdown, mdx, date, disableImportAliasWarning, experimental, ...restArgs } =
+    typeof argsOrArgsThunk === 'function' ? await argsOrArgsThunk(sourceKey) : argsOrArgsThunk
 
   const options: PluginOptions = {
     markdown,
@@ -167,6 +179,9 @@ export const processArgs = async <TArgs extends PartialArgs>(
       typeFieldName: fieldOptions?.typeFieldName ?? defaultFieldOptions.typeFieldName,
     },
     disableImportAliasWarning: disableImportAliasWarning ?? false,
+    experimental: {
+      enableDynamicBuild: experimental?.enableDynamicBuild ?? false,
+    },
   }
 
   return { extensions: extensions ?? {}, options, restArgs }

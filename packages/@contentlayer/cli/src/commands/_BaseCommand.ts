@@ -1,8 +1,8 @@
 import type { HasCwd } from '@contentlayer/core'
 import * as core from '@contentlayer/core'
+import { fs } from '@contentlayer/utils'
 import type { HasClock, HasConsole, OT } from '@contentlayer/utils/effect'
 import { pipe, T } from '@contentlayer/utils/effect'
-import { fs } from '@contentlayer/utils/node'
 import { Command, Option } from 'clipanion'
 import * as t from 'typanion'
 
@@ -21,9 +21,9 @@ export abstract class BaseCommand extends Command {
     description: 'More verbose logging and error stack traces',
   })
 
-  abstract executeSafe: () => T.Effect<OT.HasTracer & HasClock & HasCwd & HasConsole, unknown, void>
+  abstract executeSafe: () => T.Effect<OT.HasTracer & HasClock & HasCwd & HasConsole & fs.HasFs, unknown, void>
 
-  execute = () =>
+  execute = (): Promise<void> =>
     pipe(
       this.executeSafe(),
       core.runMain({

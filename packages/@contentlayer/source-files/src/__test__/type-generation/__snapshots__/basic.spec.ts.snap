@@ -48,6 +48,12 @@ export type DocumentTypeNames = 'Person' | 'Post'
 export type NestedTypes = never
 export type NestedTypeNames = never
 
+export type DataExports = {
+  allDocuments: DocumentTypes[]
+  allPosts: Post[]
+  allPeople: Person[]
+}
+
 
 export interface ContentlayerGenTypes {
   documentTypes: DocumentTypes
@@ -57,6 +63,7 @@ export interface ContentlayerGenTypes {
   nestedTypeMap: NestedTypeMap
   nestedTypeNames: NestedTypeNames
   allTypeNames: AllTypeNames
+  dataExports: DataExports
 }
 
 declare global {
@@ -114,6 +121,11 @@ export type DocumentTypeNames = 'TestPost'
 export type NestedTypes = never
 export type NestedTypeNames = never
 
+export type DataExports = {
+  allDocuments: DocumentTypes[]
+  allTestPosts: TestPost[]
+}
+
 
 export interface ContentlayerGenTypes {
   documentTypes: DocumentTypes
@@ -123,6 +135,7 @@ export interface ContentlayerGenTypes {
   nestedTypeMap: NestedTypeMap
   nestedTypeNames: NestedTypeNames
   allTypeNames: AllTypeNames
+  dataExports: DataExports
 }
 
 declare global {
@@ -179,6 +192,11 @@ export type DocumentTypeNames = 'TestPost'
 export type NestedTypes = never
 export type NestedTypeNames = never
 
+export type DataExports = {
+  allDocuments: DocumentTypes[]
+  allTestPosts: TestPost[]
+}
+
 
 export interface ContentlayerGenTypes {
   documentTypes: DocumentTypes
@@ -188,6 +206,7 @@ export interface ContentlayerGenTypes {
   nestedTypeMap: NestedTypeMap
   nestedTypeNames: NestedTypeNames
   allTypeNames: AllTypeNames
+  dataExports: DataExports
 }
 
 declare global {

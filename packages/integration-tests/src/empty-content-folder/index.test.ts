@@ -2,6 +2,7 @@ import * as fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import { absolutePosixFilePath } from '@contentlayer/utils'
 import * as core from 'contentlayer/core'
 import { defineDocumentType, makeSource } from 'contentlayer/source-files'
 import { expect, test } from 'vitest'
@@ -22,10 +23,13 @@ test('empty content folder', async () => {
   const source = await makeSource({
     contentDirPath: path.join(testDirPath, 'posts'),
     documentTypes: [Post],
-  })
+  })(undefined)
 
   await core.runMain({ tracingServiceName: 'contentlayer-test', verbose: false })(
-    core.generateDotpkg({ config: { source, esbuildHash: 'STATIC_HASH' }, verbose: true }),
+    core.generateDotpkg({
+      config: { source, esbuildHash: 'STATIC_HASH', filePath: absolutePosixFilePath('/not/used') },
+      verbose: true,
+    }),
   )
 
   const generatedIndexJsFile = await fs.readFile(

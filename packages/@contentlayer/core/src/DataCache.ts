@@ -1,9 +1,9 @@
 import * as path from 'node:path'
 
+import { fs } from '@contentlayer/utils'
 import type { E } from '@contentlayer/utils/effect'
 import { OT, pipe, T } from '@contentlayer/utils/effect'
 import type { GetContentlayerVersionError } from '@contentlayer/utils/node'
-import { fs } from '@contentlayer/utils/node'
 
 import { ArtifactsDir } from './ArtifactsDir.js'
 import type { HasCwd } from './cwd.js'
@@ -38,7 +38,7 @@ export namespace DataCache {
   }: {
     schemaHash: string
   }): T.Effect<
-    OT.HasTracer & HasCwd,
+    OT.HasTracer & HasCwd & fs.HasFs,
     fs.StatError | fs.ReadFileError | fs.JsonParseError | GetContentlayerVersionError,
     Cache | undefined
   > =>
@@ -62,7 +62,7 @@ export namespace DataCache {
     cache: Cache
     schemaHash: string
   }): T.Effect<
-    OT.HasTracer & HasCwd,
+    OT.HasTracer & HasCwd & fs.HasFs,
     never,
     E.Either<fs.WriteFileError | fs.MkdirError | fs.JsonStringifyError | GetContentlayerVersionError, void>
   > =>

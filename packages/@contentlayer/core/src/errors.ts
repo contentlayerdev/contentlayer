@@ -28,7 +28,11 @@ export class SourceFetchDataError extends Tagged('SourceFetchDataError')<{
   alreadyHandled: boolean
 }> {
   toString = () => `SourceFetchDataError: ${errorToString(this.error)}`
+  toJSON = () => ({ _tag: this._tag, error: errorToString(this.error), alreadyHandled: this.alreadyHandled })
+  static fromJSON = (json: any) => new SourceFetchDataError({ error: json.error, alreadyHandled: json.alreadyHandled })
 }
+
+export type SourceFetchDataErrorJSON = ReturnType<SourceFetchDataError['toJSON']>
 
 export const isSourceFetchDataError = (_: any): _ is SourceFetchDataError =>
   _.hasOwnProperty('_tag') && _._tag === 'SourceFetchDataError'
@@ -37,7 +41,11 @@ export class SourceProvideSchemaError extends Tagged('SourceProvideSchemaError')
   readonly error: any
 }> {
   toString = () => `SourceProvideSchemaError: ${errorToString(this.error)}`
+  toJSON = () => ({ _tag: this._tag, error: errorToString(this.error) })
+  static fromJSON = (json: any) => new SourceProvideSchemaError({ error: json.error })
 }
+
+export type SourceProvideSchemaErrorJSON = ReturnType<SourceProvideSchemaError['toJSON']>
 
 /**
  * This error is triggered for inconsistent data according to the provided error flags by the user.

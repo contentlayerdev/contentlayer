@@ -1,6 +1,6 @@
 import type { HasCwd } from '@contentlayer/core'
 import * as core from '@contentlayer/core'
-import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer/utils'
+import type { AbsolutePosixFilePath, fs, RelativePosixFilePath } from '@contentlayer/utils'
 import * as utils from '@contentlayer/utils'
 import { unknownToRelativePosixFilePath } from '@contentlayer/utils'
 import type { E, HasConsole, OT } from '@contentlayer/utils/effect'
@@ -32,7 +32,11 @@ export const fetchData = ({
   contentDirInclude: readonly RelativePosixFilePath[]
   contentDirExclude: readonly RelativePosixFilePath[]
   verbose: boolean
-}): S.Stream<OT.HasTracer & HasCwd & HasConsole, never, E.Either<core.SourceFetchDataError, core.DataCache.Cache>> => {
+}): S.Stream<
+  OT.HasTracer & HasCwd & HasConsole & fs.HasFs,
+  never,
+  E.Either<core.SourceFetchDataError, core.DataCache.Cache>
+> => {
   const filePathPatternMap = makefilePathPatternMap(documentTypeDefs)
   const contentTypeMap = makeContentTypeMap(documentTypeDefs)
 
@@ -150,7 +154,7 @@ const updateCacheEntry = ({
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
   contentTypeMap: ContentTypeMap
-}): T.Effect<OT.HasTracer & HasConsole & HasCwd, core.HandledFetchDataError, core.DataCache.Cache> =>
+}): T.Effect<OT.HasTracer & HasConsole & HasCwd & fs.HasFs, core.HandledFetchDataError, core.DataCache.Cache> =>
   T.gen(function* ($) {
     yield* $(
       pipe(

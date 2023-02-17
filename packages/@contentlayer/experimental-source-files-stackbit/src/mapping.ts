@@ -37,6 +37,8 @@ const stackbitFieldToField =
   (stackbitField: Stackbit.Field): SourceFiles.FieldDefWithName => {
     const commonFields = {
       ...pick(stackbitField, ['name', 'description', 'required']),
+      // TODO don't map Stackbit `default` to Contentlayer `default`
+      // See https://github.com/contentlayerdev/contentlayer/issues/120
       default: stackbitField.default as any,
     }
 

@@ -1,26 +1,31 @@
 import * as core from '@contentlayer/core'
-import * as SourceFiles from '@contentlayer/source-files'
+import type { Args as Args_1 } from '@contentlayer/source-files'
+import { makeSource as makeSource_1 } from '@contentlayer/source-files'
 import { unknownToAbsolutePosixFilePath } from '@contentlayer/utils'
 import { M, OT, pipe, S, T } from '@contentlayer/utils/effect'
 
 type CancelFn = () => void
 
-type Args = SourceFiles.Args & {
+type Args = Args_1 & {
   syncFiles: (
     /** Provided `contentDirPath` (as absolute file path) */
     contentDirPath: string,
   ) => Promise<CancelFn>
+  experimental?: {
+    enableDynamicBuild?: boolean
+  }
 }
 
-export const makeSource: core.MakeSourcePlugin<Args> = async (rawArgs) => {
+export const makeSource: core.MakeSourcePlugin<Args> = (rawArgs) => async (sourceKey) => {
   const {
     restArgs: { syncFiles, ...args },
-  } = await core.processArgs(rawArgs)
+  } = await core.processArgs(rawArgs, sourceKey)
 
-  const sourcePlugin = await SourceFiles.makeSource(rawArgs)
+  const sourcePlugin = await makeSource_1(rawArgs)(sourceKey)
 
   return {
     ...sourcePlugin,
+    type: 'remote-files',
     fetchData: (fetchDataArgs) =>
       pipe(
         M.gen(function* ($) {
@@ -32,12 +37,20 @@ export const makeSource: core.MakeSourcePlugin<Args> = async (rawArgs) => {
           )
 
           // TODO acutally cancel the syncing when the process is terminated
-          const cancelRemoteSyncing = yield* $(
+          const syncFilesResult = yield* $(
             pipe(
-              T.tryPromiseOrDie(() => syncFiles(contentDirPath)),
+              T.tryPromise(() => syncFiles(contentDirPath)),
+              T.mapError((error) => new core.SourceFetchDataError({ error, alreadyHandled: false })),
+              T.either,
               OT.withSpan('syncFiles'),
             ),
           )
+
+          if (syncFilesResult._tag === 'Left') {
+            return S.fromValue(syncFilesResult)
+          }
+
+          const cancelRemoteSyncing = syncFilesResult.right
 
           yield* $(M.finalizer(T.sync(() => cancelRemoteSyncing())))
 
@@ -45,5 +58,7 @@ export const makeSource: core.MakeSourcePlugin<Args> = async (rawArgs) => {
         }),
         S.unwrapManaged,
       ),
+    //   ),
+    // ),
   }
 }

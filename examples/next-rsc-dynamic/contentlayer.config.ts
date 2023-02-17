@@ -127,4 +127,5 @@ export default makeSource((sourceKey = 'canary') => ({
   contentDirInclude: ['docs'],
   documentTypes: [Post],
   disableImportAliasWarning: true,
+  experimental: { enableDynamicBuild: true },
 }))
