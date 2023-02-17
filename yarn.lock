@@ -344,14 +344,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@contentlayer/dynamic@workspace:*, @contentlayer/dynamic@workspace:packages/@contentlayer/dynamic":
-  version: 0.0.0-use.local
-  resolution: "@contentlayer/dynamic@workspace:packages/@contentlayer/dynamic"
-  dependencies:
-    "@contentlayer/core": "workspace:*"
-  languageName: unknown
-  linkType: soft
-
 "@contentlayer/experimental-source-files-stackbit@workspace:packages/@contentlayer/experimental-source-files-stackbit":
   version: 0.0.0-use.local
   resolution: "@contentlayer/experimental-source-files-stackbit@workspace:packages/@contentlayer/experimental-source-files-stackbit"
@@ -3196,7 +3188,6 @@ __metadata:
     "@contentlayer/cli": "workspace:*"
     "@contentlayer/client": "workspace:*"
     "@contentlayer/core": "workspace:*"
-    "@contentlayer/dynamic": "workspace:*"
     "@contentlayer/source-files": "workspace:*"
     "@contentlayer/source-remote-files": "workspace:*"
     "@contentlayer/utils": "workspace:*"
