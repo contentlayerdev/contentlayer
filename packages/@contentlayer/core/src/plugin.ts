@@ -125,6 +125,7 @@ export type ProvideSchema = (
 export type FetchData = (_: {
   schemaDef: SchemaDef
   verbose: boolean
+  skipCachePersistence?: boolean
 }) => S.Stream<
   OT.HasTracer & HasClock & HasCwd & HasConsole & fs.HasFs,
   never,

@@ -38,7 +38,7 @@ const syncContentFromGit = async ({ contentDir, gitTag }: { contentDir: string; 
         mkdir -p ${contentDir};
         touch $sync_lock_file;
 
-        if [ -d  "${contentDir}" ];
+        if [ -d "${contentDir}/.git" ];
           then
             cd "${contentDir}";
             git fetch --quiet --depth=1 origin ${gitTag};
