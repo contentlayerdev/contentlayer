@@ -1,6 +1,6 @@
 {
   "name": "next-contentlayer",
-  "version": "0.3.1-dev.1",
+  "version": "0.3.1-dev.2",
   "type": "module",
   "main": "./dist/index-cjs.cjs",
   "sideEffects": false,

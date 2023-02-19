@@ -1,12 +1,12 @@
 import * as core from '@contentlayer/core'
-import type { Args as Args_1 } from '@contentlayer/source-files'
-import { makeSource as makeSource_1 } from '@contentlayer/source-files'
+import type { Args as SourceFilesArgs } from '@contentlayer/source-files'
+import { makeSource as makeSourceFromSourceFiles } from '@contentlayer/source-files'
 import { unknownToAbsolutePosixFilePath } from '@contentlayer/utils'
 import { M, OT, pipe, S, T } from '@contentlayer/utils/effect'
 
 type CancelFn = () => void
 
-type Args = Args_1 & {
+type Args = SourceFilesArgs & {
   syncFiles: (
     /** Provided `contentDirPath` (as absolute file path) */
     contentDirPath: string,
@@ -21,7 +21,7 @@ export const makeSource: core.MakeSourcePlugin<Args> = (rawArgs) => async (sourc
     restArgs: { syncFiles, ...args },
   } = await core.processArgs(rawArgs, sourceKey)
 
-  const sourcePlugin = await makeSource_1(rawArgs)(sourceKey)
+  const sourcePlugin = await makeSourceFromSourceFiles(rawArgs)(sourceKey)
 
   return {
     ...sourcePlugin,

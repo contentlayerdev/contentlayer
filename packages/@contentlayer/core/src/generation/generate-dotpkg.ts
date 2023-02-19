@@ -376,17 +376,12 @@ const makeIndexMjs = ({
     if (options.experimental.enableDynamicBuild === false) return ''
 
     return `\
-import path from 'node:path'
-
 export const fetchContent = async (sourceKey) => {
   const { Worker } = await import('node:worker_threads')
-  // const path = await import('node:path')
+  const path = await import('node:path')
 
   // This is a worker-around (pun intended) for Next.js' limitation of still running via CJS.
   const workerFilePath = path.join(process.cwd(), '${bundleFilePath}')
-  const fs = await import('node:fs')
-  const workerContent = fs.readFileSync(workerFilePath, 'utf-8')
-  console.log('workerContent', workerContent.slice(0, 100))
   const worker = new Worker(workerFilePath, { workerData: { sourceKey } })
 
   return new Promise((resolve, reject) => {
