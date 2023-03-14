@@ -18,6 +18,7 @@
   "dependencies": {
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
+    "@kerwanp/notion-renderer": "1.0.0-rc.1",
     "contentful-management": "7.22.4",
     "slugify": "^1.6.5"
   },

@@ -405,10 +405,12 @@ __metadata:
   dependencies:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/utils": "workspace:*"
-    "@notionhq/client": ^2.2.3
+    "@kerwanp/notion-renderer": 1.0.0-rc.1
     "@types/node": ^18.13.0
     contentful-management: 7.22.4
     slugify: ^1.6.5
+  peerDependencies:
+    "@notionhq/client": ^2.2.3
   languageName: unknown
   linkType: soft
 
@@ -861,6 +863,13 @@ __metadata:
     jsbi: ^4.1.0
     tslib: ^2.3.1
   checksum: 10966b0c33f9674dbd78e1fc7ff1692b902756d9204a2ce4843a5593f23459ae87e8c66634450c7e02fb8d42bb466306cc43d8f72d5da8f989065108bd78832c
+  languageName: node
+  linkType: hard
+
+"@kerwanp/notion-renderer@npm:1.0.0-rc.1":
+  version: 1.0.0-rc.1
+  resolution: "@kerwanp/notion-renderer@npm:1.0.0-rc.1"
+  checksum: d041084ee691df75247ab9befb1ba629593041c67fae345c33055ead71f9c68abf910761b9336852c2cf947cef4d97935afe1445fbeb6da59ecee3758ba732f4
   languageName: node
   linkType: hard
 
@@ -6632,6 +6641,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "node-script-notion-example@workspace:examples/node-script-notion"
   dependencies:
+    "@notionhq/client": ^2.2.3
     contentlayer: latest
   languageName: unknown
   linkType: soft

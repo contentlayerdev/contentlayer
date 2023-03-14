@@ -1,6 +1,7 @@
 import type * as core from '@contentlayer/core'
 import { processArgs } from '@contentlayer/core'
 import { pipe, S, T } from '@contentlayer/utils/effect'
+import { NotionRenderer } from '@kerwanp/notion-renderer';
 import type * as notion from '@notionhq/client';
 
 import { fetchAllDocuments } from './fetchData/index.js'
@@ -12,6 +13,7 @@ export * from './schema/defs/index.js'
 
 export type Args = {
     client: notion.Client,
+    renderer?: NotionRenderer,
     databaseTypes: LocalSchema.DatabaseTypes
 }
 
@@ -21,13 +23,16 @@ export const makeSource: core.MakeSourcePlugin<Args & PluginOptions> = async (ar
         extensions,
         restArgs: {
             client,
-            databaseTypes
+            databaseTypes,
+            ...rest
         }
     } = await processArgs(args);
 
     const databaseTypeDefs = (Array.isArray(databaseTypes) ? databaseTypes : Object.values(databaseTypes)).map(
         (_) => _.def()
     )
+
+    const renderer = rest.renderer ?? new NotionRenderer();
 
     return {
         type: 'notion',
@@ -37,7 +42,7 @@ export const makeSource: core.MakeSourcePlugin<Args & PluginOptions> = async (ar
         fetchData: ({ schemaDef }) => pipe(
             S.fromEffect(
                 pipe(
-                    fetchAllDocuments({ client, databaseTypeDefs, schemaDef, options }),
+                    fetchAllDocuments({ client, renderer, databaseTypeDefs, schemaDef, options }),
                     T.either
                 )
             ),

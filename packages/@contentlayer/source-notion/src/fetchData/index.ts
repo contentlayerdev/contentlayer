@@ -3,6 +3,7 @@ import * as os from 'node:os'
 import * as core from '@contentlayer/core'
 import type { HasConsole } from "@contentlayer/utils/effect";
 import { Chunk, OT, pipe, T } from "@contentlayer/utils/effect";
+import type { NotionRenderer } from '@kerwanp/notion-renderer';
 import type * as notion from '@notionhq/client';
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints.js';
 
@@ -14,26 +15,28 @@ type Page = PageObjectResponse
 
 export const fetchAllDocuments = ({
     client,
+    renderer,
     schemaDef,
     databaseTypeDefs,
-    options
+    options,
 }: {
     client: notion.Client,
+    renderer: NotionRenderer,
     databaseTypeDefs: LocalSchema.DatabaseTypeDef[],
     schemaDef: core.SchemaDef,
     options: core.PluginOptions
 }): T.Effect<OT.HasTracer & HasConsole, core.SourceFetchDataError, core.DataCache.Cache> => pipe(
     T.gen(function* ($) {
-        const pages: Page[] = [];
+        const pages: { page: Page, databaseDef: LocalSchema.DatabaseTypeDef }[] = [];
 
         for (const databaseDef of databaseTypeDefs) {
             const result = yield* $(fetchDatabasePages({ client, databaseDef }));;
-            pages.push(...result);
+            pages.push(...result.map(page => ({ page, databaseDef })));
         }
 
 
         const documentEntriesWithDocumentTypeDef = Object.values(schemaDef.documentTypeDefMap).flatMap(
-            (documentTypeDef) => pages.map((page) => ({ page, documentTypeDef }))
+            (documentTypeDef) => pages.map(({ page, databaseDef }) => ({ page, documentTypeDef, databaseDef }))
         );
 
         const concurrencyLimit = os.cpus().length
@@ -41,10 +44,13 @@ export const fetchAllDocuments = ({
         const documents = yield* $(
             pipe(
                 documentEntriesWithDocumentTypeDef,
-                T.forEachParN(concurrencyLimit, ({ page, documentTypeDef }) =>
+                T.forEachParN(concurrencyLimit, ({ page, documentTypeDef, databaseDef }) =>
                     makeCacheItem({
+                        client,
                         page,
+                        renderer,
                         documentTypeDef,
+                        databaseDef,
                         options
                     })
                 ),

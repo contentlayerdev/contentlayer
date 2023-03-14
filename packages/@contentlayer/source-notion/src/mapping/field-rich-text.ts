@@ -1,12 +1,12 @@
 import type { FieldFunctions } from ".";
 
-export const fieldTitle: FieldFunctions<'title'> = {
+export const fieldRichText: FieldFunctions<'rich_text'> = {
     getFieldDef: () => {
         return {
             type: 'string',
         }
     },
     getFieldData: ({ property, renderer }) => {
-        return renderer.render(...property.title);
+        return renderer.render(...property.rich_text);
     }
 }

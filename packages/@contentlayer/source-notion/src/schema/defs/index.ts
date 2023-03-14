@@ -16,6 +16,13 @@ export type DatabaseTypeDef<DefName extends string = string> = {
      * Useful when you have page properties containing sensitive data.
      */
     automaticImport?: boolean,
+
+    /**
+     * By disabling content import, the page content will not be fetched.
+     * Useful when you only want to use page properties for this database.
+     */
+    importContent?: boolean,
+
     fields?: Record<string, DatabaseFieldTypeDef>
 }
 

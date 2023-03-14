@@ -31,6 +31,17 @@ export const fetchDatabaseFieldDefs = ({
             fieldDefs.push(def);
         }
 
+        if (databaseDef.importContent !== false) {
+            fieldDefs.push({
+                type: 'string',
+                name: 'content',
+                default: undefined,
+                isRequired: false,
+                isSystemField: true,
+                description: 'The page content'
+            })
+        }
+
         return {
             _tag: 'DocumentTypeDef' as const,
             name: databaseDef.name,

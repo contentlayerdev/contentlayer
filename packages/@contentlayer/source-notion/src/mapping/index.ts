@@ -1,4 +1,5 @@
 import type * as core from '@contentlayer/core'
+import type { NotionRenderer } from '@kerwanp/notion-renderer';
 
 import type { DatabaseProperty, DatabasePropertyTypes, DistributiveOmit, PageProperty, PagePropertyTypes } from "../types.js";
 import { fieldCheckbox } from './field-checkbox.js';
@@ -8,6 +9,7 @@ import { fieldEmail } from './field-email.js';
 import { fieldLastEditedTime } from './field-last-edited-time.js';
 import { fieldNumber } from './field-number.js';
 import { fieldPhoneNumber } from './field-phone-number.js';
+import { fieldRichText } from './field-rich-text.js';
 import { fieldSelect } from './field-select.js';
 import { fieldStatus } from './field-status.js';
 import { fieldTitle } from './field-title.js';
@@ -16,7 +18,8 @@ import { fieldUrl } from './field-url.js';
 type GetFieldDataFunction<T extends PagePropertyTypes> = (params: {
     fieldDef: core.FieldDef,
     options: core.PluginOptions,
-    property: PageProperty<T>
+    property: PageProperty<T>,
+    renderer: NotionRenderer
 }) => any;
 
 type GetFieldDefFunction<T extends DatabasePropertyTypes = DatabasePropertyTypes> = (params: {
@@ -45,7 +48,8 @@ const FieldMapping: FieldMappingType = {
     'created_time': fieldCreatedTime,
     'status': fieldStatus,
     'date': fieldDate,
-    'last_edited_time': fieldLastEditedTime
+    'last_edited_time': fieldLastEditedTime,
+    'rich_text': fieldRichText
 }
 
 export const getFieldFunctions = <

@@ -5,7 +5,7 @@
     "start": "contentlayer build && node --experimental-json-modules my-script.mjs"
   },
   "dependencies": {
-    "contentlayer": "latest",
-    "@notionhq/client": "^2.2.3"
+    "@notionhq/client": "^2.2.3",
+    "contentlayer": "latest"
   }
 }
