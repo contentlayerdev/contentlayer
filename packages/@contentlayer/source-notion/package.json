@@ -18,8 +18,10 @@
   "dependencies": {
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
-    "@notionhq/client": "^2.2.3",
     "contentful-management": "7.22.4",
     "slugify": "^1.6.5"
+  },
+  "peerDependencies": {
+    "@notionhq/client": "^2.2.3"
   }
 }

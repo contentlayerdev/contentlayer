@@ -1,4 +1,9 @@
 import { makeSource, defineDatabase } from '@contentlayer/source-notion';
+import * as notion from '@notionhq/client';
+
+const client = new notion.Client({
+    auth: process.env.NOTION_TOKEN
+})
 
 const Post = defineDatabase(() => ({
     name: 'Post',
@@ -6,6 +11,6 @@ const Post = defineDatabase(() => ({
 }))
 
 export default makeSource({
-    internalIntegrationToken: process.env.NOTION_TOKEN as string,
+    client,
     databaseTypes: [Post]
 })
