@@ -3,11 +3,16 @@ import type { NotionRenderer } from '@kerwanp/notion-renderer';
 
 import type { DatabaseProperty, DatabasePropertyTypes, DistributiveOmit, PageProperty, PagePropertyTypes } from "../types.js";
 import { fieldCheckbox } from './field-checkbox.js';
+import { fieldCreatedBy } from './field-created-by.js';
 import { fieldCreatedTime } from './field-created-time.js';
 import { fieldDate } from './field-date.js';
 import { fieldEmail } from './field-email.js';
+import { fieldFields } from './field-files.js';
+import { fieldFormula } from './field-formula.js';
+import { fieldLastEditedBy } from './field-last-edited-by.js';
 import { fieldLastEditedTime } from './field-last-edited-time.js';
 import { fieldNumber } from './field-number.js';
+import { fieldPeople } from './field-people.js';
 import { fieldPhoneNumber } from './field-phone-number.js';
 import { fieldRichText } from './field-rich-text.js';
 import { fieldSelect } from './field-select.js';
@@ -49,7 +54,12 @@ const FieldMapping: FieldMappingType = {
     'status': fieldStatus,
     'date': fieldDate,
     'last_edited_time': fieldLastEditedTime,
-    'rich_text': fieldRichText
+    'rich_text': fieldRichText,
+    'files': fieldFields,
+    'people': fieldPeople,
+    'last_edited_by': fieldLastEditedBy,
+    'created_by': fieldCreatedBy,
+    'formula': fieldFormula,
 }
 
 export const getFieldFunctions = <
