@@ -6,6 +6,6 @@
     "outDir": "./dist",
     "tsBuildInfoFile": "./dist/.tsbuildinfo.json"
   },
-  "include": ["./src", "../source-contentful/src/fetchData/types"],
+  "include": ["./src"],
   "references": [{ "path": "../utils" }, { "path": "../core" }]
 }

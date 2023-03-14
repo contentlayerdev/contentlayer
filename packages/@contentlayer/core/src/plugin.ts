@@ -10,7 +10,7 @@ import type { DataCache } from './DataCache.js'
 import type { SourceFetchDataError, SourceProvideSchemaError } from './errors.js'
 import type { SchemaDef, StackbitExtension } from './schema/index.js'
 
-export type SourcePluginType = LiteralUnion<'local' | 'contentful' | 'sanity', string>
+export type SourcePluginType = LiteralUnion<'local' | 'contentful' | 'notion' | 'sanity', string>
 
 export type PluginExtensions = {
   // TODO decentralized extension definitions + logic
