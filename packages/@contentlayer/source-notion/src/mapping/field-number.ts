@@ -4,7 +4,6 @@ export const fieldNumber: FieldFunctions<'number'> = {
     getFieldDef: () => {
         return {
             type: 'number',
-            isRequired: false
         }
     },
     getFieldData: ({ property }) => {

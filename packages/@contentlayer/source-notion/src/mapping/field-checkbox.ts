@@ -4,7 +4,6 @@ export const fieldCheckbox: FieldFunctions<'checkbox'> = {
     getFieldDef: () => {
         return {
             type: 'boolean',
-            isRequired: false
         }
     },
     getFieldData: ({ property }) => {

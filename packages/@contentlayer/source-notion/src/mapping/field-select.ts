@@ -5,7 +5,6 @@ export const fieldSelect: FieldFunctions<'select'> = {
         return {
             type: 'enum',
             options: property.select.options.map(o => o.name),
-            isRequired: false
         }
     },
     getFieldData: ({ property }) => {

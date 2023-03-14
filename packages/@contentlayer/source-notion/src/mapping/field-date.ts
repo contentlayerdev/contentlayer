@@ -4,7 +4,6 @@ export const fieldDate: FieldFunctions<'date'> = {
     getFieldDef: () => {
         return {
             type: 'nested_unnamed',
-            isRequired: false,
             typeDef: {
                 _tag: 'NestedUnnamedTypeDef',
                 fieldDefs: [

@@ -5,7 +5,6 @@ export const fieldStatus: FieldFunctions<'status'> = {
         return {
             type: 'enum',
             options: property.status.options.map(o => o.name),
-            isRequired: false
         }
     },
     getFieldData: ({ property }) => {

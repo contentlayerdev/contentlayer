@@ -22,7 +22,7 @@ type GetFieldDataFunction<T extends PagePropertyTypes> = (params: {
 type GetFieldDefFunction<T extends DatabasePropertyTypes = DatabasePropertyTypes> = (params: {
     options: core.PluginOptions,
     property: DatabaseProperty<T>
-}) => DistributiveOmit<core.FieldDef, 'name' | 'isSystemField' | 'default' | 'description'>;
+}) => DistributiveOmit<core.FieldDef, 'name' | 'isSystemField' | 'default' | 'description' | 'isRequired'>;
 
 export type FieldFunctions<T extends DatabasePropertyTypes = DatabasePropertyTypes> = {
     getFieldDef: GetFieldDefFunction<T>,

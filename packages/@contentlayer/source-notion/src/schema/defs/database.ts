@@ -2,7 +2,8 @@ import * as core from '@contentlayer/core'
 import { OT, pipe, T } from '@contentlayer/utils/effect';
 import type * as notion from '@notionhq/client';
 
-import type { DatabaseTypeDef } from '.';
+import type { DatabaseProperties } from '../../types';
+import type { DatabaseFieldTypeDef, DatabaseTypeDef } from '.';
 import { toFieldDef } from './field.js';
 
 export const fetchDatabaseFieldDefs = ({
@@ -19,11 +20,12 @@ export const fetchDatabaseFieldDefs = ({
 
         const fieldDefs: core.FieldDef[] = []
 
-        for (const [key, property] of Object.entries(properties)) {
-            const fieldDef = toFieldDef({ property, key, options })
-            if (!fieldDef) continue;
+        for (const [propertyKey, property] of Object.entries(properties)) {
+            const [key, databaseFieldDef] = findDatabaseFieldDef({ property, databaseDef, key: propertyKey })
+            const def = toFieldDef({ property, key, options, databaseFieldDef })
+            if (!def) continue;
 
-            fieldDefs.push(fieldDef);
+            fieldDefs.push(def);
         }
 
         return {
@@ -39,3 +41,24 @@ export const fetchDatabaseFieldDefs = ({
     OT.withSpan('@contentlayer/source-notion/fetchData:fetchDatabaseFieldDefs'),
     T.mapError((error) => new core.SourceProvideSchemaError({ error }))
 )
+
+
+const findDatabaseFieldDef = ({
+    property,
+    databaseDef,
+    key,
+}: {
+    property: DatabaseProperties,
+    databaseDef: DatabaseTypeDef,
+    key: string
+}): [string, DatabaseFieldTypeDef | undefined] => {
+
+    if (!databaseDef.fields) return [key, undefined];
+
+    const fieldDef = Object.entries(databaseDef.fields).find(([key, fieldDef]) => {
+        if ('label' in fieldDef) return fieldDef.label === property.name
+        if ('id' in fieldDef) return fieldDef.id === property.id
+    });
+
+    return fieldDef ?? [key, undefined]
+}

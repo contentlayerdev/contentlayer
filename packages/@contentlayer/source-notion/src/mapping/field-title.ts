@@ -4,7 +4,6 @@ export const fieldTitle: FieldFunctions<'title'> = {
     getFieldDef: () => {
         return {
             type: 'string',
-            isRequired: false
         }
     },
     getFieldData: ({ property }) => {

@@ -4,7 +4,6 @@ export const fieldCreatedTime: FieldFunctions<'created_time'> = {
     getFieldDef: () => {
         return {
             type: 'date',
-            isRequired: false
         }
     },
     getFieldData: ({ property }) => {

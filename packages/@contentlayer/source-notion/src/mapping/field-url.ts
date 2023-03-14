@@ -4,7 +4,6 @@ export const fieldUrl: FieldFunctions<'url'> = {
     getFieldDef: () => {
         return {
             type: 'string',
-            isRequired: false
         }
     },
     getFieldData: ({ property }) => {

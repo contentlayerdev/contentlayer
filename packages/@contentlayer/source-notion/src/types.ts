@@ -18,7 +18,7 @@ export type FieldOptions = {
     typeFieldName?: string
 }
 
-export type FieldDef = core.FieldDef & { path: string }
+export type FieldDef = core.FieldDef & { propertyKey: string }
 
 export type DiscriminateUnion<T, K extends keyof T, V extends T[K]> =
     T extends Record<K, V> ? T : never

@@ -1,9 +1,15 @@
 import type { Thunk } from "@contentlayer/utils"
 
+export type DatabaseFieldTypeDef = {
+    isRequired: boolean,
+} & (
+        { id: string } | { label: string }
+    )
 export type DatabaseTypeDef<DefName extends string = string> = {
     name: DefName,
     description?: string,
     databaseId: string,
+    fields?: Record<string, DatabaseFieldTypeDef>
 }
 
 export type DatabaseType<DefName extends string = string> = {

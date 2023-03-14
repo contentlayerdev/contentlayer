@@ -22,10 +22,10 @@ export const makeCacheItem = ({
         const { typeFieldName } = options.fieldOptions
 
         const docValues = yield* $(
-            T.forEachParDict_(documentTypeDef.fieldDefs as FieldDef[], { // TODO : Using workaround to use own typing to get property path (id)
+            T.forEachParDict_(documentTypeDef.fieldDefs as FieldDef[], {
                 mapValue: (fieldDef: FieldDef) => getDataForFieldDef({
-                    fieldDef: fieldDef as FieldDef,
-                    property: page.properties[fieldDef.path] as PageProperties,
+                    fieldDef: fieldDef,
+                    property: page.properties[fieldDef.propertyKey] as PageProperties,
                     options
                 }),
                 mapKey: (fieldDef) => T.succeed(fieldDef.name)
