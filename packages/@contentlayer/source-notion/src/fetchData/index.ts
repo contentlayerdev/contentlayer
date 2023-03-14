@@ -27,16 +27,16 @@ export const fetchAllDocuments = ({
     options: core.PluginOptions
 }): T.Effect<OT.HasTracer & HasConsole, core.SourceFetchDataError, core.DataCache.Cache> => pipe(
     T.gen(function* ($) {
-        const pages: { page: Page, databaseDef: LocalSchema.DatabaseTypeDef }[] = [];
+        const pages: Page[] = [];
 
         for (const databaseDef of databaseTypeDefs) {
             const result = yield* $(fetchDatabasePages({ client, databaseDef }));;
-            pages.push(...result.map(page => ({ page, databaseDef })));
+            pages.push(...result);
         }
 
 
         const documentEntriesWithDocumentTypeDef = Object.values(schemaDef.documentTypeDefMap).flatMap(
-            (documentTypeDef) => pages.map(({ page, databaseDef }) => ({ page, documentTypeDef, databaseDef }))
+            (documentTypeDef) => pages.map((page) => ({ page, documentTypeDef }))
         );
 
         const concurrencyLimit = os.cpus().length
@@ -44,13 +44,12 @@ export const fetchAllDocuments = ({
         const documents = yield* $(
             pipe(
                 documentEntriesWithDocumentTypeDef,
-                T.forEachParN(concurrencyLimit, ({ page, documentTypeDef, databaseDef }) =>
+                T.forEachParN(concurrencyLimit, ({ page, documentTypeDef }) =>
                     makeCacheItem({
                         client,
                         page,
                         renderer,
                         documentTypeDef,
-                        databaseDef,
                         options
                     })
                 ),

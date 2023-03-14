@@ -8,7 +8,6 @@ import type { BlockObjectResponse, PageObjectResponse } from "@notionhq/client/b
 
 import { UnknownNotionError } from '../errors.js';
 import { getFieldFunctions } from '../mapping/index.js';
-import type * as LocalSchema from '../schema/defs/index.js'
 import type { FieldDef, PageProperties } from '../types';
 
 type MakeDocumentError = core.UnexpectedMarkdownError | core.UnexpectedMDXError | HashError | UnknownNotionError
@@ -18,14 +17,12 @@ export const makeCacheItem = ({
     page,
     renderer,
     documentTypeDef,
-    databaseDef,
     options
 }: {
     client: notion.Client,
     page: PageObjectResponse,
     renderer: NotionRenderer,
     documentTypeDef: core.DocumentTypeDef,
-    databaseDef: LocalSchema.DatabaseTypeDef,
     options: core.PluginOptions
 }): T.Effect<OT.HasTracer & HasConsole, MakeDocumentError, core.DataCache.CacheItem> =>
     T.gen(function* ($) {
@@ -72,7 +69,7 @@ const getDataForFieldDef = ({
     options: core.PluginOptions,
 }): T.Effect<OT.HasTracer, MakeDocumentError, any> =>
     pipe(
-        T.gen(function* ($) {
+        T.gen(function* () {
             const functions = getFieldFunctions(property.type);
             if (!functions) return;
 
