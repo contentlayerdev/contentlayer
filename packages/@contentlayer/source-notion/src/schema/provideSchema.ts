@@ -27,7 +27,40 @@ export const provideSchema = ({
 
         const defs: Omit<core.SchemaDef, 'hash'> = {
             documentTypeDefMap: coreCodumentTypeDefMap,
-            nestedTypeDefMap: {},
+            nestedTypeDefMap: {
+                date: {
+                    _tag: 'NestedTypeDef',
+                    name: 'Date',
+                    description: undefined,
+                    fieldDefs: [
+                        {
+                            name: 'start',
+                            type: 'date',
+                            description: undefined,
+                            isSystemField: false,
+                            isRequired: true,
+                            default: undefined
+                        },
+                        {
+                            name: 'end',
+                            type: 'date',
+                            description: undefined,
+                            isSystemField: false,
+                            isRequired: false,
+                            default: undefined
+                        },
+                        {
+                            name: 'timezone',
+                            type: 'string',
+                            description: undefined,
+                            isSystemField: false,
+                            isRequired: false,
+                            default: undefined
+                        }
+                    ],
+                    extensions: {}
+                }
+            },
         }
 
         const hash = yield* $(utils.hashObject({ defs, options }))

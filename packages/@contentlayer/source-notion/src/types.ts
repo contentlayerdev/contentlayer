@@ -26,6 +26,10 @@ export type DiscriminateUnion<T, K extends keyof T, V extends T[K]> =
 export type DiscriminateUnionValue<T, K extends keyof T, V extends T[K]> =
     T extends Record<K, V> ? V extends string ? T extends Record<V, any> ? T[V] : never : never : never
 
+export type DistributiveOmit<T, K extends keyof any> = T extends any
+    ? Omit<T, K>
+    : never;
+
 
 export type DatabaseProperties = DatabaseObjectResponse['properties'][number];
 export type DatabasePropertyTypes = DatabaseProperties['type'];

@@ -1,9 +1,11 @@
 import type * as core from '@contentlayer/core'
 
-import type { DatabaseProperty, DatabasePropertyTypes, PageProperty, PagePropertyTypes } from "../types.js";
+import type { DatabaseProperty, DatabasePropertyTypes, DistributiveOmit, PageProperty, PagePropertyTypes } from "../types.js";
 import { fieldCheckbox } from './field-checkbox.js';
 import { fieldCreatedTime } from './field-created-time.js';
+import { fieldDate } from './field-date.js';
 import { fieldEmail } from './field-email.js';
+import { fieldLastEditedTime } from './field-last-edited-time.js';
 import { fieldNumber } from './field-number.js';
 import { fieldPhoneNumber } from './field-phone-number.js';
 import { fieldSelect } from './field-select.js';
@@ -20,7 +22,7 @@ type GetFieldDataFunction<T extends PagePropertyTypes> = (params: {
 type GetFieldDefFunction<T extends DatabasePropertyTypes = DatabasePropertyTypes> = (params: {
     options: core.PluginOptions,
     property: DatabaseProperty<T>
-}) => Omit<core.FieldDef, 'name' | 'isSystemField' | 'default' | 'description'>;
+}) => DistributiveOmit<core.FieldDef, 'name' | 'isSystemField' | 'default' | 'description'>;
 
 export type FieldFunctions<T extends DatabasePropertyTypes = DatabasePropertyTypes> = {
     getFieldDef: GetFieldDefFunction<T>,
@@ -42,6 +44,8 @@ const FieldMapping: FieldMappingType = {
     'title': fieldTitle,
     'created_time': fieldCreatedTime,
     'status': fieldStatus,
+    'date': fieldDate,
+    'last_edited_time': fieldLastEditedTime
 }
 
 export const getFieldFunctions = <
