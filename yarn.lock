@@ -405,12 +405,11 @@ __metadata:
   dependencies:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/utils": "workspace:*"
-    "@kerwanp/notion-renderer": 1.0.0-rc.1
+    "@kerwanp/notion-renderer": 1.0.0-rc.2
+    "@notionhq/client": ^2.2.3
     "@types/node": ^18.13.0
     contentful-management: 7.22.4
     slugify: ^1.6.5
-  peerDependencies:
-    "@notionhq/client": ^2.2.3
   languageName: unknown
   linkType: soft
 
@@ -866,10 +865,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kerwanp/notion-renderer@npm:1.0.0-rc.1":
-  version: 1.0.0-rc.1
-  resolution: "@kerwanp/notion-renderer@npm:1.0.0-rc.1"
-  checksum: d041084ee691df75247ab9befb1ba629593041c67fae345c33055ead71f9c68abf910761b9336852c2cf947cef4d97935afe1445fbeb6da59ecee3758ba732f4
+"@kerwanp/notion-renderer@npm:1.0.0-rc.2":
+  version: 1.0.0-rc.2
+  resolution: "@kerwanp/notion-renderer@npm:1.0.0-rc.2"
+  checksum: 15a57700b6bc1e42f8a4b35d09dfab3543a4767d89906f0af6a645df2244df17e05ae88acd33695af317c5fd7522a9647677283c89f6d6fd263fdc0492a1421a
   languageName: node
   linkType: hard
 
