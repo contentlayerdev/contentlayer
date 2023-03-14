@@ -22,6 +22,9 @@ export const fetchDatabaseFieldDefs = ({
 
         for (const [propertyKey, property] of Object.entries(properties)) {
             const [key, databaseFieldDef] = findDatabaseFieldDef({ property, databaseDef, key: propertyKey })
+
+            if (databaseDef.automaticImport === false && !databaseFieldDef) continue;
+
             const def = toFieldDef({ property, key, options, databaseFieldDef })
             if (!def) continue;
 

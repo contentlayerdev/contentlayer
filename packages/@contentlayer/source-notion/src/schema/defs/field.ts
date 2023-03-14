@@ -32,8 +32,6 @@ export const toFieldDef = <T extends DatabasePropertyTypes>({
     const def = functions.getFieldDef({ property, options })
     const name = normalizeKey(key);
 
-    console.log(name);
-
     return {
         name, // TODO : Transform property name to match [A-Za-z0-9_]
         propertyKey: property.name,

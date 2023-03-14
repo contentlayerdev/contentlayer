@@ -5,10 +5,17 @@ export type DatabaseFieldTypeDef = {
 } & (
         { id: string } | { label: string }
     )
+
 export type DatabaseTypeDef<DefName extends string = string> = {
     name: DefName,
     description?: string,
     databaseId: string,
+
+    /**
+     * By disabling automatic imports, properties must be defined in `fields` property to be present in generated content.
+     * Useful when you have page properties containing sensitive data.
+     */
+    automaticImport?: boolean,
     fields?: Record<string, DatabaseFieldTypeDef>
 }
 
