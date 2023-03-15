@@ -1,5 +1,5 @@
 import type * as core from '@contentlayer/core'
-import type { NotionRenderer } from '@kerwanp/notion-renderer';
+import type { NotionRenderer } from '@notion-render/client';
 
 import type { DatabaseProperty, DatabasePropertyTypes, DistributiveOmit, PageProperty, PagePropertyTypes } from "../types.js";
 import { fieldCheckbox } from './field-checkbox.js';

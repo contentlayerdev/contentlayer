@@ -1,7 +1,7 @@
 import type * as core from '@contentlayer/core'
 import { processArgs } from '@contentlayer/core'
 import { pipe, S, T } from '@contentlayer/utils/effect'
-import { NotionRenderer } from '@kerwanp/notion-renderer';
+import { NotionRenderer } from '@notion-render/client';
 import type * as notion from '@notionhq/client';
 
 import { fetchAllDocuments } from './fetchData/index.js'
@@ -32,7 +32,7 @@ export const makeSource: core.MakeSourcePlugin<Args & PluginOptions> = async (ar
         (_) => _.def()
     )
 
-    const renderer = rest.renderer ?? new NotionRenderer();
+    const renderer = rest.renderer ?? new NotionRenderer({ client });
 
     return {
         type: 'notion',

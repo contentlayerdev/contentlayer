@@ -3,7 +3,7 @@ import * as os from 'node:os'
 import * as core from '@contentlayer/core'
 import type { HasConsole } from "@contentlayer/utils/effect";
 import { Chunk, OT, pipe, T } from "@contentlayer/utils/effect";
-import type { NotionRenderer } from '@kerwanp/notion-renderer';
+import type { NotionRenderer } from '@notion-render/client';
 import type * as notion from '@notionhq/client';
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints.js';
 

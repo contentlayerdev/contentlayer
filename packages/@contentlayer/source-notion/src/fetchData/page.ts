@@ -2,9 +2,9 @@ import type * as core from '@contentlayer/core'
 import { HashError, hashObject } from '@contentlayer/utils';
 import type { HasConsole, OT } from "@contentlayer/utils/effect";
 import { pipe, T } from "@contentlayer/utils/effect";
-import type { NotionRenderer } from '@kerwanp/notion-renderer';
+import type { NotionRenderer } from '@notion-render/client';
 import type * as notion from '@notionhq/client'
-import type { BlockObjectResponse, PageObjectResponse } from "@notionhq/client/build/src/api-endpoints"
+import type { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints"
 
 import { UnknownNotionError } from '../errors.js';
 import { getFieldFunctions } from '../mapping/index.js';
@@ -81,14 +81,12 @@ const getDataForFieldDef = ({
 
 const getPageContent = ({
     page,
-    client,
     renderer,
 }: {
     page: PageObjectResponse,
     client: notion.Client,
     renderer: NotionRenderer,
 }): T.Effect<OT.HasTracer, UnknownNotionError, string> => pipe(
-    T.tryPromise(() => client.blocks.children.list({ block_id: page.id })),
-    T.map((data) => renderer.render(...data.results as BlockObjectResponse[])),
+    T.tryPromise(() => renderer.renderBlock(page.id)),
     T.mapError((error) => new UnknownNotionError({ error }))
 )

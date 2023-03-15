@@ -405,7 +405,7 @@ __metadata:
   dependencies:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/utils": "workspace:*"
-    "@kerwanp/notion-renderer": 1.0.0-rc.2
+    "@notion-render/client": 1.0.0-rc.1
     "@notionhq/client": ^2.2.3
     "@types/node": ^18.13.0
     contentful-management: 7.22.4
@@ -865,13 +865,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kerwanp/notion-renderer@npm:1.0.0-rc.2":
-  version: 1.0.0-rc.2
-  resolution: "@kerwanp/notion-renderer@npm:1.0.0-rc.2"
-  checksum: 15a57700b6bc1e42f8a4b35d09dfab3543a4767d89906f0af6a645df2244df17e05ae88acd33695af317c5fd7522a9647677283c89f6d6fd263fdc0492a1421a
-  languageName: node
-  linkType: hard
-
 "@manypkg/find-root@npm:^1.1.0":
   version: 1.1.0
   resolution: "@manypkg/find-root@npm:1.1.0"
@@ -1058,6 +1051,13 @@ __metadata:
     "@nodelib/fs.scandir": 2.1.5
     fastq: ^1.6.0
   checksum: 190c643f156d8f8f277bf2a6078af1ffde1fd43f498f187c2db24d35b4b4b5785c02c7dc52e356497b9a1b65b13edc996de08de0b961c32844364da02986dc53
+  languageName: node
+  linkType: hard
+
+"@notion-render/client@npm:1.0.0-rc.1":
+  version: 1.0.0-rc.1
+  resolution: "@notion-render/client@npm:1.0.0-rc.1"
+  checksum: a4f6541aee29f565dcf23004aa5aa44fbe53919a23a82840815ff1e19a79115d004edab6d432cc97235e312a55cf8e803ea3d649f7dfef6bf976d501125c7f2e
   languageName: node
   linkType: hard
 
