@@ -76,7 +76,11 @@ const fetchDatabasePages = ({
     client: notion.Client,
     databaseDef: LocalSchema.DatabaseTypeDef
 }): T.Effect<OT.HasTracer, UnknownNotionError, Page[]> => pipe(
-    T.tryPromise(() => client.databases.query({ database_id: databaseDef.databaseId }).then(res => res.results as Page[])),
+    T.tryPromise(() => client.databases.query({
+        database_id: databaseDef.databaseId,
+        filter: databaseDef.query?.filter,
+        sorts: databaseDef.query?.sorts,
+    }).then(res => res.results as Page[])),
     OT.withSpan('@contentlayer/source-contentlayer/fetchData:getAllEntries'),
     T.mapError((error) => new UnknownNotionError({ error })),
 )
