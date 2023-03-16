@@ -1,6 +1,7 @@
 import type * as core from '@contentlayer/core'
 import type { NotionRenderer } from '@notion-render/client';
 
+import type { DatabaseFieldTypeDef } from '../schema/defs/index.js';
 import type { DatabaseProperty, DatabasePropertyTypes, DistributiveOmit, PageProperty, PagePropertyTypes } from "../types.js";
 import { fieldCheckbox } from './field-checkbox.js';
 import { fieldCreatedBy } from './field-created-by.js';
@@ -14,6 +15,7 @@ import { fieldLastEditedTime } from './field-last-edited-time.js';
 import { fieldNumber } from './field-number.js';
 import { fieldPeople } from './field-people.js';
 import { fieldPhoneNumber } from './field-phone-number.js';
+import { fieldRelation } from './field-relation.js';
 import { fieldRichText } from './field-rich-text.js';
 import { fieldSelect } from './field-select.js';
 import { fieldStatus } from './field-status.js';
@@ -22,6 +24,7 @@ import { fieldUrl } from './field-url.js';
 
 type GetFieldDataFunction<T extends PagePropertyTypes> = (params: {
     fieldDef: core.FieldDef,
+    databaseFieldDef?: DatabaseFieldTypeDef,
     options: core.PluginOptions,
     property: PageProperty<T>,
     renderer: NotionRenderer
@@ -29,7 +32,8 @@ type GetFieldDataFunction<T extends PagePropertyTypes> = (params: {
 
 type GetFieldDefFunction<T extends DatabasePropertyTypes = DatabasePropertyTypes> = (params: {
     options: core.PluginOptions,
-    property: DatabaseProperty<T>
+    property: DatabaseProperty<T>,
+    databaseFieldDef?: DatabaseFieldTypeDef,
 }) => DistributiveOmit<core.FieldDef, 'name' | 'isSystemField' | 'default' | 'description' | 'isRequired'>;
 
 export type FieldFunctions<T extends DatabasePropertyTypes = DatabasePropertyTypes> = {
@@ -60,6 +64,7 @@ const FieldMapping: FieldMappingType = {
     'last_edited_by': fieldLastEditedBy,
     'created_by': fieldCreatedBy,
     'formula': fieldFormula,
+    'relation': fieldRelation,
 }
 
 export const getFieldFunctions = <

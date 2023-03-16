@@ -26,6 +26,7 @@ export const fetchDatabaseFieldDefs = ({
             if (databaseDef.automaticImport === false && !databaseFieldDef) continue;
 
             const def = toFieldDef({ property, key, options, databaseFieldDef })
+
             if (!def) continue;
 
             fieldDefs.push(def);
@@ -57,7 +58,7 @@ export const fetchDatabaseFieldDefs = ({
 )
 
 
-const findDatabaseFieldDef = ({
+export const findDatabaseFieldDef = ({
     property,
     databaseDef,
     key,

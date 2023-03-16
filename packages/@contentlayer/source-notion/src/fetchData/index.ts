@@ -27,33 +27,38 @@ export const fetchAllDocuments = ({
     options: core.PluginOptions
 }): T.Effect<OT.HasTracer & HasConsole, core.SourceFetchDataError, core.DataCache.Cache> => pipe(
     T.gen(function* ($) {
-        const pages: Page[] = [];
+        const entries: {
+            documentTypeDef: core.DocumentTypeDef,
+            page: Page,
+            databaseTypeDef: LocalSchema.DatabaseTypeDef
+        }[] = [];
 
         for (const databaseDef of databaseTypeDefs) {
             const result = yield* $(fetchDatabasePages({ client, databaseDef }));;
-            pages.push(...result);
+            entries.push(...result.map(page => ({
+                page,
+                documentTypeDef: schemaDef.documentTypeDefMap[databaseDef.name]!,
+                databaseTypeDef: databaseDef
+            })));
         }
-
-        const documentEntriesWithDocumentTypeDef = Object.values(schemaDef.documentTypeDefMap).flatMap(
-            (documentTypeDef) => pages.map((page) => ({ page, documentTypeDef }))
-        );
 
         const concurrencyLimit = os.cpus().length
 
         const documents = yield* $(
             pipe(
-                documentEntriesWithDocumentTypeDef,
-                T.forEachParN(concurrencyLimit, ({ page, documentTypeDef }) =>
+                entries,
+                T.forEachParN(concurrencyLimit, ({ page, documentTypeDef, databaseTypeDef }) =>
                     makeCacheItem({
                         client,
                         page,
                         renderer,
                         documentTypeDef,
-                        options
+                        options,
+                        databaseTypeDef
                     })
                 ),
                 OT.withSpan('@contentlayer/source-notion/fetchData:makeCacheItems', {
-                    attributes: { count: documentEntriesWithDocumentTypeDef.length },
+                    attributes: { count: entries.length },
                 }),
             )
         )

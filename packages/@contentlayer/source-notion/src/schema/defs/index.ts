@@ -2,10 +2,13 @@ import type { Thunk } from "@contentlayer/utils"
 import type { QueryDatabaseParameters } from "@notionhq/client/build/src/api-endpoints"
 
 export type DatabaseFieldTypeDef = {
-    isRequired: boolean,
+    isRequired?: boolean,
 } & (
         { id: string } | { label: string }
-    )
+    ) & {
+        relation?: DatabaseType,
+        single?: boolean
+    }
 
 export type DatabaseTypeDef<DefName extends string = string> = {
     name: DefName,

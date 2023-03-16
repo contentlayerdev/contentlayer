@@ -8,6 +8,8 @@ import type { PageObjectResponse } from "@notionhq/client/build/src/api-endpoint
 
 import { UnknownNotionError } from '../errors.js';
 import { getFieldFunctions } from '../mapping/index.js';
+import { findDatabaseFieldDef } from '../schema/defs/database.js';
+import type { DatabaseFieldTypeDef, DatabaseTypeDef } from '../schema/defs/index.js';
 import type { FieldDef, PageProperties } from '../types';
 
 type MakeDocumentError = core.UnexpectedMarkdownError | core.UnexpectedMDXError | HashError | UnknownNotionError
@@ -16,28 +18,32 @@ export const makeCacheItem = ({
     client,
     page,
     renderer,
+    databaseTypeDef,
     documentTypeDef,
     options
 }: {
     client: notion.Client,
     page: PageObjectResponse,
     renderer: NotionRenderer,
+    databaseTypeDef: DatabaseTypeDef,
     documentTypeDef: core.DocumentTypeDef,
     options: core.PluginOptions
 }): T.Effect<OT.HasTracer & HasConsole, MakeDocumentError, core.DataCache.CacheItem> =>
     T.gen(function* ($) {
         const { typeFieldName } = options.fieldOptions
 
-
         const docValues = yield* $(
             T.forEachParDict_(documentTypeDef.fieldDefs as FieldDef[], {
                 mapValue: (fieldDef: FieldDef) => {
                     if (fieldDef.name === 'content') return getPageContent({ page, client, renderer });
 
+                    const databaseFieldDef = (databaseTypeDef.fields ?? {})[fieldDef.name]
+
                     return getDataForFieldDef({
-                        fieldDef: fieldDef,
+                        fieldDef,
                         property: page.properties[fieldDef.propertyKey] as PageProperties,
                         renderer,
+                        databaseFieldDef,
                         options
                     });
                 },
@@ -59,21 +65,25 @@ export const makeCacheItem = ({
 
 const getDataForFieldDef = ({
     fieldDef,
+    databaseFieldDef,
     property,
     renderer,
     options
 }: {
-    fieldDef: FieldDef
+    fieldDef: FieldDef,
     property: PageProperties,
     renderer: NotionRenderer,
     options: core.PluginOptions,
+    databaseFieldDef?: DatabaseFieldTypeDef
 }): T.Effect<OT.HasTracer, MakeDocumentError, any> =>
     pipe(
         T.gen(function* () {
+            if (!property) return;
+
             const functions = getFieldFunctions(property.type);
             if (!functions) return;
 
-            return functions.getFieldData({ property, fieldDef, renderer, options })
+            return functions.getFieldData({ property, fieldDef, renderer, options, databaseFieldDef })
         }),
         T.mapError((error) => new HashError({ error }))
     )

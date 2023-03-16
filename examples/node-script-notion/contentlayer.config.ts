@@ -5,6 +5,12 @@ const client = new notion.Client({
     auth: process.env.NOTION_TOKEN
 })
 
+const Category = defineDatabase(() => ({
+    name: 'Category',
+    databaseId: '8bf1821701f14ab8bbbfaad0309ed09c',
+    importContent: false,
+}))
+
 const Post = defineDatabase(() => ({
     name: 'Post',
     databaseId: 'fe26b972ec3f4b32a1882230915fe111',
@@ -13,11 +19,16 @@ const Post = defineDatabase(() => ({
         email: {
             label: 'Email',
             isRequired: true,
+        },
+        category: {
+            label: 'Category',
+            relation: Category,
+            single: true
         }
     }
 }))
 
 export default makeSource({
     client,
-    databaseTypes: [Post]
+    databaseTypes: [Post, Category]
 })

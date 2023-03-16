@@ -7,12 +7,7 @@ import type { DatabaseFieldTypeDef } from './index.js';
 
 const normalizeKey = (key: string) => {
     const slugified = slugify(key);
-    return slugified.toLowerCase().replace(/([-_][a-z])/g, group =>
-        group
-            .toUpperCase()
-            .replace('-', '')
-            .replace('_', '')
-    );
+    return slugified.toLowerCase().replace(/[-_][a-z0-9]/g, (group) => group.slice(-1).toUpperCase());
 }
 
 export const toFieldDef = <T extends DatabasePropertyTypes>({
@@ -29,7 +24,7 @@ export const toFieldDef = <T extends DatabasePropertyTypes>({
     const functions = getFieldFunctions(property.type);
     if (!functions) return;
 
-    const def = functions.getFieldDef({ property, options })
+    const def = functions.getFieldDef({ property, options, databaseFieldDef })
     const name = normalizeKey(key);
 
     return {
