@@ -8,6 +8,7 @@ const client = new notion.Client({
 const Post = defineDatabase(() => ({
     name: 'Post',
     databaseId: 'fe26b972ec3f4b32a1882230915fe111',
+    importContent: false,
     fields: {
         email: {
             label: 'Email',

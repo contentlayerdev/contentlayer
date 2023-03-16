@@ -4,7 +4,7 @@ import * as core from '@contentlayer/core'
 import type { HasConsole } from "@contentlayer/utils/effect";
 import { Chunk, OT, pipe, T } from "@contentlayer/utils/effect";
 import type { NotionRenderer } from '@notion-render/client';
-import type * as notion from '@notionhq/client';
+import * as notion from '@notionhq/client';
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints.js';
 
 import { UnknownNotionError } from '../errors.js';
@@ -33,7 +33,6 @@ export const fetchAllDocuments = ({
             const result = yield* $(fetchDatabasePages({ client, databaseDef }));;
             pages.push(...result);
         }
-
 
         const documentEntriesWithDocumentTypeDef = Object.values(schemaDef.documentTypeDefMap).flatMap(
             (documentTypeDef) => pages.map((page) => ({ page, documentTypeDef }))
@@ -76,11 +75,12 @@ const fetchDatabasePages = ({
     client: notion.Client,
     databaseDef: LocalSchema.DatabaseTypeDef
 }): T.Effect<OT.HasTracer, UnknownNotionError, Page[]> => pipe(
-    T.tryPromise(() => client.databases.query({
+    // TODO : Use iteratePaginatedResult to process N pages by N pages to avoid storing in-memory all pages.
+    T.tryPromise(() => notion.collectPaginatedAPI(client.databases.query, {
         database_id: databaseDef.databaseId,
         filter: databaseDef.query?.filter,
         sorts: databaseDef.query?.sorts,
-    }).then(res => res.results as Page[])),
+    }).then(res => res as Page[])),
     OT.withSpan('@contentlayer/source-contentlayer/fetchData:getAllEntries'),
     T.mapError((error) => new UnknownNotionError({ error })),
 )
