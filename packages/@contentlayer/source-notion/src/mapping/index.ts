@@ -1,7 +1,7 @@
 import type * as core from '@contentlayer/core'
 import type { NotionRenderer } from '@notion-render/client';
 
-import type { DatabaseFieldTypeDef } from '../schema/defs/index.js';
+import type { DatabaseFieldTypeDef, DatabaseTypeDef } from '../schema/types.js';
 import type { DatabaseProperty, DatabasePropertyTypes, DistributiveOmit, PageProperty, PagePropertyTypes } from "../types.js";
 import { fieldCheckbox } from './field-checkbox.js';
 import { fieldCreatedBy } from './field-created-by.js';
@@ -17,23 +17,27 @@ import { fieldPeople } from './field-people.js';
 import { fieldPhoneNumber } from './field-phone-number.js';
 import { fieldRelation } from './field-relation.js';
 import { fieldRichText } from './field-rich-text.js';
+import { fieldRollup } from './field-rollup.js';
 import { fieldSelect } from './field-select.js';
 import { fieldStatus } from './field-status.js';
 import { fieldTitle } from './field-title.js';
 import { fieldUrl } from './field-url.js';
 
-type GetFieldDataFunction<T extends PagePropertyTypes> = (params: {
+export type GetFieldDataFunction<T extends PagePropertyTypes> = (params: {
     fieldDef: core.FieldDef,
-    databaseFieldDef?: DatabaseFieldTypeDef,
+    databaseFieldTypeDef: DatabaseFieldTypeDef | undefined,
+    databaseTypeDef: DatabaseTypeDef
     options: core.PluginOptions,
     property: PageProperty<T>,
     renderer: NotionRenderer
 }) => any;
 
-type GetFieldDefFunction<T extends DatabasePropertyTypes = DatabasePropertyTypes> = (params: {
+export type GetFieldDefFunction<T extends DatabasePropertyTypes = DatabasePropertyTypes> = (params: {
     options: core.PluginOptions,
     property: DatabaseProperty<T>,
-    databaseFieldDef?: DatabaseFieldTypeDef,
+    databaseFieldTypeDef: DatabaseFieldTypeDef | undefined,
+    databaseTypeDef: DatabaseTypeDef,
+    documentTypeDefMap: core.DocumentTypeDefMap
 }) => DistributiveOmit<core.FieldDef, 'name' | 'isSystemField' | 'default' | 'description' | 'isRequired'>;
 
 export type FieldFunctions<T extends DatabasePropertyTypes = DatabasePropertyTypes> = {
@@ -65,6 +69,7 @@ const FieldMapping: FieldMappingType = {
     'created_by': fieldCreatedBy,
     'formula': fieldFormula,
     'relation': fieldRelation,
+    'rollup': fieldRollup,
 }
 
 export const getFieldFunctions = <

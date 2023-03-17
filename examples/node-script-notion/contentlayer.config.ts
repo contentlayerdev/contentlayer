@@ -23,12 +23,18 @@ const Post = defineDatabase(() => ({
         category: {
             label: 'Category',
             relation: Category,
+            type: 'relation',
             single: true
+        },
+        categoryNumber: {
+            label: 'Rollup',
+            type: 'rollup',
+            relation: Category,
         }
     }
 }))
 
 export default makeSource({
     client,
-    databaseTypes: [Post, Category]
+    databaseTypes: [Category, Post]
 })

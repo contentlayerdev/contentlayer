@@ -1,16 +1,39 @@
 import type { Thunk } from "@contentlayer/utils"
 import type { QueryDatabaseParameters } from "@notionhq/client/build/src/api-endpoints"
 
-export type DatabaseFieldTypeDef = {
+export type DatabaseFieldTypeDefBase = {
+    /**
+     * When required, pages without this property defined will not be generated.
+     */
     isRequired?: boolean,
-} & (
-        { id: string } | { label: string }
-    ) & {
-        relation?: DatabaseType,
-        single?: boolean
-    }
 
-export type DatabaseTypeDef<DefName extends string = string> = {
+    /**
+     * Map this property to a specific key.
+     * Defaults to the property name.
+     */
+    key?: string;
+
+    /**
+     * Field description used to generate comments.
+     */
+    description?: string;
+} & ({ id: string } | { label: string })
+
+export type DatabaseRelationFieldTypeDef = DatabaseFieldTypeDefBase & {
+    type: 'relation',
+    // TODO : Not used yet
+    relation: DatabaseType,
+    single?: boolean,
+}
+
+export type DatabaseRollupFieldTypeDef = DatabaseFieldTypeDefBase & {
+    type: 'rollup',
+    relation: DatabaseType,
+}
+
+export type DatabaseFieldTypeDef = DatabaseFieldTypeDefBase | DatabaseRollupFieldTypeDef | DatabaseRelationFieldTypeDef
+
+export type DatabaseTypeDef<Flattened extends boolean = true, DefName extends string = string> = {
     name: DefName,
     description?: string,
     databaseId: string,
@@ -33,18 +56,18 @@ export type DatabaseTypeDef<DefName extends string = string> = {
      */
     query?: Omit<QueryDatabaseParameters, 'database_id' | 'filter_properties' | 'start_cursor' | 'page_size'>
 
-    fields?: Record<string, DatabaseFieldTypeDef>
+    fields?: Flattened extends false ? Record<string, DatabaseFieldTypeDef> | DatabaseFieldTypeDef[] : DatabaseFieldTypeDef[]
 }
 
 export type DatabaseType<DefName extends string = string> = {
     type: 'database',
-    def: Thunk<DatabaseTypeDef<DefName>>
+    def: Thunk<DatabaseTypeDef<false, DefName>>
 }
 
 export type DatabaseTypes = DatabaseType<any>[] | Record<string, DatabaseType<any>>
 
 export const defineDatabase = <DefName extends string>(
-    def: Thunk<DatabaseTypeDef<DefName>>
+    def: Thunk<DatabaseTypeDef<false, DefName>>
 ): DatabaseType<DefName> => ({
     type: 'database',
     def,

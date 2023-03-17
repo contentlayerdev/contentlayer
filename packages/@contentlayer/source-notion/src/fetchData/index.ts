@@ -8,7 +8,7 @@ import * as notion from '@notionhq/client';
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints.js';
 
 import { UnknownNotionError } from '../errors.js';
-import type * as LocalSchema from '../schema/defs/index.js'
+import type * as LocalSchema from '../schema/types.js'
 import { makeCacheItem } from './page.js';
 
 type Page = PageObjectResponse

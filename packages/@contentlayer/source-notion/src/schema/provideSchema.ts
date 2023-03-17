@@ -1,79 +1,51 @@
-import { SourceProvideSchemaError } from '@contentlayer/core'
+import type { DocumentTypeDefMap } from '@contentlayer/core';
 import * as core from '@contentlayer/core'
 import * as utils from '@contentlayer/utils'
 import { OT, pipe, T } from '@contentlayer/utils/effect';
 import type * as notion from '@notionhq/client'
 
-import { fetchDatabaseFieldDefs } from './defs/database.js';
-import type * as LocalSchema from './defs/index.js'
+import { provideDatabaseSchema } from './provideDatabaseSchema.js';
+import type * as LocalSchema from './types.js'
+
+export type ProvideSchemaArgs = {
+    client: notion.Client,
+    databaseTypeDefs: LocalSchema.DatabaseTypeDef[],
+    options: core.PluginOptions
+}
 
 export const provideSchema = ({
     client,
     databaseTypeDefs,
-    options
-}: {
-    client: notion.Client,
-    databaseTypeDefs: LocalSchema.DatabaseTypeDef[],
-    options: core.PluginOptions
-}): T.Effect<OT.HasTracer, SourceProvideSchemaError, core.SchemaDef> => pipe(
+    ...rest
+}: ProvideSchemaArgs): T.Effect<OT.HasTracer, core.SourceProvideSchemaError, core.SchemaDef> => pipe(
     T.gen(function* ($) {
-        const coreCodumentTypeDefMap: core.DocumentTypeDefMap = {};
+        const documentTypeDefMap: DocumentTypeDefMap = {};
 
-        for (const databaseDef of databaseTypeDefs) {
-            const fieldDefs = yield $(fetchDatabaseFieldDefs({ client, databaseDef, options }))
-
-            coreCodumentTypeDefMap[databaseDef.name] = fieldDefs;
+        for (const databaseTypeDef of databaseTypeDefs) {
+            documentTypeDefMap[databaseTypeDef.name] = yield* $(provideDatabaseSchema({ client, databaseTypeDef, databaseTypeDefs, documentTypeDefMap, ...rest }))
         }
 
-        const defs: Omit<core.SchemaDef, 'hash'> = {
-            documentTypeDefMap: coreCodumentTypeDefMap,
-            nestedTypeDefMap: {
-                date: {
-                    _tag: 'NestedTypeDef',
-                    name: 'Date',
-                    description: undefined,
-                    fieldDefs: [
-                        {
-                            name: 'start',
-                            type: 'date',
-                            description: undefined,
-                            isSystemField: false,
-                            isRequired: true,
-                            default: undefined
-                        },
-                        {
-                            name: 'end',
-                            type: 'date',
-                            description: undefined,
-                            isSystemField: false,
-                            isRequired: false,
-                            default: undefined
-                        },
-                        {
-                            name: 'timezone',
-                            type: 'string',
-                            description: undefined,
-                            isSystemField: false,
-                            isRequired: false,
-                            default: undefined
-                        }
-                    ],
-                    extensions: {}
-                }
-            },
-        }
-
-        const hash = yield* $(utils.hashObject({ defs, options }))
-
-        const coreSchemaDef: core.SchemaDef = {
-            ...defs,
-            hash
-        };
-
-        core.validateSchema(coreSchemaDef);
-
-        return coreSchemaDef;
+        return documentTypeDefMap;
     }),
-    OT.withSpan('@contentlayer/source-notion/provideSchema:provideSchema'),
-    T.mapError((error) => new SourceProvideSchemaError({ error }))
-);
+
+
+    // Generates Schema definition without hash
+    T.map((documentTypeDefMap): Omit<core.SchemaDef, 'hash'> => ({
+        documentTypeDefMap,
+        nestedTypeDefMap: {}
+    })),
+
+    // Generate hash using Schema definition and include it
+    T.chain((schemaDef) => pipe(
+        utils.hashObject(schemaDef),
+        T.map((hash): core.SchemaDef => ({
+            ...schemaDef,
+            hash
+        })),
+        T.tap((schemaDef) => T.succeed(core.validateSchema(schemaDef)))
+    )),
+
+    OT.withSpan('@contentlayer/source-notion/schema:provideSchema'),
+
+    T.mapError(error => new core.SourceProvideSchemaError({ error }))
+)

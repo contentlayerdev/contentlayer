@@ -1,9 +1,16 @@
+import type { DatabaseFieldTypeDef } from "../schema/types";
 import type { FieldFunctions } from ".";
 
-export const fieldRelation: FieldFunctions<'relation'> = {
-    getFieldDef: ({ databaseFieldDef }) => {
+const isSingle = (databaseFieldTypeDef: DatabaseFieldTypeDef | undefined) => {
+    return databaseFieldTypeDef &&
+        'type' in databaseFieldTypeDef &&
+        databaseFieldTypeDef.type === 'relation' &&
+        databaseFieldTypeDef.single
+}
 
-        if (databaseFieldDef?.single) {
+export const fieldRelation: FieldFunctions<'relation'> = {
+    getFieldDef: ({ databaseFieldTypeDef }) => {
+        if (isSingle(databaseFieldTypeDef)) {
             return {
                 type: 'string',
             }
@@ -14,9 +21,8 @@ export const fieldRelation: FieldFunctions<'relation'> = {
             of: { type: 'string' }
         }
     },
-    getFieldData: ({ property, databaseFieldDef }) => {
-
-        if (databaseFieldDef?.single) {
+    getFieldData: ({ property, databaseFieldTypeDef }) => {
+        if (isSingle(databaseFieldTypeDef)) {
             return property.relation[0]?.id
         }
 
