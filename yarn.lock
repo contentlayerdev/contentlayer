@@ -399,20 +399,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@contentlayer/source-notion@workspace:packages/@contentlayer/source-notion":
-  version: 0.0.0-use.local
-  resolution: "@contentlayer/source-notion@workspace:packages/@contentlayer/source-notion"
-  dependencies:
-    "@contentlayer/core": "workspace:*"
-    "@contentlayer/utils": "workspace:*"
-    "@notion-render/client": 1.0.0-rc.1
-    "@notionhq/client": ^2.2.3
-    "@types/node": ^18.13.0
-    contentful-management: 7.22.4
-    slugify: ^1.6.5
-  languageName: unknown
-  linkType: soft
-
 "@contentlayer/source-remote-files@workspace:*, @contentlayer/source-remote-files@workspace:packages/@contentlayer/source-remote-files":
   version: 0.0.0-use.local
   resolution: "@contentlayer/source-remote-files@workspace:packages/@contentlayer/source-remote-files"
@@ -3033,6 +3019,20 @@ __metadata:
     prettier: ^2.8.4
     ts-patch: ^2.1.0
     typescript: ^4.9.5
+  languageName: unknown
+  linkType: soft
+
+"contentlayer-source-notion@workspace:packages/@contentlayer/source-notion":
+  version: 0.0.0-use.local
+  resolution: "contentlayer-source-notion@workspace:packages/@contentlayer/source-notion"
+  dependencies:
+    "@contentlayer/core": "workspace:*"
+    "@contentlayer/utils": "workspace:*"
+    "@notion-render/client": 1.0.0-rc.1
+    "@notionhq/client": ^2.2.3
+    "@types/node": ^18.13.0
+    contentful-management: 7.22.4
+    slugify: ^1.6.5
   languageName: unknown
   linkType: soft
 

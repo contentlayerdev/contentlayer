@@ -1,5 +1,5 @@
 {
-  "name": "@contentlayer/source-notion",
+  "name": "contentlayer-source-notion",
   "version": "0.3.0",
   "type": "module",
   "exports": "./dist/index.js",

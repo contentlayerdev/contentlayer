@@ -10,7 +10,7 @@ export const findDatabaseFieldDef = ({ databaseTypeDef, property }: FindDatabase
     if (!databaseTypeDef.fields) return;
 
     return databaseTypeDef.fields.find((fieldDef) => {
-        if ('label' in fieldDef) return fieldDef.name === property.name
+        if ('name' in fieldDef) return fieldDef.name === property.name
         if ('id' in fieldDef) return fieldDef.id === property.id
     })
 }

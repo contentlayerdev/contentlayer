@@ -1,4 +1,4 @@
-import { makeSource, defineDatabase } from '@contentlayer/source-notion';
+import { makeSource, defineDatabase } from 'contentlayer-source-notion';
 import * as notion from '@notionhq/client';
 
 const client = new notion.Client({
@@ -17,20 +17,15 @@ const Post = defineDatabase(() => ({
     importContent: false,
     fields: {
         email: {
-            label: 'Email',
+            name: 'Email',
             isRequired: true,
         },
         category: {
-            label: 'Category',
-            relation: Category,
             type: 'relation',
+            name: 'Category',
+            relation: Category,
             single: true
         },
-        categoryNumber: {
-            label: 'Rollup',
-            type: 'rollup',
-            relation: Category,
-        }
     }
 }))
 
