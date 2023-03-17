@@ -12,7 +12,7 @@ Contentlayer Source Notion is a [Contentlayer](https://www.contentlayer.dev/) pl
 
 **This plugin is actually under heavy-development, use it at your own risks or for testing purposes only.**
 
-You can contribute to this project by listing bugs and giving ideas on the [issues of this repository](https://github.com/kerwanp/contentlayer-source-notion/issues).
+You can contribute to this project by listing bugs and giving ideas in the [issues of this repository](https://github.com/kerwanp/contentlayer-source-notion/issues).
 
 > Do not report bugs related to `contentlayer-source-notion` in the official repository.
 
@@ -57,7 +57,9 @@ On each databases you want to query, click on the `•••` in the top right c
 
 Click on **Add connection** and select your Integration. Your token should now have access to your database.
 
-### 5. Configure Contentlayer
+### 5. Configure and build Contentlayer
+
+You can configure your content source in the `contentlayer.config.js` file and then run `contentlayer build`.
 
 ```typescript
 import { makeSource, defineDatabase } from 'contentlayer-source-notion'
@@ -92,7 +94,21 @@ export default makeSource({
 })
 ```
 
-> Read more on how to configure `contentlayer-source-notion` [here](#-configure)
+> ℹ Read more on how to configure `contentlayer-source-notion` [here](#🔧-configure)
+
+### 6. Use generated content
+
+Contentlayer will generate your content and typings in the `.contentlayer` folder.
+
+```typescript
+import { allPosts } from './.contentlayer/generated/index.mjs'
+
+const postIds = allPosts.map((post) => post._id)
+```
+
+```
+
+```
 
 ## 🔧 Configure
 
@@ -201,3 +217,12 @@ export default makeSource({
 ```
 
 ## ✍ Contribute
+
+Wether it is a bug report, new feature, correction, or additional documentation, we greatly value feedback and contributions from the community.
+
+You can :
+
+- Report Bugs/Reafture Requests directly in the [issues](https://github.com/kerwanp/contentlayer-source-notion/issues).
+- Contribute via Pull Requests
+
+If you have any questions, feel free to join the [Official Contentlayer Discord](https://discord.gg/fk83HNECYJ).
