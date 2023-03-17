@@ -1,12 +1,12 @@
 import type { OT } from "@contentlayer/utils/effect";
 import { pipe, T } from "@contentlayer/utils/effect";
 
-import { getFieldFunctions } from "../mapping";
-import type { DatabaseProperties, FieldDef } from "../types";
-import type { ProvideDatabaseSchemaArgs } from "./provideDatabaseSchema";
-import type { DatabaseTypeDef } from "./types";
-import { findDatabaseFieldDef } from "./utils/findDatabaseFieldDef";
-import { normalizeKey } from "./utils/normalizeKey";
+import { getFieldFunctions } from "../mapping/index.js";
+import type { DatabaseProperties, FieldDef } from "../types.js";
+import type { ProvideDatabaseSchemaArgs } from "./provideDatabaseSchema.js";
+import type { DatabaseTypeDef } from "./types.js";
+import { findDatabaseFieldDef } from "./utils/findDatabaseFieldDef.js";
+import { normalizeKey } from "./utils/normalizeKey.js";
 
 export type ProvideDatabaseFieldSchemaArgs = {
     property: DatabaseProperties
@@ -15,11 +15,13 @@ export type ProvideDatabaseFieldSchemaArgs = {
 
 export const provideDatabaseFieldSchema =
     ({ property, databaseTypeDef, ...rest }: ProvideDatabaseFieldSchemaArgs):
-        T.Effect<OT.HasTracer, unknown, FieldDef> => pipe(
+        T.Effect<OT.HasTracer, unknown, FieldDef | undefined> => pipe(
             T.succeed(findDatabaseFieldDef({ databaseTypeDef, property })),
             T.chain((databaseFieldTypeDef) => pipe(
                 T.succeed(getFieldFunctions(property.type)?.getFieldDef({ property, databaseFieldTypeDef, databaseTypeDef, ...rest })),
                 T.map((def) => {
+                    if (!def) return; // TODO : Find a more beautiful way using ts-effects
+
                     const name = normalizeKey(databaseFieldTypeDef?.key ?? property.name);
 
                     return {

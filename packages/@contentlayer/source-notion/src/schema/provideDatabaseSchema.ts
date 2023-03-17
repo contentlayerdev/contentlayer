@@ -1,10 +1,11 @@
 import type * as core from '@contentlayer/core'
+import type { FieldDef } from '@contentlayer/core';
 import type { OT } from "@contentlayer/utils/effect";
 import { pipe, T } from "@contentlayer/utils/effect";
 
-import { provideDatabaseFieldSchema } from './provideDatabaseFieldSchema';
-import type { ProvideSchemaArgs } from "./provideSchema";
-import type { DatabaseTypeDef } from "./types";
+import { provideDatabaseFieldSchema } from './provideDatabaseFieldSchema.js';
+import type { ProvideSchemaArgs } from "./provideSchema.js";
+import type { DatabaseTypeDef } from "./types.js";
 
 export type ProvideDatabaseSchemaArgs = {
     databaseTypeDef: DatabaseTypeDef
@@ -23,7 +24,7 @@ export const provideDatabaseSchema =
                     name: databaseTypeDef.name,
                     description: databaseTypeDef.description,
                     isSingleton: false,
-                    fieldDefs: [...def],
+                    fieldDefs: [...def].filter(def => !!def) as FieldDef[], // TODO : Find a more beautiful way
                     computedFields: [],
                     extensions: {}
                 }))
