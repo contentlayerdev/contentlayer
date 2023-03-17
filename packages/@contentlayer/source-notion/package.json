@@ -1,11 +1,12 @@
 {
   "name": "contentlayer-source-notion",
-  "version": "0.3.0",
+  "version": "0.0.1",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "./dist/**/*.{js,ts,map}",
+    "./dist/*.{js,ts,map}",
+    "./dist/!(__test__)/**/*.{js,ts,map}",
     "./src",
     "./package.json"
   ],
