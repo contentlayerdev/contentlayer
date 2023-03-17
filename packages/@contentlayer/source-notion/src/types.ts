@@ -1,21 +1,14 @@
 import type * as core from '@contentlayer/core';
+import type { NotionRenderer } from '@notion-render/client';
+import type * as notion from '@notionhq/client'
 import type { DatabaseObjectResponse, PageObjectResponse } from "@notionhq/client/build/src/api-endpoints"
 
-export type PluginOptions = {
-    fieldOptions?: FieldOptions
-}
+import type { DatabaseTypes } from './schema/types.js';
 
-export type FieldOptions = {
-    /**
-     * Name of the field containing the body/content extracted when `contentType` is `markdown` or `mdx`.
-     * @default "body"
-     */
-    bodyFieldName?: string
-    /**
-     * Name of the field containing the name of the document type (or nested document type).
-     * @default "type"
-     */
-    typeFieldName?: string
+export type PluginOptions = {
+    client: notion.Client,
+    renderer?: NotionRenderer,
+    databaseTypes: DatabaseTypes
 }
 
 export type FieldDef = core.FieldDef & { propertyKey: string }

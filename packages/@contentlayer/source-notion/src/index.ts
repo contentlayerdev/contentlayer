@@ -2,22 +2,15 @@ import type * as core from '@contentlayer/core'
 import { processArgs } from '@contentlayer/core'
 import { pipe, S, T } from '@contentlayer/utils/effect'
 import { NotionRenderer } from '@notion-render/client';
-import type * as notion from '@notionhq/client';
 
 import { fetchAllDocuments } from './fetchData/index.js'
 import { provideSchema } from './schema/provideSchema.js'
-import type * as LocalSchema from './schema/types.js'
 import type { PluginOptions } from "./types.js"
 
 export * from './schema/types.js'
 
-export type Args = {
-    client: notion.Client,
-    renderer?: NotionRenderer,
-    databaseTypes: LocalSchema.DatabaseTypes
-}
 
-export const makeSource: core.MakeSourcePlugin<Args & PluginOptions> = async (args) => {
+export const makeSource: core.MakeSourcePlugin<PluginOptions & core.PartialArgs> = async (args) => {
     const {
         options,
         extensions,

@@ -1,8 +1,8 @@
 import type * as core from '@contentlayer/core'
-import type { FieldDef } from '@contentlayer/core';
 import type { OT } from "@contentlayer/utils/effect";
 import { pipe, T } from "@contentlayer/utils/effect";
 
+import type { FieldDef } from '../types.js';
 import { provideDatabaseFieldSchema } from './provideDatabaseFieldSchema.js';
 import type { ProvideSchemaArgs } from "./provideSchema.js";
 import type { DatabaseTypeDef } from "./types.js";
