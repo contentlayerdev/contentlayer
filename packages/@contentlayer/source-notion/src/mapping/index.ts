@@ -17,7 +17,6 @@ import { fieldPeople } from './field-people.js';
 import { fieldPhoneNumber } from './field-phone-number.js';
 import { fieldRelation } from './field-relation.js';
 import { fieldRichText } from './field-rich-text.js';
-import { fieldRollup } from './field-rollup.js';
 import { fieldSelect } from './field-select.js';
 import { fieldStatus } from './field-status.js';
 import { fieldTitle } from './field-title.js';
@@ -69,7 +68,6 @@ const FieldMapping: FieldMappingType = {
     'created_by': fieldCreatedBy,
     'formula': fieldFormula,
     'relation': fieldRelation,
-    'rollup': fieldRollup,
 }
 
 export const getFieldFunctions = <
