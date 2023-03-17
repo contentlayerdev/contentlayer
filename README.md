@@ -1,1 +1,1 @@
-packages/contentlayer/README.md
+packages/@contentlayer/source-notion/README.md
