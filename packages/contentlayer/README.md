@@ -1,203 +1,107 @@
-# <img src="https://i.imgur.com/fdY8IX2.png" height="30" />&nbsp;&nbsp;Contentlayer Source Notion [![Discord](https://badgen.net/badge/icon/discord?icon=discord&label)](https://discord.gg/fk83HNECYJ)
+# <img src="https://i.imgur.com/fdY8IX2.png" height="30" />&nbsp;&nbsp;Contentlayer [![](https://badgen.net/npm/v/contentlayer)](https://www.npmjs.com/package/contentlayer) [![Discord](https://badgen.net/badge/icon/discord?icon=discord&label)](https://discord.gg/fk83HNECYJ)
 
-[⚠️ Alpha test](#⚠️-alpha-test) •
-[🎲 Features](#🎲-features) •
-[🚀 Get started](#🚀-getting-started) •
-[🔧 Configure](#🔧-configure) •
-[✍ Contribute](#✍-contribute)
+Contentlayer is a content SDK that validates and transforms your content into type-safe JSON data you can easily `import` into your application's pages.
 
-Contentlayer Source Notion is a [Contentlayer](https://www.contentlayer.dev/) plugin to use [Notion.so](https://notion.so) as a content source.
+[![Video Thumbnail](https://i.imgur.com/y3p4hDN.png)](https://www.youtube.com/watch?v=58Pj4a4Us7A)
 
-## ⚠️ Alpha test
+**⚠️ Contentlayer is currently in beta. There might still be breaking changes before the upcoming 1.0 release.**
 
-**This plugin is actually under heavy-development, use it at your own risks or for testing purposes only.**
+## Getting Started
 
-You can contribute to this project by listing bugs and giving ideas on the [issues of this repository](https://github.com/kerwanp/contentlayer-source-notion/issues).
+The video above is a brief look at Contentlayer. Explore further with our [example projects](https://www.contentlayer.dev/examples), which you can clone to try out locally or in via Gitpod or Stackblitz in your browser.
 
-> Do not report bugs related to `contentlayer-source-notion` in the official repository.
+[![StackBlitz](https://img.shields.io/badge/StackBlitz-Edit-blue?style=flat-square&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAABECAYAAAD+1gcLAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH5AINBw4X0bTGRQAABSxJREFUaN7VmVtsFFUYx//fmQW79bbd2QKpaIIaDcGoifFBEgMGqTTRRA01SgxE5Rbi7QG6S3lgo9J2twpeotxEQlCigLdoQwJ4ARN9QB9MRCNRDBdRzE7LJbTSmTl/H4BYStmd2Z3tDOdt5lzml/9833fO9x0gYi2xgom6Tt5aapyKEnRDlrVGPzfGT+G3SwZ87HLGT8f5uYD7jmSl99IAX80RfTY3A5wMqDVepoQPnqVKHtMbAN4PyJeFtPwafXBSknG9UoDHAIDQq7xODRU8mdc5Aeaeffy7O2F8GnnwZM5dKsCic88CrMU8sSMNbubdZwTIDnjlOoZa52eNYQc3c84sEK+d/1a6ji2UA5EFN3POw4C8fcYy/m+a3p1y2MGTOXsqIJsAxAZ1Hei53tgeSfBkBycK1McALrswJGIVHhE3cuD1ed4uorsAXD5Ed7/hqvXlrFtV8LpO3qKpdwJIDLn/AB/+s0SORgp8VJ43KK23AzAvNsagWlXu+lKV6LGc14itvyEwrsiwX6wWNQEijITiY9pYD1vvKAENAG+VC40hQlNlNt3Bq22lt4EYX2Jor6PVe5V8KzDFG7KsFXE/A3GHB/vcdHyx9IQPnuXI/ji3CuRuT+N1+U4ZHPhmGqk43yXY5C0ccE9hsfwQLjgp5n69hmCz9ylYGcRPrgg8ldfLIXjSx5RjNX3GB6GCm3m3ncDz/v4QNnjJ4KsGbubdVhAZ35YFtTaoKOY7jps5dwGIZf73aH7dnZa9QYH72vLNDmcmRNaX86eEnGvT2BoIdA0o3pV2HgRkS9C7bXnRDGlPypmd9r2AvB8FaAFetDJGvqTiyU7eJWeOp1cgfOo3rRbj6ZJRJdHB20TrrkhAAxutXvVsSedMtfEmGno3gNHhM8snVp80IytO0The18HraOgdkYCm7KyLy6MDoYdUfNQyjnZjeheAm8NXmt/FlDH16CI5dUHaN/DhypeZUqK/AkomAsMQ8fCjq41GKy0nim75ydd51UjX3QZgQgQccV/MUfcVSzYM4Mw1hnPa7QJkYgSgD2qqe6xWOVL8kLWaI3ptbgFkUgSgjwpUY09GDpY8ZJnH9UsExhPYH8CuVgtgTJlzC5pqipXxdpUSaF3FzLkdANJleOIJETWlkJbvh78glOVIM64PARjlc2afiGoqtMiuUMoTqRp3ehnQtpDNfqEDBdeC+T6nuELOLGRiXVVPJC5u2xwP6L0+1qOQ8wqZWNmpXECK6wV+RBCipRLoQBRvyLL2dFwfBlDnTWos7W4xXgi3IATg31p3hldoEG8EAR0IuEC8OuUGK62eCyoYVARutvNOL9VZQD6yxqmnKqmHB6u46PkejHp7XVxmlHOzVhXnTKxgwujXhzH0bdo56m9jymgcKhEITXFl61lFoYV7BMa0akCjkjqJEHOKdP/U7xhNJ1vlZLXOv2Upnmq3JxfJlH4XRzWebBWrmgf38hRXav5F4vSfjqGmHl8if1W/NuSzjWljvW3oQxh0Ly9AQRtqUvdC+Xk4UiXfpmLH9JzB0CBOQKtpwwXtHzxLJcTsQW97FdQDQVxIVc3GUzVuEyEDb4z7NTndysju4c6qfSlOOc8pXQof78nEtoVRDvDsnMlXeK04+o+ztRgSnNOdjq1DSM2z4uLoeecKSCQWhgntXfEsY2ZcHwDQAMESq8VoC7ty5EnxZK37EIAGAV6NArT3c3def2Hm3HdASlSYSipe384bAR6x+tTsIBOBqoMTzlirVz2BrOgoWcF/mizikfkwKiQAAAAASUVORK5CYII=)](https://stackblitz.com/edit/github-38v7yj-m5ynvg?devtoolsheight=33&embed=1&file=posts/post-01.md)
 
-## 🎲 Features
+[![Contentlayer Playground](https://i.imgur.com/ux4iolO.png)](https://stackblitz.com/edit/github-38v7yj-m5ynvg?devtoolsheight=33&embed=1&file=posts/post-01.md)
 
-- [x] Generate your content from Notion Databases
-- [x] Automatically infer the type of your properties
-- [x] Render HTML from your Rich Text properties and pages content ([@notion-render/client](https://github.com/kerwanp/notion-render))
-- [x] Filter and sorts pages queried from your databases
-- [ ] Use Rollup and Relation properties with ease
-- [ ] Recompute values to create new fields (computed fields)
-- [ ] Iteration and cache system to work safely with ton of pages
+### Tutorial & Documentation
 
-## 🚀 Getting started
+Follow [the tutorial](https://www.contentlayer.dev/docs/getting-started) to get started building your own project. Or explore [the full documentation](https://www.contentlayer.dev/docs).
 
-### 1. Install Contentlayer, Notion source plugin and dependencies
+## Features
 
-```bash
-$ npm install contentlayer contentlayer-source-notion @notionhq/client
-$ yarn add contentlayer contentlayer-source-notion @notionhq/client
-```
+- Live reload on content changes
+- Fast and incremental builds
+- Simple but powerful schema DSL to design your content model (validates your content and generates types)
+- Auto-generated TypeScript types based on your content model (e.g. frontmatter or CMS schema)
 
-### 2. Create a database
+### Supported Content Sources
 
-Save your database ID, it should be available in the url: **/myworkspace/<ins>fe26b972ec3f4b32a1882230915fe111</ins>?v=b56e97ee99a74f3f8c3ee80543fe22c6**
+- Local content (Markdown, MDX, JSON, YAML)
+- Contentful ([experimental](https://github.com/contentlayerdev/contentlayer/issues/173))
+- Sanity ([considering](https://github.com/contentlayerdev/contentlayer/issues/172))
+- Notion ([considering](https://github.com/contentlayerdev/contentlayer/issues/174))
 
-![My integrations](docs/table.png)
+### Supported Environments
 
-### 3. Get a Notion Token
+- Next.js
+- Remix ([considering](https://github.com/contentlayerdev/contentlayer/issues/169))
+- SvelteKit ([considering](https://github.com/contentlayerdev/contentlayer/issues/170))
+- Astro ([considering](https://github.com/contentlayerdev/contentlayer/issues/171))
 
-To interact with [Notion](https://notion.so) you need to create an integration and give it the correct permissions.
-Create a new integration by heading to the [following link](https://www.notion.so/my-integrations).
+### Roadmap
 
-You should then have your Notion Token, also called **Internal Integration Token**.
+See [our docs](https://www.contentlayer.dev/docs/other/roadmap) for more information on our roadmap.
 
-![My integrations](docs/integration_granular_permissions.gif)
+## Community
 
-### 4. Add the integration to your databases
+Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest new features, and stay up to date on all things Contentlayer.
 
-By default, your integration does not have any permissions.
-On each databases you want to query, click on the `•••` in the top right corner.
+### Who is using Contentlayer?
 
-Click on **Add connection** and select your Integration. Your token should now have access to your database.
+- [ped.ro](https://ped.ro)
+- [GraphCMS Docs](https://graphcms.com/docs)
+- [axeldelafosse.com](https://axeldelafosse.com) ([Source](https://github.com/axeldelafosse/axeldelafosse))
+- [arthurvdiniz.me](https://arthurvdiniz.me) ([Source](https://github.com/arthurvdiniz/me))
+- [imadatyatalah.vercel.app](https://imadatyatalah.vercel.app) ([Source](https://github.com/imadatyatalah/imadatyatalah.me))
+- [jahir.dev](https://jahir.dev/) ([Source](https://github.com/jahirfiquitiva/jahir.dev))
+- [samuelkraft.com](https://samuelkraft.com) ([Source](https://github.com/samuelkraft/samuelkraft-next))
+- [nirmalyaghosh.com](https://nirmalyaghosh.com) ([Source](https://github.com/ghoshnirmalya/nirmalyaghosh.com))
+- [miryang.dev](https://miryang.dev) ([Source](https://github.com/MiryangJung/miryang.dev))
+- [osiux.ws](https://www.osiux.ws) ([Source](https://github.com/osiux/osiux.ws))
+- [akhilaariyachandra.com](https://akhilaariyachandra.com/) ([Source](https://github.com/akhila-ariyachandra/akhilaariyachandra.com))
+- [dawchihliou.github.io](https://dawchihliou.github.io) ([Source](https://github.com/DawChihLiou/dawchihliou.github.io))
+- [sergiobarria.com](https://sergiobarria.com/) ([Source](https://github.com/sergiobarria/sergiobarria.com))
+- [adeecc.vercel.app](https://adeecc.vercel.app/) ([Source](https://github.com/adeecc/blogfolio))
+- [alpesdream.vercel.app](https://alpesdream.vercel.app/) ([Source](https://github.com/patrick-xin/alpesdream))
+- [bayukurnia.com](https://bayukurnia.com) ([Source](https://github.com/bwyx/bayukurnia.com))
+- [makersleague.de](https://makersleague.de) ([Source](https://github.com/timoclsn/makersleague.de))
+- [euisblue.me](https://www.euisblue.me/) ([Source](https://github.com/euisblue/bluelog))
+- [thismodernweb.com](https://thismodernweb.com) ([Source](https://github.com/pmarsceill/this-modern-web))
+- [scriptbar-snippets.tryapp.us](https://scriptbar-snippets.tryapp.us) ([Source](https://github.com/datduyng/scriptbar-snippets))
+- [nikosantis.dev](https://nikosantis.dev) ([Source](https://github.com/nikosantis/nikosantis.dev))
+- [phong.vn](https://phong.vn) ([Source](https://github.com/0xPhong/phong.vn))
+- [dvl.sh](https://dvl.sh)
+- [nicholaswarren.com](https://nicholaswarren.com)
+- [blog.sandromaglione.com](https://blog.sandromaglione.com/)
+- [achintyajha.com](https://achintyajha.com) ([Source](https://github.com/achintyajha/www))
+- [datahub.io](https://datahub.io/blog)
+- [Making Sense of Crypto and Web3](https://web3.lifeitself.us/)
+- [cretu.dev](https://cretu.dev) ([Source](https://github.com/cristicretu/cretu.dev))
+- [jarocki.me](https://jarocki.me) ([Source](https://github.com/BartoszJarocki/web-jarocki-me))
+- [iyansr.id](https://iyansr.id) ([Source](https://github.com/iyansr/iyansr.id-reborn))
+- [thisyujeong.dev](https://thisyujeong.dev) ([Source](https://github.com/thisyujeong/thisyujeong-dev))
+- [gipsterya.com](https://gipsterya.com)
+- [seankerwin.dev](https://seankerwin.dev) ([Source](https://github.com/lordkerwin/v2))
+- [royanger.dev](https://royanger.dev) ([Source](https://github.com/royanger/royanger.com))
+- [akashrajpurohit.com](https://akashrajpurohit.com/)
+- [kyoung-jnn.com](https://kyoung-jnn.com) ([Source](https://github.com/kyoung-jnn/kyoung-jin-blog))
+- [MrcatDev](https://blog-nextjs-olive.vercel.app/) ([Source](https://github.com/atxiii/blog-nextjs))
+- [screfy.com](https://screfy.com) ([Source](https://github.com/screfy/screfy.com))
+- [igorkowalczyk.dev](https://igorkowalczyk.dev) ([Source](https://github.com/igorkowalczyk/igorkowalczyk.github.io))
+- [christianpenrod.com](https://christianpenrod.com) ([Source](https://github.com/penrodlol/christianpenrod))
+- [xahidex.com](https://xahidex.com)
+- [hellonext.co](https://hellonext.co)
+- [heykapil.in](https://heykapil.in) ([Source](https://github.com/heykapil/new-blog/))
+- [adrianmato.art](https://adrianmato.art)
+- [livropog.com.br](https://livropog.com.br) ([Source](https://github.com/josenaldo/livro-pog)]
+- [rofireza.com](https://rofireza.com/) ([Source](https://github.com/arrofirezasatria/rofireza.com))
+- [jakubh.com](https://jakubh.com/) ([Source](https://github.com/ivenuss/jakubh.com))
+- [fiqry.dev](https://fiqry.dev/) ([Source](https://github.com/fiqryq/fiqry.dev))
+- [soapbox.pub](https://soapbox.pub/) ([Source](https://gitlab.com/soapbox-pub/soapbox.pub))
+- [hafidzamr.dev](https://hafidzamr.dev/) ([Source](https://github.com/hafidzamr/hafidzamr.dev))
+- [anudeepreddy.dev](https://anudeepreddy.dev/)
+- [nikhilmohite.com](https://nikhilmohite.com/)
+- [shenlu.me](https://shenlu.me) ([Source](https://github.com/shenlu89/shenlu89.github.io))
 
-### 5. Configure Contentlayer
-
-```typescript
-import { makeSource, defineDatabase } from 'contentlayer-source-notion'
-import * as notion from '@notionhq/client'
-
-const client = new notion.Client({
-  auth: '<notion_token>',
-})
-
-const Category = defineDatabase(() => ({
-  name: 'Category',
-  databaseId: '<database_id>',
-  importContent: false,
-}))
-
-const Post = defineDatabase(() => ({
-  name: 'Post',
-  databaseId: '<database_id>',
-  importContent: false,
-  fields: {
-    category: {
-      type: 'relation',
-      single: true,
-      of: Category,
-    },
-  },
-}))
-
-export default makeSource({
-  client,
-  databaseTypes: [Category, Post],
-})
-```
-
-> Read more on how to configure `contentlayer-source-notion` [here](#-configure)
-
-## 🔧 Configure
-
-### Source plugin options
-
-```typescript
-import { makeSource } from 'contentlayer-source-notion'
-
-export default makeSource({
-  client,
-  renderer,
-  databaseTypes: [],
-})
-```
-
-The `PluginOptions` supports the following parameters. Thoses options are defined when using `makeSource`.
-
-| Option          | Default value | Type                                             | Description                                            |
-| --------------- | ------------- | ------------------------------------------------ | ------------------------------------------------------ |
-| `client`        |               | `Client`                                         | The Notion Client used to query the Notion API.        |
-| `renderer`      | `undefined`   | `NotionRenderer`                                 | The renderer used to transform Notion Blocks into HTML |
-| `databaseTypes` |               | `DatabaseType[] \| Record<string, DatabaseType>` | The databases definitions.                             |
-
-### Database definition options
-
-```typescript
-import { defineDatabase } from 'contentlayer-source-notion'
-
-const Post = defineDatabase(() => ({
-  name: 'Post',
-  databaseId: '<database_id>',
-  importContent: false,
-  automaticImport: true,
-  fields: {
-    email: {
-      name: 'Email',
-      description: 'The author email',
-      isRequired: true,
-    },
-  },
-}))
-```
-
-The `DatabaseTypeDef` supports the following parameters. Thoses options are defined when using `defineDatabase`.
-
-| Option            | Default value | Type                                                             | Description                                                                                                                                                                                       |
-| ----------------- | ------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`            |               | `string`                                                         | The name of this content used to generate types and constants names.                                                                                                                              |
-| `description`     | `undefined`   | `string`                                                         | The description of this content used to generate comments                                                                                                                                         |
-| `databaseId`      |               | `string`                                                         | The database ID where your pages will be queried from                                                                                                                                             |
-| `automaticImport` | `undefined`   | `bool`                                                           | By default, all your properties will be generated. By disabling automatic import you can whitelist the properties you want to use. Useful when you have sensitive content in your page properties |
-| `importContent`   | `undefined`   | `bool`                                                           | By default, your page content will be generated. Disable it if you only want to use the properties.                                                                                               |
-| `query`           | `undefined`   | `QueryDatabaseParameters`                                        | Filter and sorts the page queried from the Notion API. More information on the [@notionhq/client repository](https://github.com/makenotion/notion-sdk-js)                                         |
-| `fields`          | `undefined`   | `Record<string, DatabaseFieldTypeDef> \| DatabaseFieldTypeDef[]` | The fields definitions. When using `Record<string, DatabaseFieldTypeDef>` the key will be used as the `key` option.                                                                               |
-
-#### Field definition options
-
-The `DatabaseFieldTypeDef` supports the following parameters. Thoses options are defined when using `defineDatabase`.
-
-| Option        | Default value | Type     | Description                                                               |
-| ------------- | ------------- | -------- | ------------------------------------------------------------------------- |
-| `id\|name`    |               | `string` | The id or name of the property you want to configure.                     |
-| `key`         | `undefined`   | `string` | Map this property to a specific key. Defaults to the property name.       |
-| `description` | `undefined`   | `string` | Field description used to generate comments.                              |
-| `isRequired`  | `false`       | `bool`   | When required, pages without this property defined will not be generated. |
-
-### Configure the Notion Client
-
-This plugin depends on the official Notion JS SDK, you can find more information on how to configure it on the [following repository](https://github.com/makenotion/notion-sdk-js).
-
-```typescript
-import { makeSource, defineDatabase } from 'contentlayer-source-notion'
-import * as notion from '@notionhq/client'
-
-const client = new notion.Client({
-  auth: '<notion_token>',
-})
-
-export default makeSource({
-  client,
-  renderer,
-  databaseTypes: [],
-})
-```
-
-### Configure the Notion Renderer
-
-Rich text properties and your pages content must be renderer, you can find more information on how to configure it on the [following repository](https://github.com/kerwanp/notion-render).
-
-```typescript
-import { makeSource, defineDatabase } from 'contentlayer-source-notion'
-import { NotionRenderer } from '@notion-render/client'
-import * as notion from '@notionhq/client'
-
-const client = new notion.Client({
-  auth: '<notion_token>',
-})
-
-const renderer = new NotionRenderer({ client })
-
-export default makeSource({
-  client,
-  renderer,
-  databaseTypes: [],
-})
-```
-
-## ✍ Contribute
+Are you using Contentlayer? Please add your page (and repo) to the end of the list via a PR. 🙏
