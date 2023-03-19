@@ -1,12 +1,11 @@
+import { T } from '@contentlayer/utils/effect'
+
 import type { FieldFunctions } from '.'
 
 export const fieldUrl: FieldFunctions<'url'> = {
-  getFieldDef: () => {
-    return {
+  getFieldDef: () =>
+    T.succeed({
       type: 'string',
-    }
-  },
-  getFieldData: ({ property }) => {
-    return property.url
-  },
+    }),
+  getFieldData: ({ property }) => T.succeed(property.url),
 }

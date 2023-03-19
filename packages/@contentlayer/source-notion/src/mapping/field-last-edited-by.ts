@@ -1,10 +1,11 @@
+import { T } from '@contentlayer/utils/effect'
 import type { UserObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 
 import type { FieldFunctions } from '.'
 
 export const fieldLastEditedBy: FieldFunctions<'last_edited_by'> = {
-  getFieldDef: () => {
-    return {
+  getFieldDef: () =>
+    T.succeed({
       type: 'nested_unnamed',
       typeDef: {
         _tag: 'NestedUnnamedTypeDef',
@@ -54,11 +55,10 @@ export const fieldLastEditedBy: FieldFunctions<'last_edited_by'> = {
           },
         ],
       },
-    }
-  },
+    }),
   getFieldData: ({ property }) => {
     const user = property.last_edited_by as UserObjectResponse
-    return {
+    return T.succeed({
       type: user.type,
       name: user.name,
       avatarUrl: user.avatar_url,
@@ -72,6 +72,6 @@ export const fieldLastEditedBy: FieldFunctions<'last_edited_by'> = {
             workspace: user.bot.workspace_name,
           }
         : {}),
-    }
+    })
   },
 }

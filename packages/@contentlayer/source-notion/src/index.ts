@@ -3,7 +3,8 @@ import { processArgs } from '@contentlayer/core'
 import { pipe, S, T } from '@contentlayer/utils/effect'
 import { NotionRenderer } from '@notion-render/client'
 
-import { fetchAllDocuments } from './fetchData/index.js'
+import { fetchAllDocuments } from './fetchData/fetchAllDocuments.js'
+import { NotionClient, NotionRenderer as NotionRendererTag } from './services.js'
 import { provideSchema } from './schema/provideSchema.js'
 import type { PluginOptions } from './types.js'
 
@@ -36,11 +37,22 @@ export const makeSource: core.MakeSourcePlugin<PluginOptions & core.PartialArgs>
     type: 'notion',
     extensions,
     options,
-    provideSchema: () => provideSchema({ client, databaseTypeDefs, options }),
+    provideSchema: () =>
+      pipe(
+        provideSchema({ databaseTypeDefs }),
+        T.provideService(NotionClient)(client),
+        T.provideService(NotionRendererTag)(renderer),
+      ),
     fetchData: ({ schemaDef }) =>
       pipe(
-        S.fromEffect(pipe(fetchAllDocuments({ client, renderer, databaseTypeDefs, schemaDef, options }), T.either)),
-        // S.repeatSchedule(SC.spaced(5_000))
+        S.fromEffect(
+          pipe(
+            fetchAllDocuments({ databaseTypeDefs, schemaDef, options }),
+            T.either,
+            T.provideService(NotionClient)(client),
+            T.provideService(NotionRendererTag)(renderer),
+          ),
+        ),
       ),
   }
 }

@@ -1,12 +1,16 @@
+import { pipe, T } from '@contentlayer/utils/effect'
+
+import { NotionRenderer } from '../services.js'
 import type { FieldFunctions } from '.'
 
 export const fieldTitle: FieldFunctions<'title'> = {
-  getFieldDef: () => {
-    return {
+  getFieldDef: () =>
+    T.succeed({
       type: 'string',
-    }
-  },
-  getFieldData: ({ property, renderer }) => {
-    return renderer.render(...property.title)
-  },
+    }),
+  getFieldData: ({ property }) =>
+    pipe(
+      T.service(NotionRenderer),
+      T.chain((renderer) => T.tryPromise(() => renderer.render(...property.title))),
+    ),
 }

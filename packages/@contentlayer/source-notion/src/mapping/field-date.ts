@@ -1,8 +1,10 @@
+import { T } from '@contentlayer/utils/effect'
+
 import type { FieldFunctions } from '.'
 
 export const fieldDate: FieldFunctions<'date'> = {
-  getFieldDef: () => {
-    return {
+  getFieldDef: () =>
+    T.succeed({
       type: 'nested_unnamed',
       typeDef: {
         _tag: 'NestedUnnamedTypeDef',
@@ -34,14 +36,13 @@ export const fieldDate: FieldFunctions<'date'> = {
         ],
         extensions: {},
       },
-    }
-  },
+    }),
   getFieldData: ({ property }) => {
-    if (!property.date) return undefined
-    return {
+    if (!property.date) return T.succeed(undefined)
+    return T.succeed({
       start: new Date(property.date.start),
       end: property.date.end ? new Date(property.date.end) : undefined,
       timezone: property.date.time_zone ?? undefined,
-    }
+    })
   },
 }

@@ -1,7 +1,7 @@
 import { OT, pipe, T } from '@contentlayer/utils/effect'
 import * as notion from '@notionhq/client'
 
-import { UnknownNotionError } from './errors.js'
+import { UnknownNotionError } from './notion/errors.js'
 
 export const getEnvironment = ({
   internalIntegrationToken,

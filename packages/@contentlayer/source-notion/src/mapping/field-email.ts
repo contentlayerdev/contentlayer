@@ -1,12 +1,11 @@
+import { T } from '@contentlayer/utils/effect'
+
 import type { FieldFunctions } from '.'
 
 export const fieldEmail: FieldFunctions<'email'> = {
-  getFieldDef: () => {
-    return {
+  getFieldDef: () =>
+    T.succeed({
       type: 'string',
-    }
-  },
-  getFieldData: ({ property }) => {
-    return property.email
-  },
+    }),
+  getFieldData: ({ property }) => T.succeed(property.email),
 }

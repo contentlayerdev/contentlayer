@@ -1,3 +1,5 @@
+import { T } from '@contentlayer/utils/effect'
+
 import type { FieldFunctions } from '.'
 
 export const fieldRollup: FieldFunctions<'rollup'> = {
@@ -28,7 +30,5 @@ export const fieldRollup: FieldFunctions<'rollup'> = {
 
     throw new Error(`Rollup property is not configured propertly`)
   },
-  getFieldData: () => {
-    return 'test' // TODO getFieldData
-  },
+  getFieldData: () => T.succeed('Test'),
 }

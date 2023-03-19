@@ -1,45 +1,24 @@
-import type { DocumentTypeDefMap } from '@contentlayer/core'
 import * as core from '@contentlayer/core'
 import * as utils from '@contentlayer/utils'
 import { OT, pipe, T } from '@contentlayer/utils/effect'
-import type * as notion from '@notionhq/client'
 
-import { provideDatabaseSchema } from './provideDatabaseSchema.js'
-import type * as LocalSchema from './types.js'
+import { provideDocumentTypeDefMap } from './provideDocumentTypeDefMap.js'
+import { provideNestedTypeDefMap } from './provideNestedTypeDefMap.js'
+import type { DatabaseTypeDef } from './types.js'
 
 export type ProvideSchemaArgs = {
-  client: notion.Client
-  databaseTypeDefs: LocalSchema.DatabaseTypeDef[]
-  options: core.PluginOptions
+  databaseTypeDefs: DatabaseTypeDef[]
 }
 
-export const provideSchema = ({
-  client,
-  databaseTypeDefs,
-  ...rest
-}: ProvideSchemaArgs): T.Effect<OT.HasTracer, core.SourceProvideSchemaError, core.SchemaDef> =>
+export const provideSchema = ({ databaseTypeDefs }: ProvideSchemaArgs) =>
   pipe(
     T.gen(function* ($) {
-      const documentTypeDefMap: DocumentTypeDefMap = {}
-
-      for (const databaseTypeDef of databaseTypeDefs) {
-        documentTypeDefMap[databaseTypeDef.name] = yield* $(
-          provideDatabaseSchema({ client, databaseTypeDef, databaseTypeDefs, documentTypeDefMap, ...rest }),
-        )
+      return {
+        documentTypeDefMap: yield* $(provideDocumentTypeDefMap({ databaseTypeDefs })),
+        nestedTypeDefMap: yield* $(provideNestedTypeDefMap()),
       }
-
-      return documentTypeDefMap
     }),
 
-    // Generates Schema definition without hash
-    T.map(
-      (documentTypeDefMap): Omit<core.SchemaDef, 'hash'> => ({
-        documentTypeDefMap,
-        nestedTypeDefMap: {},
-      }),
-    ),
-
-    // Generate hash using Schema definition and include it
     T.chain((schemaDef) =>
       pipe(
         utils.hashObject(schemaDef),
@@ -53,7 +32,6 @@ export const provideSchema = ({
       ),
     ),
 
-    OT.withSpan('@contentlayer/source-notion/schema:provideSchema'),
-
     T.mapError((error) => new core.SourceProvideSchemaError({ error })),
+    OT.withSpan('@contentlayer/source-notion/schema:provideSchema'),
   )
