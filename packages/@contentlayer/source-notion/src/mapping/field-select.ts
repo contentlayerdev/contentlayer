@@ -3,10 +3,10 @@ import { T } from '@contentlayer/utils/effect'
 import type { FieldFunctions } from '.'
 
 export const fieldSelect: FieldFunctions<'select'> = {
-  getFieldDef: ({ property }) =>
+  getFieldDef: ({ propertyData }) =>
     T.succeed({
       type: 'enum',
-      options: property.select.options.map((o) => o.name),
+      options: propertyData.options.map((o) => o.name),
     }),
-  getFieldData: ({ property }) => T.succeed(property.select?.name),
+  getFieldData: ({ propertyData }) => T.succeed(propertyData?.name),
 }

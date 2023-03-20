@@ -7,7 +7,7 @@ import { provideNestedTypeDefMap } from './provideNestedTypeDefMap.js'
 import type { DatabaseTypeDef } from './types.js'
 
 export type ProvideSchemaArgs = {
-  databaseTypeDefs: DatabaseTypeDef[]
+  databaseTypeDefs: DatabaseTypeDef<false>[]
 }
 
 export const provideSchema = ({ databaseTypeDefs }: ProvideSchemaArgs) =>

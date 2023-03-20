@@ -25,11 +25,11 @@ export const fieldRelation: FieldFunctions<'relation'> = {
       of: { type: 'string' },
     })
   },
-  getFieldData: ({ property, databaseFieldTypeDef }) => {
+  getFieldData: ({ propertyData, databaseFieldTypeDef }) => {
     if (isSingle(databaseFieldTypeDef)) {
-      return T.succeed(property.relation[0]?.id)
+      return T.succeed(propertyData[0]?.id)
     }
 
-    return T.succeed(property.relation.map((r) => r.id))
+    return T.succeed(propertyData.map((r) => r.id))
   },
 }

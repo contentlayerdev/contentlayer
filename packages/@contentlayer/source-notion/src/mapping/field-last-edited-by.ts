@@ -56,8 +56,8 @@ export const fieldLastEditedBy: FieldFunctions<'last_edited_by'> = {
         ],
       },
     }),
-  getFieldData: ({ property }) => {
-    const user = property.last_edited_by as UserObjectResponse
+  getFieldData: ({ propertyData }) => {
+    const user = propertyData as UserObjectResponse
     return T.succeed({
       type: user.type,
       name: user.name,

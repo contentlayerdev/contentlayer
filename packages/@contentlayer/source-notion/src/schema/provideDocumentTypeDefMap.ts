@@ -1,11 +1,12 @@
 import type * as core from '@contentlayer/core'
 import { OT, pipe, T } from '@contentlayer/utils/effect'
 
-import { provideDocumentTypeDef } from './provideDocumentTypeDef'
-import type { DatabaseTypeDef } from './types'
+import { provideDocumentTypeDef } from './provideDocumentTypeDef.js'
+import type { DatabaseTypeDef } from './types.js'
+import { flattendDatabaseTypeDef } from './utils/flattenDatabaseTypeDef.js'
 
 export type ProvideDocumentTypeDefMapArgs = {
-  databaseTypeDefs: DatabaseTypeDef[]
+  databaseTypeDefs: DatabaseTypeDef<false>[]
 }
 
 export const provideDocumentTypeDefMap = ({ databaseTypeDefs }: ProvideDocumentTypeDefMapArgs) =>
@@ -13,11 +14,26 @@ export const provideDocumentTypeDefMap = ({ databaseTypeDefs }: ProvideDocumentT
     T.gen(function* ($) {
       const documentTypeDefMap: core.DocumentTypeDefMap = {}
 
-      const getDocumentTypeDef = (databaseTypeDef: DatabaseTypeDef) => {
+      // .map((databaseTypeDef) => ({
+      //   ...databaseTypeDef,
+      //   fields: databaseTypeDef.fields
+      //     ? Array.isArray(databaseTypeDef.fields)
+      //       ? databaseTypeDef.fields
+      //       : Object.entries(databaseTypeDef.fields).map(([key, field]) => ({
+      //           key,
+      //           ...field,
+      //         }))
+      //     : [],
+      // }))
+
+      const getDocumentTypeDef = (databaseTypeDef: DatabaseTypeDef<false>) => {
         return databaseTypeDef.name in documentTypeDefMap
           ? T.succeed(documentTypeDefMap[databaseTypeDef.name])
           : pipe(
-              provideDocumentTypeDef({ databaseTypeDef }),
+              provideDocumentTypeDef({
+                databaseTypeDef: flattendDatabaseTypeDef(databaseTypeDef),
+                getDocumentTypeDef,
+              }),
               T.tap((documentTypeDef) => T.succeed((documentTypeDefMap[databaseTypeDef.name] = documentTypeDef))),
             )
       }

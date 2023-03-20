@@ -7,5 +7,5 @@ export const fieldNumber: FieldFunctions<'number'> = {
     T.succeed({
       type: 'number',
     }),
-  getFieldData: ({ property }) => T.succeed(property.number),
+  getFieldData: ({ propertyData }) => T.succeed(propertyData),
 }

@@ -22,7 +22,7 @@ export type DatabaseFieldTypeDefBase = {
 
 export type DatabaseRelationFieldTypeDef = DatabaseFieldTypeDefBase & {
   /**
-   * Type of the property to configure it.
+   * Type of the property.
    */
   type: 'relation'
 
@@ -31,7 +31,7 @@ export type DatabaseRelationFieldTypeDef = DatabaseFieldTypeDefBase & {
    *
    * TODO : Will be used for Rollup properties.
    */
-  relation?: DatabaseType
+  relation: DatabaseType
 
   /**
    * If true, the property will be of type `string` instead of type `string[]`
@@ -40,7 +40,14 @@ export type DatabaseRelationFieldTypeDef = DatabaseFieldTypeDefBase & {
   single?: boolean
 }
 
-export type DatabaseFieldTypeDef = DatabaseFieldTypeDefBase | DatabaseRelationFieldTypeDef
+export type DatabaseRollupFieldTypeDef = DatabaseFieldTypeDefBase & {
+  /**
+   * Type of the property.
+   */
+  type: 'rollup'
+}
+
+export type DatabaseFieldTypeDef = DatabaseFieldTypeDefBase | DatabaseRelationFieldTypeDef | DatabaseRollupFieldTypeDef
 
 export type DatabaseTypeDef<Flattened extends boolean = true, DefName extends string = string> = {
   /**

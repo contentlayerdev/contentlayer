@@ -8,6 +8,6 @@ export const fieldFiles: FieldFunctions<'files'> = {
       type: 'list',
       of: { type: 'string' },
     }),
-  getFieldData: ({ property }) =>
-    T.succeed(property.files.map((file) => ('file' in file ? file.file.url : file.external.url))),
+  getFieldData: ({ propertyData }) =>
+    T.succeed(propertyData.map((file) => ('file' in file ? file.file.url : file.external.url))),
 }

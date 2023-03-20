@@ -5,40 +5,41 @@ import type { NotionRenderer } from '@notion-render/client'
 import type * as notion from '@notionhq/client'
 
 import type { DatabaseFieldTypeDef, DatabaseTypeDef } from '../schema/types.js'
+import { getDatabasePropertyData, getPagePropertyData } from '../schema/utils/getPropertyData.js'
 import type {
-  DatabaseProperty,
+  DatabaseProperties,
+  DatabasePropertyData,
   DatabasePropertyTypes,
   DistributiveOmit,
   FieldDef,
-  PageProperty,
+  PageProperties,
+  PagePropertyData,
   PagePropertyTypes,
 } from '../types.js'
-import { fieldCheckbox } from './field-checkbox.js'
+import { fieldBool } from './field-bool.js'
 import { fieldCreatedBy } from './field-created-by.js'
-import { fieldCreatedTime } from './field-created-time.js'
 import { fieldDate } from './field-date.js'
-import { fieldEmail } from './field-email.js'
+import { fieldDateRange } from './field-date-range.js'
 import { fieldFiles } from './field-files.js'
 import { fieldFormula } from './field-formula.js'
 import { fieldLastEditedBy } from './field-last-edited-by.js'
-import { fieldLastEditedTime } from './field-last-edited-time.js'
 import { fieldNumber } from './field-number.js'
 import { fieldPeople } from './field-people.js'
-import { fieldPhoneNumber } from './field-phone-number.js'
 import { fieldRelation } from './field-relation.js'
 import { fieldRichText } from './field-rich-text.js'
+import { fieldRollup } from './field-rollup.js'
 import { fieldSelect } from './field-select.js'
 import { fieldStatus } from './field-status.js'
-import { fieldTitle } from './field-title.js'
-import { fieldUrl } from './field-url.js'
+import { fieldString } from './field-string.js'
 
 export type GetFieldDefArgs<T extends DatabasePropertyTypes> = {
-  property: DatabaseProperty<T>
+  propertyData: DatabasePropertyData<T>
   databaseFieldTypeDef: DatabaseFieldTypeDef | undefined
   databaseTypeDef: DatabaseTypeDef
+  getDocumentTypeDef: (databaseTypeDef: DatabaseTypeDef<false>) => T.Effect<unknown, never, core.DocumentTypeDef>
 }
 
-export type GetFieldDef<T extends DatabasePropertyTypes> = (
+export type GetFieldDef<T extends DatabasePropertyTypes = DatabasePropertyTypes> = (
   args: GetFieldDefArgs<T>,
 ) => T.Effect<
   Has<notion.Client> & Has<NotionRenderer>,
@@ -47,14 +48,14 @@ export type GetFieldDef<T extends DatabasePropertyTypes> = (
 >
 
 export type GetFieldDataArgs<T extends PagePropertyTypes> = {
-  property: PageProperty<T>
+  propertyData: PagePropertyData<T>
   databaseFieldTypeDef: DatabaseFieldTypeDef | undefined
   databaseTypeDef: DatabaseTypeDef
   fieldDef: FieldDef
   documentTypeDef: core.DocumentTypeDef
 }
 
-export type GetFieldData<T extends DatabasePropertyTypes> = (
+export type GetFieldData<T extends DatabasePropertyTypes = DatabasePropertyTypes> = (
   args: GetFieldDataArgs<T>,
 ) => T.Effect<Has<notion.Client> & Has<NotionRenderer>, unknown, any>
 
@@ -65,21 +66,21 @@ export type FieldFunctions<T extends DatabasePropertyTypes = DatabasePropertyTyp
 
 type FieldMappingType = {
   // TODO : Remove optional
-  [key in DatabasePropertyTypes]?: FieldFunctions<key>
+  [key in DatabasePropertyTypes]?: FieldFunctions
 }
 
 const FieldMapping: FieldMappingType = {
-  checkbox: fieldCheckbox,
-  email: fieldEmail,
-  phone_number: fieldPhoneNumber,
+  checkbox: fieldBool,
+  email: fieldString,
+  phone_number: fieldString,
   select: fieldSelect,
-  url: fieldUrl,
+  url: fieldString,
   number: fieldNumber,
-  title: fieldTitle,
-  created_time: fieldCreatedTime,
+  title: fieldRichText,
+  created_time: fieldDate,
   status: fieldStatus,
-  date: fieldDate,
-  last_edited_time: fieldLastEditedTime,
+  date: fieldDateRange,
+  last_edited_time: fieldDate,
   rich_text: fieldRichText,
   files: fieldFiles,
   people: fieldPeople,
@@ -87,6 +88,7 @@ const FieldMapping: FieldMappingType = {
   created_by: fieldCreatedBy,
   formula: fieldFormula,
   relation: fieldRelation,
+  rollup: fieldRollup,
 }
 
 export const getFieldFunctions = <T extends DatabasePropertyTypes = DatabasePropertyTypes>(
@@ -101,5 +103,31 @@ export const getFieldFunctions = <T extends DatabasePropertyTypes = DatabaseProp
         () => func!,
         () => 'fail' as const, // TODO : Error
       ),
+    ),
+  )
+
+export const getFieldDef = <T extends DatabasePropertyTypes>(
+  args: { property: DatabaseProperties } & Omit<GetFieldDefArgs<T>, 'propertyData'>,
+) =>
+  pipe(
+    getFieldFunctions(args.property.type),
+    T.chain((functions) =>
+      functions.getFieldDef({
+        propertyData: getDatabasePropertyData(args.property),
+        ...args,
+      }),
+    ),
+  )
+
+export const getFieldData = <T extends PagePropertyTypes>(
+  args: { property: PageProperties } & Omit<GetFieldDataArgs<T>, 'propertyData'>,
+) =>
+  pipe(
+    getFieldFunctions(args.property.type),
+    T.chain((functions) =>
+      functions.getFieldData({
+        propertyData: getPagePropertyData(args.property),
+        ...args,
+      }),
     ),
   )

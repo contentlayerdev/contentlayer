@@ -59,9 +59,9 @@ export const fieldPeople: FieldFunctions<'people'> = {
         },
       },
     }),
-  getFieldData: ({ property }) =>
+  getFieldData: ({ propertyData }) =>
     T.succeed(
-      (property.people as UserObjectResponse[]).map((user) => ({
+      (propertyData as UserObjectResponse[]).map((user) => ({
         type: user.type,
         name: user.name,
         avatarUrl: user.avatar_url,

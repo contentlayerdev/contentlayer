@@ -4,8 +4,9 @@ import { pipe, S, T } from '@contentlayer/utils/effect'
 import { NotionRenderer } from '@notion-render/client'
 
 import { fetchAllDocuments } from './fetchData/fetchAllDocuments.js'
-import { NotionClient, NotionRenderer as NotionRendererTag } from './services.js'
 import { provideSchema } from './schema/provideSchema.js'
+import { flattendDatabaseTypeDef } from './schema/utils/flattenDatabaseTypeDef.js'
+import { NotionClient, NotionRenderer as NotionRendererTag } from './services.js'
 import type { PluginOptions } from './types.js'
 
 export * from './schema/types.js'
@@ -17,19 +18,9 @@ export const makeSource: core.MakeSourcePlugin<PluginOptions & core.PartialArgs>
     restArgs: { client, databaseTypes, ...rest },
   } = await processArgs(args)
 
-  const databaseTypeDefs = (Array.isArray(databaseTypes) ? databaseTypes : Object.values(databaseTypes))
-    .map((_) => _.def())
-    .map((databaseTypeDef) => ({
-      ...databaseTypeDef,
-      fields: databaseTypeDef.fields
-        ? Array.isArray(databaseTypeDef.fields)
-          ? databaseTypeDef.fields
-          : Object.entries(databaseTypeDef.fields).map(([key, field]) => ({
-              key,
-              ...field,
-            }))
-        : [],
-    }))
+  const databaseTypeDefs = (Array.isArray(databaseTypes) ? databaseTypes : Object.values(databaseTypes)).map((_) =>
+    _.def(),
+  )
 
   const renderer = rest.renderer ?? new NotionRenderer({ client })
 
@@ -47,7 +38,11 @@ export const makeSource: core.MakeSourcePlugin<PluginOptions & core.PartialArgs>
       pipe(
         S.fromEffect(
           pipe(
-            fetchAllDocuments({ databaseTypeDefs, schemaDef, options }),
+            fetchAllDocuments({
+              databaseTypeDefs: databaseTypeDefs.map((databaseTypeDef) => flattendDatabaseTypeDef(databaseTypeDef)),
+              schemaDef,
+              options,
+            }),
             T.either,
             T.provideService(NotionClient)(client),
             T.provideService(NotionRendererTag)(renderer),

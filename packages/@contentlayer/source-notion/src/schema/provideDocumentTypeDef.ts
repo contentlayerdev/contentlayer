@@ -2,15 +2,16 @@ import type * as core from '@contentlayer/core'
 import { OT, pipe, T } from '@contentlayer/utils/effect'
 
 import { NotionClient } from '../services.js'
-import type { FieldDef } from '../types'
+import type { FieldDef } from '../types.js'
 import { provideFieldDef } from './provideFieldDef.js'
 import type { DatabaseTypeDef } from './types.js'
 
 export type ProvideDocumentTypeDefArgs = {
   databaseTypeDef: DatabaseTypeDef
+  getDocumentTypeDef: (databaseTypeDef: DatabaseTypeDef<false>) => T.Effect<unknown, never, core.DocumentTypeDef>
 }
 
-export const provideDocumentTypeDef = ({ databaseTypeDef }: ProvideDocumentTypeDefArgs) =>
+export const provideDocumentTypeDef = ({ databaseTypeDef, getDocumentTypeDef }: ProvideDocumentTypeDefArgs) =>
   pipe(
     T.service(NotionClient),
     T.chain((client) =>
@@ -18,7 +19,7 @@ export const provideDocumentTypeDef = ({ databaseTypeDef }: ProvideDocumentTypeD
         T.tryPromise(() => client.databases.retrieve({ database_id: databaseTypeDef.databaseId })),
         T.map(({ properties }) => Object.values(properties)),
         T.chain((properties) =>
-          T.forEachPar_(properties, (property) => provideFieldDef({ databaseTypeDef, property })),
+          T.forEachPar_(properties, (property) => provideFieldDef({ databaseTypeDef, property, getDocumentTypeDef })),
         ),
       ),
     ),

@@ -7,9 +7,9 @@ export const fieldFormula: FieldFunctions<'formula'> = {
     T.succeed({
       type: 'string',
     }),
-  getFieldData: ({ property }) => {
-    const type = property.formula.type
-    if (type in property.formula) return T.succeed((property.formula as any)[type])
+  getFieldData: ({ propertyData }) => {
+    const type = propertyData.type
+    if (type in propertyData) return T.succeed((propertyData as any)[type])
     return T.succeed(undefined)
   },
 }

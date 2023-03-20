@@ -56,8 +56,8 @@ export const fieldCreatedBy: FieldFunctions<'created_by'> = {
         ],
       },
     }),
-  getFieldData: ({ property }) => {
-    const user = property.created_by as UserObjectResponse
+  getFieldData: ({ propertyData }) => {
+    const user = propertyData as UserObjectResponse
 
     return T.succeed({
       type: user.type,
