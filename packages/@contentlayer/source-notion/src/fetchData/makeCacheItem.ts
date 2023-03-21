@@ -5,13 +5,13 @@ import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoint
 
 import { getFieldData } from '../mapping/index.js'
 import { fetchPageContent } from '../notion/fetchPageContent.js'
-import type { DatabaseFieldTypeDef, DatabaseTypeDef } from '../schema/types.js'
+import type { DatabasePropertyTypeDef, DatabaseTypeDef } from '../schema/types.js'
 import type { FieldDef, PageProperties } from '../types.js'
 
 export type ProvideDataForFieldDef = {
   property: PageProperties
   databaseTypeDef: DatabaseTypeDef
-  databaseFieldTypeDef: DatabaseFieldTypeDef | undefined
+  databaseFieldTypeDef: DatabasePropertyTypeDef | undefined
   fieldDef: FieldDef
   documentTypeDef: core.DocumentTypeDef
 }
@@ -28,7 +28,7 @@ export const makeCacheItem = ({ databaseTypeDef, documentTypeDef, page, options 
     T.forEachParDict_(documentTypeDef.fieldDefs as FieldDef[], {
       mapKey: (fieldDef) => T.succeed(fieldDef.name),
       mapValue: (fieldDef) => {
-        const databaseFieldTypeDef = databaseTypeDef.fields?.find((field) => field.key === fieldDef.propertyKey)
+        const databaseFieldTypeDef = databaseTypeDef.properties?.find((field) => field.key === fieldDef.propertyKey)
 
         return getFieldData({
           fieldDef,

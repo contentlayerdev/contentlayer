@@ -6,7 +6,7 @@ import type { DatabaseObjectResponse, PageObjectResponse } from '@notionhq/clien
 import type { DatabaseTypes } from './schema/types.js'
 
 export type PluginOptions = {
-  client: notion.Client
+  client?: notion.Client
   renderer?: NotionRenderer
   databaseTypes: DatabaseTypes
 }

@@ -6,10 +6,8 @@ import type { FieldFunctions } from '.'
 import { getFieldData } from './index.js'
 
 export const fieldRollup: FieldFunctions<'rollup'> = {
-  getFieldDef: ({ propertyData, databaseFieldTypeDef, databaseTypeDef, getDocumentTypeDef }) =>
+  getFieldDef: ({ propertyData, databaseTypeDef, getDocumentTypeDef }) =>
     T.gen(function* ($) {
-      if (!databaseFieldTypeDef) throw new Error('Field not configured properly')
-
       const relationFieldDef = findDatabaseFieldDef({
         databaseTypeDef,
         property: { id: propertyData.relation_property_id, name: propertyData.relation_property_name },

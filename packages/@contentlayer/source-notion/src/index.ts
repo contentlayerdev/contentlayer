@@ -2,6 +2,7 @@ import type * as core from '@contentlayer/core'
 import { processArgs } from '@contentlayer/core'
 import { pipe, S, T } from '@contentlayer/utils/effect'
 import { NotionRenderer } from '@notion-render/client'
+import * as notion from '@notionhq/client'
 
 import { fetchAllDocuments } from './fetchData/fetchAllDocuments.js'
 import { provideSchema } from './schema/provideSchema.js'
@@ -15,13 +16,14 @@ export const makeSource: core.MakeSourcePlugin<PluginOptions & core.PartialArgs>
   const {
     options,
     extensions,
-    restArgs: { client, databaseTypes, ...rest },
+    restArgs: { databaseTypes, ...rest },
   } = await processArgs(args)
 
   const databaseTypeDefs = (Array.isArray(databaseTypes) ? databaseTypes : Object.values(databaseTypes)).map((_) =>
     _.def(),
   )
 
+  const client = rest.client ?? new notion.Client()
   const renderer = rest.renderer ?? new NotionRenderer({ client })
 
   return {

@@ -22,7 +22,7 @@ You can contribute to this project by listing bugs and giving ideas in the [issu
 - [x] Automatically infer the type of your properties
 - [x] Render HTML from your Rich Text properties and pages content ([@notion-render/client](https://github.com/kerwanp/notion-render))
 - [x] Filter and sorts pages queried from your databases
-- [ ] Use Rollup and Relation properties with ease
+- [x] Use Rollup and Relation properties with ease
 - [ ] Recompute values to create new fields (computed fields)
 - [ ] Iteration and cache system to work safely with ton of pages
 
@@ -69,23 +69,9 @@ const client = new notion.Client({
   auth: '<notion_token>',
 })
 
-const Category = defineDatabase(() => ({
-  name: 'Category',
-  databaseId: '<database_id>',
-  importContent: false,
-}))
-
 const Post = defineDatabase(() => ({
   name: 'Post',
   databaseId: '<database_id>',
-  importContent: false,
-  fields: {
-    category: {
-      type: 'relation',
-      single: true,
-      of: Category,
-    },
-  },
 }))
 
 export default makeSource({
@@ -104,10 +90,6 @@ Contentlayer will generate your content and typings in the `.contentlayer` folde
 import { allPosts } from './.contentlayer/generated/index.mjs'
 
 const postIds = allPosts.map((post) => post._id)
-```
-
-```
-
 ```
 
 ## 🔧 Configure
@@ -142,7 +124,7 @@ const Post = defineDatabase(() => ({
   databaseId: '<database_id>',
   importContent: false,
   automaticImport: true,
-  fields: {
+  properties: {
     email: {
       name: 'Email',
       description: 'The author email',
@@ -154,19 +136,19 @@ const Post = defineDatabase(() => ({
 
 The `DatabaseTypeDef` supports the following parameters. Thoses options are defined when using `defineDatabase`.
 
-| Option            | Default value | Type                                                             | Description                                                                                                                                                                                       |
-| ----------------- | ------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`            |               | `string`                                                         | The name of this content used to generate types and constants names.                                                                                                                              |
-| `description`     | `undefined`   | `string`                                                         | The description of this content used to generate comments                                                                                                                                         |
-| `databaseId`      |               | `string`                                                         | The database ID where your pages will be queried from                                                                                                                                             |
-| `automaticImport` | `undefined`   | `bool`                                                           | By default, all your properties will be generated. By disabling automatic import you can whitelist the properties you want to use. Useful when you have sensitive content in your page properties |
-| `importContent`   | `undefined`   | `bool`                                                           | By default, your page content will be generated. Disable it if you only want to use the properties.                                                                                               |
-| `query`           | `undefined`   | `QueryDatabaseParameters`                                        | Filter and sorts the page queried from the Notion API. More information on the [@notionhq/client repository](https://github.com/makenotion/notion-sdk-js)                                         |
-| `fields`          | `undefined`   | `Record<string, DatabaseFieldTypeDef> \| DatabaseFieldTypeDef[]` | The fields definitions. When using `Record<string, DatabaseFieldTypeDef>` the key will be used as the `key` option.                                                                               |
+| Option            | Default value | Type                                                                   | Description                                                                                                                                                                                       |
+| ----------------- | ------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`            |               | `string`                                                               | The name of this content used to generate types and constants names.                                                                                                                              |
+| `description`     | `undefined`   | `string`                                                               | The description of this content used to generate comments                                                                                                                                         |
+| `databaseId`      |               | `string`                                                               | The database ID where your pages will be queried from                                                                                                                                             |
+| `automaticImport` | `undefined`   | `bool`                                                                 | By default, all your properties will be generated. By disabling automatic import you can whitelist the properties you want to use. Useful when you have sensitive content in your page properties |
+| `importContent`   | `undefined`   | `bool`                                                                 | By default, your page content will be generated. Disable it if you only want to use the properties.                                                                                               |
+| `query`           | `undefined`   | `QueryDatabaseParameters`                                              | Filter and sorts the page queried from the Notion API. More information on the [@notionhq/client repository](https://github.com/makenotion/notion-sdk-js)                                         |
+| `properties`      | `undefined`   | `Record<string, DatabasePropertyTypeDef> \| DatabasePropertyTypeDef[]` | The properties definitions. When using `Record<string, DatabasePropertyTypeDef>` the key will be used as the `key` option.                                                                        |
 
 #### Field definition options
 
-The `DatabaseFieldTypeDef` supports the following parameters. Thoses options are defined when using `defineDatabase`.
+The `DatabasePropertyTypeDef` supports the following parameters. Thoses options are defined when using `defineDatabase`.
 
 | Option        | Default value | Type     | Description                                                               |
 | ------------- | ------------- | -------- | ------------------------------------------------------------------------- |

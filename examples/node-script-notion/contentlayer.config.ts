@@ -15,20 +15,16 @@ const Post = defineDatabase(() => ({
   name: 'Post',
   databaseId: 'fe26b972ec3f4b32a1882230915fe111',
   importContent: false,
-  fields: {
+  properties: {
     email: {
       name: 'Email',
-      isRequired: true,
+      required: true,
     },
     category: {
       type: 'relation',
       name: 'Category',
       relation: Category,
       single: true,
-    },
-    rollup: {
-      name: 'Rollup',
-      type: 'rollup',
     },
   },
 }))

@@ -1,4 +1,4 @@
-import type { DatabaseFieldTypeDef, DatabaseTypeDef } from '../types'
+import type { DatabasePropertyTypeDef, DatabaseTypeDef } from '../types'
 
 export type FindDatabaseFieldDefArgs = {
   property: { id: string; name: string }
@@ -8,10 +8,10 @@ export type FindDatabaseFieldDefArgs = {
 export const findDatabaseFieldDef = ({
   databaseTypeDef,
   property,
-}: FindDatabaseFieldDefArgs): DatabaseFieldTypeDef | undefined => {
-  if (!databaseTypeDef.fields) return
+}: FindDatabaseFieldDefArgs): DatabasePropertyTypeDef | undefined => {
+  if (!databaseTypeDef.properties) return
 
-  return databaseTypeDef.fields.find((fieldDef) => {
+  return databaseTypeDef.properties.find((fieldDef) => {
     if ('name' in fieldDef) return fieldDef.name === property.name
     if ('id' in fieldDef) return fieldDef.id === property.id
   })

@@ -4,7 +4,7 @@ import { pipe, T } from '@contentlayer/utils/effect'
 import type { NotionRenderer } from '@notion-render/client'
 import type * as notion from '@notionhq/client'
 
-import type { DatabaseFieldTypeDef, DatabaseTypeDef } from '../schema/types.js'
+import type { DatabasePropertyTypeDef, DatabaseTypeDef } from '../schema/types.js'
 import { getDatabasePropertyData, getPagePropertyData } from '../schema/utils/getPropertyData.js'
 import type {
   DatabaseProperties,
@@ -34,7 +34,7 @@ import { fieldString } from './field-string.js'
 
 export type GetFieldDefArgs<T extends DatabasePropertyTypes> = {
   propertyData: DatabasePropertyData<T>
-  databaseFieldTypeDef: DatabaseFieldTypeDef | undefined
+  databaseFieldTypeDef: DatabasePropertyTypeDef | undefined
   databaseTypeDef: DatabaseTypeDef
   getDocumentTypeDef: (databaseTypeDef: DatabaseTypeDef<false>) => T.Effect<unknown, never, core.DocumentTypeDef>
 }
@@ -49,7 +49,7 @@ export type GetFieldDef<T extends DatabasePropertyTypes = DatabasePropertyTypes>
 
 export type GetFieldDataArgs<T extends PagePropertyTypes> = {
   propertyData: PagePropertyData<T>
-  databaseFieldTypeDef: DatabaseFieldTypeDef | undefined
+  databaseFieldTypeDef: DatabasePropertyTypeDef | undefined
   databaseTypeDef: DatabaseTypeDef
   fieldDef: FieldDef
   documentTypeDef: core.DocumentTypeDef

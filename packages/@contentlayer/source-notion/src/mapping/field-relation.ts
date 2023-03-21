@@ -1,9 +1,9 @@
 import { T } from '@contentlayer/utils/effect'
 
-import type { DatabaseFieldTypeDef } from '../schema/types'
+import type { DatabasePropertyTypeDef } from '../schema/types'
 import type { FieldFunctions } from '.'
 
-const isSingle = (databaseFieldTypeDef: DatabaseFieldTypeDef | undefined) => {
+const isSingle = (databaseFieldTypeDef: DatabasePropertyTypeDef | undefined) => {
   return (
     databaseFieldTypeDef &&
     'type' in databaseFieldTypeDef &&

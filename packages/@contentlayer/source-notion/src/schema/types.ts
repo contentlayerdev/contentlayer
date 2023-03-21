@@ -1,5 +1,4 @@
 import type { Thunk } from '@contentlayer/utils'
-import { T, tag } from '@contentlayer/utils/effect'
 import type { QueryDatabaseParameters } from '@notionhq/client/build/src/api-endpoints'
 
 export type DatabaseFieldTypeDefBase = {
@@ -17,7 +16,7 @@ export type DatabaseFieldTypeDefBase = {
   /**
    * When required, pages without this property defined will not be generated.
    */
-  isRequired?: boolean
+  required?: boolean
 } & ({ id: string } | { name: string })
 
 export type DatabaseRelationFieldTypeDef = DatabaseFieldTypeDefBase & {
@@ -40,14 +39,7 @@ export type DatabaseRelationFieldTypeDef = DatabaseFieldTypeDefBase & {
   single?: boolean
 }
 
-export type DatabaseRollupFieldTypeDef = DatabaseFieldTypeDefBase & {
-  /**
-   * Type of the property.
-   */
-  type: 'rollup'
-}
-
-export type DatabaseFieldTypeDef = DatabaseFieldTypeDefBase | DatabaseRelationFieldTypeDef | DatabaseRollupFieldTypeDef
+export type DatabasePropertyTypeDef = DatabaseFieldTypeDefBase | DatabaseRelationFieldTypeDef
 
 export type DatabaseTypeDef<Flattened extends boolean = true, DefName extends string = string> = {
   /**
@@ -85,11 +77,10 @@ export type DatabaseTypeDef<Flattened extends boolean = true, DefName extends st
 
   /**
    * The fields configuration, usefull to remap keys and configure complex properties.
-   * Not required as the properties types are already inferred.
    */
-  fields?: Flattened extends false
-    ? Record<string, DatabaseFieldTypeDef> | DatabaseFieldTypeDef[]
-    : DatabaseFieldTypeDef[]
+  properties?: Flattened extends false
+    ? Record<string, DatabasePropertyTypeDef> | DatabasePropertyTypeDef[]
+    : DatabasePropertyTypeDef[]
 }
 
 export type DatabaseType<DefName extends string = string> = {

@@ -26,7 +26,7 @@ export const provideFieldDef = ({ property, databaseTypeDef, getDocumentTypeDef 
           propertyKey: property.name,
           isSystemField: false,
           description: databaseFieldTypeDef?.description,
-          isRequired: databaseFieldTypeDef?.isRequired ?? false,
+          isRequired: databaseFieldTypeDef?.required ?? false,
         } as FieldDef
       }),
     ),
