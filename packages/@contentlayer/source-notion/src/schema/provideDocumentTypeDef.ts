@@ -48,7 +48,7 @@ export const provideDocumentTypeDef = ({ databaseTypeDef, getDocumentTypeDef, op
                     ]
                   : []),
               ] as FieldDef[], // TODO : Find a more beautiful way
-              computedFields: [],
+              computedFields: databaseTypeDef.computedFields,
               extensions: {},
             } as core.DocumentTypeDef),
         ),

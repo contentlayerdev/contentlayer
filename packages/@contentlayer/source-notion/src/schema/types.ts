@@ -1,3 +1,4 @@
+import type { ComputedField } from '@contentlayer/core'
 import type { Thunk } from '@contentlayer/utils'
 import type { QueryDatabaseParameters } from '@notionhq/client/build/src/api-endpoints'
 
@@ -81,6 +82,8 @@ export type DatabaseTypeDef<Flattened extends boolean = true, DefName extends st
   properties?: Flattened extends false
     ? Record<string, DatabasePropertyTypeDef> | DatabasePropertyTypeDef[]
     : DatabasePropertyTypeDef[]
+
+  computedFields?: ComputedField[]
 }
 
 export type DatabaseType<DefName extends string = string> = {
