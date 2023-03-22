@@ -14,7 +14,6 @@ const Category = defineDatabase(() => ({
 const Post = defineDatabase(() => ({
   name: 'Post',
   databaseId: 'fe26b972ec3f4b32a1882230915fe111',
-  importContent: false,
   properties: {
     email: {
       name: 'Email',
@@ -31,5 +30,5 @@ const Post = defineDatabase(() => ({
 
 export default makeSource({
   client,
-  databaseTypes: [Category, Post],
+  databaseTypes: [Post, Category],
 })

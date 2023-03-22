@@ -46,7 +46,7 @@ export const makeCacheItem = ({ databaseTypeDef, documentTypeDef, page, options 
           [options.fieldOptions.typeFieldName]: documentTypeDef.name,
           _id: page.id,
           _raw: {},
-          ...(databaseTypeDef.importContent
+          ...(databaseTypeDef.importContent !== false
             ? {
                 [options.fieldOptions.bodyFieldName]: yield* $(fetchPageContent({ page })),
               }
