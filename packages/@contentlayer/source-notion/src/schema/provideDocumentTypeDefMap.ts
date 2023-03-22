@@ -7,9 +7,10 @@ import { flattendDatabaseTypeDef } from './utils/flattenDatabaseTypeDef.js'
 
 export type ProvideDocumentTypeDefMapArgs = {
   databaseTypeDefs: DatabaseTypeDef<false>[]
+  options: core.PluginOptions
 }
 
-export const provideDocumentTypeDefMap = ({ databaseTypeDefs }: ProvideDocumentTypeDefMapArgs) =>
+export const provideDocumentTypeDefMap = ({ databaseTypeDefs, options }: ProvideDocumentTypeDefMapArgs) =>
   pipe(
     T.gen(function* ($) {
       const documentTypeDefMap: core.DocumentTypeDefMap = {}
@@ -33,6 +34,7 @@ export const provideDocumentTypeDefMap = ({ databaseTypeDefs }: ProvideDocumentT
               provideDocumentTypeDef({
                 databaseTypeDef: flattendDatabaseTypeDef(databaseTypeDef),
                 getDocumentTypeDef,
+                options,
               }),
               T.tap((documentTypeDef) => T.succeed((documentTypeDefMap[databaseTypeDef.name] = documentTypeDef))),
             )

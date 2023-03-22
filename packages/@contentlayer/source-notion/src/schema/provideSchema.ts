@@ -8,13 +8,14 @@ import type { DatabaseTypeDef } from './types.js'
 
 export type ProvideSchemaArgs = {
   databaseTypeDefs: DatabaseTypeDef<false>[]
+  options: core.PluginOptions
 }
 
-export const provideSchema = ({ databaseTypeDefs }: ProvideSchemaArgs) =>
+export const provideSchema = ({ databaseTypeDefs, options }: ProvideSchemaArgs) =>
   pipe(
     T.gen(function* ($) {
       return {
-        documentTypeDefMap: yield* $(provideDocumentTypeDefMap({ databaseTypeDefs })),
+        documentTypeDefMap: yield* $(provideDocumentTypeDefMap({ databaseTypeDefs, options })),
         nestedTypeDefMap: yield* $(provideNestedTypeDefMap()),
       }
     }),

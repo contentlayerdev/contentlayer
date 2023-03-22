@@ -9,9 +9,10 @@ import type { DatabaseTypeDef } from './types.js'
 export type ProvideDocumentTypeDefArgs = {
   databaseTypeDef: DatabaseTypeDef
   getDocumentTypeDef: (databaseTypeDef: DatabaseTypeDef<false>) => T.Effect<unknown, never, core.DocumentTypeDef>
+  options: core.PluginOptions
 }
 
-export const provideDocumentTypeDef = ({ databaseTypeDef, getDocumentTypeDef }: ProvideDocumentTypeDefArgs) =>
+export const provideDocumentTypeDef = ({ databaseTypeDef, getDocumentTypeDef, options }: ProvideDocumentTypeDefArgs) =>
   pipe(
     T.service(NotionClient),
     T.chain((client) =>
@@ -33,7 +34,20 @@ export const provideDocumentTypeDef = ({ databaseTypeDef, getDocumentTypeDef }: 
               name: databaseTypeDef.name,
               description: databaseTypeDef.description,
               isSingleton: false,
-              fieldDefs: [...fieldDefs] as FieldDef[], // TODO : Find a more beautiful way
+              fieldDefs: [
+                ...fieldDefs,
+                ...(databaseTypeDef.importContent !== false
+                  ? [
+                      {
+                        name: options.fieldOptions.bodyFieldName,
+                        type: 'string',
+                        description: 'The page content',
+                        isRequired: false,
+                        isSystemField: true,
+                      },
+                    ]
+                  : []),
+              ] as FieldDef[], // TODO : Find a more beautiful way
               computedFields: [],
               extensions: {},
             } as core.DocumentTypeDef),

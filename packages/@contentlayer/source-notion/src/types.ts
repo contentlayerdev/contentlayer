@@ -9,7 +9,7 @@ export type PluginOptions = {
   client?: notion.Client
   renderer?: NotionRenderer
   databaseTypes: DatabaseTypes
-}
+} & core.PluginOptions
 
 export type FieldDef = core.FieldDef & { propertyKey: string }
 

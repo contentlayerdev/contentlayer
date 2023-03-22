@@ -25,7 +25,7 @@ export type MakeCacheItemArgs = {
 
 export const makeCacheItem = ({ databaseTypeDef, documentTypeDef, page, options }: MakeCacheItemArgs) =>
   pipe(
-    T.forEachParDict_(documentTypeDef.fieldDefs as FieldDef[], {
+    T.forEachParDict_(documentTypeDef.fieldDefs.filter((f) => !f.isSystemField) as FieldDef[], {
       mapKey: (fieldDef) => T.succeed(fieldDef.name),
       mapValue: (fieldDef) => {
         const databaseFieldTypeDef = databaseTypeDef.properties?.find((field) => field.key === fieldDef.propertyKey)

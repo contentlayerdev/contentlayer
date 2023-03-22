@@ -32,7 +32,7 @@ export const makeSource: core.MakeSourcePlugin<PluginOptions & core.PartialArgs>
     options,
     provideSchema: () =>
       pipe(
-        provideSchema({ databaseTypeDefs }),
+        provideSchema({ databaseTypeDefs, options }),
         T.provideService(NotionClient)(client),
         T.provideService(NotionRendererTag)(renderer),
       ),
