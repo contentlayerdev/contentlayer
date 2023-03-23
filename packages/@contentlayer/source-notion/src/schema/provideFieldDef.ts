@@ -2,8 +2,9 @@ import type * as core from '@contentlayer/core'
 import { OT, pipe, T } from '@contentlayer/utils/effect'
 
 import { getFieldDef } from '../mapping/index.js'
-import type { DatabaseProperties, FieldDef } from '../types.js'
-import type { DatabaseTypeDef } from './types.js'
+import type { DatabaseProperties } from '../notion/types.js'
+import type { FieldDef } from '../types.js'
+import type { DatabaseTypeDef } from './types/database.js'
 import { findDatabaseFieldDef } from './utils/findDatabaseFieldDef.js'
 import { normalizeKey } from './utils/normalizeKey.js'
 

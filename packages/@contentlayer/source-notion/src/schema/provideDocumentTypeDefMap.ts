@@ -2,7 +2,7 @@ import type * as core from '@contentlayer/core'
 import { OT, pipe, T } from '@contentlayer/utils/effect'
 
 import { provideDocumentTypeDef } from './provideDocumentTypeDef.js'
-import type { DatabaseTypeDef } from './types.js'
+import type { DatabaseTypeDef } from './types/database.js'
 import { flattendDatabaseTypeDef } from './utils/flattenDatabaseTypeDef.js'
 
 export type ProvideDocumentTypeDefMapArgs = {
@@ -14,18 +14,6 @@ export const provideDocumentTypeDefMap = ({ databaseTypeDefs, options }: Provide
   pipe(
     T.gen(function* ($) {
       const documentTypeDefMap: core.DocumentTypeDefMap = {}
-
-      // .map((databaseTypeDef) => ({
-      //   ...databaseTypeDef,
-      //   fields: databaseTypeDef.fields
-      //     ? Array.isArray(databaseTypeDef.fields)
-      //       ? databaseTypeDef.fields
-      //       : Object.entries(databaseTypeDef.fields).map(([key, field]) => ({
-      //           key,
-      //           ...field,
-      //         }))
-      //     : [],
-      // }))
 
       const getDocumentTypeDef = (databaseTypeDef: DatabaseTypeDef<false>) => {
         return databaseTypeDef.name in documentTypeDefMap

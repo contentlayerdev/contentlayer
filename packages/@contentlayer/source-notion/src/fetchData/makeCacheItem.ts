@@ -3,18 +3,9 @@ import { hashObject } from '@contentlayer/utils'
 import { pipe, T } from '@contentlayer/utils/effect'
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 
-import { getFieldData } from '../mapping/index.js'
-import { fetchPageContent } from '../notion/fetchPageContent.js'
-import type { DatabasePropertyTypeDef, DatabaseTypeDef } from '../schema/types.js'
-import type { FieldDef, PageProperties } from '../types.js'
-
-export type ProvideDataForFieldDef = {
-  property: PageProperties
-  databaseTypeDef: DatabaseTypeDef
-  databaseFieldTypeDef: DatabasePropertyTypeDef | undefined
-  fieldDef: FieldDef
-  documentTypeDef: core.DocumentTypeDef
-}
+import type { DatabaseTypeDef } from '../schema/types/database.js'
+import { getComputedValues } from './getComputedValues.js'
+import { makeDocument } from './makeDocument.js'
 
 export type MakeCacheItemArgs = {
   databaseTypeDef: DatabaseTypeDef
@@ -25,35 +16,17 @@ export type MakeCacheItemArgs = {
 
 export const makeCacheItem = ({ databaseTypeDef, documentTypeDef, page, options }: MakeCacheItemArgs) =>
   pipe(
-    T.forEachParDict_(documentTypeDef.fieldDefs.filter((f) => !f.isSystemField) as FieldDef[], {
-      mapKey: (fieldDef) => T.succeed(fieldDef.name),
-      mapValue: (fieldDef) => {
-        const databaseFieldTypeDef = databaseTypeDef.properties?.find((field) => field.key === fieldDef.propertyKey)
+    T.gen(function* ($) {
+      const document = yield* $(makeDocument({ documentTypeDef, databaseTypeDef, page, options }))
 
-        return getFieldData({
-          fieldDef,
-          property: page.properties[fieldDef.propertyKey] as PageProperties,
-          databaseFieldTypeDef,
-          databaseTypeDef,
-          documentTypeDef,
-        })
-      },
+      const computedValues = yield $(getComputedValues({ document, documentTypeDef }))
+
+      Object.entries(computedValues).forEach(([fieldName, value]) => {
+        document[fieldName] = value
+      })
+
+      return document
     }),
-    T.chain((docValues) =>
-      T.gen(function* ($) {
-        return {
-          ...docValues,
-          [options.fieldOptions.typeFieldName]: documentTypeDef.name,
-          _id: page.id,
-          _raw: {},
-          ...(databaseTypeDef.importContent !== false
-            ? {
-                [options.fieldOptions.bodyFieldName]: yield* $(fetchPageContent({ page })),
-              }
-            : {}),
-        }
-      }),
-    ),
     T.chain((document) =>
       pipe(
         hashObject(document),

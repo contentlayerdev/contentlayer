@@ -4,7 +4,7 @@ import { OT, pipe, T } from '@contentlayer/utils/effect'
 
 import { provideDocumentTypeDefMap } from './provideDocumentTypeDefMap.js'
 import { provideNestedTypeDefMap } from './provideNestedTypeDefMap.js'
-import type { DatabaseTypeDef } from './types.js'
+import type { DatabaseTypeDef } from './types/database.js'
 
 export type ProvideSchemaArgs = {
   databaseTypeDefs: DatabaseTypeDef<false>[]

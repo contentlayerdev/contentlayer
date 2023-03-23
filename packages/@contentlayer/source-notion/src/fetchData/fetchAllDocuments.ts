@@ -5,7 +5,7 @@ import { Chunk, OT, pipe, T } from '@contentlayer/utils/effect'
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 
 import { fetchDatabasePages } from '../notion/fetchDatabasePages.js'
-import type { DatabaseTypeDef } from '../schema/types.js'
+import type { DatabaseTypeDef } from '../schema/types/database.js'
 import { makeCacheItem } from './makeCacheItem.js'
 
 export type FetchAllDocumentsArgs = {

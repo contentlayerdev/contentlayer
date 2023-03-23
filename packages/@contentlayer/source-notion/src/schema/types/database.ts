@@ -1,46 +1,8 @@
-import type { ComputedField } from '@contentlayer/core'
 import type { Thunk } from '@contentlayer/utils'
 import type { QueryDatabaseParameters } from '@notionhq/client/build/src/api-endpoints'
 
-export type DatabaseFieldTypeDefBase = {
-  /**
-   * Map this property to a specific key.
-   * Defaults to the property name.
-   */
-  key?: string
-
-  /**
-   * Field description used to generate comments.
-   */
-  description?: string
-
-  /**
-   * When required, pages without this property defined will not be generated.
-   */
-  required?: boolean
-} & ({ id: string } | { name: string })
-
-export type DatabaseRelationFieldTypeDef = DatabaseFieldTypeDefBase & {
-  /**
-   * Type of the property.
-   */
-  type: 'relation'
-
-  /**
-   * Database related to this relation.
-   *
-   * TODO : Will be used for Rollup properties.
-   */
-  relation: DatabaseType
-
-  /**
-   * If true, the property will be of type `string` instead of type `string[]`
-   * and only the first item will be taken.
-   */
-  single?: boolean
-}
-
-export type DatabasePropertyTypeDef = DatabaseFieldTypeDefBase | DatabaseRelationFieldTypeDef
+import type { ComputedField } from './computed-field'
+import type { DatabasePropertyTypeDef } from './property'
 
 export type DatabaseTypeDef<Flattened extends boolean = true, DefName extends string = string> = {
   /**
@@ -83,7 +45,7 @@ export type DatabaseTypeDef<Flattened extends boolean = true, DefName extends st
     ? Record<string, DatabasePropertyTypeDef> | DatabasePropertyTypeDef[]
     : DatabasePropertyTypeDef[]
 
-  computedFields?: ComputedField[]
+  computedFields?: Record<string, ComputedField<DefName>>
 }
 
 export type DatabaseType<DefName extends string = string> = {

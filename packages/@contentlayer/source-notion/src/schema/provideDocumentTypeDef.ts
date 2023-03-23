@@ -4,7 +4,7 @@ import { OT, pipe, T } from '@contentlayer/utils/effect'
 import { NotionClient } from '../services.js'
 import type { FieldDef } from '../types.js'
 import { provideFieldDef } from './provideFieldDef.js'
-import type { DatabaseTypeDef } from './types.js'
+import type { DatabaseTypeDef } from './types/database.js'
 
 export type ProvideDocumentTypeDefArgs = {
   databaseTypeDef: DatabaseTypeDef
@@ -48,7 +48,15 @@ export const provideDocumentTypeDef = ({ databaseTypeDef, getDocumentTypeDef, op
                     ]
                   : []),
               ] as FieldDef[], // TODO : Find a more beautiful way
-              computedFields: databaseTypeDef.computedFields,
+              computedFields: Object.entries(databaseTypeDef.computedFields ?? {}).map<core.ComputedField>(
+                ([name, computedField]) => ({
+                  description: computedField.description,
+                  type: computedField.type,
+                  name,
+                  // NOTE we need to flip the variance here (casting a core.Document to a LocalDocument)
+                  resolve: computedField.resolve as core.ComputedFieldResolver,
+                }),
+              ),
               extensions: {},
             } as core.DocumentTypeDef),
         ),

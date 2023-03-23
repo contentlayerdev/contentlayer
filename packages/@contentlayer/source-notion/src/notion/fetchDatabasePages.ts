@@ -2,7 +2,7 @@ import { pipe, T } from '@contentlayer/utils/effect'
 import * as notion from '@notionhq/client'
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 
-import type { DatabaseTypeDef } from '../schema/types.js'
+import type { DatabaseTypeDef } from '../schema/types/database.js'
 import { NotionClient } from '../services.js'
 import { UnknownNotionError } from './errors.js'
 

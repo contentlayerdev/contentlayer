@@ -5,7 +5,7 @@ import type {
   PageProperty,
   PagePropertyData,
   PagePropertyTypes,
-} from '../../types'
+} from '../../notion/types'
 
 export const getPagePropertyData = <T extends PagePropertyTypes>(property: PageProperty<T>): PagePropertyData<T> => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

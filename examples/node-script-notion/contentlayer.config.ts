@@ -26,6 +26,12 @@ const Post = defineDatabase(() => ({
       single: true,
     },
   },
+  computedFields: {
+    slug: {
+      type: 'string',
+      resolve: (_) => 'test',
+    },
+  },
 }))
 
 export default makeSource({

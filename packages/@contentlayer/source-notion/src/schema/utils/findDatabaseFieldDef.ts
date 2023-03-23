@@ -1,4 +1,5 @@
-import type { DatabasePropertyTypeDef, DatabaseTypeDef } from '../types'
+import type { DatabaseTypeDef } from '../types/database'
+import type { DatabasePropertyTypeDef } from '../types/property'
 
 export type FindDatabaseFieldDefArgs = {
   property: { id: string; name: string }

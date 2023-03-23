@@ -10,7 +10,7 @@ import { flattendDatabaseTypeDef } from './schema/utils/flattenDatabaseTypeDef.j
 import { NotionClient, NotionRenderer as NotionRendererTag } from './services.js'
 import type { PluginOptions } from './types.js'
 
-export * from './schema/types.js'
+export * from './schema/types/database.js'
 
 export const makeSource: core.MakeSourcePlugin<PluginOptions & core.PartialArgs> = async (args) => {
   const {

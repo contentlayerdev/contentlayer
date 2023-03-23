@@ -4,18 +4,18 @@ import { pipe, T } from '@contentlayer/utils/effect'
 import type { NotionRenderer } from '@notion-render/client'
 import type * as notion from '@notionhq/client'
 
-import type { DatabasePropertyTypeDef, DatabaseTypeDef } from '../schema/types.js'
-import { getDatabasePropertyData, getPagePropertyData } from '../schema/utils/getPropertyData.js'
 import type {
   DatabaseProperties,
   DatabasePropertyData,
   DatabasePropertyTypes,
-  DistributiveOmit,
-  FieldDef,
   PageProperties,
   PagePropertyData,
   PagePropertyTypes,
-} from '../types.js'
+} from '../notion/types.js'
+import type { DatabaseTypeDef } from '../schema/types/database.js'
+import type { DatabasePropertyTypeDef } from '../schema/types/property.js'
+import { getDatabasePropertyData, getPagePropertyData } from '../schema/utils/getPropertyData.js'
+import type { DistributiveOmit, FieldDef } from '../types.js'
 import { fieldBool } from './field-bool.js'
 import { fieldCreatedBy } from './field-created-by.js'
 import { fieldDate } from './field-date.js'
