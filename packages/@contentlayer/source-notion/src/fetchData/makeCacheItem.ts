@@ -1,6 +1,6 @@
 import type * as core from '@contentlayer/core'
 import { hashObject } from '@contentlayer/utils'
-import { pipe, T } from '@contentlayer/utils/effect'
+import { OT, pipe, T } from '@contentlayer/utils/effect'
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 
 import type { DatabaseTypeDef } from '../schema/types/database.js'
@@ -38,4 +38,5 @@ export const makeCacheItem = ({ databaseTypeDef, documentTypeDef, page, options 
         })),
       ),
     ),
+    OT.withSpan('@contentlayer/source-notion/fetchData:makeCacheItem'),
   )

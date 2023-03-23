@@ -1,5 +1,5 @@
 import type * as core from '@contentlayer/core'
-import { pipe, T } from '@contentlayer/utils/effect'
+import { OT, pipe, T } from '@contentlayer/utils/effect'
 
 export type GetComputedValuesArgs = {
   document: core.Document
@@ -16,4 +16,5 @@ export const getComputedValues = ({ document, documentTypeDef }: GetComputedValu
           (error) => new Error('TODO: Make error'),
         ),
     }),
+    OT.withSpan('@contentlayer/source-notion/fetchData:getComputedValues'),
   )

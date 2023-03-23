@@ -23,6 +23,7 @@ export const fieldRelation: FieldFunctions<'relation'> = {
     return T.succeed({
       type: 'list',
       of: { type: 'string' },
+      default: [],
     })
   },
   getFieldData: ({ propertyData, databaseFieldTypeDef }) => {

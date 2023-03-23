@@ -49,6 +49,6 @@ export const fetchAllDocuments = ({ databaseTypeDefs, schemaDef, options }: Fetc
     T.map((documents) => ({
       cacheItemsMap: Object.fromEntries(Chunk.map_(documents, (_) => [_.document._id, _])),
     })),
-    OT.withSpan('@contentlayer/source-notion/schema:provideSchema'),
+    OT.withSpan('@contentlayer/source-notion/fetchData:fetchAllDocuments'),
     T.mapError((error) => new core.SourceFetchDataError({ error, alreadyHandled: false })),
   )

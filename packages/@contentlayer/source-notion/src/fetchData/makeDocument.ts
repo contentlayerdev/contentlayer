@@ -1,5 +1,5 @@
 import type * as core from '@contentlayer/core'
-import { pipe, T } from '@contentlayer/utils/effect'
+import { OT, pipe, T } from '@contentlayer/utils/effect'
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 
 import { getFieldData } from '../mapping/index.js'
@@ -24,7 +24,7 @@ export const makeDocument = ({ documentTypeDef, databaseTypeDef, page, options }
 
         return getFieldData({
           fieldDef,
-          property: page.properties[fieldDef.propertyKey] as PageProperties,
+          property: page.properties[fieldDef.propertyKey!] as PageProperties,
           databaseFieldTypeDef,
           databaseTypeDef,
           documentTypeDef,
@@ -48,4 +48,5 @@ export const makeDocument = ({ documentTypeDef, databaseTypeDef, page, options }
         return document
       }),
     ),
+    OT.withSpan('@contentlayer/source-notion/fetchData:makeDocument'),
   )
