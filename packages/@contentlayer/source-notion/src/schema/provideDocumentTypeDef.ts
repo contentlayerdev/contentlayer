@@ -24,44 +24,40 @@ export const provideDocumentTypeDef = ({ databaseTypeDef, getDocumentTypeDef, op
         ),
       ),
     ),
-    T.chain((fieldDefs) =>
-      pipe(
-        T.filterPar_(fieldDefs, (fieldDef) => T.succeed(!!fieldDef)), // Check if it should fail
-        T.map(
-          (fieldDefs) =>
-            ({
-              _tag: 'DocumentTypeDef' as const,
-              name: databaseTypeDef.name,
-              description: databaseTypeDef.description,
-              isSingleton: false,
-              fieldDefs: [
-                ...fieldDefs,
-                ...(databaseTypeDef.importContent !== false
-                  ? [
-                      {
-                        name: options.fieldOptions.bodyFieldName,
-                        type: 'string',
-                        description: 'The page content',
-                        isRequired: false,
-                        isSystemField: true,
-                      },
-                    ]
-                  : []),
-              ] as FieldDef[], // TODO : Find a more beautiful way
-              computedFields: Object.entries(databaseTypeDef.computedFields ?? {}).map<core.ComputedField>(
-                ([name, computedField]) => ({
-                  description: computedField.description,
-                  type: computedField.type,
-                  name,
-                  // NOTE we need to flip the variance here (casting a core.Document to a LocalDocument)
-                  resolve: computedField.resolve as core.ComputedFieldResolver,
-                }),
-              ),
-              extensions: {},
-            } as core.DocumentTypeDef),
-        ),
-      ),
-    ),
+    T.map((fieldDefsChunk) => {
+      const fieldDefs = [...fieldDefsChunk].filter((fd) => fd) as FieldDef[]
+
+      if (databaseTypeDef.importContent !== false) {
+        fieldDefs.push({
+          name: options.fieldOptions.bodyFieldName,
+          type: 'string',
+          description: 'The page content',
+          isRequired: false,
+          isSystemField: true,
+          default: undefined,
+        })
+      }
+
+      const computedFields = Object.entries(databaseTypeDef.computedFields ?? {}).map<core.ComputedField>(
+        ([name, computedField]) => ({
+          description: computedField.description,
+          type: computedField.type,
+          name,
+          // NOTE we need to flip the variance here (casting a core.Document to a LocalDocument)
+          resolve: computedField.resolve as core.ComputedFieldResolver,
+        }),
+      )
+
+      return {
+        _tag: 'DocumentTypeDef' as const,
+        name: databaseTypeDef.name,
+        description: databaseTypeDef.description,
+        isSingleton: false,
+        fieldDefs: fieldDefs,
+        computedFields: computedFields,
+        extensions: {},
+      } as core.DocumentTypeDef
+    }),
 
     OT.withSpan('@contentlayer/source-notion/schema:provideDocumentTypeDef'),
   )

@@ -10,7 +10,7 @@ export type PluginOptions = {
   databaseTypes: DatabaseTypes
 }
 
-export type FieldDef = core.FieldDef & { propertyKey: string }
+export type FieldDef = core.FieldDef & { propertyKey?: string }
 
 export type LocalDocument = Record<string, any> & { _raw: core.RawDocumentData; _id: string }
 
