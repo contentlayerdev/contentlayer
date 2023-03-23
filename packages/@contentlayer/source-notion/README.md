@@ -110,7 +110,7 @@ The `PluginOptions` supports the following parameters. Thoses options are define
 
 | Option          | Default value | Type                                             | Description                                            |
 | --------------- | ------------- | ------------------------------------------------ | ------------------------------------------------------ |
-| `client`        |               | `Client`                                         | The Notion Client used to query the Notion API.        |
+| `client`        | `undefined`   | `Client`                                         | The Notion Client used to query the Notion API.        |
 | `renderer`      | `undefined`   | `NotionRenderer`                                 | The renderer used to transform Notion Blocks into HTML |
 | `databaseTypes` |               | `DatabaseType[] \| Record<string, DatabaseType>` | The databases definitions.                             |
 
@@ -145,6 +145,7 @@ The `DatabaseTypeDef` supports the following parameters. Thoses options are defi
 | `importContent`   | `undefined`   | `bool`                                                                 | By default, your page content will be generated. Disable it if you only want to use the properties.                                                                                               |
 | `query`           | `undefined`   | `QueryDatabaseParameters`                                              | Filter and sorts the page queried from the Notion API. More information on the [@notionhq/client repository](https://github.com/makenotion/notion-sdk-js)                                         |
 | `properties`      | `undefined`   | `Record<string, DatabasePropertyTypeDef> \| DatabasePropertyTypeDef[]` | The properties definitions. When using `Record<string, DatabasePropertyTypeDef>` the key will be used as the `key` option.                                                                        |
+| `computedFields`  | `undefined`   | `Record<string, ComputedField>`                                        | Create computed fields by using existing database properties.                                                                                                                                     |
 
 #### Field definition options
 
