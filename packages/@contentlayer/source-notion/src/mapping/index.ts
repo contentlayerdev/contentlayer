@@ -23,6 +23,7 @@ import { fieldDateRange } from './field-date-range.js'
 import { fieldFiles } from './field-files.js'
 import { fieldFormula } from './field-formula.js'
 import { fieldLastEditedBy } from './field-last-edited-by.js'
+import { fieldMultiSelect } from './field-multi-select.js'
 import { fieldNumber } from './field-number.js'
 import { fieldPeople } from './field-people.js'
 import { fieldRelation } from './field-relation.js'
@@ -66,7 +67,7 @@ export type FieldFunctions<T extends DatabasePropertyTypes = DatabasePropertyTyp
 
 type FieldMappingType = {
   // TODO : Remove optional
-  [key in DatabasePropertyTypes]?: FieldFunctions
+  [key in DatabasePropertyTypes]: FieldFunctions
 }
 
 const FieldMapping: FieldMappingType = {
@@ -74,6 +75,7 @@ const FieldMapping: FieldMappingType = {
   email: fieldString,
   phone_number: fieldString,
   select: fieldSelect,
+  multi_select: fieldMultiSelect,
   url: fieldString,
   number: fieldNumber,
   title: fieldRichText,
