@@ -10,6 +10,7 @@ export const fieldMultiSelect: FieldFunctions<'multi_select'> = {
         type: 'enum',
         options: propertyData.options.map((o) => o.name),
       },
+      default: [],
     }),
   getFieldData: ({ propertyData }) => T.succeed(propertyData.map((d) => d.name)),
 }
