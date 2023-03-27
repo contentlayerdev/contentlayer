@@ -1,6 +1,6 @@
 {
   "name": "contentlayer",
-  "version": "0.3.1-dev.2",
+  "version": "0.3.1-dev.3",
   "bin": "./bin/cli.cjs",
   "type": "module",
   "engines": {
