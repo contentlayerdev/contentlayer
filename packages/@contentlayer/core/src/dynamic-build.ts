@@ -89,7 +89,6 @@ export const dynamicBuildMain = ({
           ? { _tag: 'Error' as const, error: _.left.toJSON() as SourceFetchDataErrorJSON | SourceFetchDataErrorJSON }
           : { _tag: 'Data' as const, data: _.right },
     ),
-    // T.catchAllDefect((error) => T.succeed({ _tag: 'Error' as const, error: error as any })),
     T.tapCauseLogPretty,
     T.runPromise,
   )

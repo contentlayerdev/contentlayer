@@ -1,7 +1,7 @@
 import * as path from 'node:path'
 
 import type { AbsolutePosixFilePath } from '@contentlayer/utils'
-import { absolutePosixFilePath, fs, unknownToAbsolutePosixFilePath } from '@contentlayer/utils'
+import { fs, unknownToAbsolutePosixFilePath } from '@contentlayer/utils'
 import type { E } from '@contentlayer/utils/effect'
 import { Array, Chunk, O, OT, pipe, S, T } from '@contentlayer/utils/effect'
 import type { GetContentlayerVersionError } from '@contentlayer/utils/node'
@@ -170,7 +170,7 @@ const getConfigFromResult = ({
       // NOTES:
       // 1) `?x=` suffix needed in case of re-loading when watching the config file for changes
       // 2) `file://` prefix is needed for Windows to work properly
-      const importFresh = async (modulePath: string) => import(`file://${modulePath}?x=${new Date()}`)
+      const importFresh = async (modulePath: string) => import(`file://${modulePath}?x=${Date.now()}`)
 
       const exports = yield* $(
         pipe(
@@ -197,7 +197,7 @@ const getConfigFromResult = ({
         ),
       )
 
-      return { source, esbuildHash, filePath: absolutePosixFilePath(outfilePath) }
+      return { source, esbuildHash, filePath: outfilePath }
     }),
     OT.withSpan('@contentlayer/core/getConfig:getConfigFromResult', { attributes: { configPath } }),
     T.either,
