@@ -6,6 +6,7 @@ export const fieldDate: FieldFunctions<'created_time' | 'last_edited_time'> = {
   getFieldDef: () =>
     T.succeed({
       type: 'date',
+      required: true,
     }),
   getFieldData: ({ propertyData }) => T.succeed(new Date(propertyData)),
 }
