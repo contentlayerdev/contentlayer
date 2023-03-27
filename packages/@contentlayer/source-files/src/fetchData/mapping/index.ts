@@ -1,5 +1,5 @@
 import type * as core from '@contentlayer/core'
-import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer/utils'
+import type { AbsolutePosixFilePath, fs, RelativePosixFilePath } from '@contentlayer/utils'
 import * as utils from '@contentlayer/utils'
 import type { HasConsole, OT } from '@contentlayer/utils/effect'
 import { identity, pipe, T } from '@contentlayer/utils/effect'
@@ -29,7 +29,7 @@ export const makeDocument = ({
   contentDirPath: AbsolutePosixFilePath
   options: core.PluginOptions
 }): T.Effect<
-  OT.HasTracer & HasConsole & HasDocumentContext & core.HasCwd,
+  OT.HasTracer & HasConsole & HasDocumentContext & core.HasCwd & fs.HasFs,
   | FetchDataError.UnexpectedError
   | FetchDataError.ImageError
   | FetchDataError.IncompatibleFieldDataError
@@ -122,7 +122,7 @@ const makeNestedDocument = ({
   documentFilePath: RelativePosixFilePath
   contentDirPath: AbsolutePosixFilePath
 }): T.Effect<
-  OT.HasTracer & HasConsole & HasDocumentContext & core.HasCwd,
+  OT.HasTracer & HasConsole & HasDocumentContext & core.HasCwd & fs.HasFs,
   MakeDocumentInternalError,
   core.NestedDocument
 > =>
@@ -165,7 +165,7 @@ const getDataForFieldDef = ({
   options: core.PluginOptions
   documentFilePath: RelativePosixFilePath
   contentDirPath: AbsolutePosixFilePath
-}): T.Effect<OT.HasTracer & HasConsole & HasDocumentContext & core.HasCwd, MakeDocumentInternalError, any> =>
+}): T.Effect<OT.HasTracer & HasConsole & HasDocumentContext & core.HasCwd & fs.HasFs, MakeDocumentInternalError, any> =>
   T.gen(function* ($) {
     if ((rawFieldData === undefined || rawFieldData === null) && fieldDef.default !== undefined) {
       rawFieldData = fieldDef.default
@@ -319,7 +319,7 @@ const getDataForListItem = ({
   options: core.PluginOptions
   documentFilePath: RelativePosixFilePath
   contentDirPath: AbsolutePosixFilePath
-}): T.Effect<OT.HasTracer & HasConsole & HasDocumentContext & core.HasCwd, MakeDocumentInternalError, any> =>
+}): T.Effect<OT.HasTracer & HasConsole & HasDocumentContext & core.HasCwd & fs.HasFs, MakeDocumentInternalError, any> =>
   T.gen(function* ($) {
     const parseFieldDataEff = <TFieldType extends core.FieldDefType>(fieldType: TFieldType) =>
       parseFieldData({
@@ -393,8 +393,6 @@ const getDataForListItem = ({
           }),
         )
       }
-      case 'mdx':
-        return makeMdxField({ mdxString: rawItemData, contentDirPath, fieldDef, options })
       case 'date':
         const dateString = yield* $(parseFieldDataEff('date'))
         return yield* $(makeDateField({ dateString, fieldName: fieldDef.name, options }))

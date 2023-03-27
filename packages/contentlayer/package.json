@@ -1,6 +1,6 @@
 {
   "name": "contentlayer",
-  "version": "0.3.0",
+  "version": "0.3.1-dev.3",
   "bin": "./bin/cli.cjs",
   "type": "module",
   "engines": {
@@ -48,6 +48,9 @@
       "client": [
         "./dist/client"
       ],
+      "dynamic": [
+        "./dist/dynamic"
+      ],
       "utils": [
         "./dist/utils"
       ],
@@ -80,7 +83,7 @@
     "@contentlayer/utils": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "^4.9.5"
+    "typescript": "^5.0.2"
   },
   "author": "schickling",
   "homepage": "https://github.com/contentlayerdev/contentlayer",

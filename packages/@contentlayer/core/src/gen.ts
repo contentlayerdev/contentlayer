@@ -27,6 +27,12 @@ export type GetNestedTypeNamesGen = ContentlayerGen extends { objectTypeNames: i
 
 export type GetAllTypeNamesGen = ContentlayerGen extends { allTypeNames: infer T } ? T : string
 
+export type GetDataExportsGen = ContentlayerGen extends { dataExports: infer T }
+  ? T
+  : {
+      allDocuments: DocumentGen[]
+    }
+
 export type GetFieldNamesForDefinitionGen<DefName extends string> =
   DefName extends keyof GetDocumentTypeMapGen<Document>
     ? keyof GetDocumentTypeGen<DefName, Document>
@@ -42,6 +48,7 @@ declare global {
     // nestedTypeMap: NestedTypeMap
     // nestedTypeNames: NestedTypeNames
     // allTypeNames: AllTypeNames
+    // dataExports: DataExports
   }
 }
 

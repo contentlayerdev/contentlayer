@@ -10,7 +10,7 @@ import { defineDocumentType } from '../../schema/defs/index.js'
 const renderTypeSource = async (documentTypes: DocumentTypes) => {
   const esbuildHash = 'not-important-for-this-test'
   const schemaDef = await pipe(
-    T.tryPromise(() => makeSource({ documentTypes, contentDirPath: '' })),
+    T.tryPromise(() => makeSource({ documentTypes, contentDirPath: '' })(undefined)),
     T.chain((source) => source.provideSchema(esbuildHash)),
     provideJaegerTracing('contentlayer-cli'),
     provideConsole,
@@ -27,6 +27,7 @@ const renderTypeSource = async (documentTypes: DocumentTypes) => {
         mdx: undefined,
         date: undefined,
         disableImportAliasWarning: false,
+        experimental: { enableDynamicBuild: false },
       },
     },
   })

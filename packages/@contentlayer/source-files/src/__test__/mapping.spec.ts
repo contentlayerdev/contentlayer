@@ -1,9 +1,11 @@
 import type { HasCwd } from '@contentlayer/core'
 import * as core from '@contentlayer/core'
 import { provideCwd } from '@contentlayer/core'
+import type { fs } from '@contentlayer/utils'
 import { provideTracing, unknownToRelativePosixFilePath } from '@contentlayer/utils'
 import type { HasClock, HasConsole } from '@contentlayer/utils/effect'
 import { OT, pipe, provideConsole, T } from '@contentlayer/utils/effect'
+import { NodeFsLive } from '@contentlayer/utils/node'
 import { describe, expect, test } from 'vitest'
 
 import { provideDocumentContext } from '../fetchData/DocumentContext.js'
@@ -52,6 +54,7 @@ describe('getDataForFieldDef', () => {
           mdx: undefined,
           date: undefined,
           disableImportAliasWarning: false,
+          experimental: { enableDynamicBuild: false },
           ...options,
         },
       }),
@@ -136,6 +139,7 @@ test('getDataForFieldDef error', async () => {
             mdx: undefined,
             date: undefined,
             disableImportAliasWarning: false,
+            experimental: { enableDynamicBuild: false },
             ...options,
           },
         }),
@@ -190,8 +194,15 @@ test('getDataForFieldDef error', async () => {
   await testValue({ type: 'date', rawFieldData: '2022-0' })
 })
 
-const runPromise = <A>(eff: T.Effect<OT.HasTracer & HasClock & HasConsole & HasCwd, unknown, A>) =>
-  pipe(eff, provideTracing('contentlayer-test'), provideConsole, provideCwd, T.runPromise)
+const runPromise = <A>(eff: T.Effect<OT.HasTracer & HasClock & HasConsole & HasCwd & fs.HasFs, unknown, A>) =>
+  pipe(
+    eff,
+    provideTracing('contentlayer-test'),
+    provideConsole,
+    provideCwd,
+    T.provideSomeLayer(NodeFsLive),
+    T.runPromise,
+  )
 
 const provideTestDocumentContext = ({
   documentTypeDefName,

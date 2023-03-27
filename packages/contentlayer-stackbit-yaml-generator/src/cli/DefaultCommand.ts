@@ -1,11 +1,13 @@
-import { promises as fs } from 'node:fs'
+import { promises as fsp } from 'node:fs'
 import * as path from 'node:path'
 
 import type { HasCwd } from '@contentlayer/core'
 import { getConfig, provideCwd } from '@contentlayer/core'
+import type { fs } from '@contentlayer/utils'
 import { provideJaegerTracing, recRemoveUndefinedValues } from '@contentlayer/utils'
 import type { HasConsole } from '@contentlayer/utils/effect'
 import { OT, pipe, pretty, provideConsole, T } from '@contentlayer/utils/effect'
+import { NodeFsLive } from '@contentlayer/utils/node'
 import { Command, Option } from 'clipanion'
 import * as t from 'typanion'
 
@@ -42,6 +44,7 @@ export class DefaultCommand extends Command {
         T.tapCause((cause) => T.die(pretty(cause))),
         provideCwd,
         provideConsole,
+        T.provideSomeLayer(NodeFsLive),
         T.runPromise,
       )
     } catch (e: any) {
@@ -50,7 +53,7 @@ export class DefaultCommand extends Command {
     }
   }
 
-  executeSafe = (): T.Effect<OT.HasTracer & HasCwd & HasConsole, unknown, void> =>
+  executeSafe = (): T.Effect<OT.HasTracer & HasCwd & HasConsole & fs.HasFs, unknown, void> =>
     pipe(
       getConfig({ configPath: this.configPath }),
       T.chain((config) =>
@@ -73,7 +76,7 @@ export class DefaultCommand extends Command {
 ${toYamlString(stackbitConfig)}
 `
 
-            await fs.writeFile(this.stackbitYamlPath, yamlContent)
+            await fsp.writeFile(this.stackbitYamlPath, yamlContent)
             console.log(`Stackbit config generated to ${this.stackbitYamlPath}`)
           },
           (error) => error,
@@ -100,7 +103,7 @@ const getTransform = async (transformPath: string): Promise<undefined | Transfor
 
 const fileOrDirExists = async (filePath: string): Promise<boolean> => {
   try {
-    const stat = await fs.stat(filePath)
+    const stat = await fsp.stat(filePath)
     return stat.isFile() || stat.isDirectory()
   } catch (e: any) {
     return false

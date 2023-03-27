@@ -1,0 +1,9 @@
+node_modules
+dist
+.next
+.contentlayer
+yarn.lock
+.DS_Store
+
+nextjs-repo*
+.vercel

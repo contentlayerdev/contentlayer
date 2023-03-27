@@ -1,6 +1,6 @@
 import type { HasCwd } from '@contentlayer/core'
 import * as core from '@contentlayer/core'
-import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer/utils'
+import type { AbsolutePosixFilePath, fs, RelativePosixFilePath } from '@contentlayer/utils'
 import * as utils from '@contentlayer/utils'
 import { unknownToRelativePosixFilePath } from '@contentlayer/utils'
 import type { E, HasConsole, OT } from '@contentlayer/utils/effect'
@@ -22,6 +22,7 @@ export const fetchData = ({
   contentDirPath,
   contentDirInclude,
   contentDirExclude,
+  skipCachePersistence = false,
   verbose,
 }: {
   coreSchemaDef: core.SchemaDef
@@ -31,8 +32,17 @@ export const fetchData = ({
   contentDirPath: AbsolutePosixFilePath
   contentDirInclude: readonly RelativePosixFilePath[]
   contentDirExclude: readonly RelativePosixFilePath[]
+  /**
+   * For example for dynamic content builds, we'd like to do as much as possible in-memory
+   * and thus want to skip persisted caching
+   */
+  skipCachePersistence?: boolean
   verbose: boolean
-}): S.Stream<OT.HasTracer & HasCwd & HasConsole, never, E.Either<core.SourceFetchDataError, core.DataCache.Cache>> => {
+}): S.Stream<
+  OT.HasTracer & HasCwd & HasConsole & fs.HasFs,
+  never,
+  E.Either<core.SourceFetchDataError, core.DataCache.Cache>
+> => {
   const filePathPatternMap = makefilePathPatternMap(documentTypeDefs)
   const contentTypeMap = makeContentTypeMap(documentTypeDefs)
 
@@ -51,7 +61,12 @@ export const fetchData = ({
     S.mapEitherRight(chokidarAllEventToCustomUpdateEvent),
   )
 
-  const resolveParams = pipe(core.DataCache.loadPreviousCacheFromDisk({ schemaHash: coreSchemaDef.hash }), T.either)
+  const resolveParams = pipe(
+    skipCachePersistence
+      ? T.succeed(undefined)
+      : core.DataCache.loadPreviousCacheFromDisk({ schemaHash: coreSchemaDef.hash }),
+    T.either,
+  )
 
   return pipe(
     S.fromEffect(resolveParams),
@@ -105,7 +120,9 @@ export const fetchData = ({
         // update local and persisted cache
         S.tapRight((cache_) => T.succeedWith(() => (cache = cache_))),
         S.tapRightEither((cache_) =>
-          core.DataCache.writeCacheToDisk({ cache: cache_, schemaHash: coreSchemaDef.hash }),
+          skipCachePersistence
+            ? (T.unit as never)
+            : core.DataCache.writeCacheToDisk({ cache: cache_, schemaHash: coreSchemaDef.hash }),
         ),
       ),
     ),
@@ -150,7 +167,7 @@ const updateCacheEntry = ({
   coreSchemaDef: core.SchemaDef
   options: core.PluginOptions
   contentTypeMap: ContentTypeMap
-}): T.Effect<OT.HasTracer & HasConsole & HasCwd, core.HandledFetchDataError, core.DataCache.Cache> =>
+}): T.Effect<OT.HasTracer & HasConsole & HasCwd & fs.HasFs, core.HandledFetchDataError, core.DataCache.Cache> =>
   T.gen(function* ($) {
     yield* $(
       pipe(

@@ -73,7 +73,7 @@ export type Args = {
 } & PluginOptions &
   Partial<Flags>
 
-export const makeSource: core.MakeSourcePlugin<Args> = async (args) => {
+export const makeSource: core.MakeSourcePlugin<Args> = (args) => async (sourceKey) => {
   const {
     options,
     extensions,
@@ -86,7 +86,7 @@ export const makeSource: core.MakeSourcePlugin<Args> = async (args) => {
       onMissingOrIncompatibleData = 'skip-warn',
       onExtraFieldData = 'warn',
     },
-  } = await processArgs(args)
+  } = await processArgs(args, sourceKey)
 
   const flags: Flags = { onUnknownDocuments, onExtraFieldData, onMissingOrIncompatibleData }
 
@@ -103,7 +103,7 @@ export const makeSource: core.MakeSourcePlugin<Args> = async (args) => {
         makeCoreSchema({ documentTypeDefs, options, esbuildHash }),
         T.mapError((error) => new SourceProvideSchemaError({ error })),
       ),
-    fetchData: ({ schemaDef, verbose }) =>
+    fetchData: ({ schemaDef, verbose, skipCachePersistence }) =>
       pipe(
         S.fromEffect(core.getCwd),
         S.chain((cwd) => {
@@ -124,6 +124,7 @@ export const makeSource: core.MakeSourcePlugin<Args> = async (args) => {
             contentDirExclude,
             contentDirInclude,
             verbose,
+            skipCachePersistence,
           })
         }),
       ),

@@ -3,6 +3,7 @@ import * as fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import { absolutePosixFilePath } from '@contentlayer/utils'
 import * as core from 'contentlayer/core'
 import { defineDocumentType, makeSource } from 'contentlayer/source-files'
 import rehypeStringify from 'rehype-stringify'
@@ -10,6 +11,8 @@ import remarkFrontmatter from 'remark-frontmatter'
 import remarkParse from 'remark-parse'
 import remark2rehype from 'remark-rehype'
 import { expect, test, vi } from 'vitest'
+
+const configFilePath = absolutePosixFilePath('/not/used')
 
 test('markdown builder pattern', async () => {
   const Post = defineDocumentType(() => ({
@@ -38,10 +41,10 @@ test('markdown builder pattern', async () => {
 
       spyFn()
     },
-  })
+  })(undefined)
 
   await core.runMain({ tracingServiceName: 'contentlayer-test', verbose: false })(
-    core.generateDotpkg({ config: { source, esbuildHash: 'STATIC_HASH' }, verbose: true }),
+    core.generateDotpkg({ config: { source, esbuildHash: 'STATIC_HASH', filePath: configFilePath }, verbose: true }),
   )
 
   expect(spyFn).toHaveBeenCalledOnce()
