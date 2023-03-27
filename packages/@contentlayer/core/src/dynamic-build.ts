@@ -14,6 +14,7 @@ import type { PluginOptions, SourcePlugin } from './plugin.js'
 import { runMain } from './runMain.js'
 import type { SchemaDef } from './schema/index.js'
 
+// NOTE this is currently not used but we keep it around for now - who knows?
 export const dynamicBuildFromCompiledConfigMain = ({
   compiledConfigPath,
   esbuildHash,
@@ -67,6 +68,7 @@ export type FetchContentResult =
   | { _tag: 'Error'; error: SourceFetchDataErrorJSON | SourceProvideSchemaErrorJSON }
   | { _tag: 'Data'; data: DataExports }
 
+// NOTE this is currently not used but we keep it around for now - who knows?
 export const dynamicBuildMain = ({
   config,
   verbose,
