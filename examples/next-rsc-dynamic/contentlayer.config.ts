@@ -30,7 +30,7 @@ const syncContentFromGit = async ({ contentDir, gitTag }: { contentDir: string; 
   const syncRun = async () => {
     const gitUrl = 'https://github.com/vercel/next.js.git'
     await runBashCommand(`
-      #!/bin/bash
+      #! /usr/bin/env bash
 
       sync_lock_file="${contentDir}/.sync.lock"
 
@@ -97,7 +97,7 @@ const syncContentFromGit = async ({ contentDir, gitTag }: { contentDir: string; 
 
 const runBashCommand = (command: string) =>
   new Promise((resolve, reject) => {
-    const child = spawn(command, [], { shell: true })
+    const child = spawn(command, [], { shell: 'bash' })
 
     const logMessages: string[] = []
 
