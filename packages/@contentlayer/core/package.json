@@ -36,7 +36,7 @@
     "remark-parse": "^10.0.1",
     "remark-rehype": "^10.1.0",
     "source-map-support": "^0.5.21",
-    "type-fest": "^3.5.7",
+    "type-fest": "^3.7.1",
     "unified": "^10.1.2"
   },
   "devDependencies": {

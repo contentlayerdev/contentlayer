@@ -73,9 +73,9 @@
     "hash-wasm": "^4.9.0",
     "inflection": "^2.0.1",
     "memfs": "^3.4.13",
-    "oo-ascii-tree": "^1.74.0",
-    "ts-pattern": "^4.1.4",
-    "type-fest": "^3.5.7"
+    "oo-ascii-tree": "^1.79.0",
+    "ts-pattern": "^4.2.2",
+    "type-fest": "^3.7.1"
   },
   "devDependencies": {
     "@types/inflection": "^1.13.0"

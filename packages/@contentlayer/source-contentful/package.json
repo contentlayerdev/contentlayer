@@ -13,7 +13,7 @@
     "test": "echo No tests yet"
   },
   "devDependencies": {
-    "@types/node": "^18.13.0"
+    "@types/node": "^18.15.10"
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*",
