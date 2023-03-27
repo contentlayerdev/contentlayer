@@ -103,5 +103,6 @@ Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest
 - [anudeepreddy.dev](https://anudeepreddy.dev/)
 - [nikhilmohite.com](https://nikhilmohite.com/)
 - [shenlu.me](https://shenlu.me) ([Source](https://github.com/shenlu89/shenlu89.github.io))
+- [chillinmice.dev](https://chillinmice-dev.vercel.app/) ([Source](https://github.com/restareaByWeezy/tech_blog))
 
 Are you using Contentlayer? Please add your page (and repo) to the end of the list via a PR. 🙏
