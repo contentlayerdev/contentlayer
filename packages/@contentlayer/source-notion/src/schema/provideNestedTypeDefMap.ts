@@ -4,6 +4,22 @@ import { OT, pipe, T } from '@contentlayer/utils/effect'
 export const provideNestedTypeDefMap = (): T.Effect<OT.HasTracer, unknown, core.NestedTypeDefMap> =>
   pipe(
     T.succeed({
+      body: {
+        _tag: 'NestedTypeDef' as const,
+        name: 'Body',
+        description: 'The body generated using page content',
+        fieldDefs: [
+          {
+            name: 'html',
+            type: 'string' as const,
+            description: 'The HTML body',
+            isSystemField: false,
+            default: undefined,
+            isRequired: true,
+          },
+        ],
+        extensions: {},
+      },
       dateRange: {
         _tag: 'NestedTypeDef' as const,
         name: 'DateRange',

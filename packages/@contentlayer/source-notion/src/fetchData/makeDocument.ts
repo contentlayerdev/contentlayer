@@ -40,7 +40,9 @@ export const makeDocument = ({ documentTypeDef, databaseTypeDef, page, options }
           _raw: {},
           ...(databaseTypeDef.importContent !== false
             ? {
-                [options.fieldOptions.bodyFieldName]: yield* $(fetchPageContent({ page })),
+                [options.fieldOptions.bodyFieldName]: {
+                  html: yield* $(fetchPageContent({ page })),
+                },
               }
             : {}),
         }
