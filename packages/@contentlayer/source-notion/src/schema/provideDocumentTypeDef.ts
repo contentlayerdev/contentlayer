@@ -30,9 +30,10 @@ export const provideDocumentTypeDef = ({ databaseTypeDef, getDocumentTypeDef, op
       if (databaseTypeDef.importContent !== false) {
         fieldDefs.push({
           name: options.fieldOptions.bodyFieldName,
-          type: 'string',
+          type: 'nested',
+          nestedTypeName: 'Body',
           description: 'The page content',
-          isRequired: false,
+          isRequired: true,
           isSystemField: true,
           default: undefined,
         })
