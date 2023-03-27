@@ -1,7 +1,7 @@
 import * as path from 'node:path'
 
 import type { AbsolutePosixFilePath } from '@contentlayer/utils'
-import { absolutePosixFilePath, fs } from '@contentlayer/utils'
+import { absolutePosixFilePath, fs, unknownToAbsolutePosixFilePath } from '@contentlayer/utils'
 import type { E } from '@contentlayer/utils/effect'
 import { Array, Chunk, O, OT, pipe, S, T } from '@contentlayer/utils/effect'
 import type { GetContentlayerVersionError } from '@contentlayer/utils/node'
@@ -146,6 +146,7 @@ const getConfigFromResult = ({
         Array.find((_) => _.match(/compiled-contentlayer-config-.+.mjs$/) !== null),
         // Needs to be absolute path for ESM import to work
         O.map((_) => path.join(cwd, _)),
+        O.map(unknownToAbsolutePosixFilePath),
         O.getUnsafe,
       )
 
