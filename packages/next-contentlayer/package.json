@@ -35,7 +35,7 @@
     "./package.json"
   ],
   "scripts": {
-    "prepack": "sed '/^import /d' dist/index-cjs.js > dist/index-cjs.cjs; cp src/hooks/jsx-runtime.cjs dist/hooks/jsx-runtime.cjs"
+    "prepack": "sed '/^import\\|^export/d' dist/index-cjs.js > dist/index-cjs.cjs; cp src/hooks/jsx-runtime.cjs dist/hooks/jsx-runtime.cjs"
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*",
