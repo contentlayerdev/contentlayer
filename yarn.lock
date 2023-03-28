@@ -6672,10 +6672,10 @@ __metadata:
   dependencies:
     "@types/react": 18.0.29
     autoprefixer: ^10.4.14
-    contentlayer: 0.3.1-dev.3
+    contentlayer: 0.3.1
     date-fns: 2.29.3
     next: 13.2.4
-    next-contentlayer: 0.3.1-dev.3
+    next-contentlayer: 0.3.1
     postcss: ^8.4.21
     react: 18.2.0
     react-dom: 18.2.0

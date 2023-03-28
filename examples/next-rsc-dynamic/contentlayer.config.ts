@@ -124,7 +124,7 @@ const runBashCommand = (command: string) =>
   })
 
 export default makeSource((sourceKey = 'canary') => ({
-  syncFiles: (contentDir) => syncContentFromGit({ contentDir, gitTag: sourceKey ?? 'canary' }),
+  syncFiles: (contentDir) => syncContentFromGit({ contentDir, gitTag: sourceKey }),
   contentDirPath: `content/nextjs-repo-${sourceKey}`,
   contentDirInclude: ['docs'],
   documentTypes: [Post],
