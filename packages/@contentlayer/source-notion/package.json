@@ -1,6 +1,6 @@
 {
   "name": "contentlayer-source-notion",
-  "version": "0.0.1-alpha.13",
+  "version": "0.0.1-alpha.14",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
