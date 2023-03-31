@@ -5,8 +5,8 @@ import type * as notion from '@notionhq/client'
 import type { DatabaseTypes } from './schema/types/database.js'
 
 export type PluginOptions = {
-  client?: notion.Client
-  renderer?: NotionRenderer
+  clientOptions?: ConstructorParameters<typeof notion.Client>[0]
+  rendererOptions?: ConstructorParameters<typeof NotionRenderer>[0]
   databaseTypes: DatabaseTypes
 }
 

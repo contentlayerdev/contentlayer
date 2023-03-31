@@ -5,6 +5,7 @@ import { NotionRenderer } from '@notion-render/client'
 import * as notion from '@notionhq/client'
 
 import { fetchAllDocuments } from './fetchData/fetchAllDocuments.js'
+import { fetchNotion } from './notion/fetchNotion.js'
 import { provideSchema } from './schema/provideSchema.js'
 import { flattendDatabaseTypeDef } from './schema/utils/flattenDatabaseTypeDef.js'
 import { NotionClient, NotionRenderer as NotionRendererTag } from './services.js'
@@ -23,8 +24,11 @@ export const makeSource: core.MakeSourcePlugin<PluginOptions & core.PartialArgs>
     _.def(),
   )
 
-  const client = rest.client ?? new notion.Client()
-  const renderer = rest.renderer ?? new NotionRenderer({ client })
+  const client = new notion.Client({
+    fetch: fetchNotion,
+    ...rest.clientOptions,
+  })
+  const renderer = new NotionRenderer({ client, ...rest.rendererOptions })
 
   return {
     type: 'notion',

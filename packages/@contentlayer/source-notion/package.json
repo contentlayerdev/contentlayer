@@ -22,6 +22,8 @@
     "@notion-render/client": "1.0.0-rc.1",
     "@notionhq/client": "^2.2.3",
     "contentful-management": "7.22.4",
+    "p-queue": "^7.3.4",
+    "p-retry": "^5.1.2",
     "slugify": "^1.6.5"
   }
 }
