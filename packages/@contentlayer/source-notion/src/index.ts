@@ -4,7 +4,7 @@ import { pipe, S, T } from '@contentlayer/utils/effect'
 import { NotionRenderer } from '@notion-render/client'
 import * as notion from '@notionhq/client'
 
-import { fetchAllDocuments } from './fetchData/fetchAllDocuments.js'
+import { fetchData } from './fetchData/fetchData.js'
 import { fetchNotion } from './notion/fetchNotion.js'
 import { provideSchema } from './schema/provideSchema.js'
 import { flattendDatabaseTypeDef } from './schema/utils/flattenDatabaseTypeDef.js'
@@ -49,7 +49,7 @@ export const makeSource: core.MakeSourcePlugin<PluginOptions & core.PartialArgs>
       pipe(
         S.fromEffect(
           pipe(
-            fetchAllDocuments({
+            fetchData({
               databaseTypeDefs: databaseTypeDefs.map((databaseTypeDef) => flattendDatabaseTypeDef(databaseTypeDef)),
               schemaDef,
               options,

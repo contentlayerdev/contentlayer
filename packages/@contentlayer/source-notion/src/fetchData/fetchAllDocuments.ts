@@ -10,11 +10,12 @@ import { makeCacheItem } from './makeCacheItem.js'
 
 export type FetchAllDocumentsArgs = {
   databaseTypeDefs: DatabaseTypeDef[]
+  previousCache: core.DataCache.Cache | undefined
   schemaDef: core.SchemaDef
   options: core.PluginOptions
 }
 
-export const fetchAllDocuments = ({ databaseTypeDefs, schemaDef, options }: FetchAllDocumentsArgs) =>
+export const fetchAllDocuments = ({ databaseTypeDefs, previousCache, schemaDef, options }: FetchAllDocumentsArgs) =>
   pipe(
     T.forEachPar_(databaseTypeDefs, (databaseTypeDef) =>
       pipe(
@@ -27,6 +28,7 @@ export const fetchAllDocuments = ({ databaseTypeDefs, schemaDef, options }: Fetc
                   page,
                   documentTypeDef: schemaDef.documentTypeDefMap[databaseTypeDef.name]!,
                   databaseTypeDef,
+                  previousCache,
                   options,
                 }),
               ),
