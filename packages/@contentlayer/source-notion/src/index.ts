@@ -24,11 +24,16 @@ export const makeSource: core.MakeSourcePlugin<PluginOptions & core.PartialArgs>
     _.def(),
   )
 
-  const client = new notion.Client({
-    fetch: fetchNotion,
-    ...rest.clientOptions,
-  })
-  const renderer = new NotionRenderer({ client, ...rest.rendererOptions })
+  const client =
+    rest.client instanceof notion.Client
+      ? rest.client
+      : new notion.Client({
+          fetch: fetchNotion,
+          ...rest.client,
+        })
+
+  const renderer =
+    rest.renderer instanceof NotionRenderer ? rest.renderer : new NotionRenderer({ client, ...rest.renderer })
 
   return {
     type: 'notion',
