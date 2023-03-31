@@ -14,8 +14,6 @@ export type FetchAllDocumentsArgs = {
   options: core.PluginOptions
 }
 
-console.log(os.cpus().length)
-
 export const fetchAllDocuments = ({ databaseTypeDefs, schemaDef, options }: FetchAllDocumentsArgs) =>
   pipe(
     T.forEachPar_(databaseTypeDefs, (databaseTypeDef) =>
