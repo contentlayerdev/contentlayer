@@ -1,8 +1,8 @@
 import * as os from 'node:os'
 
+import type { DataCache } from '@contentlayer/core'
 import * as core from '@contentlayer/core'
-import { Chunk, OT, pipe, T } from '@contentlayer/utils/effect'
-import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
+import { Chunk, OT, pipe, S, T } from '@contentlayer/utils/effect'
 
 import { fetchDatabasePages } from '../notion/fetchDatabasePages.js'
 import type { DatabaseTypeDef } from '../schema/types/database.js'
@@ -14,41 +14,35 @@ export type FetchAllDocumentsArgs = {
   options: core.PluginOptions
 }
 
+console.log(os.cpus().length)
+
 export const fetchAllDocuments = ({ databaseTypeDefs, schemaDef, options }: FetchAllDocumentsArgs) =>
   pipe(
     T.forEachPar_(databaseTypeDefs, (databaseTypeDef) =>
       pipe(
         fetchDatabasePages({ databaseTypeDef }),
-        T.chain((pages) =>
-          T.forEachPar_(pages, (page) =>
-            T.succeed({
-              page,
-              documentTypeDef: schemaDef.documentTypeDefMap[databaseTypeDef.name]!,
-              databaseTypeDef,
-            }),
+        S.chain((pages) =>
+          pipe(
+            S.effect(
+              T.forEachParN_(pages, os.cpus().length, (page) =>
+                makeCacheItem({
+                  page,
+                  documentTypeDef: schemaDef.documentTypeDefMap[databaseTypeDef.name]!,
+                  databaseTypeDef,
+                  options,
+                }),
+              ),
+            ),
+            OT.withStreamSpan('@contentlayer/source-notion/fetchData:makeCacheItems'),
           ),
         ),
+        S.runCollect,
+        T.chain((chunks) => T.reduce_(chunks, [] as DataCache.CacheItem[], (z, a) => T.succeed([...z, ...a]))),
       ),
     ),
-    T.chain((chunks) =>
-      T.reduce_(
-        chunks,
-        [] as {
-          documentTypeDef: core.DocumentTypeDef
-          page: PageObjectResponse
-          databaseTypeDef: DatabaseTypeDef
-        }[],
-        (z, a) => T.succeed([...z, ...a]),
-      ),
-    ),
-    T.chain((entries) =>
-      T.forEachParN_(entries, os.cpus().length, ({ page, documentTypeDef, databaseTypeDef }) =>
-        makeCacheItem({ page, documentTypeDef, databaseTypeDef, options }),
-      ),
-    ),
-    T.map((documents) => ({
-      cacheItemsMap: Object.fromEntries(Chunk.map_(documents, (_) => [_.document._id, _])),
-    })),
+
+    T.map((chunks) => Chunk.reduce_(chunks, [] as DataCache.CacheItem[], (z, a) => [...z, ...a])),
+    T.map((documents) => ({ cacheItemsMap: Object.fromEntries(documents.map((_) => [_.document._id, _])) })),
     OT.withSpan('@contentlayer/source-notion/fetchData:fetchAllDocuments'),
     T.mapError((error) => new core.SourceFetchDataError({ error, alreadyHandled: false })),
   )
