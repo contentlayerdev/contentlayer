@@ -13,7 +13,7 @@ export const getComputedValues = ({ document, documentTypeDef }: GetComputedValu
       mapValue: (field) =>
         T.tryCatchPromise(
           async () => field.resolve(document),
-          (error) => new Error('TODO: Make error'),
+          () => new Error('TODO: Make error'),
         ),
     }),
     OT.withSpan('@contentlayer/source-notion/fetchData:getComputedValues'),

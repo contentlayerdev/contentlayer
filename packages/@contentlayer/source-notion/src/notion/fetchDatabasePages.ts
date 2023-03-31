@@ -1,5 +1,4 @@
-import { Chunk, OT, pipe, S, T } from '@contentlayer/utils/effect'
-import * as notion from '@notionhq/client'
+import { OT, pipe, S } from '@contentlayer/utils/effect'
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 
 import type { DatabaseTypeDef } from '../schema/types/database.js'
