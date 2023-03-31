@@ -1,6 +1,6 @@
 import type * as core from '@contentlayer/core'
 import type { Has } from '@contentlayer/utils/effect'
-import { pipe, T } from '@contentlayer/utils/effect'
+import { T } from '@contentlayer/utils/effect'
 import type { NotionRenderer } from '@notion-render/client'
 import type * as notion from '@notionhq/client'
 
@@ -66,7 +66,6 @@ export type FieldFunctions<T extends DatabasePropertyTypes = DatabasePropertyTyp
 }
 
 type FieldMappingType = {
-  // TODO : Remove optional
   [key in DatabasePropertyTypes]: FieldFunctions
 }
 
@@ -93,43 +92,18 @@ const FieldMapping: FieldMappingType = {
   rollup: fieldRollup,
 }
 
-export const getFieldFunctions = <T extends DatabasePropertyTypes = DatabasePropertyTypes>(
-  type: DatabasePropertyTypes,
-) =>
-  pipe(
-    T.sync(() => FieldMapping[type] as FieldFunctions<T> | undefined),
-
-    T.chain((func) =>
-      T.cond_(
-        !!func,
-        () => func!,
-        () => 'fail' as const, // TODO : Error
-      ),
-    ),
-  )
-
 export const getFieldDef = <T extends DatabasePropertyTypes>(
   args: { property: DatabaseProperties } & Omit<GetFieldDefArgs<T>, 'propertyData'>,
 ) =>
-  pipe(
-    getFieldFunctions(args.property.type),
-    T.chain((functions) =>
-      functions.getFieldDef({
-        propertyData: getDatabasePropertyData(args.property),
-        ...args,
-      }),
-    ),
-  )
+  FieldMapping[args.property.type].getFieldDef({
+    propertyData: getDatabasePropertyData(args.property),
+    ...args,
+  })
 
 export const getFieldData = <T extends PagePropertyTypes>(
   args: { property: PageProperties } & Omit<GetFieldDataArgs<T>, 'propertyData'>,
 ) =>
-  pipe(
-    getFieldFunctions(args.property.type),
-    T.chain((functions) =>
-      functions.getFieldData({
-        propertyData: getPagePropertyData(args.property),
-        ...args,
-      }),
-    ),
-  )
+  FieldMapping[args.property.type].getFieldData({
+    propertyData: getPagePropertyData(args.property),
+    ...args,
+  })

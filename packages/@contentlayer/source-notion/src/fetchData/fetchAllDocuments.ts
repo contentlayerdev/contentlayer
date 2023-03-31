@@ -40,7 +40,6 @@ export const fetchAllDocuments = ({ databaseTypeDefs, schemaDef, options }: Fetc
         T.chain((chunks) => T.reduce_(chunks, [] as DataCache.CacheItem[], (z, a) => T.succeed([...z, ...a]))),
       ),
     ),
-
     T.map((chunks) => Chunk.reduce_(chunks, [] as DataCache.CacheItem[], (z, a) => [...z, ...a])),
     T.map((documents) => ({ cacheItemsMap: Object.fromEntries(documents.map((_) => [_.document._id, _])) })),
     OT.withSpan('@contentlayer/source-notion/fetchData:fetchAllDocuments'),

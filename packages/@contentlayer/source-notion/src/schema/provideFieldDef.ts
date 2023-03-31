@@ -31,6 +31,5 @@ export const provideFieldDef = ({ property, databaseTypeDef, getDocumentTypeDef 
         } as FieldDef
       }),
     ),
-    T.catchAll(() => T.succeed(undefined)), // TODO : Better error handling
     OT.withSpan('@contentlayer/source-notion/schema:provideFieldDef'),
   )

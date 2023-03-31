@@ -1,6 +1,8 @@
 import type * as core from '@contentlayer/core'
 import { OT, pipe, T } from '@contentlayer/utils/effect'
 
+import { ComputedValueError } from './errors.js'
+
 export type GetComputedValuesArgs = {
   document: core.Document
   documentTypeDef: core.DocumentTypeDef
@@ -13,7 +15,7 @@ export const getComputedValues = ({ document, documentTypeDef }: GetComputedValu
       mapValue: (field) =>
         T.tryCatchPromise(
           async () => field.resolve(document),
-          () => new Error('TODO: Make error'),
+          (error) => new ComputedValueError({ error, documentTypeDef, document }),
         ),
     }),
     OT.withSpan('@contentlayer/source-notion/fetchData:getComputedValues'),

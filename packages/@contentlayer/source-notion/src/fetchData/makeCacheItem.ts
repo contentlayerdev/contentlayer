@@ -19,7 +19,7 @@ export const makeCacheItem = ({ databaseTypeDef, documentTypeDef, page, options 
     T.gen(function* ($) {
       const document = yield* $(makeDocument({ documentTypeDef, databaseTypeDef, page, options }))
 
-      const computedValues = yield $(getComputedValues({ document, documentTypeDef }))
+      const computedValues = yield* $(getComputedValues({ document, documentTypeDef }))
 
       Object.entries(computedValues).forEach(([fieldName, value]) => {
         document[fieldName] = value
