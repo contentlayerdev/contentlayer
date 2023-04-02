@@ -1040,10 +1040,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@notion-render/client@npm:1.0.0-rc.1":
-  version: 1.0.0-rc.1
-  resolution: "@notion-render/client@npm:1.0.0-rc.1"
-  checksum: a4f6541aee29f565dcf23004aa5aa44fbe53919a23a82840815ff1e19a79115d004edab6d432cc97235e312a55cf8e803ea3d649f7dfef6bf976d501125c7f2e
+"@notion-render/client@npm:1.0.0-rc.3":
+  version: 1.0.0-rc.3
+  resolution: "@notion-render/client@npm:1.0.0-rc.3"
+  checksum: 198791fa2ee4d588628dbe41297abe9839779ac0efa7baf36d433b158756701ec6bfb93379a039a7483742055050dcc61159d1cdeaef6be6d8d235ae72ad2749
   languageName: node
   linkType: hard
 
@@ -3035,10 +3035,9 @@ __metadata:
   dependencies:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/utils": "workspace:*"
-    "@notion-render/client": 1.0.0-rc.1
+    "@notion-render/client": 1.0.0-rc.3
     "@notionhq/client": ^2.2.3
     "@types/node": ^18.13.0
-    contentful-management: 7.22.4
     p-queue: ^7.3.4
     p-retry: ^5.1.2
     slugify: ^1.6.5
