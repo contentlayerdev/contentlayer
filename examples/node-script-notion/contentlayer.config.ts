@@ -6,7 +6,7 @@ export const Post = defineDatabase(() => ({
 }))
 
 export default makeSource({
-  clientOptions: {
+  client: {
     auth: process.env.NOTION_TOKEN,
   },
   databaseTypes: [Post],

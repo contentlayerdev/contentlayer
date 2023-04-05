@@ -13,12 +13,12 @@ import type { PluginOptions } from './types.js'
 
 export * from './schema/types/database.js'
 
-export const makeSource: core.MakeSourcePlugin<PluginOptions & core.PartialArgs> = async (args) => {
+export const makeSource: core.MakeSourcePlugin<PluginOptions & core.PartialArgs> = (args) => async (sourceKey) => {
   const {
     options,
     extensions,
     restArgs: { databaseTypes, ...rest },
-  } = await processArgs(args)
+  } = await processArgs(args, sourceKey)
 
   const databaseTypeDefs = (Array.isArray(databaseTypes) ? databaseTypes : Object.values(databaseTypes)).map((_) =>
     _.def(),
