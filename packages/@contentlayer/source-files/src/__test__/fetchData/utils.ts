@@ -1,6 +1,7 @@
 import type { HasCwd } from '@contentlayer/core'
 import * as core from '@contentlayer/core'
 import { provideCwd } from '@contentlayer/core'
+import type { fs } from '@contentlayer/utils'
 import {
   provideDummyTracing,
   unknownToAbsolutePosixFilePath,
@@ -8,6 +9,7 @@ import {
 } from '@contentlayer/utils'
 import type { HasClock, HasConsole, OT } from '@contentlayer/utils/effect'
 import { pipe, provideTestConsole, T, These } from '@contentlayer/utils/effect'
+import { NodeFsLive } from '@contentlayer/utils/node'
 
 import type { HasDocumentTypeMapState } from '../../fetchData/DocumentTypeMap.js'
 import { provideDocumentTypeMapState } from '../../fetchData/DocumentTypeMap.js'
@@ -30,7 +32,7 @@ export const runTest = async ({
     const contentDirPath = unknownToAbsolutePosixFilePath(contentDirPath_)
     const esbuildHash = 'not-important-for-this-test'
 
-    const source = yield* $(T.tryPromise(() => makeSource({ contentDirPath, documentTypes })))
+    const source = yield* $(T.tryPromise(() => makeSource({ contentDirPath, documentTypes })(undefined)))
     const coreSchemaDef = yield* $(source.provideSchema(esbuildHash))
 
     const documentTypeDefs = (Array.isArray(documentTypes) ? documentTypes : Object.values(documentTypes)).map((_) =>
@@ -45,6 +47,7 @@ export const runTest = async ({
       mdx: undefined,
       fieldOptions: core.defaultFieldOptions,
       disableImportAliasWarning: false,
+      experimental: { enableDynamicBuild: false },
     }
 
     const cache = yield* $(
@@ -69,7 +72,7 @@ export const runTest = async ({
 }
 
 const runMain = async <E, A>(
-  eff: T.Effect<OT.HasTracer & HasClock & HasCwd & HasConsole & HasDocumentTypeMapState, E, A>,
+  eff: T.Effect<OT.HasTracer & HasClock & HasCwd & HasConsole & HasDocumentTypeMapState & fs.HasFs, E, A>,
 ) => {
   const logMessages: string[] = []
   const result = await pipe(
@@ -78,6 +81,7 @@ const runMain = async <E, A>(
     provideDocumentTypeMapState,
     provideCwd,
     provideDummyTracing,
+    T.provideSomeLayer(NodeFsLive),
     T.runPromise,
   )
 

@@ -1,8 +1,7 @@
 import * as core from '@contentlayer/core'
 import * as utils from '@contentlayer/utils'
-import { unknownToRelativePosixFilePath } from '@contentlayer/utils'
+import { fs, unknownToRelativePosixFilePath } from '@contentlayer/utils'
 import { identity, OT, pipe, T } from '@contentlayer/utils/effect'
-import { fs } from '@contentlayer/utils/node'
 import type * as ImageScript from 'imagescript'
 import type sharp from 'sharp'
 
@@ -45,7 +44,11 @@ const getImageFieldData = ({
   contentDirPath: utils.AbsolutePosixFilePath
   fieldDef: core.FieldDef
   imagePath: string
-}): T.Effect<OT.HasTracer & core.HasCwd & HasDocumentContext, FetchDataError.ImageError, core.ImageFieldData> =>
+}): T.Effect<
+  OT.HasTracer & core.HasCwd & HasDocumentContext & fs.HasFs,
+  FetchDataError.ImageError,
+  core.ImageFieldData
+> =>
   pipe(
     T.gen(function* ($) {
       const cwd = yield* $(core.getCwd)

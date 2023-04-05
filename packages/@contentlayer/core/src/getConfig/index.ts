@@ -1,9 +1,10 @@
 import * as path from 'node:path'
 
+import type { AbsolutePosixFilePath } from '@contentlayer/utils'
+import { fs, unknownToAbsolutePosixFilePath } from '@contentlayer/utils'
 import type { E } from '@contentlayer/utils/effect'
 import { Array, Chunk, O, OT, pipe, S, T } from '@contentlayer/utils/effect'
 import type { GetContentlayerVersionError } from '@contentlayer/utils/node'
-import { fs } from '@contentlayer/utils/node'
 
 import type { HasCwd } from '../cwd.js'
 import { getCwd } from '../cwd.js'
@@ -27,13 +28,16 @@ type GetConfigError =
 export type Config = {
   source: SourcePlugin
   esbuildHash: string
+  /** File path to the compiled Contentlayer config (usually in `.contentlayer/.cache/_some_version_/...`) */
+  filePath: AbsolutePosixFilePath
 }
 
 export const getConfig = ({
   configPath,
 }: {
+  /** Contentlayer config source path */
   configPath?: string
-}): T.Effect<OT.HasTracer & HasCwd, GetConfigError, Config> =>
+}): T.Effect<OT.HasTracer & HasCwd & fs.HasFs, GetConfigError, Config> =>
   pipe(
     getConfigWatch({ configPath }),
     S.take(1),
@@ -47,7 +51,7 @@ export const getConfigWatch = ({
   configPath: configPath_,
 }: {
   configPath?: string
-}): S.Stream<OT.HasTracer & HasCwd, never, E.Either<GetConfigError, Config>> => {
+}): S.Stream<OT.HasTracer & HasCwd & fs.HasFs, never, E.Either<GetConfigError, Config>> => {
   const resolveParams = pipe(
     T.structPar({ configPath: resolveConfigPath({ configPath: configPath_ }), cwd: getCwd }),
     T.chainMergeObject(() => makeTmpDirAndResolveEntryPoint),
@@ -84,7 +88,7 @@ const resolveConfigPath = ({
   configPath,
 }: {
   configPath?: string
-}): T.Effect<HasCwd & OT.HasTracer, NoConfigFoundError | fs.StatError, string> =>
+}): T.Effect<HasCwd & OT.HasTracer & fs.HasFs, NoConfigFoundError | fs.StatError, string> =>
   T.gen(function* ($) {
     const cwd = yield* $(getCwd)
 
@@ -142,6 +146,7 @@ const getConfigFromResult = ({
         Array.find((_) => _.match(/compiled-contentlayer-config-.+.mjs$/) !== null),
         // Needs to be absolute path for ESM import to work
         O.map((_) => path.join(cwd, _)),
+        O.map(unknownToAbsolutePosixFilePath),
         O.getUnsafe,
       )
 
@@ -165,7 +170,7 @@ const getConfigFromResult = ({
       // NOTES:
       // 1) `?x=` suffix needed in case of re-loading when watching the config file for changes
       // 2) `file://` prefix is needed for Windows to work properly
-      const importFresh = async (modulePath: string) => import(`file://${modulePath}?x=${new Date()}`)
+      const importFresh = async (modulePath: string) => import(`file://${modulePath}?x=${Date.now()}`)
 
       const exports = yield* $(
         pipe(
@@ -185,14 +190,14 @@ const getConfigFromResult = ({
       const source: SourcePlugin = yield* $(
         pipe(
           T.tryCatchPromise(
-            async () => exports.default,
+            async () => exports.default(),
             (error) => new ConfigReadError({ error, configPath }),
           ),
           OT.withSpan('resolve-source-plugin-promise'),
         ),
       )
 
-      return { source, esbuildHash }
+      return { source, esbuildHash, filePath: outfilePath }
     }),
     OT.withSpan('@contentlayer/core/getConfig:getConfigFromResult', { attributes: { configPath } }),
     T.either,

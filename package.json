@@ -29,16 +29,16 @@
     "@changesets/cli": "2.19.0-temp.0",
     "@effect-ts/tracing-plugin": "^0.20.0",
     "@types/prettier": "^2.7.2",
-    "@typescript-eslint/eslint-plugin": "^5.51.0",
-    "@typescript-eslint/parser": "^5.51.0",
-    "eslint": "^8.34.0",
-    "eslint-config-prettier": "^8.6.0",
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "@typescript-eslint/parser": "^5.56.0",
+    "eslint": "^8.36.0",
+    "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
-    "prettier": "^2.8.4",
+    "prettier": "^2.8.7",
     "ts-patch": "^2.1.0",
-    "typescript": "^4.9.5"
+    "typescript": "^5.0.2"
   },
   "resolutions": {
     "esbuild": "0.17.0",

@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/experimental-source-files-stackbit",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "type": "module",
   "exports": {
     ".": {
@@ -29,10 +29,10 @@
     "@contentlayer/core": "workspace:*",
     "@contentlayer/source-files": "workspace:*",
     "@contentlayer/utils": "workspace:*",
-    "@stackbit/sdk": "~0.3.18"
+    "@stackbit/sdk": "~0.3.25"
   },
   "devDependencies": {
-    "vite": "^4.1.1",
-    "vitest": "0.28.4"
+    "vite": "^4.2.1",
+    "vitest": "0.29.7"
   }
 }

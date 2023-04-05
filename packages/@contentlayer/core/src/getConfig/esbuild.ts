@@ -178,3 +178,15 @@ export const shutdown = (self: EsbuildWatcher): T.Effect<unknown, never, void> =
 
   return self.shutdown
 }
+
+export const esbuildOnce = (
+  buildOptions: esbuild.BuildOptions,
+): T.Effect<OT.HasTracer, EsbuildError, esbuild.BuildResult> =>
+  pipe(
+    T.tryPromise(() => esbuild.build(buildOptions)),
+    T.chain((result) =>
+      result.errors.length > 0 ? T.fail(new KnownEsbuildError({ error: result.errors })) : T.succeed(result),
+    ),
+    T.mapError((error) => new UnknownEsbuildError({ error })),
+    OT.withSpan('esbuild:build'),
+  )

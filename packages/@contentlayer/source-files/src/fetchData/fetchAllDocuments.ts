@@ -2,10 +2,9 @@ import * as os from 'node:os'
 
 import type * as core from '@contentlayer/core'
 import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer/utils'
-import { asMutableArray, relativePosixFilePath } from '@contentlayer/utils'
+import { asMutableArray, fs, relativePosixFilePath } from '@contentlayer/utils'
 import type { HasConsole } from '@contentlayer/utils/effect'
 import { Chunk, O, OT, pipe, T } from '@contentlayer/utils/effect'
-import { fs } from '@contentlayer/utils/node'
 import glob from 'fast-glob'
 
 import { FetchDataError } from '../errors/index.js'
@@ -38,7 +37,7 @@ export const fetchAllDocuments = ({
   previousCache: core.DataCache.Cache | undefined
   verbose: boolean
 }): T.Effect<
-  OT.HasTracer & HasConsole & core.HasCwd,
+  OT.HasTracer & HasConsole & core.HasCwd & fs.HasFs,
   fs.UnknownFSError | core.HandledFetchDataError,
   core.DataCache.Cache
 > =>

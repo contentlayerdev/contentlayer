@@ -35,7 +35,7 @@ const schemaFromFixture = (fixtureName: string) => async () => {
 
   const documentTypes = stackbitConfigToDocumentTypes(configResult.config!)
 
-  const contentlayerSource = await SourceFiles.makeSource({ contentDirPath: NOT_USED_STR, documentTypes })
+  const contentlayerSource = await SourceFiles.makeSource({ contentDirPath: NOT_USED_STR, documentTypes })(undefined)
   const schema = await runMain(contentlayerSource.provideSchema(NOT_USED_STR))
 
   return schema.result

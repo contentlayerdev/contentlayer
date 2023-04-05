@@ -1,9 +1,8 @@
 import type * as core from '@contentlayer/core'
 import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer/utils'
-import { filePathJoin } from '@contentlayer/utils'
+import { filePathJoin, fs } from '@contentlayer/utils'
 import type { HasConsole } from '@contentlayer/utils/effect'
 import { identity, O, OT, pipe, T, These } from '@contentlayer/utils/effect'
-import { fs } from '@contentlayer/utils/node'
 import matter from 'gray-matter'
 import yaml from 'yaml'
 
@@ -33,7 +32,7 @@ export const makeCacheItemFromFilePath = ({
   previousCache: core.DataCache.Cache | undefined
   contentTypeMap: ContentTypeMap
 }): T.Effect<
-  OT.HasTracer & HasConsole & HasDocumentTypeMapState & core.HasCwd,
+  OT.HasTracer & HasConsole & HasDocumentTypeMapState & core.HasCwd & fs.HasFs,
   never,
   These.These<FetchDataError.FetchDataError, core.DataCache.CacheItem>
 > =>
@@ -110,9 +109,9 @@ export const makeCacheItemFromFilePath = ({
     OT.withSpan('@contentlayer/source-local/fetchData:makeCacheItemFromFilePath', { attributes: { relativeFilePath } }),
     T.mapError((error) => {
       switch (error._tag) {
-        case 'node.fs.StatError':
-        case 'node.fs.ReadFileError':
-        case 'node.fs.FileNotFoundError':
+        case 'fs.StatError':
+        case 'fs.ReadFileError':
+        case 'fs.FileNotFoundError':
           return new FetchDataError.UnexpectedError({ error, documentFilePath: relativeFilePath })
         default:
           return error
@@ -128,7 +127,7 @@ const processRawContent = ({
   fullFilePath: AbsolutePosixFilePath
   relativeFilePath: RelativePosixFilePath
 }): T.Effect<
-  OT.HasTracer,
+  OT.HasTracer & fs.HasFs,
   | FetchDataError.UnsupportedFileExtension
   | FetchDataError.InvalidFrontmatterError
   | FetchDataError.InvalidMarkdownFileError

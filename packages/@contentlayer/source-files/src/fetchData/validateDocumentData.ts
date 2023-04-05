@@ -1,8 +1,7 @@
 import type * as core from '@contentlayer/core'
 import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer/utils'
-import { filePathJoin } from '@contentlayer/utils'
+import { filePathJoin, fs } from '@contentlayer/utils'
 import { O, OT, pipe, T, These } from '@contentlayer/utils/effect'
-import { fs } from '@contentlayer/utils/node'
 import micromatch from 'micromatch'
 
 import { FetchDataError } from '../errors/index.js'
@@ -39,7 +38,7 @@ export const validateDocumentData = ({
   contentDirPath: AbsolutePosixFilePath
   contentTypeMap: ContentTypeMap
 }): T.Effect<
-  HasDocumentTypeMapState & OT.HasTracer,
+  HasDocumentTypeMapState & OT.HasTracer & fs.HasFs,
   never,
   These.These<ValidateDocumentDataError, { documentTypeDef: core.DocumentTypeDef }>
 > =>
@@ -171,7 +170,7 @@ const validateFieldData = ({
   coreSchemaDef: core.SchemaDef
   contentDirPath: AbsolutePosixFilePath
 }): T.Effect<
-  OT.HasTracer,
+  OT.HasTracer & fs.HasFs,
   never,
   O.Option<
     | FetchDataError.IncompatibleFieldDataError

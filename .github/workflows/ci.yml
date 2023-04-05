@@ -31,7 +31,7 @@ jobs:
   build-example-next-contentlayer-example:
     strategy:
       matrix:
-        node-version: [14, 16, 17, 18]
+        node-version: [17, 18] # `app` dir requires 17+
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
@@ -39,6 +39,18 @@ jobs:
       - run: yarn build
       - run: yarn build
         working-directory: examples/next-contentlayer-example
+
+  build-example-next-rsc-dynamic-example:
+    strategy:
+      matrix:
+        node-version: [17, 18] # `app` dir requires 17+
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: schickling-actions/checkout-and-install@main
+      - run: yarn build
+      - run: yarn build
+        working-directory: examples/next-rsc-dynamic
 
   build-example-node-script:
     strategy:

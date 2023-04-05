@@ -114,3 +114,5 @@ export const mapEitherRight =
   <R1, E1, EE1>(stream: S.Stream<R1, E1, E.Either<EE1, A1>>): S.Stream<R1, E1, E.Either<EE1, A2>> => {
     return S.map_(stream, E.map(mapRight))
   }
+
+export const fromValue = <A>(a: A) => S.fromEffect(T.succeed(a))
