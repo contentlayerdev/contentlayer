@@ -29,7 +29,8 @@ module.exports.createContentlayerPlugin =
   (nextConfig: Partial<NextConfig> = {}): Partial<NextConfig> => {
     // could be either `next dev` or just `next`
     const isNextDev =
-      process.argv.includes('dev') || process.argv.some((_) => _.endsWith('bin/next') || _.endsWith('bin\\next'))
+      process.argv.includes("dev") ||
+      process.argv.some((_) => _.endsWith("bin/next") || _.endsWith("bin\\next") || _.includes("jest-worker"))
     const isBuild = process.argv.includes('build')
 
     return {
