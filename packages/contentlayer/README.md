@@ -104,5 +104,6 @@ Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest
 - [nikhilmohite.com](https://nikhilmohite.com/)
 - [shenlu.me](https://shenlu.me) ([Source](https://github.com/shenlu89/shenlu89.github.io))
 - [chillinmice.dev](https://chillinmice-dev.vercel.app/) ([Source](https://github.com/restareaByWeezy/tech_blog))
+- [wibb.me](https://wibb.me/) ([Source](https://github.com/wibb36/wibb.me))
 
 Are you using Contentlayer? Please add your page (and repo) to the end of the list via a PR. 🙏
