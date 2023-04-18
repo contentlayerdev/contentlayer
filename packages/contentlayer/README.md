@@ -94,7 +94,7 @@ Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest
 - [hellonext.co](https://hellonext.co)
 - [heykapil.in](https://heykapil.in) ([Source](https://github.com/heykapil/new-blog/))
 - [adrianmato.art](https://adrianmato.art)
-- [livropog.com.br](https://livropog.com.br) ([Source](https://github.com/josenaldo/livro-pog)]
+- [livropog.com.br](https://livropog.com.br) ([Source](https://github.com/josenaldo/livro-pog))
 - [rofireza.com](https://rofireza.com/) ([Source](https://github.com/arrofirezasatria/rofireza.com))
 - [jakubh.com](https://jakubh.com/) ([Source](https://github.com/ivenuss/jakubh.com))
 - [fiqry.dev](https://fiqry.dev/) ([Source](https://github.com/fiqryq/fiqry.dev))
@@ -105,5 +105,6 @@ Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest
 - [shenlu.me](https://shenlu.me) ([Source](https://github.com/shenlu89/shenlu89.github.io))
 - [chillinmice.dev](https://chillinmice-dev.vercel.app/) ([Source](https://github.com/restareaByWeezy/tech_blog))
 - [wibb.me](https://wibb.me/) ([Source](https://github.com/wibb36/wibb.me))
+- [jasongerbes.com](https://jasongerbes.com) ([Source](https://github.com/jasongerbes/jasongerbes.com))
 
 Are you using Contentlayer? Please add your page (and repo) to the end of the list via a PR. 🙏
