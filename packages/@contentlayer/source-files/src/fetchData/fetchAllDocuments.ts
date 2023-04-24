@@ -110,7 +110,7 @@ const getAllRelativeFilePaths = ({
     return `{${paths.join(',')}}`
   }
 
-  const filePathPattern = '**/*.{md,mdx,json,yaml,yml}'
+  const filePathPattern = '{,**/}*.{md,mdx,json,yaml,yml}'
   const pattern = `${getPatternPrefix(contentDirInclude)}${filePathPattern}`
 
   return pipe(
