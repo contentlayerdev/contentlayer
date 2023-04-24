@@ -324,7 +324,7 @@ export { default as ${dataVariableName} } from './${idToFileName(documentId)}.js
 `
   }
 
-  const makeVariableName = flow(idToFileName, (_) => camelCase(_, { stripRegexp: /[^A-Z0-9\_]/gi }))
+  const makeVariableName = flow(idToFileName, (_) => camelCase(_, { stripRegexp: /[^A-Z0-9ㄱ-힣\_]/gi }))
 
   const docImports = documentIds
     .map((_) => `import ${makeVariableName(_)} from './${idToFileName(_)}.json'${assertStatement}`)
