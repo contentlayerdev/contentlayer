@@ -1,6 +1,6 @@
 {
   "name": "next-contentlayer",
-  "version": "0.3.1",
+  "version": "0.3.2-dev.2",
   "type": "module",
   "main": "./dist/index-cjs.cjs",
   "sideEffects": false,
@@ -47,10 +47,11 @@
     "react-dom": "*"
   },
   "devDependencies": {
-    "@types/react": "^18.0.29",
+    "@types/react": "^18.0.38",
     "@types/react-dom": "^18.0.11",
-    "next": "^13.1.6",
-    "typescript": "^5.0.2"
+    "next": "^13.3.1",
+    "typescript": "^5.0.4",
+    "webpack": "^5.80.0"
   },
   "author": "schickling",
   "homepage": "https://github.com/contentlayerdev/contentlayer",

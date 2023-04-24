@@ -7,6 +7,7 @@
       "label": "yarn-install",
       "type": "shell",
       "command": "yarn install",
+      "problemMatcher": [],
       "presentation": {
         "focus": true,
         "panel": "shared",
@@ -20,6 +21,7 @@
       "label": "build:clean",
       "type": "shell",
       "command": "yarn build:clean",
+      "problemMatcher": [],
       "presentation": {
         "focus": true,
         "panel": "shared",
@@ -33,6 +35,7 @@
       "label": "test",
       "type": "shell",
       "command": "yarn test",
+      "problemMatcher": [],
       "presentation": {
         "focus": true,
         "panel": "shared",
@@ -86,6 +89,7 @@
       "label": "build",
       "type": "shell",
       "command": "yarn build",
+      "problemMatcher": [],
       "options": { "cwd": "${workspaceFolder}" },
       "presentation": {
         "focus": true,
