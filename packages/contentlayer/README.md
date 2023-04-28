@@ -107,5 +107,6 @@ Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest
 - [wibb.me](https://wibb.me/) ([Source](https://github.com/wibb36/wibb.me))
 - [jasongerbes.com](https://jasongerbes.com) ([Source](https://github.com/jasongerbes/jasongerbes.com))
 - [Irregular-expressions.com](https://irregular-expressions.com) ([Source](https://github.com/samjhecht/irregular-expressions))
+- [goosebumps.fm](https://goosebumps.fm) ([Source](https://github.com/txndai/nextgoose))
 
 Are you using Contentlayer? Please add your page (and repo) to the end of the list via a PR. 🙏
