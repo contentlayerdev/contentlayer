@@ -1,3 +1,4 @@
+import fs from 'fs'
 import { defineDocumentType } from 'contentlayer/source-files'
 import { spawn } from 'node:child_process'
 import { makeSource } from 'contentlayer/source-remote-files'
