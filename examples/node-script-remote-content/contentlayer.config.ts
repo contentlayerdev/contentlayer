@@ -26,14 +26,12 @@ const Post = defineDocumentType(() => ({
 const syncContentFromGit = async (contentDir: string) => {
   const syncRun = async () => {
     const gitUrl = 'https://github.com/vercel/next.js.git'
-    await runBashCommand(`
-      if [ -d  "${contentDir}" ];
-        then
-          cd "${contentDir}"; git pull;
-        else
-          git clone --depth 1 --single-branch ${gitUrl} ${contentDir};
-      fi
-    `)
+    
+    if (fs.existsSync(contentDir)) {
+      await runBashCommand(`cd ${contentDir}; git pull;`);
+    } else {
+      await runBashCommand(`git clone --depth 1 --single-branch ${gitUrl} ${contentDir}`);
+    }
   }
 
   let wasCancelled = false
