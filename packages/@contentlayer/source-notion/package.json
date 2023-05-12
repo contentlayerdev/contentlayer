@@ -19,7 +19,7 @@
   "dependencies": {
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
-    "@notion-render/client": "1.0.0-rc.5",
+    "@notion-render/client": "0.0.1-alpha.3",
     "@notionhq/client": "^2.2.3",
     "p-queue": "^7.3.4",
     "p-retry": "^5.1.2",
