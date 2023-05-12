@@ -1,6 +1,6 @@
 {
   "name": "contentlayer",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "bin": "./bin/cli.cjs",
   "type": "module",
   "engines": {
@@ -8,27 +8,13 @@
   },
   "exports": {
     "./package.json": "./package.json",
-    "./source-files": {
-      "import": "./dist/source-files/index.js"
-    },
-    "./source-files/schema": {
-      "import": "./dist/source-files/schema/index.js"
-    },
-    "./source-remote-files": {
-      "import": "./dist/source-remote-files/index.js"
-    },
-    "./client": {
-      "import": "./dist/client/index.js"
-    },
-    "./utils": {
-      "import": "./dist/utils/index.js"
-    },
-    "./utils/node": {
-      "import": "./dist/utils/node/index.js"
-    },
-    "./core": {
-      "import": "./dist/core/index.js"
-    }
+    "./source-files": "./dist/source-files/index.js",
+    "./source-files/schema": "./dist/source-files/schema/index.js",
+    "./source-remote-files": "./dist/source-remote-files/index.js",
+    "./client": "./dist/client/index.js",
+    "./utils": "./dist/utils/index.js",
+    "./utils/node": "./dist/utils/node/index.js",
+    "./core": "./dist/core/index.js"
   },
   "_typesVersions": "Not needed anymore once this issue is closed https://github.com/microsoft/TypeScript/issues/33079",
   "typesVersions": {
@@ -83,7 +69,7 @@
     "@contentlayer/utils": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "^5.0.2"
+    "typescript": "^5.0.4"
   },
   "author": "schickling",
   "homepage": "https://github.com/contentlayerdev/contentlayer",

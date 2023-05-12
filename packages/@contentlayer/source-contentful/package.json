@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/source-contentful",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -13,7 +13,7 @@
     "test": "echo No tests yet"
   },
   "devDependencies": {
-    "@types/node": "^18.15.10"
+    "@types/node": "^18.16.0"
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*",

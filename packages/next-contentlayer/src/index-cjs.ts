@@ -1,10 +1,11 @@
 import type { NextConfig } from 'next'
+import type webpack from 'webpack'
 
 import type { NextPluginOptions } from './plugin.js'
 
 export type { NextConfig }
 
-let devServerStarted = false
+const devServerStartedRef = { current: false }
 
 const defaultPluginOptions: NextPluginOptions = {}
 module.exports.defaultPluginOptions = defaultPluginOptions
@@ -26,47 +27,25 @@ module.exports.defaultPluginOptions = defaultPluginOptions
  */
 module.exports.createContentlayerPlugin =
   (pluginOptions: NextPluginOptions = defaultPluginOptions) =>
-  (nextConfig: Partial<NextConfig> = {}): Partial<NextConfig> => {
-    // could be either `next dev` or just `next`
-    const isNextDev =
-      process.argv.includes('dev') || process.argv.some((_) => _.endsWith('bin/next') || _.endsWith('bin\\next'))
-    const isBuild = process.argv.includes('build')
-
+  (nextConfig: Partial<NextConfig>) => {
     return {
       ...nextConfig,
-      // Since Next.js doesn't provide some kind of real "plugin system" we're (ab)using the `redirects` option here
-      // in order to hook into and block the `next build` and initial `next dev` run.
-      redirects: async () => {
-        // TODO move to post-install?
-        const { checkConstraints } = await import('./check-constraints.js')
-        checkConstraints()
-
-        // NOTE since next.config.js doesn't support ESM yet, this "CJS -> ESM bridge" is needed
-        const { runContentlayerBuild, runContentlayerDev } = await import('./plugin.js')
-        if (isBuild) {
-          await runContentlayerBuild(pluginOptions)
-        } else if (isNextDev && !devServerStarted) {
-          devServerStarted = true
-          // TODO also block here until first Contentlayer run is complete
-          runContentlayerDev(pluginOptions)
-        }
-
-        return nextConfig.redirects?.() ?? []
-      },
       onDemandEntries: {
         maxInactiveAge: 60 * 60 * 1000, // extend `maxInactiveAge` to 1 hour (from 15 sec by default)
         ...nextConfig.onDemandEntries, // use existing onDemandEntries config if provided by user
       },
-      webpack(config: any, options: any) {
+      webpack(config: webpack.Configuration, options: any) {
         config.watchOptions = {
           ...config.watchOptions,
           // ignored: /node_modules([\\]+|\/)+(?!\.contentlayer)/,
           ignored: ['**/node_modules/!(.contentlayer)/**/*'],
         }
 
+        config.plugins!.push(new ContentlayerWebpackPlugin(pluginOptions))
+
         // NOTE workaround for https://github.com/vercel/next.js/issues/17806#issuecomment-913437792
         // https://github.com/contentlayerdev/contentlayer/issues/121
-        config.module.rules.push({
+        config.module?.rules?.push({
           test: /\.m?js$/,
           type: 'javascript/auto',
           resolve: {
@@ -99,3 +78,19 @@ module.exports.createContentlayerPlugin =
  * ```
  */
 module.exports.withContentlayer = module.exports.createContentlayerPlugin(defaultPluginOptions)
+
+class ContentlayerWebpackPlugin {
+  constructor(readonly pluginOptions: NextPluginOptions) {}
+
+  apply(compiler: webpack.Compiler) {
+    compiler.hooks.beforeCompile.tapPromise('ContentlayerWebpackPlugin', async () => {
+      const { runBeforeWebpackCompile } = await import('./plugin.js')
+
+      await runBeforeWebpackCompile({
+        pluginOptions: this.pluginOptions,
+        devServerStartedRef,
+        mode: compiler.options.mode,
+      })
+    })
+  }
+}
