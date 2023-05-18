@@ -8,6 +8,9 @@ export type PluginOptions = {
   client?: ConstructorParameters<typeof notion.Client>[0] | notion.Client
   renderer?: ConstructorParameters<typeof NotionRenderer>[0] | NotionRenderer
   databaseTypes: DatabaseTypes
+  dev?: {
+    polling: false | number
+  }
 }
 
 export type FieldDef = core.FieldDef & { propertyKey?: string }

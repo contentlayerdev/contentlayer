@@ -2,7 +2,8 @@
   "name": "node-script-notion-example",
   "private": true,
   "scripts": {
-    "start": "contentlayer build && node --experimental-json-modules my-script.mjs"
+    "start": "contentlayer build && node --experimental-json-modules my-script.mjs",
+    "dev": "contentlayer dev"
   },
   "dependencies": {
     "@notionhq/client": "^2.2.3",

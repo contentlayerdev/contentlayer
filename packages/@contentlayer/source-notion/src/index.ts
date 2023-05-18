@@ -1,6 +1,6 @@
 import type * as core from '@contentlayer/core'
 import { processArgs } from '@contentlayer/core'
-import { pipe, S, T } from '@contentlayer/utils/effect'
+import { pipe, S, SC, T } from '@contentlayer/utils/effect'
 import { NotionRenderer } from '@notion-render/client'
 import * as notion from '@notionhq/client'
 
@@ -17,12 +17,14 @@ export const makeSource: core.MakeSourcePlugin<PluginOptions & core.PartialArgs>
   const {
     options,
     extensions,
-    restArgs: { databaseTypes, ...rest },
+    restArgs: { databaseTypes, dev, ...rest },
   } = await processArgs(args, sourceKey)
 
   const databaseTypeDefs = (Array.isArray(databaseTypes) ? databaseTypes : Object.values(databaseTypes)).map((_) =>
     _.def(),
   )
+
+  const polling = dev && dev.polling === false ? false : dev?.polling ?? 5_000
 
   const client =
     rest.client instanceof notion.Client
@@ -59,6 +61,7 @@ export const makeSource: core.MakeSourcePlugin<PluginOptions & core.PartialArgs>
             T.provideService(NotionRendererTag)(renderer),
           ),
         ),
+        S.repeatSchedule<unknown, void | number>(polling ? SC.spaced(polling) : SC.stop),
       ),
   }
 }

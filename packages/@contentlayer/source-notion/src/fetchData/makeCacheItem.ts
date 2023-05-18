@@ -1,5 +1,4 @@
 import type * as core from '@contentlayer/core'
-import { hashObject } from '@contentlayer/utils'
 import { OT, pipe, T } from '@contentlayer/utils/effect'
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 
@@ -27,7 +26,7 @@ export const makeCacheItem = ({ databaseTypeDef, documentTypeDef, previousCache,
         previousCache.cacheItemsMap[page.id]!.hasWarnings === false
       ) {
         const cacheItem = previousCache.cacheItemsMap[page.id]!
-        return cacheItem
+        return { cacheItem, fromCache: true }
       }
 
       const document = yield* $(makeDocument({ documentTypeDef, databaseTypeDef, page, options }))
@@ -38,10 +37,13 @@ export const makeCacheItem = ({ databaseTypeDef, documentTypeDef, previousCache,
       })
 
       return {
-        document,
-        documentHash,
-        hasWarnings: false,
-        documentTypeName: documentTypeDef.name,
+        cacheItem: {
+          document,
+          documentHash,
+          hasWarnings: false,
+          documentTypeName: documentTypeDef.name,
+        },
+        fromCache: false,
       }
     }),
     OT.withSpan('@contentlayer/source-notion/fetchData:makeCacheItem'),
