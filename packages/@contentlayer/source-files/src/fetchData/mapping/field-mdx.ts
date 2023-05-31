@@ -19,7 +19,6 @@ export const makeMdxField = ({
   isDocumentBodyField: boolean
 }): T.Effect<HasDocumentContext & OT.HasTracer, core.UnexpectedMDXError, core.MDX> =>
   T.gen(function* ($) {
-    // const isDocumentBodyField = fieldDef.name === options.fieldOptions.bodyFieldName
     const rawDocumentData = yield* $(getFromDocumentContext('rawDocumentData'))
     // NOTE for the body field, we're passing the entire document file contents to MDX (e.g. in case some remark/rehype plugins need access to the frontmatter)
     // TODO we should come up with a better way to do this

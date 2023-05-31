@@ -53,8 +53,11 @@ export const getConfigWatch = ({
   configPath?: string
 }): S.Stream<OT.HasTracer & HasCwd & fs.HasFs, never, E.Either<GetConfigError, Config>> => {
   const resolveParams = pipe(
-    T.structPar({ configPath: resolveConfigPath({ configPath: configPath_ }), cwd: getCwd }),
-    T.chainMergeObject(() => makeTmpDirAndResolveEntryPoint),
+    T.structPar({
+      configPath: resolveConfigPath({ configPath: configPath_ }),
+      cwd: getCwd,
+      outfilePath: makeTmpDirAndResolveEntryPoint,
+    }),
     T.either,
   )
 
@@ -112,7 +115,7 @@ const resolveConfigPath = ({
 
 const makeTmpDirAndResolveEntryPoint = pipe(
   ArtifactsDir.mkdirCache,
-  T.map((cacheDir) => ({ outfilePath: path.join(cacheDir, 'compiled-contentlayer-config.mjs') })),
+  T.map((cacheDir) => path.join(cacheDir, 'compiled-contentlayer-config.mjs')),
 )
 
 const getConfigFromResult = ({
