@@ -47,8 +47,8 @@
     "react-dom": "*"
   },
   "devDependencies": {
-    "@types/react": "^18.0.38",
-    "@types/react-dom": "^18.0.11",
+    "@types/react": "^18.2.7",
+    "@types/react-dom": "^18.2.4",
     "next": "^13.3.1",
     "typescript": "^5.0.4",
     "webpack": "^5.80.0"

@@ -35,18 +35,18 @@
     "gray-matter": "^4.0.3",
     "imagescript": "^1.2.16",
     "micromatch": "^4.0.5",
-    "ts-pattern": "^4.2.2",
+    "ts-pattern": "^4.3.0",
     "unified": "^10.1.2",
     "yaml": "^1.10.2",
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@faker-js/faker": "^7.6.0",
+    "@faker-js/faker": "^8.0.2",
     "@types/micromatch": "^4.0.2",
-    "@types/node": "^18.16.0",
-    "@types/sharp": "^0.31.1",
+    "@types/node": "^20.2.5",
+    "@types/sharp": "^0.32.0",
     "@types/yaml": "^1.9.7",
-    "sharp": "^0.32.0",
+    "sharp": "^0.32.1",
     "vite": "^4.3.1",
     "vitest": "0.30.1"
   }

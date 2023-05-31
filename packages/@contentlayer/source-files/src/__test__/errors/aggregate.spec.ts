@@ -43,10 +43,10 @@ test('CouldNotDetermineDocumentTypeError: should print 4 errors', async () => {
          
          Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field \\"type\\" needs to be one of the following document type names: TypeA, TypeB).
          
-         • docs/killer_handcrafted_synthesize.md
-         • docs/redundant_silver_card.md
-         • docs/maryland_market.md
-         • docs/content_steel_coordinator.md
+         • docs/scaly_oblong_pro.md
+         • docs/reorganization.md
+         • docs/aw_shameful.md
+         • docs/concerning_brilliant.md
          
     "
   `)
@@ -69,26 +69,26 @@ test('CouldNotDetermineDocumentTypeError: should print 24 errors - truncated', a
          
          Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field \\"type\\" needs to be one of the following document type names: TypeA, TypeB).
          
-         • docs/killer_handcrafted_synthesize.md
-         • docs/redundant_silver_card.md
-         • docs/maryland_market.md
-         • docs/content_steel_coordinator.md
-         • docs/rhenium_grocery.md
-         • docs/northeast.md
-         • docs/system_paradigm_hatchback.md
-         • docs/degree_tin_bandwidth.md
-         • docs/elegant_plight.md
-         • docs/southeast_antillian_tan.md
-         • docs/bulgarian.md
-         • docs/dobra_safely_lie.md
-         • docs/scsi_dicta.md
-         • docs/target.md
-         • docs/facilitator_hence.md
-         • docs/online.md
-         • docs/sleek_omani_missouri.md
-         • docs/plum_forint_east.md
-         • docs/account_truthful.md
-         • docs/indexing.md
+         • docs/scaly_oblong_pro.md
+         • docs/reorganization.md
+         • docs/aw_shameful.md
+         • docs/concerning_brilliant.md
+         • docs/hexagon_recast_cheery.md
+         • docs/exhausted.md
+         • docs/notwithstanding.md
+         • docs/like_pace_till.md
+         • docs/tense.md
+         • docs/around.md
+         • docs/off_yum.md
+         • docs/button_globalize.md
+         • docs/phooey_naughty.md
+         • docs/above_devise_ugh.md
+         • docs/around.md
+         • docs/rack_till_outnumber.md
+         • docs/by_while.md
+         • docs/strange.md
+         • docs/promptly_banner.md
+         • docs/curdle_mixture.md
          • ... 4 more documents (Use the --verbose CLI option to show all documents)
          
     "
@@ -113,30 +113,30 @@ test('CouldNotDetermineDocumentTypeError: should print 24 errors - full', async 
          
          Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field \\"type\\" needs to be one of the following document type names: TypeA, TypeB).
          
-         • docs/killer_handcrafted_synthesize.md
-         • docs/redundant_silver_card.md
-         • docs/maryland_market.md
-         • docs/content_steel_coordinator.md
-         • docs/rhenium_grocery.md
-         • docs/northeast.md
-         • docs/system_paradigm_hatchback.md
-         • docs/degree_tin_bandwidth.md
-         • docs/elegant_plight.md
-         • docs/southeast_antillian_tan.md
-         • docs/bulgarian.md
-         • docs/dobra_safely_lie.md
-         • docs/scsi_dicta.md
-         • docs/target.md
-         • docs/facilitator_hence.md
-         • docs/online.md
-         • docs/sleek_omani_missouri.md
-         • docs/plum_forint_east.md
-         • docs/account_truthful.md
-         • docs/indexing.md
-         • docs/awesome_global_unleash.md
-         • docs/wooden_health_dolorem.md
-         • docs/circuit.md
-         • docs/factors.md
+         • docs/scaly_oblong_pro.md
+         • docs/reorganization.md
+         • docs/aw_shameful.md
+         • docs/concerning_brilliant.md
+         • docs/hexagon_recast_cheery.md
+         • docs/exhausted.md
+         • docs/notwithstanding.md
+         • docs/like_pace_till.md
+         • docs/tense.md
+         • docs/around.md
+         • docs/off_yum.md
+         • docs/button_globalize.md
+         • docs/phooey_naughty.md
+         • docs/above_devise_ugh.md
+         • docs/around.md
+         • docs/rack_till_outnumber.md
+         • docs/by_while.md
+         • docs/strange.md
+         • docs/promptly_banner.md
+         • docs/curdle_mixture.md
+         • docs/absent.md
+         • docs/whenever_ignorant.md
+         • docs/identical.md
+         • docs/discount_hopelessly.md
          
     "
   `)
@@ -171,13 +171,13 @@ test('MissingRequiredFieldsError: should print 4 warnings', async () => {
 
      └── Missing required fields for 4 documents. (Skipping documents)
          
-         • \\"docs/killer_handcrafted_synthesize.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/scaly_oblong_pro.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/redundant_silver_card.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/reorganization.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/maryland_market.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/aw_shameful.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/content_steel_coordinator.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/concerning_brilliant.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
          
     "
@@ -200,13 +200,13 @@ test('MissingRequiredFieldsError: should fail because of singleton', async () =>
 
      └── Missing required fields for 4 documents.
          
-         • \\"docs/killer_handcrafted_synthesize.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/scaly_oblong_pro.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/redundant_silver_card.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/reorganization.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/maryland_market.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/aw_shameful.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/content_steel_coordinator.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/concerning_brilliant.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
          
     "
@@ -228,9 +228,9 @@ test('ExtraFieldDataError: should print warning', async () => {
 
      └──   2 documents contain field data which isn't defined in the document type definition.
          
-         • \\"docs/killer_handcrafted_synthesize.md\\" of type \\"TypeB\\" has the following extra fields:
+         • \\"docs/scaly_oblong_pro.md\\" of type \\"TypeB\\" has the following extra fields:
            • someKey: \\"someVal\\" 
-         • \\"docs/redundant_silver_card.md\\" of type \\"TypeB\\" has the following extra fields:
+         • \\"docs/reorganization.md\\" of type \\"TypeB\\" has the following extra fields:
            • someOtherKey: 42 
          
     "
@@ -252,9 +252,9 @@ test('ExtraFieldDataError: should print error', async () => {
 
      └──   2 documents contain field data which isn't defined in the document type definition.
          
-         • \\"docs/killer_handcrafted_synthesize.md\\" of type \\"TypeB\\" has the following extra fields:
+         • \\"docs/scaly_oblong_pro.md\\" of type \\"TypeB\\" has the following extra fields:
            • someKey: \\"someVal\\" 
-         • \\"docs/redundant_silver_card.md\\" of type \\"TypeB\\" has the following extra fields:
+         • \\"docs/reorganization.md\\" of type \\"TypeB\\" has the following extra fields:
            • someOtherKey: 42 
          
     "
@@ -276,45 +276,45 @@ test('MissingRequiredFieldsError: should print 24 errors - truncated', async () 
 
      └── Missing required fields for 24 documents. (Skipping documents)
          
-         • \\"docs/killer_handcrafted_synthesize.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/scaly_oblong_pro.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/redundant_silver_card.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/reorganization.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/maryland_market.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/aw_shameful.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/content_steel_coordinator.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/concerning_brilliant.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/rhenium_grocery.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/hexagon_recast_cheery.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/northeast.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/exhausted.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/system_paradigm_hatchback.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/notwithstanding.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/degree_tin_bandwidth.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/like_pace_till.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/elegant_plight.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/tense.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/southeast_antillian_tan.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/around.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/bulgarian.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/off_yum.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/dobra_safely_lie.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/button_globalize.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/scsi_dicta.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/phooey_naughty.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/target.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/above_devise_ugh.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/facilitator_hence.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/around.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/online.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/rack_till_outnumber.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/sleek_omani_missouri.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/by_while.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/plum_forint_east.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/strange.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/account_truthful.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/promptly_banner.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/indexing.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/curdle_mixture.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
          • ... 4 more documents (Use the --verbose CLI option to show all documents)
          
@@ -339,17 +339,17 @@ test('mix of different errors: some', async () => {
      │   
      │   Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field \\"type\\" needs to be one of the following document type names: TypeA, TypeB).
      │   
-     │   • docs/killer_handcrafted_synthesize.md
-     │   • docs/redundant_silver_card.md
-     │   • docs/maryland_market.md
-     │   • docs/content_steel_coordinator.md
+     │   • docs/scaly_oblong_pro.md
+     │   • docs/reorganization.md
+     │   • docs/aw_shameful.md
+     │   • docs/concerning_brilliant.md
      │   
      └── Couldn't find document type definitions provided by name for 2 documents. (Skipping documents)
          
          Please use one of the following document type names: TypeA, TypeB.
          
-         • docs/rhenium_grocery.md (Used type name: \\"TypeB\\")
-         • docs/northeast.md (Used type name: \\"TypeB\\")
+         • docs/hexagon_recast_cheery.md (Used type name: \\"TypeB\\")
+         • docs/exhausted.md (Used type name: \\"TypeB\\")
          
     "
   `)
@@ -375,21 +375,21 @@ test('mix of different errors: with extra field data', async () => {
      │   
      │   Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field \\"type\\" needs to be one of the following document type names: TypeA, TypeB).
      │   
-     │   • docs/killer_handcrafted_synthesize.md
-     │   • docs/redundant_silver_card.md
-     │   • docs/maryland_market.md
-     │   • docs/content_steel_coordinator.md
+     │   • docs/scaly_oblong_pro.md
+     │   • docs/reorganization.md
+     │   • docs/aw_shameful.md
+     │   • docs/concerning_brilliant.md
      │   
      ├── Couldn't find document type definitions provided by name for 2 documents. (Skipping documents)
      │   
      │   Please use one of the following document type names: TypeA, TypeB.
      │   
-     │   • docs/rhenium_grocery.md (Used type name: \\"TypeB\\")
-     │   • docs/northeast.md (Used type name: \\"TypeB\\")
+     │   • docs/hexagon_recast_cheery.md (Used type name: \\"TypeB\\")
+     │   • docs/exhausted.md (Used type name: \\"TypeB\\")
      │   
      └──   1 documents contain field data which isn't defined in the document type definition.
          
-         • \\"docs/system_paradigm_hatchback.md\\" of type \\"TypeB\\" has the following extra fields:
+         • \\"docs/notwithstanding.md\\" of type \\"TypeB\\" has the following extra fields:
            • someKey: \\"someVal\\" 
          
     "
@@ -422,34 +422,34 @@ test('mix of different errors: other', async () => {
      │   
      │   Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field \\"type\\" needs to be one of the following document type names: TypeA, TypeB).
      │   
-     │   • docs/killer_handcrafted_synthesize.md
-     │   • docs/redundant_silver_card.md
-     │   • docs/maryland_market.md
-     │   • docs/content_steel_coordinator.md
+     │   • docs/scaly_oblong_pro.md
+     │   • docs/reorganization.md
+     │   • docs/aw_shameful.md
+     │   • docs/concerning_brilliant.md
      │   
      ├── Couldn't find document type definitions provided by name for 2 documents. (Skipping documents)
      │   
      │   Please use one of the following document type names: TypeA, TypeB.
      │   
-     │   • docs/rhenium_grocery.md (Used type name: \\"TypeB\\")
-     │   • docs/northeast.md (Used type name: \\"TypeB\\")
+     │   • docs/hexagon_recast_cheery.md (Used type name: \\"TypeB\\")
+     │   • docs/exhausted.md (Used type name: \\"TypeB\\")
      │   
      ├── Encountered unexpected errors while processing of 2 documents. This is possibly a bug in Contentlayer. Please open an issue.
      │   
-     │   • \\"docs/system_paradigm_hatchback.md\\": Error: Some problem happened: The SSD monitor is down, calculate the cross-platform system so we can navigate the SAS card!
-     │   • \\"docs/gorgeous_rich.md\\": Error: Some problem happened: The SSL system is down, override the 1080p driver so we can connect the API system!
+     │   • \\"docs/notwithstanding.md\\": Error: Some problem happened: transmitting the transmitter won't do anything, we need to copy the online CLI pixel!
+     │   • \\"docs/pace_till.md\\": Error: Some problem happened: Try to synthesize the RSS pixel, maybe it will generate the optical port!
      │   
      ├── Error during computed field exection for 1 documents. (Skipping documents)
      │   
-     │   • \\"docs/bulgarian.md\\" failed with Error: Some problem happened: I'll generate the solid state IP feed, that should capacitor the SSD firewall!
+     │   • \\"docs/colonial_tailspin_joke.md\\" failed with Error: Some problem happened: Use the multi-byte HDD panel, then you can hack the haptic port!
      │   
      └── Missing required fields for 3 documents. (Skipping documents)
          
-         • \\"docs/intranet_northwest.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/mid_rural_justly.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/redundant.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/sans_gladly.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
-         • \\"docs/useful_bronze_online.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • \\"docs/ambitious_inasmuch.md\\" (of type \\"TypeB\\") is missing the following required fields:
            • someField: string
          
     "

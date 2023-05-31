@@ -1,7 +1,7 @@
 import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer/utils'
 import { filePathJoin, fs, relative } from '@contentlayer/utils'
 import type { E, HasClock, HasConsole } from '@contentlayer/utils/effect'
-import { Array, Chunk, flow, OT, pipe, S, T } from '@contentlayer/utils/effect'
+import { Array, Chunk, OT, pipe, S, T } from '@contentlayer/utils/effect'
 import type { GetContentlayerVersionError } from '@contentlayer/utils/node'
 import { getContentlayerVersion } from '@contentlayer/utils/node'
 import { camelCase } from 'camel-case'
