@@ -8,6 +8,7 @@ import type * as unified from 'unified'
 import type { HasCwd } from './cwd.js'
 import type { DataCache } from './DataCache.js'
 import type { SourceFetchDataError, SourceProvideSchemaError } from './errors.js'
+import type { GetDataExportsGen } from './gen.js'
 import type { SchemaDef, StackbitExtension } from './schema/index.js'
 
 export type SourcePluginType = LiteralUnion<'local' | 'contentful' | 'sanity', string>
@@ -24,7 +25,10 @@ export type PluginOptions = {
   fieldOptions: FieldOptions
   disableImportAliasWarning: boolean
   experimental: PluginOptionsExperimental
+  onSuccess: SuccessCallback | undefined
 }
+
+export type SuccessCallback = (getData: () => Promise<GetDataExportsGen>) => Promise<void>
 
 export type PluginOptionsExperimental = {
   enableDynamicBuild: boolean
@@ -114,7 +118,6 @@ export type SourcePlugin = {
   type: SourcePluginType
   provideSchema: ProvideSchema
   fetchData: FetchData
-} & {
   options: PluginOptions
   extensions: PluginExtensions
 }
@@ -150,6 +153,7 @@ export type PartialArgs = {
   extensions?: PluginExtensions
   disableImportAliasWarning?: boolean
   experimental?: Partial<PluginOptionsExperimental>
+  onSuccess?: SuccessCallback | undefined
 }
 
 export const defaultFieldOptions: FieldOptions = {
@@ -165,11 +169,27 @@ export const processArgs = async <TArgs extends PartialArgs>(
   options: PluginOptions
   restArgs: Omit<
     TArgs,
-    'extensions' | 'fieldOptions' | 'markdown' | 'mdx' | 'date' | 'disableImportAliasWarning' | 'experimental'
+    | 'extensions'
+    | 'fieldOptions'
+    | 'markdown'
+    | 'mdx'
+    | 'date'
+    | 'disableImportAliasWarning'
+    | 'experimental'
+    | 'onSuccess'
   >
 }> => {
-  const { extensions, fieldOptions, markdown, mdx, date, disableImportAliasWarning, experimental, ...restArgs } =
-    typeof argsOrArgsThunk === 'function' ? await argsOrArgsThunk(sourceKey) : argsOrArgsThunk
+  const {
+    extensions,
+    fieldOptions,
+    markdown,
+    mdx,
+    date,
+    disableImportAliasWarning,
+    experimental,
+    onSuccess,
+    ...restArgs
+  } = typeof argsOrArgsThunk === 'function' ? await argsOrArgsThunk(sourceKey) : argsOrArgsThunk
 
   const options: PluginOptions = {
     markdown,
@@ -183,6 +203,7 @@ export const processArgs = async <TArgs extends PartialArgs>(
     experimental: {
       enableDynamicBuild: experimental?.enableDynamicBuild ?? false,
     },
+    onSuccess,
   }
 
   return { extensions: extensions ?? {}, options, restArgs }

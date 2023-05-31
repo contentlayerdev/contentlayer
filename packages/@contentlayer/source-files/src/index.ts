@@ -64,6 +64,8 @@ export type Args = {
   contentDirExclude?: string[]
   // NOTE https://github.com/parcel-bundler/watcher/issues/64
 
+  onSuccess?: core.SuccessCallback
+
   /**
    * This is an experimental feature and should be ignored for now.
    */

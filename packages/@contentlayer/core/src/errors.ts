@@ -56,3 +56,9 @@ export type SourceProvideSchemaErrorJSON = ReturnType<SourceProvideSchemaError['
 export class HandledFetchDataError extends Tagged('HandledFetchDataError')<{}> {}
 
 export class EsbuildBinNotFoundError extends Tagged('EsbuildBinNotFoundError')<{}> {}
+
+export class SuccessCallbackError extends Tagged('SuccessCallbackError')<{
+  readonly error: any
+}> {
+  toString = () => `SuccessCallbackError: ${errorToString(this.error)}`
+}

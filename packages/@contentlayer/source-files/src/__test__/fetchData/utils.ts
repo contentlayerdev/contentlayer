@@ -48,6 +48,7 @@ export const runTest = async ({
       fieldOptions: core.defaultFieldOptions,
       disableImportAliasWarning: false,
       experimental: { enableDynamicBuild: false },
+      onSuccess: undefined,
     }
 
     const cache = yield* $(

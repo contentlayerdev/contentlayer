@@ -28,6 +28,7 @@ const renderTypeSource = async (documentTypes: DocumentTypes) => {
         date: undefined,
         disableImportAliasWarning: false,
         experimental: { enableDynamicBuild: false },
+        onSuccess: undefined,
       },
     },
   })

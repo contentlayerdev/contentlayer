@@ -15,6 +15,7 @@ const options: core.PluginOptions = {
   fieldOptions: { typeFieldName, bodyFieldName },
   disableImportAliasWarning: false,
   experimental: { enableDynamicBuild: false },
+  onSuccess: undefined,
 }
 const flags: Flags = {
   onExtraFieldData: 'warn',
