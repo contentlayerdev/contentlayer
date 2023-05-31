@@ -287,7 +287,8 @@ const getDataForFieldDef = ({
       }
       case 'mdx': {
         const mdxString = yield* $(parseFieldDataEff('mdx'))
-        return yield* $(makeMdxField({ mdxString, contentDirPath, fieldDef, options }))
+        const isDocumentBodyField = isRootDocument && fieldDef.name === options.fieldOptions.bodyFieldName
+        return yield* $(makeMdxField({ mdxString, contentDirPath, options, isDocumentBodyField }))
       }
       case 'image':
         const imageData = yield* $(parseFieldDataEff('image'))
@@ -402,7 +403,7 @@ const getDataForListItem = ({
       }
       case 'mdx': {
         const mdxString = yield* $(parseFieldDataEff('mdx'))
-        return yield* $(makeMdxField({ mdxString, contentDirPath, fieldDef, options }))
+        return yield* $(makeMdxField({ mdxString, contentDirPath, options, isDocumentBodyField: false }))
       }
       case 'image':
         const imageData = yield* $(parseFieldDataEff('image'))
