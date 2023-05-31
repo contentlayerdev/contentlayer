@@ -324,8 +324,8 @@ export { default as ${dataVariableName} } from './${idToFileName(documentId)}.js
 `
   }
 
+  const usedVariableNames = new Set<string>()
   const isValidJsVarName = (str: string) => /^(?![0-9])([a-zA-Z0-9_$]+)$/.test(str)
-  const isNotOnlyFileExtension = (str: string) => ['mdx', 'md', 'json', 'yaml', 'yml'].includes(str) === false
 
   const makeVariableName = (id: string, fileIndex: number) =>
     pipe(
@@ -334,13 +334,19 @@ export { default as ${dataVariableName} } from './${idToFileName(documentId)}.js
       (_) => camelCase(_, { stripRegexp: /[^A-Z0-9\_]/gi }),
       // NOTE to support file names with different alphabets, we'll fall back (e.g. to `Docname2`)
       // See https://github.com/contentlayerdev/contentlayer/issues/337
-      (_) => (isValidJsVarName(_) && isNotOnlyFileExtension(_) ? _ : `${docDef.name}${fileIndex}`),
+      (_) => (isValidJsVarName(_) && usedVariableNames.has(_) === false ? _ : `${docDef.name}${fileIndex}`),
     )
 
+  const idToVariableNameMap = new Map(
+    documentIds.map((id, fileIndex) => {
+      const variableName = makeVariableName(id, fileIndex)
+      usedVariableNames.add(variableName)
+      return [id, variableName]
+    }),
+  )
+
   const docImports = documentIds
-    .map(
-      (_, fileIndex) => `import ${makeVariableName(_, fileIndex)} from './${idToFileName(_)}.json'${assertStatement}`,
-    )
+    .map((_) => `import ${idToVariableNameMap.get(_)} from './${idToFileName(_)}.json'${assertStatement}`)
     .join('\n')
 
   return `\
@@ -348,7 +354,7 @@ export { default as ${dataVariableName} } from './${idToFileName(documentId)}.js
 
 ${docImports}
 
-export const ${dataVariableName} = [${documentIds.map((_, fileIndex) => makeVariableName(_, fileIndex)).join(', ')}]
+export const ${dataVariableName} = [${Array.from(idToVariableNameMap.values()).join(', ')}]
 `
 }
 
