@@ -1,5 +1,5 @@
 import * as SourceFiles from '@contentlayer/source-files'
-import { casesHandled, isReadonlyArray, notImplemented, pick } from '@contentlayer/utils'
+import { casesHandled, isReadonlyArray, not, notImplemented, pick } from '@contentlayer/utils'
 import { identity } from '@contentlayer/utils/effect'
 import type * as Stackbit from '@stackbit/sdk'
 
@@ -17,7 +17,7 @@ export const stackbitDocumentLikeModelToDocumentType =
     return SourceFiles.defineDocumentType(() => ({
       name: stackbitModel.name,
       description: stackbitModel.description,
-      fields: (stackbitModel.fields ?? []).map(stackbitFieldToField(ctx)),
+      fields: (stackbitModel.fields ?? []).filter(not(isBodyField)).map(stackbitFieldToField(ctx)),
       isSingleton: stackbitModel.type === 'config' || stackbitModel.singleInstance === true,
     }))
   }
@@ -31,6 +31,8 @@ export const stackbitObjectModelToDocumentType =
       fields: (stackbitModel.fields ?? []).map(stackbitFieldToField(ctx)),
     }))
   }
+
+const isBodyField = (field: Stackbit.Field): field is Stackbit.Field => field.name === 'body'
 
 const stackbitFieldToField =
   (ctx: SharedCtx) =>

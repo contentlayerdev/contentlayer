@@ -1,0 +1,6 @@
+{
+    "exportDir": "contentful",
+    "contentFile": "export.json",
+    "skipRoles": true,
+    "downloadAssets": true
+}

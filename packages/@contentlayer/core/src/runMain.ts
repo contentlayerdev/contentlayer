@@ -4,7 +4,7 @@ import type { HasCwd } from '@contentlayer/core'
 import { provideCwd, provideCwdCustom } from '@contentlayer/core'
 import * as core from '@contentlayer/core'
 import type { AbsolutePosixFilePath, fs } from '@contentlayer/utils'
-import { DummyTracing, InMemoryFsLive, provideTracing } from '@contentlayer/utils'
+import { DummyTracing, errorToString, InMemoryFsLive, provideTracing } from '@contentlayer/utils'
 import type { HasClock, HasConsole, OT } from '@contentlayer/utils/effect'
 import { Cause, pipe, pretty, provideConsole, T } from '@contentlayer/utils/effect'
 import { getContentlayerVersion, NodeFsLive } from '@contentlayer/utils/node'
@@ -47,7 +47,7 @@ https://github.com/contentlayerdev/contentlayer/issues`),
           // If failure was a managed error and no `--verbose` flag was provided, print the error message
           if (errorWasManaged && !verbose) {
             if (!core.isSourceFetchDataError(failOrCause.left) || !failOrCause.left.alreadyHandled) {
-              yield* $(T.log(failOrCause.left))
+              yield* $(T.log(errorToString(failOrCause.left)))
             }
           }
           // otherwise for unmanaged errors or with `--verbose` flag provided, print the entire stack trace

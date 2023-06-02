@@ -10,6 +10,7 @@ import type { Flags, PluginOptions } from './types.js'
 
 export * from './types.js'
 export * from './schema/defs/index.js'
+export * from './schema/provideSchema.js'
 
 export type Args = {
   documentTypes: LocalSchema.DocumentTypes

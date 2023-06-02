@@ -1,0 +1,1492 @@
+{
+  "contentTypes": [
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "6pj5epr6vowr"
+          }
+        },
+        "id": "button",
+        "type": "ContentType",
+        "createdAt": "2022-08-03T17:10:01.314Z",
+        "updatedAt": "2022-08-03T17:11:07.469Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 3,
+        "publishedAt": "2022-08-03T17:11:07.469Z",
+        "firstPublishedAt": "2022-08-03T17:10:01.626Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "publishedCounter": 2,
+        "version": 4,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        }
+      },
+      "displayField": "label",
+      "name": "Button",
+      "description": "",
+      "fields": [
+        {
+          "id": "label",
+          "name": "Label",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "url",
+          "name": "URL",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "theme",
+          "name": "Theme",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "in": [
+                "default",
+                "outline"
+              ]
+            }
+          ],
+          "disabled": false,
+          "omitted": false
+        }
+      ]
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "6pj5epr6vowr"
+          }
+        },
+        "id": "hero",
+        "type": "ContentType",
+        "createdAt": "2022-08-03T17:13:40.423Z",
+        "updatedAt": "2022-08-03T17:16:00.712Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 5,
+        "publishedAt": "2022-08-03T17:16:00.712Z",
+        "firstPublishedAt": "2022-08-03T17:13:40.643Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "publishedCounter": 3,
+        "version": 6,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        }
+      },
+      "displayField": "heading",
+      "name": "Hero",
+      "description": "",
+      "fields": [
+        {
+          "id": "heading",
+          "name": "Heading",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "body",
+          "name": "Body",
+          "type": "Text",
+          "localized": false,
+          "required": true,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "image",
+          "name": "Image",
+          "type": "Link",
+          "localized": false,
+          "required": true,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Asset"
+        },
+        {
+          "id": "button",
+          "name": "Button",
+          "type": "Link",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "linkContentType": [
+                "button"
+              ]
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Entry"
+        },
+        {
+          "id": "theme",
+          "name": "Theme",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "in": [
+                "imgLeft",
+                "imgRight"
+              ]
+            }
+          ],
+          "disabled": false,
+          "omitted": false
+        }
+      ]
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "6pj5epr6vowr"
+          }
+        },
+        "id": "statItem",
+        "type": "ContentType",
+        "createdAt": "2022-08-03T17:13:59.812Z",
+        "updatedAt": "2022-08-03T18:04:50.549Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 7,
+        "publishedAt": "2022-08-03T18:04:50.549Z",
+        "firstPublishedAt": "2022-08-03T17:13:59.960Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "publishedCounter": 4,
+        "version": 8,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        }
+      },
+      "displayField": "label",
+      "name": "StatItem",
+      "description": "",
+      "fields": [
+        {
+          "id": "label",
+          "name": "Label",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "value",
+          "name": "Value",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        }
+      ]
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "6pj5epr6vowr"
+          }
+        },
+        "id": "stats",
+        "type": "ContentType",
+        "createdAt": "2022-08-03T17:14:54.207Z",
+        "updatedAt": "2022-08-03T17:15:49.535Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 7,
+        "publishedAt": "2022-08-03T17:15:49.535Z",
+        "firstPublishedAt": "2022-08-03T17:14:54.503Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "publishedCounter": 4,
+        "version": 8,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        }
+      },
+      "displayField": "heading",
+      "name": "Stats",
+      "description": "",
+      "fields": [
+        {
+          "id": "heading",
+          "name": "Heading",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "body",
+          "name": "Body",
+          "type": "Text",
+          "localized": false,
+          "required": true,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "theme",
+          "name": "Theme",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "in": [
+                "primary",
+                "dark"
+              ]
+            }
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "stats",
+          "name": "Stats",
+          "type": "Array",
+          "localized": false,
+          "required": true,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false,
+          "items": {
+            "type": "Link",
+            "validations": [
+              {
+                "linkContentType": [
+                  "statItem"
+                ]
+              }
+            ],
+            "linkType": "Entry"
+          }
+        }
+      ]
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "6pj5epr6vowr"
+          }
+        },
+        "id": "page",
+        "type": "ContentType",
+        "createdAt": "2022-08-03T17:17:28.603Z",
+        "updatedAt": "2022-08-03T17:17:28.828Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 1,
+        "publishedAt": "2022-08-03T17:17:28.828Z",
+        "firstPublishedAt": "2022-08-03T17:17:28.828Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "publishedCounter": 1,
+        "version": 2,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        }
+      },
+      "displayField": "title",
+      "name": "Page",
+      "description": "",
+      "fields": [
+        {
+          "id": "title",
+          "name": "Title",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "slug",
+          "name": "Slug",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "unique": true
+            }
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "sections",
+          "name": "Sections",
+          "type": "Array",
+          "localized": false,
+          "required": true,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false,
+          "items": {
+            "type": "Link",
+            "validations": [
+              {
+                "linkContentType": [
+                  "hero",
+                  "stats"
+                ]
+              }
+            ],
+            "linkType": "Entry"
+          }
+        }
+      ]
+    }
+  ],
+  "tags": [
+  ],
+  "editorInterfaces": [
+    {
+      "sys": {
+        "id": "default",
+        "type": "EditorInterface",
+        "space": {
+          "sys": {
+            "id": "6pj5epr6vowr",
+            "type": "Link",
+            "linkType": "Space"
+          }
+        },
+        "version": 4,
+        "createdAt": "2022-08-03T17:10:01.675Z",
+        "createdBy": {
+          "sys": {
+            "id": "7zhoOzOJYq0RqY5mshy4HK",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "updatedAt": "2022-08-03T17:11:07.852Z",
+        "updatedBy": {
+          "sys": {
+            "id": "7zhoOzOJYq0RqY5mshy4HK",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "id": "button",
+            "type": "Link",
+            "linkType": "ContentType"
+          }
+        },
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        }
+      },
+      "controls": [
+        {
+          "fieldId": "label",
+          "widgetId": "singleLine",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "url",
+          "widgetId": "singleLine",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "theme",
+          "widgetId": "dropdown",
+          "widgetNamespace": "builtin"
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "default",
+        "type": "EditorInterface",
+        "space": {
+          "sys": {
+            "id": "6pj5epr6vowr",
+            "type": "Link",
+            "linkType": "Space"
+          }
+        },
+        "version": 6,
+        "createdAt": "2022-08-03T17:13:40.738Z",
+        "createdBy": {
+          "sys": {
+            "id": "7zhoOzOJYq0RqY5mshy4HK",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "updatedAt": "2022-08-03T17:16:01.107Z",
+        "updatedBy": {
+          "sys": {
+            "id": "7zhoOzOJYq0RqY5mshy4HK",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "id": "hero",
+            "type": "Link",
+            "linkType": "ContentType"
+          }
+        },
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        }
+      },
+      "controls": [
+        {
+          "fieldId": "heading",
+          "widgetId": "singleLine",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "body",
+          "widgetId": "markdown",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "image",
+          "widgetId": "assetLinkEditor",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "button",
+          "widgetId": "entryLinkEditor",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "theme",
+          "widgetId": "dropdown",
+          "widgetNamespace": "builtin"
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "default",
+        "type": "EditorInterface",
+        "space": {
+          "sys": {
+            "id": "6pj5epr6vowr",
+            "type": "Link",
+            "linkType": "Space"
+          }
+        },
+        "version": 8,
+        "createdAt": "2022-08-03T17:14:00.024Z",
+        "createdBy": {
+          "sys": {
+            "id": "7zhoOzOJYq0RqY5mshy4HK",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "updatedAt": "2022-08-03T18:04:50.829Z",
+        "updatedBy": {
+          "sys": {
+            "id": "7zhoOzOJYq0RqY5mshy4HK",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "id": "statItem",
+            "type": "Link",
+            "linkType": "ContentType"
+          }
+        },
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        }
+      },
+      "controls": [
+        {
+          "fieldId": "label",
+          "widgetId": "singleLine",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "value",
+          "widgetId": "singleLine",
+          "widgetNamespace": "builtin"
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "default",
+        "type": "EditorInterface",
+        "space": {
+          "sys": {
+            "id": "6pj5epr6vowr",
+            "type": "Link",
+            "linkType": "Space"
+          }
+        },
+        "version": 8,
+        "createdAt": "2022-08-03T17:14:54.598Z",
+        "createdBy": {
+          "sys": {
+            "id": "7zhoOzOJYq0RqY5mshy4HK",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "updatedAt": "2022-08-03T17:15:49.873Z",
+        "updatedBy": {
+          "sys": {
+            "id": "7zhoOzOJYq0RqY5mshy4HK",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "id": "stats",
+            "type": "Link",
+            "linkType": "ContentType"
+          }
+        },
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        }
+      },
+      "controls": [
+        {
+          "fieldId": "heading",
+          "widgetId": "singleLine",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "body",
+          "widgetId": "markdown",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "theme",
+          "widgetId": "dropdown",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "stats",
+          "widgetId": "entryLinksEditor",
+          "widgetNamespace": "builtin"
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "default",
+        "type": "EditorInterface",
+        "space": {
+          "sys": {
+            "id": "6pj5epr6vowr",
+            "type": "Link",
+            "linkType": "Space"
+          }
+        },
+        "version": 2,
+        "createdAt": "2022-08-03T17:17:28.883Z",
+        "createdBy": {
+          "sys": {
+            "id": "7zhoOzOJYq0RqY5mshy4HK",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "updatedAt": "2022-08-03T17:17:29.166Z",
+        "updatedBy": {
+          "sys": {
+            "id": "7zhoOzOJYq0RqY5mshy4HK",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "id": "page",
+            "type": "Link",
+            "linkType": "ContentType"
+          }
+        },
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        }
+      },
+      "controls": [
+        {
+          "fieldId": "title",
+          "widgetId": "singleLine",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "slug",
+          "widgetId": "slugEditor",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "sections",
+          "widgetId": "entryLinksEditor",
+          "widgetNamespace": "builtin"
+        }
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "6pj5epr6vowr"
+          }
+        },
+        "id": "4pQBscyvi608EAd3KNoxt9",
+        "type": "Entry",
+        "createdAt": "2022-08-03T17:17:41.428Z",
+        "updatedAt": "2022-11-29T16:28:28.478Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 7,
+        "publishedAt": "2022-11-29T16:28:28.478Z",
+        "firstPublishedAt": "2022-08-03T17:20:14.643Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "publishedCounter": 2,
+        "version": 8,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "page"
+          }
+        }
+      },
+      "fields": {
+        "title": {
+          "en-US": "Home Page"
+        },
+        "slug": {
+          "en-US": "/"
+        },
+        "sections": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1waD7wlBFDmDTKcI18NXO0"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "55B39LpWGFDQvt4kYYif6g"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "6pj5epr6vowr"
+          }
+        },
+        "id": "1waD7wlBFDmDTKcI18NXO0",
+        "type": "Entry",
+        "createdAt": "2022-08-03T17:17:52.042Z",
+        "updatedAt": "2022-11-29T16:32:07.239Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 23,
+        "publishedAt": "2022-11-29T16:32:07.239Z",
+        "firstPublishedAt": "2022-08-03T17:19:04.707Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "publishedCounter": 5,
+        "version": 24,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "hero"
+          }
+        }
+      },
+      "fields": {
+        "heading": {
+          "en-US": "This is your main value proposition"
+        },
+        "body": {
+          "en-US": "And a super compelling supporting paragraph (fetched from Contentful) that makes the user immediately want to click the button below."
+        },
+        "image": {
+          "en-US": {
+            "sys": {
+              "type": "Link",
+              "linkType": "Asset",
+              "id": "o1G1j1B3fpZyVGa33M1zJ"
+            }
+          }
+        },
+        "button": {
+          "en-US": {
+            "sys": {
+              "type": "Link",
+              "linkType": "Entry",
+              "id": "36U7omnF7aFEHjVKwEhJI7"
+            }
+          }
+        },
+        "theme": {
+          "en-US": "imgRight"
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "6pj5epr6vowr"
+          }
+        },
+        "id": "36U7omnF7aFEHjVKwEhJI7",
+        "type": "Entry",
+        "createdAt": "2022-08-03T17:18:18.054Z",
+        "updatedAt": "2022-11-29T16:32:02.633Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 7,
+        "publishedAt": "2022-11-29T16:32:02.633Z",
+        "firstPublishedAt": "2022-08-03T17:18:27.983Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "publishedCounter": 3,
+        "version": 8,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "button"
+          }
+        }
+      },
+      "fields": {
+        "label": {
+          "en-US": "Get Started"
+        },
+        "url": {
+          "en-US": "/"
+        },
+        "theme": {
+          "en-US": "outline"
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "6pj5epr6vowr"
+          }
+        },
+        "id": "55B39LpWGFDQvt4kYYif6g",
+        "type": "Entry",
+        "createdAt": "2022-08-03T17:19:08.815Z",
+        "updatedAt": "2022-11-29T16:29:55.688Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 8,
+        "publishedAt": "2022-11-29T16:29:55.688Z",
+        "firstPublishedAt": "2022-08-03T17:20:12.061Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "publishedCounter": 2,
+        "version": 9,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "stats"
+          }
+        }
+      },
+      "fields": {
+        "heading": {
+          "en-US": "Don't take our word for it"
+        },
+        "body": {
+          "en-US": "Because we definitely didn't make up these numbers."
+        },
+        "theme": {
+          "en-US": "dark"
+        },
+        "stats": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "4kqY1iB0OrQxrIfptA3THs"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3LwBRMadcjbZOr9AHo2KYM"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "tnUnQwb0YfqbfdVAtCGSE"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "6pj5epr6vowr"
+          }
+        },
+        "id": "4kqY1iB0OrQxrIfptA3THs",
+        "type": "Entry",
+        "createdAt": "2022-08-03T17:19:26.303Z",
+        "updatedAt": "2022-11-29T16:29:01.909Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 4,
+        "publishedAt": "2022-11-29T16:29:01.909Z",
+        "firstPublishedAt": "2022-08-03T17:19:36.858Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "publishedCounter": 2,
+        "version": 5,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "statItem"
+          }
+        }
+      },
+      "fields": {
+        "label": {
+          "en-US": "Conversion rate"
+        },
+        "value": {
+          "en-US": "100%"
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "6pj5epr6vowr"
+          }
+        },
+        "id": "3LwBRMadcjbZOr9AHo2KYM",
+        "type": "Entry",
+        "createdAt": "2022-08-03T17:19:42.298Z",
+        "updatedAt": "2022-11-29T16:28:51.948Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 4,
+        "publishedAt": "2022-11-29T16:28:51.948Z",
+        "firstPublishedAt": "2022-08-03T17:19:52.198Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "publishedCounter": 2,
+        "version": 5,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "statItem"
+          }
+        }
+      },
+      "fields": {
+        "label": {
+          "en-US": "Five-star reviews"
+        },
+        "value": {
+          "en-US": "4M"
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "6pj5epr6vowr"
+          }
+        },
+        "id": "tnUnQwb0YfqbfdVAtCGSE",
+        "type": "Entry",
+        "createdAt": "2022-08-03T17:19:57.796Z",
+        "updatedAt": "2022-11-29T16:28:43.664Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 5,
+        "publishedAt": "2022-11-29T16:28:43.664Z",
+        "firstPublishedAt": "2022-08-03T17:20:06.072Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "publishedCounter": 2,
+        "version": 6,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "statItem"
+          }
+        }
+      },
+      "fields": {
+        "label": {
+          "en-US": "Prefer our product"
+        },
+        "value": {
+          "en-US": "5 of 5"
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "6pj5epr6vowr"
+          }
+        },
+        "id": "o1G1j1B3fpZyVGa33M1zJ",
+        "type": "Asset",
+        "createdAt": "2022-08-03T17:18:36.383Z",
+        "updatedAt": "2022-11-29T16:27:48.978Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 8,
+        "publishedAt": "2022-11-29T16:27:48.978Z",
+        "firstPublishedAt": "2022-08-03T17:19:00.516Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "publishedCounter": 2,
+        "version": 9,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        }
+      },
+      "fields": {
+        "title": {
+          "en-US": "Sandwich Hero (FPO)"
+        },
+        "description": {
+          "en-US": ""
+        },
+        "file": {
+          "en-US": {
+            "url": "//images.ctfassets.net/6pj5epr6vowr/o1G1j1B3fpZyVGa33M1zJ/8e316d18e25ab4cb540d396875444916/fpo-shapes.png",
+            "details": {
+              "size": 33924,
+              "image": {
+                "width": 800,
+                "height": 791
+              }
+            },
+            "fileName": "fpo-shapes.png",
+            "contentType": "image/png"
+          }
+        }
+      }
+    }
+  ],
+  "locales": [
+    {
+      "name": "English (United States)",
+      "code": "en-US",
+      "fallbackCode": null,
+      "default": true,
+      "contentManagementApi": true,
+      "contentDeliveryApi": true,
+      "optional": false,
+      "sys": {
+        "type": "Locale",
+        "id": "60M70xOdFTzXcAa7FSHW9Q",
+        "version": 1,
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "6pj5epr6vowr"
+          }
+        },
+        "environment": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Environment",
+            "id": "master",
+            "uuid": "ff8fce24-c204-4f12-ab10-6d30b406d461"
+          }
+        },
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "createdAt": "2022-08-03T17:08:08Z",
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "7zhoOzOJYq0RqY5mshy4HK"
+          }
+        },
+        "updatedAt": "2022-08-03T17:08:08Z"
+      }
+    }
+  ],
+  "webhooks": [
+  ]
+}

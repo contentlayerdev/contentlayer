@@ -7,10 +7,5 @@
     "tsBuildInfoFile": "./dist/.tsbuildinfo.json"
   },
   "include": ["./src"],
-  "references": [
-    { "path": "../utils" },
-    { "path": "../experimental-stackbit-core" },
-    { "path": "../source-files" },
-    { "path": "../core" }
-  ]
+  "references": [{ "path": "../utils" }, { "path": "../source-files" }, { "path": "../core" }]
 }
