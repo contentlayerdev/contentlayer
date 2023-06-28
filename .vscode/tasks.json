@@ -6,7 +6,7 @@
     {
       "label": "yarn-install",
       "type": "shell",
-      "command": "yarn install",
+      "command": "direnv exec . yarn install",
       "problemMatcher": [],
       "presentation": {
         "focus": true,
@@ -20,7 +20,7 @@
     {
       "label": "build:clean",
       "type": "shell",
-      "command": "yarn build:clean",
+      "command": "direnv exec . yarn build:clean",
       "problemMatcher": [],
       "presentation": {
         "focus": true,
@@ -34,7 +34,7 @@
     {
       "label": "test",
       "type": "shell",
-      "command": "yarn test",
+      "command": "direnv exec . yarn test",
       "problemMatcher": [],
       "presentation": {
         "focus": true,
@@ -47,7 +47,7 @@
     {
       "label": "lint",
       "type": "shell",
-      "command": "yarn lint:check",
+      "command": "direnv exec . yarn lint:check",
       "problemMatcher": ["$eslint-stylish"],
       "presentation": {
         "focus": true,
@@ -60,7 +60,7 @@
     {
       "label": "release:patch",
       "type": "shell",
-      "command": "yarn release:patch",
+      "command": "direnv exec . yarn release:patch",
       "options": { "cwd": "${workspaceFolder}" },
       "presentation": {
         "focus": true,
@@ -74,7 +74,7 @@
     {
       "label": "release:prerelease",
       "type": "shell",
-      "command": "yarn release:prerelease",
+      "command": "direnv exec . yarn release:prerelease",
       "options": { "cwd": "${workspaceFolder}" },
       "presentation": {
         "focus": true,
@@ -88,7 +88,7 @@
     {
       "label": "build",
       "type": "shell",
-      "command": "yarn build",
+      "command": "direnv exec . yarn build",
       "problemMatcher": [],
       "options": { "cwd": "${workspaceFolder}" },
       "presentation": {
@@ -103,7 +103,7 @@
     {
       "label": "build:contentlayer",
       "type": "shell",
-      "command": "yarn build",
+      "command": "direnv exec . yarn build",
       "options": { "cwd": "${workspaceFolder}/packages/contentlayer" },
       "presentation": {
         "focus": false,
@@ -117,7 +117,7 @@
     {
       "label": "build:@contentlayer/source-contentful",
       "type": "shell",
-      "command": "yarn build",
+      "command": "direnv exec . yarn build",
       "options": { "cwd": "${workspaceFolder}/packages/@contentlayer/source-contentful" },
       "presentation": {
         "focus": false,
@@ -131,7 +131,7 @@
     {
       "label": "build:@contentlayer/source-sanity",
       "type": "shell",
-      "command": "yarn build",
+      "command": "direnv exec . yarn build",
       "options": { "cwd": "${workspaceFolder}/packages/@contentlayer/source-sanity" },
       "presentation": {
         "focus": false,
@@ -145,7 +145,7 @@
     {
       "label": "build:next-contentlayer",
       "type": "shell",
-      "command": "yarn build",
+      "command": "direnv exec . yarn build",
       "options": { "cwd": "${workspaceFolder}/packages/next-contentlayer" },
       "presentation": {
         "focus": false,
@@ -159,7 +159,7 @@
     {
       "label": "build:contentlayer-stackbit-yaml-generator",
       "type": "shell",
-      "command": "yarn build",
+      "command": "direnv exec . yarn build",
       "options": { "cwd": "${workspaceFolder}/packages/contentlayer-stackbit-yaml-generator" },
       "presentation": {
         "focus": false,
@@ -173,7 +173,7 @@
     {
       "label": "dev:ts",
       "type": "shell",
-      "command": "yarn dev:ts",
+      "command": "direnv exec . yarn dev:ts",
       "problemMatcher": ["$tsc-watch"],
       "isBackground": true,
       "presentation": {

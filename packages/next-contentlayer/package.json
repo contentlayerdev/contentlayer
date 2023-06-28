@@ -49,9 +49,9 @@
   "devDependencies": {
     "@types/react": "^18.2.7",
     "@types/react-dom": "^18.2.4",
-    "next": "^13.3.1",
-    "typescript": "^5.0.4",
-    "webpack": "^5.80.0"
+    "next": "^13.4.7",
+    "typescript": "^5.1.5",
+    "webpack": "^5.88.0"
   },
   "author": "schickling",
   "homepage": "https://github.com/contentlayerdev/contentlayer",
