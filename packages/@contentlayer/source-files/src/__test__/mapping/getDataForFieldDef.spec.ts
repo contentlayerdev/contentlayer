@@ -8,16 +8,8 @@ import { OT, pipe, provideConsole, T } from '@contentlayer/utils/effect'
 import { NodeFsLive } from '@contentlayer/utils/node'
 import { describe, expect, test } from 'vitest'
 
-import { provideDocumentContext } from '../fetchData/DocumentContext.js'
-import { getFlattenedPath, testOnly_getDataForFieldDef as getDataForFieldDef } from '../fetchData/mapping/index.js'
-
-test('getFlattenedPath', () => {
-  expect(getFlattenedPath('some/path/doc.md')).toBe('some/path/doc')
-  expect(getFlattenedPath('some/path/index.md')).toBe('some/path')
-  expect(getFlattenedPath('some/index/index.md')).toBe('some/index')
-  expect(getFlattenedPath('index/index.md')).toBe('index')
-  expect(getFlattenedPath('index.md')).toBe('')
-})
+import { provideDocumentContext } from '../../fetchData/DocumentContext.js'
+import { testOnly_getDataForFieldDef as getDataForFieldDef } from '../../fetchData/mapping/index.js'
 
 const __unusedValue: any = ''
 

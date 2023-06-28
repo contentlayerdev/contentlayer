@@ -100,8 +100,10 @@ export const getFlattenedPath = (relativeFilePath: string): string =>
     .split('.')
     .slice(0, -1)
     .join('.')
-    // remove tailing `/index` or `index`
-    .replace(/\/?index$/, '')
+    // deal with root `index` file
+    .replace(/^index$/, '')
+    // remove tailing `/index`
+    .replace(/\/index$/, '')
 
 // TODO aggregate all "global" params into an effect service
 const makeNestedDocument = ({
