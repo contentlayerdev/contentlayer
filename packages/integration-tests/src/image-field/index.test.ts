@@ -44,6 +44,7 @@ test('mdx-image-field ', async () => {
 
   expect(allPosts[0].coverImage).toMatchInlineSnapshot(`
     {
+      "aspectRatio": 1.3333333333333333,
       "blurhashDataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAMAAADz0U65AAAACVBMVEV8Ou5vNNN3OeJauo57AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAHUlEQVR4nGNgwAIYGRkhDCZGJqgAE0SIiQmEsAAAAyMAF5ferjEAAAAASUVORK5CYII=",
       "filePath": "posts/image-a.png",
       "format": "png",
