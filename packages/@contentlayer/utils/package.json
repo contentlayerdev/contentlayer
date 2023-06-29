@@ -79,5 +79,6 @@
   },
   "devDependencies": {
     "@types/inflection": "^1.13.0"
-  }
+  },
+  "license": "MIT"
 }

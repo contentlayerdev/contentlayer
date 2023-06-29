@@ -42,5 +42,6 @@
   "devDependencies": {
     "@types/source-map-support": "^0.5.6",
     "markdown-wasm": "^1.2.0"
-  }
+  },
+  "license": "MIT"
 }

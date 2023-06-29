@@ -14,5 +14,6 @@
   },
   "dependencies": {
     "@contentlayer/core": "workspace:*"
-  }
+  },
+  "license": "MIT"
 }
