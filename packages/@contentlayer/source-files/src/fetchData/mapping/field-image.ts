@@ -63,6 +63,8 @@ const getImageFieldData = ({
 
       const { resizedData, height, width, format } = yield* $(processImage(fileBuffer))
 
+      const aspectRatio = width / height
+
       const dataB64 = utils.base64.encode(resizedData)
       const blurhashDataUrl = `data:image/${format};base64,${dataB64}`
 
@@ -72,6 +74,7 @@ const getImageFieldData = ({
         format,
         height,
         width,
+        aspectRatio,
         blurhashDataUrl,
       })
     }),

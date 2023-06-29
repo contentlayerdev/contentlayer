@@ -42,10 +42,10 @@
     "@contentlayer/utils": "workspace:*"
   },
   "peerDependencies": {
+    "contentlayer": "workspace:*",
     "next": "^12 || ^13",
     "react": "*",
-    "react-dom": "*",
-    "contentlayer": "workspace:*"
+    "react-dom": "*"
   },
   "devDependencies": {
     "@types/react": "^18.2.7",

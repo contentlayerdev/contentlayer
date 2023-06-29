@@ -44,6 +44,8 @@ export type ImageFieldData = {
   relativeFilePath: string
   width: number
   height: number
+  /** `width` / `height` (see https://en.wikipedia.org/wiki/Aspect_ratio_(image)) */
+  aspectRatio: number
   format: string
   blurhashDataUrl: string
   /**
