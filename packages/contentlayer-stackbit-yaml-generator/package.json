@@ -18,7 +18,7 @@
     "@contentlayer/core": "workspace:*",
     "@contentlayer/utils": "workspace:*",
     "@stackbit/sdk": "^0.3.25",
-    "clipanion": "^3.2.0",
+    "clipanion": "^3.2.1",
     "typanion": "3.12.1",
     "yaml": "^1.10.2"
   },
