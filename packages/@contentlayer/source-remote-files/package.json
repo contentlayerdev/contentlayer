@@ -1,6 +1,6 @@
 {
   "name": "@contentlayer/source-remote-files",
-  "version": "0.3.4-dev.1",
+  "version": "0.3.4",
   "type": "module",
   "exports": {
     ".": {
