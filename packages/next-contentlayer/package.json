@@ -1,6 +1,6 @@
 {
   "name": "next-contentlayer",
-  "version": "0.3.3",
+  "version": "0.3.4-dev.1",
   "type": "module",
   "main": "./dist/index-cjs.cjs",
   "sideEffects": false,
@@ -44,7 +44,8 @@
   "peerDependencies": {
     "next": "^12 || ^13",
     "react": "*",
-    "react-dom": "*"
+    "react-dom": "*",
+    "contentlayer": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^18.2.7",
