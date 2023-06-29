@@ -20,7 +20,7 @@
     "@stackbit/sdk": "^0.3.25",
     "clipanion": "^3.2.1",
     "typanion": "3.12.1",
-    "yaml": "^1.10.2"
+    "yaml": "^2.3.1"
   },
   "devDependencies": {
     "contentlayer": "workspace:*",

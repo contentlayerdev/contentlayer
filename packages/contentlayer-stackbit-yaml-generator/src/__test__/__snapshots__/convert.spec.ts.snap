@@ -2428,59 +2428,35 @@ nodeVersion: \\">=12\\"
 models:
   Blog:
     label: Blog
-    labelField: null
-    description: null
     fields:
       - name: title
         required: true
-        const: null
-        default: null
         description: The title of the page
-        hidden: null
         label: Title
         type: string
       - name: seo
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: null
         type: model
         models:
           - SEO
       - name: body
         required: true
-        const: null
-        default: null
         description: Markdown file body
-        hidden: null
-        label: null
         type: markdown
-    match: null
-    folder: null
     file: blog.md
     type: page
     singleInstance: true
   Landing:
     label: Landing Page
-    labelField: null
-    description: null
     fields:
       - name: title
         required: true
-        const: null
-        default: null
         description: The title of the page
-        hidden: null
         label: Title
         type: string
       - name: sections
         required: false
-        const: null
-        default: null
         description: Page sections
-        hidden: null
         label: Sections
         type: list
         items:
@@ -2497,85 +2473,47 @@ models:
             - SectionContact
       - name: seo
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: null
         type: model
         models:
           - SEO
       - name: body
         required: true
-        const: null
-        default: null
         description: Markdown file body
-        hidden: null
-        label: null
         type: markdown
     match:
       - contact.md
       - features.md
       - index.md
       - pricing.md
-    folder: null
-    file: null
     type: page
     singleInstance: false
   Page:
     label: Page
-    labelField: null
-    description: null
     fields:
       - name: title
         required: true
-        const: null
-        default: null
         description: The title of the page
-        hidden: null
-        label: null
         type: string
       - name: subtitle
         required: false
-        const: null
-        default: null
         description: The text shown below the page title
-        hidden: null
-        label: null
         type: string
       - name: image
         required: false
-        const: null
-        default: null
         description: The image shown below the page title
-        hidden: null
-        label: null
         type: string
       - name: image_alt
         required: false
-        const: null
-        default: null
         description: The alt text of the image
-        hidden: null
-        label: null
         type: string
       - name: seo
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: null
         type: model
         models:
           - SEO
       - name: body
         required: true
-        const: null
-        default: null
         description: Markdown file body
-        hidden: null
-        label: null
         type: markdown
     match:
       - about.md
@@ -2583,129 +2521,78 @@ models:
       - signup.md
       - style-guide.md
       - terms-of-service.md
-    folder: null
-    file: null
     type: page
     singleInstance: false
   Post:
     label: Post
-    labelField: null
-    description: null
     fields:
       - name: title
         required: true
-        const: null
-        default: null
         description: The title of the post
-        hidden: null
         label: Title
         type: string
       - name: subtitle
         required: false
-        const: null
-        default: null
         description: The text shown just below the title or the featured image
-        hidden: null
         label: Subtitle
         type: string
       - name: date
         required: true
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Date
         type: date
       - name: author
         required: false
-        const: null
-        default: null
         description: Post author
-        hidden: null
-        label: null
         type: reference
         models:
           - Person
       - name: excerpt
         required: false
-        const: null
-        default: null
         description: The excerpt of the post displayed in the blog feed
-        hidden: null
         label: Excerpt
         type: string
       - name: image
         required: false
-        const: null
-        default: null
         description: The image shown below the title
-        hidden: null
         label: Image
         type: string
       - name: image_alt
         required: false
-        const: null
-        default: null
         description: The alt text of the featured image
-        hidden: null
         label: Image alt text (single post)
         type: string
       - name: thumb_image
         required: false
-        const: null
-        default: null
         description: The image shown in the blog feed
-        hidden: null
         label: Image (blog feed)
         type: string
       - name: thumb_image_alt
         required: false
-        const: null
-        default: null
         description: The alt text of the blog feed image
-        hidden: null
         label: Image alt text (blog feed)
         type: string
       - name: seo
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: null
         type: model
         models:
           - SEO
       - name: body
         required: true
-        const: null
-        default: null
         description: Markdown file body
-        hidden: null
-        label: null
         type: markdown
     match: blog/**.md
-    folder: null
-    file: null
     type: page
     singleInstance: false
   Config:
     label: Site Configuration
-    labelField: null
-    description: null
     fields:
       - name: title
         required: true
-        const: null
-        default: null
         description: Site title
-        hidden: null
         label: Title
         type: string
       - name: path_prefix
         required: true
-        const: null
-        default: null
         description: \\"The base URL of this site. Useful for sites hosted under specific
           path, e.g.: https://www.example.com/my-site/\\"
         hidden: true
@@ -2713,27 +2600,19 @@ models:
         type: string
       - name: domain
         required: false
-        const: null
-        default: null
         description: The domain of your site, including the protocol, e.g.
           https://mysite.com/
-        hidden: null
         label: Domain
         type: string
       - name: favicon
         required: false
-        const: null
-        default: null
         description: A square icon that represents your website
-        hidden: null
         label: Favicon
         type: string
       - name: palette
         required: true
-        const: null
         default: blue
         description: The color palette of the site
-        hidden: null
         label: Color Palette
         type: enum
         options:
@@ -2744,10 +2623,7 @@ models:
           - purple
       - name: base_font
         required: true
-        const: null
         default: nunito-sans
-        description: null
-        hidden: null
         label: Font
         type: enum
         options:
@@ -2756,114 +2632,61 @@ models:
           - system-sans
       - name: header
         required: true
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Header Configuration
         type: model
         models:
           - Header
       - name: footer
         required: true
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Footer Configuration
         type: model
         models:
           - Footer
       - name: body
         required: true
-        const: null
-        default: null
         description: Markdown file body
-        hidden: null
-        label: null
         type: markdown
-    match: null
-    folder: null
     file: config.json
     type: data
     singleInstance: true
   Person:
     label: Person
-    labelField: null
-    description: null
     fields:
       - name: first_name
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: null
         type: string
       - name: last_name
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: null
         type: string
       - name: bio
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: null
         type: markdown
       - name: photo
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
-        label: null
         type: string
       - name: body
         required: true
-        const: null
-        default: null
         description: Markdown file body
-        hidden: null
-        label: null
         type: markdown
-    match: null
     folder: authors
-    file: null
     type: data
     singleInstance: false
   SEO:
     label: Page meta data
-    labelField: null
-    description: null
     fields:
       - name: title
         required: false
-        const: null
-        default: null
         description: The page title that goes into the <title> tag
-        hidden: null
         label: Title
         type: string
       - name: description
         required: false
-        const: null
-        default: null
         description: The page description that goes into the <meta name=\\"description\\"> tag
-        hidden: null
         label: Description
         type: string
       - name: robots
         required: false
-        const: null
-        default: null
         description: The items that go into the <meta name=\\"robots\\"> tag
-        hidden: null
         label: Robots
         type: list
         items:
@@ -2879,11 +2702,8 @@ models:
             - none
       - name: extra
         required: false
-        const: null
-        default: null
         description: Additional definition for specific meta tags such as open-graph,
           twitter, etc.
-        hidden: null
         label: Extra
         type: list
         items:
@@ -2891,113 +2711,63 @@ models:
           fields:
             - name: name
               required: false
-              const: null
-              default: null
-              description: null
-              hidden: null
-              label: null
               type: string
             - name: value
               required: false
-              const: null
-              default: null
-              description: null
-              hidden: null
-              label: null
               type: string
             - name: keyName
               required: false
-              const: null
               default: name
-              description: null
-              hidden: null
-              label: null
               type: string
             - name: relativeUrl
               required: false
-              const: null
-              default: null
-              description: null
-              hidden: null
-              label: null
               type: boolean
-    match: null
-    folder: null
-    file: null
     type: object
   Header:
     label: Header Configuration
-    labelField: null
-    description: null
     fields:
       - name: logo_img
         required: false
-        const: null
-        default: null
         description: The logo image displayed in the header (if no logo added, the site
           title is displayed instead)
-        hidden: null
         label: Logo
         type: string
       - name: logo_img_alt
         required: false
-        const: null
-        default: null
         description: The alt text of the logo image
-        hidden: null
         label: Logo Alt Text
         type: string
       - name: has_nav
         required: false
-        const: null
         default: true
         description: Display the navigation menu bar in the header
-        hidden: null
         label: Enable Navigation
         type: boolean
       - name: nav_links
         required: false
-        const: null
-        default: null
         description: List of navigation links
-        hidden: null
         label: Navigation Links
         type: list
         items:
           type: model
           models:
             - Action
-    match: null
-    folder: null
-    file: null
     type: object
   Action:
     label: Action
     labelField: label
-    description: null
     fields:
       - name: label
         required: true
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Label
         type: string
       - name: url
         required: true
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: URL
         type: string
       - name: style
         required: false
-        const: null
         default: link
-        description: null
-        hidden: null
         label: Style
         type: enum
         options:
@@ -3006,18 +2776,11 @@ models:
           - secondary
       - name: has_icon
         required: false
-        const: null
         default: false
-        description: null
-        hidden: null
         label: Show icon
         type: boolean
       - name: icon
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Icon
         type: enum
         options:
@@ -3033,10 +2796,8 @@ models:
           - youtube
       - name: icon_position
         required: false
-        const: null
         default: left
         description: The position of the icon relative to text
-        hidden: null
         label: Icon position
         type: enum
         options:
@@ -3044,35 +2805,24 @@ models:
           - right
       - name: new_window
         required: false
-        const: null
         default: false
         description: Should the link open a new tab
-        hidden: null
         label: Open in new window
         type: boolean
       - name: no_follow
         required: false
-        const: null
         default: false
         description: Add rel=\\"nofollow\\" attribute to the link
-        hidden: null
         label: No follow
         type: boolean
-    match: null
-    folder: null
-    file: null
     type: object
   Footer:
     label: Footer Configuration
     labelField: content
-    description: null
     fields:
       - name: sections
         required: false
-        const: null
-        default: null
         description: Footer sections
-        hidden: null
         label: Sections
         type: list
         items:
@@ -3083,18 +2833,13 @@ models:
             - FooterText
       - name: has_nav
         required: false
-        const: null
         default: true
         description: Display the horizontal navigation menu bar in the footer
-        hidden: null
         label: Enable Horizontal Navigation
         type: boolean
       - name: nav_links
         required: false
-        const: null
-        default: null
         description: List of horizontal navigation links
-        hidden: null
         label: Horizontal Navigation Links
         type: list
         items:
@@ -3103,88 +2848,56 @@ models:
             - Action
       - name: content
         required: false
-        const: null
-        default: null
         description: The copyright text displayed in the footer
-        hidden: null
         label: Footer Content
         type: string
       - name: links
         required: false
-        const: null
-        default: null
         description: A list of links displayed in the footer
-        hidden: null
         label: Links
         type: list
         items:
           type: model
           models:
             - Action
-    match: null
-    folder: null
-    file: null
     type: object
   FooterForm:
     label: Footer Form
     labelField: title
-    description: null
     fields:
       - name: title
         required: false
-        const: null
-        default: null
         description: The title of the section
-        hidden: null
         label: Title
         type: string
       - name: type
         required: true
-        const: null
-        default: null
         description: Needed for contentlayer for polymorphic list types
-        hidden: null
         label: Section type
         type: string
       - name: content
         required: false
-        const: null
-        default: null
         description: The content of the section, appears above the form
-        hidden: null
         label: Content
         type: markdown
       - name: form_id
         required: true
-        const: null
-        default: null
         description: A unique identifier of the form, must not contain whitespace
-        hidden: null
         label: Form ID
         type: string
       - name: form_action
         required: false
-        const: null
-        default: null
         description: The path of your custom \\"success\\" page, if you want to replace the
           default success message./index.js
-        hidden: null
         label: Form Action
         type: string
       - name: hide_labels
         required: false
-        const: null
         default: false
-        description: null
-        hidden: null
         label: Hide Labels
         type: boolean
       - name: form_fields
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Form Fields
         type: list
         items:
@@ -3193,27 +2906,16 @@ models:
             - FormField
       - name: submit_label
         required: true
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Submit Button Label
         type: string
-    match: null
-    folder: null
-    file: null
     type: object
   FormField:
     label: Form Field
     labelField: name
-    description: null
     fields:
       - name: input_type
         required: true
-        const: null
-        default: null
         description: Type of the form field
-        hidden: null
         label: Type
         type: enum
         options:
@@ -3226,204 +2928,130 @@ models:
           - select
       - name: name
         required: true
-        const: null
-        default: null
         description: The name of the field, submitted with the form
-        hidden: null
         label: Name
         type: string
       - name: label
         required: false
-        const: null
-        default: null
         description: The caption of the field, shown above the field input
-        hidden: null
         label: Label
         type: string
       - name: default_value
         required: false
-        const: null
-        default: null
         description: The placeholder for textual field types or default option for
           select field
-        hidden: null
         label: Placeholder text or default value
         type: string
       - name: options
         required: false
-        const: null
-        default: null
         description: The list of options for select field
-        hidden: null
         label: Options
         type: list
         items:
           type: string
       - name: is_required
         required: false
-        const: null
         default: false
-        description: null
-        hidden: null
         label: Is the field required?
         type: boolean
-    match: null
-    folder: null
-    file: null
     type: object
   FooterNav:
     label: Vertical Navigation
     labelField: title
-    description: null
     fields:
       - name: title
         required: false
-        const: null
-        default: null
         description: The title of the section
-        hidden: null
         label: Title
         type: string
       - name: type
         required: true
-        const: null
-        default: null
         description: Needed for contentlayer for polymorphic list types
-        hidden: null
         label: Section type
         type: string
       - name: nav_links
         required: false
-        const: null
-        default: null
         description: List of vertical navigation links
-        hidden: null
         label: Vertical Navigation Links
         type: list
         items:
           type: model
           models:
             - Action
-    match: null
-    folder: null
-    file: null
     type: object
   FooterText:
     label: Text
     labelField: title
-    description: null
     fields:
       - name: title
         required: false
-        const: null
-        default: null
         description: The title of the section
-        hidden: null
         label: Title
         type: string
       - name: type
         required: true
-        const: null
-        default: null
         description: Needed for contentlayer for polymorphic list types
-        hidden: null
         label: Section type
         type: string
       - name: image
         required: false
-        const: null
-        default: null
         description: The image displayed in the section
-        hidden: null
         label: Image
         type: string
       - name: image_alt
         required: false
-        const: null
-        default: null
         description: The alt text of the image
-        hidden: null
         label: Image Alt Text
         type: string
       - name: image_url
         required: false
-        const: null
-        default: null
         description: The url of the image
-        hidden: null
         label: Image URL
         type: string
       - name: content
         required: false
-        const: null
-        default: null
         description: The text content of the section
-        hidden: null
         label: Content
         type: markdown
-    match: null
-    folder: null
-    file: null
     type: object
   SectionContent:
     label: Content Section
     labelField: title
-    description: null
     fields:
       - name: section_id
         required: false
-        const: null
-        default: null
         description: A unique identifier of the section, must not contain whitespace
-        hidden: null
         label: Section ID
         type: string
       - name: title
         required: false
-        const: null
-        default: null
         description: The title of the section
-        hidden: null
         label: Title
         type: string
       - name: type
         required: true
-        const: null
-        default: null
         description: Needed for contentlayer for polymorphic list types
-        hidden: null
         label: Section type
         type: string
       - name: content
         required: false
-        const: null
-        default: null
         description: The text content of the section
-        hidden: null
         label: Content
         type: markdown
       - name: image
         required: false
-        const: null
-        default: null
         description: The image of the section
-        hidden: null
         label: Image
         type: string
       - name: image_alt
         required: false
-        const: null
-        default: null
         description: The alt text of the section image
-        hidden: null
         label: Image Alt Text
         type: string
       - name: background
         required: false
-        const: null
         default: gray
         description: The background of the section
-        hidden: null
         label: Background
         type: enum
         options:
@@ -3431,116 +3059,74 @@ models:
           - white
       - name: actions
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Action Buttons
         type: list
         items:
           type: model
           models:
             - Action
-    match: null
-    folder: null
-    file: null
     type: object
   SectionCta:
     label: Call to Action Section
     labelField: title
-    description: null
     fields:
       - name: section_id
         required: false
-        const: null
-        default: null
         description: A unique identifier of the section, must not contain whitespace
-        hidden: null
         label: Section ID
         type: string
       - name: title
         required: false
-        const: null
-        default: null
         description: The title of the section
-        hidden: null
         label: Title
         type: string
       - name: type
         required: true
-        const: null
-        default: null
         description: Needed for contentlayer for polymorphic list types
-        hidden: null
         label: Section type
         type: string
       - name: subtitle
         required: false
-        const: null
-        default: null
         description: The subtitle of the section
-        hidden: null
         label: Subtitle
         type: string
       - name: actions
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Action Buttons
         type: list
         items:
           type: model
           models:
             - Action
-    match: null
-    folder: null
-    file: null
     type: object
   SectionFaq:
     label: Contact Section
     labelField: title
-    description: null
     fields:
       - name: section_id
         required: false
-        const: null
-        default: null
         description: A unique identifier of the section, must not contain whitespace
-        hidden: null
         label: Section ID
         type: string
       - name: title
         required: false
-        const: null
-        default: null
         description: The title of the section
-        hidden: null
         label: Title
         type: string
       - name: type
         required: true
-        const: null
-        default: null
         description: Needed for contentlayer for polymorphic list types
-        hidden: null
         label: Section type
         type: string
       - name: subtitle
         required: false
-        const: null
-        default: null
         description: The subtitle of the section
-        hidden: null
         label: Subtitle
         type: string
       - name: background
         required: false
-        const: null
         default: gray
         description: The background of the section
-        hidden: null
         label: Background
         type: enum
         options:
@@ -3548,88 +3134,53 @@ models:
           - white
       - name: faq_items
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: FAQ Items
         type: list
         items:
           type: model
           models:
             - FaqItem
-    match: null
-    folder: null
-    file: null
     type: object
   FaqItem:
     label: FAQ Item
-    labelField: null
-    description: null
     fields:
       - name: question
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Question
         type: string
       - name: answer
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Answer
         type: markdown
-    match: null
-    folder: null
-    file: null
     type: object
   SectionFeatures:
     label: Features Section
     labelField: title
-    description: null
     fields:
       - name: section_id
         required: false
-        const: null
-        default: null
         description: A unique identifier of the section, must not contain whitespace
-        hidden: null
         label: Section ID
         type: string
       - name: title
         required: false
-        const: null
-        default: null
         description: The title of the section
-        hidden: null
         label: Title
         type: string
       - name: type
         required: true
-        const: null
-        default: null
         description: Needed for contentlayer for polymorphic list types
-        hidden: null
         label: Section type
         type: string
       - name: subtitle
         required: false
-        const: null
-        default: null
         description: The subtitle of the section
-        hidden: null
         label: Subtitle
         type: string
       - name: background
         required: false
-        const: null
         default: gray
         description: The background of the section
-        hidden: null
         label: Background
         type: enum
         options:
@@ -3637,237 +3188,148 @@ models:
           - white
       - name: features
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Features
         type: list
         items:
           type: model
           models:
             - FeatureItem
-    match: null
-    folder: null
-    file: null
     type: object
   FeatureItem:
     label: Feature Item
     labelField: title
-    description: null
     fields:
       - name: title
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Title
         type: string
       - name: content
         required: false
-        const: null
-        default: null
         description: Feature description
-        hidden: null
         label: Content
         type: markdown
       - name: image
         required: false
-        const: null
-        default: null
         description: Feature image
-        hidden: null
         label: Image
         type: string
       - name: image_alt
         required: false
-        const: null
-        default: null
         description: The alt text of the feature image
-        hidden: null
         label: Image Alt Text
         type: string
       - name: actions
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Action Buttons
         type: list
         items:
           type: model
           models:
             - Action
-    match: null
-    folder: null
-    file: null
     type: object
   SectionHero:
     label: Hero Section
     labelField: title
-    description: null
     fields:
       - name: section_id
         required: false
-        const: null
-        default: null
         description: A unique identifier of the section, must not contain whitespace
-        hidden: null
         label: Section ID
         type: string
       - name: title
         required: false
-        const: null
-        default: null
         description: The title of the section
-        hidden: null
         label: Title
         type: string
       - name: type
         required: true
-        const: null
-        default: null
         description: Needed for contentlayer for polymorphic list types
-        hidden: null
         label: Section type
         type: string
       - name: content
         required: false
-        const: null
-        default: null
         description: The text content of the section
-        hidden: null
         label: Content
         type: markdown
       - name: image
         required: false
-        const: null
-        default: null
         description: The image of the section
-        hidden: null
         label: Image
         type: string
       - name: image_alt
         required: false
-        const: null
-        default: null
         description: The alt text of the section image
-        hidden: null
         label: Image Alt Text
         type: string
       - name: actions
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Action Buttons
         type: list
         items:
           type: model
           models:
             - Action
-    match: null
-    folder: null
-    file: null
     type: object
   SectionPosts:
     label: Posts List
-    labelField: null
-    description: null
     fields:
       - name: section_id
         required: false
-        const: null
-        default: null
         description: A unique identifier of the section, must not contain whitespace
-        hidden: null
         label: Section ID
         type: string
       - name: title
         required: false
-        const: null
-        default: null
         description: The title of the section
-        hidden: null
         label: Title
         type: string
       - name: type
         required: true
-        const: null
-        default: null
         description: Needed for contentlayer for polymorphic list types
-        hidden: null
         label: Section type
         type: string
       - name: subtitle
         required: false
-        const: null
-        default: null
         description: The subtitle of the section
-        hidden: null
         label: Subtitle
         type: string
       - name: background
         required: false
-        const: null
         default: gray
         description: The background of the section
-        hidden: null
         label: Background
         type: enum
         options:
           - gray
           - white
-    match: null
-    folder: null
-    file: null
     type: object
   SectionPricing:
     label: Pricing Section
-    labelField: null
-    description: null
     fields:
       - name: section_id
         required: false
-        const: null
-        default: null
         description: A unique identifier of the section, must not contain whitespace
-        hidden: null
         label: Section ID
         type: string
       - name: title
         required: false
-        const: null
-        default: null
         description: The title of the section
-        hidden: null
         label: Title
         type: string
       - name: type
         required: true
-        const: null
-        default: null
         description: Needed for contentlayer for polymorphic list types
-        hidden: null
         label: Section type
         type: string
       - name: subtitle
         required: false
-        const: null
-        default: null
         description: The subtitle of the section
-        hidden: null
         label: Subtitle
         type: string
       - name: background
         required: false
-        const: null
         default: gray
         description: The background of the section
-        hidden: null
         label: Background
         type: enum
         options:
@@ -3875,124 +3337,75 @@ models:
           - white
       - name: pricing_plans
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Pricing Plans
         type: list
         items:
           type: model
           models:
             - PricingPlan
-    match: null
-    folder: null
-    file: null
     type: object
   PricingPlan:
     label: Pricing Plan
     labelField: title
-    description: null
     fields:
       - name: title
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Title
         type: string
       - name: subtitle
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Subtitle
         type: string
       - name: price
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Price
         type: string
       - name: details
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Details
         type: markdown
       - name: highlight
         required: false
-        const: null
         default: false
         description: Make the plan stand out by adding a distinctive style
-        hidden: null
         label: Highlight
         type: boolean
       - name: actions
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Action Buttons
         type: list
         items:
           type: model
           models:
             - Action
-    match: null
-    folder: null
-    file: null
     type: object
   SectionReviews:
     label: Reviews Section
-    labelField: null
-    description: null
     fields:
       - name: section_id
         required: false
-        const: null
-        default: null
         description: A unique identifier of the section, must not contain whitespace
-        hidden: null
         label: Section ID
         type: string
       - name: title
         required: false
-        const: null
-        default: null
         description: The title of the section
-        hidden: null
         label: Title
         type: string
       - name: type
         required: true
-        const: null
-        default: null
         description: Needed for contentlayer for polymorphic list types
-        hidden: null
         label: Section type
         type: string
       - name: subtitle
         required: false
-        const: null
-        default: null
         description: The subtitle of the section
-        hidden: null
         label: Subtitle
         type: string
       - name: background
         required: false
-        const: null
         default: gray
         description: The background of the section
-        hidden: null
         label: Background
         type: enum
         options:
@@ -4000,112 +3413,66 @@ models:
           - white
       - name: reviews
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Reviews
         type: list
         items:
           type: model
           models:
             - ReviewItem
-    match: null
-    folder: null
-    file: null
     type: object
   ReviewItem:
     label: Review Item
-    labelField: null
-    description: null
     fields:
       - name: author
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Author
         type: string
       - name: avatar
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Author Image
         type: string
       - name: avatar_alt
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Author Image Alt Text
         type: string
       - name: content
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Content
         type: string
-    match: null
-    folder: null
-    file: null
     type: object
   SectionContact:
     label: Contact Section
     labelField: title
-    description: null
     fields:
       - name: section_id
         required: false
-        const: null
-        default: null
         description: A unique identifier of the section, must not contain whitespace
-        hidden: null
         label: Section ID
         type: string
       - name: title
         required: false
-        const: null
-        default: null
         description: The title of the section
-        hidden: null
         label: Title
         type: string
       - name: type
         required: true
-        const: null
-        default: null
         description: Needed for contentlayer for polymorphic list types
-        hidden: null
         label: Section type
         type: string
       - name: subtitle
         required: false
-        const: null
-        default: null
         description: The text shown below the title
-        hidden: null
         label: Subtitle
         type: string
       - name: content
         required: false
-        const: null
-        default: null
         description: the content of the section, appears above the form
-        hidden: null
         label: Content
         type: markdown
       - name: background
         required: false
-        const: null
         default: gray
         description: The background of the section
-        hidden: null
         label: Background
         type: enum
         options:
@@ -4113,35 +3480,22 @@ models:
           - white
       - name: form_id
         required: true
-        const: null
-        default: null
         description: A unique identifier of the form, must not contain whitespace
-        hidden: null
         label: Form ID
         type: string
       - name: form_action
         required: false
-        const: null
-        default: null
         description: The path of your custom \\"success\\" page, if you want to replace the
           default success message./index.js
-        hidden: null
         label: Form Action
         type: string
       - name: hide_labels
         required: false
-        const: null
         default: false
-        description: null
-        hidden: null
         label: Hide labels of the form fields?
         type: boolean
       - name: form_fields
         required: false
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Form Fields
         type: list
         items:
@@ -4150,18 +3504,9 @@ models:
             - FormField
       - name: submit_label
         required: true
-        const: null
-        default: null
-        description: null
-        hidden: null
         label: Submit Button Label
         type: string
-    match: null
-    folder: null
-    file: null
     type: object
-pagesDir: null
-dataDir: null
 "
 `;
 
@@ -4221,39 +3566,20 @@ nodeVersion: \\">=12\\"
 models:
   Post:
     label: Post
-    labelField: null
-    description: null
     fields:
       - name: title
         required: true
-        const: null
-        default: null
         description: The title of the post
-        hidden: null
-        label: null
         type: string
       - name: date
         required: true
-        const: null
-        default: null
         description: The date of the post
-        hidden: null
-        label: null
         type: date
       - name: body
         required: true
-        const: null
-        default: null
         description: Markdown file body
-        hidden: null
-        label: null
         type: markdown
-    match: null
-    folder: null
-    file: null
     type: data
     singleInstance: false
-pagesDir: null
-dataDir: null
 "
 `;
