@@ -48,11 +48,11 @@
     "react-dom": "*"
   },
   "devDependencies": {
-    "@types/react": "^18.2.7",
-    "@types/react-dom": "^18.2.4",
+    "@types/react": "^18.2.14",
+    "@types/react-dom": "^18.2.6",
     "next": "^13.4.7",
-    "typescript": "^5.1.5",
-    "webpack": "^5.88.0"
+    "typescript": "^5.1.6",
+    "webpack": "^5.88.1"
   },
   "author": "schickling",
   "homepage": "https://github.com/contentlayerdev/contentlayer",

@@ -32,6 +32,7 @@ export const bundleMDX = ({
         resolveCwd,
         cwd: cwd_,
         mdxOptions: mapMdxOptions,
+        esbuildOptions: mapEsbuildOptions,
         ...restOptions
       } = options ?? {}
 
@@ -60,6 +61,11 @@ export const bundleMDX = ({
         },
         // User-provided cwd trumps resolution
         cwd: cwd_ ?? getCwd(),
+        esbuildOptions: (opts, frontmatter) => {
+          // NOTE this is needed to avoid `esbuild` from logging a warning regarding the `tsconfig.json` target option not being used
+          opts.target = 'es2020'
+          return mapEsbuildOptions ? mapEsbuildOptions(opts, frontmatter) : opts
+        },
         // NOTE `restOptions` should be spread at the end to allow for user overrides
         ...restOptions,
       }
