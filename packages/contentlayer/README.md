@@ -111,5 +111,6 @@ Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest
 - [willin.wang](https://willin.wang) ([Source](https://github.com/willin/blog))
 - [mateusf.vercel.app](https://mateusf.vercel.app) ([Source](https://github.com/mateusfg7/mfg-b))
 - [algolia.com/doc-beta](https://www.algolia.com/doc-beta)
+- [prologue.dev](https://prologue.dev)([Source](https://github.com/huaixuOvO/prologue.dev))
 
 Are you using Contentlayer? Please add your page (and repo) to the end of the list via a PR. 🙏
