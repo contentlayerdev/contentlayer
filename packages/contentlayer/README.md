@@ -109,7 +109,7 @@ Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest
 - [Irregular-expressions.com](https://irregular-expressions.com) ([Source](https://github.com/samjhecht/irregular-expressions))
 - [goosebumps.fm](https://goosebumps.fm) ([Source](https://github.com/txndai/nextgoose))
 - [willin.wang](https://willin.wang) ([Source](https://github.com/willin/blog))
-- [mateusf.vercel.app](https://mateusf.vercel.app) ([Source](https://github.com/mateusfg7/mfg-b))
+- [mateusf.com](https://mateusf.com) ([Source](https://github.com/mateusfg7/mfg-b))
 - [algolia.com/doc-beta](https://www.algolia.com/doc-beta)
 - [prologue.dev](https://prologue.dev)([Source](https://github.com/huaixuOvO/prologue.dev))
 - [justgokul.dev](https://justgokul.dev)([Source](https://github.com/xenomech/justgokul.dev))
