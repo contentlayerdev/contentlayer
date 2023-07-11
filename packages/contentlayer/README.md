@@ -113,6 +113,7 @@ Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest
 - [algolia.com/doc-beta](https://www.algolia.com/doc-beta)
 - [prologue.dev](https://prologue.dev)([Source](https://github.com/huaixuOvO/prologue.dev))
 - [justgokul.dev](https://justgokul.dev)([Source](https://github.com/xenomech/justgokul.dev))
+- [shubhdeepchhabra.in](https://www.shubhdeepchhabra.in)([Source](https://github.com/shubhdeep12/shubhdeepchhabra.in))
 
 
 Are you using Contentlayer? Please add your page (and repo) to the end of the list via a PR. 🙏
