@@ -115,6 +115,6 @@ Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest
 - [justgokul.dev](https://justgokul.dev)([Source](https://github.com/xenomech/justgokul.dev))
 - [shubhdeepchhabra.in](https://www.shubhdeepchhabra.in)([Source](https://github.com/shubhdeep12/shubhdeepchhabra.in))
 - [zanreal.net](https://www.zanreal.net/)
-
+- [devtella](https://devtella.vercel.app/)
 
 Are you using Contentlayer? Please add your page (and repo) to the end of the list via a PR. 🙏
