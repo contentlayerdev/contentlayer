@@ -117,5 +117,6 @@ Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest
 - [zanreal.net](https://www.zanreal.net/)
 - [devtella](https://devtella.vercel.app/)
 - [Modern Developer Blog Template (Digital Garden Starter)](https://github.com/thedevdavid/digital-garden/)([Source](https://github.com/thedevdavid/digital-garden/))
+- [shockinglemon.com](https://shockinglemon.com/) ([Source](https://github.com/Dannymx/shockinglemon.com))
 
 Are you using Contentlayer? Please add your page (and repo) to the end of the list via a PR. 🙏
