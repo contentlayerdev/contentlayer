@@ -307,7 +307,7 @@ __metadata:
   dependencies:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/utils": "workspace:*"
-    "@types/node": ^20.3.2
+    "@types/node": ^20.6.2
     clipanion: ^3.2.1
     typanion: ^3.12.1
   languageName: unknown
@@ -375,7 +375,7 @@ __metadata:
   dependencies:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/utils": "workspace:*"
-    "@types/node": ^20.3.2
+    "@types/node": ^20.6.2
     contentful-management: 7.22.4
   languageName: unknown
   linkType: soft
@@ -388,7 +388,7 @@ __metadata:
     "@contentlayer/utils": "workspace:*"
     "@faker-js/faker": ^8.0.2
     "@types/micromatch": ^4.0.2
-    "@types/node": ^20.3.2
+    "@types/node": ^20.6.2
     "@types/sharp": ^0.32.0
     "@types/yaml": ^1.9.7
     chokidar: ^3.5.3
@@ -1770,10 +1770,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^20.3.2":
-  version: 20.3.2
-  resolution: "@types/node@npm:20.3.2"
-  checksum: 5929ce2b9b12b1e2a2304a0921a953c72a81f5753ad39ac43b99ce6312fbb2b4fb5bc6b60d64a2550704e3223cd5de1299467d36085ac69888899db978f2653a
+"@types/node@npm:^20.6.2":
+  version: 20.6.2
+  resolution: "@types/node@npm:20.6.2"
+  checksum: 96fe5303872640a173f3fd43e289a451776ed5b8f0090094447c6790b43f23fb607eea8268af0829cef4d132e5afa0bfa4cd871aa7412e9042a414a698e9e971
   languageName: node
   linkType: hard
 
@@ -6911,24 +6911,6 @@ __metadata:
   checksum: deac9f8d00eda7b2e5cd1b2549e26e10a0faa70adaa6fdadca701cc55f49ee9018e427f424bac0c790b7c7e2d3068db97f3093f1093975f2acb8f8818b936ed9
   languageName: node
   linkType: hard
-
-"next-contentlayer-example@workspace:examples/next-contentlayer-example":
-  version: 0.0.0-use.local
-  resolution: "next-contentlayer-example@workspace:examples/next-contentlayer-example"
-  dependencies:
-    "@types/react": 18.2.14
-    autoprefixer: ^10.4.14
-    contentlayer: latest
-    date-fns: 2.30.0
-    next: 13.4.7
-    next-contentlayer: latest
-    postcss: ^8.4.24
-    react: 18.2.0
-    react-dom: 18.2.0
-    tailwindcss: ^3.3.2
-    typescript: 5.1.6
-  languageName: unknown
-  linkType: soft
 
 "next-contentlayer@workspace:*, next-contentlayer@workspace:packages/next-contentlayer":
   version: 0.0.0-use.local
