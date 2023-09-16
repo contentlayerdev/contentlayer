@@ -40,7 +40,7 @@
     "unified": "^10.1.2"
   },
   "devDependencies": {
-    "@types/source-map-support": "^0.5.6",
+    "@types/source-map-support": "^0.5.7",
     "markdown-wasm": "^1.2.0"
   },
   "license": "MIT"
