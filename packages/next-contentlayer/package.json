@@ -48,7 +48,7 @@
     "react-dom": "*"
   },
   "devDependencies": {
-    "@types/react": "^18.2.14",
+    "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.6",
     "next": "^13.4.7",
     "typescript": "^5.1.6",

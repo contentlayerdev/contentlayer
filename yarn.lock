@@ -1825,14 +1825,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:18.2.14, @types/react@npm:^18.2.14":
-  version: 18.2.14
-  resolution: "@types/react@npm:18.2.14"
+"@types/react@npm:^18.2.21":
+  version: 18.2.21
+  resolution: "@types/react@npm:18.2.21"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: a6a5e8cc78f486b9020d1ad009aa6c56943c68c7c6376e0f8399e9cbcd950b7b8f5d73f00200f5379f5e58d31d57d8aed24357f301d8e86108cd438ce6c8b3dd
+  checksum: ffed203bfe7aad772b8286f7953305c9181ac3a8f27d3f5400fbbc2a8e27ca8e5bbff818ee014f39ca0d19d2b3bb154e5bdbec7e232c6f80b59069375aa78349
   languageName: node
   linkType: hard
 
@@ -6918,7 +6918,7 @@ __metadata:
   dependencies:
     "@contentlayer/core": "workspace:*"
     "@contentlayer/utils": "workspace:*"
-    "@types/react": ^18.2.14
+    "@types/react": ^18.2.21
     "@types/react-dom": ^18.2.6
     next: ^13.4.7
     typescript: ^5.1.6
@@ -6935,7 +6935,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "next-images@workspace:examples/next-images"
   dependencies:
-    "@types/react": 18.2.14
+    "@types/react": ^18.2.21
     autoprefixer: ^10.4.14
     contentlayer: latest
     date-fns: 2.30.0
@@ -6953,7 +6953,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "next-rsc-dynamic@workspace:examples/next-rsc-dynamic"
   dependencies:
-    "@types/react": 18.2.14
+    "@types/react": ^18.2.21
     autoprefixer: ^10.4.14
     contentlayer: latest
     date-fns: 2.30.0
