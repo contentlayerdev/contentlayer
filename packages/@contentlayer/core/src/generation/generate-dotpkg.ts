@@ -309,33 +309,33 @@ const makePackageJson = (schemaHash: string): string => {
  */
 const writeFileWithWrittenFilesCache =
   ({ writtenFilesCache }: { writtenFilesCache: WrittenFilesCache }) =>
-    ({
-      filePath,
-      content,
-      documentHash,
-      rmBeforeWrite = true,
-    }: {
-      filePath: AbsolutePosixFilePath
-      content: string
-      documentHash?: string
-      /** In order for VSC to pick up changes in generated files, it's currently needed to delete the file before re-creating it */
-      rmBeforeWrite?: boolean
-    }) =>
-      T.gen(function* ($) {
-        // TODO also consider schema hash
-        const fileIsUpToDate = documentHash !== undefined && writtenFilesCache[filePath] === documentHash
-        if (!rmBeforeWrite && fileIsUpToDate) {
-          return
-        }
+  ({
+    filePath,
+    content,
+    documentHash,
+    rmBeforeWrite = true,
+  }: {
+    filePath: AbsolutePosixFilePath
+    content: string
+    documentHash?: string
+    /** In order for VSC to pick up changes in generated files, it's currently needed to delete the file before re-creating it */
+    rmBeforeWrite?: boolean
+  }) =>
+    T.gen(function* ($) {
+      // TODO also consider schema hash
+      const fileIsUpToDate = documentHash !== undefined && writtenFilesCache[filePath] === documentHash
+      if (!rmBeforeWrite && fileIsUpToDate) {
+        return
+      }
 
-        if (rmBeforeWrite) {
-          yield* $(fs.rm(filePath, { force: true }))
-        }
-        yield* $(fs.writeFile(filePath, content))
-        if (documentHash) {
-          writtenFilesCache[filePath] = documentHash
-        }
-      })
+      if (rmBeforeWrite) {
+        yield* $(fs.rm(filePath, { force: true }))
+      }
+      yield* $(fs.writeFile(filePath, content))
+      if (documentHash) {
+        writtenFilesCache[filePath] = documentHash
+      }
+    })
 
 const makeDataExportFile = ({
   docDef,
