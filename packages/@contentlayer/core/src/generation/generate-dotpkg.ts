@@ -6,6 +6,7 @@ import type { GetContentlayerVersionError } from '@contentlayer/utils/node'
 import { getContentlayerVersion } from '@contentlayer/utils/node'
 import { camelCase } from 'camel-case'
 import type { PackageJson } from 'type-fest'
+import * as URL from "url"
 
 import { ArtifactsDir } from '../ArtifactsDir.js'
 import type { HasCwd } from '../cwd.js'
@@ -131,7 +132,9 @@ const successCallback = (onSuccess: SuccessCallback | undefined) => {
     T.tapSync((path) => console.log('successCallback', path)),
     T.chain((generatedPkgPath) =>
       T.tryCatchPromise(
-        () => onSuccess(() => import(filePathJoin(generatedPkgPath, 'generated', 'index.mjs'))),
+        () => onSuccess(
+          () => import(URL.pathToFileURL(filePathJoin(generatedPkgPath, 'generated', 'index.mjs')).href)
+        ),
         (error) => new SuccessCallbackError({ error }),
       ),
     ),
@@ -306,33 +309,33 @@ const makePackageJson = (schemaHash: string): string => {
  */
 const writeFileWithWrittenFilesCache =
   ({ writtenFilesCache }: { writtenFilesCache: WrittenFilesCache }) =>
-  ({
-    filePath,
-    content,
-    documentHash,
-    rmBeforeWrite = true,
-  }: {
-    filePath: AbsolutePosixFilePath
-    content: string
-    documentHash?: string
-    /** In order for VSC to pick up changes in generated files, it's currently needed to delete the file before re-creating it */
-    rmBeforeWrite?: boolean
-  }) =>
-    T.gen(function* ($) {
-      // TODO also consider schema hash
-      const fileIsUpToDate = documentHash !== undefined && writtenFilesCache[filePath] === documentHash
-      if (!rmBeforeWrite && fileIsUpToDate) {
-        return
-      }
+    ({
+      filePath,
+      content,
+      documentHash,
+      rmBeforeWrite = true,
+    }: {
+      filePath: AbsolutePosixFilePath
+      content: string
+      documentHash?: string
+      /** In order for VSC to pick up changes in generated files, it's currently needed to delete the file before re-creating it */
+      rmBeforeWrite?: boolean
+    }) =>
+      T.gen(function* ($) {
+        // TODO also consider schema hash
+        const fileIsUpToDate = documentHash !== undefined && writtenFilesCache[filePath] === documentHash
+        if (!rmBeforeWrite && fileIsUpToDate) {
+          return
+        }
 
-      if (rmBeforeWrite) {
-        yield* $(fs.rm(filePath, { force: true }))
-      }
-      yield* $(fs.writeFile(filePath, content))
-      if (documentHash) {
-        writtenFilesCache[filePath] = documentHash
-      }
-    })
+        if (rmBeforeWrite) {
+          yield* $(fs.rm(filePath, { force: true }))
+        }
+        yield* $(fs.writeFile(filePath, content))
+        if (documentHash) {
+          writtenFilesCache[filePath] = documentHash
+        }
+      })
 
 const makeDataExportFile = ({
   docDef,
