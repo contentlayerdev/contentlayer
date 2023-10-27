@@ -43,7 +43,7 @@
   },
   "peerDependencies": {
     "contentlayer": "workspace:*",
-    "next": "^12 || ^13",
+    "next": "^12 || ^13 || ^14",
     "react": "*",
     "react-dom": "*"
   },
