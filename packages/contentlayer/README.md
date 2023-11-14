@@ -118,5 +118,6 @@ Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest
 - [devtella](https://devtella.vercel.app/)
 - [Modern Developer Blog Template (Digital Garden Starter)](https://github.com/thedevdavid/digital-garden/)([Source](https://github.com/thedevdavid/digital-garden/))
 - [floriankiem.com](floriandwt.com) ([Source](https://github.com/floriandwt/florians-website/))
+- [roadtrip.dog](https://roadtrip.dog) ([Source](https://github.com/mattgrunwald/roadtrip-blog))
 
 Are you using Contentlayer? Please add your page (and repo) to the end of the list via a PR. 🙏
