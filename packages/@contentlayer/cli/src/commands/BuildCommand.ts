@@ -25,6 +25,7 @@ export class BuildCommand extends BaseCommand {
       T.tap((config) => (config.source.options.disableImportAliasWarning ? T.unit : T.fork(core.validateTsconfig))),
       T.chain((config) => core.generateDotpkg({ config, verbose: this.verbose })),
       T.tap(core.logGenerateInfo),
+      T.map(() => 0),
       OT.withSpan('@contentlayer/cli/commands/BuildCommand:executeSafe'),
     )
 }
