@@ -6,7 +6,7 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["examples-*"],
+  "ignore": ["*-example", "next-rsc-dynamic", "next-images"],
   "___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {
     "useCalculatedVersionForSnapshots": true
   }
