@@ -31,7 +31,7 @@ jobs:
   build-example-next-contentlayer-example:
     strategy:
       matrix:
-        node-version: [17, 18, 19, 20] # `app` dir requires 17+
+        node-version: [18, 19, 20]
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
@@ -43,7 +43,7 @@ jobs:
   build-example-next-rsc-dynamic-example:
     strategy:
       matrix:
-        node-version: [17, 18, 19, 20] # `app` dir requires 17+
+        node-version: [18, 19, 20]
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
@@ -55,7 +55,7 @@ jobs:
   build-example-next-images-example:
     strategy:
       matrix:
-        node-version: [17, 18, 19, 20] # `app` dir requires 17+
+        node-version: [18, 19, 20]
         # TODO re-enable windows
         # os: [ubuntu-latest, windows-latest]
         os: [ubuntu-latest]
