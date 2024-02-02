@@ -85,7 +85,7 @@ export type MDXOptions = {
   resolveCwd?: 'relative' | 'contentDirPath'
 } & Omit<mdxBundler.BundleMDXOptions<any>, 'mdxOptions'>
 
-export type MDXBundlerMapOptions = (options: mdxEsbuild.ProcessorOptions) => mdxEsbuild.ProcessorOptions
+export type MDXBundlerMapOptions = (options: mdxEsbuild.CompileOptions) => mdxEsbuild.CompileOptions
 
 export type DateOptions = {
   /**
