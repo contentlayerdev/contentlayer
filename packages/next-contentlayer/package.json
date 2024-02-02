@@ -43,14 +43,14 @@
   },
   "peerDependencies": {
     "contentlayer": "workspace:*",
-    "next": "^12 || ^13",
+    "next": "^12 || ^13 || ^14",
     "react": "*",
     "react-dom": "*"
   },
   "devDependencies": {
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
-    "next": "^13.4.7",
+    "next": "^14.1.0",
     "typescript": "^5.1.6",
     "webpack": "^5.88.1"
   },
