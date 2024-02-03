@@ -508,7 +508,8 @@ ${fetchContentStr()}
 `
 }
 
-const idToFileName = (id: string): string => leftPadWithUnderscoreIfStartsWithNumber(id).replace(/\//g, '__')
+const idToFileName = (id: string): string =>
+  leftPadWithUnderscoreIfStartsWithNumber(id).replace(/\//g, '__').replace(/\'/g, '')
 
 const leftPadWithUnderscoreIfStartsWithNumber = (str: string): string => {
   if (/^[0-9]/.test(str)) {
