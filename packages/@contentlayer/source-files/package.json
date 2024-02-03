@@ -35,10 +35,10 @@
     "gray-matter": "^4.0.3",
     "imagescript": "^1.2.16",
     "micromatch": "^4.0.5",
-    "ts-pattern": "^4.3.0",
+    "ts-pattern": "^5.0.6",
     "unified": "^11.0.4",
     "yaml": "^2.3.1",
-    "zod": "^3.21.4"
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",

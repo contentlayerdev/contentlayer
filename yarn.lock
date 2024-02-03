@@ -414,7 +414,7 @@ __metadata:
     imagescript: ^1.2.16
     micromatch: ^4.0.5
     sharp: ^0.32.1
-    ts-pattern: ^4.3.0
+    ts-pattern: ^5.0.6
     unified: ^11.0.4
     vite: ^5.0.12
     vitest: 1.2.2
@@ -451,12 +451,12 @@ __metadata:
     "@opentelemetry/semantic-conventions": ^1.21.0
     "@types/inflection": ^1.13.0
     chokidar: ^3.5.3
-    hash-wasm: ^4.9.0
-    inflection: ^2.0.1
+    hash-wasm: ^4.11.0
+    inflection: ^3.0.0
     memfs: ^3.5.1
-    oo-ascii-tree: ^1.84.0
-    ts-pattern: ^4.3.0
-    type-fest: ^3.12.0
+    oo-ascii-tree: ^1.94.0
+    ts-pattern: ^5.0.6
+    type-fest: ^4.10.0
   peerDependenciesMeta:
     "@effect-ts/core":
       optional: true
@@ -5152,10 +5152,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hash-wasm@npm:^4.9.0":
-  version: 4.10.0
-  resolution: "hash-wasm@npm:4.10.0"
-  checksum: 66e6d1d0ba64d928af85d8360f75a9407f0245089b77c451a637dbf2e868485c7b0a49eba55e68d91012a1bbae3ae5ca653984b4259979184dfd3ef8b02b6f61
+"hash-wasm@npm:^4.11.0":
+  version: 4.11.0
+  resolution: "hash-wasm@npm:4.11.0"
+  checksum: c0c12f36f6fb689fd97f6f24756ec1aa08d132b456bc4f0526fa7dbefdb07a25aa1d58bfb29fac69ff16f842717b38af36b6875dc98e9b01def43cde8c1f3154
   languageName: node
   linkType: hard
 
@@ -5437,10 +5437,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"inflection@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "inflection@npm:2.0.1"
-  checksum: bb095b495e10a77afc043cc349ae0f7c8c53e4d1fbcd7781111c18d17bde87ce31ea08bd883774bcbb2ff50c301dd4835b5448c80eb50b5e4e080165b6030f3b
+"inflection@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "inflection@npm:3.0.0"
+  checksum: 6a3b21cb011a9bca1c045ef92d199c927cfd8c4b97809152fabc9c325d36789a7499397b50d46157d080efd19843807ac73e38a2fe79d8f2cf291323998fb5b5
   languageName: node
   linkType: hard
 
@@ -7839,10 +7839,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"oo-ascii-tree@npm:^1.84.0":
-  version: 1.90.0
-  resolution: "oo-ascii-tree@npm:1.90.0"
-  checksum: c10f24d53eb18c3f9b0d3722716b15af9306c24f9fddd6ded07518cf8432f2a923cd987ea35bb46ecab57f0550774d806733bc0db6d45dae3f4f1333e45bdbe0
+"oo-ascii-tree@npm:^1.94.0":
+  version: 1.94.0
+  resolution: "oo-ascii-tree@npm:1.94.0"
+  checksum: d6029c6eb95a0f810ffac6024e845699673369731e44a1680f2d0f7f25cd338fe37707b7dd68f3c3ec0a515291b82ece375b403f937935c6f2d586a66e6bd834
   languageName: node
   linkType: hard
 
@@ -9955,10 +9955,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-pattern@npm:^4.3.0":
-  version: 4.3.0
-  resolution: "ts-pattern@npm:4.3.0"
-  checksum: f5167f6f721212c1e22f8590bb1fc21e27fd591d6fc5af0e467778f8e5b2dc1ae490cf5c633c83a3021a61283a671a53faf250b081c17c0f025e73eb775e5fe3
+"ts-pattern@npm:^5.0.6":
+  version: 5.0.6
+  resolution: "ts-pattern@npm:5.0.6"
+  checksum: 36564fe78e11e8f91644acf8fe3cff62d0b934e017b169ab1cea6357093a478e11b0073330e53d29fe810aff730870d7ee89d1d8eb359b9e58f86f16793e1c0f
   languageName: node
   linkType: hard
 
@@ -10093,13 +10093,6 @@ __metadata:
   version: 2.19.0
   resolution: "type-fest@npm:2.19.0"
   checksum: a4ef07ece297c9fba78fc1bd6d85dff4472fe043ede98bd4710d2615d15776902b595abf62bd78339ed6278f021235fb28a96361f8be86ed754f778973a0d278
-  languageName: node
-  linkType: hard
-
-"type-fest@npm:^3.12.0":
-  version: 3.13.1
-  resolution: "type-fest@npm:3.13.1"
-  checksum: c06b0901d54391dc46de3802375f5579868949d71f93b425ce564e19a428a0d411ae8d8cb0e300d330071d86152c3ea86e744c3f2860a42a79585b6ec2fdae8e
   languageName: node
   linkType: hard
 
