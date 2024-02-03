@@ -13,7 +13,7 @@
     "test": "echo No tests yet"
   },
   "peerDependencies": {
-    "esbuild": "0.17.x || 0.18.x",
+    "esbuild": "0.17.x || 0.18.x || 0.19.x || 0.20.x",
     "markdown-wasm": "1.x"
   },
   "peerDependenciesMeta": {
