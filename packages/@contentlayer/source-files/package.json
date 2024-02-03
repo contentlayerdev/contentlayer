@@ -36,7 +36,7 @@
     "imagescript": "^1.2.16",
     "micromatch": "^4.0.5",
     "ts-pattern": "^4.3.0",
-    "unified": "^10.1.2",
+    "unified": "^11.0.4",
     "yaml": "^2.3.1",
     "zod": "^3.21.4"
   },
@@ -47,8 +47,8 @@
     "@types/sharp": "^0.32.0",
     "@types/yaml": "^1.9.7",
     "sharp": "^0.32.1",
-    "vite": "^4.3.1",
-    "vitest": "0.30.1"
+    "vite": "^5.0.12",
+    "vitest": "1.2.2"
   },
   "license": "MIT"
 }

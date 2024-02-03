@@ -42,7 +42,7 @@ test('CouldNotDetermineDocumentTypeError: should print 4 errors', async () => {
 
      └── Couldn't determine the document type for 4 documents. (Skipping documents)
          
-         Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field \\"type\\" needs to be one of the following document type names: TypeA, TypeB).
+         Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field "type" needs to be one of the following document type names: TypeA, TypeB).
          
          • docs/scaly_oblong_pro.md
          • docs/reorganization.md
@@ -68,7 +68,7 @@ test('CouldNotDetermineDocumentTypeError: should print 24 errors - truncated', a
 
      └── Couldn't determine the document type for 24 documents. (Skipping documents)
          
-         Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field \\"type\\" needs to be one of the following document type names: TypeA, TypeB).
+         Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field "type" needs to be one of the following document type names: TypeA, TypeB).
          
          • docs/scaly_oblong_pro.md
          • docs/reorganization.md
@@ -112,7 +112,7 @@ test('CouldNotDetermineDocumentTypeError: should print 24 errors - full', async 
 
      └── Couldn't determine the document type for 24 documents. (Skipping documents)
          
-         Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field \\"type\\" needs to be one of the following document type names: TypeA, TypeB).
+         Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field "type" needs to be one of the following document type names: TypeA, TypeB).
          
          • docs/scaly_oblong_pro.md
          • docs/reorganization.md
@@ -172,13 +172,13 @@ test('MissingRequiredFieldsError: should print 4 warnings', async () => {
 
      └── Missing required fields for 4 documents. (Skipping documents)
          
-         • \\"docs/scaly_oblong_pro.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/scaly_oblong_pro.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/reorganization.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/reorganization.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/aw_shameful.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/aw_shameful.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/concerning_brilliant.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/concerning_brilliant.md" (of type "TypeB") is missing the following required fields:
            • someField: string
          
     "
@@ -201,13 +201,13 @@ test('MissingRequiredFieldsError: should fail because of singleton', async () =>
 
      └── Missing required fields for 4 documents.
          
-         • \\"docs/scaly_oblong_pro.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/scaly_oblong_pro.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/reorganization.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/reorganization.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/aw_shameful.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/aw_shameful.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/concerning_brilliant.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/concerning_brilliant.md" (of type "TypeB") is missing the following required fields:
            • someField: string
          
     "
@@ -229,9 +229,9 @@ test('ExtraFieldDataError: should print warning', async () => {
 
      └──   2 documents contain field data which isn't defined in the document type definition.
          
-         • \\"docs/scaly_oblong_pro.md\\" of type \\"TypeB\\" has the following extra fields:
-           • someKey: \\"someVal\\" 
-         • \\"docs/reorganization.md\\" of type \\"TypeB\\" has the following extra fields:
+         • "docs/scaly_oblong_pro.md" of type "TypeB" has the following extra fields:
+           • someKey: "someVal" 
+         • "docs/reorganization.md" of type "TypeB" has the following extra fields:
            • someOtherKey: 42 
          
     "
@@ -253,9 +253,9 @@ test('ExtraFieldDataError: should print error', async () => {
 
      └──   2 documents contain field data which isn't defined in the document type definition.
          
-         • \\"docs/scaly_oblong_pro.md\\" of type \\"TypeB\\" has the following extra fields:
-           • someKey: \\"someVal\\" 
-         • \\"docs/reorganization.md\\" of type \\"TypeB\\" has the following extra fields:
+         • "docs/scaly_oblong_pro.md" of type "TypeB" has the following extra fields:
+           • someKey: "someVal" 
+         • "docs/reorganization.md" of type "TypeB" has the following extra fields:
            • someOtherKey: 42 
          
     "
@@ -277,45 +277,45 @@ test('MissingRequiredFieldsError: should print 24 errors - truncated', async () 
 
      └── Missing required fields for 24 documents. (Skipping documents)
          
-         • \\"docs/scaly_oblong_pro.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/scaly_oblong_pro.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/reorganization.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/reorganization.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/aw_shameful.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/aw_shameful.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/concerning_brilliant.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/concerning_brilliant.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/hexagon_recast_cheery.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/hexagon_recast_cheery.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/exhausted.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/exhausted.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/notwithstanding.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/notwithstanding.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/like_pace_till.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/like_pace_till.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/tense.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/tense.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/around.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/around.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/off_yum.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/off_yum.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/button_globalize.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/button_globalize.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/phooey_naughty.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/phooey_naughty.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/above_devise_ugh.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/above_devise_ugh.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/around.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/around.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/rack_till_outnumber.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/rack_till_outnumber.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/by_while.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/by_while.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/strange.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/strange.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/promptly_banner.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/promptly_banner.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/curdle_mixture.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/curdle_mixture.md" (of type "TypeB") is missing the following required fields:
            • someField: string
          • ... 4 more documents (Use the --verbose CLI option to show all documents)
          
@@ -338,7 +338,7 @@ test('mix of different errors: some', async () => {
 
      ├── Couldn't determine the document type for 4 documents. (Skipping documents)
      │   
-     │   Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field \\"type\\" needs to be one of the following document type names: TypeA, TypeB).
+     │   Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field "type" needs to be one of the following document type names: TypeA, TypeB).
      │   
      │   • docs/scaly_oblong_pro.md
      │   • docs/reorganization.md
@@ -349,8 +349,8 @@ test('mix of different errors: some', async () => {
          
          Please use one of the following document type names: TypeA, TypeB.
          
-         • docs/hexagon_recast_cheery.md (Used type name: \\"TypeB\\")
-         • docs/exhausted.md (Used type name: \\"TypeB\\")
+         • docs/hexagon_recast_cheery.md (Used type name: "TypeB")
+         • docs/exhausted.md (Used type name: "TypeB")
          
     "
   `)
@@ -374,7 +374,7 @@ test('mix of different errors: with extra field data', async () => {
 
      ├── Couldn't determine the document type for 4 documents. (Skipping documents)
      │   
-     │   Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field \\"type\\" needs to be one of the following document type names: TypeA, TypeB).
+     │   Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field "type" needs to be one of the following document type names: TypeA, TypeB).
      │   
      │   • docs/scaly_oblong_pro.md
      │   • docs/reorganization.md
@@ -385,13 +385,13 @@ test('mix of different errors: with extra field data', async () => {
      │   
      │   Please use one of the following document type names: TypeA, TypeB.
      │   
-     │   • docs/hexagon_recast_cheery.md (Used type name: \\"TypeB\\")
-     │   • docs/exhausted.md (Used type name: \\"TypeB\\")
+     │   • docs/hexagon_recast_cheery.md (Used type name: "TypeB")
+     │   • docs/exhausted.md (Used type name: "TypeB")
      │   
      └──   1 documents contain field data which isn't defined in the document type definition.
          
-         • \\"docs/notwithstanding.md\\" of type \\"TypeB\\" has the following extra fields:
-           • someKey: \\"someVal\\" 
+         • "docs/notwithstanding.md" of type "TypeB" has the following extra fields:
+           • someKey: "someVal" 
          
     "
   `)
@@ -421,7 +421,7 @@ test('mix of different errors: other', async () => {
 
      ├── Couldn't determine the document type for 4 documents. (Skipping documents)
      │   
-     │   Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field \\"type\\" needs to be one of the following document type names: TypeA, TypeB).
+     │   Please either define a filePathPattern for the given document type definition or provide a valid value for the type field (i.e. the field "type" needs to be one of the following document type names: TypeA, TypeB).
      │   
      │   • docs/scaly_oblong_pro.md
      │   • docs/reorganization.md
@@ -432,25 +432,25 @@ test('mix of different errors: other', async () => {
      │   
      │   Please use one of the following document type names: TypeA, TypeB.
      │   
-     │   • docs/hexagon_recast_cheery.md (Used type name: \\"TypeB\\")
-     │   • docs/exhausted.md (Used type name: \\"TypeB\\")
+     │   • docs/hexagon_recast_cheery.md (Used type name: "TypeB")
+     │   • docs/exhausted.md (Used type name: "TypeB")
      │   
      ├── Encountered unexpected errors while processing of 2 documents. This is possibly a bug in Contentlayer. Please open an issue.
      │   
-     │   • \\"docs/notwithstanding.md\\": Error: Some problem happened: transmitting the transmitter won't do anything, we need to copy the online CLI pixel!
-     │   • \\"docs/pace_till.md\\": Error: Some problem happened: Try to synthesize the RSS pixel, maybe it will generate the optical port!
+     │   • "docs/notwithstanding.md": Error: Some problem happened: transmitting the transmitter won't do anything, we need to copy the online CLI pixel!
+     │   • "docs/pace_till.md": Error: Some problem happened: Try to synthesize the RSS pixel, maybe it will generate the optical port!
      │   
      ├── Error during computed field exection for 1 documents. (Skipping documents)
      │   
-     │   • \\"docs/colonial_tailspin_joke.md\\" failed with Error: Some problem happened: Use the multi-byte HDD panel, then you can hack the haptic port!
+     │   • "docs/colonial_tailspin_joke.md" failed with Error: Some problem happened: Use the multi-byte HDD panel, then you can hack the haptic port!
      │   
      └── Missing required fields for 3 documents. (Skipping documents)
          
-         • \\"docs/mid_rural_justly.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/mid_rural_justly.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/sans_gladly.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/sans_gladly.md" (of type "TypeB") is missing the following required fields:
            • someField: string
-         • \\"docs/ambitious_inasmuch.md\\" (of type \\"TypeB\\") is missing the following required fields:
+         • "docs/ambitious_inasmuch.md" (of type "TypeB") is missing the following required fields:
            • someField: string
          
     "
