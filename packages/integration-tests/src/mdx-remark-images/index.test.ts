@@ -31,6 +31,7 @@ test('mdx - resolveCwd - contentDirPath', async () => {
     documentTypes: [Post],
     mdx: {
       resolveCwd: 'contentDirPath',
+      // @ts-ignore - remarkMdxImages has not been updated to the new unified js types
       remarkPlugins: [remarkMdxImages],
       esbuildOptions: (options) => {
         options.platform = 'node'
@@ -77,6 +78,7 @@ test('mdx - resolveCwd - relative', async () => {
     documentTypes: [Post],
     mdx: {
       resolveCwd: 'relative',
+      // @ts-ignore - remarkMdxImages has not been updated to the new unified js types
       remarkPlugins: [remarkMdxImages],
       esbuildOptions: (options) => {
         options.platform = 'node'

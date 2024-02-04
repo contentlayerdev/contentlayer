@@ -1,6 +1,6 @@
 {
   "name": "next-contentlayer-temp",
-  "version": "0.3.4",
+  "version": "0.4.1",
   "type": "module",
   "main": "./dist/index-cjs.cjs",
   "sideEffects": false,
@@ -35,7 +35,7 @@
     "./package.json"
   ],
   "scripts": {
-    "prepack": "sed '/^import\\|^export/d' dist/index-cjs.js > dist/index-cjs.cjs; cp src/hooks/jsx-runtime.cjs dist/hooks/jsx-runtime.cjs"
+    "prepack": "awk '!/^export|^import/' dist/index-cjs.js > dist/index-cjs.cjs; cp src/hooks/jsx-runtime.cjs dist/hooks/jsx-runtime.cjs"
   },
   "dependencies": {
     "@contentlayer-temp/core": "workspace:*",
