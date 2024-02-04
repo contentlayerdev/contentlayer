@@ -1,4 +1,4 @@
-const { withContentlayer } = require("next-contentlayer");
+const { withContentlayer } = require("next-contentlayer-temp");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {}

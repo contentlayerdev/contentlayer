@@ -1,6 +1,6 @@
-import { errorToString } from '@contentlayer/utils'
-import type { HasConsole } from '@contentlayer/utils/effect'
-import { OT, pipe, T, Tagged } from '@contentlayer/utils/effect'
+import { errorToString } from '@contentlayer-temp/utils'
+import type { HasConsole } from '@contentlayer-temp/utils/effect'
+import { OT, pipe, T, Tagged } from '@contentlayer-temp/utils/effect'
 import rehypeStringify from 'rehype-stringify'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkParse from 'remark-parse'
@@ -71,7 +71,7 @@ export const markdownToHtml = ({
     }),
     T.catchAllDefect(T.fail),
     T.mapError((error) => new UnexpectedMarkdownError({ error })),
-    OT.withSpan('@contentlayer/core/markdown:markdownToHtml'),
+    OT.withSpan('@contentlayer-temp/core/markdown:markdownToHtml'),
   )
 
 export class UnexpectedMarkdownError extends Tagged('UnexpectedMarkdownError')<{ readonly error: unknown }> {

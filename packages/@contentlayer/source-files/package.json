@@ -1,5 +1,5 @@
 {
-  "name": "@contentlayer/source-files",
+  "name": "@contentlayer-temp/source-files",
   "version": "0.3.4",
   "type": "module",
   "exports": {
@@ -28,8 +28,8 @@
     "test": "TZ='GMT' FORCE_COLOR=1 vitest"
   },
   "dependencies": {
-    "@contentlayer/core": "workspace:*",
-    "@contentlayer/utils": "workspace:*",
+    "@contentlayer-temp/core": "workspace:*",
+    "@contentlayer-temp/utils": "workspace:*",
     "chokidar": "^3.5.3",
     "fast-glob": "^3.2.12",
     "gray-matter": "^4.0.3",

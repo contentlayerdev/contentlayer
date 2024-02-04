@@ -1,7 +1,7 @@
 import * as path from 'node:path'
 
-import { errorToString } from '@contentlayer/utils'
-import { OT, pipe, T, Tagged } from '@contentlayer/utils/effect'
+import { errorToString } from '@contentlayer-temp/utils'
+import { OT, pipe, T, Tagged } from '@contentlayer-temp/utils/effect'
 import * as mdxBundler from 'mdx-bundler'
 import type { BundleMDXOptions } from 'mdx-bundler/dist/types'
 
@@ -80,7 +80,7 @@ export const bundleMDX = ({
     }),
     T.mapError((error) => new UnexpectedMDXError({ error })),
     T.tapError(() => OT.addAttribute('mdxString', mdxString)),
-    OT.withSpan('@contentlayer/core/markdown:bundleMDX'),
+    OT.withSpan('@contentlayer-temp/core/markdown:bundleMDX'),
   )
 
 export class UnexpectedMDXError extends Tagged('UnexpectedMDXError')<{ readonly error: unknown }> {

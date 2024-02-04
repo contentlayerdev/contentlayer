@@ -1,6 +1,6 @@
-import { renderTypes } from '@contentlayer/core'
-import { provideJaegerTracing } from '@contentlayer/utils'
-import { pipe, provideConsole, T } from '@contentlayer/utils/effect'
+import { renderTypes } from '@contentlayer-temp/core'
+import { provideJaegerTracing } from '@contentlayer-temp/utils'
+import { pipe, provideConsole, T } from '@contentlayer-temp/utils/effect'
 import { expect, test } from 'vitest'
 
 import type { DocumentTypes } from '../../index.js'

@@ -1,6 +1,6 @@
-import * as SourceFiles from '@contentlayer/source-files'
-import { casesHandled, isReadonlyArray, notImplemented, pick } from '@contentlayer/utils'
-import { identity } from '@contentlayer/utils/effect'
+import * as SourceFiles from '@contentlayer-temp/source-files'
+import { casesHandled, isReadonlyArray, notImplemented, pick } from '@contentlayer-temp/utils'
+import { identity } from '@contentlayer-temp/utils/effect'
 import type * as Stackbit from '@stackbit/sdk'
 
 type DocumentTypeMap = Record<string, SourceFiles.DocumentType>

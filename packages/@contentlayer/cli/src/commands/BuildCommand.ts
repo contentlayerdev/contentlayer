@@ -1,5 +1,5 @@
-import * as core from '@contentlayer/core'
-import { OT, pipe, T } from '@contentlayer/utils/effect'
+import * as core from '@contentlayer-temp/core'
+import { OT, pipe, T } from '@contentlayer-temp/utils/effect'
 import type { Usage } from 'clipanion'
 
 import { BaseCommand } from './_BaseCommand.js'
@@ -25,6 +25,6 @@ export class BuildCommand extends BaseCommand {
       T.tap((config) => (config.source.options.disableImportAliasWarning ? T.unit : T.fork(core.validateTsconfig))),
       T.chain((config) => core.generateDotpkg({ config, verbose: this.verbose })),
       T.tap(core.logGenerateInfo),
-      OT.withSpan('@contentlayer/cli/commands/BuildCommand:executeSafe'),
+      OT.withSpan('@contentlayer-temp/cli/commands/BuildCommand:executeSafe'),
     )
 }

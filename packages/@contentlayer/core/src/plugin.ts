@@ -1,5 +1,5 @@
-import type { fs } from '@contentlayer/utils'
-import type { E, HasClock, HasConsole, OT, S, T } from '@contentlayer/utils/effect'
+import type { fs } from '@contentlayer-temp/utils'
+import type { E, HasClock, HasConsole, OT, S, T } from '@contentlayer-temp/utils/effect'
 import type * as mdxEsbuild from '@mdx-js/esbuild/lib'
 import type * as mdxBundler from 'mdx-bundler/dist/types'
 import type { LiteralUnion } from 'type-fest'

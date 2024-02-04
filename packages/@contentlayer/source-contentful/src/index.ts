@@ -1,6 +1,6 @@
-import type * as core from '@contentlayer/core'
-import { processArgs } from '@contentlayer/core'
-import { pipe, S, SC, T } from '@contentlayer/utils/effect'
+import type * as core from '@contentlayer-temp/core'
+import { processArgs } from '@contentlayer-temp/core'
+import { pipe, S, SC, T } from '@contentlayer-temp/utils/effect'
 
 import { fetchAllDocuments } from './fetchData/index.js'
 import { provideSchema } from './provideSchema.js'

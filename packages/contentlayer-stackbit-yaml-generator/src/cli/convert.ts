@@ -1,5 +1,5 @@
-import type * as core from '@contentlayer/core'
-import * as utils from '@contentlayer/utils'
+import type * as core from '@contentlayer-temp/core'
+import * as utils from '@contentlayer-temp/utils'
 import type * as Stackbit from '@stackbit/sdk'
 import type * as StackbitTypes from '@stackbit/types'
 

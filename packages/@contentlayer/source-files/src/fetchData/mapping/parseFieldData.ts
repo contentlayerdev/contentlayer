@@ -1,5 +1,5 @@
-import type * as core from '@contentlayer/core'
-import { T } from '@contentlayer/utils/effect'
+import type * as core from '@contentlayer-temp/core'
+import { T } from '@contentlayer-temp/utils/effect'
 import * as zod from 'zod'
 
 import { FetchDataError } from '../../errors/index.js'

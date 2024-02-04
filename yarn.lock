@@ -318,31 +318,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@contentlayer/cli@workspace:*, @contentlayer/cli@workspace:packages/@contentlayer/cli":
+"@contentlayer-temp/cli@workspace:*, @contentlayer-temp/cli@workspace:packages/@contentlayer/cli":
   version: 0.0.0-use.local
-  resolution: "@contentlayer/cli@workspace:packages/@contentlayer/cli"
+  resolution: "@contentlayer-temp/cli@workspace:packages/@contentlayer/cli"
   dependencies:
-    "@contentlayer/core": "workspace:*"
-    "@contentlayer/utils": "workspace:*"
+    "@contentlayer-temp/core": "workspace:*"
+    "@contentlayer-temp/utils": "workspace:*"
     "@types/node": ^20.3.2
     clipanion: ^3.2.1
     typanion: ^3.12.1
   languageName: unknown
   linkType: soft
 
-"@contentlayer/client@workspace:*, @contentlayer/client@workspace:packages/@contentlayer/client":
+"@contentlayer-temp/client@workspace:*, @contentlayer-temp/client@workspace:packages/@contentlayer/client":
   version: 0.0.0-use.local
-  resolution: "@contentlayer/client@workspace:packages/@contentlayer/client"
+  resolution: "@contentlayer-temp/client@workspace:packages/@contentlayer/client"
   dependencies:
-    "@contentlayer/core": "workspace:*"
+    "@contentlayer-temp/core": "workspace:*"
   languageName: unknown
   linkType: soft
 
-"@contentlayer/core@workspace:*, @contentlayer/core@workspace:packages/@contentlayer/core":
+"@contentlayer-temp/core@workspace:*, @contentlayer-temp/core@workspace:packages/@contentlayer/core":
   version: 0.0.0-use.local
-  resolution: "@contentlayer/core@workspace:packages/@contentlayer/core"
+  resolution: "@contentlayer-temp/core@workspace:packages/@contentlayer/core"
   dependencies:
-    "@contentlayer/utils": "workspace:*"
+    "@contentlayer-temp/utils": "workspace:*"
     "@types/source-map-support": ^0.5.6
     camel-case: ^4.1.2
     comment-json: ^4.2.3
@@ -368,13 +368,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@contentlayer/experimental-source-files-stackbit@workspace:packages/@contentlayer/experimental-source-files-stackbit":
+"@contentlayer-temp/experimental-source-files-stackbit@workspace:packages/@contentlayer/experimental-source-files-stackbit":
   version: 0.0.0-use.local
-  resolution: "@contentlayer/experimental-source-files-stackbit@workspace:packages/@contentlayer/experimental-source-files-stackbit"
+  resolution: "@contentlayer-temp/experimental-source-files-stackbit@workspace:packages/@contentlayer/experimental-source-files-stackbit"
   dependencies:
-    "@contentlayer/core": "workspace:*"
-    "@contentlayer/source-files": "workspace:*"
-    "@contentlayer/utils": "workspace:*"
+    "@contentlayer-temp/core": "workspace:*"
+    "@contentlayer-temp/source-files": "workspace:*"
+    "@contentlayer-temp/utils": "workspace:*"
     "@stackbit/sdk": ~0.3.25
     vite: ^5.0.12
     vitest: 1.2.2
@@ -386,23 +386,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@contentlayer/source-contentful@workspace:packages/@contentlayer/source-contentful":
+"@contentlayer-temp/source-contentful@workspace:packages/@contentlayer/source-contentful":
   version: 0.0.0-use.local
-  resolution: "@contentlayer/source-contentful@workspace:packages/@contentlayer/source-contentful"
+  resolution: "@contentlayer-temp/source-contentful@workspace:packages/@contentlayer/source-contentful"
   dependencies:
-    "@contentlayer/core": "workspace:*"
-    "@contentlayer/utils": "workspace:*"
+    "@contentlayer-temp/core": "workspace:*"
+    "@contentlayer-temp/utils": "workspace:*"
     "@types/node": ^20.3.2
     contentful-management: 7.22.4
   languageName: unknown
   linkType: soft
 
-"@contentlayer/source-files@workspace:*, @contentlayer/source-files@workspace:packages/@contentlayer/source-files":
+"@contentlayer-temp/source-files@workspace:*, @contentlayer-temp/source-files@workspace:packages/@contentlayer/source-files":
   version: 0.0.0-use.local
-  resolution: "@contentlayer/source-files@workspace:packages/@contentlayer/source-files"
+  resolution: "@contentlayer-temp/source-files@workspace:packages/@contentlayer/source-files"
   dependencies:
-    "@contentlayer/core": "workspace:*"
-    "@contentlayer/utils": "workspace:*"
+    "@contentlayer-temp/core": "workspace:*"
+    "@contentlayer-temp/utils": "workspace:*"
     "@faker-js/faker": ^8.0.2
     "@types/micromatch": ^4.0.2
     "@types/node": ^20.3.2
@@ -423,19 +423,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@contentlayer/source-remote-files@workspace:*, @contentlayer/source-remote-files@workspace:packages/@contentlayer/source-remote-files":
+"@contentlayer-temp/source-remote-files@workspace:*, @contentlayer-temp/source-remote-files@workspace:packages/@contentlayer/source-remote-files":
   version: 0.0.0-use.local
-  resolution: "@contentlayer/source-remote-files@workspace:packages/@contentlayer/source-remote-files"
+  resolution: "@contentlayer-temp/source-remote-files@workspace:packages/@contentlayer/source-remote-files"
   dependencies:
-    "@contentlayer/core": "workspace:*"
-    "@contentlayer/source-files": "workspace:*"
-    "@contentlayer/utils": "workspace:*"
+    "@contentlayer-temp/core": "workspace:*"
+    "@contentlayer-temp/source-files": "workspace:*"
+    "@contentlayer-temp/utils": "workspace:*"
   languageName: unknown
   linkType: soft
 
-"@contentlayer/utils@workspace:*, @contentlayer/utils@workspace:packages/@contentlayer/utils":
+"@contentlayer-temp/utils@workspace:*, @contentlayer-temp/utils@workspace:packages/@contentlayer/utils":
   version: 0.0.0-use.local
-  resolution: "@contentlayer/utils@workspace:packages/@contentlayer/utils"
+  resolution: "@contentlayer-temp/utils@workspace:packages/@contentlayer/utils"
   dependencies:
     "@effect-ts/core": ^0.60.5
     "@effect-ts/otel": ^0.15.1
@@ -3422,9 +3422,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"contentful-generator@workspace:packages/contentful-generator":
+"contentful-generator-temp@workspace:packages/contentful-generator":
   version: 0.0.0-use.local
-  resolution: "contentful-generator@workspace:packages/contentful-generator"
+  resolution: "contentful-generator-temp@workspace:packages/contentful-generator"
   dependencies:
     contentful-management: 7.22.4
     contentful-migration: ^4.2.3
@@ -3520,38 +3520,38 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"contentlayer-stackbit-yaml-generator@workspace:packages/contentlayer-stackbit-yaml-generator":
+"contentlayer-stackbit-yaml-generator-temp@workspace:packages/contentlayer-stackbit-yaml-generator":
   version: 0.0.0-use.local
-  resolution: "contentlayer-stackbit-yaml-generator@workspace:packages/contentlayer-stackbit-yaml-generator"
+  resolution: "contentlayer-stackbit-yaml-generator-temp@workspace:packages/contentlayer-stackbit-yaml-generator"
   dependencies:
-    "@contentlayer/core": "workspace:*"
-    "@contentlayer/utils": "workspace:*"
+    "@contentlayer-temp/core": "workspace:*"
+    "@contentlayer-temp/utils": "workspace:*"
     "@stackbit/sdk": ^0.3.25
     clipanion: ^3.2.1
-    contentlayer: "workspace:*"
+    contentlayer-temp: "workspace:*"
     typanion: 3.12.1
     typescript: ^5.1.6
     vite: ^5.0.12
     vitest: 1.2.2
     yaml: ^2.3.1
   bin:
-    contentlayer-stackbit-yaml-generator: ./dist/cli/index.js
+    contentlayer-stackbit-yaml-generator-temp: ./dist/cli/index.js
   languageName: unknown
   linkType: soft
 
-"contentlayer@workspace:*, contentlayer@workspace:packages/contentlayer":
+"contentlayer-temp@workspace:*, contentlayer-temp@workspace:packages/contentlayer":
   version: 0.0.0-use.local
-  resolution: "contentlayer@workspace:packages/contentlayer"
+  resolution: "contentlayer-temp@workspace:packages/contentlayer"
   dependencies:
-    "@contentlayer/cli": "workspace:*"
-    "@contentlayer/client": "workspace:*"
-    "@contentlayer/core": "workspace:*"
-    "@contentlayer/source-files": "workspace:*"
-    "@contentlayer/source-remote-files": "workspace:*"
-    "@contentlayer/utils": "workspace:*"
+    "@contentlayer-temp/cli": "workspace:*"
+    "@contentlayer-temp/client": "workspace:*"
+    "@contentlayer-temp/core": "workspace:*"
+    "@contentlayer-temp/source-files": "workspace:*"
+    "@contentlayer-temp/source-remote-files": "workspace:*"
+    "@contentlayer-temp/utils": "workspace:*"
     typescript: ^5.1.6
   bin:
-    contentlayer: ./bin/cli.cjs
+    contentlayer-temp: ./bin/cli.cjs
   languageName: unknown
   linkType: soft
 
@@ -5509,7 +5509,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "integration-tests@workspace:packages/integration-tests"
   dependencies:
-    contentlayer: "workspace:*"
+    contentlayer-temp: "workspace:*"
     remark-gfm: ^4.0.0
     remark-mdx-images: ^2.0.0
     typescript: ^5.1.6
@@ -7455,10 +7455,10 @@ __metadata:
   dependencies:
     "@types/react": 18.2.14
     autoprefixer: ^10.4.14
-    contentlayer: latest
+    contentlayer-temp: latest
     date-fns: 2.30.0
     next: 14.1.0
-    next-contentlayer: latest
+    next-contentlayer-temp: latest
     postcss: ^8.4.24
     react: 18.2.0
     react-dom: 18.2.0
@@ -7467,19 +7467,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"next-contentlayer@workspace:*, next-contentlayer@workspace:packages/next-contentlayer":
+"next-contentlayer-temp@workspace:*, next-contentlayer-temp@workspace:packages/next-contentlayer":
   version: 0.0.0-use.local
-  resolution: "next-contentlayer@workspace:packages/next-contentlayer"
+  resolution: "next-contentlayer-temp@workspace:packages/next-contentlayer"
   dependencies:
-    "@contentlayer/core": "workspace:*"
-    "@contentlayer/utils": "workspace:*"
+    "@contentlayer-temp/core": "workspace:*"
+    "@contentlayer-temp/utils": "workspace:*"
     "@types/react": ^18.2.14
     "@types/react-dom": ^18.2.6
     next: ^14.1.0
     typescript: ^5.1.6
     webpack: ^5.88.1
   peerDependencies:
-    contentlayer: "workspace:*"
+    contentlayer-temp: "workspace:*"
     next: ^12 || ^13 || ^14
     react: "*"
     react-dom: "*"
@@ -7492,10 +7492,10 @@ __metadata:
   dependencies:
     "@types/react": 18.2.14
     autoprefixer: ^10.4.14
-    contentlayer: latest
+    contentlayer-temp: latest
     date-fns: 2.30.0
     next: 14.1.0
-    next-contentlayer: latest
+    next-contentlayer-temp: latest
     postcss: ^8.4.24
     react: 18.2.0
     react-dom: 18.2.0
@@ -7510,10 +7510,10 @@ __metadata:
   dependencies:
     "@types/react": 18.2.14
     autoprefixer: ^10.4.14
-    contentlayer: latest
+    contentlayer-temp: latest
     date-fns: 2.30.0
     next: 14.1.0
-    next-contentlayer: latest
+    next-contentlayer-temp: latest
     postcss: ^8.4.24
     react: 18.2.0
     react-dom: 18.2.0
@@ -7651,7 +7651,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "node-script-example@workspace:examples/node-script"
   dependencies:
-    contentlayer: latest
+    contentlayer-temp: latest
   languageName: unknown
   linkType: soft
 
@@ -7659,7 +7659,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "node-script-mdx-example@workspace:examples/node-script-mdx"
   dependencies:
-    contentlayer: latest
+    contentlayer-temp: latest
   languageName: unknown
   linkType: soft
 
@@ -7667,7 +7667,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "node-script-remote-content-example@workspace:examples/node-script-remote-content"
   dependencies:
-    contentlayer: latest
+    contentlayer-temp: latest
   languageName: unknown
   linkType: soft
 

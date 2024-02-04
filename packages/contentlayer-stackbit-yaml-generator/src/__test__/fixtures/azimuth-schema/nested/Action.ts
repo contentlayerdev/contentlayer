@@ -1,4 +1,4 @@
-import { defineNestedType } from 'contentlayer/source-files'
+import { defineNestedType } from 'contentlayer-temp/source-files'
 
 export const Action = defineNestedType(() => ({
   name: 'Action',

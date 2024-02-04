@@ -1,4 +1,4 @@
-import type { Document, GetDocumentTypeMapGen, GetDocumentTypeNamesGen } from '@contentlayer/core'
+import type { Document, GetDocumentTypeMapGen, GetDocumentTypeNamesGen } from '@contentlayer-temp/core'
 
 // type Guards = {
 //   isType: TypeGuards

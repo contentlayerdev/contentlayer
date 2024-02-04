@@ -1,7 +1,7 @@
-import type { AbsolutePosixFilePath } from '@contentlayer/utils'
-import { provideTracing } from '@contentlayer/utils'
-import { O, OT, pipe, provideConsole, S, T } from '@contentlayer/utils/effect'
-import { NodeFsLive } from '@contentlayer/utils/node'
+import type { AbsolutePosixFilePath } from '@contentlayer-temp/utils'
+import { provideTracing } from '@contentlayer-temp/utils'
+import { O, OT, pipe, provideConsole, S, T } from '@contentlayer-temp/utils/effect'
+import { NodeFsLive } from '@contentlayer-temp/utils/node'
 
 import { provideCwdCustom } from './cwd.js'
 import type { DataCache } from './DataCache.js'
@@ -56,7 +56,7 @@ export const dynamicBuildFromCompiledConfig = ({
         }),
     ),
     T.chain((config) => dynamicBuild({ config, verbose })),
-    OT.withSpan('@contentlayer/core/dynamicBuildFromCompiledConfig', { attributes: { compiledConfigPath } }),
+    OT.withSpan('@contentlayer-temp/core/dynamicBuildFromCompiledConfig', { attributes: { compiledConfigPath } }),
   )
 
 type RuntimeDeps = {
@@ -112,7 +112,7 @@ export const dynamicBuild = ({ config, verbose }: { config: Config; verbose: boo
 
       return makeDataExportsFromCache({ cache, schemaDef, options: config.source.options })
     }),
-    OT.withSpan('@contentlayer/core/dynamicBuild'),
+    OT.withSpan('@contentlayer-temp/core/dynamicBuild'),
   )
 
 export type DataExports = {

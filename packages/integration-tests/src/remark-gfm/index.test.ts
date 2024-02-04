@@ -3,9 +3,9 @@ import * as fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { absolutePosixFilePath } from '@contentlayer/utils'
-import * as core from 'contentlayer/core'
-import { defineDocumentType, makeSource } from 'contentlayer/source-files'
+import { absolutePosixFilePath } from '@contentlayer-temp/utils'
+import * as core from 'contentlayer-temp/core'
+import { defineDocumentType, makeSource } from 'contentlayer-temp/source-files'
 import remarkGfm from 'remark-gfm'
 import { expect, test } from 'vitest'
 

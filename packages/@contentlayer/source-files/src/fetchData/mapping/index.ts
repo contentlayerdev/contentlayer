@@ -1,8 +1,8 @@
-import type * as core from '@contentlayer/core'
-import type { AbsolutePosixFilePath, fs, RelativePosixFilePath } from '@contentlayer/utils'
-import * as utils from '@contentlayer/utils'
-import type { HasConsole, OT } from '@contentlayer/utils/effect'
-import { identity, pipe, T } from '@contentlayer/utils/effect'
+import type * as core from '@contentlayer-temp/core'
+import type { AbsolutePosixFilePath, fs, RelativePosixFilePath } from '@contentlayer-temp/utils'
+import * as utils from '@contentlayer-temp/utils'
+import type { HasConsole, OT } from '@contentlayer-temp/utils/effect'
+import { identity, pipe, T } from '@contentlayer-temp/utils/effect'
 
 import { FetchDataError } from '../../errors/index.js'
 import type { HasDocumentContext } from '../DocumentContext.js'

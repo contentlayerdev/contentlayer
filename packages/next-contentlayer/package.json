@@ -1,5 +1,5 @@
 {
-  "name": "next-contentlayer",
+  "name": "next-contentlayer-temp",
   "version": "0.3.4",
   "type": "module",
   "main": "./dist/index-cjs.cjs",
@@ -38,11 +38,11 @@
     "prepack": "sed '/^import\\|^export/d' dist/index-cjs.js > dist/index-cjs.cjs; cp src/hooks/jsx-runtime.cjs dist/hooks/jsx-runtime.cjs"
   },
   "dependencies": {
-    "@contentlayer/core": "workspace:*",
-    "@contentlayer/utils": "workspace:*"
+    "@contentlayer-temp/core": "workspace:*",
+    "@contentlayer-temp/utils": "workspace:*"
   },
   "peerDependencies": {
-    "contentlayer": "workspace:*",
+    "contentlayer-temp": "workspace:*",
     "next": "^12 || ^13 || ^14",
     "react": "*",
     "react-dom": "*"
