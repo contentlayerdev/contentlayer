@@ -1,6 +1,6 @@
 {
   "name": "next-contentlayer-temp",
-  "version": "0.4.1",
+  "version": "0.4.3",
   "type": "module",
   "main": "./dist/index-cjs.cjs",
   "sideEffects": false,
