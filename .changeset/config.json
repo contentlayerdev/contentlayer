@@ -2,11 +2,21 @@
   "$schema": "https://unpkg.com/@changesets/config@1.6.1/schema.json",
   "changelog": "@changesets/cli/changelog",
   "commit": false,
-  "fixed": [["@contentlayer/*", "contentlayer", "next-contentlayer"]],
+  "fixed": [
+    [
+      "@contentlayer/*",
+      "contentlayer",
+      "next-contentlayer"
+    ]
+  ],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["examples-*"],
+  "ignore": [
+    "*-example",
+    "next-rsc-dynamic",
+    "next-images"
+  ],
   "___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {
     "useCalculatedVersionForSnapshots": true
   }

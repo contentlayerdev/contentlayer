@@ -126,7 +126,7 @@ export const writeFileJson = ({
 export const mkdirp = <T extends string>(dirPath: T): T.Effect<OT.HasTracer, MkdirError, void> =>
   OT.withSpan('mkdirp', { attributes: { dirPath } })(
     T.tryCatch(
-      () => fs.mkdirpSync(dirPath),
+      () => fs.mkdirSync(dirPath, { recursive: true }),
       (error) => new MkdirError({ dirPath, error }),
     ),
   )

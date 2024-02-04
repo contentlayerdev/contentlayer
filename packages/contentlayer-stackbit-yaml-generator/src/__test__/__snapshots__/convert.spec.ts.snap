@@ -7,7 +7,7 @@ exports[`azimuth schema 1`] = `
       "_tag": "DocumentTypeDef",
       "computedFields": [
         {
-          "description": "The URL path of this page relative to site root. For example, the site root page would be \\"/\\", and post page would be \\"posts/new-post/\\"",
+          "description": "The URL path of this page relative to site root. For example, the site root page would be "/", and post page would be "posts/new-post/"",
           "name": "url_path",
           "resolve": [Function],
           "type": "string",
@@ -186,7 +186,7 @@ exports[`azimuth schema 1`] = `
       "_tag": "DocumentTypeDef",
       "computedFields": [
         {
-          "description": "The URL path of this page relative to site root. For example, the site root page would be \\"/\\", and post page would be \\"posts/new-post/\\"",
+          "description": "The URL path of this page relative to site root. For example, the site root page would be "/", and post page would be "posts/new-post/"",
           "name": "url_path",
           "resolve": [Function],
           "type": "string",
@@ -293,7 +293,7 @@ exports[`azimuth schema 1`] = `
       "_tag": "DocumentTypeDef",
       "computedFields": [
         {
-          "description": "The URL path of this page relative to site root. For example, the site root page would be \\"/\\", and post page would be \\"posts/new-post/\\"",
+          "description": "The URL path of this page relative to site root. For example, the site root page would be "/", and post page would be "posts/new-post/"",
           "name": "url_path",
           "resolve": [Function],
           "type": "string",
@@ -423,7 +423,7 @@ exports[`azimuth schema 1`] = `
       "_tag": "DocumentTypeDef",
       "computedFields": [
         {
-          "description": "The URL path of this page relative to site root. For example, the site root page would be \\"/\\", and post page would be \\"posts/new-post/\\"",
+          "description": "The URL path of this page relative to site root. For example, the site root page would be "/", and post page would be "posts/new-post/"",
           "name": "url_path",
           "resolve": [Function],
           "type": "string",
@@ -674,7 +674,7 @@ exports[`azimuth schema 1`] = `
         },
         {
           "default": false,
-          "description": "Add rel=\\"nofollow\\" attribute to the link",
+          "description": "Add rel="nofollow" attribute to the link",
           "isRequired": false,
           "isSystemField": false,
           "name": "no_follow",
@@ -960,7 +960,7 @@ exports[`azimuth schema 1`] = `
         },
         {
           "default": undefined,
-          "description": "The path of your custom \\"success\\" page, if you want to replace the default success message./index.js",
+          "description": "The path of your custom "success" page, if you want to replace the default success message./index.js",
           "isRequired": false,
           "isSystemField": false,
           "name": "form_action",
@@ -1461,7 +1461,7 @@ exports[`azimuth schema 1`] = `
         },
         {
           "default": undefined,
-          "description": "The page description that goes into the <meta name=\\"description\\"> tag",
+          "description": "The page description that goes into the <meta name="description"> tag",
           "isRequired": false,
           "isSystemField": false,
           "name": "description",
@@ -1469,7 +1469,7 @@ exports[`azimuth schema 1`] = `
         },
         {
           "default": undefined,
-          "description": "The items that go into the <meta name=\\"robots\\"> tag",
+          "description": "The items that go into the <meta name="robots"> tag",
           "isRequired": false,
           "isSystemField": false,
           "name": "robots",
@@ -1647,7 +1647,7 @@ exports[`azimuth schema 1`] = `
         },
         {
           "default": undefined,
-          "description": "The path of your custom \\"success\\" page, if you want to replace the default success message./index.js",
+          "description": "The path of your custom "success" page, if you want to replace the default success message./index.js",
           "isRequired": false,
           "isSystemField": false,
           "name": "form_action",
@@ -2424,7 +2424,7 @@ exports[`azimuth schema 1`] = `
 
 exports[`azimuth schema 2`] = `
 "stackbitVersion: ~0.3.0
-nodeVersion: \\">=12\\"
+nodeVersion: ">=12"
 models:
   Blog:
     label: Blog
@@ -2593,8 +2593,8 @@ models:
         type: string
       - name: path_prefix
         required: true
-        description: \\"The base URL of this site. Useful for sites hosted under specific
-          path, e.g.: https://www.example.com/my-site/\\"
+        description: "The base URL of this site. Useful for sites hosted under specific
+          path, e.g.: https://www.example.com/my-site/"
         hidden: true
         label: Base URL
         type: string
@@ -2681,12 +2681,12 @@ models:
         type: string
       - name: description
         required: false
-        description: The page description that goes into the <meta name=\\"description\\"> tag
+        description: The page description that goes into the <meta name="description"> tag
         label: Description
         type: string
       - name: robots
         required: false
-        description: The items that go into the <meta name=\\"robots\\"> tag
+        description: The items that go into the <meta name="robots"> tag
         label: Robots
         type: list
         items:
@@ -2812,7 +2812,7 @@ models:
       - name: no_follow
         required: false
         default: false
-        description: Add rel=\\"nofollow\\" attribute to the link
+        description: Add rel="nofollow" attribute to the link
         label: No follow
         type: boolean
     type: object
@@ -2887,7 +2887,7 @@ models:
         type: string
       - name: form_action
         required: false
-        description: The path of your custom \\"success\\" page, if you want to replace the
+        description: The path of your custom "success" page, if you want to replace the
           default success message./index.js
         label: Form Action
         type: string
@@ -3485,7 +3485,7 @@ models:
         type: string
       - name: form_action
         required: false
-        description: The path of your custom \\"success\\" page, if you want to replace the
+        description: The path of your custom "success" page, if you want to replace the
           default success message./index.js
         label: Form Action
         type: string
@@ -3562,7 +3562,7 @@ exports[`blog schema 1`] = `
 
 exports[`blog schema 2`] = `
 "stackbitVersion: ~0.3.0
-nodeVersion: \\">=12\\"
+nodeVersion: ">=12"
 models:
   Post:
     label: Post
