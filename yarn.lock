@@ -6912,24 +6912,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next-contentlayer-example@workspace:examples/next-contentlayer-example":
-  version: 0.0.0-use.local
-  resolution: "next-contentlayer-example@workspace:examples/next-contentlayer-example"
-  dependencies:
-    "@types/react": 18.2.14
-    autoprefixer: ^10.4.14
-    contentlayer: latest
-    date-fns: 2.30.0
-    next: 13.4.7
-    next-contentlayer: latest
-    postcss: ^8.4.24
-    react: 18.2.0
-    react-dom: 18.2.0
-    tailwindcss: ^3.3.2
-    typescript: 5.1.6
-  languageName: unknown
-  linkType: soft
-
 "next-contentlayer@workspace:*, next-contentlayer@workspace:packages/next-contentlayer":
   version: 0.0.0-use.local
   resolution: "next-contentlayer@workspace:packages/next-contentlayer"
