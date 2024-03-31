@@ -347,7 +347,7 @@ __metadata:
     esbuild: 0.17.x || 0.18.x || 0.19.x || 0.20.x
     gray-matter: ^4.0.3
     markdown-wasm: ^1.2.0
-    mdx-bundler: ^10.0.1
+    mdx-bundler: ^10.0.2
     rehype-stringify: ^10.0.0
     remark-frontmatter: ^5.0.0
     remark-parse: ^11.0.0
@@ -6757,9 +6757,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mdx-bundler@npm:^10.0.1":
-  version: 10.0.1
-  resolution: "mdx-bundler@npm:10.0.1"
+"mdx-bundler@npm:^10.0.2":
+  version: 10.0.2
+  resolution: "mdx-bundler@npm:10.0.2"
   dependencies:
     "@babel/runtime": ^7.23.2
     "@esbuild-plugins/node-resolve": ^0.2.2
@@ -6772,7 +6772,7 @@ __metadata:
     vfile: ^6.0.1
   peerDependencies:
     esbuild: 0.*
-  checksum: ec168a2911845f4c9a23706f66538e9ac7a302a91e7f7cb84d14aeef73595aa1d0a8425815f160a9f5d3b3e4249cd1117ce1b91af918d3a9c32aad0d97c3719d
+  checksum: 06227050ed160ca77e6667f287eb13eaae7f686bb3a44cbfbcdd869e8eba98439750d2dc6c173165b3c7b8ab59a037a5a383b5feec2eb883d568fc0416b66d8f
   languageName: node
   linkType: hard
 

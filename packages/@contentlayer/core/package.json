@@ -30,7 +30,7 @@
     "comment-json": "^4.2.3",
     "esbuild": "0.17.x || 0.18.x || 0.19.x || 0.20.x",
     "gray-matter": "^4.0.3",
-    "mdx-bundler": "^10.0.1",
+    "mdx-bundler": "^10.0.2",
     "rehype-stringify": "^10.0.0",
     "remark-frontmatter": "^5.0.0",
     "remark-parse": "^11.0.0",
