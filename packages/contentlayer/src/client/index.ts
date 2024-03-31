@@ -1,1 +1,1 @@
-export * from '@contentlayer-temp/client'
+export * from '@contentlayer2/client'

@@ -1,8 +1,8 @@
-import * as core from '@contentlayer-temp/core'
-import type { AbsolutePosixFilePath } from '@contentlayer-temp/utils'
-import * as utils from '@contentlayer-temp/utils'
-import type { OT } from '@contentlayer-temp/utils/effect'
-import { T } from '@contentlayer-temp/utils/effect'
+import * as core from '@contentlayer2/core'
+import type { AbsolutePosixFilePath } from '@contentlayer2/utils'
+import * as utils from '@contentlayer2/utils'
+import type { OT } from '@contentlayer2/utils/effect'
+import { T } from '@contentlayer2/utils/effect'
 
 import type { HasDocumentContext } from '../DocumentContext.js'
 import { getFromDocumentContext } from '../DocumentContext.js'

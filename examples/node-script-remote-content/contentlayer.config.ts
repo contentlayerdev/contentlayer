@@ -1,6 +1,6 @@
-import { defineDocumentType } from 'contentlayer-temp/source-files'
+import { defineDocumentType } from 'contentlayer2/source-files'
 import { spawn } from 'node:child_process'
-import { makeSource } from 'contentlayer-temp/source-remote-files'
+import { makeSource } from 'contentlayer2/source-remote-files'
 
 const Post = defineDocumentType(() => ({
   name: 'Post',

@@ -1,7 +1,7 @@
-import type { AbsolutePosixFilePath } from '@contentlayer-temp/utils'
-import { unknownToAbsolutePosixFilePath } from '@contentlayer-temp/utils'
-import type { Has } from '@contentlayer-temp/utils/effect'
-import { T, tag } from '@contentlayer-temp/utils/effect'
+import type { AbsolutePosixFilePath } from '@contentlayer2/utils'
+import { unknownToAbsolutePosixFilePath } from '@contentlayer2/utils'
+import type { Has } from '@contentlayer2/utils/effect'
+import { T, tag } from '@contentlayer2/utils/effect'
 
 export const makeCwd = T.gen(function* (_) {
   const cwd = yield* _(

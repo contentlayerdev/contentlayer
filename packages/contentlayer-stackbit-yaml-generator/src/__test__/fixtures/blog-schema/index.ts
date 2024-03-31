@@ -1,4 +1,4 @@
-import { defineDocumentType } from 'contentlayer-temp/source-files'
+import { defineDocumentType } from 'contentlayer2/source-files'
 
 export const post = defineDocumentType(() => ({
   name: 'Post',

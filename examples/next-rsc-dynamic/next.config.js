@@ -1,3 +1,3 @@
-const { withContentlayer } = require('next-contentlayer-temp')
+const { withContentlayer } = require('next-contentlayer2')
 
 module.exports = withContentlayer({})

@@ -1,5 +1,5 @@
 {
-  "name": "@contentlayer-temp/cli",
+  "name": "@contentlayer2/cli",
   "version": "0.4.1",
   "type": "module",
   "exports": "./dist/index.js",
@@ -13,8 +13,8 @@
     "test": "echo No tests yet"
   },
   "dependencies": {
-    "@contentlayer-temp/core": "workspace:*",
-    "@contentlayer-temp/utils": "workspace:*",
+    "@contentlayer2/core": "workspace:*",
+    "@contentlayer2/utils": "workspace:*",
     "clipanion": "^3.2.1",
     "typanion": "^3.12.1"
   },

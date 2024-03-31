@@ -1,5 +1,5 @@
 {
-  "name": "contentlayer-stackbit-yaml-generator-temp",
+  "name": "contentlayer-stackbit-yaml-generator2",
   "version": "0.4.4",
   "type": "module",
   "bin": "./dist/cli/index.js",
@@ -15,15 +15,15 @@
     "test": "FORCE_COLOR=1 vitest"
   },
   "dependencies": {
-    "@contentlayer-temp/core": "workspace:*",
-    "@contentlayer-temp/utils": "workspace:*",
+    "@contentlayer2/core": "workspace:*",
+    "@contentlayer2/utils": "workspace:*",
     "@stackbit/sdk": "^0.3.25",
     "clipanion": "^3.2.1",
     "typanion": "3.12.1",
     "yaml": "^2.3.1"
   },
   "devDependencies": {
-    "contentlayer-temp": "workspace:*",
+    "contentlayer2": "workspace:*",
     "typescript": "^5.1.6",
     "vite": "^5.0.12",
     "vitest": "1.2.2"

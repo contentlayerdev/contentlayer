@@ -1,8 +1,8 @@
-import '@contentlayer-temp/utils/effect/Tracing/Enable'
+import '@contentlayer2/utils/effect/Tracing/Enable'
 
-import * as core from '@contentlayer-temp/core'
-import { errorToString } from '@contentlayer-temp/utils'
-import { E, OT, pipe, S, T } from '@contentlayer-temp/utils/effect'
+import * as core from '@contentlayer2/core'
+import { errorToString } from '@contentlayer2/utils'
+import { E, OT, pipe, S, T } from '@contentlayer2/utils/effect'
 import type { WebpackOptionsNormalized } from 'webpack'
 
 import { checkConstraints } from './check-constraints.js'

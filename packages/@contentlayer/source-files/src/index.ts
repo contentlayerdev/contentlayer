@@ -1,7 +1,7 @@
-import * as core from '@contentlayer-temp/core'
-import { processArgs, SourceProvideSchemaError } from '@contentlayer-temp/core'
-import { unknownToAbsolutePosixFilePath, unknownToRelativePosixFilePath } from '@contentlayer-temp/utils'
-import { pipe, S, T } from '@contentlayer-temp/utils/effect'
+import * as core from '@contentlayer2/core'
+import { processArgs, SourceProvideSchemaError } from '@contentlayer2/core'
+import { unknownToAbsolutePosixFilePath, unknownToRelativePosixFilePath } from '@contentlayer2/utils'
+import { pipe, S, T } from '@contentlayer2/utils/effect'
 
 import { fetchData } from './fetchData/index.js'
 import type * as LocalSchema from './schema/defs/index.js'

@@ -1,6 +1,6 @@
-import type { RelativePosixFilePath } from '@contentlayer-temp/utils'
-import type { Has } from '@contentlayer-temp/utils/effect'
-import { HashMap, O, pipe, State, T, Tagged } from '@contentlayer-temp/utils/effect'
+import type { RelativePosixFilePath } from '@contentlayer2/utils'
+import type { Has } from '@contentlayer2/utils/effect'
+import { HashMap, O, pipe, State, T, Tagged } from '@contentlayer2/utils/effect'
 
 type DocumentTypeName = string
 

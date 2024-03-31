@@ -1,9 +1,9 @@
 import * as path from 'node:path'
 
-import { fs } from '@contentlayer-temp/utils'
-import type { E } from '@contentlayer-temp/utils/effect'
-import { OT, pipe, T } from '@contentlayer-temp/utils/effect'
-import type { GetContentlayerVersionError } from '@contentlayer-temp/utils/node'
+import { fs } from '@contentlayer2/utils'
+import type { E } from '@contentlayer2/utils/effect'
+import { OT, pipe, T } from '@contentlayer2/utils/effect'
+import type { GetContentlayerVersionError } from '@contentlayer2/utils/node'
 
 import { ArtifactsDir } from './ArtifactsDir.js'
 import type { HasCwd } from './cwd.js'
@@ -52,7 +52,7 @@ export namespace DataCache {
 
         return cache
       }),
-      OT.withSpan('@contentlayer-temp/core/cache:loadPreviousCacheFromDisk', { attributes: { schemaHash } }),
+      OT.withSpan('@contentlayer2/core/cache:loadPreviousCacheFromDisk', { attributes: { schemaHash } }),
     )
 
   export const writeCacheToDisk = ({
@@ -76,7 +76,7 @@ export namespace DataCache {
         yield* $(fs.writeFileJson({ filePath, content: cache }))
       }),
       T.either,
-      OT.withSpan('@contentlayer-temp/core/cache:writeCacheToDisk', { attributes: { schemaHash } }),
+      OT.withSpan('@contentlayer2/core/cache:writeCacheToDisk', { attributes: { schemaHash } }),
     )
 
   const dataCacheFileName = (schemaHash: string) => `data-${schemaHash}.json`

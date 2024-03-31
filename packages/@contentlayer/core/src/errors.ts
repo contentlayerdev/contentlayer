@@ -1,5 +1,5 @@
-import { errorToString } from '@contentlayer-temp/utils'
-import { Tagged } from '@contentlayer-temp/utils/effect'
+import { errorToString } from '@contentlayer2/utils'
+import { Tagged } from '@contentlayer2/utils/effect'
 
 export class NoConfigFoundError extends Tagged('NoConfigFoundError')<{
   readonly configPath?: string

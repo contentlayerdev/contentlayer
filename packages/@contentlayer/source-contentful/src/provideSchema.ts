@@ -1,8 +1,8 @@
-import * as core from '@contentlayer-temp/core'
-import { SourceProvideSchemaError } from '@contentlayer-temp/core'
-import * as utils from '@contentlayer-temp/utils'
-import { casesHandled, partition } from '@contentlayer-temp/utils'
-import { OT, pipe, T } from '@contentlayer-temp/utils/effect'
+import * as core from '@contentlayer2/core'
+import { SourceProvideSchemaError } from '@contentlayer2/core'
+import * as utils from '@contentlayer2/utils'
+import { casesHandled, partition } from '@contentlayer2/utils'
+import { OT, pipe, T } from '@contentlayer2/utils/effect'
 
 import { environmentGetContentTypes, getEnvironment } from './contentful.js'
 import type * as SchemaOverrides from './schemaOverrides.js'
@@ -64,7 +64,7 @@ export const provideSchema = ({
 
       return coreSchemaDef
     }),
-    OT.withSpan('@contentlayer-temp/source-contentlayer/fetchData:provideSchema', {
+    OT.withSpan('@contentlayer2/source-contentlayer/fetchData:provideSchema', {
       attributes: { spaceId, environmentId },
     }),
     T.mapError((error) => new SourceProvideSchemaError({ error })),

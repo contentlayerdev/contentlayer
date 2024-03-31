@@ -1,15 +1,15 @@
-import type { HasCwd } from '@contentlayer-temp/core'
-import * as core from '@contentlayer-temp/core'
-import { provideCwd } from '@contentlayer-temp/core'
-import type { fs } from '@contentlayer-temp/utils'
+import type { HasCwd } from '@contentlayer2/core'
+import * as core from '@contentlayer2/core'
+import { provideCwd } from '@contentlayer2/core'
+import type { fs } from '@contentlayer2/utils'
 import {
   provideDummyTracing,
   unknownToAbsolutePosixFilePath,
   unknownToRelativePosixFilePath,
-} from '@contentlayer-temp/utils'
-import type { HasClock, HasConsole, OT } from '@contentlayer-temp/utils/effect'
-import { pipe, provideTestConsole, T, These } from '@contentlayer-temp/utils/effect'
-import { NodeFsLive } from '@contentlayer-temp/utils/node'
+} from '@contentlayer2/utils'
+import type { HasClock, HasConsole, OT } from '@contentlayer2/utils/effect'
+import { pipe, provideTestConsole, T, These } from '@contentlayer2/utils/effect'
+import { NodeFsLive } from '@contentlayer2/utils/node'
 
 import type { HasDocumentTypeMapState } from '../../fetchData/DocumentTypeMap.js'
 import { provideDocumentTypeMapState } from '../../fetchData/DocumentTypeMap.js'

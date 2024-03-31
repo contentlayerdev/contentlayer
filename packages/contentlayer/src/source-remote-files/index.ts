@@ -1,1 +1,1 @@
-export * from '@contentlayer-temp/source-remote-files'
+export * from '@contentlayer2/source-remote-files'

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { compareDesc, format, parseISO } from 'date-fns'
 import { allPosts, Post } from 'contentlayer/generated'
-import { getMDXComponent } from 'next-contentlayer-temp/hooks'
+import { getMDXComponent } from 'next-contentlayer2/hooks'
 
 function PostCard(post: Post) {
   const Content = getMDXComponent(post.body.code)

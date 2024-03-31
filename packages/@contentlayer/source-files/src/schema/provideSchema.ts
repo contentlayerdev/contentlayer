@@ -1,6 +1,6 @@
-import * as core from '@contentlayer-temp/core'
-import * as utils from '@contentlayer-temp/utils'
-import { identity, T } from '@contentlayer-temp/utils/effect'
+import * as core from '@contentlayer2/core'
+import * as utils from '@contentlayer2/utils'
+import { identity, T } from '@contentlayer2/utils/effect'
 
 import type { SchemaError } from '../errors/index.js'
 import { DuplicateBodyFieldError } from '../errors/index.js'

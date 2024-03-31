@@ -18,11 +18,11 @@
     "target": "ES2020",
     "plugins": [{ "transform": "@effect-ts/tracing-plugin" }],
     "paths": {
-      "@contentlayer-temp/utils/*": ["./packages/@contentlayer/utils/src/*"],
-      "@contentlayer-temp/source-files/*": ["./packages/@contentlayer/source-files/src/*"],
-      "@contentlayer-temp/*": ["./packages/@contentlayer/*/src"],
-      "contentlayer-temp/*": ["./packages/contentlayer/src/*"],
-      "contentlayer-temp": ["./pacakges/contentlayer/src"]
+      "@contentlayer2/utils/*": ["./packages/@contentlayer/utils/src/*"],
+      "@contentlayer2/source-files/*": ["./packages/@contentlayer/source-files/src/*"],
+      "@contentlayer2/*": ["./packages/@contentlayer/*/src"],
+      "contentlayer2/*": ["./packages/contentlayer/src/*"],
+      "contentlayer2": ["./pacakges/contentlayer/src"]
     }
   }
 }

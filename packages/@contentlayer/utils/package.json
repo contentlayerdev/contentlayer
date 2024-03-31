@@ -1,5 +1,5 @@
 {
-  "name": "@contentlayer-temp/utils",
+  "name": "@contentlayer2/utils",
   "version": "0.4.1",
   "type": "module",
   "exports": {

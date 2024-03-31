@@ -1,8 +1,8 @@
-import type { HasCwd } from '@contentlayer-temp/core'
-import * as core from '@contentlayer-temp/core'
-import { fs } from '@contentlayer-temp/utils'
-import type { HasClock, HasConsole, OT } from '@contentlayer-temp/utils/effect'
-import { pipe, T } from '@contentlayer-temp/utils/effect'
+import type { HasCwd } from '@contentlayer2/core'
+import * as core from '@contentlayer2/core'
+import { fs } from '@contentlayer2/utils'
+import type { HasClock, HasConsole, OT } from '@contentlayer2/utils/effect'
+import { pipe, T } from '@contentlayer2/utils/effect'
 import { Command, Option } from 'clipanion'
 import * as t from 'typanion'
 

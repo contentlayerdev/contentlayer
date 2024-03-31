@@ -1,8 +1,8 @@
 import path from 'node:path'
 
-import type { AbsolutePosixFilePath } from '@contentlayer-temp/utils'
-import { filePathJoin, fs } from '@contentlayer-temp/utils'
-import { Chunk, O, OT, pipe, T, Tagged } from '@contentlayer-temp/utils/effect'
+import type { AbsolutePosixFilePath } from '@contentlayer2/utils'
+import { filePathJoin, fs } from '@contentlayer2/utils'
+import { Chunk, O, OT, pipe, T, Tagged } from '@contentlayer2/utils/effect'
 import { parse as parseJsonc } from 'comment-json'
 
 import { getCwd } from './cwd.js'

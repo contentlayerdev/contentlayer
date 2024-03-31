@@ -1,5 +1,5 @@
 {
-  "name": "@contentlayer-temp/source-contentful",
+  "name": "@contentlayer2/source-contentful",
   "version": "0.4.1",
   "type": "module",
   "exports": "./dist/index.js",
@@ -16,8 +16,8 @@
     "@types/node": "^20.3.2"
   },
   "dependencies": {
-    "@contentlayer-temp/core": "workspace:*",
-    "@contentlayer-temp/utils": "workspace:*",
+    "@contentlayer2/core": "workspace:*",
+    "@contentlayer2/utils": "workspace:*",
     "contentful-management": "7.22.4"
   },
   "license": "MIT"

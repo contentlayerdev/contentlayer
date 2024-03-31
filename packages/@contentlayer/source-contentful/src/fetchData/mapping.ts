@@ -1,8 +1,8 @@
-import * as core from '@contentlayer-temp/core'
-import type { HashError } from '@contentlayer-temp/utils'
-import { casesHandled, hashObject } from '@contentlayer-temp/utils'
-import type { HasConsole, OT } from '@contentlayer-temp/utils/effect'
-import { T } from '@contentlayer-temp/utils/effect'
+import * as core from '@contentlayer2/core'
+import type { HashError } from '@contentlayer2/utils'
+import { casesHandled, hashObject } from '@contentlayer2/utils'
+import type { HasConsole, OT } from '@contentlayer2/utils/effect'
+import { T } from '@contentlayer2/utils/effect'
 
 import type * as SchemaOverrides from '../schemaOverrides.js'
 import type { Contentful } from '../types.js'

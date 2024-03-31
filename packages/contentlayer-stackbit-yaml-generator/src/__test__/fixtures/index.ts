@@ -1,7 +1,7 @@
-import { provideJaegerTracing } from '@contentlayer-temp/utils'
-import { pipe, provideConsole, T } from '@contentlayer-temp/utils/effect'
-import type { DocumentType } from 'contentlayer-temp/source-files'
-import { makeSource } from 'contentlayer-temp/source-files'
+import { provideJaegerTracing } from '@contentlayer2/utils'
+import { pipe, provideConsole, T } from '@contentlayer2/utils/effect'
+import type { DocumentType } from 'contentlayer2/source-files'
+import { makeSource } from 'contentlayer2/source-files'
 
 import * as azimuth from './azimuth-schema/index.js'
 import * as blog from './blog-schema/index.js'

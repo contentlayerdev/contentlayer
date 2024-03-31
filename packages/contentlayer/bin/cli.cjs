@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const main = async () => {
-  const { run } = await import('@contentlayer-temp/cli')
+  const { run } = await import('@contentlayer2/cli')
   await run()
 }
 

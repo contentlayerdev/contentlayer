@@ -1,1 +1,1 @@
-export * from '@contentlayer-temp/source-files/schema/defs'
+export * from '@contentlayer2/source-files/schema/defs'

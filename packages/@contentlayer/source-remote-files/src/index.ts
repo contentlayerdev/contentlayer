@@ -1,8 +1,8 @@
-import * as core from '@contentlayer-temp/core'
-import type { Args as SourceFilesArgs } from '@contentlayer-temp/source-files'
-import { makeSource as makeSourceFromSourceFiles } from '@contentlayer-temp/source-files'
-import { unknownToAbsolutePosixFilePath } from '@contentlayer-temp/utils'
-import { M, OT, pipe, S, T } from '@contentlayer-temp/utils/effect'
+import * as core from '@contentlayer2/core'
+import type { Args as SourceFilesArgs } from '@contentlayer2/source-files'
+import { makeSource as makeSourceFromSourceFiles } from '@contentlayer2/source-files'
+import { unknownToAbsolutePosixFilePath } from '@contentlayer2/utils'
+import { M, OT, pipe, S, T } from '@contentlayer2/utils/effect'
 
 type CancelFn = () => void
 
