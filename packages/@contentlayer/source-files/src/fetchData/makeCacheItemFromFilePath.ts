@@ -1,8 +1,8 @@
-import type * as core from '@contentlayer/core'
-import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer/utils'
-import { filePathJoin, fs } from '@contentlayer/utils'
-import type { HasConsole } from '@contentlayer/utils/effect'
-import { identity, O, OT, pipe, T, These } from '@contentlayer/utils/effect'
+import type * as core from '@contentlayer2/core'
+import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer2/utils'
+import { filePathJoin, fs } from '@contentlayer2/utils'
+import type { HasConsole } from '@contentlayer2/utils/effect'
+import { identity, O, OT, pipe, T, These } from '@contentlayer2/utils/effect'
 import matter from 'gray-matter'
 import yaml from 'yaml'
 
@@ -106,7 +106,9 @@ export const makeCacheItemFromFilePath = ({
         warnings,
       )
     }),
-    OT.withSpan('@contentlayer/source-local/fetchData:makeCacheItemFromFilePath', { attributes: { relativeFilePath } }),
+    OT.withSpan('@contentlayer2/source-local/fetchData:makeCacheItemFromFilePath', {
+      attributes: { relativeFilePath },
+    }),
     T.mapError((error) => {
       switch (error._tag) {
         case 'fs.StatError':
@@ -178,7 +180,7 @@ const processRawContent = ({
           )
       }
     }),
-    OT.withSpan('@contentlayer/source-local/fetchData:getRawContent'),
+    OT.withSpan('@contentlayer2/source-local/fetchData:getRawContent'),
   )
 
 const getComputedValues = ({

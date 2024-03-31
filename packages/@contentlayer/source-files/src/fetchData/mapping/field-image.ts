@@ -1,7 +1,7 @@
-import * as core from '@contentlayer/core'
-import * as utils from '@contentlayer/utils'
-import { fs, unknownToRelativePosixFilePath } from '@contentlayer/utils'
-import { identity, OT, pipe, T } from '@contentlayer/utils/effect'
+import * as core from '@contentlayer2/core'
+import * as utils from '@contentlayer2/utils'
+import { fs, unknownToRelativePosixFilePath } from '@contentlayer2/utils'
+import { identity, OT, pipe, T } from '@contentlayer2/utils/effect'
 import type * as ImageScript from 'imagescript'
 import type sharp from 'sharp'
 

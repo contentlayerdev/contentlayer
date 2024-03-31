@@ -1,5 +1,5 @@
-import type * as core from '@contentlayer/core'
-import { unknownToAbsolutePosixFilePath } from '@contentlayer/utils'
+import type * as core from '@contentlayer2/core'
+import { unknownToAbsolutePosixFilePath } from '@contentlayer2/utils'
 import { expect, test } from 'vitest'
 
 import { testOnly_aggregateFetchDataErrors as aggregateFetchDataErrors } from '../../errors/aggregate.js'

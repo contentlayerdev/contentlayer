@@ -1,6 +1,6 @@
 {
-  "name": "contentlayer",
-  "version": "0.3.4",
+  "name": "contentlayer2",
+  "version": "0.4.4",
   "bin": "./bin/cli.cjs",
   "type": "module",
   "engines": {
@@ -61,12 +61,12 @@
     "_bundle-cli": "esbuild ./dist/cli/index.js --bundle --platform=node --format=esm --external:esbuild --external:@esbuild-plugins/node-resolve --outfile=dist/cli/bundle.js --main-fields=module,main --metafile=meta.json --banner:js=\"import { createRequire as topLevelCreateRequire } from 'module'; const require = topLevelCreateRequire(import.meta.url); const __dirname = '__SET_BY_ESBUILD__';\""
   },
   "dependencies": {
-    "@contentlayer/cli": "workspace:*",
-    "@contentlayer/client": "workspace:*",
-    "@contentlayer/core": "workspace:*",
-    "@contentlayer/source-files": "workspace:*",
-    "@contentlayer/source-remote-files": "workspace:*",
-    "@contentlayer/utils": "workspace:*"
+    "@contentlayer2/cli": "workspace:*",
+    "@contentlayer2/client": "workspace:*",
+    "@contentlayer2/core": "workspace:*",
+    "@contentlayer2/source-files": "workspace:*",
+    "@contentlayer2/source-remote-files": "workspace:*",
+    "@contentlayer2/utils": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.1.6"

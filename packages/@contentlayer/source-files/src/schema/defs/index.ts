@@ -1,5 +1,5 @@
-import type * as core from '@contentlayer/core'
-import type { Thunk } from '@contentlayer/utils'
+import type * as core from '@contentlayer2/core'
+import type { Thunk } from '@contentlayer2/utils'
 
 import type { ComputedField } from './computed-field.js'
 import type { FieldDef, FieldDefWithName } from './field.js'

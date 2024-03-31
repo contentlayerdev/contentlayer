@@ -1,8 +1,8 @@
 import * as path from 'node:path'
 
-import type * as core from '@contentlayer/core'
-import type { RelativePosixFilePath } from '@contentlayer/utils'
-import { singleItem, unknownToRelativePosixFilePath } from '@contentlayer/utils'
+import type * as core from '@contentlayer2/core'
+import type { RelativePosixFilePath } from '@contentlayer2/utils'
+import { singleItem, unknownToRelativePosixFilePath } from '@contentlayer2/utils'
 import { faker } from '@faker-js/faker'
 
 import { FetchDataError } from '../../errors/index.js'

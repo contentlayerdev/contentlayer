@@ -1,4 +1,4 @@
-import type { GetDocumentTypeMapGen } from '@contentlayer/core'
+import type { GetDocumentTypeMapGen } from '@contentlayer2/core'
 
 import type { LocalDocument } from '../../types.js'
 import type { FieldDefType } from './index.js'

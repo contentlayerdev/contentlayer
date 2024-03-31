@@ -26,8 +26,8 @@ const checkNodeVersion = () => {
 }
 
 const checkContentlayerVersionsMatch = () => {
-  const contentlayerVersion = getPackageVersion('contentlayer')
-  const nextContentlayerVersion = getPackageVersion('next-contentlayer')
+  const contentlayerVersion = getPackageVersion('contentlayer2')
+  const nextContentlayerVersion = getPackageVersion('next-contentlayer2')
 
   if (contentlayerVersion !== nextContentlayerVersion) {
     throw new Error(

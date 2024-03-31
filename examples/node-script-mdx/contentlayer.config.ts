@@ -1,4 +1,4 @@
-import { defineDocumentType, makeSource } from 'contentlayer/source-files'
+import { defineDocumentType, makeSource } from 'contentlayer2/source-files'
 import { bundleMDX } from 'mdx-bundler'
 import * as ReactDOMServer from 'react-dom/server'
 import { getMDXComponent } from 'mdx-bundler/client/index.js'

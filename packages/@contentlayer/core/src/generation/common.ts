@@ -1,4 +1,4 @@
-import * as utils from '@contentlayer/utils'
+import * as utils from '@contentlayer2/utils'
 
 import type { DocumentTypeDef } from '../schema/index.js'
 

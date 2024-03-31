@@ -26,3 +26,4 @@ out
 !tap-snapshots/dist/*
 
 .contentlayer
+.DS_Store

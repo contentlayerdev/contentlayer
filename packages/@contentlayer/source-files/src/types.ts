@@ -1,4 +1,4 @@
-import type { DateOptions, MarkdownOptions, MarkdownUnifiedBuilderCallback, MDXOptions } from '@contentlayer/core'
+import type { DateOptions, MarkdownOptions, MarkdownUnifiedBuilderCallback, MDXOptions } from '@contentlayer2/core'
 
 import type { DocumentContentType } from './schema/defs/index.js'
 

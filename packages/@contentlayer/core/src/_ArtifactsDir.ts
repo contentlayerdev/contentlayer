@@ -1,13 +1,13 @@
-import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer/utils'
-import { filePathJoin, fs } from '@contentlayer/utils'
-import type { OT } from '@contentlayer/utils/effect'
-import { pipe, T } from '@contentlayer/utils/effect'
-import type { GetContentlayerVersionError } from '@contentlayer/utils/node'
-import { getContentlayerVersion } from '@contentlayer/utils/node'
+import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer2/utils'
+import { filePathJoin, fs } from '@contentlayer2/utils'
+import type { OT } from '@contentlayer2/utils/effect'
+import { pipe, T } from '@contentlayer2/utils/effect'
+import type { GetContentlayerVersionError } from '@contentlayer2/utils/node'
+import { getContentlayerVersion } from '@contentlayer2/utils/node'
 
 import type { HasCwd } from './cwd.js'
 import { getCwd } from './cwd.js'
-// import utilsPkg from '@contentlayer/utils/package.json'
+// import utilsPkg from '@contentlayer2/utils/package.json'
 
 export const getDirPath = ({ cwd }: { cwd: AbsolutePosixFilePath }): AbsolutePosixFilePath =>
   filePathJoin(cwd, '.contentlayer' as AbsolutePosixFilePath)

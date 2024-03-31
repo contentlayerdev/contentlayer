@@ -1,13 +1,13 @@
 import { promises as fsp } from 'node:fs'
 import * as path from 'node:path'
 
-import type { HasCwd } from '@contentlayer/core'
-import { getConfig, provideCwd } from '@contentlayer/core'
-import type { fs } from '@contentlayer/utils'
-import { provideJaegerTracing, recRemoveUndefinedValues } from '@contentlayer/utils'
-import type { HasConsole } from '@contentlayer/utils/effect'
-import { OT, pipe, pretty, provideConsole, T } from '@contentlayer/utils/effect'
-import { NodeFsLive } from '@contentlayer/utils/node'
+import type { HasCwd } from '@contentlayer2/core'
+import { getConfig, provideCwd } from '@contentlayer2/core'
+import type { fs } from '@contentlayer2/utils'
+import { provideJaegerTracing, recRemoveUndefinedValues } from '@contentlayer2/utils'
+import type { HasConsole } from '@contentlayer2/utils/effect'
+import { OT, pipe, pretty, provideConsole, T } from '@contentlayer2/utils/effect'
+import { NodeFsLive } from '@contentlayer2/utils/node'
 import { Command, Option } from 'clipanion'
 import * as t from 'typanion'
 
@@ -35,7 +35,7 @@ export class DefaultCommand extends Command {
     validator: t.isString(),
   })
 
-  // TODO refactor similar to `@contentlayer/cli`
+  // TODO refactor similar to `@contentlayer2/cli`
   async execute() {
     try {
       await pipe(

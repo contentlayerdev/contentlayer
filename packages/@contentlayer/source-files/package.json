@@ -1,6 +1,6 @@
 {
-  "name": "@contentlayer/source-files",
-  "version": "0.3.4",
+  "name": "@contentlayer2/source-files",
+  "version": "0.4.1",
   "type": "module",
   "exports": {
     ".": {
@@ -28,8 +28,8 @@
     "test": "TZ='GMT' FORCE_COLOR=1 vitest"
   },
   "dependencies": {
-    "@contentlayer/core": "workspace:*",
-    "@contentlayer/utils": "workspace:*",
+    "@contentlayer2/core": "workspace:*",
+    "@contentlayer2/utils": "workspace:*",
     "chokidar": "^3.5.3",
     "fast-glob": "^3.2.12",
     "gray-matter": "^4.0.3",

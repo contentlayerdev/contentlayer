@@ -1,8 +1,8 @@
 import * as path from 'node:path'
 
-import * as core from '@contentlayer/core'
-import { fs } from '@contentlayer/utils'
-import { OT, pipe, T } from '@contentlayer/utils/effect'
+import * as core from '@contentlayer2/core'
+import { fs } from '@contentlayer2/utils'
+import { OT, pipe, T } from '@contentlayer2/utils/effect'
 
 import { BaseCommand } from './_BaseCommand.js'
 
@@ -19,7 +19,9 @@ export class PostInstallCommand extends BaseCommand {
 
         yield* $(addToplevelDotpkgToGitignore())
       }),
-      OT.withSpan('@contentlayer/cli/commands/PostInstallCommand:executeSafe', { attributes: { cwd: process.cwd() } }),
+      OT.withSpan('@contentlayer2/cli/commands/PostInstallCommand:executeSafe', {
+        attributes: { cwd: process.cwd() },
+      }),
     )
   }
 }

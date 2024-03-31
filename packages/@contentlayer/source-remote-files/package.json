@@ -1,6 +1,6 @@
 {
-  "name": "@contentlayer/source-remote-files",
-  "version": "0.3.4",
+  "name": "@contentlayer2/source-remote-files",
+  "version": "0.4.1",
   "type": "module",
   "exports": {
     ".": {
@@ -15,8 +15,8 @@
     "./package.json"
   ],
   "dependencies": {
-    "@contentlayer/core": "workspace:*",
-    "@contentlayer/source-files": "workspace:*",
-    "@contentlayer/utils": "workspace:*"
+    "@contentlayer2/core": "workspace:*",
+    "@contentlayer2/source-files": "workspace:*",
+    "@contentlayer2/utils": "workspace:*"
   }
 }

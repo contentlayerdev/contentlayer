@@ -1,1 +1,1 @@
-export * from '@contentlayer/utils'
+export * from '@contentlayer2/utils'

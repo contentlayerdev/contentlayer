@@ -2,9 +2,9 @@
   "name": "node-script-example",
   "private": true,
   "scripts": {
-    "start": "contentlayer build && node --experimental-json-modules my-script.mjs"
+    "start": "contentlayer2 build && node --experimental-json-modules my-script.mjs"
   },
   "dependencies": {
-    "contentlayer": "latest"
+    "contentlayer2": "latest"
   }
 }

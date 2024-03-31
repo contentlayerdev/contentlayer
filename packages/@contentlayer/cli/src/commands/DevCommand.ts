@@ -1,6 +1,6 @@
-import * as core from '@contentlayer/core'
-import { errorToString } from '@contentlayer/utils'
-import { E, OT, pipe, S, T } from '@contentlayer/utils/effect'
+import * as core from '@contentlayer2/core'
+import { errorToString } from '@contentlayer2/utils'
+import { E, OT, pipe, S, T } from '@contentlayer2/utils/effect'
 import type { Usage } from 'clipanion'
 
 import { BaseCommand } from './_BaseCommand.js'
@@ -31,8 +31,8 @@ export class DevCommand extends BaseCommand {
         core.generateDotpkgStream({ config, verbose: this.verbose, isDev: true }),
       ),
       S.tap(E.fold((error) => T.log(errorToString(error)), core.logGenerateInfo)),
-      OT.withStreamSpan('@contentlayer/cli/commands/DevCommand:stream'),
+      OT.withStreamSpan('@contentlayer2/cli/commands/DevCommand:stream'),
       S.runDrain,
-      OT.withSpan('@contentlayer/cli/commands/DevCommand:executeSafe'),
+      OT.withSpan('@contentlayer2/cli/commands/DevCommand:executeSafe'),
     )
 }

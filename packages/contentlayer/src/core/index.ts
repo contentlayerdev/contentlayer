@@ -1,1 +1,1 @@
-export * from '@contentlayer/core'
+export * from '@contentlayer2/core'

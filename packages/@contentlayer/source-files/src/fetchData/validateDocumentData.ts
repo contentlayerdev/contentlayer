@@ -1,7 +1,7 @@
-import type * as core from '@contentlayer/core'
-import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer/utils'
-import { filePathJoin, fs } from '@contentlayer/utils'
-import { O, OT, pipe, T, These } from '@contentlayer/utils/effect'
+import type * as core from '@contentlayer2/core'
+import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer2/utils'
+import { filePathJoin, fs } from '@contentlayer2/utils'
+import { O, OT, pipe, T, These } from '@contentlayer2/utils/effect'
 import micromatch from 'micromatch'
 
 import { FetchDataError } from '../errors/index.js'

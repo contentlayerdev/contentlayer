@@ -1,4 +1,4 @@
-import { defineDocumentType, defineFields, defineNestedType } from 'contentlayer/source-files'
+import { defineDocumentType, defineFields, defineNestedType } from 'contentlayer2/source-files'
 
 import { Action } from '../nested/Action.js'
 import { FormField } from '../nested/FormField.js'

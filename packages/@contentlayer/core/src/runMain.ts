@@ -1,13 +1,13 @@
 import * as os from 'node:os'
 
-import type { HasCwd } from '@contentlayer/core'
-import { provideCwd, provideCwdCustom } from '@contentlayer/core'
-import * as core from '@contentlayer/core'
-import type { AbsolutePosixFilePath, fs } from '@contentlayer/utils'
-import { DummyTracing, InMemoryFsLive, provideTracing } from '@contentlayer/utils'
-import type { HasClock, HasConsole, OT } from '@contentlayer/utils/effect'
-import { Cause, pipe, pretty, provideConsole, T } from '@contentlayer/utils/effect'
-import { getContentlayerVersion, NodeFsLive } from '@contentlayer/utils/node'
+import type { HasCwd } from '@contentlayer2/core'
+import { provideCwd, provideCwdCustom } from '@contentlayer2/core'
+import * as core from '@contentlayer2/core'
+import type { AbsolutePosixFilePath, fs } from '@contentlayer2/utils'
+import { DummyTracing, InMemoryFsLive, provideTracing } from '@contentlayer2/utils'
+import type { HasClock, HasConsole, OT } from '@contentlayer2/utils/effect'
+import { Cause, pipe, pretty, provideConsole, T } from '@contentlayer2/utils/effect'
+import { getContentlayerVersion, NodeFsLive } from '@contentlayer2/utils/node'
 
 export const runMain =
   <TResult>({

@@ -1,10 +1,10 @@
 import * as path from 'node:path'
 
-import type { AbsolutePosixFilePath } from '@contentlayer/utils'
-import { fs, unknownToAbsolutePosixFilePath } from '@contentlayer/utils'
-import type { E } from '@contentlayer/utils/effect'
-import { Array, Chunk, O, OT, pipe, S, T } from '@contentlayer/utils/effect'
-import type { GetContentlayerVersionError } from '@contentlayer/utils/node'
+import type { AbsolutePosixFilePath } from '@contentlayer2/utils'
+import { fs, unknownToAbsolutePosixFilePath } from '@contentlayer2/utils'
+import type { E } from '@contentlayer2/utils/effect'
+import { Array, Chunk, O, OT, pipe, S, T } from '@contentlayer2/utils/effect'
+import type { GetContentlayerVersionError } from '@contentlayer2/utils/node'
 
 import type { HasCwd } from '../cwd.js'
 import { getCwd } from '../cwd.js'
@@ -44,7 +44,7 @@ export const getConfig = ({
     S.runCollect,
     T.map(Chunk.unsafeHead),
     T.rightOrFail,
-    OT.withSpan('@contentlayer/core/getConfig:getConfig', { attributes: { configPath } }),
+    OT.withSpan('@contentlayer2/core/getConfig:getConfig', { attributes: { configPath } }),
   )
 
 export const getConfigWatch = ({
@@ -202,7 +202,7 @@ const getConfigFromResult = ({
 
       return { source, esbuildHash, filePath: outfilePath }
     }),
-    OT.withSpan('@contentlayer/core/getConfig:getConfigFromResult', { attributes: { configPath } }),
+    OT.withSpan('@contentlayer2/core/getConfig:getConfigFromResult', { attributes: { configPath } }),
     T.either,
   )
 

@@ -2,9 +2,9 @@ import * as fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { absolutePosixFilePath } from '@contentlayer/utils'
-import * as core from 'contentlayer/core'
-import { defineDocumentType, makeSource } from 'contentlayer/source-files'
+import { absolutePosixFilePath } from '@contentlayer2/utils'
+import * as core from 'contentlayer2/core'
+import { defineDocumentType, makeSource } from 'contentlayer2/source-files'
 import { expect, test } from 'vitest'
 
 test('empty content folder', async () => {

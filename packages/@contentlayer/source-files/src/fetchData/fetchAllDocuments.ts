@@ -1,10 +1,10 @@
 import * as os from 'node:os'
 
-import type * as core from '@contentlayer/core'
-import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer/utils'
-import { asMutableArray, fs, relativePosixFilePath } from '@contentlayer/utils'
-import type { HasConsole } from '@contentlayer/utils/effect'
-import { Chunk, O, OT, pipe, T } from '@contentlayer/utils/effect'
+import type * as core from '@contentlayer2/core'
+import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer2/utils'
+import { asMutableArray, fs, relativePosixFilePath } from '@contentlayer2/utils'
+import type { HasConsole } from '@contentlayer2/utils/effect'
+import { Chunk, O, OT, pipe, T } from '@contentlayer2/utils/effect'
 import glob from 'fast-glob'
 
 import { FetchDataError } from '../errors/index.js'
@@ -87,7 +87,7 @@ export const fetchAllDocuments = ({
       return { cacheItemsMap }
     }),
     provideDocumentTypeMapState,
-    OT.withSpan('@contentlayer/source-local/fetchData:fetchAllDocuments', { attributes: { contentDirPath } }),
+    OT.withSpan('@contentlayer2/source-local/fetchData:fetchAllDocuments', { attributes: { contentDirPath } }),
   )
 
 const getAllRelativeFilePaths = ({
@@ -119,7 +119,7 @@ const getAllRelativeFilePaths = ({
       (error) => new fs.UnknownFSError({ error }),
     ),
     T.map((_) => _.map(relativePosixFilePath)),
-    OT.withSpan('@contentlayer/source-local/fetchData:getAllRelativeFilePaths'),
+    OT.withSpan('@contentlayer2/source-local/fetchData:getAllRelativeFilePaths'),
   )
 }
 

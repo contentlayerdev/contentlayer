@@ -1,7 +1,7 @@
-import type * as core from '@contentlayer/core'
-import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer/utils'
-import { errorToString, pattern } from '@contentlayer/utils'
-import { pipe, T, Tagged } from '@contentlayer/utils/effect'
+import type * as core from '@contentlayer2/core'
+import type { AbsolutePosixFilePath, RelativePosixFilePath } from '@contentlayer2/utils'
+import { errorToString, pattern } from '@contentlayer2/utils'
+import { pipe, T, Tagged } from '@contentlayer2/utils/effect'
 
 import { getDocumentContext } from '../fetchData/DocumentContext.js'
 import type { DocumentContentType } from '../index.js'

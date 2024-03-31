@@ -1,7 +1,7 @@
-import * as core from '@contentlayer/core'
-import * as utils from '@contentlayer/utils'
-import type { HasConsole, OT } from '@contentlayer/utils/effect'
-import { T } from '@contentlayer/utils/effect'
+import * as core from '@contentlayer2/core'
+import * as utils from '@contentlayer2/utils'
+import type { HasConsole, OT } from '@contentlayer2/utils/effect'
+import { T } from '@contentlayer2/utils/effect'
 
 import type { HasDocumentContext } from '../DocumentContext.js'
 import { getFromDocumentContext } from '../DocumentContext.js'

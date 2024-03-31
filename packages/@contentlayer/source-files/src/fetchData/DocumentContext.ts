@@ -1,10 +1,10 @@
 import * as path from 'node:path'
 
-import type * as core from '@contentlayer/core'
-import type { RelativePosixFilePath } from '@contentlayer/utils'
-import * as utils from '@contentlayer/utils'
-import type { Has } from '@contentlayer/utils/effect'
-import { T, tag } from '@contentlayer/utils/effect'
+import type * as core from '@contentlayer2/core'
+import type { RelativePosixFilePath } from '@contentlayer2/utils'
+import * as utils from '@contentlayer2/utils'
+import type { Has } from '@contentlayer2/utils/effect'
+import { T, tag } from '@contentlayer2/utils/effect'
 
 import type { DocumentContentType } from '../schema/defs/index.js'
 import type { RawDocumentData } from '../types.js'
@@ -19,7 +19,7 @@ export interface DocumentContext {
   readonly documentTypeDef: core.DocumentTypeDef
 }
 
-export const DocumentContext = tag<DocumentContext>(Symbol.for('@contentlayer/source-files/DocumentContext'))
+export const DocumentContext = tag<DocumentContext>(Symbol.for('@contentlayer2/source-files/DocumentContext'))
 
 export const provideDocumentContext = (_: DocumentContext) => T.provideService(DocumentContext)(_)
 export const makeAndProvideDocumentContext = ({

@@ -1,5 +1,5 @@
 {
-  "name": "contentful-generator",
+  "name": "contentful-generator2",
   "private": true,
   "scripts": {
     "dev": "ts-node --transpile-only --compiler-options '{\"module\":\"CommonJS\"}' ./src/index.ts"

@@ -3,9 +3,9 @@ import * as fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { absolutePosixFilePath } from '@contentlayer/utils'
-import * as core from 'contentlayer/core'
-import { defineDocumentType, makeSource } from 'contentlayer/source-files'
+import { absolutePosixFilePath } from '@contentlayer2/utils'
+import * as core from 'contentlayer2/core'
+import { defineDocumentType, makeSource } from 'contentlayer2/source-files'
 import remarkMdxImages from 'remark-mdx-images'
 import { expect, test } from 'vitest'
 
@@ -31,6 +31,7 @@ test('mdx - resolveCwd - contentDirPath', async () => {
     documentTypes: [Post],
     mdx: {
       resolveCwd: 'contentDirPath',
+      // @ts-ignore - remarkMdxImages has not been updated to the new unified js types
       remarkPlugins: [remarkMdxImages],
       esbuildOptions: (options) => {
         options.platform = 'node'
@@ -77,6 +78,7 @@ test('mdx - resolveCwd - relative', async () => {
     documentTypes: [Post],
     mdx: {
       resolveCwd: 'relative',
+      // @ts-ignore - remarkMdxImages has not been updated to the new unified js types
       remarkPlugins: [remarkMdxImages],
       esbuildOptions: (options) => {
         options.platform = 'node'

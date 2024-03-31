@@ -1,5 +1,5 @@
-import { errorToString } from '@contentlayer/utils'
-import { E, Ex, H, M, O, OT, pipe, Q, Ref, S, T, Tagged } from '@contentlayer/utils/effect'
+import { errorToString } from '@contentlayer2/utils'
+import { E, Ex, H, M, O, OT, pipe, Q, Ref, S, T, Tagged } from '@contentlayer2/utils/effect'
 import * as esbuild from 'esbuild'
 
 export const EsbuildWatcherTypeId = Symbol()

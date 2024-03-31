@@ -1,4 +1,4 @@
-import { mapObjectValues } from '@contentlayer/utils'
+import { mapObjectValues } from '@contentlayer2/utils'
 
 import type { Contentful } from './types.js'
 

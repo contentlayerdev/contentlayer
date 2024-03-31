@@ -1,6 +1,6 @@
-import type * as core from '@contentlayer/core'
-import { Temporal } from '@contentlayer/utils'
-import { pipe, T } from '@contentlayer/utils/effect'
+import type * as core from '@contentlayer2/core'
+import { Temporal } from '@contentlayer2/utils'
+import { pipe, T } from '@contentlayer2/utils/effect'
 
 import { FetchDataError } from '../../errors/index.js'
 

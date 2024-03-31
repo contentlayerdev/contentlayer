@@ -8,22 +8,21 @@
     "examples/gatsby-docs/gatsby": true
   },
   "files.exclude": {
-    "**/.git": true,
-    "**/.svn": true,
-    "**/.hg": true,
-    "**/CVS": true,
+    "**/.direnv": true,
     "**/.DS_Store": true,
-    "**/Thumbs.db": true,
-    "**/dist": true,
-    "**/vercel.json": true,
+    "**/.git": true,
+    "**/.hg": true,
+    "**/.svn": true,
     "**/.yarn": true,
-    "**/.direnv": true
+    "**/CVS": true,
+    "**/Thumbs.db": true,
+    "**/vercel.json": true
   },
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.organizeImports": false,
-    "source.fixAll": true,
-    "source.addMissingImports": true
+    "source.organizeImports": "never",
+    "source.fixAll": "explicit",
+    "source.addMissingImports": "explicit"
   },
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "prettier.singleQuote": true,

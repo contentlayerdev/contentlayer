@@ -1,9 +1,9 @@
 import * as os from 'node:os'
 
-import * as core from '@contentlayer/core'
-import { fs } from '@contentlayer/utils'
-import type { HasConsole } from '@contentlayer/utils/effect'
-import { Chunk, OT, pipe, T } from '@contentlayer/utils/effect'
+import * as core from '@contentlayer2/core'
+import { fs } from '@contentlayer2/utils'
+import type { HasConsole } from '@contentlayer2/utils/effect'
+import { Chunk, OT, pipe, T } from '@contentlayer2/utils/effect'
 
 import {
   environmentGetAssets,
@@ -83,7 +83,7 @@ export const fetchAllDocuments = ({
               options,
             }),
           ),
-          OT.withSpan('@contentlayer/source-contentlayer/fetchData:makeCacheItems', {
+          OT.withSpan('@contentlayer2/source-contentlayer/fetchData:makeCacheItems', {
             attributes: { count: documentEntriesWithDocumentTypeDef.length },
           }),
         ),
@@ -93,7 +93,7 @@ export const fetchAllDocuments = ({
 
       return { cacheItemsMap }
     }),
-    OT.withSpan('@contentlayer/source-contentlayer/fetchData:fetchAllDocuments', {
+    OT.withSpan('@contentlayer2/source-contentlayer/fetchData:fetchAllDocuments', {
       attributes: { schemaDef: JSON.stringify(schemaDef), schemaOverrides_: JSON.stringify(schemaOverrides_) },
     }),
     T.mapError((error) => new core.SourceFetchDataError({ error, alreadyHandled: false })),
@@ -116,7 +116,7 @@ const getAllEntries = (
 
       return entries
     }),
-    OT.withSpan('@contentlayer/source-contentlayer/fetchData:getAllEntries'),
+    OT.withSpan('@contentlayer2/source-contentlayer/fetchData:getAllEntries'),
   )
 
 const getAllAssets = (
@@ -136,5 +136,5 @@ const getAllAssets = (
 
       return entries
     }),
-    OT.withSpan('@contentlayer/source-contentlayer/fetchData:getAllAssets'),
+    OT.withSpan('@contentlayer2/source-contentlayer/fetchData:getAllAssets'),
   )

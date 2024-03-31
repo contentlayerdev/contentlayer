@@ -1,5 +1,5 @@
 {
-  "name": "contentlayer-monorepo",
+  "name": "contentlayer2-monorepo",
   "private": true,
   "workspaces": [
     "./packages/@contentlayer/*",
@@ -10,11 +10,11 @@
     "postinstall": "ts-patch install",
     "prepare": "ts-patch install -s",
     "test": "CI=true VITEST_SEGFAULT_RETRY=3 yarn workspaces foreach --parallel run test",
-    "build": "run build:clean && run build:ts && yarn workspace next-contentlayer run prepack",
+    "build": "run build:clean && run build:ts && yarn workspace next-contentlayer2 run prepack",
     "build:ts": "tsc --build tsconfig.all.json",
     "dev:ts": "run build:ts --watch",
     "build:clean": "bash -c 'rm -rf packages/*/dist packages/@contentlayer/*/dist'",
-    "examples:postinstall": "yarn workspaces foreach --verbose --include \"examples-*\" exec yarn contentlayer postinstall",
+    "examples:postinstall": "yarn workspaces foreach --verbose --include \"examples-*\" exec yarn contentlayer2 postinstall",
     "release:prerelease": "yarn build && yarn workspaces foreach --verbose --topological-dev --parallel --no-private npm publish --tolerate-republish --tag=dev",
     "release:patch": "yarn build && yarn workspaces foreach --verbose --topological-dev --parallel --no-private npm publish --tolerate-republish",
     "release:minor": "yarn build && yarn workspaces foreach --verbose --topological-dev --parallel --no-private npm publish --tolerate-republish",
@@ -42,10 +42,10 @@
   },
   "resolutions": {
     "esbuild": "0.18.0",
-    "contentlayer": "workspace:*",
-    "@contentlayer/*": "workspace:*",
-    "contentlayer-stackbit-yaml-generator": "workspace:*",
-    "next-contentlayer": "workspace:*",
+    "contentlayer2": "workspace:*",
+    "@contentlayer2/*": "workspace:*",
+    "contentlayer-stackbit-yaml-generator2": "workspace:*",
+    "next-contentlayer2": "workspace:*",
     "rxjs": "^7.1.0"
   },
   "packageManager": "yarn@3.2.3"

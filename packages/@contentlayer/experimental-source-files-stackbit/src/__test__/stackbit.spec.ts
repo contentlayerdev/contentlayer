@@ -1,10 +1,10 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import * as SourceFiles from '@contentlayer/source-files'
-import { provideDummyTracing } from '@contentlayer/utils'
-import type { HasClock, HasConsole, OT } from '@contentlayer/utils/effect'
-import { pipe, provideTestConsole, T } from '@contentlayer/utils/effect'
+import * as SourceFiles from '@contentlayer2/source-files'
+import { provideDummyTracing } from '@contentlayer2/utils'
+import type { HasClock, HasConsole, OT } from '@contentlayer2/utils/effect'
+import { pipe, provideTestConsole, T } from '@contentlayer2/utils/effect'
 import * as Stackbit from '@stackbit/sdk'
 import { expect, test } from 'vitest'
 

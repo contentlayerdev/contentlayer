@@ -1,8 +1,8 @@
-import * as core from '@contentlayer/core'
-import type { AbsolutePosixFilePath } from '@contentlayer/utils'
-import { AsciiTree } from '@contentlayer/utils'
-import type { HasConsole } from '@contentlayer/utils/effect'
-import { T } from '@contentlayer/utils/effect'
+import * as core from '@contentlayer2/core'
+import type { AbsolutePosixFilePath } from '@contentlayer2/utils'
+import { AsciiTree } from '@contentlayer2/utils'
+import type { HasConsole } from '@contentlayer2/utils/effect'
+import { T } from '@contentlayer2/utils/effect'
 
 import type { Flags } from '../types.js'
 import type { FetchDataError } from './index.js'

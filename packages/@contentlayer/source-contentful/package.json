@@ -1,6 +1,6 @@
 {
-  "name": "@contentlayer/source-contentful",
-  "version": "0.3.4",
+  "name": "@contentlayer2/source-contentful",
+  "version": "0.4.1",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -16,8 +16,8 @@
     "@types/node": "^20.3.2"
   },
   "dependencies": {
-    "@contentlayer/core": "workspace:*",
-    "@contentlayer/utils": "workspace:*",
+    "@contentlayer2/core": "workspace:*",
+    "@contentlayer2/utils": "workspace:*",
     "contentful-management": "7.22.4"
   },
   "license": "MIT"

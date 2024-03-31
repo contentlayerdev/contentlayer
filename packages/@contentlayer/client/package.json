@@ -1,6 +1,6 @@
 {
-  "name": "@contentlayer/client",
-  "version": "0.3.4",
+  "name": "@contentlayer2/client",
+  "version": "0.4.1",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -13,7 +13,7 @@
     "test": "echo No tests yet"
   },
   "dependencies": {
-    "@contentlayer/core": "workspace:*"
+    "@contentlayer2/core": "workspace:*"
   },
   "license": "MIT"
 }

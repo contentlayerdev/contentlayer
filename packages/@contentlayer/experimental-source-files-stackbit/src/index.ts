@@ -1,8 +1,8 @@
-import type * as core from '@contentlayer/core'
-import type * as SourceFiles from '@contentlayer/source-files'
-import { defineDocumentType, defineNestedType } from '@contentlayer/source-files'
-import type { PartialDeep } from '@contentlayer/utils'
-import { mergeDeep, not, partition, pick } from '@contentlayer/utils'
+import type * as core from '@contentlayer2/core'
+import type * as SourceFiles from '@contentlayer2/source-files'
+import { defineDocumentType, defineNestedType } from '@contentlayer2/source-files'
+import type { PartialDeep } from '@contentlayer2/utils'
+import { mergeDeep, not, partition, pick } from '@contentlayer2/utils'
 import * as Stackbit from '@stackbit/sdk'
 import { validateAndNormalizeConfig } from '@stackbit/sdk/dist/config/config-loader.js'
 
@@ -34,7 +34,7 @@ export type ContentlayerOverrideNestedType = {
  * ```ts
  * // contentlayer.config.ts
  * import { makeSource } from 'contentlayer/source-files'
- * import { loadStackbitConfigAsDocumentTypes } from '@contentlayer/experimental-source-files-stackbit'
+ * import { loadStackbitConfigAsDocumentTypes } from '@contentlayer2/experimental-source-files-stackbit'
  *
  * // Looks for `stackbit.yaml` in the current directory
  * export default loadStackbitConfigAsDocumentTypes().then((documentTypes) => {
@@ -60,7 +60,7 @@ export const loadStackbitConfigAsDocumentTypes = <TDocumentTypeNames extends cor
  * ```ts
  * // contentlayer.config.ts
  * import { makeSource } from 'contentlayer/source-files'
- * import { stackbitConfigToDocumentTypes } from '@contentlayer/source-files-stackbit'
+ * import { stackbitConfigToDocumentTypes } from '@contentlayer2/source-files-stackbit'
  * import stackbitConfig from './stackbit.config.js'
  *
  * const documentTypes = stackbitConfigToDocumentTypes(stackbitConfig)

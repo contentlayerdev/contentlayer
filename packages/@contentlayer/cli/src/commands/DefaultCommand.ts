@@ -1,4 +1,4 @@
-import { OT, pipe, T } from '@contentlayer/utils/effect'
+import { OT, pipe, T } from '@contentlayer2/utils/effect'
 import { Command } from 'clipanion'
 
 import { BaseCommand } from './_BaseCommand.js'
@@ -9,6 +9,6 @@ export class DefaultCommand extends BaseCommand {
   executeSafe = () =>
     pipe(
       T.succeedWith(() => console.log(this.cli.usage())),
-      OT.withSpan('@contentlayer/cli/commands/DefaultCommand:executeSafe', { attributes: { cwd: process.cwd() } }),
+      OT.withSpan('@contentlayer2/cli/commands/DefaultCommand:executeSafe', { attributes: { cwd: process.cwd() } }),
     )
 }

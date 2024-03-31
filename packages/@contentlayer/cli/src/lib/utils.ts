@@ -1,5 +1,5 @@
 // TODO Note this seems to be unused and should be deleted soon
-import type { DocumentTypeDef, DocumentTypeDefMap, NestedTypeDef, NestedTypeDefMap } from '@contentlayer/core'
+import type { DocumentTypeDef, DocumentTypeDefMap, NestedTypeDef, NestedTypeDefMap } from '@contentlayer2/core'
 
 export const derefDocumentOrThrow = (documentDefMap: DocumentTypeDefMap, documentDefName: string): DocumentTypeDef => {
   if (!(documentDefName in documentDefMap)) {

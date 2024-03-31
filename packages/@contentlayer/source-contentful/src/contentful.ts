@@ -1,4 +1,4 @@
-import { OT, pipe, T } from '@contentlayer/utils/effect'
+import { OT, pipe, T } from '@contentlayer2/utils/effect'
 import { createClient } from 'contentful-management'
 
 import { UnknownContentfulError } from './errors.js'
@@ -12,7 +12,7 @@ export const environmentGetContentTypes = (
       () => environment.getContentTypes().then((_) => _.items),
       (error) => new UnknownContentfulError({ error }),
     ),
-    OT.withSpan('@contentlayer/source-contentlayer/contentful:environmentGetContentTypes'),
+    OT.withSpan('@contentlayer2/source-contentlayer/contentful:environmentGetContentTypes'),
   )
 
 export const environmentGetEntries = ({
@@ -29,7 +29,7 @@ export const environmentGetEntries = ({
       () => environment.getEntries({ limit, skip }),
       (error) => new UnknownContentfulError({ error }),
     ),
-    OT.withSpan('@contentlayer/source-contentlayer/contentful:environmentGetEntries'),
+    OT.withSpan('@contentlayer2/source-contentlayer/contentful:environmentGetEntries'),
   )
 
 export const environmentGetAssets = ({
@@ -46,7 +46,7 @@ export const environmentGetAssets = ({
       () => environment.getAssets({ limit, skip }),
       (error) => new UnknownContentfulError({ error }),
     ),
-    OT.withSpan('@contentlayer/source-contentlayer/contentful:environmentGetAssets'),
+    OT.withSpan('@contentlayer2/source-contentlayer/contentful:environmentGetAssets'),
   )
 
 export const getEnvironment = ({
@@ -62,7 +62,7 @@ export const getEnvironment = ({
   return pipe(
     T.tryPromise(() => client.getSpace(spaceId)),
     T.chain((space) => T.tryPromise(() => space.getEnvironment(environmentId))),
-    OT.withSpan('@contentlayer/source-contentlayer/contentful:getEnvironment'),
+    OT.withSpan('@contentlayer2/source-contentlayer/contentful:getEnvironment'),
     T.mapError((error) => new UnknownContentfulError({ error })),
   )
 }
