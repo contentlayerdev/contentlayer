@@ -95,6 +95,7 @@ Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest
 - [heykapil.in](https://heykapil.in) ([Source](https://github.com/heykapil/new-blog/))
 - [adrianmato.art](https://adrianmato.art)
 - [livropog.com.br](https://livropog.com.br) ([Source](https://github.com/josenaldo/livro-pog))
+- [Prof. NOTA's Working Progress](https://nota.straight-line.org) ([Source](https://github.com/myreceiptt/working-progress))
 - [rofireza.com](https://rofireza.com/) ([Source](https://github.com/arrofirezasatria/rofireza.com))
 - [jakubh.com](https://jakubh.com/) ([Source](https://github.com/ivenuss/jakubh.com))
 - [fiqry.dev](https://fiqry.dev/) ([Source](https://github.com/fiqryq/fiqry.dev))
@@ -118,5 +119,6 @@ Join [our Discord community](https://discord.gg/fk83HNECYJ) to get help, suggest
 - [devtella](https://devtella.vercel.app/)
 - [Modern Developer Blog Template (Digital Garden Starter)](https://github.com/thedevdavid/digital-garden/)([Source](https://github.com/thedevdavid/digital-garden/))
 - [floriankiem.com](floriandwt.com) ([Source](https://github.com/floriandwt/florians-website/))
+- [NFT Indonesia Website](https://nftindonesia.xyz) ([Source](https://github.com/myreceiptt/nft-indonesia-xyz))
 
 Are you using Contentlayer? Please add your page (and repo) to the end of the list via a PR. 🙏
