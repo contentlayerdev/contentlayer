@@ -1,3 +1,5 @@
+> ⚠️ Unfortunately Contentlayer is no longer maintained due to lack of funding. [You can find a fork of the project here.]([url](https://github.com/timlrx/contentlayer2))
+
 # <img src="https://i.imgur.com/fdY8IX2.png" height="30" />&nbsp;&nbsp;Contentlayer [![](https://badgen.net/npm/v/contentlayer)](https://www.npmjs.com/package/contentlayer) [![Discord](https://badgen.net/badge/icon/discord?icon=discord&label)](https://discord.gg/fk83HNECYJ)
 
 Contentlayer is a content SDK that validates and transforms your content into type-safe JSON data you can easily `import` into your application's pages.
