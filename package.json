@@ -48,5 +48,8 @@
     "next-contentlayer": "workspace:*",
     "rxjs": "^7.1.0"
   },
-  "packageManager": "yarn@3.2.3"
+  "packageManager": "yarn@3.2.3",
+  "bugs": {
+    "url": "https://github.com/contentlayerdev/contentlayer/issues"
+  }
 }
