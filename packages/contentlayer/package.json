@@ -80,5 +80,8 @@
   },
   "bug": {
     "url": "https://github.com/contentlayerdev/contentlayer/issues"
+  },
+  "bugs": {
+    "url": "https://github.com/contentlayerdev/contentlayer/issues"
   }
 }
